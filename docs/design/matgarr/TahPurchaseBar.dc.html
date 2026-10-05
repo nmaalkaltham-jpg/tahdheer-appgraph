@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ rootRef }}" style="direction:rtl;position:{{ rootPosition }};inset-block-end:0;z-index:30;display:{{ shown }};padding:{{ outerPad }};background:{{ outerBg }};backdrop-filter:{{ blur }};border-top:{{ outerBorder }};animation:{{ anim }}">
+<div style="display:flex;align-items:center;gap:{{ gap }};padding:{{ innerPad }};background:{{ innerBg }};border:{{ innerBorder }};border-radius:{{ radius }};box-shadow:{{ shadow }};overflow:{{ innerOverflow }};max-width:{{ contentMax }};margin-inline:auto">
+
+<sc-if value="{{ showPrice }}" hint-placeholder-val="{{ true }}">
+<div style="flex:0 0 auto;display:flex;flex-direction:column;gap:1px;padding-inline-end:4px">
+<div style="display:flex;align-items:baseline;gap:5px"><b style="font-size:17px;font-weight:900;color:{{ priceFg }};line-height:1">{{ sale }}</b><span style="font-size:11px;font-weight:800;color:{{ unitFg }}">ر.س</span></div>
+<sc-if value="{{ hasSaving }}" hint-placeholder-val="{{ true }}">
+<span style="font-size:10px;font-weight:800;color:{{ saveFg }}">وفّرت {{ saving }}</span>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ btn.cart }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ onCart }}" aria-label="أضف المنتج إلى السلة" title="أضف للسلة" style="flex:{{ cartFlex }};display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:{{ btnH }};padding:0 {{ cartPadX }};border:{{ cartBorder }};border-radius:{{ btnRadius }};background:{{ cartBg }};color:{{ cartFg }};font-family:Tajawal,sans-serif;font-size:14px;font-weight:900;cursor:pointer;transition:.16s ease" style-hover="background:rgba(30,115,85,.07)">
+<svg aria-hidden="true" style="width:19px;height:19px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart-bag"></use></svg>
+<sc-if value="{{ showCartLabel }}" hint-placeholder-val="{{ true }}"><span>أضف للسلة</span></sc-if>
+</button>
+</sc-if>
+
+<sc-if value="{{ btn.buy }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ onBuy }}" aria-label="اشتر الآن — الانتقال المباشر إلى الدفع" title="اشتر الآن" style="flex:{{ buyFlex }};display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:{{ btnH }};padding:0 {{ buyPadX }};border:{{ buyBorder }};border-radius:{{ btnRadius }};background:{{ buyBg }};color:{{ buyFg }};font-family:Tajawal,sans-serif;font-size:14.5px;font-weight:900;cursor:pointer;box-shadow:0 6px 16px rgba(30,115,85,.24);transition:.16s ease" style-hover="background:#123d2f">
+<svg aria-hidden="true" style="width:19px;height:19px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-wallet"></use></svg>
+<sc-if value="{{ showBuyLabel }}" hint-placeholder-val="{{ true }}"><span>اشتر الآن</span></sc-if>
+</button>
+</sc-if>
+
+<sc-if value="{{ btn.apple }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ onApple }}" aria-label="ادفع باستخدام Apple Pay" title="Apple Pay" style="flex:{{ appleFlex }};display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:{{ btnH }};padding:0 16px;border:{{ appleBorder }};border-radius:{{ btnRadius }};background:{{ appleBg }};color:{{ appleFg }};font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">
+<sc-if value="{{ showAppleSlot }}" hint-placeholder-val="{{ false }}">
+<span aria-hidden="true" title="موضع شعار Apple الرسمي — يُستبدل بأصل Apple عند التنفيذ" style="display:grid;place-items:center;width:19px;height:19px;border:1px dashed {{ appleSlotBorder }};border-radius:4px;font:700 6px ui-monospace,monospace;color:{{ appleSlotFg }};line-height:1;text-align:center;letter-spacing:-.2px">logo</span>
+</sc-if>
+<span>Apple&nbsp;Pay</span>
+</button>
+</sc-if>
+
+</div>
+<sc-if value="{{ showAppleNote }}" hint-placeholder-val="{{ false }}">
+<p style="margin:7px 2px 0;font-size:10.5px;line-height:1.6;color:{{ noteFg }}">زر Apple Pay مخفي: الجهاز أو بوابة الدفع لا تدعمه. يظهر فقط عند توفّر <code dir="ltr" style="font-size:10px">ApplePaySession</code> فعليًا.</p>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:120},&quot;preset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;minimal&quot;,&quot;premium&quot;,&quot;integrated&quot;,&quot;outlined&quot;,&quot;brand&quot;,&quot;segmented&quot;],&quot;default&quot;:&quot;premium&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;contentMax&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;100%&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;inline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;cartIconOnly&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;trigger&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;always&quot;,&quot;scroll&quot;,&quot;cta&quot;],&quot;default&quot;:&quot;always&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;scrollAfter&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:240,&quot;min&quot;:0,&quot;max&quot;:1200,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;watchSelector&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;[data-tah-buy-anchor]&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;iconOnly&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showCart&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showBuy&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showApplePay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;simulateApple&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;devNote&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Design review&quot;},&quot;showPrice&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;visible&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;height&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;48px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;gap&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sale&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;300&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;saving&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;100 ريال&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onEvent&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(name:string)=&gt;void&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Single mobile purchase bar. The inline CTA row on the product page is hidden
+   * when this is active, so there is exactly one Add-to-Cart on the page.
+   *
+   * Apple Pay is gated on real capability (window.ApplePaySession) — never shown
+   * speculatively. The Apple mark itself is left as a labelled slot: Apple's logo
+   * is a trademark with mandated assets, so hand-drawing one would be precisely
+   * the "fake Apple icon" the brief forbids. Drop Apple's official button asset
+   * (or let ApplePaySession render it) into that slot at implementation time.
+   */
+  state = { appleReal: false, revealed: true };
+
+  componentDidMount() {
+    let ok = false;
+    try {
+      ok = !!(window.ApplePaySession && window.ApplePaySession.canMakePayments && window.ApplePaySession.canMakePayments());
+    } catch (e) { ok = false; }
+    if (ok) this.setState({ appleReal: true });
+    this.armTrigger();
+  }
+
+  componentDidUpdate(prev) {
+    // The trigger is a live setting, so changing it must re-arm the observer —
+    // arming only on mount silently froze the bar on whatever mode loaded first.
+    if (prev.trigger !== this.props.trigger || prev.watchSelector !== this.props.watchSelector) {
+      this.teardown();
+      this.armTrigger();
+    }
+  }
+
+  teardown() {
+    if (this._io) { this._io.disconnect(); this._io = null; }
+    if (this._onScroll) {
+      const s = this.scrollParent();
+      (s === window ? window : s).removeEventListener('scroll', this._onScroll);
+      this._onScroll = null;
+    }
+  }
+
+  /*
+   * Visibility trigger. 'cta' watches the inline Add-to-Cart and reveals the bar
+   * only once it scrolls out of view — the least intrusive option. It fails OPEN:
+   * if the sentinel is missing or IntersectionObserver is unavailable, the bar
+   * stays visible, because a hidden purchase button is worse than an early one.
+   */
+  armTrigger() {
+    const trigger = this.props.trigger || 'always';
+    if (trigger === 'always') return this.setState({ revealed: true });
+    if (typeof IntersectionObserver === 'undefined') return this.setState({ revealed: true });
+
+    if (trigger === 'cta') {
+      /*
+       * Watch the PRICE block, not the inline CTA: in sticky mode that CTA is
+       * hidden on mobile (that is the whole point), and a display:none element
+       * never intersects — so watching it would reveal the bar immediately and
+       * the setting would silently do nothing.
+       */
+      const sel = this.props.watchSelector || '[data-tah-buy-anchor]';
+      const target = document.querySelector(sel);
+      if (!target || !target.getClientRects().length) return this.setState({ revealed: true });
+      this._io = new IntersectionObserver(([e]) => this.setState({ revealed: !e.isIntersecting }), { threshold: 0 });
+      this._io.observe(target);
+      this.setState({ revealed: false });
+      return;
+    }
+
+    // 'scroll': reveal after the reader has moved past the fold.
+    const scroller = this.scrollParent();
+    this._onScroll = () => {
+      const y = scroller === window ? window.scrollY : scroller.scrollTop;
+      const want = y > (Number(this.props.scrollAfter) || 240);
+      if (want !== this.state.revealed) this.setState({ revealed: want });
+    };
+    (scroller === window ? window : scroller).addEventListener('scroll', this._onScroll, { passive: true });
+    this.setState({ revealed: false });
+    this._onScroll();
+  }
+
+  scrollParent() {
+    let n = this._root && this._root.parentElement;
+    while (n) {
+      const oy = getComputedStyle(n).overflowY;
+      if ((oy === 'auto' || oy === 'scroll') && n.scrollHeight > n.clientHeight) return n;
+      n = n.parentElement;
+    }
+    return window;
+  }
+
+  componentWillUnmount() { this.teardown(); }
+
+  fire(name) {
+    // Vendor-neutral: emit a DOM event any analytics layer can subscribe to.
+    try { document.dispatchEvent(new CustomEvent('tahdheer:' + name, { detail: { source: 'mobile_sticky_bar' } })); } catch (e) {}
+    if (this.props.onEvent) this.props.onEvent(name);
+  }
+
+  renderVals() {
+    const preset = this.props.preset || 'premium';
+    const iconOnly = !!this.props.iconOnly;
+    const wantApple = this.props.showApplePay !== false;
+    const simulateApple = !!this.props.simulateApple;
+    const appleOk = this.state.appleReal || simulateApple;
+
+    /*
+     * Each skin carries BOTH box and foreground tokens. Keeping only box tokens
+     * is what made `integrated` unreadable: it flips the surface to dark while
+     * the bare text kept light-preset literals — the price ended up #14261d on
+     * #14261d, i.e. 1:1. Any new preset must therefore declare its own fg set.
+     */
+    /*
+     * Surfaces are tokens too, not just text. Fixing only the foreground last
+     * turn left the buttons edgeless on `integrated`: Buy Now's #1e7355 fill sat
+     * at 2.75:1 against the near-black bar and Apple Pay's #000 at 1.32:1, so the
+     * controls had no discernible boundary (WCAG 1.4.11 wants 3:1). A preset must
+     * declare box + fg + surface, or it will fail this way again.
+     */
+    const light = {
+      priceFg: '#14261d', unitFg: '#5f7167', saveFg: '#1e7355', noteFg: '#5f7167',
+      cartBg: '#fff', cartFg: '#1e7355', cartBorder: '1.5px solid #1e7355',
+      buyBg: '#1e7355', buyFg: '#fff', buyBorder: '0',
+      appleBg: '#000', appleFg: '#fff', appleBorder: '0',
+      appleSlotBorder: 'rgba(255,255,255,.55)', appleSlotFg: 'rgba(255,255,255,.75)'
+    };
+    const skin = {
+      minimal: {
+        outerPad: '9px 14px calc(9px + env(safe-area-inset-bottom))',
+        outerBg: 'rgba(255,255,255,.97)', outerBorder: '1px solid #e0e5dd',
+        innerPad: '0', innerBg: 'transparent', innerBorder: '0',
+        radius: '0', shadow: 'none', blur: 'blur(8px)', btnRadius: '10px',
+        ...light
+      },
+      premium: {
+        outerPad: '10px 14px calc(12px + env(safe-area-inset-bottom))',
+        outerBg: 'transparent', outerBorder: '0',
+        innerPad: '8px', innerBg: 'rgba(255,255,255,.98)', innerBorder: '1px solid #e0e5dd',
+        // Pill buttons inside a floating card — the shape, not just the shadow,
+        // is what separates this from Minimal at a glance.
+        radius: '999px', shadow: '0 10px 30px rgba(20,45,33,.16)', blur: 'blur(10px)', btnRadius: '999px',
+        ...light
+      },
+      integrated: {
+        outerPad: '10px 12px calc(10px + env(safe-area-inset-bottom))',
+        outerBg: '#14261d', outerBorder: '0',
+        innerPad: '0', innerBg: 'transparent', innerBorder: '0',
+        radius: '0', shadow: 'none', blur: 'none', btnRadius: '13px',
+        priceFg: '#fff', unitFg: 'rgba(255,255,255,.82)', saveFg: '#5fd6a3', noteFg: 'rgba(255,255,255,.74)',
+        cartBg: '#fff', cartFg: '#1e7355', cartBorder: '1.5px solid #fff',
+        // Brand green kept; a light outline supplies the boundary the fill can't.
+        buyBg: '#1e7355', buyFg: '#fff', buyBorder: '1px solid rgba(255,255,255,.42)',
+        // Apple's HIG ships a WHITE button variant precisely for dark surfaces —
+        // the correct answer here, not a black button on a black bar.
+        appleBg: '#fff', appleFg: '#000', appleBorder: '1px solid rgba(255,255,255,.5)',
+        appleSlotBorder: 'rgba(0,0,0,.45)', appleSlotFg: 'rgba(0,0,0,.7)'
+      },
+      /* 4 — Outlined: no solid fills except the payment button. Quietest of all. */
+      outlined: {
+        outerPad: '10px 14px calc(10px + env(safe-area-inset-bottom))',
+        outerBg: '#fff', outerBorder: '1px solid #e0e5dd',
+        innerPad: '0', innerBg: 'transparent', innerBorder: '0',
+        radius: '0', shadow: 'none', blur: 'none', btnRadius: '12px',
+        ...light,
+        // #d3d8cf on a white bar is ~1.9:1 — too light to mark a control edge.
+        cartBorder: '1.5px solid #5f7167',
+        buyBg: '#fff', buyFg: '#123d2f', buyBorder: '1.5px solid #123d2f'
+      },
+      /* 5 — Brand: green surface. Buy Now gets an opaque white outline because a
+         #14261d fill alone is only 2.75:1 against this bar. */
+      brand: {
+        outerPad: '10px 14px calc(10px + env(safe-area-inset-bottom))',
+        outerBg: '#1e7355', outerBorder: '0',
+        innerPad: '0', innerBg: 'transparent', innerBorder: '0',
+        radius: '0', shadow: 'none', blur: 'none', btnRadius: '12px',
+        priceFg: '#fff', unitFg: 'rgba(255,255,255,.85)', saveFg: '#c8f2df', noteFg: 'rgba(255,255,255,.78)',
+        cartBg: '#fff', cartFg: '#1e7355', cartBorder: '1.5px solid #fff',
+        buyBg: '#14261d', buyFg: '#fff', buyBorder: '1.5px solid #fff',
+        appleBg: '#000', appleFg: '#fff', appleBorder: '0',
+        appleSlotBorder: 'rgba(255,255,255,.55)', appleSlotFg: 'rgba(255,255,255,.78)'
+      },
+      /* 6 — Segmented: the three actions joined into one control, no gaps. The
+         outer dark rule carries the control's boundary against the page. */
+      segmented: {
+        outerPad: '10px 14px calc(10px + env(safe-area-inset-bottom))',
+        outerBg: 'rgba(255,255,255,.97)', outerBorder: '1px solid #e0e5dd',
+        innerPad: '0', innerBg: '#fff', innerBorder: '1.5px solid #123d2f',
+        radius: '14px', shadow: 'none', blur: 'blur(8px)', btnRadius: '0',
+        gapOverride: '0', innerOverflow: 'hidden',
+        ...light,
+        // A white segment on a white bar has no edge of its own; the group rule
+        // is not enough for the individual control. Dark fill gives it one, and
+        // dark|green|black reads as one deliberate segmented control.
+        cartBg: '#123d2f', cartFg: '#fff', cartBorder: '0',
+        buyBg: '#1e7355', buyFg: '#fff', buyBorder: '0',
+        appleBg: '#000', appleFg: '#fff', appleBorder: '0'
+      }
+    }[preset] || {};
+
+    const showLabels = !iconOnly;
+    const appleShown = wantApple && appleOk;
+
+    /*
+     * Inline mode: the same three-option row, but sitting in the page flow as the
+     * product's main CTA instead of pinned to the viewport. No sticky position,
+     * no safe-area padding, no surface of its own — it inherits the page.
+     */
+    const inline = !!this.props.inline;
+    const inlineSkin = inline ? {
+      outerPad: '0', outerBg: 'transparent', outerBorder: '0', blur: 'none',
+      innerPad: '0', innerBg: 'transparent', innerBorder: '0', radius: '0', shadow: 'none',
+      ...light
+    } : {};
+
+    return {
+      ...skin,
+      ...inlineSkin,
+      rootPosition: inline ? 'static' : 'sticky',
+      innerOverflow: skin.innerOverflow || 'visible',
+      /*
+       * Responsiveness: the bar spans the device, but its CONTENT is capped and
+       * centred so a 1440px desktop does not stretch three buttons across the
+       * whole screen. Mobile passes 100% and behaves exactly as before.
+       */
+      contentMax: this.props.contentMax || '100%',
+      shown: (this.props.visible === false || (!inline && !this.state.revealed)) ? 'none' : 'block',
+      rootRef: el => { this._root = el; },
+      gap: this.props.gap || skin.gapOverride || '8px',
+      btnH: this.props.height || (inline ? '52px' : '48px'),
+      showLabels,
+      // Cart collapses to its icon; Buy Now and Apple Pay keep their words.
+      showCartLabel: showLabels && !this.props.cartIconOnly,
+      showBuyLabel: showLabels,
+      showPrice: this.props.showPrice !== false && !appleShown && !inline,
+      sale: this.props.sale || '300',
+      saving: this.props.saving || '100 ريال',
+      hasSaving: !!(this.props.saving || '100 ريال'),
+      btn: {
+        cart: this.props.showCart !== false,
+        buy: this.props.showBuy !== false,
+        apple: appleShown
+      },
+      // Buy Now stays the widest target; Add to Cart compresses to its icon first.
+      cartFlex: (iconOnly || this.props.cartIconOnly) ? '0 0 auto' : '1 1 auto',
+      buyFlex: '1.4 1 auto',
+      appleFlex: '1 1 auto',
+      cartPadX: (iconOnly || this.props.cartIconOnly) ? '15px' : '14px',
+      buyPadX: iconOnly ? '16px' : '18px',
+      /*
+       * Storefront-silent by default. The gate explanation names an internal API
+       * and a gateway capability gap — that is admin copy, and the settings panel
+       * already carries it. Opt-in only, and TahPdp never passes devNote, so a
+       * shopper never reads why a payment button is absent.
+       */
+      showAppleNote: !!this.props.devNote && wantApple && !appleOk,
+      /*
+       * The dashed «logo» marker is a REVIEW annotation, not product UI. Without
+       * this check it would ship inside the primary payment control for exactly
+       * the shoppers who can use Apple Pay (real iOS/Safari), putting a Latin
+       * placeholder word in an Arabic RTL CTA. Production renders the wordmark
+       * alone until Apple's official asset is dropped in.
+       */
+      showAppleSlot: !!this.props.devNote,
+      anim: this.props.motion === false ? 'none' : 'tahBarUp .32s cubic-bezier(.22,1,.36,1) both',
+      onCart: () => this.fire('add_to_cart'),
+      onBuy: () => this.fire('buy_now'),
+      onApple: () => this.fire('apple_pay_click')
+    };
+  }
+}
+</script>
+</body>
+</html>

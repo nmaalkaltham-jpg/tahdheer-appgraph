@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:2px solid #14261d;margin-bottom:24px">
+<span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:15px">ت</span>
+<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#14261d">Tahdheer — Product Commerce Presentation Engine</div><div style="font-size:11.5px;color:#5f7167">PDP V2 · implementation spec &amp; field map</div></div>
+<div style="text-align:end;font:600 10.5px ui-monospace,Menlo,monospace;color:#5f7167">v1 · draft<br>2026-08-27</div>
+</div>
+
+<div style="padding:14px 16px;border:1px solid rgba(216,181,106,.45);background:rgba(216,181,106,.09);border-radius:10px;margin-bottom:24px">
+<div style="font-size:13px;font-weight:900;color:#7a5d20;margin-bottom:6px">Scope note — read first</div>
+<p style="margin:0;font-size:12.5px;line-height:1.8;color:#3b4d43">The brief asks for implementation into the live theme. I produce design artifacts in HTML: the working prototype (<b>PDP Engine</b>), the preset catalogue (<b>PDP Presets</b>), and this spec. I have not written PHP into <code>tahdheer-theme/</code> — that is your developer's step, and this document is what they build from. Everything below is keyed to files and functions that already exist in the theme, so nothing here is a parallel system.</p>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">1 · What already exists (reuse, do not duplicate)</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:22px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Existing asset</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:26%">File</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Role in V2</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">Slides / pages / editable / level / subject</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/product-education-meta.php</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">The fact source. Already three-state on <code style="font-size:10.5px">editable</code> — keep that.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d"><code style="font-size:10.5px">tahdheer_product_sales_count()</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/product-sales-count.php</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">The only sales number. Already sums grouped children and filters. Do not re-read <code style="font-size:10.5px">total_sales</code> anywhere else.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">Threshold / hot / zero-text options</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/customizer.php:242</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Becomes the sales-count rule ladder. Keys unchanged.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">Buy-trust row</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/woocommerce.php:160</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Already data-only with an empty-field check. Generalise into the fact renderer rather than adding a second row.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">Product / Course / DigitalDocument JSON-LD</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/product-education-schema.php</code>, <code style="font-size:10.5px">inc/schema.php</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Owns structured data. The badge layer must never write to it.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">Design tokens + motion presets</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">inc/design-system/*</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">All colour/radius/shadow/duration values inherit from here. No new palette.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">SVG sprite — 42 symbols</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">template-parts/icons.php</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Fact icons come from here. No icon library — but 22 symbols must be <b>added</b>; see §1.1.</td></tr>
+</tbody>
+</table>
+
+<h3 style="margin:0 0 8px;font-size:14px;font-weight:900;color:#14261d">1.1 · Sprite additions required</h3>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.75;color:#5f7167">The existing sprite covers the facts the theme already renders: <code>i-grid</code>, <code>i-pen</code>, <code>i-files</code>, <code>i-download</code>, <code>i-lock</code>, <code>i-truck</code>, <code>i-cap</code>, <code>i-book</code>, <code>i-tag</code>, <code>i-blocks</code>, <code>i-medal</code>, <code>i-trophy</code>, <code>i-cart-bag</code>. The V2 UI needs these, which are <b>not</b> in it today — add them to <code>template-parts/icons.php</code> in the same <code>viewBox="0 0 24 24"</code> / stroke-inherit style:</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:12px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:34%">Symbols to add</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Used for</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-percent · i-coins</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Discount and savings badges</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-check · i-star · i-plus</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Trust rows, rating, insertion affordances</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-thumb</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">«مفيد» button in the reviews section — genuinely absent from the theme sprite</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-print · i-calendar · i-clock</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Worksheets, semester, last-updated facts</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-bolt · i-sparkle · i-play</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Buy-now CTA, «جديد» badge, product preview</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-device-desktop · i-device-tablet · i-device-mobile</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Per-device toggles. <b>Note:</b> the existing <code>i-phone</code> is a telephone handset, not a device — do not reuse it here.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">i-drag · i-dots · i-list · i-sliders · i-layers · i-wand · i-mega</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Admin panel only — reorder handles, group headers. Can live in an admin-only sprite if you prefer to keep the front-end one lean.</td></tr>
+</tbody>
+</table>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43">The mockups' shared sprite (<code>TahIcons.dc.html</code>) now carries the 42 real symbols copied verbatim from <code>icons.php</code>, with the additions above grouped separately at the end — so what you see in the prototype is what ships for everything that already exists. Note the earlier Customizer and Homepage mockups predate this and carry hand-drawn approximations of the same glyphs; treat <code>icons.php</code> as the source of truth over those two files.</p>
+
+<h2 style="margin:0 0 6px;font-size:17px;font-weight:900;color:#14261d">2 · Fact registry — 12 facts, 3 provenance classes</h2>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.75;color:#5f7167">The engine's constraint: every fact declares where its value comes from. A fact whose field is empty renders nothing — the admin UI shows the provenance tag so nobody wires marketing copy into a data slot.</p>
+<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:14px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:6px 8px;border:1px solid #e6e9e2;font-weight:800">Fact</th><th style="text-align:start;padding:6px 8px;border:1px solid #e6e9e2;font-weight:800">Source key</th><th style="text-align:start;padding:6px 8px;border:1px solid #e6e9e2;font-weight:800">Class</th><th style="text-align:start;padding:6px 8px;border:1px solid #e6e9e2;font-weight:800">Action needed</th></tr></thead>
+<tbody>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">عدد الشرائح</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_slides_count</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء — يُقرأ كما هو.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">قابل للتعديل</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_editable</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء. ثلاثي الحالة؛ «غير محدد» يبقى صامتًا.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">عدد مرات الشراء</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">total_sales (WooCommerce)</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">يُقرأ عبر tahdheer_product_sales_count() فقط.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">صيغة الملف</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_file_format</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">طريقة التسليم</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_prd_delivery</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">الأسماء في tahdheer_delivery_labels().</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">عدد الصفحات</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_pages_count</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">المرحلة التعليمية</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_educational_level</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">المادة</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#1e7355">_tahdheer_subject</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">موجود</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">لا شيء.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">أوراق العمل</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#7a5d20">_tahdheer_worksheets_count</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">أضف الحقل + التنقية. رقم صحيح ≥ 0.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">الأنشطة</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#7a5d20">_tahdheer_activities_count</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">أضف الحقل + التنقية. رقم صحيح ≥ 0.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">الفصل الدراسي</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#7a5d20">_tahdheer_semester</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">أضف الحقل. قائمة مغلقة (الأول/الثاني/الثالث).</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">اللغة</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#5f7167">get_locale() → inLanguage</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167;font-weight:700">مشتق</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">مشتق. لا حقل جديد.</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #e6e9e2;font-weight:700;color:#14261d">آخر تحديث</td><td style="padding:5px 8px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10px;color:#5f7167">post_modified</code></td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167;font-weight:700">مشتق</td><td style="padding:5px 8px;border:1px solid #e6e9e2;color:#5f7167">شارة «حُدّث حديثًا» تعتمد عليه وحده.</td></tr>
+</tbody>
+</table>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>Three new post-meta fields</b> are required for the brief's full fact list: <code>_tahdheer_worksheets_count</code>, <code>_tahdheer_activities_count</code>, <code>_tahdheer_semester</code>. Add them to the existing meta box in <code>inc/product-education-meta.php</code> and to the sanitise list at line 210 — same pattern as <code>_tahdheer_slides_count</code>. Do not add them to JSON-LD unless a matching schema.org property genuinely applies.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">3 · New modules</h2>
+<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:22px">
+<sc-for list="{{ modules }}" as="m" hint-placeholder-count="6">
+<div style="display:flex;gap:12px;padding:11px 13px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ m.n }}</span>
+<div style="flex:1"><div style="font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:3px"><code dir="ltr" style="font-size:11.5px">{{ m.file }}</code></div><div style="font-size:11.5px;line-height:1.7;color:#5f7167">{{ m.role }}</div></div>
+<span style="flex:0 0 auto;align-self:flex-start;padding:2px 8px;border-radius:5px;background:#f2f5f2;font:700 9.5px ui-monospace,monospace;color:#5f7167">{{ m.size }}</span>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">4 · Settings tree (Customizer)</h2>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.75;color:#5f7167">Lands under <b>المنتجات والمتجر</b> in the new IA (see the Customizer IA spec), as one panel with collapsible groups — not a flat wall of controls.</p>
+<div style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:14px">
+<pre style="margin:0;font:600 10.5px/1.85 ui-monospace,Menlo,monospace;color:#3b4d43;white-space:pre-wrap;direction:ltr;text-align:start">tahdheer_pdp/
+├── facts        order[], enabled[], style, slot, slot_mobile
+├── slides       label, icon, style
+├── editable     wording (editable | partial | none)
+├── sales        display_mode, threshold, hot_at, zero_text   ← existing keys
+├── price        preset, decimals, savings_rounded
+├── promo        mode, placement, wording{pct,save}, override, end_date
+├── badges       priority[], max_visible, placement
+├── social       show_rating, show_reviews, show_bestseller
+├── motion       enabled, promo_anim, stagger_ms
+├── responsive   mobile_slot, sticky_bar, compact_facts
+└── visibility   conditions[] (AND/OR)</pre>
+</div>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>Inheritance:</b> global → category term meta → product post meta. Resolve with a single <code>tahdheer_pdp_config( $product_id )</code> that merges the three layers once per request and caches on the product id. Every renderer reads that one array — no renderer calls <code>get_option()</code> directly.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">5 · Non-negotiables</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:22px">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="8">
+<div style="display:flex;gap:10px;padding:10px 12px;border:1px solid {{ r.border }};border-radius:9px;background:{{ r.bg }};break-inside:avoid">
+<span style="flex:0 0 auto;font-size:13px;color:{{ r.fg }};font-weight:900">{{ r.mark }}</span>
+<div style="flex:1"><b style="display:block;font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:2px">{{ r.title }}</b><span style="font-size:11.5px;line-height:1.7;color:#5f7167">{{ r.body }}</span></div>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">5.1 · Preset 0 is the existing output — the reversibility contract</h2>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.8;color:#3b4d43">This is an upgrade, not a replacement. The theme's current product-info output is registered as <b>preset 0 «الأصلي»</b> and is the default fallback, so the new engine is a reversible layer rather than a migration. Concretely, preset 0 reproduces exactly what ships today:</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:12px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Current output</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:34%">Emitted by</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Preserved as</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">.tahdheer-buy-trust</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">tahdheer_single_buy_trust()</code> @ 35</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Preset 0 body — 13px/700 muted text, 19px green icons, 12/22px gaps, 18px top rule. Unchanged CSS.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px">.tah-sales-row</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">tahdheer_single_sales_count()</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Preset 0 pill — including the <code style="font-size:10.5px">--hot</code> gold variant and the Arabic count pluralisation.</td></tr>
+</tbody>
+</table>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+<sc-for list="{{ revertRules }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;gap:10px;padding:9px 12px;border:1px solid rgba(37,155,111,.22);border-radius:9px;background:#f3faf6;break-inside:avoid"><span style="flex:0 0 auto;font-size:13px;color:#1e7355;font-weight:900">✓</span><div><b style="display:block;font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:2px">{{ r.title }}</b><span style="font-size:11.5px;line-height:1.7;color:#5f7167">{{ r.body }}</span></div></div>
+</sc-for>
+</div>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.8;color:#3b4d43"><b>Storage shape.</b> Nothing overwrites the legacy path: <code dir="ltr" style="font-size:11px">tahdheer_pdp[preset]</code> holds the active preset id (default <code>0</code>), <code dir="ltr" style="font-size:11px">tahdheer_pdp[preset_settings][&lt;id&gt;]</code> holds each preset's own appearance bucket, and <code dir="ltr" style="font-size:11px">tahdheer_pdp[facts]</code> holds the ordered fact instances. Switching presets writes only <code>preset</code>; the other buckets are untouched, which is what makes a round-trip lossless. When <code>preset = 0</code> the new renderer short-circuits and the existing hooks emit as before — so an uninstalled or errored engine degrades to today's page, not a blank one.</p>
+<p style="margin:0 0 22px;font-size:12.5px;line-height:1.8;color:#3b4d43"><b>Adding Style 11</b> is one entry in the preset registry plus one <code>&lt;sc-if&gt;</code> branch in the renderer. Data, settings resolution, accessibility, responsive and motion are shared — presentation is the only layer that varies.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">5.2 · Reviews section — data reality check</h2>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.8;color:#3b4d43">The three review designs are built on WooCommerce's existing review data. <code>inc/smart-review-engine.php</code> already exists but is <b>admin-side analysis only</b> — it powers a SEO-workflow scan and explicitly does not emit Review schema (<span style="color:#5f7167">«لا ينشئ Review Schema — WooCommerce/الإضافة تتولّاه»</span>). Keep it that way: the section must not add a second JSON-LD block.</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:12px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:32%">Element on screen</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Source</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Status</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">المتوسط · عدد التقييمات · التوزيع</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">get_average_rating() / get_review_count()</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">جاهز</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">الاسم · النص · التاريخ · النجوم</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">WP_Comment + rating meta</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">جاهز</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">شراء موثق</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">verified comment meta</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">جاهز (Woo)</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">ردّ المتجر</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">comment_parent</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">جاهز</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">عنوان التقييم</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">_tah_review_title</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد — حقل في نموذج التقييم</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">«مفيد» + العدّاد</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">_tah_review_helpful</code> + AJAX</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد — يحتاج nonce وحدّ لكل IP</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">التقييم التفصيلي (6 معايير)</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">_tah_review_cat[…]</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد — لا قيمة تاريخية للتقييمات السابقة</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">صور/فيديو المشتري</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">comment attachments</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">جديد — رفع + مراجعة قبل النشر</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">الملخّص الذكي + الكلمات</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#b42318">—</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">لا مصدر — انظر أدناه</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">نسبة التوصية 97%</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#7a5d20">مشتقّة: ≥4 نجوم ÷ الكل</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">مشتق — أو سؤال صريح في النموذج</td></tr>
+</tbody>
+</table>
+<div style="padding:13px 15px;border:1px solid rgba(180,35,24,.24);border-radius:10px;background:#fdf3f2;margin-bottom:14px">
+<b style="display:block;font-size:12.5px;font-weight:900;color:#b42318;margin-bottom:5px">الملخّص الذكي: لا تولّده تلقائيًا ما لم يكن مبنيًا على النصوص الفعلية</b>
+<span style="font-size:11.5px;line-height:1.75;color:#3b4d43">العبارة المعروضة في التصاميم هي <b>نموذج محتوى</b>، لا مخرَج آلي. أمامك ثلاثة مسارات صادقة: (1) يكتبها مسؤول المتجر يدويًا لكل منتج ويُوسم أنه ملخّص تحريري؛ (2) تُبنى من تكرار كلمات فعلي في نصوص التقييمات — وهو ما تفعله الكلمات المفتاحية أدناه، ويظهر فقط بعد 10 تقييمات؛ (3) تُولَّد بنموذج لغوي وتُراجَع قبل النشر. لا يُعرض ملخّص لمنتج له تقييمان.</span>
+</div>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>SEO.</b> النصوص كلها في DOM بلا اختصار قسري (الاختصار في التصميم الثاني يترك النص كاملًا في الصفحة ويطوي العرض فقط)، والتواريخ في <code dir="ltr" style="font-size:11px">&lt;time datetime&gt;</code> لإشارات الحداثة، والنجوم إمّا <code>aria-hidden</code> بجوار رقم أو <code>role="img"</code> بنص بديل. الحقول التي يحتاجها Review/AggregateRating موجودة في العلامة كسمات <code dir="ltr" style="font-size:11px">data-*</code> جاهزة للربط، دون إصدار JSON-LD ثانٍ.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">5.3 · Purchase bar + share actions</h2>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.8;color:#3b4d43">Both ship as reversible layers with <b>Original as the default</b>, so installing changes nothing until a mode is switched. <code dir="ltr" style="font-size:11px">tahdheer_pdp[purchase_mode]</code> = <code>original</code> | <code>sticky</code> and <code dir="ltr" style="font-size:11px">tahdheer_pdp[share_mode]</code> = <code>original</code> | <code>row</code> | <code>floating</code> | <code>expandable</code>. Choosing Original restores the existing markup and behaviour exactly — the old CTA and sticky-bar code is never deleted, only branched around.</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:14px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:26%">Item</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Behaviour</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Implementation note</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Duplicate mobile CTA</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">2 → 1 add-to-cart</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Sticky mode hides the inline CTA row on mobile only; desktop keeps it. Verified 2→1→2 on revert.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Safe area</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">iPhone home bar</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167"><code dir="ltr" style="font-size:10.5px">calc(12px + env(safe-area-inset-bottom))</code> on the bar's outer padding.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">CLS</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">0</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Bar is <code>position:sticky</code> in normal flow — it reserves its own space and is server-rendered, so nothing is injected after paint.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Apple Pay</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Gated — hidden by default</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Rendered only when <code dir="ltr" style="font-size:10.5px">ApplePaySession.canMakePayments()</code> is true. Also require the active gateway to declare Apple Pay support server-side before printing the button.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Apple mark</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Placeholder slot</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Left as a labelled empty slot on purpose. Apple's logo is a trademark with mandated assets — hand-drawing one is the "fake Apple icon" the brief forbids. Use Apple's official button (Payment Request API renders it) or their supplied asset.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Instagram / TikTok</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">Native share → copy link</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">No public web-share endpoint exists. Buttons call <code dir="ltr" style="font-size:10.5px">navigator.share</code> when present, else copy the link and <b>say</b> they copied it. The accessible name states the real action.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">WhatsApp / Telegram / X</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Real endpoints</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167"><code dir="ltr" style="font-size:10.5px">wa.me</code>, <code dir="ltr" style="font-size:10.5px">t.me/share/url</code>, <code dir="ltr" style="font-size:10.5px">intent/tweet</code>. No automatic hashtags.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Tracking</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Vendor-neutral</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Each action dispatches <code dir="ltr" style="font-size:10.5px">document → CustomEvent('tahdheer:&lt;event&gt;')</code>: add_to_cart, buy_now, apple_pay_click, product_share, share_whatsapp/telegram/x/instagram/tiktok, copy_product_link. Bind any analytics layer to those.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Icons needed</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">3 new</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167"><code dir="ltr" style="font-size:10.5px">i-telegram · i-wallet · i-link</code> added to the sprite additions in §1.1. <code dir="ltr" style="font-size:10.5px">i-whatsapp · i-x · i-instagram · i-tiktok · i-share</code> already exist in <code style="font-size:10.5px">icons.php</code>.</td></tr>
+</tbody>
+</table>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>Variations &amp; quantity.</b> Buy Now must submit the same form the inline CTA does — carrying <code dir="ltr" style="font-size:11px">variation_id</code>, <code dir="ltr" style="font-size:11px">quantity</code> and any required attributes — not a bare product-id link, or variable products silently add the wrong item. Disable Buy Now until a variation is chosen, mirroring WooCommerce's own add-to-cart gating. <b>Sticky-UI collision:</b> the bar publishes its height as <code dir="ltr" style="font-size:11px">--tah-purchase-bar-h</code> so a cookie bar or chat bubble can offset itself instead of overlapping.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">6 · Performance budget</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:22px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Item</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Budget</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">How</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">CSS added</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">≤ 4 KB</code> gzip</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">One <code style="font-size:10.5px">pdp-facts.css</code>, enqueued only on <code style="font-size:10.5px">is_product()</code>.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">JS added</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">≤ 2 KB</code> gzip</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Vanilla, deferred. Only count-up + IntersectionObserver. No framework.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">JS when motion off</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">0 KB</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Do not enqueue the module at all when motion is disabled or on reduced-motion.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">CLS from badges</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">0</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Badges render server-side in final position. No JS insertion, no reserved-space hacks.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">INP on CTA</td><td style="padding:6px 9px;border:1px solid #e6e9e2">unchanged</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">No animation on or above the add-to-cart button; it is interactive at first paint.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Queries added</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">0</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">All facts come from post meta already loaded with the product. Config merged once and cached.</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">7 · Verification checklist</h2>
+<div style="columns:2;column-gap:26px;font-size:11.5px;line-height:1.9;color:#3b4d43">
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="22">
+<div style="break-inside:avoid;display:flex;gap:7px;align-items:flex-start"><span style="flex:0 0 auto;width:12px;height:12px;border:1.5px solid #c9d4cd;border-radius:3px;margin-top:4px"></span><span>{{ c }}</span></div>
+</sc-for>
+</div>
+
+<p style="margin:24px 0 0;padding-top:12px;border-top:1px solid #e6e9e2;font-size:11px;color:#5f7167;line-height:1.7">Read for this spec: <code style="font-size:10.5px">inc/product-education-meta.php</code>, <code style="font-size:10.5px">inc/product-education-schema.php</code>, <code style="font-size:10.5px">inc/product-sales-count.php</code>, <code style="font-size:10.5px">inc/woocommerce.php</code>, <code style="font-size:10.5px">inc/schema.php</code>, <code style="font-size:10.5px">inc/customizer.php</code>, <code style="font-size:10.5px">woocommerce/content-product.php</code>.</p>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      revertRules: [
+        { title: 'التبديل لا يحذف شيئًا', body: 'اختيار نمط آخر يكتب معرّف النمط فقط. الحقائق وإعدادات كل نمط تبقى في مفاتيحها.' },
+        { title: 'لكل نمط إعداداته المحفوظة', body: 'عدّل «حبّات» ثم انتقل إلى «شبكة فاخرة» ثم ارجع — تجد إعداداتك كما تركتها، لأن كل نمط له bucket مستقل.' },
+        { title: '«استعادة التصميم الأصلي» تبديل لا تدمير', body: 'تضبط preset = 0 فحسب. لا تحذف حقيقة ولا إعداد نمط ولا بيانات منتج.' },
+        { title: '«إعادة ضبط هذا النمط» معزولة', body: 'تُفرِغ bucket النمط النشط وحده. بقية الأنماط والحقائق لا تتأثر.' },
+        { title: 'لا هجرة بيانات', body: 'لا يُنقل أي theme_mod أو post_meta قائم. الحقول الحالية تُقرأ كما هي، والجديد يُضاف بمفاتيح جديدة.' },
+        { title: 'الفشل يعود للأصل', body: 'عند تعطّل الطبقة الجديدة أو غياب إعداداتها، القيمة الافتراضية 0 — أي مخرَج القالب الحالي، لا صفحة فارغة.' }
+      ],
+      modules: [
+        { n: '1', file: 'inc/pdp/class-pdp-config.php', role: 'يدمج الافتراضيات العامة ← التصنيف ← المنتج مرة واحدة، ويخزّنها مؤقتًا على معرّف المنتج. المصدر الوحيد لكل مُصيِّر.', size: '~180 سطر' },
+        { n: '2', file: 'inc/pdp/class-pdp-facts.php', role: 'سجلّ الحقائق: 12 حقيقة معروفة + حقائق يدوية غير محدودة (إضافة/تكرار/حذف/إخفاء/إعادة تسمية/ترتيب). الحقل الفارغ لا يُنتج مخرجًا. قابل للتوسيع بفلتر tahdheer_pdp_facts.', size: '~260 سطر' },
+        { n: '2b', file: 'inc/pdp/class-pdp-presets.php', role: 'سجلّ الأنماط: 0 = الأصلي (يستدعي الدوال الحالية كما هي)، و1–10 الأنماط الجديدة، و«مخصّص». التسجيل عبر tahdheer_pdp_register_preset() ليضاف Style 11 دون لمس المحرّك.', size: '~140 سطر' },
+        { n: '3', file: 'inc/pdp/class-pdp-pricing.php', role: 'يحسب مبلغ التوفير والنسبة من get_regular_price()/get_price() مع التقريب المضبوط. الدالة الوحيدة المسموح لها بحساب الخصم.', size: '~120 سطر' },
+        { n: '4', file: 'inc/pdp/class-pdp-badges.php', role: 'محرّك الشارات: الأنماط الثمانية، الأولوية، الحد الأقصى الظاهر، شروط الظهور AND/OR.', size: '~260 سطر' },
+        { n: '5', file: 'inc/pdp/render.php', role: 'قوالب المخرجات: الحقائق (6 أساليب)، السعر (5 تخطيطات)، «نظرة سريعة» (4 أشكال)، شريط الجوال الثابت.', size: '~320 سطر' },
+        { n: '6', file: 'inc/pdp/customizer.php', role: 'تسجيل الإعدادات داخل «المنتجات والمتجر» بمجموعات قابلة للطي + معاينة حيّة عبر postMessage.', size: '~300 سطر' },
+        { n: '7', file: 'assets/css/pdp-facts.css', role: 'كل الأساليب. يُحمَّل على is_product() فقط. القيم من رموز نظام التصميم.', size: '≤ 4 KB' },
+        { n: '8', file: 'assets/js/pdp-motion.js', role: 'IntersectionObserver + عدّاد تصاعدي، مرة واحدة عند الظهور. لا يُحمَّل إطلاقًا عند إطفاء الحركة.', size: '≤ 2 KB' }
+      ],
+      rules: [
+        { mark: '✕', title: 'لا رقم مبيعات مُختلق', body: 'العدد من total_sales وحده. القواعد تغيّر الصياغة لا القيمة، و«أكثر من 300» تعني ≥ 300 فعليًا.', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' },
+        { mark: '✕', title: 'لا «قابل للتعديل» بلا بيان', body: 'الوسم يظهر عند editable = yes فقط. «غير محدد» لا يُترجم إلى نعم.', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' },
+        { mark: '✕', title: 'لا «ينتهي قريبًا» بلا تاريخ', body: 'عبارات الإلحاح تظهر فقط مع sale_price_dates_to مضبوط فعليًا.', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' },
+        { mark: '✕', title: 'لا «وفّر حتى» لمنتج واحد', body: '«حتى» مسموحة فقط عندما توجد متغيّرات بمبالغ توفير مختلفة، والمبلغ المعروض هو أعلاها الحقيقي.', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' },
+        { mark: '✕', title: 'لا نص يدوي في البيانات المنظّمة', body: 'النص التسويقي البديل يبقى عرضًا بصريًا. Schema يقرأ السعر والتوفّر من WooCommerce فقط.', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' },
+        { mark: '✓', title: 'كل حقيقة نص ظاهر', body: 'الرقم ووحدته داخل نص مقروء. الأيقونة زينة بـ aria-hidden. لا حقيقة تعيش داخل صورة أو أيقونة وحدها.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' },
+        { mark: '✓', title: 'الخصم لا يُبلَّغ باللون وحده', body: '«خصم 25%» نص. اللون تعزيز لا رسالة — تعمل الصفحة بالأبيض والأسود.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' },
+        { mark: '✓', title: 'رمادي واحد للنص الثانوي: #5f7167', body: 'كل نص ثانوي — المسار، السعر المشطوب، الملاحظات، عناوين الحقول — يستخدم ‎#5f7167‎ (5.19:1 على الأبيض). الأفتح منه (‎#8b9a91‎ و‎#a3b0a8‎ و‎#c9d4cd‎) للحدود والفواصل والأيقونات المزخرفة فقط، ولا يُستخدم لنصّ أبدًا. الذهبي ‎#d8b56a‎ لا يحمل نصًّا على خلفية فاتحة — بديله ‎#7a5d20‎.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' },
+        { mark: '✓', title: 'النجوم زينة أو صورة', body: 'حيث يجاورها رقم التقييم فهي aria-hidden. وحيث تحمل التقييم وحدها (بطاقات الآراء) فهي role="img" مع aria-label نصّي — لا تعتمد على تباين الذهبي.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' },
+        { mark: '✓', title: 'رقم واحد ظاهر، والقيمة الدقيقة بجانبه', body: 'الصياغة المعروضة تُطبَع من الخادم (مثلًا «+300 عملية شراء»)، والعدد الدقيق يُرفق على العنصر نفسه في aria-label وtitle وdata-sales-count. لا نصّ مخفي يحمل رقمًا مختلفًا — رقمان متباينان فوق الطية أسوأ من التقريب. العدّاد التصاعدي يقرأ data-sales-count الموجود أصلًا؛ تعطيل JS لا يخفي شيئًا.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' }
+      ],
+      checks: [
+        'سطح المكتب: الأساليب الستة للحقائق تُعرض بلا كسر',
+        'الجوال 390px: لا تمرير أفقي، الحقائق تلتف عمودين',
+        'الجوال: شريط الشراء الثابت لا يغطّي محتوى',
+        'كل هدف نقر ≥ 44px على الجوال',
+        'RTL: الشارة على الجهة الصحيحة من الصورة',
+        'RTL: الأرقام والعملة لا تنقلب',
+        'RTL: الشطب على السعر القديم في الاتجاه الصحيح',
+        'الحساب: 400 → 300 يعطي 100 و25%',
+        'الحساب: تغيير خانات النسبة العشرية يعمل',
+        'الحساب: منتج بلا سعر عرض لا يُظهر شارة',
+        'المبيعات: تحت الحد الأدنى لا يظهر شيء',
+        'المبيعات: منتج مُجمَّع يجمع أبناءه',
+        'المبيعات: 0 مبيع لا يطبع «0 عملية شراء»',
+        'الحقول الفارغة لا تُنتج شرائح فارغة',
+        'Schema: السعر يطابق المعروض تمامًا',
+        'Schema: لا نص شارة داخل JSON-LD',
+        'Schema: لا تكرار مع إضافة SEO',
+        'الوصول: قارئ الشاشة يقرأ كل حقيقة',
+        'الوصول: تباين AA على كل شارة',
+        'الوصول: prefers-reduced-motion يُطفئ كل حركة',
+        'الأداء: LCP لم يتراجع مقابل الأساس',
+        'الأداء: CLS = 0 عند تحميل الشارات',
+        'الأداء: لا JS عند إطفاء الحركة',
+        'الانحدار: أضف للسلة يعمل (بسيط ومتغيّر)',
+        'الانحدار: الشراء السريع والتنزيلات تعمل',
+        'الانحدار: تبويبات المنتج والمراجعات سليمة'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

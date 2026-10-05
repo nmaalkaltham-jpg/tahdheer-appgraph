@@ -1,0 +1,761 @@
+/*
+UNIT: SIDEBAR
+COMPONENT: sidebar.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الشريط الجانبيّ — مجموعاتٌ ووجهات، لا مساحاتٌ وحدها.
+ *
+ * كان يعرض ثماني مساحاتٍ فقط وتبقى وجهاتها التسع والعشرون خلف شريط تبويبات
+ * في الرأس: للوصول إلى «المخزون» يلزم اختيار «العمليّات» ثمّ قراءة شريطٍ
+ * أفقيّ — قفزتان وتحميلُ صفحةٍ وسيطة. الشجرة كاملةً هنا تجعل كلّ وجهةٍ على
+ * بُعد نقرةٍ واحدة، وهو معيار القبول المكتوب: «مستويان على الأكثر».
+ */
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+/* ───── الهوية ───── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block: var(--sp-2) var(--sp-4);
+  padding-inline: var(--sp-2);
+  border-block-end: 1px solid var(--chrome-line);
+  margin-block-end: var(--sp-3);
+}
+
+/*
+ * العلامة صورة قائمة بذاتها بلوحها الداكن وتدرّجاتها، فلا مربّع لونٍ خلفها —
+ * كان يخدم الحرف النائب وحده.
+ */
+.mark {
+  display: flex;
+  align-items: center;
+  block-size: 34px;
+  flex: none;
+}
+
+.mark img {
+  block-size: 100%;
+  inline-size: auto;
+  display: block;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brandText strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--chrome-text);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.brandText small {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--primary-onchrome);
+  line-height: 1.4;
+}
+
+/* زرّ إغلاق الدرج — تحت 900px وحده؛ فوقها لا درج يُغلق. */
+.drawerClose {
+  display: none;
+  margin-inline-start: auto;
+  border: 0;
+  background: transparent;
+  color: var(--chrome-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  inline-size: 32px;
+  block-size: 32px;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawerClose:hover {
+  color: var(--chrome-text);
+  background: var(--chrome-deep);
+}
+
+/* ───── شجرة الملاحة ───── */
+.tree {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-inline: 0;
+  padding-block-end: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: 34px;
+  padding-block: var(--sp-1);
+  padding-inline: var(--sp-2);
+  border: 0;
+  background: transparent;
+  color: var(--chrome-muted);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  text-align: start;
+}
+
+.groupToggle:hover {
+  color: var(--chrome-text);
+  background: var(--chrome-deep);
+}
+
+.groupLabel {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * الشيفرون يعبّر عن اتّجاهٍ مكانيّ، فيُعكس في RTL — بخلاف أيقونات الوجهات.
+ * والدوران ٩٠° عند الفتح يجعل الحالة مقروءةً بالشكل لا باللون وحده.
+ */
+.chevron {
+  flex: none;
+  transition: transform 140ms var(--ease-smooth, ease);
+}
+
+[dir='rtl'] .chevron {
+  transform: scaleX(-1);
+}
+
+.groupToggle[aria-expanded='true'] .chevron {
+  transform: rotate(90deg);
+}
+
+[dir='rtl'] .groupToggle[aria-expanded='true'] .chevron {
+  transform: rotate(90deg) scaleY(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.links {
+  list-style: none;
+  margin-block: 0 var(--sp-1);
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: var(--control-h);
+  padding-block: var(--sp-2);
+  padding-inline: var(--sp-3);
+  color: var(--chrome-text);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: var(--radius-nav, 9px);
+  line-height: 1.3;
+}
+
+.link:hover {
+  background: var(--chrome-deep);
+}
+
+.linkIcon {
+  flex: none;
+  color: var(--chrome-muted);
+}
+
+.link:hover .linkIcon {
+  color: var(--primary-onchrome);
+}
+
+.linkLabel {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * الوجهة الحاليّة: خلفيّةٌ **و**شريطٌ لونيّ **و**وزنٌ أثقل.
+ * ثلاث إشارات لا واحدة — من لا يميّز الأخضر يبقى يرى أين هو.
+ */
+.link[aria-current='page'] {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-weight: 800;
+}
+
+.link[aria-current='page'] .linkIcon {
+  color: var(--primary-strong);
+}
+
+.link[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-block: 6px;
+  inset-inline-start: 0;
+  inline-size: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--primary-strong);
+}
+
+/* عدّادٌ لا يُعرض إلّا حين يكون رقمًا مقيسًا — الصفر لا يُعرض أصلًا. */
+.badge {
+  flex: none;
+  min-inline-size: 20px;
+  padding-inline: 6px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  background: var(--chrome-line);
+  color: var(--chrome-text);
+}
+
+.badgeAlert {
+  /* تعبئةٌ عميقة لا `--state-danger` النصّيّ: الأبيض عليه كان 3.7:1. */
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+}
+
+.link[aria-current='page'] .badge {
+  background: var(--adm-info-fill);
+  color: var(--cc-on-tone);
+}
+
+.denied {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 34px;
+  padding-inline: var(--sp-3);
+  color: var(--chrome-muted);
+  font-size: 12.5px;
+}
+
+/* ───── تذييل: الجلسة ───── */
+.footer {
+  border-block-start: 1px solid var(--chrome-line);
+  padding-block-start: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.miniToggle {
+  display: none;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 36px;
+  padding-inline: var(--sp-3);
+  border: 0;
+  background: transparent;
+  color: var(--chrome-muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: var(--radius-nav, 9px);
+  cursor: pointer;
+  text-align: start;
+}
+
+.miniToggle:hover {
+  background: var(--chrome-deep);
+  color: var(--chrome-text);
+}
+
+/* الوضع المصغّر خيارٌ مكتبيّ: تحت 900px الشريط درجٌ كامل العرض أصلًا. */
+@media (min-width: 901px) {
+  .miniToggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 900px) {
+  .drawerClose {
+    display: flex;
+  }
+}
+
+/* ───── الوضع المصغّر ───── */
+/*
+ * الأيقونات وحدها. والتسمية تبقى في `title` و`aria-label` فلا يفقد قارئ
+ * الشاشة شيئًا — الطيّ بصريٌّ لا دلاليّ.
+ */
+.mini .brandText,
+.mini .groupLabel,
+.mini .linkLabel,
+.mini .chevron,
+.mini .miniToggle span,
+.mini .badge {
+  display: none;
+}
+
+.mini .brand {
+  justify-content: center;
+  padding-inline: 0;
+}
+
+.mini .link,
+.mini .groupToggle,
+.mini .miniToggle {
+  justify-content: center;
+  padding-inline: 0;
+  gap: 0;
+}
+
+.mini .groupToggle {
+  min-block-size: 26px;
+}
+
+/* فاصلٌ بين المجموعات بدل عنوانٍ لا يُقرأ وقت الطيّ. */
+.mini .groupToggle::after {
+  content: '';
+  inline-size: 20px;
+  block-size: 1px;
+  background: var(--chrome-line);
+}
+
+.mini .link[aria-current='page']::before {
+  inset-inline-start: 2px;
+}
+
+/* ───── وضع ترتيب الشريط ───── */
+.editRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 32px;
+  padding-inline: var(--sp-2);
+  margin-block-end: 2px;
+  border: 1px dashed var(--chrome-line);
+  border-radius: var(--radius-sm);
+  color: var(--chrome-text);
+  font-size: 12.5px;
+  list-style: none;
+}
+
+/* المخفيّ يبقى مرئيًّا في وضع الترتيب — وإلّا تعذّر إرجاعه. */
+.group[data-hidden] > .editRow,
+.editRow[data-hidden] {
+  opacity: 0.5;
+}
+
+.group[data-hidden] > .editRow .editLabel,
+.editRow[data-hidden] .editLabel {
+  text-decoration: line-through;
+}
+
+/* موضع الإفلات بخطٍّ جانبيّ — لا بلونٍ وحده. */
+.group[data-over] > .editRow,
+.editRow[data-over] {
+  /* حدٌّ لا ظلّ: «الظلال: بلا» يُسقط كلّ `box-shadow`، والإشارة حالةٌ لا زخرفة. */
+  border-style: solid;
+  border-inline-start: 3px solid var(--primary-onchrome);
+}
+
+.editLabel {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grip,
+.eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 22px;
+  block-size: 22px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--chrome-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.grip {
+  cursor: grab;
+  /* لمسُ المقبض يسحب ولا يُمرّر الشريط تحته. */
+  touch-action: none;
+}
+
+.grip:active {
+  cursor: grabbing;
+}
+
+.grip:hover,
+.eye:hover {
+  background: var(--chrome-deep);
+  color: var(--chrome-text);
+}
+
+.eye[aria-pressed='false'] {
+  color: var(--state-warning);
+}
+
+/* وضع الترتيب لا يعمل مصغّرًا: لا مساحة لمقبضٍ وعينٍ وتسمية. */
+.mini .editRow {
+  display: none;
+}
+
+/* ═══ طبقة مركز القيادة — الشريط الزجاجيّ ═══ */
+
+/*
+ * ما تفعله هذه الطبقة: تُحوّل قائمةً من تسعٍ وعشرين رابطًا إلى شيءٍ
+ * **يُمسح بالعين** لا يُقرأ سطرًا سطرًا.
+ *
+ * والمسح يقوم على أربع إشارات لا على حجم الخطّ: عنوان المجموعة يلتصق أعلى
+ * الشريط وهو يمرّ تحته فلا يضيع السياق، والأيقونة تحمل نبرة لونيّة ثابتة
+ * لكلّ نطاق، والوجهة الحاليّة تحمل بلاطةً وشريطًا ووزنًا، والمجموعة المطويّة
+ * التي تحوي الصفحة الحاليّة تُعلنها بنقطة.
+ */
+
+.rail {
+  gap: 4px;
+}
+
+/* ───── الهوية ───── */
+.brand {
+  gap: 10px;
+  border-block-end: 1px solid var(--cc-hair);
+  padding-block: 4px 12px;
+  padding-inline: 6px;
+  margin-block-end: 6px;
+}
+
+.brandText strong {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--cc-text);
+  letter-spacing: -0.01em;
+}
+
+.brandText small {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--cc-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ───── عنوان المجموعة ───── */
+/*
+ * لاصقٌ أعلى الشجرة وهي تمرّ تحته.
+ *
+ * ثماني مجموعاتٍ لا تسع شاشةً واحدة مفتوحةً كلّها: من نزل إلى «الإعدادات»
+ * كان لا يرى تحت أيّ عنوانٍ يقف، فكلّ رابطٍ يبدو في مستوًى واحد. واللصق
+ * يجعل العنوان يبقى ظاهرًا ما دام أيٌّ من روابطه ظاهرًا — وهو الفرق بين
+ * قائمةٍ وشجرة.
+ */
+.groupToggle {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  min-block-size: var(--d-group-h, 30px);
+  padding-inline: 8px;
+  margin-block-start: 2px;
+  font-size: var(--d-font-group, 10.5px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--cc-muted);
+  background: var(--cc-rail);
+  /* الرايل شبه شفّاف: بلا ضباب يعبر النصّ الممرَّر من تحته. */
+  backdrop-filter: blur(calc(10px * var(--fx-k, 1)));
+  border-radius: 8px;
+}
+
+.groupToggle:hover {
+  color: var(--cc-text);
+  background: var(--cc-well);
+}
+
+.groupIcon {
+  flex: none;
+  color: var(--cc-muted);
+  opacity: 0.85;
+}
+
+.groupToggle:hover .groupIcon {
+  color: var(--cc-link);
+  opacity: 1;
+}
+
+/*
+ * المجموعة التي تحوي الصفحة الحاليّة — نقطةٌ ونصٌّ أفتح.
+ *
+ * تظهر النقطة **حين تكون مطويّة** خاصّةً: هناك يختفي `aria-current` مع
+ * روابطه، فلا يبقى في الشريط ما يقول أين أنت.
+ */
+.groupToggle[data-here] {
+  color: var(--cc-text);
+}
+
+.groupToggle[data-here] .groupIcon {
+  color: var(--cc-link);
+  opacity: 1;
+}
+
+.groupToggle[data-here][aria-expanded='false']::after {
+  content: '';
+  flex: none;
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: 50%;
+  background: var(--cc-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cc-primary) 22%, transparent);
+}
+
+/* ───── روابط الوجهات ───── */
+.links {
+  gap: var(--d-nav-gap, 2px);
+  margin-block: 2px 4px;
+}
+
+.link {
+  min-block-size: var(--d-nav-h, 36px);
+  gap: 10px;
+  padding-block: 2px;
+  padding-inline: 8px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: var(--d-font-nav, 13px);
+  font-weight: 600;
+  color: var(--cc-muted);
+  /* اللون وحده ينتقل: الخلفيّة والحدّ يتبعانه بلا إزاحة تخطيط. */
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.link:hover {
+  background: var(--cc-well);
+  color: var(--cc-text);
+}
+
+/* أيقونةٌ في بلاطةٍ ملوّنة بنبرة الوجهة — النبرة من `data-icon` لا من الاسم. */
+.linkIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--tone, var(--cc-cyan)) 14%, transparent);
+  color: var(--tone, var(--cc-cyan));
+}
+
+.link:hover .linkIcon {
+  background: color-mix(in srgb, var(--tone, var(--cc-cyan)) 22%, transparent);
+  color: var(--tone, var(--cc-cyan));
+}
+
+/*
+ * الوجهة الحاليّة: بلاطةٌ **و**شريطٌ جانبيّ بنبرتها **و**وزنٌ أثقل.
+ * ثلاث إشارات لا واحدة — من لا يميّز اللون يبقى يرى أين هو.
+ */
+.link[aria-current='page'] {
+  background: var(--cc-glass);
+  color: var(--cc-text);
+  border-color: var(--cc-edge);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  font-weight: 800;
+}
+
+.link[aria-current='page']::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset-block: 7px;
+  inset-inline-start: -1px;
+  inline-size: 3px;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--tone, var(--cc-primary));
+}
+
+.link[aria-current='page'] .linkIcon {
+  background: color-mix(in srgb, var(--tone, var(--cc-cyan)) 28%, transparent);
+  color: var(--tone, var(--cc-cyan));
+}
+
+.link[data-icon='home'] { --tone: var(--cc-primary); }
+.link[data-icon='box'] { --tone: var(--cc-lime); }
+.link[data-icon='cart'] { --tone: var(--cc-blue); }
+.link[data-icon='alert'] { --tone: var(--cc-red); }
+.link[data-icon='truck'] { --tone: var(--cc-teal); }
+.link[data-icon='card'] { --tone: var(--cc-amber); }
+.link[data-icon='users'] { --tone: var(--cc-purple); }
+.link[data-icon='star'] { --tone: var(--cc-magenta); }
+.link[data-icon='tag'] { --tone: var(--cc-rose); }
+.link[data-icon='layers'] { --tone: var(--cc-teal); }
+.link[data-icon='boxes'] { --tone: var(--cc-amber); }
+.link[data-icon='search'] { --tone: var(--cc-cyan); }
+.link[data-icon='globe'] { --tone: var(--cc-blue); }
+.link[data-icon='chart'] { --tone: var(--cc-violet); }
+.link[data-icon='cpu'] { --tone: var(--cc-purple); }
+.link[data-icon='palette'] { --tone: var(--cc-magenta); }
+.link[data-icon='list'] { --tone: var(--cc-rose); }
+.link[data-icon='image'] { --tone: var(--cc-purple); }
+.link[data-icon='cog'] { --tone: var(--cc-slate); }
+.link[data-icon='server'] { --tone: var(--cc-cyan); }
+
+/*
+ * العدّاد: تعبئةٌ عميقة بلا توهّج — الأبيض على ‎#3b82f6‎ كان 3.7:1، والظلّ
+ * الملوّن تحته كان توهّجًا دائمًا لا يقول حالة.
+ */
+.badge {
+  min-inline-size: 20px;
+  font-size: 10.5px;
+  line-height: 18px;
+  background: var(--adm-info-fill);
+  color: var(--cc-on-tone);
+}
+
+.badgeAlert,
+.link[aria-current='page'] .badgeAlert {
+  background: var(--adm-danger-fill);
+}
+
+.link[aria-current='page'] .badge {
+  background: var(--adm-info-fill);
+}
+
+.denied {
+  min-block-size: 28px;
+  padding-inline: 10px;
+  font-size: 11.5px;
+  color: var(--cc-muted);
+  opacity: 0.8;
+}
+
+/* ───── التذييل ───── */
+.footer {
+  border-block-start: 1px solid var(--cc-hair);
+  padding-block-start: 8px;
+  gap: 2px;
+}
+
+.miniToggle {
+  min-block-size: 32px;
+  padding-inline: 8px;
+  gap: 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  color: var(--cc-muted);
+}
+
+.miniToggle:hover,
+.drawerClose:hover,
+.grip:hover,
+.eye:hover {
+  background: var(--cc-well);
+  color: var(--cc-text);
+}
+
+.miniToggle[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  color: var(--cc-link);
+}
+
+/* ───── الوضع المصغّر ───── */
+/*
+ * العدّاد يصير نقطةً ولا يختفي.
+ *
+ * كان `display: none` يمحو الشارة كلّها وقت الطيّ — أي أنّ «٧ طلبات متعثّرة»
+ * تصير لا شيء لمن اختار شريطًا مصغّرًا، وهو بالضبط من يعمل طول اليوم في
+ * الجداول. النقطة تقول «هنا شيء» ويبقى الرقم في `aria-label` ولا شيء يضيع.
+ */
+.mini .badge {
+  display: block;
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-end: 5px;
+  inline-size: 8px;
+  block-size: 8px;
+  min-inline-size: 0;
+  padding: 0;
+  border-radius: 50%;
+  /* النصّ يُقصّ لا يُحذف: الشارة تبقى في شجرة الوصول برقمها. */
+  overflow: hidden;
+  text-indent: -99px;
+  border: 2px solid var(--cc-rail);
+}
+
+.mini .groupToggle {
+  min-block-size: 24px;
+  margin-block-start: 6px;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+/*
+ * مصغّرًا يعود `::after` فاصلًا بين المجموعات لا نقطةً: النقطة كانت تقول
+ * «الصفحة هنا» بجوار عنوانٍ مطويّ لا يُقرأ، ولون أيقونة المجموعة يقول ذلك
+ * أصلًا. والفاصل هو ما يبقى نافعًا حين تختفي العناوين.
+ */
+.mini .groupToggle[data-here][aria-expanded='false']::after,
+.mini .groupToggle::after {
+  inline-size: 20px;
+  block-size: 1px;
+  border-radius: 0;
+  background: var(--cc-hair);
+  box-shadow: none;
+}
+
+.mini .link {
+  padding-inline: 0;
+}
+
+.mini .link[aria-current='page']::before {
+  inset-inline-start: 1px;
+}
+
+/* الحركة الوحيدة المضافة هنا انتقالُ لونٍ لا إزاحة — وتُعطَّل عند طلب التقليل. */
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+}

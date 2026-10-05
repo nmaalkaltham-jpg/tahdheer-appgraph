@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — خريطة تطوير القالب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes rFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1280px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — تطوير القالب: أضف أرضية لا سطحًا</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">مرتّب بالرافعة · كل بند بدليل وتكلفة وعاقبة الترك</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.diag }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 القراءة" style="display:flex;flex-direction:column;gap:13px;animation:rFade .25s ease">
+
+<h1 style="margin:0;font:900 21px Tajawal">القراءة: القالب مبنيّ فوق الحاجة ومكشوف من الأساس</h1>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:stretch">
+<section style="border:1px solid #dce2dd;border-top:4px solid #1d5f9c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px;color:#1d5f9c">السطح — ما بُني فعلًا</b>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px">
+<sc-for list="{{ surface }}" as="s" hint-placeholder-count="8">
+<div style="border:1px dashed #e0e8f0;border-radius:10px;background:#fbfdff;padding:9px 11px">
+<b dir="ltr" style="display:block;font-size:19px;line-height:1;color:#1d5f9c;text-align:start">{{ s.n }}</b>
+<span style="display:block;margin-top:3px;font-size:10px;line-height:1.6;color:#5f7167">{{ s.t }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #f0d3d3;border-top:4px solid #b42318;border-radius:14px;background:#fdf7f7;padding:15px 18px">
+<b style="font-size:13px;color:#8e2223">الأرضية — ما يحمل ذلك كله</b>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:11px">
+<sc-for list="{{ floor }}" as="f" hint-placeholder-count="4">
+<div style="border:1px dashed #f2dede;border-radius:10px;background:#fff;padding:10px 13px;display:flex;align-items:center;gap:11px">
+<b dir="ltr" style="flex:0 0 auto;font-size:19px;line-height:1;color:#8e2223;text-align:start">{{ f.n }}</b>
+<div style="flex:1;min-width:0">
+<span style="display:block;font-size:11px;font-weight:800;line-height:1.5">{{ f.t }}</span>
+<code dir="auto" style="display:block;font-size:9.5px;color:#a9b4ad;text-align:start">{{ f.src }}</code>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #146c4c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13.5px">ما يعنيه هذا التفاوت عمليًا</b>
+<p style="margin:7px 0 0;font-size:12.5px;line-height:2.05;color:#3d4f45">في ثلاث جلسات فحص، وجدت أن قالبك <b>أفضل بكثير</b> مما تقوله وثائقه: ثمانية عيوب مُعلنة كانت مُصلَحة، ومحرك البحث كامل، وطبقة ملكية SEO أدقّ من المطلوب، ونظام تصميم قائم. المشكلة ليست نقص ميزات — بل أن كل هذا <b>غير محميّ</b>: صفر اختبار يمنع رجوع أي إصلاح، وبوابات الجودة معطّلة، والوثيقة المرجعية قديمة بنسبة ‎٨ من ‎١٣ على البنود المفحوصة. أي دفعة ميزات جديدة الآن تزيد السطح وتترك الأرضية كما هي — وتلك هي اللحظة التي يبدأ فيها المشروع يتراجع وهو ينمو.</p>
+<p style="margin:9px 0 0;padding-top:9px;border-top:1px dashed #eef1ef;font-size:12.5px;line-height:2;color:#17251d"><b>التوصية بجملة واحدة:</b> أوقف إضافة السطح لدفعتين، وابنِ الأرضية — ثم استأنف الميزات بسرعة مضاعفة لأن كل تغيير سيصبح قابلًا للإثبات.</p>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.base }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 الأرضية" style="display:flex;flex-direction:column;gap:11px;animation:rFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 20px Tajawal">الأرضية — أعلى رافعة، وأقل إثارة</h1>
+<span style="font-size:11px;color:#7d8a83">{{ baseCount }} بندًا · لا واحد منها يُرى في الواجهة، وكلها تُضاعف سرعة ما بعدها</span>
+</div>
+<sc-for list="{{ base }}" as="p" hint-placeholder-count="5">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 24px;height:24px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<b style="flex:1;min-width:210px;font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.eBg }};color:{{ p.eC }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.eff }}</span>
+</div>
+<p style="margin:8px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">{{ p.b }}</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
+<div style="border:1px dashed #e4e9e5;border-radius:11px;background:#fbfcfb;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8b978f">الدليل</span>
+<code dir="auto" style="display:block;margin-top:2px;font-size:9.5px;line-height:1.75;color:#5f7167;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #f2dede;border-radius:11px;background:#fdf9f9;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8e2223">عاقبة الترك</span>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.8;color:#5f4a4a">{{ p.cost }}</span>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.cons }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 التسوية" style="display:flex;flex-direction:column;gap:11px;animation:rFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 20px Tajawal">التسوية — تقليص السطح بلا فقد قدرة</h1>
+<span style="font-size:11px;color:#7d8a83">{{ consCount }} بندًا · القاعدة: تُدمج الواجهة أولًا، وتُحفظ العقود دائمًا</span>
+</div>
+<sc-for list="{{ cons }}" as="p" hint-placeholder-count="5">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 24px;height:24px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<b style="flex:1;min-width:210px;font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.eBg }};color:{{ p.eC }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.eff }}</span>
+</div>
+<p style="margin:8px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">{{ p.b }}</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
+<div style="border:1px dashed #e4e9e5;border-radius:11px;background:#fbfcfb;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8b978f">الدليل</span>
+<code dir="auto" style="display:block;margin-top:2px;font-size:9.5px;line-height:1.75;color:#5f7167;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #f2dede;border-radius:11px;background:#fdf9f9;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8e2223">عاقبة الترك</span>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.8;color:#5f4a4a">{{ p.cost }}</span>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.store }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 المتجر" style="display:flex;flex-direction:column;gap:11px;animation:rFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 20px Tajawal">المتجر — ما يراه العميل فعلًا</h1>
+<span style="font-size:11px;color:#7d8a83">آخر في الترتيب لا لقلّة قيمته، بل لأن إثباته يحتاج الأرضية</span>
+</div>
+<sc-for list="{{ store }}" as="p" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 24px;height:24px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<b style="flex:1;min-width:210px;font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.eBg }};color:{{ p.eC }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.eff }}</span>
+</div>
+<p style="margin:8px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">{{ p.b }}</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px">
+<div style="border:1px dashed #e4e9e5;border-radius:11px;background:#fbfcfb;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8b978f">الدليل</span>
+<code dir="auto" style="display:block;margin-top:2px;font-size:9.5px;line-height:1.75;color:#5f7167;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #f2dede;border-radius:11px;background:#fdf9f9;padding:9px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8e2223">عاقبة الترك</span>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.8;color:#5f4a4a">{{ p.cost }}</span>
+</div>
+</div>
+</section>
+</sc-for>
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:15px 18px">
+<b style="font-size:12.5px;color:#8a6500">ما لم أفحصه — فلا أقترح فيه</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:7px;margin-top:9px">
+<sc-for list="{{ unchecked }}" as="u" hint-placeholder-count="6">
+<div style="display:flex;gap:7px;align-items:flex-start;padding:8px 11px;border:1px solid #f2e2be;border-radius:10px;background:#fff;font-size:10.5px;line-height:1.75;color:#5f4f2f"><span aria-hidden="true" style="font-weight:900">؟</span><span>{{ u }}</span></div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font-size:11px;line-height:1.9;color:#a08a55">هذه ملفات وقدرات لم أقرأها في أي جلسة. أي اقتراح فيها سيكون تخمينًا بلغة واثقة — وهو أسوأ مخرج ممكن من تدقيق.</p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320,&quot;height&quot;:900},&quot;effortFilter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;small&quot;,&quot;medium&quot;,&quot;large&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'small' | 'medium' | 'large'&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const EFF = {
+  s: { eff: 'تكلفة صغيرة', eBg: '#e4f4ec', eC: '#146c4c' },
+  m: { eff: 'تكلفة متوسطة', eBg: '#e8f2fc', eC: '#1d5f9c' },
+  l: { eff: 'تكلفة كبيرة', eBg: '#fff4d6', eC: '#8a6500' },
+};
+
+const BASE = [
+  { i: '١', n: 'صفر اختبارات على ‎١٦٦ ملفًا — هذا أخطر بند في القالب', k: 's', c: '#b42318',
+    b: 'لا مجلد tests/ في جذر القالب، مع وجود docs/testing.md يصف نية اختبار. النتيجة: ثمانية إصلاحات مُثبَتة بلا شيء يمنع رجوعها، و‎٤٥ إجراء AJAX و‎٩ مسارات REST بلا اختبار واحد. ابدأ بتسعة اختبارات صغيرة تحمي ما أُنجز فعلًا — لا بتغطية شاملة.',
+    src: 'جذر القالب: لا tests/ · docs/testing.md موجودة', cost: 'كل إصلاح قابل للرجوع بحسن نية، وكل دفعة قادمة تُخاطر بما قبلها. وهذا يتفاقم مع كل ملف يُضاف.' },
+  { i: '٢', n: 'بوابات الجودة موجودة على الورق ومعطّلة فعلًا', k: 'm', c: '#b42318',
+    b: 'PHPCS يعطي ‎٥٨٦٤ خطأ في ‎٧٧ ملفًا، وPHPStan لم يُشغَّل مع baseline بحجم ‎٣٩ ك.ب، وESLint وStylelint وBiome غير قابلة للتشغيل لأن التبعيات غير مثبّتة. الطريق الصحيح: npm install، ثم baseline محايد يثبّت الحالة الراهنة، ثم قاعدة «لا تسوء» على الملفات المعدَّلة فقط. وممنوع phpcbf شامل — إعادة تنسيق ‎٧٧ ملفًا تطمس تغييراتك وتجعل المراجعة مستحيلة.',
+    src: 'خط الأساس §6 · لا node_modules/.bin', cost: 'كل معيار في تعريف مشروعك يبقى نصًّا. ولا يمكن إعلان أي بوابة قبول بصدق.' },
+  { i: '٣', n: 'الكتابة داخل طلب الزائر — تصحيح المسار قبل أي حلقة ذاتية', k: 'm', c: '#d99a00',
+    b: 'متتبّع القياس يكتب صفًّا على خطّاف wp بأولوية ‎٩٩، والخريطة الحرارية تكتب transient لكل نبضة. الصحيح: طابور خفيف داخل الطلب وكتابة فعلية على shutdown أو Action Scheduler. لاحظ أن القالب يفعل ذلك جزئيًا فعلًا عبر flush_deferred_writes — فالعمل توسيع نمط قائم لا اختراعه.',
+    src: 'class-seo-analytics-tracker.php:54 · flush_deferred_writes() · attention-heatmap.php:112', cost: 'كل ميزة قياس أو تعلّم قادمة تُضاف فوق مسار كتابة خاطئ، فيصبح «الذكاء» أثقل بند أداء في المتجر.' },
+  { i: '٤', n: 'لا رقم قبل — فلا تحسّن يمكن إعلانه', k: 's', c: '#1d5f9c',
+    b: 'خط الأساس نفسه يعلن أن عدد استعلامات SQL والذاكرة لكل طلب لم يُقاسا، وLCP وINP وCLS غير مقيسة ميدانيًا، وحجم ترويسة الكوكيز غير مقيس. عندك inc/server-timing.php أساسًا — توسيعه ليُصدر عدد الاستعلامات والذاكرة يجعل كل بند أداء لاحق قابلًا للإثبات.',
+    src: 'خط الأساس §9 · inc/server-timing.php', cost: 'كل قرار أداء يبقى رأيًا، وكل «تحسين» غير قابل للتحقق — وهو تحديدًا ما يمنعه تعريف مشروعك.' },
+  { i: '٥', n: 'مصدر حقيقة واحد بدل وثيقة تُضلّل', k: 's', c: '#146c4c',
+    b: 'وثيقة خط الأساس بتاريخ ‎2026-08-17 صارت قديمة بنسبة ‎٨ من ‎١٣ على البنود المفحوصة، وهي مع ذلك المرجع الذي تُبنى عليه القرارات. وسم كل بند بحالته وتاريخ تحقّقه يحوّلها من مصدر أخطاء إلى مصدر ثقة — وهي أرخص خطوة في القائمة كلها.',
+    src: 'docs/audit-phase-0-baseline.md · نتائج الدفعة ٢', cost: 'كل من يقرأها — بشرًا أو وكيلًا — يبدأ بإصلاح ما لا يحتاج إصلاحًا، ويخاطر بإعادة عيب أُزيل.' },
+];
+
+const CONS = [
+  { i: '٦', n: 'دمج ‎١١ مركز إدارة في مدخل واحد — مع حفظ العقود حرفيًا', k: 'l', c: '#8a6500',
+    b: '‎٤٥ ملفًا باسم seo-*.php، منها ‎١١ لوحة ومركز قيادة، و‎٤٥ إجراء AJAX. الترتيب الآمن: جرد استدعاءات كل إجراء، ثم توسيم المهجور بالدليل، ثم دمج الواجهة وحدها مع إبقاء كل الإجراءات كما هي، ثم حذف المهجور أخيرًا بعد دورة تحقّق كاملة. الدمج قبل الجرد يحذف عقودًا عاملة.',
+    src: 'inc/seo-*.php (45) · خط الأساس §4', cost: 'الإداري لا يعرف من أين يبدأ، وكل ميزة جديدة تُضاف في مركز ثانٍ عشر.' },
+  { i: '٧', n: 'سجلات الفحص تسكن wp_options — نمط لا يتوسّع', k: 's', c: '#1d5f9c',
+    b: '‎٢٤ خيارًا بنمط tahdheer_wf_log_*_scan تخزّن سجلات فحوصات كاملة (‎٣–٧ ك.ب لكل واحد، ~‎١١٨ ك.ب مجتمعة). غير autoloaded — فلا أثر على كل طلب، لكنها بيانات سجلّية في جدول إعدادات. عندك ‎٧ جداول مخصّصة أصلًا، فإضافة جدول سجلات واحد يتبع نمطًا قائمًا.',
+    src: 'خط الأساس §3 · ‎٧٩ خيار tahdheer_*', cost: 'ينمو مع كل فحص، ويجعل تصدير الإعدادات ونسخها واستعادتها أثقل بلا مقابل.' },
+  { i: '٨', n: 'نظام التصميم قائم — لكنه ليس مصدر التنسيق الفعلي', k: 'm', c: '#1d5f9c',
+    b: 'عندك inc/design-system بسجل وجاهزات ومولّد CSS ومُخصّص — طبقة جيدة. والفجوة أن العمل الجديد لا يمرّ عليها. الخطوة العملية: ربط مكوّنات template-parts/components بالرموز، ثم قاعدة مراجعة واحدة: لا لون ولا مسافة ولا نصف قطر جديد في الإنتاج إلا من رمز.',
+    src: 'inc/design-system/{registry,presets,css,customizer}.php', cost: 'الطبقة تبقى شكلية، ويتراكم تنسيق يدوي يجعل أي تغيير هوية عملًا في مئة موضع.' },
+  { i: '٩', n: 'العقد العام بلا وثيقة مرجعية واحدة', k: 's', c: '#146c4c',
+    b: '‎٤٥ إجراء AJAX و‎٩ مسارات REST و‎٩ مهام cron ونوعا محتوى واختصار وروابط rewrite عامة (‎llms.txt ومفتاح IndexNow والخرائط). هذا عقد يعتمد عليه الخارج، وموزّع على عشرات الملفات. صفحة واحدة تسرده بأسمائه وقدراته ومن يستدعيه تجعل أي دمج قادم آمنًا.',
+    src: 'خط الأساس §4 · search/bootstrap.php:165-235', cost: 'أي إعادة تنظيم تكسر شيئًا لا أحد يعرف أنه كان مستخدَمًا.' },
+  { i: '١٠', n: 'تضارب إصدار وتوافق معلن خاطئ', k: 's', c: '#146c4c',
+    b: 'style.css يعلن ‎1.0.0 وTAHDHEER_VERSION يعلن ‎1.1.0، وTested up to يقول ‎6.5 والبيئة تعمل على ووردبريس ‎7.0. بند نظافة صغير، لكنه أول ما ينظر إليه أي مراجع خارجي، ويؤثر على منطق ترقية الأصول (tahdheer_asset_ver).',
+    src: 'style.css · خط الأساس §5 P3', cost: 'كاش أصول قد لا يُبطَل عند نشر تعديل، وثقة مراجعة أقل بلا سبب حقيقي.' },
+];
+
+const STORE = [
+  { i: '١١', n: 'السلة المختلطة — الفجوة الوظيفية الحقيقية الوحيدة التي وجدتها', k: 'm', c: '#b42318',
+    b: 'inc/checkout-virtual.php يرخّي حقول الدفع للسلة الافتراضية بالكامل فقط. السلة التي تجمع رقميًا وماديًا تقع في الوسط: تحتاج عنوانًا للمادي فقط، واستحقاق تنزيل للرقمي، وشرحًا للعميل لماذا يُطلب العنوان. اليوم لا منطق صريح لهذه الحالة، والحقول تعود لسلوكها الكامل.',
+    src: 'checkout-virtual.php:48,71,166', cost: 'العميل يرى حقولًا لا يفهم سببها في أحرج صفحة في المتجر — وهذا يظهر مباشرة في نسبة إتمام الشراء.' },
+  { i: '١٢', n: 'مركز تفضيلات ورابط خصوصية دائم', k: 'm', c: '#d99a00',
+    b: 'محرك الموافقة سليم، ولا واجهة تسمح للعميل بمراجعة قراره أو سحبه. اليوم لا سبيل لتغيير الاختيار إلا حذف كوكيز المتصفح يدويًا. تفصيله الكامل في وثيقة تدقيق الخصوصية P0، وهو بند تجربة عميل قبل أن يكون بند امتثال.',
+    src: 'inc/privacy-consent.php · وثيقة الخصوصية P0', cost: 'وعد شفافية بلا مسار تنفيذ — وهو أسوأ من عدم الوعد.' },
+  { i: '١٣', n: 'استثمار محرك البحث في الواجهة', k: 's', c: '#146c4c',
+    b: 'عندك محرك ممتاز: فهرس بأجيال، مطبّع عربي في الطرفين، فهرس محمول لاقتراح صفري الشبكة، ونقطة إشارات. ومربع البحث موجود في الهيدر فعلًا. الفرصة الرخيصة: استثمار الإشارات المسجَّلة في اقتراحات وتعافٍ من صفر النتائج — أي إغلاق الحلقة لا بناء محرك.',
+    src: 'search/* · theme.js:171-440 · header.php:253', cost: 'قدرة مبنيّة ومدفوعة الثمن تبقى غير مستثمَرة، والزائر يرى شاشة «لا نتائج» بلا مخرج.' },
+  { i: '١٤', n: 'حالات الفراغ والخطأ كنظام لا كحالات متفرّقة', k: 'm', c: '#1d5f9c',
+    b: 'سلة فارغة، صفر نتائج، لا طلبات، لا تنزيلات، دفع مرفوض أو معلّق، كوبون منتهٍ، تنزيل غير مصرّح. هذه ليست تفاصيل تجميلية بل نقاط يتوقّف عندها العميل. لم أفحص وضعها الحالي في القالب، لذا أقترح البند كنظام مطلوب لا كعيب مُثبَت.',
+    src: 'لم يُفحص — يحتاج جردًا', cost: 'العميل يصل إلى طريق مسدود بلا خطوة تالية، وأنت لا ترى ذلك في أي مقياس.' },
+];
+
+class Component extends DCLogic {
+  state = { s: 'diag' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const only = this.props.effortFilter ?? 'all';
+    const pick = list => list
+      .filter(p => only === 'all' || (only === 'small' ? p.k === 's' : only === 'medium' ? p.k === 'm' : p.k === 'l'))
+      .map(p => ({ ...p, ...EFF[p.k] }));
+
+    const screens = [
+      ['diag', 'القراءة'], ['base', 'الأرضية'], ['cons', 'التسوية'], ['store', 'المتجر'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const base = pick(BASE), cons = pick(CONS);
+
+    return {
+      screens,
+      is: { diag: cur === 'diag', base: cur === 'base', cons: cur === 'cons', store: cur === 'store' },
+      base, baseCount: base.length,
+      cons, consCount: cons.length,
+      store: pick(STORE),
+
+      surface: [
+        { n: '166', t: 'ملف PHP في القالب' },
+        { n: '45', t: 'إجراء AJAX' },
+        { n: '9', t: 'مسار REST' },
+        { n: '9', t: 'مهمة cron حيّة' },
+        { n: '7', t: 'جدول قاعدة بيانات' },
+        { n: '11', t: 'لوحة ومركز إدارة' },
+        { n: '79', t: 'خيار tahdheer_*' },
+        { n: '17', t: 'وثيقة في docs/' },
+      ],
+
+      floor: [
+        { n: '0', t: 'مجلد اختبارات في الجذر', src: 'لا tests/ — مع وجود docs/testing.md' },
+        { n: '0', t: 'بوابة جودة قابلة للتشغيل', src: 'لا node_modules/.bin · PHPStan لم يُشغَّل' },
+        { n: '5,864', t: 'خطأ PHPCS في ‎٧٧ ملفًا', src: 'خط الأساس §6' },
+        { n: '8/13', t: 'نسبة قِدَم الوثيقة المرجعية', src: 'نتائج إعادة التحقّق — الدفعة ٢' },
+      ],
+
+      unchecked: [
+        'inc/blocks و inc/sections و inc/hero — لم تُقرأ',
+        'inc/login/ — تدفّق OTP وأمنه',
+        'inc/motion/ — نظام الحركة',
+        'inc/curriculum/ و inc/demo-content/',
+        'قوالب ووكومرس المستبدَلة في woocommerce/',
+        'حالات الفراغ والخطأ في القوالب الفعلية',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

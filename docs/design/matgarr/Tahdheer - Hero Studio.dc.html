@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;direction:rtl;background:#e9ebe9;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes hFade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes hFadeX{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@keyframes hZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes hFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes hScroll{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(7px);opacity:.4}}
+@keyframes hReveal{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0)}}
+@keyframes hDrift{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(8px,-10px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="{{ dir }}" style="min-height:100vh;color:#17251d">
+
+<div style="position:sticky;top:0;z-index:50;background:#14261d;color:#eaf2ee;box-shadow:0 6px 20px rgba(8,20,15,.18)">
+<div style="max-width:1560px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 13px Tajawal">ت</span><b style="font-size:13.5px">استوديو Hero</b></span>
+<span aria-hidden="true" style="width:1px;height:22px;background:rgba(255,255,255,.14)"></span>
+<sc-for list="{{ styles }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" title="{{ s.hint }}" style="min-height:32px;padding:0 12px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:rgba(234,242,238,.7)">قالب لوني
+<select value="{{ presetV }}" onChange="{{ onPreset }}" style="min-height:32px;padding:0 9px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.07);color:#eaf2ee;font:800 11px Tajawal;outline:none">
+<option value="light">فاتح</option><option value="dark">داكن</option><option value="soft">محايد ناعم</option><option value="bold">جريء</option><option value="brand">لون العلامة</option>
+</select></label>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:rgba(234,242,238,.7)">الحركة
+<select value="{{ animV }}" onChange="{{ onAnim }}" style="min-height:32px;padding:0 9px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.07);color:#eaf2ee;font:800 11px Tajawal;outline:none">
+<option value="off">إيقاف</option><option value="subtle">خفيفة</option><option value="normal">عادية</option><option value="enhanced">غنية</option>
+</select></label>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:rgba(255,255,255,.07)">
+<sc-for list="{{ devices }}" as="d" hint-placeholder-count="3">
+<button type="button" onClick="{{ d.onClick }}" aria-pressed="{{ d.on }}" style="min-height:28px;padding:0 11px;border:0;border-radius:7px;background:{{ d.bg }};color:{{ d.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ d.n }}</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{ onPublish }}" style="min-height:34px;padding:0 16px;border:0;border-radius:9px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:12px;font-weight:900;cursor:pointer">نشر</button>
+</div>
+</div>
+
+<div style="max-width:1560px;margin:0 auto;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) 316px;gap:14px;align-items:start">
+
+<div style="min-width:0">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+<span style="font-size:11px;font-weight:900;color:#3d4f45">{{ devLabel }}</span>
+<span style="padding:3px 9px;border-radius:999px;background:#fff;border:1px solid #dcdcde;font-size:9.5px;font-weight:800;color:#5f7167">القالب النشط وحده يُخرج ترميزه — H1 واحدة، لا محتوى SEO مخفيًا</span>
+<span style="padding:3px 9px;border-radius:999px;background:#fff;border:1px solid #dcdcde;font-size:9.5px;font-weight:800;color:#5f7167">صورة البطل LCP: بلا lazy · fetchpriority=high</span>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9.5px ui-monospace,monospace;color:#8b978f">{{ devPx }}</span>
+</div>
+
+<div style="display:flex;justify-content:center;background:#dfe2df;border:1px solid #d0d4d0;border-radius:16px;padding:{{ stagePad }};overflow:hidden">
+<div style="width:{{ devW }};max-width:100%;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 14px 44px rgba(10,25,18,.14);transition:width .25s ease">
+
+<sc-if value="{{ is.h1 }}" hint-placeholder-val="{{ true }}">
+<section aria-label="واجهة رئيسية سينمائية" style="position:relative;min-height:{{ h1H }};overflow:hidden;background:#101b15;display:flex;flex-direction:column">
+<div style="position:absolute;inset:0;animation:{{ zoomFx }}">
+<image-slot id="hero-main" shape="rect" fit="{{ imgFit }}" placeholder="أسقط صورة البطل هنا — سطح المكتب" style="width:100%;height:100%;filter:{{ imgFilter }}"></image-slot>
+</div>
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,18,14,{{ overlayA }}) 0%,rgba(10,18,14,.05) 45%,rgba(10,18,14,{{ overlayA }}) 100%)"></div>
+<div style="position:relative;flex:1;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;padding:{{ padSec }};pointer-events:none">
+<div style="max-width:640px;pointer-events:auto">
+<sc-if value="{{ has.badge }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:900;animation:{{ A1 }}">{{ m.badge }}</span>
+</sc-if>
+<h1 style="margin:12px 0 10px;font:900 clamp(28px,4.6vw,52px)/1.35 Tajawal;color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.3);animation:{{ A2 }}">{{ hl.pre }}<sc-if value="{{ has.hi }}" hint-placeholder-val="{{ true }}"><span style="color:#e8ce8f">{{ hl.hi }}</span></sc-if>{{ hl.post }}</h1>
+<sc-if value="{{ has.desc }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 18px;max-width:520px;font-size:clamp(13px,1.4vw,15.5px);line-height:1.9;color:rgba(255,255,255,.88);animation:{{ A3 }}">{{ m.desc }}</p>
+</sc-if>
+<div style="display:flex;flex-direction:{{ ctaCol }};gap:9px;animation:{{ A4 }}">
+<a href="{{ m.c1u }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:12px;background:#fff;color:#14261d;font-size:14px;font-weight:900;width:{{ ctaW }};box-sizing:border-box">{{ m.c1 }}</a>
+<sc-if value="{{ has.c2 }}" hint-placeholder-val="{{ true }}">
+<a href="{{ m.c2u }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;border:1.5px solid rgba(255,255,255,.5);color:#fff;font-size:13px;font-weight:900;width:{{ ctaW }};box-sizing:border-box">{{ m.c2 }} ←</a>
+</sc-if>
+</div>
+<sc-if value="{{ has.trust }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:14px;margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.22);animation:{{ A4 }}">
+<span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.85)">{{ m.trust }}</span>
+<sc-if value="{{ has.stat }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.85)">★ {{ m.statV }} — {{ m.statL }}</span></sc-if>
+</div>
+</sc-if>
+</div>
+</div>
+<sc-if value="{{ is.notMob }}" hint-placeholder-val="{{ true }}">
+<span aria-hidden="true" style="position:absolute;bottom:16px;inset-inline-end:26px;width:26px;height:42px;border:2px solid rgba(255,255,255,.55);border-radius:14px;display:grid;justify-items:center;padding-top:7px;pointer-events:none"><span style="width:4px;height:9px;border-radius:3px;background:#fff;animation:{{ scrollAnim }}"></span></span>
+</sc-if>
+</section>
+</sc-if>
+<sc-if value="{{ is.h2 }}" hint-placeholder-val="{{ false }}">
+<section aria-label="واجهة رئيسية افتتاحية" style="position:relative;overflow:hidden;background:{{ T.bg }};padding:{{ padSec }}">
+<span aria-hidden="true" style="position:absolute;top:-70px;inset-inline-start:-70px;width:220px;height:220px;border-radius:50%;background:{{ T.soft }}"></span>
+<div style="position:relative;display:grid;grid-template-columns:{{ h2Grid }};gap:clamp(22px,4vw,52px);align-items:center;max-width:1200px;margin:0 auto">
+<div style="animation:{{ AX }}">
+<sc-if value="{{ has.eyebrow }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:900;letter-spacing:.4px;color:{{ T.accent }}"><span aria-hidden="true" style="width:26px;height:2px;background:{{ T.accent }}"></span>{{ m.eyebrow }}</span>
+</sc-if>
+<h1 style="margin:10px 0;font:900 clamp(26px,3.6vw,44px)/1.4 Tajawal;color:{{ T.fg }}">{{ hl.pre }}<sc-if value="{{ has.hi }}" hint-placeholder-val="{{ true }}"><span style="position:relative;display:inline-block;color:{{ T.accent }}">{{ hl.hi }}<span aria-hidden="true" style="position:absolute;inset-inline:0;bottom:3px;height:9px;background:{{ T.soft }};z-index:-1;border-radius:4px"></span></span></sc-if>{{ hl.post }}</h1>
+<sc-if value="{{ has.desc }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 18px;max-width:440px;font-size:13.5px;line-height:2;color:{{ T.sub }}">{{ m.desc }}</p>
+</sc-if>
+<div style="display:flex;flex-direction:{{ ctaCol }};gap:9px;flex-wrap:wrap">
+<a href="{{ m.c1u }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:12px;background:{{ T.accent }};color:#fff;font-size:13.5px;font-weight:900;box-shadow:0 4px 14px rgba(20,60,45,.22);width:{{ ctaW }};box-sizing:border-box">{{ m.c1 }}</a>
+<sc-if value="{{ has.c2 }}" hint-placeholder-val="{{ true }}">
+<a href="{{ m.c2u }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:0 8px;color:{{ T.fg }};font-size:13px;font-weight:900;text-decoration:underline;text-underline-offset:5px;width:{{ ctaW }};box-sizing:border-box">{{ m.c2 }}</a>
+</sc-if>
+</div>
+<sc-if value="{{ has.trust }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;margin-top:20px">
+<span aria-hidden="true" style="display:inline-flex"><span style="width:26px;height:26px;border-radius:50%;background:#c9dfd2;border:2px solid {{ T.bg }}"></span><span style="width:26px;height:26px;border-radius:50%;background:#d8b56a;border:2px solid {{ T.bg }};margin-inline-start:-9px"></span><span style="width:26px;height:26px;border-radius:50%;background:#527a96;border:2px solid {{ T.bg }};margin-inline-start:-9px"></span></span>
+<span style="font-size:11px;font-weight:800;color:{{ T.sub }}">{{ m.trust }}</span>
+</div>
+</sc-if>
+</div>
+<div style="position:relative;animation:{{ A2 }}">
+<span aria-hidden="true" style="position:absolute;inset-inline-end:-14px;top:18px;width:82%;height:92%;border-radius:26px 90px 26px 26px;background:linear-gradient(150deg,#d8b56a,#a5813a);opacity:.9"></span>
+<div style="position:relative;height:{{ h2ImgH }};border-radius:90px 24px 24px 24px;overflow:hidden;box-shadow:0 22px 50px rgba(15,30,22,.2)">
+<image-slot id="hero-main" shape="rect" fit="{{ imgFit }}" placeholder="أسقط صورة البطل هنا" style="width:100%;height:100%;filter:{{ imgFilter }}"></image-slot>
+</div>
+<sc-if value="{{ has.stat }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;bottom:-14px;inset-inline-start:-8px;display:flex;align-items:center;gap:9px;padding:11px 15px;border-radius:14px;background:{{ T.card }};box-shadow:0 12px 30px rgba(15,30,22,.16);border:1px solid {{ T.line }};animation:{{ FLOAT }}">
+<span style="font:900 21px Tajawal;color:{{ T.accent }}">★ {{ m.statV }}</span>
+<span style="font-size:10px;font-weight:800;color:{{ T.sub }};max-width:110px;line-height:1.5">{{ m.statL }}</span>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{ is.h3 }}" hint-placeholder-val="{{ false }}">
+<section aria-label="واجهة رئيسية إبداعية" style="position:relative;overflow:hidden;background:linear-gradient(160deg,{{ T.bg }} 55%,{{ T.soft }});min-height:{{ h3H }};padding:{{ padSec }}">
+<span aria-hidden="true" style="position:absolute;top:6%;inset-inline-start:-2%;font:900 clamp(90px,16vw,210px)/1 Tajawal;color:transparent;-webkit-text-stroke:1.5px {{ T.line }};letter-spacing:4px;user-select:none;pointer-events:none">تذكير</span>
+<span aria-hidden="true" style="position:absolute;bottom:12%;inset-inline-start:8%;width:120px;height:120px;border-radius:32px;background:{{ T.soft }};transform:rotate(14deg);animation:{{ FLOAT }}"></span>
+<span aria-hidden="true" style="position:absolute;top:14%;inset-inline-end:6%;width:16px;height:16px;border-radius:50%;background:{{ T.accent }};opacity:.5;animation:{{ FLOAT }}"></span>
+<div style="position:relative;display:grid;grid-template-columns:{{ h2Grid }};gap:clamp(22px,4vw,48px);align-items:center;max-width:1180px;margin:0 auto">
+<div>
+<sc-if value="{{ has.badge }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-block;padding:6px 14px;border-radius:4px 18px 4px 18px;background:{{ T.accent }};color:#fff;font-size:10.5px;font-weight:900;animation:{{ A1 }}">{{ m.badge }}</span>
+</sc-if>
+<h1 style="margin:14px 0 10px;font:900 clamp(27px,3.8vw,46px)/1.4 Tajawal;color:{{ T.fg }};animation:{{ A2 }}">{{ hl.pre }}<sc-if value="{{ has.hi }}" hint-placeholder-val="{{ true }}"><span style="background:linear-gradient(120deg,{{ T.accent }},#d8b56a);-webkit-background-clip:text;background-clip:text;color:transparent">{{ hl.hi }}</span></sc-if>{{ hl.post }}</h1>
+<sc-if value="{{ has.desc }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 18px;max-width:420px;font-size:13.5px;line-height:2;color:{{ T.sub }};animation:{{ A3 }}">{{ m.desc }}</p>
+</sc-if>
+<div style="display:flex;flex-direction:{{ ctaCol }};gap:9px;animation:{{ A4 }}">
+<a href="{{ m.c1u }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:47px;padding:0 24px;border-radius:4px 20px 4px 20px;background:{{ T.fg }};color:{{ T.bg }};font-size:13.5px;font-weight:900;width:{{ ctaW }};box-sizing:border-box">{{ m.c1 }}</a>
+<sc-if value="{{ has.c2 }}" hint-placeholder-val="{{ true }}">
+<a href="{{ m.c2u }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:47px;padding:0 18px;border-radius:4px 20px 4px 20px;border:1.5px dashed {{ T.accent }};color:{{ T.accent }};font-size:13px;font-weight:900;width:{{ ctaW }};box-sizing:border-box">{{ m.c2 }}</a>
+</sc-if>
+</div>
+</div>
+<div style="position:relative;padding:18px 0;animation:{{ AR }}">
+<div style="position:relative;height:{{ h2ImgH }};margin-inline-end:-6px">
+<image-slot id="hero-main" fit="{{ imgFit }}" mask="polygon(12% 0,100% 0,100% 82%,88% 100%,0 100%,0 18%)" placeholder="أسقط صورة البطل هنا" style="width:100%;height:100%;filter:{{ imgFilter }}"></image-slot>
+</div>
+<sc-if value="{{ has.stat }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;top:2px;inset-inline-start:-10px;padding:9px 13px;border-radius:12px;background:{{ T.card }};border:1px solid {{ T.line }};box-shadow:0 10px 26px rgba(15,30,22,.15);animation:{{ FLOAT }}">
+<span style="display:block;font:900 17px Tajawal;color:{{ T.accent }}">★ {{ m.statV }}</span>
+<span style="font-size:9px;font-weight:800;color:{{ T.sub }}">{{ m.statL }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ has.trust }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;bottom:-4px;inset-inline-end:6px;padding:9px 14px;border-radius:14px 4px 14px 4px;background:{{ T.fg }};color:{{ T.bg }};font-size:10.5px;font-weight:900;box-shadow:0 10px 26px rgba(15,30,22,.2)">{{ m.trust }}</div>
+</sc-if>
+</div>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{ is.h4 }}" hint-placeholder-val="{{ false }}">
+<section aria-label="واجهة رئيسية بسيطة فاخرة" style="position:relative;background:{{ T.bg }};padding:clamp(40px,6vw,86px) clamp(20px,5vw,64px)">
+<div style="max-width:1080px;margin:0 auto">
+<div style="display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid {{ T.line }};animation:{{ A1 }}">
+<sc-if value="{{ has.eyebrow }}" hint-placeholder-val="{{ true }}">
+<span style="font-size:10.5px;font-weight:900;letter-spacing:3px;color:{{ T.sub }}">{{ m.eyebrow }}</span>
+</sc-if>
+<div style="flex:1"></div>
+<sc-if value="{{ has.trust }}" hint-placeholder-val="{{ true }}"><span style="font-size:10.5px;font-weight:800;letter-spacing:1px;color:{{ T.sub }}">{{ m.trust }}</span></sc-if>
+</div>
+<div style="display:grid;grid-template-columns:{{ h4Grid }};gap:clamp(20px,4vw,56px);align-items:end;padding-top:clamp(22px,3.5vw,44px)">
+<div>
+<h1 style="margin:0 0 22px;font:800 clamp(34px,5.6vw,66px)/1.32 Tajawal;letter-spacing:-.5px;max-width:15ch;color:{{ T.fg }};animation:{{ A2 }}">{{ hl.pre }}<sc-if value="{{ has.hi }}" hint-placeholder-val="{{ true }}"><em style="font-style:italic;font-weight:400;color:{{ T.accent }}">{{ hl.hi }}</em></sc-if>{{ hl.post }}</h1>
+<sc-if value="{{ has.desc }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 26px;max-width:340px;font-size:13px;line-height:2.1;color:{{ T.sub }};animation:{{ A3 }}">{{ m.desc }}</p>
+</sc-if>
+<div style="display:flex;flex-direction:{{ ctaCol }};gap:18px;align-items:center;animation:{{ A4 }}">
+<a href="{{ m.c1u }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 34px;border-radius:0;background:{{ T.fg }};color:{{ T.bg }};font-size:13px;font-weight:900;letter-spacing:1.5px;width:{{ ctaW }};box-sizing:border-box">{{ m.c1 }}</a>
+<sc-if value="{{ has.c2 }}" hint-placeholder-val="{{ true }}">
+<a href="{{ m.c2u }}" style="display:inline-flex;align-items:center;gap:8px;color:{{ T.fg }};font-size:12px;font-weight:800;letter-spacing:.5px;border-bottom:1px solid {{ T.fg }};padding-bottom:3px">{{ m.c2 }} ←</a>
+</sc-if>
+</div>
+</div>
+<div style="position:relative;animation:{{ AR }}">
+<div style="height:{{ h4ImgH }};border:1px solid {{ T.line }};padding:10px;box-sizing:border-box;background:{{ T.card }}">
+<image-slot id="hero-main" shape="rect" fit="{{ imgFit }}" placeholder="أسقط صورة البطل هنا" style="width:100%;height:100%;filter:{{ imgFilter }} grayscale(12%)"></image-slot>
+</div>
+<span aria-hidden="true" style="position:absolute;top:-11px;inset-inline-end:-11px;width:56px;height:56px;border-top:1px solid {{ T.accent }};border-inline-end:1px solid {{ T.accent }}"></span>
+<sc-if value="{{ has.stat }}" hint-placeholder-val="{{ true }}">
+<span style="position:absolute;bottom:14px;inset-inline-start:-12px;writing-mode:vertical-rl;font-size:9.5px;font-weight:800;letter-spacing:2.5px;color:{{ T.sub }}">★ {{ m.statV }} · {{ m.statL }}</span>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{ is.h5 }}" hint-placeholder-val="{{ false }}">
+<section aria-label="واجهة رئيسية تحويلية" style="position:relative;overflow:hidden;background:{{ T.bg }};padding:{{ padSec }}">
+<div style="display:grid;grid-template-columns:{{ h5Grid }};gap:clamp(20px,3.5vw,42px);align-items:center;max-width:1200px;margin:0 auto">
+<div>
+<sc-if value="{{ has.badge }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:{{ T.soft }};border:1px solid {{ T.line }};color:{{ T.accent }};font-size:10.5px;font-weight:900;animation:{{ A1 }}"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:currentColor"></span>{{ m.badge }}</span>
+</sc-if>
+<h1 style="margin:12px 0 10px;font:900 clamp(26px,3.5vw,42px)/1.42 Tajawal;color:{{ T.fg }};animation:{{ A2 }}">{{ hl.pre }}<sc-if value="{{ has.hi }}" hint-placeholder-val="{{ true }}"><span style="color:{{ T.accent }}">{{ hl.hi }}</span></sc-if>{{ hl.post }}</h1>
+<sc-if value="{{ has.desc }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 16px;max-width:430px;font-size:13px;line-height:2;color:{{ T.sub }};animation:{{ A3 }}">{{ m.desc }}</p>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;animation:{{ A3 }}">
+<sc-for list="{{ h5Benefits }}" as="b" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;color:{{ T.fg }}"><span aria-hidden="true" style="width:20px;height:20px;border-radius:7px;background:{{ T.soft }};color:{{ T.accent }};display:grid;place-items:center;font:900 11px Tajawal">✓</span>{{ b }}</span>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:{{ ctaCol }};gap:9px;animation:{{ A4 }}">
+<a href="{{ m.c1u }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:13px;background:linear-gradient(180deg,{{ T.accent }},{{ T.accent }});color:#fff;font-size:14px;font-weight:900;box-shadow:0 5px 16px rgba(20,60,45,.24);width:{{ ctaW }};box-sizing:border-box">{{ m.c1 }}</a>
+<sc-if value="{{ has.c2 }}" hint-placeholder-val="{{ true }}">
+<a href="{{ m.c2u }}" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:13px;border:1.5px solid {{ T.line }};background:{{ T.card }};color:{{ T.fg }};font-size:13px;font-weight:900;width:{{ ctaW }};box-sizing:border-box">{{ m.c2 }}</a>
+</sc-if>
+</div>
+<sc-if value="{{ has.trust }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:10.5px;font-weight:800;color:{{ T.sub }};animation:{{ A4 }}">🛡 {{ m.trust }} · دفع آمن · استرجاع ١٤ يومًا</span>
+</sc-if>
+</div>
+<div style="position:relative;padding:14px 0 22px;animation:{{ A2 }}">
+<div style="position:relative;height:{{ h2ImgH }};border-radius:22px;overflow:hidden;box-shadow:0 20px 46px rgba(15,30,22,.16);border:1px solid {{ T.line }}">
+<image-slot id="hero-main" shape="rect" fit="{{ imgFit }}" placeholder="أسقط صورة البطل هنا" style="width:100%;height:100%;filter:{{ imgFilter }}"></image-slot>
+</div>
+<sc-if value="{{ has.stat }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;top:0;inset-inline-end:-8px;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:13px;background:{{ T.card }};border:1px solid {{ T.line }};box-shadow:0 10px 26px rgba(15,30,22,.14);animation:{{ FLOAT }}">
+<span style="font:900 19px Tajawal;color:{{ T.accent }}">★ {{ m.statV }}</span>
+<span style="font-size:9.5px;font-weight:800;color:{{ T.sub }};max-width:100px;line-height:1.5">{{ m.statL }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ h5Card }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;bottom:2px;inset-inline-start:-10px;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:14px;background:{{ T.card }};border:1px solid {{ T.line }};box-shadow:0 12px 30px rgba(15,30,22,.16);animation:{{ FLOAT }}">
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff;font:900 13px Tajawal">٪</span>
+<span><span style="display:block;font-size:11.5px;font-weight:900;color:{{ T.fg }}">عروض العودة للمدارس</span><span style="font-size:9.5px;font-weight:800;color:{{ T.sub }}">حتى ٢٩٪ على الحزم — حتى ١٥ سبتمبر</span></span>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+</sc-if>
+
+<div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid #eef1ef;background:#fbfcfb">
+<span aria-hidden="true" style="width:60px;height:8px;border-radius:5px;background:#e3e8e4"></span>
+<span aria-hidden="true" style="width:110px;height:8px;border-radius:5px;background:#eef1ef"></span>
+<span style="margin-inline-start:auto;font-size:9px;color:#b6bfb9">بقية الصفحة الرئيسية…</span>
+</div>
+</div>
+</div>
+</div>
+
+<aside style="position:sticky;top:66px;display:flex;flex-direction:column;gap:9px">
+<svg aria-hidden="true" style="position:absolute;width:0;height:0"><defs><symbol id="h-dn" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></symbol><symbol id="h-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></symbol></defs></svg>
+
+<div style="border:1px solid #dcdcde;border-radius:13px;background:#fff;overflow:hidden">
+<button type="button" onClick="{{ rail.secs.content.onToggle }}" aria-expanded="{{ rail.secs.content.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 14px;border:0;background:#fbfcfb;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12.5px;font-weight:900">المحتوى</span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f"><use href="{{ rail.secs.content.caret }}"></use></svg>
+</button>
+<sc-if value="{{ rail.secs.content.on }}" hint-placeholder-val="{{ true }}">
+<div style="padding:11px 14px;display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto">
+<sc-for list="{{ rail.fields }}" as="f" hint-placeholder-count="6">
+<label style="display:block"><span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:3px">{{ f.l }}</span>
+<input type="text" value="{{ f.v }}" onChange="{{ f.onIn }}" placeholder="{{ f.ph }}" style="width:100%;box-sizing:border-box;min-height:34px;padding:0 10px;border:1px solid #dde3dc;border-radius:9px;font:800 11.5px Tajawal;outline:none"></label>
+</sc-for>
+<div style="display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px dashed #eef1ef">
+<sc-for list="{{ rail.toggles }}" as="t" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px">
+<button type="button" onClick="{{ t.onToggle }}" role="switch" aria-checked="{{ t.on }}" aria-label="{{ t.l }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ t.bg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ t.knob }};width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+<span style="font-size:10.5px;font-weight:800;color:#3d4f45">{{ t.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="border:1px solid #dcdcde;border-radius:13px;background:#fff;overflow:hidden">
+<button type="button" onClick="{{ rail.secs.image.onToggle }}" aria-expanded="{{ rail.secs.image.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 14px;border:0;background:#fbfcfb;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12.5px;font-weight:900">الصورة</span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f"><use href="{{ rail.secs.image.caret }}"></use></svg>
+</button>
+<sc-if value="{{ rail.secs.image.on }}" hint-placeholder-val="{{ false }}">
+<div style="padding:11px 14px;display:flex;flex-direction:column;gap:10px">
+<p style="margin:0;padding:9px 11px;border-radius:10px;background:#f2f8f5;font-size:9.5px;line-height:1.8;color:#146c4c;font-weight:700">{{ rail.imgNote }}</p>
+<div style="display:flex;gap:5px">
+<sc-for list="{{ rail.fits }}" as="f" hint-placeholder-count="2">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.on }}" style="flex:1;min-height:32px;border:1px solid {{ f.bd }};border-radius:9px;background:{{ f.bg }};color:{{ f.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+</div>
+<sc-for list="{{ rail.sliders }}" as="s" hint-placeholder-count="3">
+<label style="display:block">
+<span style="display:flex;justify-content:space-between;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:3px"><span>{{ s.l }}</span><span style="color:#14261d">{{ s.out }}</span></span>
+<input type="range" min="{{ s.min }}" max="{{ s.max }}" value="{{ s.v }}" onChange="{{ s.onIn }}" style="width:100%;accent-color:#1e7355">
+</label>
+</sc-for>
+<div style="display:flex;align-items:center;gap:9px">
+<button type="button" onClick="{{ rail.zoom.onToggle }}" role="switch" aria-checked="{{ rail.zoom.on }}" aria-label="حركة تكبير سينمائية" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ rail.zoom.bg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ rail.zoom.knob }};width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+<span style="font-size:10.5px;font-weight:800;color:#3d4f45">تكبير سينمائي بطيء عند الدخول</span>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="border:1px solid #dcdcde;border-radius:13px;background:#fff;overflow:hidden">
+<button type="button" onClick="{{ rail.secs.look.onToggle }}" aria-expanded="{{ rail.secs.look.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 14px;border:0;background:#fbfcfb;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12.5px;font-weight:900">اللون المميز</span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f"><use href="{{ rail.secs.look.caret }}"></use></svg>
+</button>
+<sc-if value="{{ rail.secs.look.on }}" hint-placeholder-val="{{ false }}">
+<div style="padding:11px 14px;display:flex;gap:8px">
+<sc-for list="{{ rail.accents }}" as="a" hint-placeholder-count="4">
+<button type="button" onClick="{{ a.onClick }}" aria-pressed="{{ a.on }}" aria-label="لون مميز" style="width:34px;height:34px;border:3px solid {{ a.bd }};border-radius:50%;background:{{ a.c }};cursor:pointer"></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<div style="border:1px solid #dcdcde;border-radius:13px;background:#fff;overflow:hidden">
+<button type="button" onClick="{{ rail.secs.mods.onToggle }}" aria-expanded="{{ rail.secs.mods.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 14px;border:0;background:#fbfcfb;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12.5px;font-weight:900">وحدات التصميم ٠٥</span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f"><use href="{{ rail.secs.mods.caret }}"></use></svg>
+</button>
+<sc-if value="{{ rail.secs.mods.on }}" hint-placeholder-val="{{ false }}">
+<div style="padding:11px 14px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ rail.mods }}" as="t" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px">
+<button type="button" onClick="{{ t.onToggle }}" role="switch" aria-checked="{{ t.on }}" aria-label="{{ t.l }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ t.bg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ t.knob }};width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+<span style="font-size:10.5px;font-weight:800;color:#3d4f45">{{ t.l }}</span>
+</div>
+</sc-for>
+<span style="font-size:9px;color:#a9b4ad;line-height:1.7">{{ rail.modNote }}</span>
+</div>
+</sc-if>
+</div>
+</aside>
+
+</div>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-start:18px;bottom:18px;z-index:100;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:hFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1460,&quot;height&quot;:920},&quot;startHero&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;h1&quot;,&quot;h2&quot;,&quot;h3&quot;,&quot;h4&quot;,&quot;h5&quot;],&quot;default&quot;:&quot;h1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;البداية&quot;},&quot;startPreset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;soft&quot;,&quot;bold&quot;,&quot;brand&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;البداية&quot;},&quot;animLevel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;off&quot;,&quot;subtle&quot;,&quot;normal&quot;,&quot;enhanced&quot;],&quot;default&quot;:&quot;normal&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الحركة&quot;},&quot;direction&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rtl&quot;,&quot;ltr&quot;],&quot;default&quot;:&quot;rtl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;التصميم&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+state={style:null,preset:null,anim:null,device:'desktop',
+ m:{badge:'وصل حديثًا',eyebrow:'الموسم الدراسي ١٤٤٨',headline:'ملازم تفتح لابنك أبواب التفوق',hi:'التفوق',
+  desc:'مواد تعليمية من معلمين يدرّسون المقرر فعليًا — PDF فوري أو مطبوعة تصلك أينما كنت.',
+  c1:'تسوق الملازم',c1u:'/shop',c2:'شاهد نموذجًا مجانيًا',c2u:'/samples',
+  trust:'+١٢ ألف أسرة تعتمدنا',statV:'٤٫٩',statL:'تقييم من ٢١٤ مراجعة'},
+ show:{badge:true,eyebrow:true,c2:true,trust:true,stat:true,b1:true,b2:true,b3:true,card:true,chip:true,side:false},
+ img:{radius:18,overlay:35,bright:100,sat:100,zoomFx:true,parallax:false,fit:'cover'},
+ acc:'content',toasts:[]};
+
+PRESETS={
+ light:{bg:'#ffffff',fg:'#14261d',sub:'#5f7167',accent:'#1e7355',soft:'#f2f6f3',line:'#e6ebe7',card:'#ffffff'},
+ dark:{bg:'#101b15',fg:'#f2f7f4',sub:'rgba(242,247,244,.72)',accent:'#5fd6a3',soft:'rgba(255,255,255,.06)',line:'rgba(255,255,255,.14)',card:'#18261e'},
+ soft:{bg:'#f5f3ee',fg:'#1f2a24',sub:'#6a7269',accent:'#8a6a35',soft:'#ece8df',line:'#e0dbd0',card:'#ffffff'},
+ bold:{bg:'#0d1f17',fg:'#ffffff',sub:'rgba(255,255,255,.78)',accent:'#d8b56a',soft:'rgba(216,181,106,.12)',line:'rgba(216,181,106,.3)',card:'#132a20'},
+ brand:{bg:'#eaf3ee',fg:'#123527',sub:'#41594d',accent:'#1e7355',soft:'#dcebe2',line:'#c9dfd2',card:'#ffffff'}};
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+setM(k){ return (e)=>{ const m=Object.assign({},this.state.m); m[k]=e.target.value; this.setState({m:m}); }; }
+tog(k){ return ()=>{ const s=Object.assign({},this.state.show); s[k]=!s[k]; this.setState({show:s}); }; }
+setImg(k){ return (e)=>{ const i=Object.assign({},this.state.img); i[k]=Number(e.target.value); this.setState({img:i}); }; }
+
+renderVals(){
+ const p=this.props||{};
+ const st=this.state;
+ const style=st.style||p.startHero||'h1';
+ const preset=st.preset||p.startPreset||'light';
+ const anim=st.anim||p.animLevel||'normal';
+ const T=Object.assign({},this.PRESETS[preset]);
+ if(st.accentO) T.accent=st.accentO;
+ const m=st.m, sh=st.show;
+ const A=(name,dur,delay)=>anim==='off'?'none':name+' '+(dur*(anim==='subtle'?1.3:anim==='enhanced'?0.85:1))+'s cubic-bezier(.2,.7,.3,1) '+(delay||0)+'s both';
+ const FLOAT=anim==='enhanced'?'hFloat 5s ease-in-out 1.2s infinite':'none';
+ const hl=(m.headline||'').includes(m.hi)&&m.hi?
+  {pre:m.headline.split(m.hi)[0],hi:m.hi,post:m.headline.split(m.hi).slice(1).join(m.hi)}:
+  {pre:m.headline,hi:'',post:''};
+ const DEV={desktop:['سطح المكتب','100%','1200px+'],tablet:['تابلت','768px','768 px'],mobile:['جوال','390px','390 px']};
+ const has={badge:sh.badge&&!!m.badge.trim(),eyebrow:sh.eyebrow&&!!m.eyebrow.trim(),desc:!!m.desc.trim(),
+  c2:sh.c2&&!!m.c2.trim(),trust:sh.trust&&!!m.trust.trim(),stat:sh.stat&&!!m.statV.trim(),hi:!!hl.hi};
+ const isMob=st.device==='mobile', isTab=st.device==='tablet';
+ const base={
+  dir:p.direction==='ltr'?'ltr':'rtl',
+  styles:[['h1','٠١ سينمائي','ممتد بعرض الشاشة — الصورة بطلة'],['h2','٠٢ افتتاحي منقسم','محتوى/صورة بإطار طبقي'],['h3','٠٣ طبقي إبداعي','أقنعة وعناصر عائمة'],['h4','٠٤ فخامة بسيطة','تايبوغرافي ومساحات بيضاء'],['h5','٠٥ وحدات تحويلية','بطاقات داعمة حول الصورة']].map(s=>({
+   k:s[0],n:s[1],hint:s[2],on:style===s[0],
+   bg:style===s[0]?'#eaf2ee':'transparent',fg:style===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:style===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>{ this.setState({style:s[0]}); this.toast('تبديل التصميم — عناوينك وأزرارك وصورك محفوظة كما هي'); }})),
+  devices:[['desktop','كمبيوتر'],['tablet','تابلت'],['mobile','جوال']].map(d=>({k:d[0],n:d[1],on:st.device===d[0],
+   bg:st.device===d[0]?'#eaf2ee':'transparent',fg:st.device===d[0]?'#0c1411':'rgba(234,242,238,.7)',
+   onClick:()=>this.setState({device:d[0]})})),
+  devLabel:'معاينة: '+DEV[st.device][0],devW:DEV[st.device][1],devPx:DEV[st.device][2],
+  stagePad:isMob||isTab?'22px':'0px',
+  presetV:preset,onPreset:(e)=>this.setState({preset:e.target.value}),
+  animV:anim,onAnim:(e)=>this.setState({anim:e.target.value}),
+  onPublish:()=>this.toast('نُشر: القالب النشط '+style.toUpperCase()+' فقط يُطبع في الواجهة — بلا تكرار H1 ولا أصول خاملة'),
+  is:{h1:style==='h1',h2:style==='h2',h3:style==='h3',h4:style==='h4',h5:style==='h5',
+   mob:isMob,notMob:!isMob,toasts:st.toasts.length>0},
+  T:T,m:m,has:has,hl:hl,
+  imgFilter:'brightness('+st.img.bright+'%) saturate('+st.img.sat+'%)',
+  imgRadius:st.img.radius+'px',
+  overlayA:(st.img.overlay/100),
+  zoomFx:st.img.zoomFx&&anim!=='off'?A('hZoom',7,0).replace('cubic-bezier(.2,.7,.3,1)','ease-out'):'none',
+  A1:A('hFade',.7,.15),A2:A('hFade',.7,.3),A3:A('hFade',.7,.45),A4:A('hFade',.7,.6),
+  AX:A('hFadeX',.8,.25),AR:A('hReveal',.9,.2),FLOAT:FLOAT,
+  scrollAnim:anim==='off'?'none':'hScroll 2s ease-in-out infinite',
+  toasts:st.toasts.map(t=>({m:t.m})),
+  h1H:isMob?'540px':(isTab?'520px':'580px'),
+  h2Grid:isMob?'1fr':'minmax(0,.92fr) minmax(0,1.08fr)',
+  h2ImgH:isMob?'300px':'440px',
+  h3H:isMob?'auto':'560px',
+  h5Grid:isMob?'1fr':'minmax(0,1.05fr) minmax(0,.95fr)',
+  ctaCol:isMob?'column':'row',ctaW:isMob?'100%':'auto',
+  h4Grid:isMob?'1fr':'minmax(0,1.15fr) minmax(0,.85fr)',
+  h4ImgH:isMob?'280px':'400px',
+  h5Benefits:[sh.b1?'نماذج مجانية من كل ملزمة':null,sh.b2?'تحديث مستمر للمنهج الحالي':null,sh.b3?'PDF فوري أو مطبوعة تصلك':null].filter(Boolean),
+  h5Card:sh.card,
+  padSec:isMob?'26px 20px':'clamp(28px,4vw,54px)'
+ };
+ return Object.assign(base,this.rvRail(style,preset,anim));
+}
+rvRail(style,preset,anim){
+ const st=this.state,m=st.m,sh=st.show;
+ const acc=(k)=>({on:st.acc===k,caret:st.acc===k?'#h-up':'#h-dn',
+  onToggle:()=>this.setState({acc:st.acc===k?'':k})});
+ const F=(k,l,ph)=>({l:l,v:m[k],ph:ph||'',onIn:this.setM(k)});
+ const TG=(k,l)=>({l:l,on:sh[k],bg:sh[k]?'#1e7355':'#cfd8d3',knob:sh[k]?'16px':'2px',onToggle:this.tog(k)});
+ const SL=(k,l,min,max,unit)=>({l:l,v:st.img[k],min:min,max:max,unit:unit||'',out:this.ar(st.img[k])+(unit||''),onIn:this.setImg(k)});
+ return {rail:{
+  secs:{content:acc('content'),image:acc('image'),look:acc('look'),mods:acc('mods')},
+  fields:[F('badge','الشارة'),F('eyebrow','السطر التمهيدي'),F('headline','العنوان الرئيسي'),F('hi','الكلمة المميزة','كلمة من العنوان'),F('desc','الوصف'),F('c1','زر أساسي — النص'),F('c1u','زر أساسي — الرابط'),F('c2','زر ثانوي — النص'),F('c2u','زر ثانوي — الرابط'),F('trust','نص الثقة'),F('statV','قيمة الإحصاءة'),F('statL','وصف الإحصاءة')],
+  toggles:[TG('badge','إظهار الشارة'),TG('eyebrow','إظهار التمهيدي'),TG('c2','الزر الثانوي'),TG('trust','عنصر الثقة'),TG('stat','الإحصاءة')],
+  sliders:[SL('overlay','تعتيم الطبقة (سينمائي)',0,70,'٪'),SL('bright','سطوع الصورة',60,140,'٪'),SL('sat','تشبع الألوان',0,160,'٪')],
+  zoom:{on:st.img.zoomFx,bg:st.img.zoomFx?'#1e7355':'#cfd8d3',knob:st.img.zoomFx?'16px':'2px',
+   onToggle:()=>{const i=Object.assign({},st.img);i.zoomFx=!i.zoomFx;this.setState({img:i});}},
+  fits:[['cover','ملء الإطار'],['contain','احتواء كامل']].map(f=>({n:f[1],on:st.img.fit===f[0],
+   bg:st.img.fit===f[0]?'#14261d':'#fff',fg:st.img.fit===f[0]?'#fff':'#3d4f45',bd:st.img.fit===f[0]?'#14261d':'#dcdcde',
+   onClick:()=>{const i=Object.assign({},st.img);i.fit=f[0];this.setState({img:i});this.toast('وضع '+f[1]+' — وتقدر تعيد قصّ الصورة بالنقر المزدوج عليها');}})),
+  accents:['#1e7355','#8a6a35','#2d5471','#6b3fa0'].map(c=>({c:c,on:(st.accentO||this.PRESETS[preset].accent)===c,
+   bd:(st.accentO||this.PRESETS[preset].accent)===c?'#14261d':'#e2e8e4',
+   onClick:()=>this.setState({accentO:c})})),
+  mods:[TG('b1','ميزة ١ — نماذج مجانية'),TG('b2','ميزة ٢ — تحديث المنهج'),TG('b3','ميزة ٣ — فوري أو مطبوع'),TG('card','بطاقة العرض العائمة')],
+  imgNote:'اسحب صورة وأفلتها داخل الإطار (أو انقر للاختيار). نقرة مزدوجة على الصورة تفتح إعادة القصّ: اسحب لتحريك البؤرة وعجلة الفأرة للتكبير — القصّ محفوظ ويشترك بين التصاميم الخمسة.',
+  modNote:'العناصر المخفية تختفي كليًا وتنهار مساحتها — لا فراغات ميتة، والتخطيط يعيد توازنه.'
+ },imgFit:st.img.fit};
+}
+}
+</script>
+</body>
+</html>

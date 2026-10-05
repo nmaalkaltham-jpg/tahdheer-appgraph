@@ -1,0 +1,284 @@
+/*
+UNIT: PROMOTIONS
+COMPONENT: page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * رموز الخصم — أنماط مساحة العمل (/promotions).
+ *
+ * القيم من لوح «Tahdheer - Promotion Engine» شاشة ٠٤ «الإدارة»: الغلاف
+ * شبكة 1.15fr/.85fr بفجوة ‎١٤px و align-items:start، والعمود الجانبي عمود
+ * مرن بفجوة ‎١٣px، ولوح «تعارض قبل النشر» بحدٍّ وأرضيّةٍ حمراوين خفيفتين.
+ *
+ * ما وافق رموز النظام يُستدعى بالرمز. ألوان لوح التعارض كانت حرفيّةً فاتحة
+ * (أرضيّةٌ شبه بيضاء تبقى بيضاء في السمة الداكنة)؛ الآن من رموز الحالة في
+ * طبقة السمة (`--danger-*` · `--intl-danger-*`) فتتبع الداكن والفاتح معًا.
+ * ومقاسا ‎١٣/‎١٨px خارج السلّم المنشور، مثبَّتان هنا بالاسم.
+ *
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة §2.4).
+ */
+
+.workspace {
+  --conflict-border: var(--intl-danger-border-28);
+  --conflict-bg: var(--tint-danger-08);
+  /* حبرُ الخطر ممزوجًا بحبر النصّ: ‎--danger-text‎ وحده على الصبغة فوق زجاج اللوح
+     كان 4.2:1 (الفاتح) و4.4:1 (الداكن) بخطٍّ دون 18px. */
+  --danger-ink: color-mix(in srgb, var(--danger-text) 80%, var(--cc-text));
+  --conflict-heading: var(--danger-ink);
+  --conflict-body: var(--text-secondary);
+  --space-3-25: 13px;
+  --space-4-5: 18px;
+
+  display: block;
+}
+
+/* ───── غلاف الشاشة: المحرّر واسعًا والقواعد والتعارض في عمود أضيق ───── */
+.split {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-3-5);
+  align-items: start;
+  margin-block-start: var(--space-5);
+}
+
+/* اللوح المشترك يحمل هامشًا علويًّا خاصًّا به؛ داخل الشبكة تتكفّل الشبكة به. */
+.split > :global(.panel) {
+  margin-block-start: 0;
+}
+
+@media (max-width: 1040px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3-25);
+}
+
+.side {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  /* نفس نصف قطر .panel كي تقرأ الشاشة نظامًا واحدًا؛ قرار السلّم (‎١٤ أم ‎١٦)
+     يخصّ globals.css وهو كروم مشترك لا يُفرَع لمسار واحد. */
+  border-radius: var(--radius-card);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-4-5);
+}
+
+.sideHead {
+  margin-block: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.sideNote {
+  margin-block: var(--space-2) 0;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* ───── باني القواعد: الشروط التي تُقيّمها السلة فعلًا ───── */
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-block-start: var(--space-3);
+  padding-block: 0;
+  padding-inline: 0;
+  list-style: none;
+}
+
+.rule {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding-block: 10px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.ruleOff {
+  background: var(--bg-2);
+}
+
+.op {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 10px;
+  border-radius: var(--radius-md);
+  background: var(--info-bg);
+  color: var(--info);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.opOff {
+  background: var(--bg-2);
+  color: var(--muted);
+}
+
+.ruleText {
+  flex: 1;
+  min-inline-size: 130px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ruleOff .ruleText {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* ───── تعارض قبل النشر ───── */
+.conflicts {
+  border: 1px solid var(--conflict-border);
+  border-radius: var(--radius-card);
+  background: var(--conflict-bg);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-4-5);
+}
+
+.conflictsHead {
+  margin-block: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--conflict-heading);
+}
+
+.conflictsMark {
+  display: grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: var(--radius-pill);
+  /* تعبئةٌ بحبرها المحسوب: الأبيض على ‎--danger-text‎ الفاتح في الداكن كان دون 3:1. */
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.conflictList {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-block: 10px 0;
+  padding-block: 0;
+  padding-inline: 0;
+  list-style: none;
+}
+
+.conflict {
+  padding-block: 10px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--conflict-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.conflictAdvisory {
+  border-color: var(--os-warn-border);
+}
+
+.conflictTop {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.level {
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.levelBlocking {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+}
+
+.levelAdvisory {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.conflictBody {
+  display: block;
+  margin-block-start: 4px;
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--conflict-body);
+}
+
+.jump {
+  margin-block-start: var(--space-2);
+  min-block-size: 44px;
+  padding-block: 8px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--conflict-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--conflict-heading);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .jump:hover {
+    background: var(--conflict-bg);
+  }
+}
+
+.jump:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+/* ───── المحرّر ───── */
+.editing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-block: 0 var(--space-3);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.required {
+  margin-inline-start: 6px;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--danger-ink);
+}
+
+/* هدف اللمس لا يقلّ عن ‎٤٤px — .btn المشترك يقف عند ‎٤٠px، والوصف المركَّب
+   هنا يضمن الفوز مهما كان ترتيب حقن الأنماط. */
+.workspace .action {
+  min-block-size: 44px;
+}

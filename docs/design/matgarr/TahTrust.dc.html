@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section style="direction:rtl;background:#fff;border-bottom:1px solid #e6e9e2;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+<div style="width:min(1200px,100% - 64px);margin-inline:auto;display:grid;grid-template-columns:repeat(4,1fr)">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:20px 24px;border-inline-start:1px solid #eef1ec" style-hover="background:#fbfcfa">
+<span style="display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:rgba(37,155,111,.10);color:#1e7355;flex:0 0 auto"><svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<span><b style="display:block;font-size:14px;font-weight:800;color:#14261d;line-height:1.5">{{ f.title }}</b><span style="font-size:12.5px;color:#5f7167">{{ f.desc }}</span></span>
+</div>
+</sc-for>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      facts: [
+        { title: 'دفع آمن', desc: 'Apple Pay ومدى والبطاقات', iconRef: '#i-shield' },
+        { title: 'تحميل فوري', desc: 'ملفاتك تصلك بعد الدفع', iconRef: '#i-download' },
+        { title: 'دعم سريع', desc: 'واتساب خلال ساعة', iconRef: '#i-headset' },
+        { title: 'ملفات قابلة للتعديل', desc: 'Word و PowerPoint', iconRef: '#i-pen' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

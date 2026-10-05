@@ -1,0 +1,77 @@
+/*
+ * «للمعلّمين»: لوح الشخصيّتين في عمودٍ جانبيّ ثابت العرض، والسجلّ في الباقي —
+ * المساحة الأفقيّة تُستغلّ بدل سجلٍّ ممدودٍ تحت عنوانٍ متوسّط.
+ */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-7);
+  align-items: center;
+}
+
+/* لوحٌ هادئ بزاويةٍ من السلّم؛ الشخصيّتان بنسبتهما (‎3:4‎) في صندوقٍ ثابت ⇒ لا إزاحة. */
+.people {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-5) 0;
+  border-radius: var(--r-2xl);
+  background: var(--color-surface-muted);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  overflow: hidden;
+}
+
+.person {
+  display: block;
+  inline-size: min(180px, 44%);
+  block-size: auto;
+  aspect-ratio: 240 / 320;
+}
+
+.copy {
+  min-inline-size: 0;
+}
+
+/* السجلّ في عمودٍ أضيق: عمودان من ‎20rem‎ بدل ‎24rem‎. */
+.copy ol {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  margin-block-start: var(--space-4);
+}
+
+.cta {
+  composes: btn btnSecondary from '@tahdheer/ui/controls.module.css';
+  margin-block-start: var(--space-5);
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .people {
+    justify-self: stretch;
+    padding-block-start: var(--space-5);
+  }
+
+  .person {
+    inline-size: min(150px, 40%);
+  }
+}
+
+@media (max-width: 767px) {
+  .people {
+    padding: var(--space-4) var(--space-4) 0;
+    gap: var(--space-2);
+    border-radius: var(--r-xl);
+  }
+
+  .person {
+    inline-size: 104px;
+  }
+
+  .cta {
+    inline-size: 100%;
+  }
+}

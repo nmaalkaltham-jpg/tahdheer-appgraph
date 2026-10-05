@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@keyframes tahPop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+@keyframes tahShimmer{from{filter:brightness(1)}50%{filter:brightness(1.22)}to{filter:brightness(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+.tt{padding:40px 44px 34px;border-bottom:1px solid rgba(0,0,0,.08)}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 22px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:82ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:52ch}
+.opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.card{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden}
+.sw{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px;min-height:96px;justify-content:center}
+.swh{display:flex;align-items:center;gap:7px;font:600 10px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.45)}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t2">
+<div class="tthd"><a class="ttid" href="#t2">2</a><span class="ttname">PDP preset catalogue — every switchable treatment, one page</span></div>
+<p class="ttsub">Each swatch is the real component at real size, not a picture of one. Prices are one worked example throughout — <b>400 → 300 ر.س</b>, so savings = 100 and discount = 25% — and every percentage and amount below is computed from those two numbers, never typed. Where a treatment needs data the theme doesn't store yet, the swatch says so instead of inventing a value.</p>
+
+<div style="display:flex;flex-direction:column;gap:34px">
+
+<div class="opt" id="2a">
+<div class="olab"><a class="oid" href="#2a">2a</a><span><b>Promotion modes 01–08.</b> One badge engine, eight presentations. Mode 05 shows an end date only when one is configured; here none is, so the line is absent rather than faked.</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:1280px">
+
+<div class="sw"><div class="swh">01 — نسبة</div><div><span style="display:inline-flex;padding:7px 14px;border-radius:9px;background:#1e7355;color:#fff;font-size:13px;font-weight:900;white-space:nowrap">خصم 25%</span></div></div>
+
+<div class="sw"><div class="swh">02 — مبلغ التوفير</div><div><span style="display:inline-flex;padding:7px 14px;border-radius:9px;background:rgba(37,155,111,.10);color:#1e7355;font-size:13px;font-weight:900;white-space:nowrap">وفّر 100 ريال</span></div></div>
+
+<div class="sw"><div class="swh">03 — الاثنان معًا</div><div><span style="display:inline-flex;padding:7px 14px;border-radius:9px;background:#1e7355;color:#fff;font-size:13px;font-weight:900;white-space:nowrap">خصم 25% • وفّر 100 ريال</span></div></div>
+
+<div class="sw"><div class="swh">04 — شارتان</div><div style="display:flex;flex-wrap:wrap;gap:7px"><span style="display:inline-flex;padding:7px 14px;border-radius:9px;background:#1e7355;color:#fff;font-size:13px;font-weight:900;white-space:nowrap">خصم 25%</span><span style="display:inline-flex;padding:7px 14px;border-radius:9px;background:rgba(216,181,106,.16);color:#7a5d20;font-size:13px;font-weight:900;white-space:nowrap">وفّر 100 ريال</span></div></div>
+
+<div class="sw" style="padding:0;overflow:hidden"><div style="padding:16px;background:linear-gradient(135deg,#123d2f,#1e7355);color:#fff"><div class="swh" style="color:rgba(255,255,255,.5);margin-bottom:9px">05 — بطاقة عرض</div><div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><svg aria-hidden="true" style="width:14px;height:14px;color:#e6cd93;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-sparkle"></use></svg><span style="font-size:11.5px;font-weight:900;letter-spacing:.08em;color:#e6cd93">عرض خاص</span></div><div style="font-size:21px;font-weight:900;line-height:1.3">خصم 25%</div><div style="font-size:13.5px;color:rgba(255,255,255,.82);margin-top:3px">وفّر <b style="color:#fff">100 ريال</b></div></div></div>
+
+<div class="sw"><div class="swh">06 — داخل السعر</div><div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:26px;font-weight:900;color:#14261d">300</b><span style="font-size:13px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:13px;color:#5f7167">400</del></div><span style="align-self:flex-start;display:inline-flex;padding:5px 11px;border-radius:8px;background:rgba(37,155,111,.09);border:1px solid rgba(37,155,111,.24);color:#1e7355;font-size:12px;font-weight:900;white-space:nowrap">خصم 25% • وفّرت 100 ريال</span></div></div>
+
+<div class="sw"><div class="swh">07 — مبسّط</div><div><span style="display:inline-flex;padding:5px 11px;border-radius:7px;background:#14261d;color:#fff;font-size:12px;font-weight:900">-25%</span></div></div>
+
+<div class="sw" style="padding:14px;grid-column:span 2"><div class="swh" style="margin-bottom:2px">08 — فاخر</div><div style="display:flex;align-items:stretch;border:1px solid rgba(37,155,111,.26);border-radius:12px;overflow:hidden;background:#fbfcfa"><div style="flex:0 0 auto;padding:11px 15px;background:#1e7355;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center"><b style="font-size:20px;font-weight:900;line-height:1">25%</b><span style="font-size:10px;font-weight:800;opacity:.85">خصم</span></div><div style="flex:1;padding:11px 14px;display:flex;flex-direction:column;justify-content:center;gap:2px"><b style="font-size:13.5px;font-weight:900;color:#14261d">وفّرت 100 ريال</b><span style="font-size:12px;color:#5f7167">‏400 ← 300 ريال</span></div></div></div>
+
+</div>
+</div>
+
+<div class="opt" id="2b">
+<div class="olab"><a class="oid" href="#2b">2b</a><span><b>Meta presentation styles 01–06.</b> Same three facts, six treatments. Every one keeps the number and its unit as readable text — no icon-only facts, so search engines and screen readers get the same content the eye does.</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:1280px">
+<sc-for list="{{ metaStyles }}" as="m" hint-placeholder-count="6">
+<div class="sw" style="min-height:120px"><div class="swh">{{ m.num }} — {{ m.name }}</div><dc-import name="TahPdpMeta" facts="{{ facts3 }}" variant="{{ m.id }}" motion="{{ false }}" hint-size="100%,60px"></dc-import></div>
+</sc-for>
+</div>
+</div>
+
+<div class="opt" id="2c">
+<div class="olab"><a class="oid" href="#2c">2c</a><span><b>Price layouts A–E.</b> The machine-readable price is the same node in all five; only the visual arrangement changes, so structured data can never drift from what the page shows.</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:1280px">
+
+<div class="sw"><div class="swh">A — فوق / تحت</div><div style="display:flex;flex-direction:column;gap:2px"><del style="font-size:14px;color:#5f7167;font-weight:600">400 ريال</del><div style="display:flex;align-items:baseline;gap:6px"><b style="font-size:30px;font-weight:900;color:#14261d">300</b><span style="font-size:14px;font-weight:800;color:#5f7167">ريال</span></div></div></div>
+
+<div class="sw"><div class="swh">B — جانبي</div><div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap"><div style="display:flex;align-items:baseline;gap:6px"><b style="font-size:30px;font-weight:900;color:#14261d">300</b><span style="font-size:14px;font-weight:800;color:#5f7167">ريال</span></div><del style="font-size:14px;color:#5f7167;font-weight:600">400</del></div></div>
+
+<div class="sw"><div class="swh">C — يبدأ من</div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12.5px;color:#5f7167;font-weight:700">يبدأ من <del>400</del></span><div style="display:flex;align-items:baseline;gap:6px"><b style="font-size:30px;font-weight:900;color:#14261d">300</b><span style="font-size:14px;font-weight:800;color:#5f7167">ريال</span></div></div></div>
+
+<div class="sw"><div class="swh">D — + شارة</div><div style="display:flex;flex-direction:column;gap:7px"><div style="display:flex;align-items:baseline;gap:7px"><b style="font-size:30px;font-weight:900;color:#14261d">300</b><span style="font-size:14px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:13px;color:#5f7167">400</del></div><span style="align-self:flex-start;display:inline-flex;padding:5px 11px;border-radius:8px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap">خصم 25%</span></div></div>
+
+<div class="sw"><div class="swh">E — سطر توفير</div><div style="display:flex;flex-direction:column;gap:7px"><div style="display:flex;align-items:baseline;gap:7px"><b style="font-size:30px;font-weight:900;color:#14261d">300</b><span style="font-size:14px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:13px;color:#5f7167">400</del></div><span style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:rgba(37,155,111,.09);border:1px solid rgba(37,155,111,.24);color:#1e7355;font-size:11.5px;font-weight:900;white-space:nowrap"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-percent"></use></svg>وفّرت 100 ريال</span></div></div>
+
+</div>
+</div>
+
+<div class="opt" id="2d">
+<div class="olab"><a class="oid" href="#2d">2d</a><span><b>Sales-count wording ladder.</b> One real number — <code>total_sales = 350</code> — five wordings. The rule picks the phrasing; it never changes the underlying count, and below the threshold the row is absent rather than showing a weak zero.</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:960px">
+<sc-for list="{{ salesVariants }}" as="s" hint-placeholder-count="6">
+<div class="sw" style="min-height:88px"><div class="swh">{{ s.mode }}</div><span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:{{ s.fg }}"><svg aria-hidden="true" style="width:16px;height:16px;color:{{ s.icon }};fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg>{{ s.text }}</span></div>
+</sc-for>
+</div>
+</div>
+
+<div class="opt" id="2e">
+<div class="olab"><a class="oid" href="#2e">2e</a><span><b>Product-at-a-glance — four renderings of one dataset.</b> The table variant is a real <code>&lt;table&gt;</code> with <code>&lt;th scope="row"&gt;</code>, not a grid dressed as one.</span></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:1180px">
+<sc-for list="{{ glanceVariants }}" as="g" hint-placeholder-count="4">
+<div class="card" style="padding:20px"><div class="swh" style="margin-bottom:12px">{{ g.name }}</div><dc-import name="TahPdp" config="{{ g.config }}" hint-size="100%,320px"></dc-import></div>
+</sc-for>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="tt" id="t3">
+<div class="tthd"><a class="ttid" href="#t3">3</a><span class="ttname">Three hero configurations — full page, real components</span></div>
+<p class="ttsub">Same product, same data, three commitments. A is for a catalogue where the file speaks for itself; B is the conversion default and what I'd ship; C is for a hero product where the preview is the argument.</p>
+<div style="display:flex;flex-direction:column;gap:30px">
+<sc-for list="{{ heroes }}" as="h" hint-placeholder-count="3">
+<div class="opt" id="{{ h.anchor }}">
+<div class="olab"><a class="oid" href="{{ h.href }}">{{ h.id }}</a><span>{{ h.note }}</span></div>
+<div class="card" style="width:1180px;max-width:100%"><dc-import name="TahPdp" config="{{ h.config }}" hint-size="1180px,900px"></dc-import></div>
+</div>
+</sc-for>
+<div class="opt" id="3d">
+<div class="olab"><a class="oid" href="#3d">3d</a><span><b>Mobile compact — 390px.</b> Facts wrap to two columns instead of scrolling, the meta block moves above the CTA, and a sticky price + add-to-cart bar takes over the bottom. Every target is ≥44px.</span></div>
+<div class="card" style="width:390px"><dc-import name="TahPdp" config="{{ mobileConfig }}" hint-size="390px,1400px"></dc-import></div>
+</div>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  facts() {
+    return [
+      { id: 'slides', label: 'عدد الشرائح', text: '22 شريحة', value: '22', unit: 'شريحة', iconRef: '#i-grid', on: true, fg: '#1e7355', tint: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.24)' },
+      { id: 'editable', label: 'قابل للتعديل', text: 'قابل للتعديل بالكامل', value: '100%', unit: '', iconRef: '#i-pen', on: true, fg: '#1e7355', tint: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.24)' },
+      { id: 'format', label: 'صيغة الملف', text: 'PowerPoint PPTX', value: 'PPTX', unit: '', iconRef: '#i-files', on: true, fg: '#1e7355', tint: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.24)' }
+    ];
+  }
+
+  base(extra) {
+    return {
+      mobile: false, heroPreset: 'b', metaStyle: 1, metaSlot: 'under-title',
+      pricePreset: 'd', promoMode: 3, promoPlacement: 'price', promoAnim: 'none',
+      pctDecimals: 0, regular: 400, sale: 300,
+      salesCount: 350, salesThreshold: 10, salesHot: 250, salesDisplay: 'rounded',
+      showSales: true, showBestsellerChip: true,
+      badgeMax: 2, badgePlacement: 'image', badgePromo: true, badgeBest: true, badgeEditable: true,
+      editable: 'yes', motionOn: false, glanceStyle: 'table', showGlance: false,
+      showReviews: false,
+      facts: this.facts(), ...extra
+    };
+  }
+
+  renderVals() {
+    const f3 = this.facts();
+    return {
+      facts3: f3,
+      metaStyles: [
+        { id: 1, num: '01', name: 'حبّات' }, { id: 2, num: '02', name: 'صف أيقونات' },
+        { id: 3, num: '03', name: 'بطاقات صغيرة' }, { id: 4, num: '04', name: 'إحصائيات' },
+        { id: 5, num: '05', name: 'نص مبسّط' }, { id: 6, num: '06', name: 'شبكة فاخرة' }
+      ],
+      salesVariants: [
+        { mode: 'دقيق', text: '350 عملية شراء', fg: '#3b4d43', icon: '#d8b56a', iconRef: '#i-trophy' },
+        { mode: 'مقرّب', text: '+300 عملية شراء', fg: '#3b4d43', icon: '#d8b56a', iconRef: '#i-trophy' },
+        { mode: 'مضغوط', text: '350+', fg: '#3b4d43', icon: '#d8b56a', iconRef: '#i-trophy' },
+        { mode: 'مختصر', text: '350 عملية شراء', fg: '#3b4d43', icon: '#d8b56a', iconRef: '#i-trophy' },
+        { mode: 'تسويقي', text: 'اختاره أكثر من 300 معلّم', fg: '#3b4d43', icon: '#d8b56a', iconRef: '#i-trophy' },
+        { mode: 'تحت الحد (< 10) — لا يُعرض شيء', text: 'كن أول من يحصل عليه', fg: '#5f7167', icon: '#a3b0a8', iconRef: '#i-medal' }
+      ],
+      glanceVariants: ['table', 'cards', 'list', 'stats'].map(g => ({
+        name: { table: 'جدول دلالي', cards: 'بطاقات', list: 'قائمة تعريف', stats: 'إحصائيات' }[g],
+        config: this.base({ glanceStyle: g, showGlance: true, heroPreset: 'a', metaStyle: 5, showGlanceOnly: true })
+      })),
+      heroes: [
+        { id: '3a', anchor: '3a', href: '#3a', note: 'HERO A — بسيط فاخر. عنوان، تقييم، ثلاث حقائق، سعر، شارة واحدة، زر واحد. أقل عناصر ممكنة.', config: this.base({ heroPreset: 'a', metaStyle: 1, promoMode: 1, pricePreset: 'a', badgeMax: 1, showGlance: true, glanceStyle: 'list' }) },
+        { id: '3b', anchor: '3b', href: '#3b', note: 'HERO B — تحويل. الافتراضي الموصى به: مبيعات + حقائق + سعر بارز + نسبة ومبلغ + مؤشّرات ثقة + زرّان.', config: this.base({ heroPreset: 'b', metaStyle: 1, promoMode: 3, pricePreset: 'd', badgeMax: 2, showGlance: true, glanceStyle: 'table', motionOn: true }) },
+        { id: '3c', anchor: '3c', href: '#3c', note: 'HERO C — بصري. معرض مربّع كبير، شارة عائمة على الصورة، بطاقات حقائق تفاعلية، حركة دقيقة.', config: this.base({ heroPreset: 'c', metaStyle: 3, promoMode: 7, promoPlacement: 'image', pricePreset: 'e', badgeMax: 2, showGlance: true, glanceStyle: 'cards', motionOn: true }) }
+      ],
+      mobileConfig: this.base({ mobile: true, heroPreset: 'b', metaStyle: 1, metaSlotMobile: 'above-cta', promoMode: 4, pricePreset: 'd', showGlance: true, glanceStyle: 'list', stickyBar: true, motionOn: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

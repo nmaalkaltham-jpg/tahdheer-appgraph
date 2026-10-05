@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:{{ pageW }};background:#fff;color:#223129;box-sizing:border-box">
+
+<dc-import name="TahHeader" hint-size="100%,132px"></dc-import>
+
+<div style="padding:{{ pad }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:16px">
+<sc-for list="{{ views }}" as="v" hint-placeholder-count="4">
+<button type="button" onClick="{{ v.onClick }}" aria-pressed="{{ v.pressed }}" style="display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid {{ v.border }};border-radius:8px;background:{{ v.bg }};color:{{ v.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ v.label }}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ isBlog }}" hint-placeholder-val="{{ true }}">
+<header style="margin-bottom:16px">
+<h1 style="margin:0 0 8px;font-size:{{ h1 }};font-weight:900;color:#14261d;line-height:1.28">المدوّنة</h1>
+<p style="margin:0;font-size:{{ intro }};line-height:1.85;color:#5f7167;max-width:62ch">مقالات عمليّة للمعلّم: كيف تُعدّ تحضيرًا أسرع، وكيف تُدير حصّة أفضل، وما الجديد في المناهج. لا مقالات لأجل الأرشفة — كل مقال يحلّ مسألة نُسأل عنها فعلًا.</p>
+</header>
+
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+<sc-for list="{{ topics }}" as="tp" hint-placeholder-count="5">
+<button type="button" onClick="{{ tp.onClick }}" aria-pressed="{{ tp.pressed }}" style="display:inline-flex;align-items:center;min-height:{{ tapSm }};padding:0 13px;border:1px solid {{ tp.border }};border-radius:999px;background:{{ tp.bg }};color:{{ tp.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;white-space:nowrap">{{ tp.label }}</button>
+</sc-for>
+</div>
+
+<article style="display:flex;flex-wrap:wrap;gap:16px;padding:{{ featPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fbfcfa;margin-bottom:14px">
+<div style="flex:1;min-width:220px">
+<span style="display:inline-flex;box-sizing:border-box;padding:3px 10px;border-radius:6px;background:rgba(216,181,106,.18);font-size:10px;font-weight:900;color:#7a5d20;margin-bottom:9px">الأكثر قراءة</span>
+<h2 style="margin:0 0 9px;font-size:{{ featH }};font-weight:900;color:#14261d;line-height:1.35;text-wrap:balance"><a href="#" style="color:#14261d">كيف تُعدّ تحضيرًا أسبوعيًا في نصف الوقت؟</a></h2>
+<p style="margin:0 0 11px;font-size:13px;line-height:1.85;color:#3b4d43;max-width:56ch">التحضير يستهلك ساعات لأن معظمنا يبدأ من صفحة فارغة كل أسبوع. الطريقة الأسرع ليست الكتابة أسرع، بل بناء هيكل يُعاد استخدامه — وهذه خطواته الخمس.</p>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+<sc-for list="{{ featMeta }}" as="fm" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#5f7167"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ fm.icon }}"></use></svg>{{ fm.text }}</span>
+</sc-for>
+</div>
+</div>
+<div aria-hidden="true" style="flex:0 0 {{ featImgW }};aspect-ratio:4/3;border-radius:13px;background:#f2f5f2;display:grid;place-items:center;position:relative;overflow:hidden">
+<svg width="100%" height="100%" style="position:absolute;inset:0;opacity:.45"><defs><pattern id="cph" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#dde3dc" stroke-width="2.5"></line></pattern></defs><rect width="100%" height="100%" fill="url(#cph)"></rect></svg>
+<span dir="ltr" style="position:relative;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167;background:#fff;padding:3px 8px;border-radius:5px">صورة 4:3</span>
+</div>
+</article>
+
+<div style="display:grid;grid-template-columns:{{ postCols }};gap:12px">
+<sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
+<article style="display:flex;flex-direction:column;border:1px solid #e6e9e2;border-radius:13px;background:#fff;overflow:hidden">
+<div aria-hidden="true" style="aspect-ratio:16/9;background:#f2f5f2;display:grid;place-items:center;position:relative;overflow:hidden">
+<svg width="100%" height="100%" style="position:absolute;inset:0;opacity:.45"><rect width="100%" height="100%" fill="url(#cph)"></rect></svg>
+<span dir="ltr" style="position:relative;font:600 9px ui-monospace,Menlo,monospace;color:#5f7167;background:#fff;padding:2px 7px;border-radius:4px">16:9</span>
+</div>
+<div style="padding:13px;display:flex;flex-direction:column;flex:1;gap:7px">
+<span style="display:inline-flex;align-self:flex-start;box-sizing:border-box;padding:2px 8px;border-radius:5px;background:#f2f5f2;font-size:9.5px;font-weight:800;color:#5f7167">{{ p.topic }}</span>
+<h3 style="margin:0;font-size:13.5px;font-weight:900;color:#14261d;line-height:1.5"><a href="#" style="color:#14261d">{{ p.title }}</a></h3>
+<p style="margin:0;font-size:11.5px;line-height:1.75;color:#5f7167">{{ p.excerpt }}</p>
+<div style="display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:9px;border-top:1px solid #eef1ec">
+<span style="font-size:10px;font-weight:700;color:#5f7167">{{ p.date }}</span>
+<span style="font-size:10px;font-weight:700;color:#5f7167">{{ p.read }}</span>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:{{ artCols }};gap:18px;align-items:start">
+<article style="min-width:0">
+<nav aria-label="مسار التنقّل" style="margin-bottom:12px">
+<ol style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;list-style:none;margin:0;padding:0;font-size:11.5px;color:#5f7167">
+<li><a href="#" style="color:#5f7167">الرئيسية</a></li><li aria-hidden="true">›</li>
+<li><a href="#" style="color:#5f7167">المدوّنة</a></li><li aria-hidden="true">›</li>
+<li aria-current="page" style="color:#14261d;font-weight:800">التحضير الأسبوعي</li>
+</ol>
+</nav>
+<h1 style="margin:0 0 11px;font-size:{{ artH1 }};font-weight:900;color:#14261d;line-height:1.3;text-wrap:balance">كيف تُعدّ تحضيرًا أسبوعيًا في نصف الوقت؟</h1>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-bottom:14px;border-bottom:1px solid #eef1ec;margin-bottom:16px">
+<sc-for list="{{ featMeta }}" as="fm" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#5f7167"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ fm.icon }}"></use></svg>{{ fm.text }}</span>
+</sc-for>
+</div>
+<p style="margin:0 0 16px;font-size:{{ leadFs }};line-height:1.9;color:#14261d;font-weight:700;max-width:68ch">التحضير يستهلك ساعات لأن معظمنا يبدأ من صفحة فارغة كل أسبوع. الطريقة الأسرع ليست أن تكتب أسرع، بل أن تبني هيكلًا يُعاد استخدامه.</p>
+<sc-for list="{{ body }}" as="b" hint-placeholder-count="5">
+<div>
+<h2 style="display:{{ b.hDisplay }};margin:20px 0 9px;font-size:{{ artH2 }};font-weight:900;color:#14261d;line-height:1.45;text-align:start">{{ b.heading }}</h2>
+<p style="display:{{ b.pDisplay }};margin:0 0 12px;font-size:{{ bodyFs }};line-height:1.95;color:#3b4d43;max-width:68ch;text-align:start">{{ b.text }}</p>
+<ul style="display:{{ b.listDisplay }};margin:0 0 14px;padding-inline-start:20px;max-width:66ch">
+<sc-for list="{{ b.items }}" as="li" hint-placeholder-count="3">
+<li style="font-size:{{ bodyFs }};line-height:1.9;color:#3b4d43;margin-bottom:5px;text-align:start">{{ li }}</li>
+</sc-for>
+</ul>
+</div>
+</sc-for>
+<div style="margin-top:20px;padding:16px 18px;border:1px solid rgba(37,155,111,.3);border-radius:14px;background:rgba(37,155,111,.05)">
+<b style="display:block;font-size:13.5px;font-weight:900;color:#14261d;margin-bottom:7px">تريد الهيكل جاهزًا؟</b>
+<p style="margin:0 0 12px;font-size:12px;line-height:1.85;color:#3b4d43;max-width:58ch">قوالب التحضير في المتجر مبنية على هذا الهيكل نفسه — تفتحها وتُعدّل المحتوى فقط.</p>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;min-height:{{ tap }};padding:0 18px;border-radius:11px;background:#1e7355;color:#fff;font-size:12.5px;font-weight:900">تصفّح قوالب التحضير</a>
+</div>
+</article>
+<aside style="display:{{ tocDisplay }};min-width:0;position:sticky;inset-block-start:14px;padding:14px 15px;border:1px solid #e6e9e2;border-radius:13px;background:#fbfcfa">
+<h2 style="margin:0 0 10px;font-size:12px;font-weight:900;color:#5f7167;text-align:start">في هذا المقال</h2>
+<nav><ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{ toc }}" as="tc" hint-placeholder-count="4">
+<li><a href="#" style="display:flex;align-items:center;min-height:34px;padding:0 9px;border-radius:8px;border-inline-start:2px solid {{ tc.edge }};background:{{ tc.bg }};font-size:11.5px;font-weight:{{ tc.weight }};color:{{ tc.fg }}">{{ tc.label }}</a></li>
+</sc-for>
+</ol></nav>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+<header style="padding:{{ heroPad }};border-radius:16px;background:linear-gradient(135deg,#123d2f,#1e7355);color:#fff;margin-bottom:16px">
+<h1 style="margin:0 0 9px;font-size:{{ h1 }};font-weight:900;line-height:1.28">من نحن</h1>
+<p style="margin:0;font-size:{{ intro }};line-height:1.9;color:rgba(255,255,255,.82);max-width:60ch">بدأنا لأن التحضير كان يستهلك من وقت المعلّم أكثر مما يستهلكه التدريس نفسه. نُعدّ ملفات جاهزة يكتبها معلّمون ميدانيون، ونبيعها بسعر يقلّ عن ساعة عمل واحدة.</p>
+</header>
+<div style="display:grid;grid-template-columns:{{ statCols }};gap:10px;margin-bottom:16px">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+<div style="padding:15px;border:1px solid #e6e9e2;border-radius:13px;background:#fbfcfa">
+<div dir="ltr" style="font-size:24px;font-weight:900;color:#14261d;line-height:1.1;text-align:start">{{ s.value }}</div>
+<div style="margin-top:5px;font-size:11.5px;font-weight:700;color:#5f7167;text-align:start">{{ s.label }}</div>
+</div>
+</sc-for>
+</div>
+<section style="margin-bottom:16px">
+<h2 style="margin:0 0 12px;font-size:{{ artH2 }};font-weight:900;color:#14261d;text-align:start">كيف نعمل</h2>
+<div style="display:grid;grid-template-columns:{{ whyCols }};gap:11px">
+<sc-for list="{{ principles }}" as="pr" hint-placeholder-count="3">
+<div style="padding:15px;border:1px solid #e6e9e2;border-radius:13px;background:#fff">
+<span aria-hidden="true" style="display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:rgba(37,155,111,.10);color:#1e7355;margin-bottom:10px"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ pr.icon }}"></use></svg></span>
+<b style="display:block;font-size:13px;font-weight:900;color:#14261d;margin-bottom:6px;text-align:start">{{ pr.title }}</b>
+<span style="display:block;font-size:11.5px;line-height:1.85;color:#5f7167;text-align:start">{{ pr.body }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isPolicy }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:{{ artCols }};gap:18px;align-items:start">
+<article style="min-width:0">
+<h1 style="margin:0 0 8px;font-size:{{ artH1 }};font-weight:900;color:#14261d;line-height:1.3">سياسة الاسترجاع</h1>
+<p style="margin:0 0 16px;font-size:11.5px;color:#5f7167;text-align:start">آخر تحديث: 12 أغسطس 2026 · تسري على كل المنتجات الرقمية في المتجر</p>
+<div style="padding:14px 16px;border:1px solid rgba(37,155,111,.3);border-radius:13px;background:rgba(37,155,111,.05);margin-bottom:18px">
+<b style="display:block;font-size:13px;font-weight:900;color:#14261d;margin-bottom:7px">الخلاصة في سطرين</b>
+<p style="margin:0;font-size:12.5px;line-height:1.9;color:#3b4d43;max-width:62ch">يمكنك طلب الاسترجاع خلال <b style="color:#14261d">7 أيام</b> إذا لم تُحمّل الملف، أو إذا كان مختلفًا عن وصفه. بعد التحميل يصعب الاسترجاع لأن الملف لا يُعاد — لكن راسلنا على أي حال، فنحن نحلّ الحالات فرديًّا.</p>
+</div>
+<sc-for list="{{ policy }}" as="pl" hint-placeholder-count="4">
+<div>
+<h2 style="margin:18px 0 9px;font-size:{{ artH2 }};font-weight:900;color:#14261d;line-height:1.45;text-align:start">{{ pl.heading }}</h2>
+<p style="margin:0 0 11px;font-size:{{ bodyFs }};line-height:1.95;color:#3b4d43;max-width:68ch;text-align:start">{{ pl.text }}</p>
+</div>
+</sc-for>
+</article>
+<aside style="display:{{ tocDisplay }};min-width:0;position:sticky;inset-block-start:14px;padding:14px 15px;border:1px solid #e6e9e2;border-radius:13px;background:#fbfcfa">
+<h2 style="margin:0 0 10px;font-size:12px;font-weight:900;color:#5f7167;text-align:start">السياسات</h2>
+<nav><ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{ policyNav }}" as="pn" hint-placeholder-count="4">
+<li><a href="#" style="display:flex;align-items:center;min-height:36px;padding:0 9px;border-radius:8px;border-inline-start:2px solid {{ pn.edge }};background:{{ pn.bg }};font-size:11.5px;font-weight:{{ pn.weight }};color:{{ pn.fg }}">{{ pn.label }}</a></li>
+</sc-for>
+</ul></nav>
+</aside>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:1000},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { view: 'blog', topic: 'all' };
+
+  renderVals() {
+    const mobile = !!this.props.mobile;
+    const pick = (m, d) => (mobile ? m : d);
+    const st = this.state;
+    const v = st.view;
+
+    const viewDefs = [['blog', 'المدوّنة'], ['article', 'مقال'], ['about', 'من نحن'], ['policy', 'سياسة']];
+    const topicDefs = [['all', 'الكل'], ['prep', 'التحضير'], ['class', 'إدارة الصف'], ['curric', 'المناهج'], ['tools', 'أدوات']];
+
+    const postDefs = [
+      ['التحضير', 'خمس استراتيجيات للتعلّم النشط تعمل فعلًا في صفّ مزدحم', 'الاستراتيجيات التي تحتاج مساحة أو أجهزة لا تصلح لصفّ من 35 طالبًا. هذه خمس تعمل بالطباشير وحدها.', '8 أغسطس 2026', '6 دقائق'],
+      ['المناهج', 'ما تغيّر في منهج الرياضيات هذا العام؟', 'ثلاثة تغييرات تمسّ التحضير مباشرة، وواحد يمسّ الاختبارات — ملخّصة بلا حشو.', '2 أغسطس 2026', '4 دقائق'],
+      ['إدارة الصف', 'كيف تبدأ الحصّة في أول دقيقتين؟', 'الافتتاحية تحدّد إيقاع الحصّة كلها. أربع افتتاحيات مجرَّبة وأخطاء شائعة.', '28 يوليو 2026', '5 دقائق'],
+      ['أدوات', 'اختصارات PowerPoint التي توفّر ساعة في الأسبوع', 'اثنا عشر اختصارًا فقط — لكنها التي تُستخدم في كل شريحة تقريبًا.', '21 يوليو 2026', '7 دقائق'],
+      ['التحضير', 'أوراق العمل: متى تنفع ومتى تكون حشوًا؟', 'ورقة عمل بلا هدف واضح تُنجَز ولا تُتعلَّم. معيار بسيط للتمييز.', '14 يوليو 2026', '5 دقائق'],
+      ['إدارة الصف', 'التقويم التكويني بلا أوراق إضافية', 'ست طرائق لقياس الفهم أثناء الحصّة دون تصحيح ليلي.', '7 يوليو 2026', '6 دقائق']
+    ];
+
+    const bodyDefs = [
+      ['', 'المشكلة ليست في سرعة الكتابة. المعلّم الذي يُعدّ تحضيرًا من الصفر كل أسبوع يعيد اتخاذ القرارات نفسها: كيف أبدأ؟ ما الأنشطة؟ كيف أقيس الفهم؟ هذه القرارات تُتخذ مرة واحدة وتُثبَّت.', []],
+      ['ابنِ الهيكل مرة واحدة', 'خصّص ساعة واحدة — مرة واحدة في الفصل — لبناء هيكل التحضير: افتتاحية، عرض، نشاط، تقويم، ختام. اجعل لكل قسم مكانًا ثابتًا في الصفحة. بعد ذلك يصبح التحضير الأسبوعي تعبئة لا تأليفًا.', []],
+      ['اجمع بنكًا للأنشطة', '', ['اكتب كل نشاط ناجح في ملف واحد، بسطر واحد لكل نشاط.', 'صنّفه بالمهارة لا بالدرس — فيصلح لدروس عدّة.', 'راجعه مع بداية كل وحدة بدل التفكير من جديد.']],
+      ['وحّد صياغة الأهداف', 'الأهداف تُستهلك وقتًا أكبر مما تستحق لأنها تُكتب من جديد كل مرة. اكتب عشر صياغات قياسية تناسب مادتك، ثم بدّل المفردات. الوقت الذي يوفّره هذا وحده يقارب ثلث زمن التحضير.', []],
+      ['اترك أثرًا لنفسك', 'بعد كل حصّة اكتب سطرًا واحدًا: ما نجح وما لم ينجح. الأسبوع القادم يبدأ من هذا السطر لا من الصفر — وهذا الفرق بين إعداد ثانٍ وإعداد أول.', []]
+    ];
+
+    const policyDefs = [
+      ['ما يُستحقّ الاسترجاع', 'إذا لم تُحمّل الملف ولم تُفتح روابطه، أو إذا كان محتواه مختلفًا جوهريًّا عن وصفه في الصفحة، أو إذا تعذّر التحميل لخلل عندنا ولم نُصلحه. في هذه الحالات نستردّ المبلغ كاملًا إلى وسيلة الدفع نفسها.'],
+      ['ما لا يُستحقّ عادةً', 'الملف المحمَّل والمستخدَم لا يُعاد — كما لا يُعاد كتاب مقروء. وكذلك تغيير الرأي بعد التحميل، أو عدم توافق برنامج على جهازك مذكور في وصف الملف قبل الشراء. لكن راسلنا على أي حال: نحلّ الحالات فرديًّا ولا نتعامل بجواب آلي.'],
+      ['كيف تطلبه', 'راسلنا على واتساب أو البريد برقم الطلب وسبب الطلب في سطر. لا نموذج ولا تذكرة. نردّ خلال ساعة في أوقات العمل، والاسترداد يصل خلال 5 — 10 أيام عمل بحسب مصرفك.'],
+      ['المدّة والاستثناءات', 'المدّة سبعة أيام من تاريخ الطلب. الحزم تُعالَج ككلّ لا كمواد منفردة. وإذا كان الملف قد حُدّث بعد شرائك فالنسخة الجديدة لك مجانًا — وهذا غالبًا يحلّ المسألة بلا استرجاع.']
+    ];
+
+    const tocDefs = ['ابنِ الهيكل مرة واحدة', 'اجمع بنكًا للأنشطة', 'وحّد صياغة الأهداف', 'اترك أثرًا لنفسك'];
+    const polNavDefs = ['سياسة الاسترجاع', 'الشروط والأحكام', 'سياسة الخصوصية', 'حقوق الاستخدام'];
+
+    return {
+      pageW: pick('390px', '1120px'),
+      pad: pick('16px 16px 28px', '20px 26px 34px'),
+      heroPad: pick('18px 16px', '24px 26px'),
+      featPad: pick('16px', '20px 22px'),
+      h1: pick('22px', '28px'),
+      featH: pick('18px', '22px'),
+      artH1: pick('22px', '29px'),
+      artH2: pick('16px', '19px'),
+      intro: pick('13px', '14.5px'),
+      leadFs: pick('14.5px', '16px'),
+      bodyFs: pick('13.5px', '14.5px'),
+      postCols: pick('1fr', 'repeat(3,minmax(0,1fr))'),
+      artCols: pick('1fr', 'minmax(0,1fr) 232px'),
+      statCols: pick('1fr 1fr', 'repeat(4,minmax(0,1fr))'),
+      whyCols: pick('1fr', 'repeat(3,minmax(0,1fr))'),
+      featImgW: pick('100%', '262px'),
+      tocDisplay: pick('none', 'block'),
+      tap: pick('48px', '44px'),
+      tapSm: pick('42px', '36px'),
+
+      views: viewDefs.map(d => ({
+        label: d[1],
+        pressed: v === d[0] ? 'true' : 'false',
+        border: v === d[0] ? '#1e7355' : '#dde3dc',
+        bg: v === d[0] ? 'rgba(37,155,111,.07)' : '#fbfcfa',
+        fg: v === d[0] ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ view: d[0] })
+      })),
+      isBlog: v === 'blog', isArticle: v === 'article', isAbout: v === 'about', isPolicy: v === 'policy',
+
+      topics: topicDefs.map(t => ({
+        label: t[1],
+        pressed: st.topic === t[0] ? 'true' : 'false',
+        border: st.topic === t[0] ? '#1e7355' : '#d3d8cf',
+        bg: st.topic === t[0] ? 'rgba(37,155,111,.07)' : '#fff',
+        fg: st.topic === t[0] ? '#1e7355' : '#3b4d43',
+        onClick: () => this.setState({ topic: t[0] })
+      })),
+
+      featMeta: [
+        { icon: '#i-user', text: 'أ. نورة الحربي' },
+        { icon: '#i-calendar', text: '12 أغسطس 2026' },
+        { icon: '#i-clock', text: '7 دقائق قراءة' }
+      ],
+
+      posts: postDefs.map(p => ({ topic: p[0], title: p[1], excerpt: p[2], date: p[3], read: p[4] })),
+
+      /*
+       * Each body block declares which shapes it uses, so a paragraph-only block
+       * never renders an empty <ul> and a list-only block never renders an empty
+       * <p> — the usual source of stray gaps in generated article layouts.
+       */
+      body: bodyDefs.map(b => ({
+        heading: b[0], text: b[1], items: b[2],
+        hDisplay: b[0] ? 'block' : 'none',
+        pDisplay: b[1] ? 'block' : 'none',
+        listDisplay: b[2].length ? 'block' : 'none'
+      })),
+
+      toc: tocDefs.map((t, i) => ({
+        label: t,
+        edge: i === 0 ? '#1e7355' : 'transparent',
+        bg: i === 0 ? 'rgba(37,155,111,.07)' : 'transparent',
+        weight: i === 0 ? '900' : '700',
+        fg: i === 0 ? '#14261d' : '#5f7167'
+      })),
+
+      stats: [
+        { value: '18,600', label: 'معلّم ومعلّمة' },
+        { value: '4,218', label: 'ملفًا في المتجر' },
+        { value: '4.9/5', label: 'تقييم المتجر' },
+        { value: '2019', label: 'سنة التأسيس' }
+      ],
+      principles: [
+        { title: 'يكتبها معلّمون', icon: '#i-cap', body: 'كل ملف يُعدّه معلّم ميداني ويُراجعه آخر. لا محرّرين خارج الصفّ.' },
+        { title: 'سعر ساعة عمل', icon: '#i-coins', body: 'نسعّر الملف بأقلّ من قيمة الوقت الذي يوفّره — وإلّا فلا معنى لوجوده.' },
+        { title: 'تحديث لا إصدار جديد', icon: '#i-refresh', body: 'مع تغيّر المنهج نُحدّث الملف ويصل مجانًا لمن اشترى. لا نبيع النسخة مرتين.' }
+      ],
+
+      policy: policyDefs.map(p => ({ heading: p[0], text: p[1] })),
+      policyNav: polNavDefs.map((p, i) => ({
+        label: p,
+        edge: i === 0 ? '#1e7355' : 'transparent',
+        bg: i === 0 ? 'rgba(37,155,111,.07)' : 'transparent',
+        weight: i === 0 ? '900' : '700',
+        fg: i === 0 ? '#14261d' : '#5f7167'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

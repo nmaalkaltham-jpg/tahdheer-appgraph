@@ -1,0 +1,457 @@
+/*
+UNIT: DIALOGS
+COMPONENT: dialogs.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الحوارات النمطية. المتغيّرات --ms-* موروثة من .studio.
+ * خصائص منطقية فقط.
+ */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--cc-overlay);
+}
+
+.panel {
+  /* داخل بوّابة Radix اللوح شقيق الحجاب لا ابنه، فيتمركز بنفسه: ثابت الموضع
+     وهوامش تلقائيّة على الجهات الأربع، بارتفاع المحتوى لا الشاشة. */
+  position: fixed;
+  inset: 0;
+  z-index: 131;
+  margin: auto;
+  block-size: fit-content;
+  inline-size: min(760px, 96vw);
+  max-block-size: 88vh;
+  overflow: auto;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--cc-edge);
+  box-shadow: var(--e-4);
+  animation: msPop 160ms ease;
+}
+
+/*
+ * الترويسة والتذييل يلتصقان فوق محتوًى يمرّ تحتهما، و`--ms-soft` صبغةٌ
+ * شفّافة (`--cc-well` = ‏rgba بـ٦٪) وُضعت لتُطبَّق **على** سطحٍ لا لتكون
+ * سطحًا: النصّ المارّ تحتها كان يُقرأ خلالها فيتراكب سطران. الصبغة تُركّب
+ * فوق `--surface` المُعتِم بطبقةٍ متدرّجة، فتبقى الصبغة ويبقى الحجب.
+ */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 16px;
+  padding-inline: 18px;
+  border-block-end: 1px solid var(--ms-hairline);
+  background: linear-gradient(var(--ms-soft), var(--ms-soft)), var(--surface);
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.head h2 {
+  margin-block: 0;
+  flex: 1;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.headIcon {
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+}
+
+.body {
+  padding-block: 14px;
+  padding-inline: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 12px;
+  padding-inline: 18px;
+  border-block-start: 1px solid var(--ms-hairline);
+  background: linear-gradient(var(--ms-soft), var(--ms-soft)), var(--surface);
+  position: sticky;
+  inset-block-end: 0;
+  z-index: 1;
+}
+
+.footNote {
+  flex: 1;
+  min-inline-size: 200px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.8;
+  color: var(--ms-dim);
+}
+
+.primaryBtn,
+.disabledAction {
+  font: inherit;
+  min-block-size: 44px;
+  padding-inline: 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  border: 0;
+  background: var(--chrome);
+  color: var(--chrome-text);
+}
+
+.disabledAction {
+  border: 1px solid var(--ms-line);
+  background: var(--ms-mist);
+  color: var(--ms-dim);
+  cursor: not-allowed;
+}
+
+.blockedBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-block: 0;
+  padding: 13px;
+  border: 1px solid var(--ms-warn-line);
+  border-inline-start: 4px solid var(--gold);
+  border-radius: 11px;
+  background: var(--ms-warn-bg);
+  color: var(--ms-warn-text);
+  font-size: 12.5px;
+  line-height: 1.9;
+  font-weight: 700;
+}
+
+.blockedBanner code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section h3 {
+  margin-block: 0 8px;
+  font-size: 13.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.sub {
+  margin-block: 8px 0;
+  font-size: 11.5px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+.ok {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-block: 0;
+  padding: 12px;
+  border: 1px dashed var(--ms-ok-line);
+  border-radius: 10px;
+  background: var(--ms-ok-bg);
+  color: var(--ms-ok);
+  font-size: 12.5px;
+  font-weight: 800;
+  line-height: 1.85;
+}
+
+.blockList {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.blockList li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-block: 9px;
+  padding-inline: 11px;
+  border: 1px solid var(--ms-danger-line);
+  border-radius: 9px;
+  background: var(--ms-danger-bg);
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.blockList strong {
+  color: var(--ms-danger);
+  font-size: 12.5px;
+}
+
+.factGrid {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 9px;
+}
+
+.factGrid li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 10px;
+  background: var(--ms-soft);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.factValue {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.steps,
+.tiers {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  counter-reset: none;
+}
+
+.steps li,
+.tiers li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-block: 10px;
+  padding-inline: 11px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 10px;
+  background: var(--ms-soft);
+}
+
+.stepIndex,
+.tierIndex {
+  inline-size: 24px;
+  block-size: 24px;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: var(--chrome);
+  color: var(--chrome-text);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.tierIndex {
+  background: var(--ms-mist);
+  color: var(--ms-body);
+}
+
+.stepBody {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stepBody strong {
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.stepBody span {
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.needs {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--ms-dim);
+  word-break: break-all;
+}
+
+.notWired {
+  flex: 0 0 auto;
+  align-self: center;
+  padding-block: 3px;
+  padding-inline: 9px;
+  border: 1px solid var(--ms-warn-line);
+  border-radius: 6px;
+  background: var(--ms-warn-bg);
+  color: var(--ms-warn-text);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.keyGrid {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 6px;
+}
+
+.keyGrid li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 9px;
+  padding-inline: 11px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 9px;
+  background: var(--ms-soft);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.keyGrid code {
+  flex: 0 0 120px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+@keyframes msPop {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * تقليل الحركة يكشف ولا يجمّد: الحوار يظهر مكتملًا فورًا بلا حركة دخول.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* حالة الخطوة المنفَّذة فعلًا — مقابل .notWired. */
+.wired {
+  flex: 0 0 auto;
+  align-self: center;
+  padding-block: 3px;
+  padding-inline: 9px;
+  border: 1px solid var(--ms-ok-line);
+  border-radius: 6px;
+  background: var(--ms-ok-bg);
+  color: var(--ms-ok);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+/* خيار صريح داخل حوار — هدف نقر كامل لا سطر نصّ. */
+.choiceBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  inline-size: 100%;
+  min-block-size: 44px;
+  margin-block-end: 8px;
+  padding-block: 11px;
+  padding-inline: 13px;
+  border: 1px solid var(--ms-edge);
+  border-radius: 10px;
+  background: var(--ms-soft);
+  color: var(--ms-body);
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+}
+
+.choiceBtn strong {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.choiceBtn span {
+  font-size: 11.5px;
+}
+
+.choiceBtn:hover,
+.choiceBtn:focus-visible {
+  border-color: var(--primary);
+  background: var(--ms-ok-bg);
+}
+
+/* ───── التصدير والاستيراد ───── */
+
+/*
+ * صندوق JSON — من الأصل البصري (Tahdheer - Visual Menu Studio.dc.html
+ * السطر ~1412): حدّ --menu-json-line، وخلفية --ms-soft، وخط أحادي 10px/1.7.
+ */
+.jsonArea {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid var(--menu-json-line);
+  border-radius: 9px;
+  font: 600 10px/1.7 ui-monospace, Menlo, monospace;
+  color: var(--ms-body);
+  background: var(--ms-soft);
+  resize: vertical;
+  direction: ltr;
+  text-align: start;
+}
+
+.importLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.importLabel > span {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ms-body);
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes diFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<header style="background:linear-gradient(140deg,#0c1411,#1e5c42);color:#eaf2ee">
+<div style="max-width:1120px;margin:0 auto;padding:26px 22px">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:44px;height:44px;border-radius:13px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 19px Tajawal">ت</span>
+<div><h1 style="margin:0;font:900 22px Tajawal">تذكير — فهرس التسليم النهائي</h1>
+<span style="font-size:11px;color:rgba(234,242,238,.7)">كل ما بُني، مبوَّبًا وبروابط مباشرة — نقطة الدخول الواحدة للمشروع</span></div>
+<div style="margin-inline-start:auto;display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+<span style="padding:8px 14px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);text-align:center"><b style="display:block;font:900 15px Tajawal">{{ s.v }}</b><span style="font-size:8.5px;color:rgba(234,242,238,.65)">{{ s.l }}</span></span>
+</sc-for>
+</div>
+</div>
+</div>
+</header>
+
+<main style="max-width:1120px;margin:0 auto;padding:18px 22px 40px;display:flex;flex-direction:column;gap:14px">
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:hidden;animation:diFade .25s ease">
+<div style="display:flex;align-items:center;gap:9px;padding:12px 18px;background:{{ g.hbg }};color:#fff">
+<b style="font-size:13px">{{ g.n }}</b>
+<span style="font-size:9.5px;opacity:.8">{{ g.d }}</span>
+<span style="margin-inline-start:auto;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.16);font-size:9px;font-weight:900">{{ g.count }}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid #f4f6f4">
+<span style="flex:1;min-width:0"><b style="font-size:11.5px;color:#14261d">{{ r.n }}</b><span style="display:block;font-size:9px;line-height:1.6;color:#7c8a82">{{ r.d }}</span></span>
+<sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 8px;border-radius:999px;background:#f2f8f5;color:#146c4c;font-size:8px;font-weight:900">{{ r.badge }}</span></sc-if>
+<a href="{{ r.href }}" style="flex:0 0 auto;min-height:30px;display:inline-flex;align-items:center;padding:0 13px;border:1px solid #cfe0d6;border-radius:9px;background:#f6fbf8;font-size:10px;font-weight:900">فتح ←</a>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+
+<section style="border:1px solid #1e7355;border-radius:15px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:16px 20px">
+<h2 style="margin:0 0 9px;font-size:13.5px;font-weight:900">قائمة القبول الختامية — حالة المشروع</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+<sc-for list="{{ dod }}" as="d" hint-placeholder-count="10">
+<span style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ d }}</span>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;padding-top:10px;border-top:1px dashed #cfe0d6;font-size:10px;line-height:1.8;color:#5f7167"><b style="color:#146c4c">الخطوة التالية خارج هذا المشروع:</b> التنفيذ على قالب ووردبريس الفعلي وفق «إصلاحات الإنتاج» (١٥ بندًا بشيفرتها واختبارات قبولها) — وكل قالب هنا يحمل حاشية الفهرسة والبنية التي تحكم تنفيذه.</p>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+u(n){ return encodeURI(n+'.dc.html'); }
+renderVals(){
+ const R=(n,d,badge)=>({n:n.replace('Tahdheer - ',''),d:d,badge:badge||'',href:this.u(n)});
+ const ar=(x)=>String(x).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+ const out={
+  groups:[
+   {n:'المركز الموحد — نظام تشغيل نمو البحث',d:'ابدأ من هنا: ١٣ أداة بتحميل كسول وdeep-links',hbg:'#14261d',count:'الوجهة الأولى',
+    rows:[
+     R('Tahdheer - Master Hub','المدخل الموحد: مصفوفة الدمج + كل الأدوات وحداتٍ كسولة','ابدأ هنا'),
+     R('Tahdheer - Analytics Pro OS','غرفة التحكم: الحلقة الذاتية، مستويات الأمان، السبب الجذري، المحاكاة، المساعد المتعلم'),
+     R('Tahdheer - Search Intelligence Center','القاموس (٣٠ مفهومًا بقيمك)، مفتش URL، SERP والسلطة، التكاملات الصادقة'),
+     R('Tahdheer - Diagnostic Maps','خرائط الزحف/الروابط/الكيانات التفاعلية + التنبيهات + ٩ تقارير'),
+     R('Tahdheer - Search Funnel','القمع الموحد استعلام←ريال بفلاتر متزامنة وتنقيب لكل مرحلة'),
+     R('Tahdheer - No-New-Pages Levers','الرافعات العشر على الموجود: المسافة القريبة، الاستصلاح، الدمج، Schema، الزحف، الروابط'),
+     R('Tahdheer - Production Fixes','١٥ بند قبول ملزمة للتنفيذ بشيفرتها واختباراتها','عقد التسليم'),
+      R('Tahdheer - Autopilot Pack','حلقات تعمل وحدها بحدود احترام مشتركة وسجل موحد','ذاتي'),
+      R('Tahdheer - Self-Growth Pack','فتح الصفحات ببوابة الجودة، قنوات العودة، الهدنة، والأثر المقاس','ذاتي'),
+      R('Tahdheer - Internal Search AI','مرادفات متعلمة، ترتيب بالتحويل، مزامنات صادقة، محتوى مشتق','يتعلم'),
+      R('Tahdheer - Customer Completion Pack','مكتبة التنزيلات، الإشعارات، التقييمات V2، مدير أقسام الرئيسية','جديد'),
+      R('Tahdheer - International SEO Studio','سجل المواقع، الوراثة من الأم، الفرص الإقليمية، حارس التشابه','جديد'),
+      R('Tahdheer - Ops Intelligence Pack','مركز التصميم، الأفواج الحقيقية، ذكاء الوسائط، مساعد المحتوى، القمع','جديد'),
+      R('Tahdheer - Journey & Auth Pack','دخول بلا كلمات مرور، موصّل الرحلة ١٤ محطة، دورة التقييم، نظام التصميم','جديد'),
+      R('Tahdheer - Contact Hub','الزر العائم متعدد المنصات، محرك الظهور، بوابة AI المعزولة للـ VPS','جديد'),
+      R('Althadeer - P0 Production Audit','التحاضير الحديثة: جرد بوسم الدليل، مصفوفة القرارات، الملكية، خطة P1','حاكم'),
+      R('Althadeer - Browse UX Pack','١٠ ميزات تيسير تصفح بمعاينة حية — مفتاح إيقاف وتخصيص لكل ميزة','جديد')
+    ]},
+   {n:'قوالب الواجهة العامة',d:'كل قالب على URL يُرتَّب باسمه — بقرار SEO معلن',hbg:'#1e7355',count:'١٠ قوالب',
+    rows:[
+     R('Tahdheer - Storefront Core','الرئيسية + التصنيف + المنتج + السلة/المصغرة + الدفع بسلة حية واحدة'),
+     R('Tahdheer - Product Page Pro','صفحة المنتج المعرفية الكاملة بلوحة SEO حية','§100 كاملة'),
+     R('Tahdheer - Account Portal','بوابة الحساب بسبع شاشات — noindex بتحقق ملكية'),
+     R('Tahdheer - Growth Pages','هبوط الصف/المادة/الفصل ببوابة الجودة + الحزم + المُعِدّة'),
+     R('Tahdheer - Content Hub','المدونة والمقال والدليل والمساعدة والسياسات ومن نحن/تواصل'),
+     R('Tahdheer - Discovery & States','المفضلة، المقارنة، دفع الطلب المعلق، الخطأ، الصيانة 503')
+    ]},
+   {n:'أصول النمو والظهور',d:'ما يجلب روابط وطلبًا جديدًا — لا إعادة توزيع فقط',hbg:'#8a6500',count:'٥ حزم',
+    rows:[
+     R('Tahdheer - Search Assets','الحاسبة، تقويم الاختبارات، بنك الأسئلة، المقارنات، اسأل تذكير'),
+     R('Tahdheer - Rich Results Kit','الفيديو، صور SEO، تقييمات بصور بإشراف، الإثبات المحلي، النفاد الذكي، IndexNow/hreflang'),
+     R('Tahdheer - Embeds & PR','ودجات التضمين، التقرير السنوي، المُعِدّون ٤٠، GBP وواتساب'),
+     R('Tahdheer - Deep Intent','صفحات الوحدات، متتبع المنهج، القاموس العام، Discover والقصص، عناوين A/B'),
+     R('Tahdheer - SEO Growth Engine','المحرك الأصلي الشامل — محفوظ ومركّب في المركز','الإرث')
+    ]},
+   {n:'أنظمة البناء والإدارة',d:'أدوات صناعة الصفحات — noindex خلف صلاحيات في الإنتاج',hbg:'#527a96',count:'٤ أنظمة',
+    rows:[
+     R('Tahdheer - Widget System 800','١٦×٥٠=٨٠٠ ودجة مُتحقَّقة + معاينة حالات + توصيات وكانفس','٨٠٠ ✓'),
+     R('Tahdheer - Product Builder','منشئ صفحة المنتج: ٥٠ ودجة بمحرك نوع المنتج و٦ قوالب'),
+     R('Tahdheer - Hero Studio','خمسة اتجاهات Hero بنموذج بيانات مشترك'),
+     R('Tahdheer - Visual Menu Studio','استوديو القوائم: خريطة، شجرة، نشر ذرّي بتراجع')
+    ]}
+  ],
+  dod:['كل رقم في هذا الفهرس محسوب من بياناته لا مكتوب',
+  'قلب التجارة كاملًا بهوية واحدة','كل قالب بحاشية فهرسة وبنية معلنة','المركز الموحد: ١٣ أداة بصفر فقد','٨٠٠ ودجة بلا مكررات — عدّ آلي','الصدق مبدأ معماريًا في كل وحدة حساسة','بوابات جودة تمنع الصفحات الفارغة','مستويات أمان تنفيذ + تراجع + تدقيق','قبل/بعد يقيس كل إصلاح فعليًا','التجريبي موسوم — لا أرقام حية بلا اتصال','عقد التسليم للتنفيذ جاهز (١٥ بندًا)']
+ };
+ const total=out.groups.reduce((a,g)=>a+g.rows.length,0);
+ out.groups.forEach(g=>{ if(!g.count||g.count.indexOf('قوالب')>=0||g.count.indexOf('حزم')>=0||g.count.indexOf('أنظمة')>=0) g.count=ar(g.rows.length)+' مُسلَّمات'; });
+ out.stats=[{v:ar(out.groups.length),l:'مجموعات'},{v:ar(total),l:'مُسلَّمًا مفهرسًا — محسوب'},{v:'٢١',l:'أداة في المركز'},{v:'٨٠٠',l:'ودجة مسجلة — عدّ آلي'}];
+ return out;
+}
+}
+</script>
+</body>
+</html>

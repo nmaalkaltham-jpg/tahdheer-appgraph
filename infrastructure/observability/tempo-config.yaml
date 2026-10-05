@@ -1,0 +1,28 @@
+# Tahdheer — Tempo, single-binary, local storage (MIP §11.4). Minimal by design.
+
+server:
+  http_listen_port: 3200
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+
+compactor:
+  compaction:
+    block_retention: 336h # 14d of traces
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/blocks
+    wal:
+      path: /var/tempo/wal
+
+# Service-graph / span-metrics generation can be enabled later; keep the
+# initial footprint small (one VPS — MIP §11.3).

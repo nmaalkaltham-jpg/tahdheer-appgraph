@@ -1,0 +1,57 @@
+/*
+UNIT: UNBUILT-NOTICE
+COMPONENT: capability-gate.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+/*
+ * ─── مفرداتُ رموزٍ لا وجود لها ───
+ *
+ * كانت هذه الورقة تطلب `--color-*` و`--font-size-*`: عشرةُ أسماء لا
+ * يعرّفها المستودع كلّه — لا `tokens.css` ولا `globals.css` — فتُعدّ
+ * `var()` باطلةً وقت الحساب. والنتيجة ليست «لونًا افتراضيًّا» بل سقوطُ
+ * الإعلان: الخلفيّة شفّافة، والحدّ بلون النصّ، والحجم موروثٌ من الأب.
+ * أي لوحةٌ تُرسم بلا سطحٍ ولا حدٍّ ولا سلّم.
+ *
+ * والأسماء مُفرداتُ نظامٍ آخر لا نظام هذه اللوحة. فبُدِّلت بمقابلاتها
+ * الحيّة التي تشتقّها اللوحة من `--cc-*`، والأحجام بسلّم البكسلات الذي
+ * تكتبه بقيّة أوراق اللوحة.
+ */
+
+
+/* خصائص منطقيّة وحدها: اللوحة عربيّة، والفيزيائيّة تنقلب خطأً. */
+
+.notice {
+  padding: var(--space-4);
+  margin-block-end: var(--space-4);
+  border: 1px dashed var(--border);
+  border-inline-start: 3px solid var(--warning-text);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.body {
+  margin: 0 0 var(--space-2);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.list {
+  margin: 0 0 var(--space-2);
+  padding-inline-start: var(--space-4);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.list code,
+.body code {
+  padding-inline: var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section dir="rtl" style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:14px;font-weight:900;color:#14261d;text-align:start">الوراثة والتجاوز — <bdi dir="ltr">{{ localeCode }}</bdi></h2>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ localeTabs }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.pressed }}" style="min-height:32px;padding:0 12px;border:0;border-radius:7px;background:{{ t.bg }};color:{{ t.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ t.shadow }}">{{ t.label }}</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{ onMasterChange }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:1px solid {{ masterBtnBorder }};border-radius:8px;background:{{ masterBtnBg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:{{ masterBtnFg }};cursor:pointer">{{ masterBtnLabel }}</button>
+</div>
+
+<div role="status" aria-live="polite" style="display:{{ staleNoticeDisplay }};margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border-radius:10px;background:rgba(216,181,106,.09);border:1px solid rgba(216,181,106,.35)">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:1px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-refresh"></use></svg>
+<div style="min-width:0;text-align:start">
+<b style="display:block;font-size:12px;font-weight:900;color:#7a5d20;margin-bottom:3px">{{ staleTitle }}</b>
+<span style="font-size:11px;line-height:1.7;color:#3b4d43">{{ staleBody }}</span>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:5px">
+<div aria-hidden="true" style="display:flex;gap:9px;padding:0 11px 3px">
+<span style="flex:0 0 96px;font-size:9.5px;font-weight:900;color:#5f7167">الحقل</span>
+<span style="flex:1;font-size:9.5px;font-weight:900;color:#5f7167">القيمة النهائية</span>
+<span style="flex:0 0 96px;font-size:9.5px;font-weight:900;color:#5f7167">المصدر</span>
+<span style="flex:0 0 84px;font-size:9.5px;font-weight:900;color:#5f7167">الحالة</span>
+<span style="flex:0 0 78px"></span>
+</div>
+
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+<div style="border:1px solid {{ r.border }};border-radius:10px;background:{{ r.bg }};overflow:hidden">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 11px">
+<span style="flex:0 0 96px;font-size:11px;font-weight:900;color:#14261d;text-align:start">{{ r.field }}</span>
+<span style="flex:1;min-width:120px;font-size:11.5px;line-height:1.6;color:{{ r.valueFg }};text-align:start"><bdi dir="{{ r.valueDir }}">{{ r.value }}</bdi></span>
+<code dir="{{ r.sourceDir }}" style="flex:0 0 96px;font:600 9.5px ui-monospace,Menlo,monospace;color:#3b4d43;text-align:start">{{ r.source }}</code>
+<span style="flex:0 0 84px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:3px 8px;border-radius:6px;background:{{ r.statusBg }};font-size:9.5px;font-weight:900;color:{{ r.statusFg }};white-space:nowrap">{{ r.status }}</span>
+<button type="button" onClick="{{ r.onExpand }}" aria-expanded="{{ r.expanded }}" style="flex:0 0 78px;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:32px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:#5f7167;cursor:pointer">{{ r.expandLabel }}</button>
+</div>
+
+<div style="display:{{ r.chainDisplay }};padding:0 11px 11px">
+<div style="display:flex;flex-direction:column;gap:4px;padding:10px 11px;border-radius:9px;background:#fbfcfa;border:1px solid #eef1ec">
+<sc-for list="{{ r.chain }}" as="c" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span style="flex:0 0 auto;width:14px;height:14px;border-radius:4px;background:{{ c.dotBg }};color:{{ c.dotFg }};display:grid;place-items:center;font:900 8px ui-monospace,monospace">{{ c.n }}</span>
+<span style="flex:0 0 84px;font-size:10px;font-weight:800;color:{{ c.labelFg }};text-align:start">{{ c.label }}</span>
+<span style="flex:1;min-width:0;font-size:10.5px;line-height:1.65;color:{{ c.valueFg }};text-align:start;text-decoration:{{ c.strike }}"><bdi dir="{{ c.dir }}">{{ c.value }}</bdi></span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid #eef1ec">
+<button type="button" onClick="{{ onRegenStale }}" disabled="{{ regenDisabled }}" style="display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border:1px solid {{ regenBorder }};border-radius:9px;background:{{ regenBg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:{{ regenFg }};cursor:{{ regenCursor }}">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-refresh"></use></svg>{{ regenLabel }}
+</button>
+<button type="button" onClick="{{ onApproveAll }}" style="display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border:1px solid #dde3dc;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#14261d;cursor:pointer">اعتمد الملفّ</button>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(163,58,45,.08);border:1px solid rgba(163,58,45,.2);font-size:10px;font-weight:900;color:#a33a2d;white-space:nowrap">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-close"></use></svg>{{ publishBlockedLabel }}
+</span>
+</div>
+
+<p style="margin:10px 0 0;font-size:10.5px;line-height:1.75;color:#5f7167;text-align:start">{{ footNote }}</p>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:860,&quot;height&quot;:560}}">
+class Component extends DCLogic {
+  state = {
+    locale: 'ar-SA',
+    masterChanged: false,
+    open: 'title',
+    approved: { title: true, meta: false, social: false, terms: true, price: false, support: false }
+  };
+
+  dirOf(s) { return /[\u0600-\u06FF]/.test(String(s)) ? 'rtl' : 'ltr'; }
+
+  data() {
+    /*
+     * Master values are the single source (§2). A locale row is only an OVERRIDE
+     * where the difference is genuine — currency has no mechanism in this store,
+     * so it is 'Not Applicable', not an invented number.
+     */
+    return {
+      'ar-SA': {
+        title: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: 'عرض بوربوينت — الكيمياء العضوية للثانوية (منهج السعودية)', override: 'عرض بوربوينت — الكيمياء العضوية للثانوية (منهج السعودية)' },
+        meta: { master: 'درس تعليمي متكامل وجاهز للشرح والتقديم.', suggestion: '22 شريحة قابلة للتعديل في الكيمياء العضوية — للثانوية، وفق منهج السعودية.', override: '' },
+        social: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: 'حضّر درس الكيمياء العضوية في دقائق — 22 شريحة جاهزة', override: '' },
+        terms: { master: 'أوراق عمل', suggestion: 'أوراق عمل', override: 'أوراق عمل' },
+        price: { master: '300.00 SAR', suggestion: '', override: '' },
+        support: { master: 'دعم عبر واتساب', suggestion: 'دعم عبر واتساب بتوقيت الرياض', override: '' }
+      },
+      'ar-EG': {
+        title: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: 'عرض بوربوينت — الكيمياء العضوية للثانوية العامة', override: '' },
+        meta: { master: 'درس تعليمي متكامل وجاهز للشرح والتقديم.', suggestion: '', override: '' },
+        social: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: '', override: '' },
+        terms: { master: 'أوراق عمل', suggestion: 'أوراق عمل', override: '' },
+        price: { master: '300.00 SAR', suggestion: '', override: '' },
+        support: { master: 'دعم عبر واتساب', suggestion: '', override: '' }
+      },
+      'ar': {
+        title: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: 'عرض بوربوينت — الكيمياء العضوية', override: '' },
+        meta: { master: 'درس تعليمي متكامل وجاهز للشرح والتقديم.', suggestion: 'درس الكيمياء العضوية — 22 شريحة قابلة للتعديل.', override: '' },
+        social: { master: 'عرض بوربوينت — الكيمياء العضوية', suggestion: '', override: '' },
+        terms: { master: 'أوراق عمل', suggestion: 'أوراق عمل', override: '' },
+        price: { master: '300.00 SAR', suggestion: '', override: '' },
+        support: { master: 'دعم عبر واتساب', suggestion: '', override: '' }
+      }
+    };
+  }
+
+  fieldMeta() {
+    return {
+      title: { label: 'العنوان', applicable: true },
+      meta: { label: 'وصف البحث', applicable: true },
+      social: { label: 'الوصف الاجتماعي', applicable: true },
+      terms: { label: 'المصطلح المحلّي', applicable: true },
+      price: { label: 'السعر', applicable: false, na: 'لا إضافة عملات — السعر يُقرأ من WooCommerce وحده' },
+      support: { label: 'الدعم', applicable: true }
+    };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const set = this.data()[st.locale];
+    const meta = this.fieldMeta();
+    const stale = st.masterChanged;
+
+    const STATUS = {
+      approved: ['معتمد', 'rgba(37,155,111,.12)', '#1e7355'],
+      suggested: ['مقترح', 'rgba(216,181,106,.18)', '#7a5d20'],
+      inherited: ['موروث', '#f2f5f2', '#3b4d43'],
+      outdated: ['قديم', 'rgba(163,58,45,.1)', '#a33a2d'],
+      na: ['لا ينطبق', '#f2f5f2', '#5f7167'],
+      missing: ['ناقص', 'rgba(163,58,45,.1)', '#a33a2d']
+    };
+
+    const rows = Object.keys(meta).map(key => {
+      const m = meta[key];
+      const d = set[key];
+      const approvedOverride = st.approved[key] && d.override;
+      let statusKey, value, source, valueFg;
+
+      if (!m.applicable) {
+        statusKey = 'na'; value = m.na; source = 'WooCommerce'; valueFg = '#5f7167';
+      } else if (approvedOverride) {
+        /* Approved overrides are NEVER overwritten when the master changes (§18). */
+        statusKey = stale ? 'approved' : 'approved';
+        value = d.override; source = 'تجاوز معتمد'; valueFg = '#14261d';
+      } else if (d.suggestion) {
+        statusKey = stale ? 'outdated' : 'suggested';
+        value = d.suggestion; source = 'اقتراح'; valueFg = stale ? '#5f7167' : '#14261d';
+      } else {
+        statusKey = 'inherited';
+        value = d.master; source = 'المنتج الأصل'; valueFg = '#3b4d43';
+      }
+
+      const s = STATUS[statusKey];
+      const open = st.open === key;
+
+      const chain = [];
+      chain.push({ n: '1', label: 'المنتج الأصل', value: d.master, dir: this.dirOf(d.master), labelFg: '#5f7167', valueFg: '#3b4d43', dotBg: '#f2f5f2', dotFg: '#5f7167', strike: '' });
+      if (m.applicable) {
+        chain.push({ n: '2', label: 'موروث', value: d.master, dir: this.dirOf(d.master), labelFg: '#5f7167', valueFg: '#5f7167', dotBg: '#f2f5f2', dotFg: '#5f7167', strike: approvedOverride || d.suggestion ? 'line-through' : '' });
+        chain.push({
+          n: '3', label: 'اقتراح المساعد', value: d.suggestion || 'لا اقتراح',
+          dir: this.dirOf(d.suggestion || 'لا اقتراح'),
+          labelFg: '#7a5d20', valueFg: stale && d.suggestion ? '#a33a2d' : '#3b4d43',
+          dotBg: 'rgba(216,181,106,.2)', dotFg: '#7a5d20',
+          strike: approvedOverride ? 'line-through' : ''
+        });
+        chain.push({
+          n: '4', label: approvedOverride ? 'تجاوز معتمد' : 'تجاوز يدوي',
+          value: d.override || 'لا تجاوز', dir: this.dirOf(d.override || 'لا تجاوز'),
+          labelFg: approvedOverride ? '#1e7355' : '#5f7167',
+          valueFg: approvedOverride ? '#14261d' : '#5f7167',
+          dotBg: approvedOverride ? 'rgba(37,155,111,.14)' : '#f2f5f2',
+          dotFg: approvedOverride ? '#1e7355' : '#5f7167', strike: ''
+        });
+      } else {
+        chain.push({ n: '2', label: 'لا ينطبق', value: m.na, dir: 'rtl', labelFg: '#5f7167', valueFg: '#5f7167', dotBg: '#f2f5f2', dotFg: '#5f7167', strike: '' });
+      }
+
+      return {
+        field: m.label, value, valueDir: this.dirOf(value), valueFg,
+        source, sourceDir: this.dirOf(source),
+        status: s[0], statusBg: s[1], statusFg: s[2],
+        border: statusKey === 'outdated' ? 'rgba(163,58,45,.24)' : '#eef1ec',
+        bg: statusKey === 'outdated' ? '#fdf9f8' : '#fff',
+        expanded: open ? 'true' : 'false',
+        expandLabel: open ? 'إخفاء' : 'السلسلة',
+        chainDisplay: open ? 'block' : 'none',
+        chain,
+        onExpand: () => this.setState(s2 => ({ open: s2.open === key ? null : key }))
+      };
+    });
+
+    const staleCount = rows.filter(r => r.status === 'قديم').length;
+
+    return {
+      localeCode: st.locale,
+      localeTabs: [['ar-SA', 'ar-SA'], ['ar-EG', 'ar-EG'], ['ar', 'ar']].map(t => ({
+        label: t[1], pressed: st.locale === t[0] ? 'true' : 'false',
+        bg: st.locale === t[0] ? '#fff' : 'transparent',
+        fg: st.locale === t[0] ? '#14261d' : '#5f7167',
+        shadow: st.locale === t[0] ? '0 1px 3px rgba(20,45,33,.12)' : 'none',
+        onClick: () => this.setState({ locale: t[0] })
+      })),
+      rows,
+
+      masterBtnLabel: stale ? 'أرجِع المنتج الأصل' : 'محاكاة تعديل المنتج الأصل',
+      masterBtnBg: stale ? 'rgba(163,58,45,.07)' : '#fbfcfa',
+      masterBtnBorder: stale ? 'rgba(163,58,45,.28)' : '#dde3dc',
+      masterBtnFg: stale ? '#a33a2d' : '#5f7167',
+      onMasterChange: () => this.setState(s => ({ masterChanged: !s.masterChanged })),
+
+      staleNoticeDisplay: stale ? 'block' : 'none',
+      staleTitle: 'تغيّر المنتج الأصل — ' + staleCount + ' اقتراح صار قديمًا',
+      staleBody: 'التجاوزات المعتمدة لم تُمسّ، والاقتراحات غير المعتمدة وُسمت «قديم» فقط. لا إعادة توليد تلقائية لكل اللغات عند كل حفظ — اخترْ ما تريد تحديثه.',
+
+      regenDisabled: !stale,
+      regenLabel: stale ? 'أعد توليد القديم فقط (' + staleCount + ')' : 'لا يوجد قديم',
+      regenBorder: stale ? '#1e7355' : '#e6e9e2',
+      regenBg: stale ? 'rgba(37,155,111,.06)' : '#fbfcfa',
+      regenFg: stale ? '#1e7355' : '#5f7167',
+      regenCursor: stale ? 'pointer' : 'not-allowed',
+      onRegenStale: () => { if (stale) this.setState({ masterChanged: false }); },
+      onApproveAll: () => {},
+
+      publishBlockedLabel: 'النشر محجوب — لا رابط لغة',
+      footNote: 'هذا ملفّ تخطيط لا صفحة. لا يدخل خريطة الموقع ولا يُخرج hreflang ولا يُنشأ له رابط — حتى تتوفّر إضافة ترجمة ويصدر أمر صريح منك.'
+    };
+  }
+}
+</script>
+</body>
+</html>

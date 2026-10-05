@@ -1,0 +1,725 @@
+{
+  "empty/cart": {
+    "1x": {
+      "bytes": 7866,
+      "height": 300,
+      "sha256": "3614a23bef3ab286",
+      "src": "/art/empty/cart.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 16272,
+      "height": 600,
+      "sha256": "7e92307254824456",
+      "src": "/art/empty/cart@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector",
+    "native": [
+      672,
+      672
+    ]
+  },
+  "empty/downloads": {
+    "1x": {
+      "bytes": 9604,
+      "height": 300,
+      "sha256": "f24c49ab60738c51",
+      "src": "/art/empty/downloads.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 16926,
+      "height": 600,
+      "sha256": "b28dcb29b41bd715",
+      "src": "/art/empty/downloads@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector_official",
+    "native": [
+      617,
+      617
+    ]
+  },
+  "empty/generic": {
+    "1x": {
+      "bytes": 9742,
+      "height": 300,
+      "sha256": "969631452e6e72cd",
+      "src": "/art/empty/generic.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 19682,
+      "height": 600,
+      "sha256": "7a09fc02157a6136",
+      "src": "/art/empty/generic@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector_official",
+    "native": [
+      766,
+      766
+    ]
+  },
+  "empty/library": {
+    "1x": {
+      "bytes": 5630,
+      "height": 300,
+      "sha256": "0431df38022091d1",
+      "src": "/art/empty/library.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 10152,
+      "height": 600,
+      "sha256": "7e1d39f48367a2be",
+      "src": "/art/empty/library@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector_official",
+    "native": [
+      636,
+      636
+    ]
+  },
+  "empty/orders": {
+    "1x": {
+      "bytes": 3340,
+      "height": 300,
+      "sha256": "0e566dfdd19864bd",
+      "src": "/art/empty/orders.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 6406,
+      "height": 600,
+      "sha256": "b267105757f98d3e",
+      "src": "/art/empty/orders@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector_official",
+    "native": [
+      712,
+      712
+    ]
+  },
+  "empty/search": {
+    "1x": {
+      "bytes": 6036,
+      "height": 300,
+      "sha256": "b35641dcd792729f",
+      "src": "/art/empty/search.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 11300,
+      "height": 600,
+      "sha256": "1b292d5d2289a6af",
+      "src": "/art/empty/search@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector",
+    "native": [
+      605,
+      605
+    ]
+  },
+  "empty/wishlist": {
+    "1x": {
+      "bytes": 9236,
+      "height": 300,
+      "sha256": "ec06a58621bb7a27",
+      "src": "/art/empty/wishlist.webp",
+      "width": 300
+    },
+    "2x": {
+      "bytes": 18912,
+      "height": 600,
+      "sha256": "148093f6002b35e5",
+      "src": "/art/empty/wishlist@2x.webp",
+      "width": 600
+    },
+    "alt": "",
+    "credit": "macrovector",
+    "native": [
+      782,
+      782
+    ]
+  },
+  "hero/globe": {
+    "1x": {
+      "bytes": 33366,
+      "height": 480,
+      "sha256": "cae0920ad0aa32ce",
+      "src": "/art/hero/globe.webp",
+      "width": 480
+    },
+    "2x": {
+      "bytes": 77164,
+      "height": 960,
+      "sha256": "e24ff4d2cacad436",
+      "src": "/art/hero/globe@2x.webp",
+      "width": 960
+    },
+    "alt": "",
+    "credit": "freepik",
+    "native": [
+      1642,
+      1642
+    ]
+  },
+  "hero/lab-bench": {
+    "1x": {
+      "bytes": 22182,
+      "height": 342,
+      "sha256": "9f12c473207d76ed",
+      "src": "/art/hero/lab-bench.webp",
+      "width": 600
+    },
+    "2x": {
+      "bytes": 44778,
+      "height": 683,
+      "sha256": "ff02a5934ef4f4b8",
+      "src": "/art/hero/lab-bench@2x.webp",
+      "width": 1200
+    },
+    "alt": "",
+    "credit": "rawpixel",
+    "dark": {
+      "1x": {
+        "bytes": 23138,
+        "height": 342,
+        "sha256": "83136f06c32869a3",
+        "src": "/art/hero/lab-bench-on-dark.webp",
+        "width": 600
+      },
+      "2x": {
+        "bytes": 48444,
+        "height": 683,
+        "sha256": "28e40887c3d052da",
+        "src": "/art/hero/lab-bench-on-dark@2x.webp",
+        "width": 1200
+      },
+      "native": [
+        4278,
+        2435
+      ]
+    },
+    "native": [
+      4278,
+      2435
+    ]
+  },
+  "hero/lab-scene": {
+    "1x": {
+      "bytes": 45368,
+      "height": 584,
+      "sha256": "4d3881a0e7b48452",
+      "src": "/art/hero/lab-scene.webp",
+      "width": 600
+    },
+    "2x": {
+      "bytes": 87020,
+      "height": 1167,
+      "sha256": "d74c8f3775e3a575",
+      "src": "/art/hero/lab-scene@2x.webp",
+      "width": 1200
+    },
+    "alt": "",
+    "credit": "rawpixel",
+    "dark": {
+      "1x": {
+        "bytes": 41514,
+        "height": 584,
+        "sha256": "bc31f609af4fca40",
+        "src": "/art/hero/lab-scene-on-dark.webp",
+        "width": 600
+      },
+      "2x": {
+        "bytes": 81786,
+        "height": 1167,
+        "sha256": "d758b6c8112f73f2",
+        "src": "/art/hero/lab-scene-on-dark@2x.webp",
+        "width": 1200
+      },
+      "svg": {
+        "bytes": 89241,
+        "height": 916,
+        "sha256": "a103f47ae7d00259",
+        "src": "/art/hero/lab-scene-on-dark.svg",
+        "width": 942
+      }
+    },
+    "native": [
+      "vector"
+    ],
+    "svg": {
+      "bytes": 89241,
+      "height": 916,
+      "sha256": "03cd57092fb1bcd0",
+      "src": "/art/hero/lab-scene.svg",
+      "width": 942
+    }
+  },
+  "payment/mada": {
+    "1x": {
+      "bytes": 2776,
+      "height": 40,
+      "sha256": "5937d404e0b76266",
+      "src": "/art/payment/mada.webp",
+      "width": 120
+    },
+    "2x": {
+      "bytes": 5770,
+      "height": 80,
+      "sha256": "5724dc08495c16a1",
+      "src": "/art/payment/mada@2x.webp",
+      "width": 240
+    },
+    "alt": "مدى",
+    "credit": "mada",
+    "dark": {
+      "1x": {
+        "bytes": 1904,
+        "height": 40,
+        "sha256": "0be4ee282211fb7a",
+        "src": "/art/payment/mada-on-dark.webp",
+        "width": 120
+      },
+      "2x": {
+        "bytes": 3610,
+        "height": 80,
+        "sha256": "923da450e7665459",
+        "src": "/art/payment/mada-on-dark@2x.webp",
+        "width": 240
+      },
+      "native": [
+        1920,
+        641
+      ]
+    },
+    "native": [
+      1920,
+      641
+    ]
+  },
+  "people/teacher-man": {
+    "1x": {
+      "bytes": 10610,
+      "height": 320,
+      "sha256": "5e10f43096867082",
+      "src": "/art/people/teacher-man.webp",
+      "width": 240
+    },
+    "2x": {
+      "bytes": 21478,
+      "height": 640,
+      "sha256": "439bedad1fe46f96",
+      "src": "/art/people/teacher-man@2x.webp",
+      "width": 480
+    },
+    "alt": "معلّمٌ يكتب",
+    "credit": "macrovector",
+    "native": [
+      814,
+      1085
+    ]
+  },
+  "people/teacher-woman": {
+    "1x": {
+      "bytes": 9200,
+      "height": 320,
+      "sha256": "d1d3a36df1718c8e",
+      "src": "/art/people/teacher-woman.webp",
+      "width": 240
+    },
+    "2x": {
+      "bytes": 18618,
+      "height": 640,
+      "sha256": "183f81c82429872d",
+      "src": "/art/people/teacher-woman@2x.webp",
+      "width": 480
+    },
+    "alt": "معلّمةٌ أمام حاسوبها",
+    "credit": "macrovector",
+    "native": [
+      736,
+      982
+    ]
+  },
+  "stages/kindergarten": {
+    "1x": {
+      "bytes": 5624,
+      "height": 192,
+      "sha256": "52db339da50b8e32",
+      "src": "/art/stages/kindergarten.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 11864,
+      "height": 384,
+      "sha256": "e43fcc06d5d0f1e8",
+      "src": "/art/stages/kindergarten@2x.webp",
+      "width": 384
+    },
+    "alt": "صاروخ",
+    "credit": "macrovector",
+    "native": [
+      823,
+      823
+    ]
+  },
+  "stages/middle": {
+    "1x": {
+      "bytes": 7354,
+      "height": 192,
+      "sha256": "628a5af5e6cf5163",
+      "src": "/art/stages/middle.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 15166,
+      "height": 384,
+      "sha256": "c7167288485cd899",
+      "src": "/art/stages/middle@2x.webp",
+      "width": 384
+    },
+    "alt": "مقراب",
+    "credit": "macrovector",
+    "native": [
+      716,
+      716
+    ]
+  },
+  "stages/primary": {
+    "1x": {
+      "bytes": 6276,
+      "height": 192,
+      "sha256": "db7be3fe4a436f06",
+      "src": "/art/stages/primary.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 12856,
+      "height": 384,
+      "sha256": "df64dba22f75dcb5",
+      "src": "/art/stages/primary@2x.webp",
+      "width": 384
+    },
+    "alt": "طفلٌ يقرأ كتابًا",
+    "credit": "macrovector",
+    "native": [
+      1174,
+      1174
+    ]
+  },
+  "stages/secondary": {
+    "1x": {
+      "bytes": 3218,
+      "height": 192,
+      "sha256": "cbb0764192481810",
+      "src": "/art/stages/secondary.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 6260,
+      "height": 384,
+      "sha256": "46267c9aa1f732d4",
+      "src": "/art/stages/secondary@2x.webp",
+      "width": 384
+    },
+    "alt": "قبّعة التخرّج",
+    "credit": "macrovector",
+    "dark": {
+      "1x": {
+        "bytes": 3470,
+        "height": 192,
+        "sha256": "8d0971352a4878e5",
+        "src": "/art/stages/secondary-on-dark.webp",
+        "width": 192
+      },
+      "2x": {
+        "bytes": 6674,
+        "height": 384,
+        "sha256": "34ee3a8411896532",
+        "src": "/art/stages/secondary-on-dark@2x.webp",
+        "width": 384
+      },
+      "native": [
+        830,
+        830
+      ]
+    },
+    "native": [
+      830,
+      830
+    ]
+  },
+  "subjects/arabic": {
+    "1x": {
+      "bytes": 8558,
+      "height": 192,
+      "sha256": "f65f10f9f05deca1",
+      "src": "/art/subjects/arabic.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 7620,
+      "height": 292,
+      "sha256": "370c05d78c481aa0",
+      "src": "/art/subjects/arabic@2x.webp",
+      "width": 292
+    },
+    "alt": "كتاب مفتوح",
+    "credit": "freepik",
+    "native": [
+      292,
+      292
+    ]
+  },
+  "subjects/biology": {
+    "1x": {
+      "bytes": 6824,
+      "height": 192,
+      "sha256": "b9fda12a6476e078",
+      "src": "/art/subjects/biology.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 14192,
+      "height": 384,
+      "sha256": "4bfc88a7a81a1279",
+      "src": "/art/subjects/biology@2x.webp",
+      "width": 384
+    },
+    "alt": "شريط الحمض النوويّ",
+    "credit": "macrovector",
+    "dark": {
+      "1x": {
+        "bytes": 7422,
+        "height": 192,
+        "sha256": "af9d36e998479c3c",
+        "src": "/art/subjects/biology-on-dark.webp",
+        "width": 192
+      },
+      "2x": {
+        "bytes": 15390,
+        "height": 384,
+        "sha256": "66b54a5d58303a22",
+        "src": "/art/subjects/biology-on-dark@2x.webp",
+        "width": 384
+      },
+      "native": [
+        746,
+        746
+      ]
+    },
+    "native": [
+      746,
+      746
+    ]
+  },
+  "subjects/chemistry": {
+    "1x": {
+      "bytes": 5312,
+      "height": 192,
+      "sha256": "a2449d628afb4b1c",
+      "src": "/art/subjects/chemistry.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 10400,
+      "height": 384,
+      "sha256": "a9fe984da3545821",
+      "src": "/art/subjects/chemistry@2x.webp",
+      "width": 384
+    },
+    "alt": "دورق كيمياء بفقاعات",
+    "credit": "katemangostar",
+    "native": [
+      907,
+      907
+    ]
+  },
+  "subjects/computer": {
+    "1x": {
+      "bytes": 2192,
+      "height": 192,
+      "sha256": "adcfef27daa6382b",
+      "src": "/art/subjects/computer.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 3934,
+      "height": 384,
+      "sha256": "59f9072a27880cb8",
+      "src": "/art/subjects/computer@2x.webp",
+      "width": 384
+    },
+    "alt": "حاسوب محمول",
+    "credit": "macrovector_official",
+    "native": [
+      738,
+      738
+    ]
+  },
+  "subjects/critical-thinking": {
+    "1x": {
+      "bytes": 9074,
+      "height": 192,
+      "sha256": "9621e667539b8eed",
+      "src": "/art/subjects/critical-thinking.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 18820,
+      "height": 384,
+      "sha256": "d579f9b7a6d6ef2a",
+      "src": "/art/subjects/critical-thinking@2x.webp",
+      "width": 384
+    },
+    "alt": "دماغ",
+    "credit": "macrovector",
+    "native": [
+      666,
+      666
+    ]
+  },
+  "subjects/english": {
+    "1x": {
+      "bytes": 8790,
+      "height": 192,
+      "sha256": "13a7414c6fea7693",
+      "src": "/art/subjects/english.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 18160,
+      "height": 384,
+      "sha256": "e343d946b93c4fa4",
+      "src": "/art/subjects/english@2x.webp",
+      "width": 384
+    },
+    "alt": "سمّاعة بحروف إنجليزيّة",
+    "credit": "macrovector",
+    "native": [
+      974,
+      974
+    ]
+  },
+  "subjects/math": {
+    "1x": {
+      "bytes": 3076,
+      "height": 192,
+      "sha256": "2ad4dcff32cb9fdc",
+      "src": "/art/subjects/math.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 4248,
+      "height": 384,
+      "sha256": "45dc85a946bdb1e7",
+      "src": "/art/subjects/math@2x.webp",
+      "width": 384
+    },
+    "alt": "آلة حاسبة",
+    "credit": "macrovector",
+    "native": [
+      552,
+      552
+    ]
+  },
+  "subjects/physics": {
+    "1x": {
+      "bytes": 13218,
+      "height": 192,
+      "sha256": "5a6fc72ebc9e6769",
+      "src": "/art/subjects/physics.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 31812,
+      "height": 384,
+      "sha256": "48f9f75bbbe2d170",
+      "src": "/art/subjects/physics@2x.webp",
+      "width": 384
+    },
+    "alt": "ذرّة",
+    "credit": "macrovector",
+    "dark": {
+      "1x": {
+        "bytes": 15340,
+        "height": 192,
+        "sha256": "c106cc9bb9a843ad",
+        "src": "/art/subjects/physics-on-dark.webp",
+        "width": 192
+      },
+      "2x": {
+        "bytes": 37084,
+        "height": 384,
+        "sha256": "5a1656f5fcf80be0",
+        "src": "/art/subjects/physics-on-dark@2x.webp",
+        "width": 384
+      },
+      "native": [
+        729,
+        729
+      ]
+    },
+    "native": [
+      729,
+      729
+    ]
+  },
+  "subjects/science": {
+    "1x": {
+      "bytes": 7722,
+      "height": 192,
+      "sha256": "9fb6458ad0617775",
+      "src": "/art/subjects/science.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 15658,
+      "height": 384,
+      "sha256": "658ab324cb7f89b4",
+      "src": "/art/subjects/science@2x.webp",
+      "width": 384
+    },
+    "alt": "مجهر",
+    "credit": "macrovector",
+    "native": [
+      738,
+      738
+    ]
+  },
+  "subjects/social-studies": {
+    "1x": {
+      "bytes": 8244,
+      "height": 192,
+      "sha256": "28d9b6ebac7b8962",
+      "src": "/art/subjects/social-studies.webp",
+      "width": 192
+    },
+    "2x": {
+      "bytes": 17524,
+      "height": 384,
+      "sha256": "8edf83d7ce9340c6",
+      "src": "/art/subjects/social-studies@2x.webp",
+      "width": 384
+    },
+    "alt": "مجسّم الكرة الأرضيّة",
+    "credit": "macrovector",
+    "native": [
+      628,
+      628
+    ]
+  }
+}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section aria-labelledby="rv2-h" style="direction:rtl;background:#f7f9f6;color:#223129;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif;padding:{{ pad }}">
+
+<header style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px">
+<div>
+<span style="display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:#5f7167;margin-bottom:8px">تحليل التقييمات</span>
+<h2 id="rv2-h" style="margin:0;font-size:{{ h2 }};font-weight:900;color:#14261d;letter-spacing:-.01em">ماذا يقول {{ total }} معلّمًا؟</h2>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<sc-for list="{{ trustStrip }}" as="t" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:9px;background:#fff;border:1px solid #e6e9e2;font-size:11.5px;font-weight:800;color:#3b4d43"><svg aria-hidden="true" style="width:13px;height:13px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ t.iconRef }}"></use></svg>{{ t.label }}</span>
+</sc-for>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:{{ shellCols }};gap:16px;align-items:start">
+
+<div style="display:flex;flex-direction:column;gap:12px;position:{{ stick }};inset-block-start:16px">
+
+<div style="padding:20px;border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+<div style="flex:0 0 auto;text-align:center">
+<div style="font-size:{{ avgSize }};font-weight:900;color:#14261d;line-height:1"><dc-import name="TahCountUp" value="{{ avg }}" decimals="{{ 1 }}" motion="{{ motion }}" duration="{{ 1200 }}" hint-size="72px,44px"></dc-import></div>
+<div role="img" aria-label="{{ starsLabel }}" style="display:flex;gap:2px;justify-content:center;margin-top:5px">
+<sc-for list="{{ heroStars }}" as="s" hint-placeholder-count="5">
+<span style="position:relative;display:block;width:15px;height:15px;color:#e0e5dd"><svg aria-hidden="true" style="position:absolute;inset:0;width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg><span style="position:absolute;inset-block:0;inset-inline-start:0;width:{{ s.fill }};overflow:hidden;color:#d8b56a;animation:{{ s.anim }}"><svg aria-hidden="true" style="width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg></span></span>
+</sc-for>
+</div>
+</div>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;align-items:baseline;gap:6px"><b style="font-size:19px;font-weight:900;color:#1e7355"><dc-import name="TahCountUp" value="{{ recommend }}" decimals="{{ 0 }}" suffix="%" motion="{{ motion }}" duration="{{ 1300 }}" hint-size="42px,24px"></dc-import></b><span style="font-size:12.5px;font-weight:700;color:#5f7167">يوصون بالملف</span></div>
+<span style="display:block;height:7px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ recommendPct }};border-radius:999px;background:linear-gradient(90deg,#1e7355,#3fae86);animation:{{ recAnim }}"></span></span>
+<span style="font-size:11.5px;color:#5f7167">بناءً على {{ total }} تقييمًا موثقًا</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:1px solid #eef1ec">
+<sc-for list="{{ dist }}" as="d" hint-placeholder-count="5">
+<button type="button" onClick="{{ d.onClick }}" aria-pressed="{{ d.pressed }}" style="display:flex;align-items:center;gap:10px;min-height:{{ tapMin }};padding:0 8px;border:1px solid {{ d.border }};border-radius:9px;background:{{ d.bg }};cursor:pointer;text-align:start">
+<span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:3px;min-width:30px;font-size:12px;font-weight:800;color:#3b4d43">{{ d.stars }}<svg aria-hidden="true" style="width:11px;height:11px;color:#d8b56a;fill:currentColor;stroke:none"><use href="#i-star"></use></svg></span>
+<span style="flex:1;height:8px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ d.barW }};border-radius:999px;background:{{ d.color }};animation:{{ d.anim }}"></span></span>
+<span style="flex:0 0 auto;min-width:30px;text-align:end;font-size:11.5px;font-weight:700;color:#5f7167">{{ d.count }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:18px 20px;border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<h3 style="margin:0 0 14px;font-size:13.5px;font-weight:900;color:#14261d">تقييم تفصيلي</h3>
+<div style="display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+<div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px"><span style="font-size:12px;font-weight:700;color:#3b4d43">{{ c.label }}</span><b style="font-size:12.5px;font-weight:900;color:#14261d">{{ c.score }}</b></div>
+<span style="display:block;height:6px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ c.pct }};border-radius:999px;background:{{ c.color }};animation:{{ c.anim }}"></span></span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:18px 20px;border:1px solid rgba(37,155,111,.24);border-radius:16px;background:linear-gradient(135deg,rgba(37,155,111,.07),rgba(37,155,111,.02));animation:{{ summaryAnim }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px"><svg aria-hidden="true" style="width:15px;height:15px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-sparkle"></use></svg><span style="font-size:11.5px;font-weight:900;letter-spacing:.06em;color:#1e7355">ملخّص ذكي</span></div>
+<p style="margin:0 0 12px;font-size:13.5px;line-height:1.85;color:#3b4d43;text-wrap:pretty">{{ smartSummary }}</p>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ keywords }}" as="k" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="flex:0 0 96px;font-size:11.5px;font-weight:800;color:#14261d">{{ k.word }}</span>
+<span style="flex:1;height:6px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ k.pct }};border-radius:999px;background:#1e7355;animation:{{ k.anim }}"></span></span>
+<span style="flex:0 0 auto;font-size:11px;font-weight:700;color:#5f7167">{{ k.n }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<button type="button" style="display:flex;align-items:center;justify-content:center;gap:9px;min-height:48px;border:0;border-radius:12px;background:#1e7355;color:#fff;font:900 14.5px Tajawal,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(30,115,85,.2)"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-pen"></use></svg>اكتب تقييمك</button>
+</div>
+
+<div style="min-width:0">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:12px">
+<label style="flex:1;min-width:190px;display:flex;align-items:center;gap:9px;min-height:44px;padding-inline:13px;border:1px solid #dde3dc;border-radius:11px;background:#fff">
+<svg aria-hidden="true" style="width:16px;height:16px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto"><use href="#i-search"></use></svg>
+<span style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%)">ابحث في التقييمات</span>
+<input type="search" value="{{ query }}" onChange="{{ onQuery }}" placeholder="ابحث في نصوص التقييمات…" style="flex:1;min-width:0;background:none;border:0;outline:none;font:600 13.5px Tajawal,sans-serif;color:#14261d">
+</label>
+<div style="display:flex;flex-wrap:wrap;gap:4px;padding:3px;border-radius:11px;background:#fff;border:1px solid #e6e9e2">
+<sc-for list="{{ sorts }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.pressed }}" style="min-height:{{ tapMin }};padding:0 12px;border:0;border-radius:8px;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;line-height:1;cursor:pointer;background:{{ s.bg }};color:{{ s.fg }};transition:.16s ease">{{ s.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ hasFilter }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;padding:10px 13px;border-radius:11px;background:rgba(216,181,106,.10);border:1px solid rgba(216,181,106,.34)">
+<span style="font-size:12px;font-weight:800;color:#7a5d20">مُصفّى: {{ filterLabel }}</span>
+<button type="button" onClick="{{ onClearFilter }}" style="margin-inline-start:auto;min-height:32px;padding:0 12px;border:1px solid rgba(216,181,106,.5);border-radius:8px;background:#fff;color:#7a5d20;font:800 11.5px Tajawal,sans-serif;cursor:pointer">إلغاء التصفية</button>
+</div>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ reviews }}" as="r" hint-placeholder-count="4">
+<article style="padding:18px 20px;border:1px solid {{ r.edge }};border-radius:14px;background:#fff;animation:{{ r.anim }};transition:.16s ease" style-hover="border-color:#c9d4cd;box-shadow:0 10px 26px rgba(20,45,33,.07)">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:10px">
+<span aria-hidden="true" style="flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:{{ r.avatarBg }};color:{{ r.avatarFg }};display:grid;place-items:center;font-weight:900;font-size:13.5px">{{ r.initial }}</span>
+<b style="font-size:13.5px;font-weight:900;color:#14261d">{{ r.name }}</b>
+<sc-if value="{{ r.verified }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;background:rgba(37,155,111,.10);font-size:10.5px;font-weight:900;color:#1e7355"><svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>شراء موثق</span>
+</sc-if>
+<span style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px">
+<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:6px;background:{{ r.scoreBg }};color:{{ r.scoreFg }};font-size:11.5px;font-weight:900">{{ r.rating }}.0<svg aria-hidden="true" style="width:11px;height:11px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg></span>
+<time datetime="{{ r.iso }}" style="font-size:11.5px;color:#5f7167">{{ r.date }}</time>
+</span>
+</div>
+<h3 style="margin:0 0 6px;font-size:14.5px;font-weight:900;color:#14261d;line-height:1.5">{{ r.title }}</h3>
+<p style="margin:0 0 10px;font-size:13.5px;line-height:1.88;color:#3b4d43;text-wrap:pretty">{{ r.shownBody }}</p>
+<sc-if value="{{ r.clipped }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ r.onExpand }}" aria-expanded="{{ r.expanded }}" style="margin-bottom:10px;min-height:{{ tapMin }};padding:0 12px;border:1px solid #e6e9e2;border-radius:8px;background:#fbfcfa;color:#1e7355;font:800 12px Tajawal,sans-serif;cursor:pointer">{{ r.expandLabel }}</button>
+</sc-if>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+<span style="font-size:11.5px;color:#5f7167">{{ r.variant }}</span>
+<button type="button" onClick="{{ r.onHelpful }}" aria-pressed="{{ r.helpfulPressed }}" style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;min-height:{{ tapMin }};padding:0 13px;border:1px solid {{ r.helpfulBorder }};border-radius:9px;background:{{ r.helpfulBg }};color:{{ r.helpfulFg }};font:800 12px Tajawal,sans-serif;cursor:pointer;transition:.16s ease"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-thumb"></use></svg>مفيد {{ r.helpfulCount }}</button>
+</div>
+<sc-if value="{{ r.hasReply }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;padding:12px 14px;border-radius:10px;background:#f7f9f6;border-inline-start:3px solid #1e7355">
+<b style="display:block;font-size:12px;font-weight:900;color:#14261d;margin-bottom:4px">ردّ المتجر</b>
+<p style="margin:0;font-size:12.5px;line-height:1.8;color:#3b4d43">{{ r.reply }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+</div>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:40px 24px;border:1px dashed #c9d4cd;border-radius:14px;background:#fff;text-align:center">
+<span style="display:inline-grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#f2f5f2;color:#5f7167;margin-bottom:12px"><svg aria-hidden="true" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><use href="#i-search"></use></svg></span>
+<p style="margin:0 0 4px;font-size:15px;font-weight:900;color:#14261d">لا نتائج مطابقة</p>
+<p style="margin:0;font-size:13px;color:#5f7167">جرّب كلمة أخرى أو ألغِ التصفية.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasMore }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ onMore }}" style="width:100%;margin-top:12px;min-height:46px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font:900 14px Tajawal,sans-serif;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">تحميل تقييمات أكثر ({{ remaining }})</button>
+</sc-if>
+</div>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900},&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,unknown&gt;&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { sort: 'helpful', query: '', helpful: {}, expanded: {}, starFilter: 0, limit: 4 };
+
+  count(r) { return (r.helpful || 0) + (this.state.helpful[r.id] ? 1 : 0); }
+
+  renderVals() {
+    const d = this.props.data || {};
+    const motion = this.props.motion !== false;
+    const compact = !!this.props.compact;
+    const all = d.reviews || [];
+    const total = d.total || 0;
+    const avg = d.avg || 0;
+    const q = this.state.query.trim();
+
+    let list = all.filter(r => !q || (r.title + ' ' + r.body + ' ' + r.name).includes(q));
+    if (this.state.starFilter) list = list.filter(r => r.rating === this.state.starFilter);
+    if (this.state.sort === 'newest') list = list.slice().sort((a, b) => b.iso.localeCompare(a.iso));
+    if (this.state.sort === 'highest') list = list.slice().sort((a, b) => b.rating - a.rating);
+    if (this.state.sort === 'lowest') list = list.slice().sort((a, b) => a.rating - b.rating);
+    if (this.state.sort === 'helpful') list = list.slice().sort((a, b) => this.count(b) - this.count(a));
+    if (this.state.sort === 'media') list = list.filter(r => (r.media || []).length);
+
+    const shown = list.slice(0, this.state.limit);
+    const maxKw = Math.max.apply(null, (d.keywords || [{ n: 1 }]).map(k => k.n));
+
+    return {
+      pad: compact ? '28px 16px' : '44px 32px',
+      h2: compact ? '21px' : '28px',
+      avgSize: compact ? '38px' : '44px',
+      shellCols: compact ? '1fr' : '336px 1fr',
+      // Hit area is a token, not a per-button literal, so compact mode can't miss one.
+      tapMin: compact ? '44px' : '36px',
+      stick: compact ? 'static' : 'sticky',
+      motion, avg, total, recommend: d.recommend || 0,
+      recommendPct: (d.recommend || 0) + '%',
+      recAnim: motion ? 'tahBarGrow 1s cubic-bezier(.22,1,.36,1) 150ms both' : 'none',
+      starsLabel: 'التقييم ' + avg + ' من 5',
+      heroStars: [0, 1, 2, 3, 4].map(i => ({
+        fill: Math.max(0, Math.min(1, avg - i)) * 100 + '%',
+        anim: motion ? 'tahStarIn .5s ease-out ' + (i * 90) + 'ms both' : 'none'
+      })),
+      trustStrip: [
+        { label: 'مشتريات موثقة', iconRef: '#i-shield' },
+        { label: 'تقييمات حقيقية', iconRef: '#i-check' },
+        { label: 'تحميل فوري', iconRef: '#i-download' },
+        { label: 'دعم سريع', iconRef: '#i-headset' }
+      ],
+      dist: (d.dist || []).map((r, i) => {
+        const on = this.state.starFilter === r.starsNum;
+        return {
+          ...r,
+          color: i === 0 ? '#1e7355' : i === 1 ? '#3fae86' : '#c9b489',
+          bg: on ? 'rgba(37,155,111,.08)' : 'transparent',
+          border: on ? 'rgba(37,155,111,.4)' : 'transparent',
+          pressed: on ? 'true' : 'false',
+          onClick: () => this.setState(s => ({ starFilter: s.starFilter === r.starsNum ? 0 : r.starsNum, limit: 4 })),
+          anim: motion ? 'tahBarGrow .9s cubic-bezier(.22,1,.36,1) ' + (i * 80) + 'ms both' : 'none'
+        };
+      }),
+      cats: (d.cats || []).map((c, i) => ({
+        ...c,
+        color: parseFloat(c.score) >= 4.8 ? '#1e7355' : '#3fae86',
+        anim: motion ? 'tahBarGrow .9s cubic-bezier(.22,1,.36,1) ' + (i * 70) + 'ms both' : 'none'
+      })),
+      smartSummary: d.summary || '',
+      keywords: (d.keywords || []).map((k, i) => ({
+        ...k, pct: Math.round((k.n / maxKw) * 100) + '%',
+        anim: motion ? 'tahBarGrow .85s cubic-bezier(.22,1,.36,1) ' + (120 + i * 70) + 'ms both' : 'none'
+      })),
+      summaryAnim: motion ? 'tahFadeUp .5s ease-out 100ms both' : 'none',
+      sorts: [['helpful', 'الأكثر إفادة'], ['newest', 'الأحدث'], ['highest', 'الأعلى'], ['lowest', 'الأقل'], ['media', 'بصور']].map(([id, label]) => ({
+        label, pressed: this.state.sort === id ? 'true' : 'false',
+        bg: this.state.sort === id ? '#1e7355' : 'transparent',
+        fg: this.state.sort === id ? '#fff' : '#5f7167',
+        onClick: () => this.setState({ sort: id })
+      })),
+      query: this.state.query,
+      onQuery: e => this.setState({ query: e.target.value, limit: 4 }),
+      hasFilter: !!this.state.starFilter,
+      filterLabel: this.state.starFilter + ' نجوم',
+      onClearFilter: () => this.setState({ starFilter: 0 }),
+      isEmpty: shown.length === 0,
+      reviews: shown.map((r, i) => {
+        const pressed = !!this.state.helpful[r.id];
+        const exp = !!this.state.expanded[r.id];
+        const long = r.body.length > 180;
+        return {
+          ...r,
+          initial: r.name.replace(/^أ\.\s*/, '').charAt(0),
+          avatarBg: i % 2 ? 'rgba(216,181,106,.18)' : 'rgba(37,155,111,.12)',
+          avatarFg: i % 2 ? '#7a5d20' : '#1e7355',
+          edge: r.rating <= 3 ? 'rgba(216,181,106,.5)' : '#e6e9e2',
+          scoreBg: r.rating >= 5 ? 'rgba(37,155,111,.12)' : r.rating >= 4 ? 'rgba(37,155,111,.08)' : 'rgba(216,181,106,.18)',
+          scoreFg: r.rating >= 4 ? '#1e7355' : '#7a5d20',
+          shownBody: long && !exp ? r.body.slice(0, 180).trim() + '…' : r.body,
+          clipped: long,
+          expanded: exp ? 'true' : 'false',
+          expandLabel: exp ? 'إظهار أقل' : 'قراءة التقييم كاملًا',
+          onExpand: () => this.setState(s => ({ expanded: { ...s.expanded, [r.id]: !s.expanded[r.id] } })),
+          hasReply: !!r.reply,
+          helpfulCount: this.count(r),
+          helpfulPressed: pressed ? 'true' : 'false',
+          helpfulBg: pressed ? 'rgba(37,155,111,.10)' : '#fff',
+          helpfulFg: pressed ? '#1e7355' : '#3b4d43',
+          helpfulBorder: pressed ? 'rgba(37,155,111,.4)' : '#e6e9e2',
+          onHelpful: () => this.setState(s => ({ helpful: { ...s.helpful, [r.id]: !s.helpful[r.id] } })),
+          anim: motion ? 'tahFadeUp .48s ease-out ' + (i * 70) + 'ms both' : 'none'
+        };
+      }),
+      hasMore: list.length > this.state.limit,
+      remaining: Math.max(0, list.length - this.state.limit),
+      onMore: () => this.setState(s => ({ limit: s.limit + 4 }))
+    };
+  }
+}
+</script>
+</body>
+</html>

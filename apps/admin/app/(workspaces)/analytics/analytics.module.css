@@ -1,0 +1,303 @@
+/*
+UNIT: ANALYTICS
+COMPONENT: overview.tsx, page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * كروم «مركز التحليلات» وشريط تبويباته — لوحة Tahdheer - Analytics Pro Suite.
+ *
+ * الكروم يملك السمة (فاتح/داكن) والتبويبات معًا: التبويب لا يحمل شريطه ولا
+ * سمته، وإلا تكرّر شريطان وأُعيدت السمة عند كل تنقّل.
+ */
+
+.root {
+  /* سلّم الكروم في tokens.css يقف عند 05…16 بلا 08 أو 18 — الدرجتان
+     مسجّلتان في .design-sync/.cache/tokens/analytics.css كي تُدمجا فيه. */
+  --chrome-08: var(--cc-well);
+
+  margin-block-end: 24px;
+}
+
+.frame {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* ───── شريط الكروم الداكن ───── */
+.chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-block: 11px;
+  padding-inline: 16px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  background: var(--cc-glass);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  color: var(--cc-text);
+  margin-block-end: 12px;
+}
+
+.chromeMark {
+  flex: 0 0 auto;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 8px;
+  /* بلاطة العلامة نفسها في «Analytics Pro OS» (‎.brandTile‎): تدرّج الأساسيّ بحبره لكلّ سمة. */
+  background: var(--cc-grad);
+  color: var(--adm-on-accent);
+  display: grid;
+  place-items: center;
+}
+
+.chromeTitle {
+  flex: 0 0 auto;
+  margin-block: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--chrome-text);
+}
+
+.chromeSub {
+  font-size: 12px;
+  color: var(--chrome-muted);
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* شارة الأمانة الدائمة — تقابل شارة «محتوى معاينة» في اللوحة، وتقول الحقيقة
+   بدلها: ما يُقاس وما لا يُقاس في هذا المركز. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 11px;
+  border: 1px solid var(--chrome-gold-border);
+  border-radius: 7px;
+  background: var(--chrome-10);
+  color: var(--gold-text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+  text-align: start;
+  cursor: pointer;
+}
+
+.badge:focus-visible {
+  outline: 2.5px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+/* ───── ترويسة القسم ───── */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 9px;
+  padding-block: 13px 0;
+  padding-inline: 16px;
+  background: var(--an-page);
+}
+
+.headTitle {
+  margin-block: 0;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.headSub {
+  font-size: 11.5px;
+  color: var(--an-muted);
+}
+
+/* ───── شريط التبويبات ─────
+   الشريط يضمّ مجموعة التبويبات وروابط مداخل التصميم الثلاثة التي تعيش
+   كمساحات مستقلة في هذه اللوحة (SEO · الوسائط · تكبير صورة). */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  padding-block: 9px 0;
+  padding-inline: 14px;
+  background: var(--an-page);
+  border-block-end: 1px solid var(--an-border);
+}
+
+.tabsGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.crossNav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  margin-inline-start: auto;
+}
+
+.crossLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 12px;
+  border-radius: 8px;
+  color: var(--an-muted);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.crossLink:hover {
+  background: var(--an-surface);
+  color: var(--an-text);
+}
+
+.crossLink:focus-visible {
+  outline: 2.5px solid var(--green-700);
+  outline-offset: -3px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 15px;
+  border: 1px solid transparent;
+  border-block-end: 0;
+  border-radius: 8px 8px 0 0;
+  margin-block-end: -1px;
+  background: transparent;
+  color: var(--an-muted);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--an-text);
+}
+
+.tabOn {
+  border-color: var(--an-border);
+  background: var(--an-surface);
+  color: var(--an-text);
+  font-weight: 900;
+}
+
+.tabChip {
+  box-sizing: border-box;
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: 5px;
+  background: var(--an-warn-bg);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--an-warn-fg);
+}
+
+/* ───── لوح التبويب ───── */
+.body {
+  padding-block: 14px 18px;
+  padding-inline: 16px;
+  background: var(--an-page);
+  min-block-size: 520px;
+}
+
+.body:focus-visible {
+  outline: 2.5px solid var(--green-700);
+  outline-offset: -4px;
+}
+
+.footNote {
+  margin-block: 12px 0;
+  margin-inline: 4px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+  text-align: start;
+}
+
+/* ───── لوحة تخصيص البطاقات ───── */
+.editNotice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 12px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border: 1px solid var(--an-warn-fg);
+  border-radius: 10px;
+  background: var(--an-warn-bg);
+}
+
+.editText {
+  flex: 1;
+  min-inline-size: 180px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--an-text);
+  text-align: start;
+}
+
+/* ═══ طبقة مركز القيادة — تبويباتٌ مقسَّمة وأزرارٌ زجاجيّة ═══ */
+.tabs {
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 11px;
+  background: var(--cc-well);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  margin-block-end: 12px;
+}
+
+.tab {
+  min-block-size: 36px;
+  padding-inline: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  margin-block-end: 0;
+  color: var(--cc-muted);
+  font-size: 12px;
+}
+
+.tabOn {
+  border-color: var(--cc-edge);
+  background: var(--cc-glass);
+  color: var(--cc-text);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+}
+
+.badge {
+  border: 1px solid var(--cc-edge);
+  background: var(--cc-well);
+  color: var(--cc-text);
+  border-radius: 10px;
+}
+
+.chromeSub,
+.headSub,
+.footNote {
+  color: var(--cc-muted);
+}

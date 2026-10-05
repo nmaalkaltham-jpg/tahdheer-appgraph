@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — ٢٠ اقتراحًا لأتمتة الخرائط والفهرسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f5f7f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#223129;-webkit-font-smoothing:antialiased}
+a{color:#1e7355;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#185740}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #c9a35a;outline-offset:2px;border-radius:10px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes smFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#f5f7f4">
+
+<div style="background:#123d2f;color:#e8f2ec;position:sticky;top:0;z-index:9">
+<div style="max-width:1240px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 14px Tajawal;color:#fff">التحاضير الحديثة — ‎٢٠ اقتراحًا: الخرائط والفهرسة الذاتية</h1>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(201,163,90,.18);border:1px solid rgba(201,163,90,.42);color:#e6cd93;font-size:10px;font-weight:900">كل بند مبنيّ على ملف قائم في قالبك</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.go }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ f.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:20px 22px 64px;display:flex;flex-direction:column;gap:14px">
+
+<section style="border:1px solid #d3d8cf;border-inline-start:4px solid #b98f43;border-radius:24px;background:#fff;padding:19px 22px">
+<b style="font-size:14px;color:#7a5d20">تصحيح لازم قبل أي بند</b>
+<p style="margin:8px 0 0;font-size:13px;line-height:2.05;color:#223129">خريطة الموقع <span style="font-weight:900">لا تتصدّر نتائج البحث ولا تُرتِّب صفحة واحدة</span>. وظيفتها الوحيدة أن تُسرّع الاكتشاف وتكشف ما رفضته محرّكات البحث. الترتيب يأتي من المحتوى والروابط ونيّة الباحث. لذلك الهدف الصحيح للأتمتة هنا ليس «تصدُّر الخرائط»، بل ثلاثة أهداف قابلة للقياس: <span style="font-weight:900">ألّا تبقى صفحة تستحقّ الظهور غير مكتشفة</span>، و<span style="font-weight:900">ألّا تحتوي الخريطة رابطًا واحدًا لا يستحقّ الفهرسة</span>، و<span style="font-weight:900">أن تعرف ما اكتُشف ورُفض ولماذا</span>. البنود العشرون كلها تخدم هذه الثلاثة، ولا واحد منها يَدّعي ترتيبًا.</p>
+</section>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+<sc-if value="{{ g.show }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:9px;animation:smFade .25s ease">
+<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:6px">
+<h2 style="margin:0;font:900 16px Tajawal;color:{{ g.c }}">{{ g.t }}</h2>
+<span style="flex:1;height:1px;background:#e6e9e2;min-width:20px"></span>
+<span style="font-size:10.5px;color:#5f7167">{{ g.sub }}</span>
+</div>
+<sc-for list="{{ g.items }}" as="p" hint-placeholder-count="5">
+<section style="border:1px solid #e6e9e2;border-inline-start:4px solid {{ g.c }};border-radius:16px;background:#fff;padding:14px 17px;box-shadow:0 4px 14px #142d2112">
+<div style="display:flex;align-items:flex-start;gap:11px;flex-wrap:wrap">
+<span style="flex:0 0 28px;height:28px;border-radius:999px;background:#123d2f;color:#e8f2ec;font-size:11.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<div style="flex:1;min-width:240px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.lBg }};color:{{ p.lC }};font-size:10.5px;font-weight:900;white-space:nowrap">{{ p.lvl }}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:10px;margin-top:9px">
+<div style="border:1px dashed #e6e9e2;border-radius:10px;background:#f5f7f4;padding:10px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167">الموجود عندك</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#223129">{{ p.now }}</span>
+<code dir="auto" style="display:block;margin-top:4px;font-size:9px;color:#5f7167;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #d3d8cf;border-radius:10px;background:#f2f5f2;padding:10px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#1e7355">الحلقة الذاتية</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#223129">{{ p.loop }}</span>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:8px;margin-top:8px;padding-block-start:8px;border-block-start:1px dashed #e6e9e2;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:#7a5d20;flex:0 0 auto">المقياس:</span>
+<span style="flex:1;min-width:220px;font-size:11px;line-height:1.8;color:#5f7167">{{ p.metric }}</span>
+</div>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+</sc-for>
+
+<section style="border:1px solid #123d2f;border-radius:24px;background:#123d2f;color:#e8f2ec;padding:20px 23px">
+<b style="font-size:13.5px;color:#fff">الترتيب التنفيذي — ولا يُبدَّل</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:10px;margin-top:12px">
+<sc-for list="{{ order }}" as="o" hint-placeholder-count="4">
+<div style="padding:13px 15px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.05)">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#c9a35a">{{ o.k }}</span>
+<b style="display:block;margin-top:4px;font-size:12.5px;line-height:1.5;color:#fff">{{ o.t }}</b>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.8;color:rgba(232,242,236,.76)">{{ o.b }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:14px 0 0;padding-block-start:13px;border-block-start:1px solid rgba(255,255,255,.14);font-size:11.5px;line-height:1.9;color:rgba(232,242,236,.82)">وحاجز واحد يعلو الترتيب كله: <span style="font-weight:900;color:#fff">مفاتيح Search Console غير متوفّرة</span> بحسب خط أساس قالبك، وبلا قراءة التغطية من المصدر تبقى كل حلقة أدناه ترسل ولا تسمع. أول عمل ليس شيفرة — بل مفتاح.</p>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:920}}">
+const LVL = {
+  full: { lvl: 'تلقائي كامل', lBg: '#e9eee9', lC: '#1e7355' },
+  thr: { lvl: 'تلقائي بعتبة', lBg: '#f0e2c4', lC: '#7a5d20' },
+  block: { lvl: 'محجوب بمفتاح', lBg: '#f5e3e0', lC: '#a33a2b' },
+  scale: { lvl: 'جهوزية توسّع', lBg: '#e9eee9', lC: '#3f4c45' },
+};
+
+const GROUPS = [
+  { id: 'loop', t: 'أ · الحلقة المغلقة — أرسل ثم اسمع', c: '#a33a2b', sub: 'اليوم القالب يرسل ولا يعرف النتيجة', items: [
+    { i: '١', k: 'block', n: 'اقرأ التغطية من Search Console وقارنها بما أرسلته', now: 'تكامل GSC موجود في الشيفرة، ومفاتيح OAuth غير متوفّرة بحسب خط الأساس — فلا مزامنة حقيقية ولا اختبار ترقيم صفحات.', src: 'inc/seo/integrations/class-gsc-integration.php · خط الأساس §8', loop: 'مهمة يومية تسحب حالة كل رابط: مكتشَف · مزحوف غير مفهرس · مستبعد بـ noindex · مكرّر بكانونيكال مختار. تُطابق النتيجة بجدول الروابط، فيصير عندك رقم واحد حقيقي: نسبة المفهرس من المُرسَل.', metric: 'نسبة المفهرس من المُرسَل لكل نوع محتوى — وهو المقياس الوحيد الذي يقيس عمل الخريطة فعلًا.' },
+    { i: '٢', k: 'full', n: 'جمّع إرسال IndexNow في دفعات بدل رابط لكل مهمة', now: 'حدث cron مفرد لكل رابط، وقراءة وكتابة خيار السجل داخل حلقة على الروابط، بلا تمييز لرموز الاستجابة.', src: 'inc/seo-instant-indexing.php:230,135-140', loop: 'طابور واحد يجمع الروابط ويرسلها دفعة (البروتوكول يسمح ‎١٠٠٠٠ رابط للطلب)، مع تمييز ‎202 و‎400 و‎403 و‎422 و‎429، وإعادة محاولة بتراجع أُسّي للفشل المؤقّت فقط، وسجل واحد للدفعة لا لكل رابط.', metric: 'عدد الطلبات الصادرة لكل ‎١٠٠٠ رابط، ونسبة ‎202 من إجمالي الإرسال.' },
+    { i: '٣', k: 'full', n: 'اربط بدء التخفيض وانتهاءه بإعادة بناء خريطة العروض وإرسالها', now: 'خريطة عروض موجودة، وذكاء الخرائط يكشف فعلًا «منتجات بتخفيض غير مُدرجة في offers-sitemap».', src: 'inc/seo-sitemap-intelligence.php:137-142,668 · seo-dashboard-ui.php:303', loop: 'خطّاف على تغيّر سعر التخفيض ومواعيده يعيد بناء خريطة العروض فورًا ويرسلها. اللحظة التي يبدأ فيها العرض هي أعلى قيمة اكتشاف في عمره كله — والانتظار يومًا يبدّدها.', metric: 'فارق الوقت بين بدء التخفيض وأول زحف للصفحة بعده.' },
+    { i: '٤', k: 'thr', n: 'اكتشف الرفض المتكرّر وصنّفه بدل عرضه خامًا', now: 'مركز فهرسة يختار مرشّحين من الروابط ذات in_sitemap=1 و indexable=yes، بلا معرفة بما رُفض سابقًا.', src: 'inc/seo-indexing-center.php:287', loop: 'كل رابط رُفض مرّتين متتاليتين يدخل تصنيفًا: محتوى ضعيف · مكرّر · مسدود بـ robots · بطيء · يتيم بلا روابط داخلية. التصنيف يوجّه الإصلاح، ويوقف إعادة الإرسال العبثي لرابط رُفض ثلاث مرّات.', metric: 'عدد الروابط المُعاد إرسالها بلا تغيير — يجب أن ينزل إلى صفر.' },
+    { i: '٥', k: 'full', n: 'أوقف المسح الشامل لكاش الخرائط على أي تغيير ميتا', now: 'خطّافا save_post و added_post_meta يمسحان كاش كل الخرائط بلا مفتاح، ودون تجاهل المراجعات والحفظ التلقائي.', src: 'inc/seo-sitemaps.php:796-798', loop: 'إبطال مُفتَّح: تغيّر منتج يمسح خريطة المنتجات وحدها وشريحتها وحدها. مع تجاهل المراجعات والحفظ التلقائي وتغييرات الميتا غير المؤثّرة على الخريطة.', metric: 'عدد عمليات إعادة البناء اليومية — ينزل بمقدار معتبر بلا فقد أي تحديث حقيقي.' },
+  ] },
+
+  { id: 'pure', t: 'ب · نقاء الخريطة — لا رابط لا يستحقّ', c: '#1e7355', sub: 'أقوى رافعة جودة في الملف كله، وأرخصها', items: [
+    { i: '٦', k: 'full', n: 'تدقيق ليلي يطرد من الخريطة كل رابط لا يستحقّ الفهرسة', now: 'ذكاء الخرائط يكشف الأيتام وفجوة العروض، ولا يوجد تدقيق نقاء شامل يُنفَّذ تلقائيًا.', src: 'inc/seo-sitemap-intelligence.php:767-768', loop: 'قبل نشر أي خريطة: يُطرح كل رابط يعيد ‎404 أو ‎410، أو يحمل noindex، أو يُحوَّل إلى غيره، أو كانونيكاله يشير إلى رابط آخر، أو مسدود في robots. خريطة فيها رابط واحد من هؤلاء تُعلّم محرّك البحث ألّا يثق بباقيها.', metric: 'نسبة الروابط السليمة في الخريطة — الهدف ‎١٠٠٪ بلا استثناء واحد.' },
+    { i: '٧', k: 'full', n: 'اجعل lastmod صادقًا — لا يتحرّك إلا بتغيّر حقيقي', now: 'إعادة البناء تُستدعى من أي حفظ أو تغيير ميتا، فأي تعديل شكلي يبدو تحديثًا للمحتوى.', src: 'inc/seo-sitemaps.php:796', loop: 'بصمة تجزئة لحقول المحتوى المؤثّرة فقط: العنوان والوصف والسعر والتوفّر والمرفقات. لا تتغيّر البصمة فلا يتغيّر lastmod. تاريخ تعديل كاذب يُدرّب محرّك البحث على تجاهل تواريخك كلها.', metric: 'نسبة الزحف الذي وجد تغييرًا فعليًا — كل زحف يعود بلا تغيير خسارة في ميزانية الزحف.' },
+    { i: '٨', k: 'full', n: 'انقل بناء الخريطة خارج طلب الزائر إلى كتابة ذرّية', now: 'الخريطة تُبنى ويُخزَّن transient عند أول زيارة بعد انتهاء الكاش — أي زائر واحد يدفع ثمن البناء. وعندك كاتب ملفات جاهز بملفات مؤقّتة وضغط.', src: 'inc/seo-sitemaps.php:324-345 · sitemaps/class-tahdheer-sitemap-writer.php', loop: 'البناء في cron إلى ملف مؤقّت ثم استبدال ذرّي. الزائر يقرأ ملفًا جاهزًا دائمًا، ولا توجد لحظة تُخدَم فيها خريطة نصف مبنيّة.', metric: 'زمن الاستجابة لمسار الخريطة عند p95، وعدد الطلبات التي أطلقت بناءً.' },
+    { i: '٩', k: 'full', n: 'لا تُسكِت فشل كتابة الخريطة', now: 'الكتابة والحذف عبر دوال مُسكَتة بعلامة @، والقيمة المرجعة تُفحص في بعض المواضع لكن السبب يُفقد.', src: 'sitemaps/class-tahdheer-sitemap-store.php:244,278', loop: 'سبب الفشل يُسجَّل مرة واحدة لكل نوع — صلاحيات، قرص ممتلئ، مسار غير قابل للكتابة — ويظهر في مركز الصحّة. توقّف الخرائط أسبوعين بلا أن يعرف أحد سيناريو واقعي اليوم.', metric: 'عمر أحدث خريطة منشورة — إن تجاوز نافذته يُرفع تنبيه واحد.' },
+    { i: '١٠', k: 'thr', n: 'افصل الخرائط بالنيّة لتصير التغطية قابلة للتشخيص', now: 'عندك خرائط متعدّدة بالفعل ومنها خريطة عروض — وهذا أساس صحيح.', src: 'inc/seo-sitemaps.php · inc/sitemaps/', loop: 'خريطة لكل نيّة: منتجات · تصنيفات · محتوى · عروض · صفحات منهج. تقرير التغطية يصير حينها جوابًا محدّدًا: «التصنيفات مفهرسة ‎٩٢٪ والمحتوى ‎٤١٪» بدل رقم واحد لا يقود إلى إجراء.', metric: 'نسبة المفهرس لكل خريطة على حدة، لا للموقع مجملًا.' },
+  ] },
+
+  { id: 'fix', t: 'ج · الاكتشاف والإصلاح الذاتي', c: '#7a5d20', sub: 'قدرات موجودة عندك وتنتظر إغلاق الحلقة', items: [
+    { i: '١١', k: 'thr', n: 'اطوِ سلاسل التحويل تلقائيًا إلى قفزة واحدة', now: 'ذكاء الروابط يرصد فعلًا الروابط ذات hops ≥ 1 مع سلسلة التحويل وحالتها.', src: 'inc/seo-url-intelligence.php:1622', loop: 'كل سلسلة من قفزتين أو أكثر تُطوى إلى تحويل واحد مباشر — إجراء حتمي وقابل للعكس. السلاسل الطويلة تُبدّد ميزانية الزحف وتُفقد جزءًا من قيمة الروابط.', metric: 'متوسط عدد القفزات، وعدد السلاسل التي تجاوزت قفزتين.' },
+    { i: '١٢', k: 'thr', n: 'حوّل الـ404 المتكرّرة إلى تحويلات مقترحة بثقة محسوبة', now: 'سجل ‎404 كامل مع عدد المرّات والمُحيل، ومحرك تحويلات بإجراءات إضافة وحذف وتصدير واستيراد.', src: 'inc/seo-404-redirections.php:409,580', loop: 'كل رابط ‎404 تكرّر فوق حدّ يُطابَق بمطبّع البحث العربي نفسه مقابل أسماء المنتجات والتصنيفات. فوق عتبة الثقة يُنشأ تحويل ‎301 ويُسجَّل، وتحتها يدخل طابورًا. وكل تحويل مولَّد يُقاس بعد أسبوعين ويُسحب إن لم يُستخدم.', metric: 'نسبة زيارات ‎404 التي انتهت إلى صفحة صحيحة بدل طريق مسدود.' },
+    { i: '١٣', k: 'thr', n: 'أطعِم الأيتام روابط داخلية من عنقودها الموضوعي', now: 'رسم بياني للروابط الداخلية يرصد الأيتام (in_sitemap=1 و inlinks=0) وله مقترحات ربط.', src: 'inc/seo-link-graph.php:210,277 · smart-internal-linking-suggestions.php', loop: 'كل صفحة يتيمة في الخريطة تحصل تلقائيًا على روابط من صفحات نفس الصف والمادة والفصل — في مناطق مخصّصة للروابط لا داخل وصف كتبه المسؤول. تُقاس نقرات الرابط بعد فترة: عديم النقر يُسحب وحده.', metric: 'عدد الصفحات ذات صفر روابط داخلية — هدفه صفر.' },
+    { i: '١٤', k: 'full', n: 'اكتشف مصائد الزحف من بيانات حقيقية لا من قائمة ثابتة', now: 'فحص الصفحات المفلترة موجود، وجدول أحداث الروابط له سقف أعلى مُعرَّف.', src: 'inc/seo-faceted-check.php · seo-url-intelligence.php:1863', loop: 'أي تركيب معاملات يولّد روابط فوق حدّ ولا يجلب زيارة عضوية واحدة يُوسَم مصيدة ويُمنع من الزحف — بقائمة بيضاء صريحة للمعاملات المهمّة. مصيدة واحدة تستهلك ميزانية زحف كل المنتجات.', metric: 'نسبة الزحف الواقع على روابط بمعاملات — يجب أن تبقى هامشية.' },
+    { i: '١٥', k: 'full', n: 'أصلح خدمة مفتاح IndexNow و llms.txt في التركيب الفرعي', now: 'المقارنة بمسار مطلق من الجذر، فيفشل التحقّق كليًا على تركيب في مجلد فرعي — بند مُعلن ولم يُعد فحصه.', src: 'inc/seo-instant-indexing.php:109 · seo-llms-txt.php:219', loop: 'ليس حلقة ذاتية بل شرط صحّة: بلا خدمة ملف المفتاح لا يُقبل أي إرسال IndexNow إطلاقًا. يُحسم بتأكيد شكل التركيب — إن كان على جذر النطاق فأثره صفر اليوم.', metric: 'نجاح التحقّق من ملف المفتاح: نعم أو لا. لا قيمة وسطى.' },
+  ] },
+
+  { id: 'ai', t: 'د · طبقة البحث الآلي والتغذيات', c: '#5f7167', sub: 'الزاحف الآلي يقرأ ما تعطيه صريحًا', items: [
+    { i: '١٦', k: 'full', n: 'ولّد llms.txt من الكتالوج الفعلي لا يدويًا', now: 'وحدة llms.txt موجودة وتخدم المسار، والمحتوى لا يُبنى من الكتالوج تلقائيًا.', src: 'inc/seo-llms-txt.php', loop: 'مهمة تبني الملف من المنتجات المنشورة: عنوان كل ملف، ومرحلته ومادّته وفصله، ورابطه، وسطر تعريفي واحد مقتضب. النماذج اللغوية تقرأ هذا الملف كفهرس مقروء، وهو أرخص ما تعطيه لها.', metric: 'تغطية الملف: نسبة المنتجات المنشورة الظاهرة فيه.' },
+    { i: '١٧', k: 'full', n: 'وحّد البيانات المنظّمة مع الخريطة — لا سعر تخفيض منتهٍ', now: 'حقول التاجر تقرأ سعر التخفيض ومدّة سريانه من ووكومرس، وطبقة تحكيم الملكية تُسلّم إخراج الوسم للمزوّد.', src: 'inc/seo-merchant-fields.php:113-123 · seo-ownership-manager.php', loop: 'بوابة نشر: لا يُخرَج سعر تخفيض إلا وتاريخ سريانه حيّ الآن. والرابط في خريطة العروض والوسم على الصفحة يتحرّكان معًا في نفس اللحظة — التعارض بينهما يُسقط أهلية النتائج الغنية.', metric: 'عدد تعارضات السعر بين الوسم والخريطة — هدفه صفر دائم.' },
+    { i: '١٨', k: 'full', n: 'دقّق تغذية التجار آليًا قبل رفعها', now: 'تغذية تجار مبنيّة من بيانات ووكومرس: الحالة والمعرّفات والتصنيفات والتخفيض.', src: 'inc/seo-analytics/class-seo-analytics-merchant-feed.php:309', loop: 'تحقّق ذاتي قبل كل رفع: حقول إلزامية ناقصة، صور غير صالحة، أسعار متعارضة، معرّفات مكرّرة. الصف المعطوب يُستبعد ويُسجَّل سببه بدل رفض التغذية كلها من الطرف الآخر.', metric: 'نسبة الصفوف المقبولة من إجمالي المرفوع.' },
+  ] },
+
+  { id: 'limit', t: 'هـ · الحدود والصدق', c: '#a33a2b', sub: 'ما يجب أن يعرفه النظام عن نفسه', items: [
+    { i: '١٩', k: 'scale', n: 'جهّز التجزئة الآن ولا تدّع الحاجة إليها اليوم', now: 'كتالوجك ‎٩ منتجات منشورة بحسب خط الأساس، وخط الأساس نفسه يعلن أن استنتاجات التوسّع مبنيّة على قراءة الشيفرة لا على قياس.', src: 'خط الأساس §1 — تنبيه تمثيلية البيانات', loop: 'حدود البروتوكول تُبنى في المحرك من البداية: ‎٥٠ ألف رابط أو ‎٥٠ ميجابايت للخريطة، وشرائح بالنوع والتاريخ، وخريطة فهرس تعلوها. لكن لا يُعلن أن ذلك «حسّن الفهرسة» — لأنه لم يُقَس ولن يُقاس على تسعة منتجات.', metric: 'لا مقياس اليوم. يُفتح المقياس عند تجاوز حدّ معلن مسبقًا.' },
+    { i: '٢٠', k: 'full', n: 'امنع النظام من ادّعاء ما لا يملك دليله', now: 'لوحات ومراكز متعدّدة تعرض حالات ودرجات؛ ومصدر التغطية الحقيقي محجوب بمفاتيح غير متوفّرة.', src: 'inc/seo-readiness.php · seo-health-check.php · خط الأساس §8', loop: 'قاعدة مُشفَّرة في المخرج: كل رقم يحمل مصدره وتاريخه، وما لا مصدر له يظهر «غير مقيس» لا صفرًا ولا تقديرًا. وممنوع على أي وحدة أن تنسب تحسّن ترتيب إلى إجراء — الارتباط ليس سببية، وادّعاؤها يفقدك القدرة على معرفة ما يعمل فعلًا.', metric: 'عدد الأرقام المعروضة بلا مصدر معلن — هدفه صفر.' },
+  ] },
+];
+
+class Component extends DCLogic {
+  state = { f: 'all' };
+
+  renderVals() {
+    const cur = this.state.f;
+
+    const filters = [
+      ['all', 'الكل'], ['full', 'تلقائي كامل'], ['block', 'محجوب أو مشروط'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ f: id }),
+      bg: cur === id ? '#c9a35a' : 'rgba(255,255,255,.07)',
+      fg: cur === id ? '#123d2f' : '#c3d5cb',
+      bd: cur === id ? '#c9a35a' : 'rgba(255,255,255,.2)',
+    }));
+
+    const groups = GROUPS.map((g) => {
+      const items = g.items
+        .filter((p) => cur === 'all' || (cur === 'full' ? p.k === 'full' : p.k !== 'full'))
+        .map((p) => ({ ...p, ...LVL[p.k] }));
+      return { ...g, items, show: items.length > 0 };
+    });
+
+    return {
+      filters,
+      groups,
+      order: [
+        { k: 'أولًا', t: 'نقاء الخريطة', b: 'البنود ‎٦ و‎٧ و‎٨ و‎٩. أرخصها وأقواها، ولا تحتاج مفتاحًا ولا طرفًا خارجيًا.' },
+        { k: 'ثانيًا', t: 'مفتاح Search Console', b: 'بلا قراءة التغطية تبقى كل حلقة عمياء: ترسل ولا تعرف ما حدث.' },
+        { k: 'ثالثًا', t: 'الحلقة المغلقة', b: 'البنود ‎١ و‎٢ و‎٤. أول لحظة يعرف فيها النظام نتيجته بنفسه.' },
+        { k: 'رابعًا', t: 'الإصلاح الذاتي', b: 'البنود ‎١١ إلى ‎١٤. تُشغَّل بعد وجود مقياس يحكم على نجاحها.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

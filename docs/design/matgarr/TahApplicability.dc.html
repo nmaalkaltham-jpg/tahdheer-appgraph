@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section dir="rtl" style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:4px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:14px;font-weight:900;color:#14261d;text-align:start">تغطية تخصّصات البحث</h2>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(37,155,111,.1);font-size:10px;font-weight:900;color:#1e7355;white-space:nowrap">{{ countApplicable }} منطبق</span>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(216,181,106,.18);font-size:10px;font-weight:900;color:#7a5d20;white-space:nowrap">{{ countPending }} يحتاج عملًا</span>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:#f2f5f2;font-size:10px;font-weight:900;color:#3b4d43;white-space:nowrap">{{ countNa }} لا ينطبق</span>
+</div>
+<p style="display:{{ helpDisplay }};margin:0 0 12px;font-size:11px;line-height:1.7;color:#5f7167;text-align:start">التقييم محسوب من حقول هذا المنتج — غيّر الصيغة أو النصّ البديل أو ارفع صورة، وتتغيّر الأحكام والأسباب معها. «لا ينطبق» ليس نقصًا يُسدّ، بل تخصّص لا علاقة له بملف تعليمي.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px">
+<sc-for list="{{ filters }}" as="fl" hint-placeholder-count="4">
+<button type="button" onClick="{{ fl.onClick }}" aria-pressed="{{ fl.pressed }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:1px solid {{ fl.border }};border-radius:8px;background:{{ fl.bg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:{{ fl.fg }};cursor:pointer;white-space:nowrap">{{ fl.label }}</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ rows }}" as="d" hint-placeholder-count="22">
+<div style="border:1px solid {{ d.border }};border-radius:10px;background:{{ d.bg }};overflow:hidden">
+<button type="button" onClick="{{ d.onToggle }}" aria-expanded="{{ d.expanded }}" style="width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;min-height:38px;padding:7px 10px;border:0;background:none;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:{{ d.iconBg }};color:{{ d.iconFg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ d.mark }}</span>
+<span dir="{{ d.nameDir }}" style="flex:0 0 132px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">{{ d.name }}</span>
+<span style="flex:0 0 76px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:3px 6px;border-radius:6px;background:{{ d.statusBg }};font-size:9.5px;font-weight:900;color:{{ d.statusFg }};white-space:nowrap">{{ d.status }}</span>
+<span dir="rtl" style="flex:1;min-width:110px;font-size:10.5px;line-height:1.6;color:#3b4d43;text-align:start">{{ d.shortReason }}</span>
+<svg aria-hidden="true" style="flex:0 0 auto;width:13px;height:13px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ d.chevron }};transition:transform .16s"><use href="#i-chev"></use></svg>
+</button>
+<div style="display:{{ d.detailDisplay }};padding:0 10px 10px">
+<div style="padding:10px 11px;border-radius:9px;background:#fbfcfa;border:1px solid #eef1ec">
+<span dir="rtl" style="display:block;font-size:10.5px;line-height:1.8;color:#3b4d43;text-align:start">{{ d.reason }}</span>
+<div style="display:{{ d.actionDisplay }};margin-top:8px;padding-top:8px;border-top:1px solid #eef1ec">
+<span dir="rtl" style="display:flex;align-items:baseline;gap:7px;font-size:10.5px;line-height:1.7;color:{{ d.actionFg }};text-align:start"><b style="flex:0 0 auto">المطلوب:</b>{{ d.action }}</span>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:860,&quot;height&quot;:620},&quot;help&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { filter: 'all', open: null };
+
+  /*
+   * Verdicts are DERIVED from the product's own data, not authored per row:
+   * a digital PowerPoint for Saudi curriculum, 3 images, no video, no app,
+   * one published URL, no translation plugin, no marketplace feed.
+   * Each verdict therefore carries a reason a reviewer can check.
+   */
+  facts() {
+    const p = this.props;
+    /*
+     * Facts come from the STUDIO, not from this file. The previous version
+     * assigned facts() and never read it, so the copy promised a computed
+     * assessment while the verdicts were authored literals — and one reason went
+     * stale the moment the file format changed. Verdicts now move with the product.
+     */
+    return {
+      format: p.format || 'PPTX',
+      level: p.level || '',
+      curriculum: p.curriculum || '',
+      delivery: p.delivery || 'instant',
+      isDigital: p.isDigital !== false,
+      isApp: !!p.isApp,
+      isNews: !!p.isNews,
+      hasVideo: !!p.hasVideo,
+      imagesTotal: typeof p.imagesTotal === 'number' ? p.imagesTotal : 3,
+      imagesMissingAlt: typeof p.imagesMissingAlt === 'number' ? p.imagesMissingAlt : 1,
+      hasSocialImage: !!p.hasSocialImage,
+      hasTranslationPlugin: !!p.hasTranslationPlugin,
+      hasMarketplaceFeed: !!p.hasMarketplaceFeed,
+      hasPhysicalLocation: !!p.hasPhysicalLocation,
+      hasFaq: p.hasFaq !== false,
+      localeCount: typeof p.localeCount === 'number' ? p.localeCount : 1
+    };
+  }
+
+  formatName(f) {
+    return { PPTX: 'عرض بوربوينت', PDF: 'ملف PDF', DOCX: 'ملف Word' }[f] || 'ملف رقمي';
+  }
+
+  evaluate() {
+    const f = this.facts();
+    const A = 'applicable', C = 'conditional', N = 'na', CFG = 'config', INT = 'integration', E = 'evidence';
+    const fname = this.formatName(f.format);
+    /*
+     * Composed from INDEPENDENT clauses, not branched on one combined flag. The
+     * old single `imgOk` sent the alt-done/social-missing case to a generic branch
+     * that printed «و0 منها بلا نصّ بديل» — a resolved item listed as a finding —
+     * and a bare «أكمل» with no object. A clause now appears only if its own
+     * condition holds, so no state can produce a zero-finding or a dangling verb.
+     */
+    const imgOk = f.imagesTotal > 0 && f.imagesMissingAlt === 0 && f.hasSocialImage;
+    const imgClauses = [];
+    const imgActions = [];
+    if (f.imagesTotal === 0) {
+      imgClauses.push('لا صورة مرفوعة — لا شيء يُحسَّن بعد');
+      imgActions.push('ارفع صورة المنتج أولًا');
+    } else {
+      imgClauses.push(f.imagesTotal + ' صور مرفوعة');
+      if (f.imagesMissingAlt > 0) {
+        imgClauses.push('و' + f.imagesMissingAlt + ' منها بلا نصّ بديل');
+        imgActions.push('أكمل النصّ البديل للصور الناقصة');
+      } else {
+        imgClauses.push('كلها بنصّ بديل');
+      }
+      if (!f.hasSocialImage) {
+        imgClauses.push('والصورة الاجتماعية ناقصة');
+        imgActions.push('ارفع صورة اجتماعية 1200×630');
+      }
+    }
+    const imgReason = imgClauses.join('، ') + '.';
+    const imgAction = imgActions.length ? imgActions.join('، و') + '.' : '';
+
+    return [
+      ['SEO', A, 'صفحة منتج مفهرسة بعنوان ووصف ورابط.', ''],
+      ['AEO', A, 'الأسئلة الشائعة موجودة، والإجابات نصّ ظاهر لا صورة.', ''],
+      ['GEO', C, 'الحقائق مكتوبة نصًّا فتقرأها المحرّكات التوليدية — لكن لا وسوم AI مخصّصة ولا محتوى مخفي.', 'لا شيء يُضاف. أي «بيانات AI» خاصة تُعدّ محتوى مخفيًا.'],
+      ['LLMO', C, 'الوصف الدلالي والعلاقات تساعد الاستشهاد. لا ضمان لظهور في أي نموذج.', 'لا تُبنى صفحات موجَّهة للنماذج — تُحسَّن الحقائق نفسها.'],
+      ['SXO', A, 'تحميل فوري وزر شراء واضح ومعاينة قبل الشراء.', ''],
+      ['Local SEO', f.hasPhysicalLocation ? C : N, f.hasPhysicalLocation ? 'يوجد موقع أو خدمة حضورية — يستحق ملفًّا محليًّا.' : (f.isDigital ? 'منتج رقمي بلا موقع جغرافي ولا خدمة حضورية.' : 'لا موقع مسجَّل لهذا المنتج.'), ''],
+      ['International SEO', f.hasTranslationPlugin ? A : CFG, f.hasTranslationPlugin ? 'معمار روابط اللغات متاح — يمكن إخراج hreflang لصفحات منشورة متبادلة.' : 'المنتج صالح لأسواق عربية عدّة، لكن لا معمار روابط للغات (' + f.localeCount + ' رابط منشور).', f.hasTranslationPlugin ? '' : 'إضافة ترجمة + رابط مستقل لكل لغة. حتى ذلك: لغة أساسية واحدة و canonical ذاتي.'],
+      ['E-commerce SEO', A, 'سعر وتوفّر وصيغة ملف وبيانات تجارية من WooCommerce.', ''],
+      ['Technical SEO', A, 'رابط نظيف وصفحة قابلة للزحف وسرعة مقبولة.', ''],
+      ['On-Page SEO', A, 'عنوان واحد H1 وتسلسل عناوين منطقي ونصّ ظاهر للحقائق.', ''],
+      ['Off-Page SEO', E, 'الجاهزية فقط: الصفحة قابلة للمشاركة. أما الروابط الخارجية فليست بيدنا هنا.', 'يُقاس بعد النشر — لا يُدَّعى قبله.'],
+      ['Semantic SEO', A, 'الكيانات والعلاقات (وحدة، درس، مادة، حزمة) معرَّفة في التصنيف.', ''],
+      ['Image SEO', imgOk ? A : (f.imagesTotal > 0 ? C : E), imgReason, imgOk ? '' : imgAction],
+      ['Video SEO', f.hasVideo ? A : E, f.hasVideo ? 'فيديو مرفوع — تُخرَج بيانات VideoObject من قيمه الحقيقية.' : 'لا فيديو مرفوع — فلا بيانات VideoObject تُخرَج.', f.hasVideo ? '' : 'ارفع فيديو حقيقيًا أولًا. لا تُكتب خصائص فيديو غير موجود.'],
+      ['Voice Search', A, 'الأسئلة مصوغة بلغة طبيعية وإجاباتها قصيرة قابلة للقراءة صوتيًا.', ''],
+      ['ASO', f.isApp ? C : N, f.isApp ? 'المنتج تطبيق فعلًا — يستحق SoftwareApplication وملفَّ متجر.' : 'المنتج ' + fname + ' لا تطبيقًا. لا متجر تطبيقات ولا SoftwareApplication.', ''],
+      ['Marketplace SEO', f.hasMarketplaceFeed ? C : INT, f.hasMarketplaceFeed ? 'التغذية مربوطة — يبقى التحقّق من قبول السوق للمنتجات الرقمية.' : 'لا تغذية منتجات مربوطة، وكثير من الأسواق لا يقبل الملفات الرقمية.', f.hasMarketplaceFeed ? 'تحقّق من سياسة السوق تجاه الملفات الرقمية.' : 'اربط تغذية Merchant Center أولًا، وتحقّق من قبولها للمنتجات الرقمية.'],
+      ['Social Search', f.hasSocialImage ? A : C, f.hasSocialImage ? 'العنوان والوصف والصورة الاجتماعية كلها موجودة.' : 'العنوان والوصف الاجتماعيان موجودان، والصورة الاجتماعية ناقصة.', f.hasSocialImage ? '' : 'أضف صورة اجتماعية — بدونها تختار المنصّات صورة عشوائية.'],
+      ['News SEO', f.isNews ? C : N, f.isNews ? 'محتوى خبري فعلًا — يُراجَع استحقاقه لـ NewsArticle.' : 'صفحة منتج لا مقال خبري. NewsArticle هنا تصريح خاطئ.', ''],
+      ['Google Discover', C, 'صورة عالية الدقة ومحتوى مفيد يرفعان الاحتمال — والأهلية لا تُضمن.', 'لا إجراء تقني مضمون. جودة الصورة والمحتوى هما العامل.'],
+      ['Programmatic SEO', N, 'منتج واحد. التوليد البرمجي هنا يعني صفحات هشّة متطابقة.', ''],
+      ['Mobile SEO', A, 'تخطيط متجاوب وأهداف لمس 44px وبلا فيض أفقي.', '']
+    ].map(d => ({ name: d[0], key: d[1], reason: d[2], action: d[3] }));
+  }
+
+  renderVals() {
+    const st = this.state;
+    const META = {
+      applicable: ['منطبق', 'rgba(37,155,111,.12)', '#1e7355', '✓', 'rgba(37,155,111,.14)', '#1e7355', '#eef1ec', '#fff'],
+      conditional: ['منطبق بشرط', 'rgba(216,181,106,.18)', '#7a5d20', '◐', 'rgba(216,181,106,.2)', '#7a5d20', 'rgba(216,181,106,.3)', 'rgba(216,181,106,.05)'],
+      config: ['يحتاج ضبطًا', 'rgba(216,181,106,.18)', '#7a5d20', '⚙', 'rgba(216,181,106,.2)', '#7a5d20', 'rgba(216,181,106,.3)', 'rgba(216,181,106,.05)'],
+      integration: ['يحتاج ربطًا', 'rgba(216,181,106,.18)', '#7a5d20', '⇄', 'rgba(216,181,106,.2)', '#7a5d20', 'rgba(216,181,106,.3)', 'rgba(216,181,106,.05)'],
+      evidence: ['لا دليل كافٍ', 'rgba(163,58,45,.1)', '#a33a2d', '?', 'rgba(163,58,45,.12)', '#a33a2d', 'rgba(163,58,45,.2)', '#fdf9f8'],
+      na: ['لا ينطبق', '#f2f5f2', '#3b4d43', '—', '#f2f5f2', '#5f7167', '#eef1ec', '#fbfcfa']
+    };
+
+    const all = this.evaluate();
+    const groups = {
+      all: () => true,
+      applicable: d => d.key === 'applicable',
+      pending: d => ['conditional', 'config', 'integration', 'evidence'].indexOf(d.key) >= 0,
+      na: d => d.key === 'na'
+    };
+
+    const rows = all.filter(groups[st.filter]).map(d => {
+      const m = META[d.key];
+      const open = st.open === d.name;
+      const short = d.reason.length > 62 ? d.reason.slice(0, 60).trim() + '…' : d.reason;
+      return {
+        name: d.name,
+        nameDir: /[\u0600-\u06FF]/.test(d.name) ? 'rtl' : 'ltr',
+        status: m[0], statusBg: m[1], statusFg: m[2],
+        mark: m[3], iconBg: m[4], iconFg: m[5],
+        border: m[6], bg: m[7],
+        shortReason: short, reason: d.reason,
+        action: d.action,
+        actionDisplay: d.action ? 'block' : 'none',
+        actionFg: d.key === 'na' ? '#5f7167' : '#7a5d20',
+        expanded: open ? 'true' : 'false',
+        detailDisplay: open ? 'block' : 'none',
+        chevron: open ? 'rotate(90deg)' : 'rotate(-90deg)',
+        onToggle: () => this.setState(s => ({ open: s.open === d.name ? null : d.name }))
+      };
+    });
+
+    const count = k => all.filter(groups[k]).length;
+    const filterDefs = [['all', 'الكل ' + all.length], ['applicable', 'منطبق'], ['pending', 'يحتاج عملًا'], ['na', 'لا ينطبق']];
+
+    return {
+      rows,
+      countApplicable: count('applicable'),
+      countPending: count('pending'),
+      countNa: count('na'),
+      helpDisplay: this.props.help === false ? 'none' : 'block',
+      filters: filterDefs.map(f => ({
+        label: f[1],
+        pressed: st.filter === f[0] ? 'true' : 'false',
+        border: st.filter === f[0] ? '#1e7355' : '#dde3dc',
+        bg: st.filter === f[0] ? 'rgba(37,155,111,.08)' : '#fff',
+        fg: st.filter === f[0] ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ filter: f[0], open: null })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

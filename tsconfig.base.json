@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "paths": {
+      "@tahdheer/design-system": ["./packages/design-system/src"],
+      "@tahdheer/design-system/*": ["./packages/design-system/src/*"],
+      "@tahdheer/ui": ["./packages/ui/src"],
+      "@tahdheer/ui/*": ["./packages/ui/src/*"],
+      "@tahdheer/registry": ["./packages/registry/src"],
+      "@tahdheer/api-sdk": ["./packages/api-sdk/src"]
+    }
+  }
+}

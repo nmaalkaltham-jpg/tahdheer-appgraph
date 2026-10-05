@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes inFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">استوديو SEO الدولي — سجل المواقع · الوراثة · الفرص · حارس التشابه</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">لا hreflang لعنوان غير موجود — بوابة أهلية صارمة</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.reg }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start;animation:inFade .25s ease">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h1 style="margin:0 0 8px;font-size:15px;font-weight:900">سجل المواقع المحلية</h1>
+<sc-for list="{{ rg.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:7px;border:1px solid {{ r.bd }};border-radius:12px;background:{{ r.bg }};flex-wrap:wrap">
+<code dir="ltr" style="padding:3px 10px;border-radius:8px;background:#14261d;color:#a8e2c5;font-size:10px;font-weight:800">{{ r.loc }}</code>
+<span style="flex:1;min-width:220px;font-size:10.5px;line-height:1.7;color:#3d4f45">{{ r.scope }}</span>
+<span style="padding:2px 10px;border-radius:999px;background:{{ r.sBg }};color:{{ r.sC }};font-size:8.5px;font-weight:900">{{ r.st }}</span>
+</div>
+</sc-for>
+<div style="padding:9px 12px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;font-size:9.5px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">قاعدة التفعيل:</b> لا يُفعَّل موقع محلي جديد قبل: محتوى بشري حقيقي + طلب مُتحقق + قدرة تشغيلية (شحن/دفع) — لا صفحات إقليمية لأجل hreflang فقط.</div>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900">مدقق hreflang — آخر تشغيل ليلي {{ rg.ranAt }}</h2>
+<sc-for list="{{ rg.checks }}" as="c" hint-placeholder-count="6">
+<span style="display:flex;align-items:center;gap:7px;padding:4px 0;font-size:10.5px;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ c }}</span>
+</sc-for>
+<div style="margin-top:9px;padding-top:8px;border-top:1px dashed #f1f4f2">
+<b style="font-size:10.5px;color:#5f7167">سجل المهام الخلفية</b>
+<sc-for list="{{ rg.jobs }}" as="j" hint-placeholder-count="2">
+<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;font-size:9.5px;color:#7c8a82"><span>{{ j.n }}</span><span style="font-weight:900;color:#146c4c">{{ j.r }}</span></div>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.inherit }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:inFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">المنتج الأم والوراثة — سجل واحد لا نسخ</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">حزمة المراجعة الشاملة · الأم ar-SA ← الفرع en-SA</span>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;overflow:hidden">
+<table style="width:100%;border-collapse:collapse">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:9px 16px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الحقل</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">قيمة الفرع en-SA</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">العلاقة بالأم</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">حالة الترجمة</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ ih.rows }}" as="r" hint-placeholder-count="5">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ r.f }}</th>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:10.5px;color:#3d4f45">{{ r.v }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4"><span style="padding:2px 10px;border-radius:999px;background:{{ r.rBg }};color:{{ r.rC }};font-size:8.5px;font-weight:900">{{ r.rel }}</span></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;color:#5f7167">{{ r.ts }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+<div style="padding:9px 13px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;font-size:9.5px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">المبدأ:</b> السعر والمعرّفات مقفلة من الأم (مصدر حقيقة واحد)، النصوص تُتجاوز بترجمة بشرية بحالة مراجعة، والناقص يسقط للأم تلقائيًا — لا تكرار لسجل المنتج أبدًا.</div>
+</sc-if>
+
+<sc-if value="{{ is.region }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:inFade .25s ease">الفرص الإقليمية — مقاس ≠ تقدير ≠ توصية</h1>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ rn.rows }}" as="r" hint-placeholder-count="3">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:12.5px">{{ r.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8.5px;font-weight:900">مقاس: {{ r.fact }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:8.5px;font-weight:900">تقدير: {{ r.est }}</span>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">{{ r.src }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:9px;margin-top:8px;padding:8px 11px;border-radius:10px;background:#fffdf5;border:1px solid #f0e2b8;flex-wrap:wrap">
+<span style="flex:1;min-width:220px;font-size:10.5px;line-height:1.7;color:#5f4a12"><b>التوصية:</b> {{ r.rec }}</span>
+<button type="button" onClick="{{ r.onGo }}" style="min-height:30px;padding:0 12px;border:0;border-radius:8px;background:#8a6500;color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">{{ r.cta }}</button>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.dup }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:inFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">حارس التشابه — Jaccard شفاف بعتبة ٨٥٪</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">يعلّم ولا يحجب الترجمة الشرعية — القرار لك دائمًا</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ dp.rows }}" as="r" hint-placeholder-count="3">
+<section style="border:1px solid {{ r.bd }};border-radius:13px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="flex:1;min-width:240px;font-size:11.5px">{{ r.pair }}</b>
+<b style="font:900 15px Tajawal;color:{{ r.c }}">{{ r.sim }}</b>
+</div>
+<span aria-hidden="true" style="display:block;height:7px;margin-top:7px;border-radius:5px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ r.sim }};background:{{ r.fill }};border-radius:5px"></span></span>
+<div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+<span style="font-size:10px;color:#5f7167">{{ r.verdict }}</span>
+<sc-if value="{{ r.flagged }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ r.onDiff }}" style="margin-inline-start:auto;min-height:30px;padding:0 12px;border:1px solid #cfe0d6;border-radius:8px;background:#f2f8f5;font-size:9.5px;font-weight:900;color:#146c4c;cursor:pointer">مَيِّز بمحتوى فريد</button>
+<button type="button" onClick="{{ r.onMerge }}" style="min-height:30px;padding:0 12px;border:1px solid #f0e2b8;border-radius:8px;background:#fffdf5;font-size:9.5px;font-weight:900;color:#8a6500;cursor:pointer">ادمج 301</button>
+</sc-if>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:inFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:860},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;reg&quot;,&quot;inherit&quot;,&quot;region&quot;,&quot;dup&quot;],&quot;default&quot;:&quot;reg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+state={scr:'reg',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['reg','السجل والمدقق'],['inherit','الأم والوراثة'],['region','الفرص الإقليمية'],['dup','حارس التشابه']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{reg:st.scr==='reg',inherit:st.scr==='inherit',region:st.scr==='region',dup:st.scr==='dup',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ base.rg={ranAt:'٣:١٤ فجرًا',
+  rows:[
+   {loc:'ar-SA',scope:'الأساس — الموقع كله، x-default',st:'نشط',bd:'#cfe0d6',bg:'#f6fbf8',sBg:'#e4f4ec',sC:'#146c4c'},
+   {loc:'en-SA',scope:'صفحتا الحزم فقط — ترجمة بشرية وطلب مُتحقق',st:'نشط',bd:'#cfe0d6',bg:'#f6fbf8',sBg:'#e4f4ec',sC:'#146c4c'},
+   {loc:'ar-EG',scope:'مرشح — طلب خارجي مقاس لكن لا شحن ولا محتوى محلي بعد',st:'معطل بالبوابة',bd:'#dce2dd',bg:'#fff',sBg:'#fff4d6',sC:'#8a6500'}
+  ],
+  checks:['تبادلية كاملة: كل نسخة تشير للأخرى','ذاتية الإشارة على كل صفحة مؤهلة','x-default يشير للأساس العربي','لا تعارض canonical مع hreflang','بوابة الأهلية: صفر وسوم لعناوين غير موجودة','Sitemap يحمل alternates للصفحات الأربع فقط'],
+  jobs:[{n:'فحص التبادلية الليلي (٤ صفحات)',r:'٠ أخطاء'},{n:'فحص أهلية ar-EG الأسبوعي',r:'ما زال دون الشروط'}]};
+ const REL={inherit:['موروث من الأم','#f2f6f3','#5f7167'],locked:['مقفل من الأم','#fce8e8','#b32d2e'],override:['مُتجاوَز — ترجمة بشرية','#e8f2fc','#1d5f9c'],fallback:['يسقط للأم عند النقص','#fff4d6','#8a6500']};
+ base.ih={rows:[
+  ['الاسم','Comprehensive Review Bundle','override','مراجعة تحريرية — يومان'],
+  ['السعر','١٤٩ ر.س (SAR ثابتة)','locked','—'],
+  ['GTIN / SKU','موحدة من الأم','locked','—'],
+  ['الوصف الكامل','ترجمة بشرية كاملة','override','معتمدة ✓'],
+  ['الأسئلة الشائعة','٤ من ٦ مترجمة','fallback','الباقيتان تعرضان العربية'],
+  ['الصور والمعاينات','من الأم','inherit','—']
+ ].map(r=>{const R=REL[r[2]];return {f:r[0],v:r[1],rel:R[0],rBg:R[1],rC:R[2],ts:r[3]};})};
+ base.rn={rows:[
+  {n:'الرياض والوسطى',fact:'١٢٤ك انطباع · تحويل ٤٫١٪',est:'مشبعة — نمو طبيعي',src:'GSC + Woo (٢٨ يومًا)',rec:'لا فعل — حافظ على التفوق',cta:'راقب فقط'},
+  {n:'الغربية (جدة/مكة)',fact:'٦١ك انطباع · تحويل ٣٫٢٪',est:'+١٥٪ ممكنة',src:'GSC + Woo',rec:'فجوة محتوى: أدلة بمصطلحات محلية داخل الصفحات الموجودة — لا صفحات مدن جديدة',cta:'أنشئ Workflow'},
+  {n:'مصر (طلب خارجي)',fact:'٢٫١ك انطباع بلا خدمة',est:'رقمي فقط: +٤٪ إيراد',src:'GSC — خارج التغطية',rec:'المسار الرقمي وحده يفي: فعّل الدفع الدولي قبل أي حديث عن ar-EG',cta:'ادرس الجدوى'}
+ ].map(r=>Object.assign(r,{onGo:()=>this.toast('«'+r.n+'» — '+r.cta+' عبر مركز الإجراءات، والحقيقة تبقى موسومة عن التقدير')}))};
+ base.dp={rows:[
+  {pair:'حزمة المراجعة ar-SA ↔ en-SA',sim:'18%',verdict:'ترجمة حقيقية — تشابه بنيوي طبيعي، سليم',flagged:false,c:'#146c4c',fill:'#1e7355',bd:'#dce2dd'},
+  {pair:'صفحة أول ثانوي ↔ صفحة رياضيات أول ثانوي',sim:'41%',verdict:'تقاطع هرمي مقصود — كلتاهما بقيمة مستقلة، سليم',flagged:false,c:'#146c4c',fill:'#1e7355',bd:'#dce2dd'},
+  {pair:'وحدة المعادلات ↔ وحدة المتباينات (قالبان)',sim:'87%',verdict:'فوق العتبة — المقدمة والأسئلة شبه متطابقة: ميِّز أو ادمج',flagged:true,c:'#b32d2e',fill:'#b32d2e',bd:'#f0d3d3'}
+ ].map(r=>Object.assign(r,{
+  onDiff:()=>this.toast('فُتحت خطة التمييز: أسئلة فريدة لكل وحدة + مقدمة من واقع الدرس — تُقاس بعدها'),
+  onMerge:()=>this.toast('الدمج 301 عالي الخطورة — يمر ببوابة موافقة Analytics Pro OS مع Dry Run وتراجع')}))};
+ return base;
+}
+}
+</script>
+</body>
+</html>

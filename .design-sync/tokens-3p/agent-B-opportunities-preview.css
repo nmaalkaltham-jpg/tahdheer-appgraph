@@ -1,0 +1,76 @@
+/**
+ * intl-seo — رموز شاشتي «الفرص الإقليمية» و«المعاينة والوراثة» (agent-B).
+ *
+ * كل قيمة هنا حرفية من تصميمها المذكور، ولم يكن لها رمز مطابق في
+ * packages/design-system/src/tokens.css (أقرب جار يختلف بالقيمة).
+ * القاعدة نفسها: لا لون بالرقم في المكوّنات — يُضاف هنا ويُقرأ الرمز.
+ */
+:root {
+  /* ── Tahdheer - Regional Opportunity.dc.html ─────────────────────── */
+  --intl-tint-green-14: rgba(37, 155, 111, 0.14);        /* شارة «مؤهَّلة» */
+  --intl-tint-green-04: rgba(37, 155, 111, 0.04);        /* خلفية صف مؤهَّل */
+  --intl-tint-green-border-22: rgba(37, 155, 111, 0.22); /* حدّ بند الميزانية الأخضر */
+  --intl-tint-gold-20: rgba(216, 181, 106, 0.2);         /* شارة «مُحتملة» */
+  --intl-tint-gold-22: rgba(216, 181, 106, 0.22);        /* خلفية شارة «عالٍ» */
+  --intl-tint-gold-border-34: rgba(216, 181, 106, 0.34); /* حدّ بطاقة شذوذ «عالٍ» */
+  --intl-danger-border-28: rgba(180, 35, 24, 0.28);      /* حدّ لافتة «لا مصدر بيانات» */
+  --intl-danger-border-24: rgba(180, 35, 24, 0.24);      /* حدّ بطاقة شذوذ «حرِج» */
+  --intl-tint-danger-12: rgba(180, 35, 24, 0.12);        /* خلفية شارة «حرِج» */
+
+  /* ── Tahdheer - International SEO.dc.html (شاشة الأم والوراثة) ───── */
+  --intl-border-soft: #dce2dd;        /* حدود الأقسام والبطاقات */
+  --intl-bg-head: #f6f8f7;            /* رأس جدول الوراثة */
+  --intl-bg-row: #fbfcfb;             /* خلفية عمود «الحقل» */
+  --intl-border-row: #f4f6f4;         /* فاصل صفوف جدول الوراثة */
+  --intl-border-mint: #cfe0d6;        /* حدّ لوح «المبدأ» المتقطّع */
+  --intl-bg-mint: #f8fbf9;            /* خلفية لوح «المبدأ» */
+  --intl-locked-bg: #fce8e8;          /* شارة «مقفل من الأم» */
+  --intl-locked-fg: #b32d2e;          /* نص «مقفل من الأم» */
+  --intl-body: #3d4f45;               /* نصّ خلايا الجدول */
+  --intl-muted: #8b978f;              /* السطر الثانوي بجوار العنوان */
+  --intl-code-mint: #a8e2c5;          /* رمز اللغة على الكروم الداكن */
+
+  /* ── TahLocaleInherit.dc.html ────────────────────────────────────── */
+  --intl-danger-border-20: rgba(163, 58, 45, 0.2);  /* حدّ شارة «النشر محجوب» */
+  --intl-tint-danger-10: rgba(163, 58, 45, 0.1);    /* خلفية حالتي «قديم/ناقص» */
+}
+
+/* حركتا الشاشتين — أسماء معزولة كي لا تصادم keyframes أخرى. */
+@keyframes intl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intl-bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* الشريط ينمو من بدايته البصرية في RTL (حرفية التصميم). */
+[style*='intl-bar-grow'] {
+  transform-origin: right center;
+}
+
+/*
+ * تقليل الحركة يكشف صراحةً — لا تجميد على opacity:0.
+ * ‏!important لأن الحركة مُعلنة في style="" المضمّن (كما في التصميم نفسه)
+ * وقاعدة ورقة الأنماط لا تغلبه بدونها.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [style*='intl-fade-up'],
+  [style*='intl-bar-grow'] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,90 @@
+/*
+ * Library grid — «Tahdheer - My Account» resource card: 16/10 preview band,
+ * --r-lg card that lifts (e-2) on hover, 15px title, --r-xs chips, recipe action.
+ * Two columns on mobile and tablet, four at the desktop story.
+ * Tokens only, logical properties only.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/*
+ * No thumbnail source exists for an order file, so the preview band carries the
+ * file's real format instead of a fake image.
+ */
+.thumb {
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  border-block-end: 1px solid var(--sf-hair);
+  background: var(--sf-cool);
+}
+
+.thumbText {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.formatChip {
+  padding: 2px 8px;
+  border: 1px solid var(--st-success-line);
+  border-radius: var(--r-xs);
+  background: var(--st-success-bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink);
+}
+
+.file {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.cardAction {
+  margin-block-start: auto;
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

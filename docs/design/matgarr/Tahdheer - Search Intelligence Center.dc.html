@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes siFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:12.5px">مركز ذكاء البحث — القاموس · مفتش URL · SERP · التكاملات</b>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.gloss }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:siFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">القاموس الشامل — {{ gl.n }} مفهومًا مرتبطًا ببياناتك</h1>
+<div style="position:relative;flex:1;min-width:220px;max-width:380px">
+<input type="search" value="{{ gl.q }}" onChange="{{ gl.onQ }}" placeholder="اكتب INP أو CTR أو hreflang…" aria-label="بحث القاموس" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 13px;border:1.5px solid #d5dbd6;border-radius:10px;font:800 11.5px Tajawal;outline:none">
+</div>
+<sc-for list="{{ gl.cats }}" as="c" hint-placeholder-count="6">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="min-height:28px;padding:0 10px;border:1px solid {{ c.bd }};border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ c.n }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<sc-for list="{{ gl.rows }}" as="g" hint-placeholder-count="10">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:12px 15px;animation:siFade .2s ease">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<code dir="ltr" style="padding:2px 9px;border-radius:7px;background:#14261d;color:#a8e2c5;font-size:10px;font-weight:800">{{ g.a }}</code>
+<b style="font-size:12px">{{ g.full }}</b>
+<span style="padding:1px 8px;border-radius:999px;background:#f2f6f3;font-size:8.5px;font-weight:900;color:#5f7167">{{ g.cat }}</span>
+<sc-if value="{{ g.flag }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 8px;border-radius:999px;background:{{ g.fBg }};color:{{ g.fC }};font-size:8.5px;font-weight:900">{{ g.flag }}</span></sc-if>
+</div>
+<p style="margin:6px 0;font-size:10.5px;line-height:1.85;color:#3d4f45">{{ g.def }}</p>
+<sc-if value="{{ g.val }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;background:#f8fbf9;flex-wrap:wrap">
+<span style="font-size:9px;font-weight:900;color:#146c4c">قيمتك الآن:</span>
+<b style="font:900 11px Tajawal">{{ g.val }}</b>
+<span style="font-size:9px;color:#8b978f">{{ g.act }}</span>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.url }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:siFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مفتش URL — لوحة تحكم كاملة لكل رابط</h1>
+<select value="{{ ur.sel }}" onChange="{{ ur.onSel }}" style="margin-inline-start:auto;min-height:36px;padding:0 11px;border:1px solid #d5dbd6;border-radius:10px;background:#fff;font:800 11px Tajawal;outline:none" dir="ltr">
+<sc-for list="{{ ur.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.v }}</option></sc-for>
+</select>
+</div>
+<div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:15px;text-align:center">
+<div style="position:relative;width:110px;height:110px;margin:0 auto">
+<svg viewBox="0 0 100 100" style="width:110px;height:110px;transform:rotate(-90deg)">
+<circle cx="50" cy="50" r="44" fill="none" stroke="#eef2ef" stroke-width="9"></circle>
+<circle cx="50" cy="50" r="44" fill="none" stroke="{{ ur.rc }}" stroke-width="9" stroke-linecap="round" stroke-dasharray="{{ ur.ring }}"></circle>
+</svg>
+<div style="position:absolute;inset:0;display:grid;place-items:center"><b style="font:900 24px Tajawal">{{ ur.score }}</b></div>
+</div>
+<b style="display:block;margin-top:6px;font-size:11px">درجة صحة الرابط</b>
+<span style="font-size:9px;color:#8b978f">موزونة شفافة — كل بند أدناه يفسرها</span>
+</section>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<sc-for list="{{ ur.panels }}" as="p" hint-placeholder-count="8">
+<section style="border:1px solid #dce2dd;border-inline-start:3px solid {{ p.c }};border-radius:12px;background:#fff;padding:10px 13px">
+<div style="display:flex;align-items:center;gap:7px"><b style="font-size:10.5px">{{ p.n }}</b><span style="margin-inline-start:auto;padding:1px 8px;border-radius:999px;background:{{ p.sBg }};color:{{ p.sC }};font-size:8.5px;font-weight:900">{{ p.st }}</span></div>
+<span style="display:block;margin-top:4px;font-size:9.5px;line-height:1.7;color:#5f7167">{{ p.d }}</span>
+<sc-if value="{{ p.act }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ p.onAct }}" style="min-height:26px;margin-top:6px;padding:0 10px;border:1px solid #cfe0d6;border-radius:7px;background:#f2f8f5;font-size:9px;font-weight:900;color:#146c4c;cursor:pointer">{{ p.act }}</button>
+</sc-if>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.serp }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:siFade .25s ease">ذكاء SERP والسلطة</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:12.5px;font-weight:900">تكوين نتيجة «ملزمة رياضيات أول ثانوي»</h2>
+<span style="font-size:9px;color:#8b978f">ما تملكه وما هو فرصة — لكل ميزة SERP</span>
+<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ sp.feats }}" as="f" hint-placeholder-count="7">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:9px;background:{{ f.bg }}">
+<b style="flex:1;font-size:10.5px">{{ f.n }}</b>
+<span style="font-size:9px;color:#5f7167">{{ f.who }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ f.sBg }};color:{{ f.sC }};font-size:8.5px;font-weight:900">{{ f.st }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:12.5px;font-weight:900">السلطة والروابط — بتمييز صادق للمصدر</h2>
+<span style="font-size:9px;color:#8b978f">مقاييس الطرف الثالث ليست درجات جوجل رسمية — موسومة كذلك</span>
+<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ sp.auth }}" as="a" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:9px;background:#fbfcfb">
+<code dir="ltr" style="flex:0 0 52px;font-size:9.5px;font-weight:800;color:#14261d">{{ a.k }}</code>
+<span style="flex:1;font-size:9.5px;color:#5f7167">{{ a.d }}</span>
+<b style="font:900 11px Tajawal;color:#146c4c">{{ a.v }}</b>
+<span style="padding:1px 8px;border-radius:999px;background:{{ a.tBg }};color:{{ a.tC }};font-size:8px;font-weight:900">{{ a.t }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:9px;padding:8px 11px;border:1px dashed #cfe0d6;border-radius:10px;background:#f8fbf9;font-size:9px;line-height:1.7;color:#5f7167">روابط جديدة هذا الشهر: ٧ (منها التقرير السنوي ٣) · مفقودة: ١ (أُرسل طلب استصلاح) · سامة مشتبهة: ٠</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.integ }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:siFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مركز التكاملات — حالات صادقة</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">لا بيانات حية بلا تكامل متصل — التجريبي موسوم دائمًا</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<sc-for list="{{ ig.rows }}" as="i" hint-placeholder-count="9">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:12px 15px">
+<div style="display:flex;align-items:center;gap:8px">
+<b style="font-size:11.5px">{{ i.n }}</b>
+<span style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;background:{{ i.sBg }};color:{{ i.sC }};font-size:8.5px;font-weight:900"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:currentColor"></span>{{ i.st }}</span>
+</div>
+<span style="display:block;margin-top:4px;font-size:9.5px;line-height:1.7;color:#5f7167">{{ i.d }}</span>
+<button type="button" onClick="{{ i.onAct }}" style="min-height:28px;margin-top:8px;padding:0 11px;border:1px solid {{ i.bBd }};border-radius:8px;background:{{ i.bBg }};color:{{ i.bC }};font-size:9.5px;font-weight:900;cursor:pointer">{{ i.act }}</button>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:siFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gloss&quot;,&quot;url&quot;,&quot;serp&quot;,&quot;integ&quot;],&quot;default&quot;:&quot;gloss&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+G=[
+['CTR','معدل النقر','أداء','النقرات ÷ الانطباعات في نتائج البحث — أول مؤشر على جاذبية عنوانك.','١٫٤٪ (٢٨ يومًا)','الفرصة: ٦ تصنيفات تحت ١٪ — شاشة الرافعات',''],
+['INP','Interaction to Next Paint','CWV','زمن استجابة التفاعل — خلَف FID رسميًا في CWV منذ 2024.','١٨٤ م.ث ✓','سكربت الدردشة مؤجل بانتظار موافقة','FID تاريخي'],
+['LCP','أكبر رسم محتوى','CWV','زمن ظهور أكبر عنصر — هدفه ≤ ٢٫٥ث.','٢٫٢ث جوال ✓','preload مطبق على صور البطل',''],
+['CLS','انزياح التخطيط التراكمي','CWV','ثبات الصفحة بصريًا — هدفه ≤ ٠٫١.','٠٫٠٣ ✓','أبعاد محجوزة لكل الصور',''],
+['TTFB','زمن أول بايت','أداء','استجابة الخادم قبل أي عرض.','١٩٠ م.ث ✓','كاش الحافة مفعّل',''],
+['SERP','صفحة نتائج البحث','بحث','تكوين النتائج لاستعلامك: عضوي + ميزات + إعلانات.','تملك ٣ ميزات من ٧','شاشة SERP هنا',''],
+['E-E-A-T','خبرة·تجربة·سلطة·ثقة','جودة','إطار تقييم الجودة — يُبنى بمؤلفين حقيقيين ومصادر لا بحشو.','٢٨/٤٠ صفحة مُعِدّ','وحدة المُعِدّين في التضمين والعلاقات',''],
+['hreflang','وسم اللغة/الإقليم','دولي','يوجه النسخة الصحيحة للجمهور الصحيح — تبادلي وذاتي إلزاميًا.','٤ صفحات · صفر أخطاء','عدة النتائج الغنية ← البنية التقنية',''],
+['GBP','Google Business Profile','محلي','الملف التجاري (الاسم السابق GMB) — نجومك في النتائج العلامية.','٤٫٩ × ١٨٧ تقييمًا','٣ تقييمات بانتظار ردك','GMB سابقًا'],
+['AEO','تحسين محركات الإجابة','AI بحث','هيكلة إجابات مباشرة قابلة للاقتباس — كتل الـ ٤٥ كلمة.','١٤ كتلة منشورة','مولّد الكتل في الرافعات',''],
+['GEO','تحسين المحركات التوليدية','AI بحث','جعل محتواك قابلًا للاسترجاع والاستشهاد في إجابات AI.','جاهزية ٨١٪','llms.txt + التقرير السنوي مصادر اقتباس',''],
+['RAG','التوليد المعزز بالاسترجاع','AI بحث','آلية AI: يسترجع مقاطع ثم يجيب — مقاطعك المستقلة هي وحدات الاسترجاع.','','فقرات مكتفية ذاتيًا بعناوين وصفية',''],
+['LLMO','تحسين نماذج اللغة','AI بحث','مظلة جهود الظهور في مساعدي AI — كيان واضح ومعلومات أصلية.','','',''],
+['TF-IDF','تكرار المصطلح المعكوس','محتوى','وزن إحصائي لتميز مصطلح في وثيقة — أداة تحليل لا حشو.','','',''],
+['LSI','الفهرسة الدلالية الكامنة','محتوى','تقنية قديمة — ليست نظام ترتيب حديثًا لدى جوجل؛ استخدم الكيانات والتغطية.','','','تاريخي — لا تعتمد عليه'],
+['DR/DA','تقييم النطاق','سلطة','مقاييس Ahrefs/Moz التقديرية — ليست درجات جوجل رسمية.','DR≈١٨ (تقديري)','قِس بالزيارات والتحويل لا بهذه وحدها','طرف ثالث'],
+['PageRank','تدفق قوة الروابط','سلطة','مفهوم جوجل الأصلي — داخليًا نوزعه بالروابط الداخلية الموجهة.','','شاشة الروابط الداخلية في الرافعات',''],
+['Canonical','الرابط القانوني','تقني','النسخة المعتمدة من الصفحة — يمنع تشتت الفهرسة بين المتغيرات.','٢١٤/٢١٤ سليمة','فحص يومي في غرفة التحكم',''],
+['Crawl Budget','ميزانية الزحف','تقني','طاقة الزاحف لموقعك — تُهدر على روابط المعاملات إن لم تُضبط.','هدر ٣٨٪ → قيد التجفيف','شاشة السرعة والزحف',''],
+['GSC','Search Console','تكامل','مصدر الحقيقة للاستعلامات والانطباعات والفهرسة.','متصل ✓','٤ تقارير تتغذى منه هنا',''],
+['CrUX','تجربة كروم الميدانية','أداء','بيانات مستخدمين حقيقيين — الحكم النهائي على CWV.','متصل ✓','',''],
+['ROAS','عائد الإنفاق الإعلاني','تسويق','الإيراد ÷ الإنفاق — للحملات المدفوعة عند تفعيلها.','— لا حملات نشطة','يتفعل مع SEM',''],
+['AOV','متوسط قيمة الطلب','تجارة','الإيراد ÷ عدد الطلبات — الحزم ترفعه.','٨٧ ر.س','حزمة العام رفعته +١٢٪',''],
+['LTV','قيمة العميل الدائمة','تجارة','إجمالي ما ينفقه العميل عبر علاقته بك — الولاء والتحديثات يرفعانه.','٢١٤ ر.س (أفواج)','',''],
+['PDP/PLP','صفحة المنتج/القائمة','تجارة','قالبا التجارة الأساسيان — لكلٍّ متطلبات فهرسة مختلفة.','مبنيان بمواصفات كاملة','',''],
+['GTIN','المعرّف التجاري العالمي','تجارة','رقم المنتج العالمي — إلزامي عمليًا لـ Merchant الغني.','٢١٤/٢١٤ ✓','',''],
+['Schema','البيانات المنظمة','تقني','JSON-LD يشرح صفحتك للمحرك — يطابق المرئي أو لا يكون.','٩ أنواع نشطة','قاعدة المرئي=Schema=Feed',''],
+['YMYL','مالك أو حياتك','جودة','صفحات المال/الصحة تُحاسب أشد — التعليم قريب منها: مصادر ومؤلفون إلزاميًا.','','سياسة المصادر في كل مقال',''],
+['SXO','تحسين تجربة البحث','تجربة','ما بعد النقرة: هل وجد الزائر ما وُعد به؟ يقاس بالرضا لا بالترتيب فقط.','','',''],
+['PAA','يسأل الناس أيضًا','بحث','أسئلة SERP المتوسعة — أسئلتك الشائعة المرئية تلتقطها.','تملك ٢ لاستعلامك الأول','','']
+];
+URLS={
+ '/product/math-101':{score:87,panels:[
+  ['أداء البحث','٨٬٤٠٠ انطباع · CTR ١٫٩٪ · مركز ٤','ok','جيد','#1e7355',''],
+  ['الفهرسة','مفهرسة · canonical ذاتي · في Sitemap','ok','سليم','#1e7355',''],
+  ['CWV ميداني','LCP ٢٫٢ث · INP ١٨٤م.ث · CLS ٠٫٠٣','ok','يجتاز','#1e7355',''],
+  ['Schema','Product+Offer+Rating — مطابق للمرئي','ok','صالح','#1e7355',''],
+  ['الروابط الداخلية','١٢ واردًا · عمق نقرتين','ok','قوي','#1e7355',''],
+  ['جاهزية AI','كتلة إجابة + مواصفات جدولية + مؤلف','ok','٨٤٪','#1e7355',''],
+  ['فرصة','مركز ٤ → ٣ يعادل +٢٦٠ نقرة/شهر','opp','فرصة','#8a6500','أنشئ Workflow'],
+  ['آخر التغييرات','عنوان الفائز A/B طُبق قبل ٩ أيام','ok','يُقاس','#527a96','قارن قبل/بعد']]},
+ '/bundles/review':{score:74,panels:[
+  ['أداء البحث','٥٬١٠٠ انطباع · CTR ١٫١٪ · مركز ٦','warn','فجوة CTR','#8a6500','حسّن العنوان'],
+  ['الفهرسة','مفهرسة · canonical صُحح (كان بمعامل)','ok','سليم بعد إصلاح','#1e7355',''],
+  ['CWV ميداني','LCP ٢٫٧ث جوال — صورة البطل','warn','قريب من الحد','#8a6500','طبّق preload'],
+  ['Schema','Product دون shippingDetails','warn','ناقص','#8a6500','أكمل الدفعة'],
+  ['الروابط الداخلية','٤ واردة فقط لصفحة مُدرّة','warn','ضعيف','#8a6500','أضف من الرئيسية'],
+  ['جاهزية AI','بلا كتلة إجابة مباشرة','warn','٦١٪','#8a6500','أدرج الكتلة'],
+  ['فرصة','الدرجة ٩٤ — الأعلى موقعًا كاملًا','opp','أولوية ١','#b32d2e','افتح الفرصة'],
+  ['آخر التغييرات','hreflang أُضيف للنسخة الإنجليزية','ok','سليم','#1e7355','']]},
+ '/blog/study-plan':{score:69,panels:[
+  ['أداء البحث','٦٬٢٠٠ انطباع · مركز ٩ · نقرات ↓٤١٪','bad','متدهور','#b32d2e','خطة التحديث'],
+  ['الفهرسة','مفهرسة · lastmod قديم','warn','يحتاج تحديثًا','#8a6500',''],
+  ['CWV ميداني','يجتاز الثلاثة','ok','يجتاز','#1e7355',''],
+  ['Schema','Article + مؤلفة موثقة','ok','صالح','#1e7355',''],
+  ['الروابط الداخلية','١٨ واردًا — أصل قوي','ok','قوي','#1e7355',''],
+  ['جاهزية AI','خلاصة مباشرة موجودة','ok','٧٩٪','#1e7355',''],
+  ['فرصة','تحديث في المكان يستعيد ~١٩٠ نقرة','opp','تدهور','#8a6500','حدّث الآن'],
+  ['آخر التغييرات','لا تغييرات منذ ٩٠ يومًا','warn','راكد','#8a6500','']]}
+};
+state={scr:'gloss',q:'',cat:'all',url:'/product/math-101',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['gloss','القاموس الشامل'],['url','مفتش URL'],['serp','SERP والسلطة'],['integ','التكاملات']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{gloss:st.scr==='gloss',url:st.scr==='url',serp:st.scr==='serp',integ:st.scr==='integ',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const cats=['all'].concat(this.G.map(g=>g[2]).filter((c,i,a)=>a.indexOf(c)===i));
+ const q=st.q.trim().toLowerCase();
+ const rows=this.G.filter(g=>(st.cat==='all'||g[2]===st.cat)&&(!q||(g[0]+g[1]+g[3]).toLowerCase().indexOf(q)>=0));
+ base.gl={n:this.ar(this.G.length),q:st.q,onQ:(e)=>this.setState({q:e.target.value}),
+  cats:cats.map(c=>({n:c==='all'?'الكل':c,on:st.cat===c,
+   bd:st.cat===c?'#14261d':'#dfe4df',bg:st.cat===c?'#14261d':'#fff',fg:st.cat===c?'#fff':'#5f7167',
+   onClick:()=>this.setState({cat:c})})),
+  rows:rows.map(g=>({a:g[0],full:g[1],cat:g[2],def:g[3],val:g[4],act:g[5],flag:g[6],
+   fBg:g[6].indexOf('طرف')>=0?'#fff4d6':'#f2f4f2',fC:g[6].indexOf('طرف')>=0?'#8a6500':'#5f7167'}))};
+ const U=this.URLS[st.url];
+ base.ur={sel:st.url,onSel:(e)=>this.setState({url:e.target.value}),
+  opts:Object.keys(this.URLS).map(v=>({v:v})),
+  score:this.ar(U.score),ring:(U.score*2.76)+' 276',rc:U.score>=80?'#1e7355':(U.score>=70?'#c9a227':'#b32d2e'),
+  panels:U.panels.map(p=>({n:p[0],d:p[1],st:p[3],c:p[4],
+   sBg:p[2]==='ok'?'#e4f4ec':(p[2]==='warn'?'#fff4d6':(p[2]==='opp'?'#fff4d6':'#fce8e8')),
+   sC:p[2]==='ok'?'#146c4c':(p[2]==='bad'?'#b32d2e':'#8a6500'),
+   act:p[5],onAct:()=>this.toast('«'+p[5]+'» لـ '+st.url+' — يفتح في وحدته داخل المركز الموحد')}))};
+ base.sp={
+  feats:[['النتيجة العضوية','أنت — مركز ٤','own'],['نجوم المنتج Rich','أنت ✓','own'],['يسأل الناس أيضًا','تملك ٢ من ٤','own'],['المقتطف المميز','منافس — كتلة إجابتك مرشحة','opp'],['شريط الفيديو','فارغ — فيديوهاتك جاهزة','opp'],['حزمة الصور','منافسون — Image sitemap يدخلك','opp'],['AI Overview','يظهر أحيانًا — جاهزية ٨١٪','opp']].map(f=>({n:f[0],who:f[1],
+   st:f[2]==='own'?'مملوكة':'فرصة',bg:f[2]==='own'?'#f6fbf8':'#fffdf5',
+   sBg:f[2]==='own'?'#e4f4ec':'#fff4d6',sC:f[2]==='own'?'#146c4c':'#8a6500'})),
+  auth:[['GSC','روابط واردة يعرفها جوجل','٤٧ نطاقًا','native'],['داخلي','تدفق القوة بين صفحاتك','موزَّع بالرافعات','native'],['DR','تقدير Ahrefs للنطاق','≈١٨','third'],['DA','تقدير Moz','≈١٦','third'],['TF/CF','تقدير Majestic','≈١٢/١٥','third'],['سمّية','فحص الروابط المشبوهة','٠ ✓','native']].map(a=>({k:a[0],d:a[1],v:a[2],
+   t:a[3]==='native'?'أصلي/مُقاس':'طرف ثالث تقديري',
+   tBg:a[3]==='native'?'#e4f4ec':'#fff4d6',tC:a[3]==='native'?'#146c4c':'#8a6500'}))};
+ base.ig={rows:[
+  ['GSC — Search Console','متصل — يغذي الاستعلامات والفهرسة و A/B','on','افتح التقارير'],
+  ['GA4','متصل — القمع والتحويل والإيراد','on','افتح القمع'],
+  ['CrUX','متصل — CWV ميداني','on','عرض الاتجاه'],
+  ['PSI / Lighthouse','متاح عند الطلب — فحص معملي','on','شغّل فحصًا'],
+  ['Merchant Center','متصل — Feed متطابق مع المرئي','on','صحة الـ Feed'],
+  ['GBP','يتطلب إذنًا — أعد ربط الصلاحية','perm','امنح الإذن'],
+  ['Bing Webmaster','غير متصل — IndexNow يعمل دونه جزئيًا','off','اربط الآن'],
+  ['GTM','متصل — أحداث التجارة تُدفع','on','خريطة الأحداث'],
+  ['بيانات المنافسين','تجريبي موسوم — لا مزود مرخّص بعد','demo','وضّح المصدر']
+ ].map(i=>{const S={on:['متصل','#e4f4ec','#146c4c'],perm:['يتطلب إذنًا','#fff4d6','#8a6500'],off:['غير متصل','#fce8e8','#b32d2e'],demo:['بيانات تجريبية','#e8f2fc','#1d5f9c']}[i[2]];
+  return {n:i[0],d:i[1],st:S[0],sBg:S[1],sC:S[2],act:i[3],
+   bBd:i[2]==='on'?'#cfe0d6':'#dfe4df',bBg:i[2]==='on'?'#f2f8f5':'#fff',bC:i[2]==='on'?'#146c4c':'#3d4f45',
+   onAct:()=>this.toast(i[0]+': '+i[3]+' — الحالة صادقة، ولا رقم حيًّا بلا اتصال')};})};
+ return base;
+}
+}
+</script>
+</body>
+</html>

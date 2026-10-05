@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f2f4f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<main dir="rtl" lang="ar" style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:{{ pagePad }};box-sizing:border-box;background:#f2f4f1">
+<div style="width:100%;max-width:{{ cardMax }}">
+
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:{{ headGap }}">
+<span aria-hidden="true" style="width:{{ logoSize }};height:{{ logoSize }};display:grid;place-items:center;border-radius:15px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg style="width:{{ logoIcon }};height:{{ logoIcon }};fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span>
+<h1 style="margin:0;font-size:{{ h1Fs }};font-weight:900;color:#14261d;line-height:1.35;text-align:center">{{ heading }}</h1>
+<p style="margin:0;font-size:{{ subFs }};line-height:1.75;color:#5f7167;text-align:center;max-width:34ch">{{ subheading }}</p>
+</div>
+
+<div style="background:#fff;border:1px solid #e6e9e2;border-radius:{{ cardRadius }};padding:{{ cardPad }};box-shadow:0 2px 12px rgba(20,45,33,.05)">
+
+<sc-if value="{{ isPhoneStep }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ onSendCode }}" novalidate="true">
+<label for="tah-phone" style="display:block;font-size:12.5px;font-weight:800;color:#14261d;margin-bottom:7px">رقم الجوال</label>
+<div style="display:flex;align-items:stretch;gap:0;border:1.5px solid {{ phoneBorder }};border-radius:11px;overflow:hidden;background:#fff;margin-bottom:{{ phoneErrGap }}">
+<span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;gap:6px;padding-inline:12px;background:#f7f9f6;border-inline-end:1px solid #e6e9e2;font-size:13px;font-weight:800;color:#5f7167">
+<span style="font-size:15px;line-height:1">🇸🇦</span><bdi dir="ltr">+966</bdi>
+</span>
+<input id="tah-phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" value="{{ phone }}" onChange="{{ onPhone }}" placeholder="5X XXX XXXX" aria-describedby="tah-phone-hint" aria-invalid="{{ phoneInvalid }}" style="flex:1;min-width:0;min-height:{{ field }};padding-inline:13px;border:0;outline:none;font-family:Tajawal,sans-serif;font-size:15px;font-weight:700;color:#14261d;letter-spacing:.02em;background:transparent;box-sizing:border-box">
+</div>
+
+<div style="display:{{ phoneErrDisplay }};align-items:flex-start;gap:7px;margin-bottom:12px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;margin-top:2px;color:#a33a2d;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<span role="alert" style="font-size:11.5px;line-height:1.7;color:#a33a2d">{{ phoneError }}</span>
+</div>
+
+<p id="tah-phone-hint" style="margin:0 0 14px;font-size:11.5px;line-height:1.7;color:#5f7167">سنرسل لك رمزًا من ست خانات برسالة نصية. لا حاجة لكلمة مرور.</p>
+
+<button type="submit" disabled="{{ sendDisabled }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:{{ ctaMin }};border:0;border-radius:12px;background:{{ ctaBg }};color:#fff;font-family:Tajawal,sans-serif;font-size:15px;font-weight:900;cursor:{{ ctaCursor }}">
+<span style="display:{{ spinnerDisplay }};width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:tahSpin .7s linear infinite"></span>
+{{ ctaLabel }}
+</button>
+</form>
+</sc-if>
+
+<sc-if value="{{ isCodeStep }}" hint-placeholder-val="{{ false }}">
+<div style="animation:{{ revealAnim }}">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border-radius:10px;background:rgba(37,155,111,.06);border:1px solid rgba(37,155,111,.18);margin-bottom:16px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:2px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-check"></use></svg>
+<span style="font-size:12px;line-height:1.7;color:#3b4d43">أرسلنا الرمز إلى <bdi dir="ltr" style="font-weight:900;color:#14261d">{{ maskedPhone }}</bdi>. صالح لخمس دقائق.</span>
+</div>
+
+<fieldset style="border:0;margin:0 0 12px;padding:0">
+<legend style="font-size:12.5px;font-weight:800;color:#14261d;margin-bottom:9px;padding:0">أدخل رمز التحقّق</legend>
+<div dir="ltr" style="display:flex;gap:{{ otpGap }};justify-content:center">
+<sc-for list="{{ otpBoxes }}" as="b" hint-placeholder-count="6">
+<input type="text" inputmode="numeric" autocomplete="{{ b.autocomplete }}" maxlength="1" value="{{ b.value }}" onChange="{{ b.onChange }}" onKeyDown="{{ b.onKeyDown }}" aria-label="{{ b.aria }}" aria-invalid="{{ codeInvalid }}" style="width:{{ otpW }};height:{{ otpH }};text-align:center;border:1.5px solid {{ b.border }};border-radius:10px;background:{{ b.bg }};font-family:ui-monospace,Menlo,monospace;font-size:{{ otpFs }};font-weight:900;color:#14261d;outline:none;box-sizing:border-box">
+</sc-for>
+</div>
+</fieldset>
+
+<div style="display:{{ codeErrDisplay }};align-items:flex-start;gap:7px;margin-bottom:12px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;margin-top:2px;color:#a33a2d;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<span role="alert" style="font-size:11.5px;line-height:1.7;color:#a33a2d">{{ codeError }}</span>
+</div>
+
+<button type="button" onClick="{{ onVerify }}" disabled="{{ verifyDisabled }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:{{ ctaMin }};border:0;border-radius:12px;background:{{ verifyBg }};color:#fff;font-family:Tajawal,sans-serif;font-size:15px;font-weight:900;cursor:{{ verifyCursor }};margin-bottom:12px">
+<span style="display:{{ verifySpinner }};width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:tahSpin .7s linear infinite"></span>
+{{ verifyLabel }}
+</button>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+<button type="button" onClick="{{ onResend }}" disabled="{{ resendDisabled }}" style="display:inline-flex;align-items:center;min-height:{{ tapLink }};padding:0;border:0;background:none;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;color:{{ resendFg }};cursor:{{ resendCursor }}">{{ resendLabel }}</button>
+<button type="button" onClick="{{ onChangePhone }}" style="display:inline-flex;align-items:center;min-height:{{ tapLink }};padding:0;border:0;background:none;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;color:#5f7167;cursor:pointer">تغيير الرقم</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:8px 0;animation:{{ revealAnim }}">
+<span aria-hidden="true" style="display:grid;place-items:center;width:52px;height:52px;margin:0 auto 14px;border-radius:50%;background:rgba(37,155,111,.10);color:#1e7355"><svg style="width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg></span>
+<h2 style="margin:0 0 7px;font-size:18px;font-weight:900;color:#14261d">تم تسجيل الدخول</h2>
+<p role="status" style="margin:0 0 16px;font-size:13px;line-height:1.75;color:#5f7167">نُحوّلك إلى حسابك الآن…</p>
+<a href="#" style="display:inline-flex;align-items:center;justify-content:center;min-height:{{ ctaMin }};padding-inline:24px;border-radius:12px;background:#1e7355;color:#fff;font-size:14.5px;font-weight:900;text-decoration:none">الانتقال إلى حسابي</a>
+</div>
+</sc-if>
+
+<sc-if value="{{ showDivider }}" hint-placeholder-val="{{ true }}">
+<div aria-hidden="true" style="display:flex;align-items:center;gap:12px;margin:18px 0">
+<span style="flex:1;height:1px;background:#e6e9e2"></span>
+<span style="font-size:11.5px;font-weight:800;color:#5f7167">أو</span>
+<span style="flex:1;height:1px;background:#e6e9e2"></span>
+</div>
+
+<button type="button" onClick="{{ onGoogle }}" aria-disabled="{{ googleAria }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:{{ ctaMin }};border:1.5px solid {{ googleBorder }};border-radius:12px;background:#fff;font-family:Tajawal,sans-serif;font-size:14.5px;font-weight:900;color:#14261d;cursor:{{ googleCursor }};opacity:{{ googleOpacity }}">
+<span aria-hidden="true" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1px solid #e6e9e2;border-radius:7px;background:#fbfcfa;font-size:9px;font-weight:900;color:#5f7167;letter-spacing:.02em" title="موضع شعار Google الرسمي">logo</span>
+<span>تسجيل الدخول باستخدام Google</span>
+<span style="display:{{ googleChipDisplay }};padding:1px 7px;border-radius:5px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.4);font-size:9.5px;font-weight:800;color:#7a5d20">يحتاج ربطًا</span>
+</button>
+
+<p style="display:{{ googleNoteDisplay }};margin:8px 0 0;font-size:11px;line-height:1.7;color:#7a5d20">المزوّد مُعرَّف في <code dir="ltr" style="font-size:10.5px">inc/login/providers.php</code> لكن لا يوجد عنوان بدء تدفّق OAuth. يتطلّب تمرير <code dir="ltr" style="font-size:10.5px">url</code> عبر الفلتر الموثَّق في الملف نفسه، ثم يظهر الزر مفعّلًا تلقائيًا.</p>
+</sc-if>
+
+</div>
+
+<p style="margin:14px 0 0;font-size:11px;line-height:1.75;color:#5f7167;text-align:center">بالمتابعة أنت توافق على <a href="#" style="font-weight:800">الشروط والأحكام</a> و<a href="#" style="font-weight:800">سياسة الخصوصية</a>.</p>
+
+<div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-top:12px">
+<svg aria-hidden="true" style="width:13px;height:13px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-lock"></use></svg>
+<span style="font-size:11px;font-weight:700;color:#5f7167">اتصال مُشفَّر — لا نطلب كلمة مرور</span>
+</div>
+
+</div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:760},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;googleLinked&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;forceStep&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;phone&quot;,&quot;code&quot;,&quot;done&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Grounded in inc/login/*, not invented:
+   *   otp.php  TAHDHEER_OTP_TTL 300 · MAX_ATTEMPTS 5 · RESEND_COOLDOWN 60
+   *            MAX_SENDS_PER_HOUR 5 · MAX_SENDS_PER_IP 15 · 6-digit code (loop i<6)
+   *   render.php  tel input is dir="ltr" inputmode="tel" autocomplete="tel-national";
+   *               six maxlength=1 numeric boxes, aria-label "الخانة %d"; resend starts disabled
+   *   providers.php  'google' => label "Google", aria "تسجيل الدخول باستخدام Google".
+   *               The OAuth start URL arrives via the documented filter, and
+   *               tahdheer_login_missing_providers() is what reports it absent — so Google
+   *               is a DECLARED provider with no verifiable URL: shown, labelled, not promised.
+   * There is no email/password path here because the theme's login is OTP-based.
+   */
+  state = {
+    step: 'phone',
+    phone: '',
+    code: ['', '', '', '', '', ''],
+    busy: false,
+    phoneError: '',
+    codeError: '',
+    cooldown: 0,
+    attemptsLeft: 5
+  };
+
+  componentDidMount() { this.sync(); }
+  componentDidUpdate() { this.sync(); }
+  componentWillUnmount() { clearInterval(this._t); }
+
+  /* One live cooldown ticker, armed only while a cooldown is actually running. */
+  sync() {
+    const running = this.state.step === 'code' && this.state.cooldown > 0;
+    if (running && !this._t) {
+      this._t = setInterval(() => {
+        this.setState(s => {
+          const n = s.cooldown - 1;
+          return { cooldown: n > 0 ? n : 0 };
+        });
+      }, 1000);
+    } else if (!running && this._t) {
+      clearInterval(this._t); this._t = null;
+    }
+  }
+
+  digits(v) { return String(v || '').replace(/[^0-9]/g, ''); }
+
+  send(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const d = this.digits(this.state.phone);
+    if (d.length !== 9 || d[0] !== '5') {
+      this.setState({ phoneError: 'أدخل رقم جوال سعودي من تسع خانات يبدأ بالرقم 5 — مثال: 512345678.' });
+      return;
+    }
+    this.setState({ busy: true, phoneError: '' });
+    setTimeout(() => this.setState({
+      busy: false, step: 'code', cooldown: 60, code: ['', '', '', '', '', ''], codeError: '', attemptsLeft: 5
+    }), 700);
+  }
+
+  verify() {
+    const c = this.state.code.join('');
+    if (c.length < 6) { this.setState({ codeError: 'الرمز ست خانات — أكمل الخانات الناقصة.' }); return; }
+    this.setState({ busy: true, codeError: '' });
+    setTimeout(() => {
+      /* Demo: any code ending in 0 is treated as wrong so the failure path is inspectable. */
+      if (c.charAt(5) === '0') {
+        const left = this.state.attemptsLeft - 1;
+        this.setState({
+          busy: false, attemptsLeft: left, code: ['', '', '', '', '', ''],
+          codeError: left > 0
+            ? 'الرمز غير صحيح. تبقّى لك ' + left + ' ' + (left === 1 ? 'محاولة' : 'محاولات') + ' قبل إيقاف المحاولات مؤقتًا.'
+            : 'استُنفدت المحاولات الخمس. اطلب رمزًا جديدًا للمتابعة.'
+        });
+        return;
+      }
+      this.setState({ busy: false, step: 'done' });
+    }, 800);
+  }
+
+  renderVals() {
+    const p = this.props;
+    const st = this.state;
+    const mobile = !!p.mobile;
+    const pick = (m, d) => (mobile ? m : d);
+    const reduce = p.motion === false;
+
+    /* Google: declared provider, URL unverifiable from the theme's static files. */
+    const googleLinked = !!p.googleLinked;
+
+    const step = p.forceStep || st.step;
+    const isPhone = step === 'phone';
+    const isCode = step === 'code';
+    const isDone = step === 'done';
+    const exhausted = st.attemptsLeft <= 0;
+
+    const boxes = st.code.map((v, i) => ({
+      value: v,
+      aria: 'الخانة ' + (i + 1),
+      autocomplete: i === 0 ? 'one-time-code' : 'off',
+      border: st.codeError ? '#a33a2d' : (v ? '#1e7355' : '#d3d8cf'),
+      bg: v ? 'rgba(37,155,111,.05)' : '#fff',
+      onChange: e => {
+        const d = this.digits(e.target.value).slice(-1);
+        this.setState(s => {
+          const next = s.code.slice();
+          next[i] = d;
+          return { code: next, codeError: '' };
+        });
+        if (d && i < 5) {
+          const f = e.target.parentElement && e.target.parentElement.children[i + 1];
+          if (f && f.focus) f.focus();
+        }
+      },
+      onKeyDown: e => {
+        if (e.key === 'Backspace' && !st.code[i] && i > 0) {
+          const prev = e.target.parentElement && e.target.parentElement.children[i - 1];
+          if (prev && prev.focus) prev.focus();
+        }
+      }
+    }));
+
+    const phoneOk = this.digits(st.phone).length === 9;
+    const codeFull = st.code.join('').length === 6;
+
+    return {
+      pagePad: pick('24px 16px 32px', '48px 24px'),
+      cardMax: pick('100%', '408px'),
+      cardPad: pick('18px', '24px'),
+      cardRadius: pick('16px', '18px'),
+      headGap: pick('20px', '26px'),
+      logoSize: pick('48px', '54px'),
+      logoIcon: pick('27px', '30px'),
+      h1Fs: pick('21px', '24px'),
+      subFs: pick('13px', '13.5px'),
+      field: pick('48px', '46px'),
+      ctaMin: pick('50px', '48px'),
+      tapLink: pick('44px', '28px'),
+      otpW: pick('44px', '48px'),
+      otpH: pick('52px', '54px'),
+      otpFs: pick('20px', '22px'),
+      otpGap: pick('6px', '8px'),
+
+      heading: isDone ? 'أهلًا بك' : 'الدخول إلى حسابك',
+      subheading: isDone
+        ? 'كل ملفاتك ومشترياتك في مكان واحد.'
+        : 'أدخل رقم جوالك ونرسل لك رمز دخول، أو ادخل بحساب Google.',
+
+      isPhoneStep: isPhone, isCodeStep: isCode, isDone,
+      showDivider: !isDone,
+      revealAnim: reduce ? 'none' : 'tahFadeUp .32s ease-out both',
+
+      phone: st.phone,
+      onPhone: e => this.setState({ phone: this.digits(e.target.value).slice(0, 9), phoneError: '' }),
+      phoneBorder: st.phoneError ? '#a33a2d' : '#d3d8cf',
+      phoneInvalid: st.phoneError ? 'true' : 'false',
+      phoneError: st.phoneError,
+      phoneErrDisplay: st.phoneError ? 'flex' : 'none',
+      phoneErrGap: st.phoneError ? '8px' : '10px',
+
+      onSendCode: e => this.send(e),
+      /*
+       * REAL booleans, not strings. `disabled` is a boolean DOM prop, so the
+       * non-empty string 'false' is truthy and pins the attribute on forever — the
+       * button looked pressable (its colour came from a genuine boolean) and
+       * refused every press. aria-* values stay strings; that IS their contract.
+       */
+      sendDisabled: st.busy || !phoneOk,
+      ctaBg: (st.busy || !phoneOk) ? '#5f7167' : '#1e7355',
+      ctaCursor: (st.busy || !phoneOk) ? 'not-allowed' : 'pointer',
+      ctaLabel: st.busy ? 'جارٍ الإرسال…' : 'أرسل رمز الدخول',
+      spinnerDisplay: st.busy ? 'block' : 'none',
+
+      /*
+       * No numeric-looking fallback. An unfilled phone rendering as
+       * '+966 5XXXXXXXX' reads as a real number the shopper never gave —
+       * name the channel instead.
+       */
+      maskedPhone: phoneOk
+        ? '+966 ' + this.digits(st.phone).replace(/^(\d{2})\d{4}(\d{3})$/, '$1••••$2')
+        : 'رقم جوالك',
+      otpBoxes: boxes,
+      codeInvalid: st.codeError ? 'true' : 'false',
+      codeError: st.codeError,
+      codeErrDisplay: st.codeError ? 'flex' : 'none',
+
+      onVerify: () => this.verify(),
+      verifyDisabled: st.busy || !codeFull || exhausted,
+      verifyBg: (st.busy || !codeFull || exhausted) ? '#5f7167' : '#1e7355',
+      verifyCursor: (st.busy || !codeFull || exhausted) ? 'not-allowed' : 'pointer',
+      verifyLabel: st.busy ? 'جارٍ التحقّق…' : 'تأكيد الرمز والدخول',
+      verifySpinner: st.busy ? 'block' : 'none',
+
+      onResend: () => { if (st.cooldown === 0) this.setState({ cooldown: 60, code: ['', '', '', '', '', ''], codeError: '', attemptsLeft: 5 }); },
+      resendDisabled: st.cooldown > 0,
+      resendLabel: st.cooldown > 0 ? 'إعادة الإرسال بعد ' + st.cooldown + ' ثانية' : 'إعادة إرسال الرمز',
+      resendFg: st.cooldown > 0 ? '#5f7167' : '#1e7355',
+      resendCursor: st.cooldown > 0 ? 'not-allowed' : 'pointer',
+      onChangePhone: () => this.setState({ step: 'phone', code: ['', '', '', '', '', ''], codeError: '', cooldown: 0 }),
+
+      onGoogle: googleLinked ? (() => {}) : (() => {}),
+      googleAria: googleLinked ? 'false' : 'true',
+      googleBorder: googleLinked ? '#d3d8cf' : '#e6e9e2',
+      googleCursor: googleLinked ? 'pointer' : 'not-allowed',
+      googleOpacity: googleLinked ? '1' : '.72',
+      googleChipDisplay: googleLinked ? 'none' : 'inline-flex',
+      googleNoteDisplay: googleLinked ? 'none' : 'block'
+    };
+  }
+}
+</script>
+</body>
+</html>

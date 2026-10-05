@@ -1,0 +1,309 @@
+/*
+ * مصادر الرسوم والشعارات — صفحة محتوى بلغة المتجر: رأسٌ بلا شريطٍ داكن،
+ * بطاقات ثابتة (وصفة card، بلا رفعٍ فهي لا تُضغط)، وأدوار ‎--color-*‎ وحدها
+ * فتنقلب في الداكن. رموزٌ وخصائص منطقيّة فقط.
+ */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 var(--space-8);
+}
+
+.page :where(h1, h2, h3, p) {
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل — كصفحات المحتوى: ‎13‎ خافت، وهدفٌ ‎44px‎ رأسيًّا. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3) 0 0;
+  list-style: none;
+  font: var(--type-meta);
+  color: var(--color-text-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .crumbs a:hover {
+    color: var(--color-interactive);
+  }
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--color-text-2);
+  font-weight: 700;
+}
+
+.head {
+  padding-block: var(--space-4-5) var(--space-2);
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-1);
+  font: var(--type-label);
+  font-weight: 800;
+  color: var(--color-interactive);
+}
+
+.h1 {
+  margin: 0 0 var(--space-2);
+  font: var(--type-h1);
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font: var(--type-body);
+  line-height: 1.8;
+  color: var(--color-text-2);
+}
+
+.section {
+  margin-block-start: var(--space-7);
+}
+
+.h2 {
+  margin: 0 0 var(--space-4);
+  font: var(--type-h2);
+  color: var(--color-text);
+}
+
+/* بطاقاتٌ تملأ الصفّ (‎auto-fit/minmax‎): خمسة مصادر ⇒ ‎3 + 2‎ على المكتب لا ‎4 + 1‎ وحيدة. */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  min-inline-size: 0;
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.author {
+  margin: 0;
+  font: var(--type-h3);
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+/* حالة الإسناد — رقاقة ثلاثيّة (‎--st-*‎) لا كبسولة. */
+.status {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+  padding-inline: var(--space-2);
+  border: 1px solid;
+  border-radius: var(--r-xs);
+  font: var(--type-caption);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.statusOk {
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.statusWarn {
+  border-color: var(--st-warning-line);
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+}
+
+/* عيّنة الرسوم — صناديق ثابتة ‎64²‎ فلا إزاحة، والصور كسولة. */
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.thumb {
+  display: grid;
+  place-items: center;
+  inline-size: 64px;
+  block-size: 64px;
+  border-radius: var(--r-md);
+  background: var(--color-surface-muted);
+}
+
+.thumbImg {
+  display: block;
+  inline-size: 48px;
+  block-size: 48px;
+  object-fit: contain;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.fact {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.fact dt {
+  font: var(--type-label);
+  color: var(--color-text-muted);
+}
+
+.fact dd {
+  margin: 0;
+  font: var(--type-body);
+  line-height: 1.7;
+  color: var(--color-text-2);
+}
+
+.uses {
+  margin: 0;
+  padding-inline-start: var(--space-4);
+}
+
+/* رابطٌ نصّيّ بهدف ‎44px‎ رأسيًّا — خارجيّ، فمعه تنبيه النافذة الجديدة سمعًا. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  min-inline-size: 48px;
+  color: var(--color-interactive);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-interactive-hover);
+  }
+}
+
+.note {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+  font: var(--type-caption);
+  line-height: 1.8;
+}
+
+.markCard {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.markLogo {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 120px;
+  block-size: 64px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  background: var(--color-surface);
+}
+
+.markImg {
+  display: block;
+  inline-size: 96px;
+  block-size: 32px;
+  object-fit: contain;
+}
+
+.markBody {
+  margin: var(--space-1) 0 0;
+  max-inline-size: 70ch;
+  font: var(--type-body);
+  line-height: 1.8;
+  color: var(--color-text-2);
+}
+
+.footNote {
+  margin: var(--space-7) 0 0;
+  font: var(--type-body);
+  color: var(--color-text-2);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    padding-inline: var(--space-4);
+  }
+
+  .section {
+    margin-block-start: var(--space-6);
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+
+  .markCard {
+    flex-direction: column;
+  }
+}

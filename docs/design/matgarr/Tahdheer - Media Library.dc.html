@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:840px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:13px">
+<h1 style="margin:0;font-size:18px;font-weight:900;color:{{ t.text }}">مكتبة الوسائط</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">لا حذف تلقائي — كل إجراء هدّام يعرض مواضع الاستخدام أولًا</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ t.darkLabel }}</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 13px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<span style="font-size:10.5px;font-weight:900;color:{{ t.muted }};white-space:nowrap">العرض</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ modes }}" as="m" hint-placeholder-count="7">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.pressed }}" style="display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border:0;border-radius:7px;background:{{ m.bg }};color:{{ m.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ m.shadow }};white-space:nowrap">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ m.icon }}"></use></svg>{{ m.label }}
+</button>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<span style="box-sizing:border-box;padding:4px 10px;border-radius:7px;background:{{ t.inset }};font-size:10px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ countLabel }}</span>
+</div>
+
+<div role="status" aria-live="polite" style="display:{{ modeNoteDisplay }};margin-bottom:12px;padding:10px 12px;border-radius:10px;background:{{ modeNoteBg }};border:1px solid {{ modeNoteBorder }};flex-wrap:wrap;align-items:center;gap:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:{{ modeNoteFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<span style="flex:1;min-width:200px;font-size:11px;line-height:1.75;color:{{ t.text }};text-align:start">{{ modeNote }}</span>
+</div>
+
+<sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:{{ gridGap }};margin-bottom:12px">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+<div style="border:1px solid {{ it.border }};border-radius:10px;background:{{ t.surface }};overflow:hidden">
+<div style="position:relative;aspect-ratio:1/1;background:{{ t.inset }};display:grid;place-items:center">
+<svg width="100%" height="100%" style="position:absolute;inset:0;opacity:.4" aria-hidden="true"><defs><pattern id="mlp{{ it.key }}" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="{{ t.border }}" stroke-width="2.5"></line></pattern></defs><rect width="100%" height="100%" fill="url(#mlp{{ it.key }})"></rect></svg>
+<span dir="{{ it.dimDir }}" style="position:relative;font:600 8.5px ui-monospace,Menlo,monospace;color:{{ t.muted }};background:{{ t.surface }};padding:2px 6px;border-radius:4px">{{ it.dim }}</span>
+<span style="position:absolute;inset-block-start:6px;inset-inline-start:6px;box-sizing:border-box;padding:2px 7px;border-radius:5px;background:{{ it.badgeBg }};font-size:8.5px;font-weight:900;color:{{ it.badgeFg }};white-space:nowrap">{{ it.badge }}</span>
+</div>
+<div style="display:{{ metaDisplay }};padding:9px 10px">
+<bdi dir="ltr" style="display:block;font:700 9.5px ui-monospace,Menlo,monospace;color:{{ t.text }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.name }}</bdi>
+<span dir="rtl" style="display:block;margin-top:3px;font-size:9px;color:{{ t.muted }};text-align:start">{{ it.usage }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isRows }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:3px;margin-bottom:12px">
+<div aria-hidden="true" style="display:flex;gap:9px;padding:0 10px 4px">
+<span style="flex:1;font-size:9px;font-weight:900;color:{{ t.muted }}">الملف</span>
+<sc-for list="{{ cols }}" as="c" hint-placeholder-count="4">
+<span style="flex:0 0 {{ c.w }};font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">{{ c.label }}</span>
+</sc-for>
+<span style="flex:0 0 66px"></span>
+</div>
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="8">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ it.border }};border-radius:9px;background:{{ it.rowBg }}">
+<span style="flex:1;min-width:150px;display:flex;align-items:center;gap:8px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:6px;background:{{ t.inset }};color:{{ t.muted }};display:grid;place-items:center"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span>
+<span style="min-width:0">
+<bdi dir="ltr" style="display:block;font:700 10px ui-monospace,Menlo,monospace;color:{{ t.text }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.name }}</bdi>
+<span dir="rtl" style="display:block;font-size:9px;color:{{ t.muted }};text-align:start">{{ it.usage }}</span>
+</span>
+</span>
+<sc-for list="{{ it.cells }}" as="cl" hint-placeholder-count="4">
+<span dir="{{ cl.dir }}" style="flex:0 0 {{ cl.w }};font:700 10px ui-monospace,Menlo,monospace;color:{{ cl.fg }};text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cl.v }}</span>
+</sc-for>
+<button type="button" onClick="{{ it.onInspect }}" style="flex:0 0 66px;box-sizing:border-box;min-height:30px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap">افحص</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isGroups }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:12px">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<div style="border:1px solid {{ t.warnFg }};border-radius:11px;background:{{ t.surface }};overflow:hidden">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:10px 12px;background:{{ t.warnBg }}">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:{{ t.warnFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-copy"></use></svg>
+<b style="flex:1;min-width:0;font-size:11.5px;font-weight:900;color:{{ t.text }};text-align:start">{{ g.title }}</b>
+<span dir="rtl" style="font-size:10px;font-weight:800;color:{{ t.warnFg }};white-space:nowrap"><bdi dir="ltr">{{ g.wasteSize }}</bdi> مهدرة</span>
+</div>
+<div style="padding:10px 12px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ g.files }}" as="gf" hint-placeholder-count="2">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:8px 10px;border:1px solid {{ gf.border }};border-radius:8px;background:{{ gf.bg }}">
+<span style="flex:0 0 auto;box-sizing:border-box;padding:2px 8px;border-radius:5px;background:{{ gf.keepBg }};font-size:9px;font-weight:900;color:{{ gf.keepFg }};white-space:nowrap">{{ gf.keep }}</span>
+<bdi dir="ltr" style="flex:1;min-width:120px;font:700 10px ui-monospace,Menlo,monospace;color:{{ t.text }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ gf.name }}</bdi>
+<span dir="rtl" style="flex:0 0 150px;font-size:9.5px;color:{{ t.muted }};text-align:start">{{ gf.usage }}</span>
+<span dir="ltr" style="flex:0 0 52px;font:700 10px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ gf.size }}</span>
+</div>
+</sc-for>
+<p style="margin:3px 0 0;font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ g.note }}</p>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<section style="padding:13px 15px;border:1px solid {{ t.badFg }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:{{ t.badFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-shield"></use></svg>
+<h2 style="margin:0;flex:1;min-width:0;font-size:12.5px;font-weight:900;color:{{ t.text }};text-align:start">قبل أي حذف</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ checks }}" as="gd" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border:1px solid {{ t.hair }};border-radius:8px;background:{{ t.inset }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:17px;height:17px;border-radius:5px;background:{{ t.badBg }};color:{{ t.badFg }};display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ gd.n }}</span>
+<span dir="rtl" style="flex:1;font-size:10.5px;line-height:1.75;color:{{ t.text }};text-align:start">{{ gd.text }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:840}}">
+class Component extends DCLogic {
+  state = { dark: false, mode: 'grid' };
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.10)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.16)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.08)' };
+    return d
+      ? { ...sem, pageBg: '#14181a', surface: '#1c2225', inset: '#252d31', text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236', darkLabel: 'الوضع الفاتح' }
+      : { ...sem, pageBg: '#f0f0f1', surface: '#fff', inset: '#f2f5f2', text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec', darkLabel: 'الوضع الداكن' };
+  }
+
+  files() {
+    return [
+      { key: 'a', name: 'organic-chem-slide-01.jpg', dim: '1600×1200', size: '842KB', usage: 'مستخدمة في 3 منتجات', alt: true, opt: true, dup: false, orphan: false },
+      { key: 'b', name: 'arabic-pack-cover.png', dim: '2000×1500', size: '1.3MB', usage: 'صورة رئيسية — منتج', alt: true, opt: false, dup: false, orphan: false },
+      { key: 'c', name: 'worksheet-preview-04.jpg', dim: '1200×900', size: '618KB', usage: 'معرض — منتجان', alt: false, opt: false, dup: false, orphan: false },
+      { key: 'd', name: 'physics-hero.webp', dim: '1600×900', size: '244KB', usage: 'مستخدمة في منتج', alt: true, opt: true, dup: false, orphan: false },
+      { key: 'e', name: 'teacher-portrait.jpg', dim: '1200×1200', size: '990KB', usage: 'غير مستخدمة', alt: false, opt: false, dup: false, orphan: true },
+      { key: 'f', name: 'cover-final.png', dim: '2000×1500', size: '1.3MB', usage: 'غير مستخدمة', alt: false, opt: false, dup: true, orphan: true },
+      { key: 'g', name: 'logo-mark.svg', dim: 'متجهي', size: '12KB', usage: 'الهوية — كل الصفحات', alt: true, opt: true, dup: false, orphan: false },
+      { key: 'h', name: 'promo-banner-old.jpg', dim: '1600×600', size: '710KB', usage: 'غير مستخدمة', alt: false, opt: false, dup: false, orphan: true }
+    ];
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+    const all = this.files();
+
+    const modeDefs = [
+      ['grid', 'شبكة', '#i-grid'], ['compact', 'مدمجة', '#i-blocks'], ['list', 'قائمة', '#i-list'],
+      ['table', 'جدول', '#i-table'], ['usage', 'الاستخدام', '#i-cart'],
+      ['dups', 'المكرّرة', '#i-copy'], ['orphans', 'اليتيمة', '#i-info']
+    ];
+
+    const filtered = st.mode === 'orphans' ? all.filter(f => f.orphan)
+      : st.mode === 'dups' ? all
+      : st.mode === 'usage' ? all.filter(f => !f.orphan)
+      : all;
+
+    const notes = {
+      grid: '', compact: '',
+      list: '', table: '',
+      usage: 'يُظهر الملفات المرتبطة بمنتج فعليًا. الملف الذي لا يظهر هنا يظهر في «اليتيمة» — وليس بالضرورة صالحًا للحذف.',
+      dups: 'التطابق بمقارنة الأبعاد وحجم الملف والمحتوى — لا بالاسم. الاسم المختلف لا ينفي التكرار.',
+      orphans: 'يتيم يعني «لا يشير إليه منتج ولا محتوى نعرفه». قد يكون مستخدمًا في قالب بريد أو ودجة أو CSS — لذلك لا حذف جماعي هنا.'
+    };
+    const note = notes[st.mode] || '';
+
+    const badgeOf = f => {
+      if (f.orphan) return ['يتيم', t.badBg, t.badFg];
+      if (!f.opt) return ['غير محسّنة', t.warnBg, t.warnFg];
+      if (!f.alt) return ['بلا نصّ بديل', t.warnBg, t.warnFg];
+      return ['سليمة', t.okBg, t.okFg];
+    };
+
+    const items = filtered.map(f => {
+      const b = badgeOf(f);
+      const cells = st.mode === 'table'
+        ? [
+            { v: f.dim, w: '74px', dir: /[\u0600-\u06FF]/.test(f.dim) ? 'rtl' : 'ltr', fg: t.muted },
+            { v: f.size, w: '58px', dir: 'ltr', fg: t.muted },
+            { v: f.alt ? 'موجود' : 'ناقص', w: '52px', dir: 'rtl', fg: f.alt ? t.okFg : t.warnFg },
+            { v: f.opt ? 'WebP' : 'أصلية', w: '54px', dir: /[\u0600-\u06FF]/.test(f.opt ? 'WebP' : 'أصلية') ? 'rtl' : 'ltr', fg: f.opt ? t.okFg : t.warnFg }
+          ]
+        : [
+            { v: f.dim, w: '74px', dir: /[\u0600-\u06FF]/.test(f.dim) ? 'rtl' : 'ltr', fg: t.muted },
+            { v: f.size, w: '58px', dir: 'ltr', fg: t.muted },
+            { v: b[0], w: '86px', dir: 'rtl', fg: b[2] }
+          ];
+      return {
+        key: f.key, name: f.name, dim: f.dim, usage: f.usage,
+        /* Direction derived — 'متجهي' is Arabic where every other dim is Latin. */
+        dimDir: /[\u0600-\u06FF]/.test(f.dim) ? 'rtl' : 'ltr',
+        badge: b[0], badgeBg: b[1], badgeFg: b[2],
+        border: f.orphan ? t.badFg : t.hair,
+        /*
+         * Plain surface + coloured border for orphans. A tinted row put muted
+         * text on a tint over white — 4.06:1. The border and badge carry state.
+         */
+        rowBg: t.inset,
+        cells,
+        onInspect: () => {}
+      };
+    });
+
+    const groups = [
+      {
+        title: 'مجموعة 1 — صورتان متطابقتان بالأبعاد والحجم',
+        wasteSize: '1.3MB',
+        note: 'الأبعاد والحجم متطابقان تمامًا والاسم مختلف. المستخدمة تُبقى والأخرى تُراجَع — لا تُحذف من هنا.',
+        files: [
+          { name: 'arabic-pack-cover.png', usage: 'صورة رئيسية — منتج واحد', size: '1.3MB', keep: 'تُبقى', ok: true },
+          { name: 'cover-final.png', usage: 'غير مستخدمة', size: '1.3MB', keep: 'مرشّحة', ok: false }
+        ]
+      },
+      {
+        title: 'مجموعة 2 — نسخ بمقاسات مختلفة لنفس الصورة',
+        wasteSize: '420KB',
+        note: 'ووردبريس يولّد المقاسات تلقائيًا، فالنسخ المرفوعة يدويًا غالبًا زائدة — تحقّق من عدم استخدامها في بريد أو ودجة.',
+        files: [
+          { name: 'worksheet-preview-04.jpg', usage: 'معرض — منتجان', size: '618KB', keep: 'تُبقى', ok: true },
+          { name: 'worksheet-preview-04-small.jpg', usage: 'غير مستخدمة', size: '420KB', keep: 'مرشّحة', ok: false }
+        ]
+      }
+    ].map(g => ({
+      title: g.title, wasteSize: g.wasteSize, note: g.note,
+      files: g.files.map(f => ({
+        name: f.name, usage: f.usage, size: f.size, keep: f.keep,
+        keepBg: f.ok ? t.okBg : t.warnBg,
+        keepFg: f.ok ? t.okFg : t.warnFg,
+        border: f.ok ? t.hair : t.warnFg,
+        bg: t.inset
+      }))
+    }));
+
+    const isGrid = st.mode === 'grid' || st.mode === 'compact';
+    const isGroups = st.mode === 'dups';
+    const isRows = !isGrid && !isGroups;
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      modes: modeDefs.map(m => ({
+        label: m[1], icon: m[2],
+        pressed: st.mode === m[0] ? 'true' : 'false',
+        bg: st.mode === m[0] ? t.surface : 'transparent',
+        fg: st.mode === m[0] ? t.text : t.muted,
+        shadow: st.mode === m[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ mode: m[0] })
+      })),
+      countLabel: isGroups ? groups.length + ' مجموعة مكرّرة' : filtered.length + ' من ' + all.length + ' ملف',
+      modeNote: note,
+      modeNoteDisplay: note ? 'flex' : 'none',
+      modeNoteBg: st.mode === 'orphans' ? t.badBg : t.warnBg,
+      modeNoteBorder: st.mode === 'orphans' ? t.badFg : t.warnFg,
+      modeNoteFg: st.mode === 'orphans' ? t.badFg : t.warnFg,
+
+      isGrid, isRows, isGroups,
+      gridCols: st.mode === 'compact' ? 'repeat(8,minmax(0,1fr))' : 'repeat(5,minmax(0,1fr))',
+      gridGap: st.mode === 'compact' ? '7px' : '10px',
+      metaDisplay: st.mode === 'compact' ? 'none' : 'block',
+      items, groups,
+      cols: st.mode === 'table'
+        ? [{ label: 'الأبعاد', w: '74px' }, { label: 'الحجم', w: '58px' }, { label: 'نصّ بديل', w: '52px' }, { label: 'الصيغة', w: '54px' }]
+        : [{ label: 'الأبعاد', w: '74px' }, { label: 'الحجم', w: '58px' }, { label: 'الحالة', w: '86px' }],
+
+      checks: [
+        { n: '١', text: 'يُعرَض كل موضع استخدام معروف — منتجات وصفحات ومقالات — قبل عرض زر الحذف.' },
+        { n: '٢', text: 'الملف «اليتيم» ليس دليل عدم استخدام: قد يكون في قالب بريد أو ودجة أو CSS لا يفحصه المسح. لذلك لا حذف جماعي.' },
+        { n: '٣', text: 'الحذف يحتاج تأكيدًا مكتوبًا بعدد الملفات، ويُسجَّل في سجلّ التغييرات مع إمكانية الرجوع.' },
+        { n: '٤', text: 'النصّ البديل المكتوب يدويًا لا يُستبدل ولا يُمسح في أي عملية جماعية.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

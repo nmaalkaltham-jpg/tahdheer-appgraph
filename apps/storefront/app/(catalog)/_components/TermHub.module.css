@@ -1,0 +1,266 @@
+/*
+ * محاور المراحل والصفوف والموادّ — بطاقاتٌ برسومها (ArtTile) ولهجات المراحل
+ * (`--sa*` من ArtTile.module.css ← `--stage-*`). البقيّة (الفصول، الأنواع) على
+ * بطاقات catalog.module.css كما هي.
+ */
+
+/* ── المراحل: بطاقةٌ بثلاث طبقات — الرأس رابط، والصفوف روابط، والدعوة رابط ── */
+.stageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageGrid > li {
+  display: flex;
+}
+
+.card {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-block-start: 3px solid var(--sa, var(--color-border));
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border-radius: var(--r-md);
+  color: inherit;
+  text-decoration: none;
+}
+
+.tileLg {
+  --tile: 80px;
+}
+
+.tileSm {
+  --tile: 52px;
+  border-radius: var(--r-md);
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.cardName {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-text);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .cardHead:hover .cardName {
+    color: var(--color-interactive);
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.facts > bdi + bdi::before {
+  content: '·';
+  margin-inline-end: var(--space-3);
+  color: var(--color-border);
+}
+
+.grades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gradeChip {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  text-decoration: none;
+}
+
+.cta {
+  margin-block-start: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-block-size: 44px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sa-ink, var(--color-interactive));
+  text-decoration: none;
+  border-radius: var(--r-sm);
+}
+
+@media (hover: hover) {
+  .cta:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.ctaIcon {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.cardHead:focus-visible,
+.cta:focus-visible,
+.tileCard:focus-visible,
+.groupTitle a:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ── الصفوف (مجمّعةً بمراحلها) والموادّ: بلاطاتٌ مدمجة، البطاقة كلّها رابط ── */
+.groups {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.group {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.groupTitle {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* رسم المرحلة مرّةً واحدة في رأس مجموعتها. */
+.tileXs {
+  --tile: 40px;
+  border-radius: var(--r-sm);
+}
+
+.groupTitle a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--r-xs);
+}
+
+@media (hover: hover) {
+  .groupTitle a:hover {
+    color: var(--color-interactive);
+  }
+}
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tileGrid > li {
+  display: flex;
+}
+
+.tileCard {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  min-block-size: 76px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tileName {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.tileCount {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.tileGo {
+  margin-inline-start: auto;
+  flex: none;
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--sa-ink, var(--color-interactive));
+}
+
+@media (max-width: 767px) {
+  .card {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .tileLg {
+    --tile: 56px;
+    border-radius: var(--r-md);
+  }
+
+  .cardName {
+    font-size: 17px;
+  }
+
+  .tileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .tileCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    position: relative;
+  }
+
+  .tileSm {
+    --tile: 44px;
+  }
+
+  .tileGo {
+    position: absolute;
+    inset-block-start: var(--space-3);
+    inset-inline-end: var(--space-3);
+  }
+
+  .tileName {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardName {
+    transition: none;
+  }
+}

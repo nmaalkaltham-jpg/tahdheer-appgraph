@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:{{ shown }};position:{{ pos }};inset-block-end:{{ bottom }};inset-inline-start:{{ side }};z-index:25;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif;direction:rtl">
+<div role="status" aria-live="polite" style="display:inline-flex;align-items:center;gap:8px;min-height:{{ h }};padding:0 6px 0 12px;border:1px solid {{ edge }};border-radius:999px;background:{{ bg }};backdrop-filter:blur(10px);box-shadow:0 4px 16px {{ shadow }};animation:{{ anim }}">
+<span aria-hidden="true" style="position:relative;display:grid;place-items:center;width:8px;height:8px;flex:0 0 auto">
+<span style="width:8px;height:8px;border-radius:50%;background:{{ dot }}"></span>
+<span style="position:absolute;inset:0;border-radius:50%;border:1px solid {{ dot }};opacity:.5;animation:{{ pulse }}"></span>
+</span>
+<span style="font-size:{{ fs }};font-weight:800;color:{{ fg }};white-space:nowrap"><bdi>{{ count }}</bdi> {{ label }}</span>
+<button type="button" onClick="{{ onDismiss }}" aria-label="{{ dismissLabel }}" title="{{ dismissLabel }}" style="flex:0 0 auto;width:{{ btn }};height:{{ btn }};border:0;border-radius:50%;background:transparent;color:{{ fgMuted }};display:grid;place-items:center;cursor:pointer;padding:0;transition:.16s ease" style-hover="background:{{ hover }};color:{{ fg }}">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-close"></use></svg>
+</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:380,&quot;height&quot;:90},&quot;count&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:18,&quot;min&quot;:0,&quot;max&quot;:500,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Live data&quot;},&quot;minCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:0,&quot;max&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Live data&quot;},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;زائرًا يشاهدون هذه الصفحة الآن&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;dismissLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;إخفاء مؤشّر الزوار&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;inline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Live visitor indicator.
+   *
+   * HARD RULE: this renders nothing unless a real count is passed in. There is no
+   * fallback number, no Math.random, no "seeded" figure that looks plausible —
+   * the brief forbids fabricated counts and an invented one is worse than an
+   * absent pill, because shoppers treat it as evidence.
+   *
+   * In production `count` must come from a real presence source (a heartbeat
+   * endpoint, Analytics realtime API, or a WebSocket). Below the threshold the
+   * pill also hides, so a page with 1-2 viewers does not advertise emptiness.
+   *
+   * CLS: fixed-position and it never reserves layout space, so it cannot shift
+   * content. It mounts after paint and is dismissible; dismissal persists for
+   * the session via the host.
+   */
+  state = { dismissed: false };
+
+  renderVals() {
+    const raw = this.props.count;
+    const count = (raw === null || raw === undefined || raw === '') ? null : Number(raw);
+    const min = this.props.minCount != null ? Number(this.props.minCount) : 3;
+    const dark = !!this.props.dark;
+    const compact = !!this.props.compact;
+    const motion = this.props.motion !== false;
+    const hasReal = count !== null && !isNaN(count) && count >= min;
+
+    const tone = dark
+      ? { bg: 'rgba(20,38,29,.86)', edge: 'rgba(255,255,255,.16)', fg: '#fff', fgMuted: 'rgba(255,255,255,.6)', dot: '#5fd6a3', shadow: 'rgba(0,0,0,.34)', hover: 'rgba(255,255,255,.12)' }
+      : { bg: 'rgba(255,255,255,.92)', edge: '#e0e5dd', fg: '#14261d', fgMuted: '#5f7167', dot: '#259b6f', shadow: 'rgba(20,45,33,.12)', hover: '#f2f5f2' };
+
+    return {
+      ...tone,
+      shown: (hasReal && !this.state.dismissed) ? 'block' : 'none',
+      pos: this.props.inline ? 'relative' : 'fixed',
+      bottom: compact ? 'calc(70px + env(safe-area-inset-bottom))' : '20px',
+      side: compact ? '12px' : '20px',
+      h: compact ? '40px' : '38px',
+      btn: compact ? '32px' : '26px',
+      fs: compact ? '12px' : '12.5px',
+      count: hasReal ? count.toLocaleString('en-US') : '',
+      label: this.props.label || 'زائرًا يشاهدون هذه الصفحة الآن',
+      dismissLabel: this.props.dismissLabel || 'إخفاء مؤشّر الزوار',
+      onDismiss: () => this.setState({ dismissed: true }),
+      anim: motion ? 'tahPillIn .36s cubic-bezier(.22,1,.36,1) both' : 'none',
+      pulse: motion ? 'tahDotPulse 2.6s ease-in-out infinite' : 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>

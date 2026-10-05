@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f7f9f6;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahPop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div style="width:{{ shellW }};margin:0 auto;box-sizing:border-box;padding:{{ pagePad }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px">
+<div style="flex:1;min-width:0">
+<h1 style="margin:0 0 5px;font-size:{{ h1 }};font-weight:900;color:#14261d;letter-spacing:-.015em">سلة التسوق</h1>
+<p dir="rtl" style="margin:0;font-size:13px;color:#5f7167;text-align:start">{{ countText }} — {{ statusText }}</p>
+</div>
+<a href="#" style="display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 15px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;font-size:13px;font-weight:800;color:#14261d">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;transform:scaleX(-1)"><use href="#i-chev"></use></svg>متابعة التسوق
+</a>
+</div>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:52px 24px;border:1px solid #e6e9e2;border-radius:18px;background:#fff;text-align:center">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:rgba(37,155,111,.09);color:#1e7355;margin-bottom:16px"><svg style="width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart-basket"></use></svg></span>
+<h2 style="margin:0 0 8px;font-size:21px;font-weight:900;color:#14261d">سلتك فارغة حاليًا</h2>
+<p style="margin:0 0 22px;font-size:14px;line-height:1.85;color:#5f7167;max-width:44ch;margin-inline:auto">ابدأ بتصفّح الملفات التعليمية — ستجد ما يوافق مرحلتك ومادتك، وتصلك فور الدفع.</p>
+<div style="display:flex;flex-wrap:wrap;gap:9px;justify-content:center">
+<a href="#" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;background:#1e7355;color:#fff;font-size:14.5px;font-weight:900">تصفّح المنتجات</a>
+<button type="button" onClick="{{ onRestore }}" style="min-height:48px;padding:0 20px;border:1px solid #d3d8cf;border-radius:12px;background:#fff;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:800;color:#14261d;cursor:pointer">استعادة السلة (للمعاينة)</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:{{ gap }};align-items:start">
+
+<div style="min-width:0;display:flex;flex-direction:column;gap:{{ gap }}">
+
+<sc-if value="{{ notice.show }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid {{ notice.border }};border-radius:12px;background:{{ notice.bg }};animation:tahFadeUp .3s ease-out both">
+<svg aria-hidden="true" style="width:16px;height:16px;flex:0 0 auto;color:{{ notice.fg }};fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="{{ notice.icon }}"></use></svg>
+<span dir="rtl" style="flex:1;min-width:0;font-size:12.5px;font-weight:800;color:{{ notice.fg }};text-align:start">{{ notice.text }}</span>
+<sc-if value="{{ notice.canUndo }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ onUndo }}" style="flex:0 0 auto;min-height:36px;padding:0 13px;border:1px solid {{ notice.fg }};border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;color:{{ notice.fg }};cursor:pointer">تراجع</button>
+</sc-if>
+</div>
+</sc-if>
+
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:{{ gap }}">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+<li style="padding:{{ cardPad }};border:1px solid {{ it.border }};border-radius:16px;background:#fff;animation:{{ it.anim }}">
+<div style="display:flex;flex-wrap:wrap;gap:{{ thumbGap }}">
+
+<a href="#" aria-label="{{ it.openLabel }}" style="flex:0 0 auto;width:{{ thumbW }};height:{{ thumbH }};border-radius:12px;border:1px solid #e6e9e2;background:#f2f5f2;display:grid;place-items:center;overflow:hidden;position:relative">
+<span style="font:600 9px ui-monospace,Menlo,monospace;color:#5f7167">صورة المنتج</span>
+<sc-if value="{{ it.hasBadge }}" hint-placeholder-val="{{ false }}">
+<span style="position:absolute;inset-block-start:6px;inset-inline-start:6px;padding:2px 7px;border-radius:5px;background:#1e7355;color:#fff;font-size:9px;font-weight:900">{{ it.badge }}</span>
+</sc-if>
+</a>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:{{ innerGap }}">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px">
+<div style="flex:1;min-width:0">
+<span dir="rtl" style="display:block;font-size:10.5px;font-weight:800;color:#5f7167;margin-bottom:3px;text-align:start">{{ it.cat }}</span>
+<a href="#" dir="rtl" style="display:flex;align-items:center;min-height:{{ tapLink }};font-size:{{ titleSize }};font-weight:900;color:#14261d;line-height:1.5;text-align:start">{{ it.title }}</a>
+<div style="display:{{ priceTop }};margin-top:4px">
+<div style="display:flex;align-items:baseline;gap:6px">
+<b><bdi dir="ltr" style="font-size:{{ priceSize }};font-weight:900;color:#14261d">{{ it.line }}</bdi></b>
+<span style="font-size:10.5px;font-weight:800;color:#5f7167">ر.س</span>
+<sc-if value="{{ it.hasWas }}" hint-placeholder-val="{{ true }}">
+<del><bdi dir="ltr" style="font-size:11px;color:#5f7167">{{ it.was }}</bdi></del>
+</sc-if>
+<sc-if value="{{ it.hasSaving }}" hint-placeholder-val="{{ true }}">
+<span dir="rtl" style="font-size:9.5px;font-weight:800;color:#1e7355;white-space:nowrap">وفّرت <bdi dir="ltr">{{ it.saving }}</bdi></span>
+</sc-if>
+</div>
+</div>
+</div>
+<button type="button" onClick="{{ it.onRemove }}" aria-label="{{ it.removeLabel }}" title="حذف" style="flex:0 0 auto;width:{{ tap }};height:{{ tap }};border:1px solid #e6e9e2;border-radius:9px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="border-color:#b42318;color:#b42318">
+<svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-close"></use></svg>
+</button>
+</div>
+
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:{{ attrGap }}">
+<sc-for list="{{ it.attrs }}" as="a" hint-placeholder-count="4">
+<li style="display:inline-flex;align-items:center;gap:4px;padding:{{ attrPad }};border-radius:999px;background:{{ a.bg }};border:1px solid {{ a.border }};font-size:{{ attrFs }};font-weight:800;color:{{ a.fg }};white-space:nowrap">
+<svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ a.icon }}"></use></svg>{{ a.label }}
+</li>
+</sc-for>
+</ul>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:{{ ctrlGap }};padding-top:{{ rowPadTop }};border-top:1px solid #f0f3ef">
+<div role="group" aria-label="{{ it.qtyLabel }}" style="flex:0 0 auto;display:flex;align-items:center;gap:2px;padding:3px;border:1px solid #dde3dc;border-radius:10px;background:#fbfcfa">
+<button type="button" onClick="{{ it.onDec }}" aria-label="{{ it.decLabel }}" disabled="{{ it.decDisabled }}" style="width:{{ tap }};height:{{ tap }};border:0;border-radius:7px;background:#fff;color:{{ it.decFg }};display:grid;place-items:center;cursor:{{ it.decCursor }};font:900 15px Tajawal,sans-serif">−</button>
+<bdi dir="ltr" style="min-width:30px;text-align:center;font:900 13.5px ui-monospace,Menlo,monospace;color:#14261d">{{ it.qty }}</bdi>
+<button type="button" onClick="{{ it.onInc }}" aria-label="{{ it.incLabel }}" style="width:{{ tap }};height:{{ tap }};border:0;border-radius:7px;background:#fff;color:#14261d;display:grid;place-items:center;cursor:pointer;font:900 15px Tajawal,sans-serif">+</button>
+</div>
+
+<button type="button" onClick="{{ it.onSave }}" aria-label="{{ it.saveLabel }}" title="حفظ لوقت لاحق" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:{{ tap }};width:{{ saveW }};padding:{{ savePad }};border:1px solid #e6e9e2;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#5f7167;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">
+<svg aria-hidden="true" style="width:14px;height:14px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-heart"></use></svg><span style="display:{{ saveTextDisplay }}">حفظ لوقت لاحق</span>
+</button>
+
+<button type="button" onClick="{{ it.onExpand }}" aria-expanded="{{ it.expanded }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;min-height:{{ tap }};padding:0 10px;border:1px solid #eef1ec;border-radius:9px;background:#fbfcfa;font-family:Tajawal,sans-serif;font-size:{{ discFs }};font-weight:800;color:#1e7355;cursor:pointer">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ it.chevron }};transition:transform .16s"><use href="#i-chev"></use></svg><span style="display:{{ discTextDisplay }}">ماذا يتضمن؟</span>
+</button>
+
+<div style="flex:1"></div>
+
+<div style="display:{{ priceBottom }};flex:0 0 auto;text-align:end">
+<div style="display:flex;align-items:baseline;gap:7px;justify-content:flex-end">
+<sc-if value="{{ it.hasWas }}" hint-placeholder-val="{{ true }}">
+<del><bdi dir="ltr" style="font-size:12px;color:#5f7167">{{ it.was }}</bdi></del>
+</sc-if>
+<b><bdi dir="ltr" style="font-size:{{ priceSize }};font-weight:900;color:#14261d">{{ it.line }}</bdi></b>
+<span style="font-size:11px;font-weight:800;color:#5f7167">ر.س</span>
+</div>
+<sc-if value="{{ it.hasSaving }}" hint-placeholder-val="{{ true }}">
+<div dir="rtl" style="font-size:10.5px;font-weight:800;color:#1e7355;margin-top:2px;text-align:end">وفّرت <bdi dir="ltr">{{ it.saving }}</bdi> ر.س · خصم <bdi dir="ltr">{{ it.pct }}%</bdi></div>
+</sc-if>
+</div>
+</div>
+
+<div style="display:{{ it.detailDisplay }};padding:10px 11px;border-radius:10px;background:#fbfcfa;border:1px solid #f0f3ef">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ it.includes }}" as="inc" hint-placeholder-count="4">
+<li dir="rtl" style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:#3b4d43;text-align:start">
+<svg aria-hidden="true" style="width:12px;height:12px;flex:0 0 auto;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>{{ inc }}
+</li>
+</sc-for>
+</ul>
+</div>
+
+</div>
+</div>
+</li>
+</sc-for>
+</ul>
+
+<section style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<button type="button" onClick="{{ onToggleCoupon }}" aria-expanded="{{ couponOpen }}" style="display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:0;border:0;background:transparent;cursor:pointer;text-align:start">
+<svg aria-hidden="true" style="width:16px;height:16px;flex:0 0 auto;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-tag"></use></svg>
+<span dir="rtl" style="flex:1;min-width:0;font-family:Tajawal,sans-serif;font-size:13px;font-weight:900;color:#14261d;text-align:start">هل لديك رمز خصم؟</span>
+<svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ couponChevron }};transition:transform .16s"><use href="#i-chev"></use></svg>
+</button>
+<div style="display:{{ couponDisplay }};margin-top:11px">
+<form onSubmit="{{ onApplyCoupon }}" style="display:flex;flex-wrap:wrap;gap:8px">
+<label style="flex:1;min-width:160px;display:flex;align-items:center;min-height:46px;padding-inline:13px;border:1px solid {{ coupon.border }};border-radius:11px;background:#fff">
+<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">رمز الخصم</span>
+<input type="text" dir="ltr" value="{{ coupon.value }}" onChange="{{ onCouponInput }}" placeholder="TEACHER15" style="flex:1;min-width:0;border:0;outline:none;background:none;font:800 13px ui-monospace,Menlo,monospace;color:#14261d;text-align:start">
+</label>
+<button type="submit" style="flex:0 0 auto;min-height:46px;padding:0 20px;border:0;border-radius:11px;background:#14261d;color:#fff;font:900 13px Tajawal,sans-serif;cursor:pointer">تطبيق</button>
+</form>
+<sc-if value="{{ coupon.hasMsg }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="display:flex;align-items:center;gap:8px;margin-top:9px;padding:9px 11px;border-radius:9px;background:{{ coupon.msgBg }};border:1px solid {{ coupon.msgBorder }}">
+<svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:{{ coupon.msgFg }};fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="{{ coupon.msgIcon }}"></use></svg>
+<span dir="rtl" style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:{{ coupon.msgFg }};text-align:start">{{ coupon.msg }}</span>
+<sc-if value="{{ coupon.applied }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ onRemoveCoupon }}" style="flex:0 0 auto;min-height:32px;padding:0 11px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#5f7167;cursor:pointer">إزالة</button>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</section>
+
+</div>
+
+<aside style="min-width:0;display:flex;flex-direction:column;gap:{{ gap }};position:{{ stickyPos }};inset-block-start:16px">
+<section aria-labelledby="sum-h" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<h2 id="sum-h" style="margin:0 0 13px;font-size:15px;font-weight:900;color:#14261d">ملخّص الطلب</h2>
+<div style="display:flex;flex-direction:column;gap:8px;padding-bottom:12px;border-bottom:1px solid #f0f3ef">
+<sc-for list="{{ summary }}" as="s" hint-placeholder-count="5">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:12.5px;font-weight:{{ s.weight }};color:{{ s.labelFg }};text-align:start">{{ s.label }}</span>
+<bdi dir="ltr" style="flex:0 0 auto;font-size:{{ s.size }};font-weight:{{ s.weight }};color:{{ s.fg }}">{{ s.value }}</bdi>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:baseline;gap:9px;padding-block:13px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:14px;font-weight:900;color:#14261d;text-align:start">الإجمالي النهائي</span>
+<div style="flex:0 0 auto;display:flex;align-items:baseline;gap:5px">
+<bdi dir="ltr" style="font-size:26px;font-weight:900;color:#14261d;line-height:1">{{ total }}</bdi>
+<span style="font-size:12px;font-weight:800;color:#5f7167">ر.س</span>
+</div>
+</div>
+<p dir="rtl" style="margin:0 0 13px;font-size:11px;line-height:1.7;color:#5f7167;text-align:start">{{ taxNote }}</p>
+
+<button type="button" onClick="{{ onCheckout }}" disabled="{{ checkoutDisabled }}" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:54px;border:0;border-radius:13px;background:{{ checkout.bg }};color:{{ checkout.fg }};font:900 16px Tajawal,sans-serif;cursor:{{ checkout.cursor }};box-shadow:{{ checkout.shadow }}">
+<sc-if value="{{ checkout.busy }}" hint-placeholder-val="{{ false }}">
+<span aria-hidden="true" style="width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:tahSpin .7s linear infinite"></span>
+</sc-if>
+<sc-if value="{{ checkout.idle }}" hint-placeholder-val="{{ true }}">
+<svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg>
+</sc-if>
+{{ checkout.label }}
+</button>
+<p dir="rtl" style="margin:8px 0 0;font-size:10.5px;line-height:1.65;color:#5f7167;text-align:center">دفع آمن ومشفّر · بإتمام الطلب توافق على <a href="#">الشروط</a> و<a href="#">سياسة الخصوصية</a></p>
+</section>
+
+<section style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:14px;background:#fff">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ trust }}" as="t" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:9px">
+<svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ t.icon }}"></use></svg>
+<a href="#" dir="rtl" style="flex:1;min-width:0;display:flex;align-items:center;min-height:{{ tapLink }};font-size:12px;font-weight:700;color:#3b4d43;text-align:start">{{ t.label }}</a>
+</li>
+</sc-for>
+</ul>
+</section>
+
+<section style="padding:14px 16px;border:1px solid rgba(37,155,111,.24);border-radius:14px;background:rgba(37,155,111,.05)">
+<div dir="rtl" style="font-size:12px;font-weight:900;color:#14261d;margin-bottom:7px;text-align:start">تحتاج مساعدة قبل إتمام الطلب؟</div>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border-radius:10px;background:#fff;border:1px solid rgba(37,155,111,.3);font-size:12px;font-weight:800;color:#1e7355">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-whatsapp"></use></svg>تواصل على واتساب
+</a>
+</section>
+</aside>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ showSticky }}" hint-placeholder-val="{{ false }}">
+<div style="position:sticky;inset-block-end:0;z-index:20;display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid #e0e5dd;backdrop-filter:blur(8px)">
+<div style="flex:0 0 auto;display:flex;flex-direction:column;gap:1px">
+<span style="font-size:10px;font-weight:800;color:#5f7167">{{ countText }}</span>
+<div style="display:flex;align-items:baseline;gap:4px"><bdi dir="ltr" style="font-size:18px;font-weight:900;color:#14261d">{{ total }}</bdi><span style="font-size:11px;font-weight:800;color:#5f7167">ر.س</span></div>
+</div>
+<button type="button" onClick="{{ onCheckout }}" style="flex:1;min-height:50px;border:0;border-radius:12px;background:#1e7355;color:#fff;font:900 15px Tajawal,sans-serif;cursor:pointer">إتمام الطلب</button>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:1000},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Shopping cart. Every money figure on screen is DERIVED from the line items —
+   * subtotal, per-item saving, discount %, coupon value, VAT and total all fall
+   * out of one calculation, so the summary cannot contradict the rows. That is
+   * the brief's first priority (pricing accuracy) and the one thing a cart is
+   * never allowed to get wrong.
+   *
+   * VAT is computed as inclusive (15% extracted from the price), matching a Saudi
+   * store's displayed prices — so the total equals the subtotal and the tax line
+   * explains what is already inside it rather than adding to it.
+   */
+  state = {
+    empty: false, coupon: '', couponOpen: false, applied: null, couponError: '',
+    expanded: {}, removed: null, notice: null, checkout: 'idle',
+    qty: { p1: 1, p2: 2, p3: 1 },
+    gone: {}
+  };
+
+  lines() {
+    return [
+      { id: 'p1', cat: 'المرحلة الثانوية · الكيمياء', title: 'عرض درس التنظيم: الأنواع والمبادئ', was: 400, now: 348,
+        badge: 'الأكثر رواجًا',
+        attrs: [['#i-grid', '22 شريحة'], ['#i-files', 'PowerPoint + PDF'], ['#i-user', 'ترخيص معلم واحد'], ['#i-download', 'تحميل فوري']],
+        includes: ['22 شريحة عرض قابلة للتعديل بالكامل', '7 أوراق عمل جاهزة للطباعة', '4 استراتيجيات تعلّم نشط', 'تحديث مجاني مع كل فصل دراسي'] },
+      { id: 'p2', cat: 'المرحلة المتوسطة · العلوم', title: 'أوراق عمل العلوم — الوحدة الثالثة', was: 0, now: 30,
+        attrs: [['#i-print', '7 أوراق'], ['#i-files', 'PDF'], ['#i-download', 'تحميل فوري']],
+        includes: ['7 أوراق عمل متدرّجة', 'مفتاح إجابات منفصل', 'صيغة PDF جاهزة للطباعة'] },
+      { id: 'p3', cat: 'حزمة · المرحلة الابتدائية', title: 'حزمة تحاضير اللغة العربية — الفصل الأول كاملًا', was: 300, now: 180,
+        badge: 'خصم 40%',
+        attrs: [['#i-blocks', '6 مواد'], ['#i-files', 'Word + PDF'], ['#i-cap', 'الصف 1 — 6'], ['#i-download', 'تحميل فوري']],
+        includes: ['340 ملفًا موزّعة على ست مواد', 'تحاضير وأوراق عمل ووسائل', 'تحديث مجاني مدى العام'] }
+    ];
+  }
+
+  fmt(n) { return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  notify(text, kind, canUndo) {
+    const tone = {
+      ok: ['rgba(37,155,111,.28)', 'rgba(37,155,111,.07)', '#1e7355', '#i-check'],
+      warn: ['rgba(216,181,106,.4)', 'rgba(216,181,106,.09)', '#7a5d20', '#i-info']
+    }[kind];
+    this.setState({ notice: { text, border: tone[0], bg: tone[1], fg: tone[2], icon: tone[3], canUndo: !!canUndo } });
+    if (this._t) clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ notice: null, removed: null }), 6000);
+  }
+
+  componentWillUnmount() { if (this._t) clearTimeout(this._t); if (this._c) clearTimeout(this._c); }
+
+  renderVals() {
+    const st = this.state;
+    const mobile = !!this.props.mobile;
+    const f = n => this.fmt(n);
+
+    const live = this.lines().filter(l => !st.gone[l.id]);
+    const items = live.map((l, i) => {
+      const qty = st.qty[l.id] || 1;
+      const line = l.now * qty;
+      const wasLine = l.was ? l.was * qty : 0;
+      const saving = wasLine ? wasLine - line : 0;
+      const pct = wasLine ? Math.round((saving / wasLine) * 100) : 0;
+      const exp = !!st.expanded[l.id];
+      return {
+        title: l.title, cat: l.cat, qty: String(qty),
+        openLabel: 'افتح صفحة ' + l.title,
+        removeLabel: 'حذف ' + l.title + ' من السلة',
+        qtyLabel: 'كمية ' + l.title,
+        saveLabel: 'حفظ ' + l.title + ' لوقت لاحق',
+        incLabel: 'زيادة كمية ' + l.title,
+        decLabel: 'إنقاص كمية ' + l.title,
+        hasBadge: !!l.badge, badge: l.badge || '',
+        border: '#e6e9e2',
+        attrs: l.attrs.slice(0, mobile ? 3 : 4).map((a, k) => ({
+          icon: a[0], label: a[1],
+          bg: k === 0 ? 'rgba(37,155,111,.08)' : '#f4f7f3',
+          border: k === 0 ? 'rgba(37,155,111,.2)' : '#eef1ec',
+          fg: k === 0 ? '#1e7355' : '#5f7167'
+        })),
+        line: f(line), was: wasLine ? f(wasLine) : '',
+        hasWas: !!wasLine, hasSaving: saving > 0,
+        saving: f(saving), pct: String(pct),
+        decDisabled: qty <= 1 ? 'disabled' : null,
+        // Disabled must stay perceivable: #c9d4cd was 1.52:1 and the stepper read
+        // as an empty box. disabled + not-allowed carry the state, not invisibility.
+        decFg: qty <= 1 ? '#7d8d84' : '#14261d',
+        decCursor: qty <= 1 ? 'not-allowed' : 'pointer',
+        onInc: () => { this.setState(s => ({ qty: { ...s.qty, [l.id]: (s.qty[l.id] || 1) + 1 } })); this.notify('تم تحديث السلة', 'ok', false); },
+        onDec: () => { if ((st.qty[l.id] || 1) > 1) { this.setState(s => ({ qty: { ...s.qty, [l.id]: s.qty[l.id] - 1 } })); this.notify('تم تحديث السلة', 'ok', false); } },
+        onRemove: () => { this.setState(s => ({ gone: { ...s.gone, [l.id]: true }, removed: l.id })); this.notify('حُذف «' + l.title.slice(0, 26) + '…» من السلة', 'warn', true); },
+        onSave: () => this.notify('حُفظ «' + l.title.slice(0, 22) + '…» لوقت لاحق', 'ok', false),
+        onExpand: () => this.setState(s => ({ expanded: { ...s.expanded, [l.id]: !s.expanded[l.id] } })),
+        expanded: exp ? 'true' : 'false',
+        chevron: exp ? 'rotate(90deg)' : 'rotate(-90deg)',
+        detailDisplay: exp ? 'block' : 'none',
+        includes: l.includes,
+        anim: 'tahFadeUp .4s ease-out ' + (i * 60) + 'ms both'
+      };
+    });
+
+    // Single derivation chain — the summary reads from the same numbers as the rows.
+    const gross = live.reduce((a, l) => a + (l.was || l.now) * (st.qty[l.id] || 1), 0);
+    const sub = live.reduce((a, l) => a + l.now * (st.qty[l.id] || 1), 0);
+    const prodDiscount = gross - sub;
+    const couponVal = st.applied ? Math.round(sub * 0.15 * 100) / 100 : 0;
+    const total = Math.max(0, sub - couponVal);
+    const vat = Math.round((total - total / 1.15) * 100) / 100;
+    const saved = prodDiscount + couponVal;
+
+    const summary = [
+      { label: 'المجموع الفرعي قبل الخصم', value: f(gross), size: '12.5px', weight: '700', fg: '#5f7167', labelFg: '#5f7167' },
+      { label: 'خصومات المنتجات', value: '−' + f(prodDiscount), size: '12.5px', weight: '800', fg: '#1e7355', labelFg: '#3b4d43' }
+    ];
+    if (st.applied) summary.push({ label: 'رمز الخصم (' + st.applied + ')', value: '−' + f(couponVal), size: '12.5px', weight: '800', fg: '#1e7355', labelFg: '#3b4d43' });
+    /*
+     * No shipping row at all when nothing ships. A line reading "الشحن: لا يوجد"
+     * makes the shopper resolve a charge that was never in play; absence is the
+     * clearer statement. hasShipping stays as the seam for a future physical SKU.
+     */
+    const hasShipping = items.some(i => i.shippable);
+    if (hasShipping) summary.push({ label: 'الشحن', value: f(0), size: '12px', weight: '700', fg: '#5f7167', labelFg: '#5f7167' });
+    summary.push({ label: 'ضريبة القيمة المضافة (مشمولة)', value: f(vat), size: '12px', weight: '700', fg: '#5f7167', labelFg: '#5f7167' });
+    if (saved > 0) summary.push({ label: 'إجمالي التوفير', value: f(saved), size: '13px', weight: '900', fg: '#1e7355', labelFg: '#14261d' });
+
+    const ck = st.checkout;
+    const checkout = {
+      idle: ck === 'idle', busy: ck === 'busy',
+      label: ck === 'busy' ? 'جارٍ التحويل…' : 'إتمام الطلب',
+      bg: ck === 'busy' ? '#123d2f' : '#1e7355', fg: '#fff',
+      cursor: ck === 'busy' ? 'progress' : 'pointer',
+      shadow: '0 6px 18px rgba(30,115,85,.2)'
+    };
+
+    const couponMsg = st.applied
+      ? { hasMsg: true, applied: true, msg: 'تم تطبيق رمز الخصم بنجاح — خصم 15%', msgBg: 'rgba(37,155,111,.07)', msgBorder: 'rgba(37,155,111,.28)', msgFg: '#1e7355', msgIcon: '#i-check' }
+      : (st.couponError
+        ? { hasMsg: true, applied: false, msg: st.couponError, msgBg: '#fdf3f2', msgBorder: 'rgba(180,35,24,.24)', msgFg: '#b42318', msgIcon: '#i-close' }
+        : { hasMsg: false, applied: false, msg: '', msgBg: '', msgBorder: '', msgFg: '', msgIcon: '#i-info' });
+
+    const n = live.length;
+    const countText = n === 0 ? 'لا منتجات' : (n === 1 ? 'منتج واحد في سلتك' : n + ' منتجات في سلتك');
+
+    return {
+      shellW: mobile ? '390px' : '100%',
+      pagePad: mobile ? '16px 16px 0' : '24px 20px 40px',
+      gridCols: mobile ? '1fr' : 'minmax(0,1.9fr) minmax(0,340px)',
+      gap: mobile ? '12px' : '14px',
+      cardPad: mobile ? '14px' : '18px',
+      h1: mobile ? '22px' : '28px',
+      /*
+       * Mobile card is tightened deliberately: a 64px thumb, 12px padding and
+       * 6px inner gaps buy roughly a third of the card height back, so three
+       * items fit the fold instead of one and a half. Attributes cap at three —
+       * the fourth was always «تحميل فوري», which the summary already states.
+       */
+      thumbW: mobile ? '64px' : '104px',
+      thumbH: mobile ? '64px' : '104px',
+      thumbGap: mobile ? '10px' : '14px',
+      innerGap: mobile ? '6px' : '8px',
+      attrFs: mobile ? '9.5px' : '10.5px',
+      attrPad: mobile ? '2px 7px' : '3px 9px',
+      attrGap: mobile ? '4px' : '5px',
+      ctrlGap: mobile ? '7px' : '10px',
+      rowPadTop: mobile ? '7px' : '9px',
+      saveTextDisplay: mobile ? 'none' : 'inline',
+      savePad: mobile ? '0' : '0 12px',
+      saveW: mobile ? '44px' : 'auto',
+      discFs: mobile ? '10.5px' : '11.5px',
+      /*
+       * On mobile the price moves UP beside the title and the disclosure joins the
+       * control row. That removes two stacked rows and the wrap they caused —
+       * price + qty + save never fit 390px on one line, so the card was paying a
+       * full row of height for a layout that broke anyway.
+       */
+      priceTop: mobile ? 'block' : 'none',
+      priceBottom: mobile ? 'none' : 'block',
+      discTextDisplay: mobile ? 'none' : 'inline',
+      titleSize: mobile ? '13.5px' : '15px',
+      priceSize: mobile ? '17px' : '19px',
+      /*
+       * Hit area is a token like every other responsive value. Leaving it as
+       * per-control literals is what left 22 of 30 controls under 44px on mobile
+       * — the quantity stepper included, which is the cart's most-used control.
+       */
+      tap: mobile ? '44px' : '34px',
+      tapLink: mobile ? '44px' : '24px',
+      field: mobile ? '48px' : '46px',
+      stickyPos: mobile ? 'static' : 'sticky',
+      isEmpty: st.empty || n === 0,
+      hasItems: !st.empty && n > 0,
+      showSticky: mobile && !st.empty && n > 0,
+      onRestore: () => this.setState({ empty: false, gone: {} }),
+      countText,
+      statusText: 'يمكنك تعديل الكمية أو حذف أي منتج قبل الدفع',
+      items, summary,
+      total: f(total),
+      taxNote: hasShipping
+        ? 'الأسعار شاملة ضريبة القيمة المضافة'
+        : 'الأسعار شاملة ضريبة القيمة المضافة · كل المنتجات رقمية وتصلك فور الدفع',
+      notice: st.notice ? { show: true, ...st.notice } : { show: false, canUndo: false },
+      onUndo: () => { const id = st.removed; if (id) { this.setState(s => { const g = { ...s.gone }; delete g[id]; return { gone: g, removed: null, notice: null }; }); } },
+      couponOpen: st.couponOpen ? 'true' : 'false',
+      couponDisplay: st.couponOpen ? 'block' : 'none',
+      couponChevron: st.couponOpen ? 'rotate(90deg)' : 'rotate(-90deg)',
+      onToggleCoupon: () => this.setState(s => ({ couponOpen: !s.couponOpen })),
+      coupon: { value: st.coupon, border: st.couponError ? 'rgba(180,35,24,.4)' : '#dde3dc', ...couponMsg },
+      onCouponInput: e => this.setState({ coupon: e.target.value, couponError: '' }),
+      onApplyCoupon: e => {
+        e.preventDefault();
+        const code = st.coupon.trim().toUpperCase();
+        if (!code) return;
+        // No auto-apply and no simulated success: only the one real code resolves.
+        if (code === 'TEACHER15') this.setState({ applied: code, couponError: '' });
+        else this.setState({ applied: null, couponError: 'رمز الخصم غير صالح أو منتهي' });
+      },
+      onRemoveCoupon: () => this.setState({ applied: null, coupon: '' }),
+      checkout, checkoutDisabled: ck === 'busy' ? 'disabled' : null,
+      onCheckout: () => {
+        if (this.state.checkout === 'busy') return;
+        this.setState({ checkout: 'busy' });
+        this._c = setTimeout(() => this.setState({ checkout: 'idle' }), 1800);
+      },
+      trust: [
+        { icon: '#i-shield', label: 'دفع آمن ومشفّر' },
+        { icon: '#i-refresh', label: 'سياسة استرجاع واضحة' },
+        { icon: '#i-download', label: 'وصول فوري للملفات الرقمية' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

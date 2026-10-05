@@ -1,0 +1,55 @@
+services:
+  admin:
+    image: node:24-bookworm-slim
+    container_name: tahdheer-local-admin
+    working_dir: /workspace
+    volumes:
+      - ../..:/workspace
+      - tahdheer-node-modules:/workspace/node_modules
+    ports:
+      - "127.0.0.1:3001:3001"
+    environment:
+      NODE_ENV: development
+      ADMIN_API_URL: http://api-web:8080
+      INTERNAL_API_URL: http://api-web:8080
+      NEXT_PUBLIC_API_URL: http://127.0.0.1:58080
+      WATCHPACK_POLLING: "true"
+    command: >
+      sh -lc "
+      npm install &&
+      cd apps/admin &&
+      npx next dev -H 0.0.0.0 -p 3001
+      "
+    depends_on:
+      api-web:
+        condition: service_healthy
+    restart: unless-stopped
+
+  storefront:
+    image: node:24-bookworm-slim
+    container_name: tahdheer-local-storefront
+    working_dir: /workspace
+    volumes:
+      - ../..:/workspace
+      - tahdheer-node-modules:/workspace/node_modules
+    ports:
+      - "127.0.0.1:3002:3002"
+    environment:
+      NODE_ENV: development
+      API_URL: http://api-web:8080
+      INTERNAL_API_URL: http://api-web:8080
+      NEXT_PUBLIC_API_URL: http://127.0.0.1:58080
+      WATCHPACK_POLLING: "true"
+    command: >
+      sh -lc "
+      npm install &&
+      cd apps/storefront &&
+      npx next dev -H 0.0.0.0 -p 3002
+      "
+    depends_on:
+      api-web:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  tahdheer-node-modules:

@@ -1,0 +1,26 @@
+/*
+ * بطاقة تعذّر الاتصال — وصفة التنبيه الخطِر (ثلاثيّة ‎--st-danger-*‎) وزرّ
+ * «إعادة المحاولة» محيطيّ صغير. رموزٌ وخصائص منطقيّة فقط.
+ */
+
+.card {
+  composes: notice noticeDanger from '@tahdheer/ui/controls.module.css';
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 16px;
+}
+
+/* أيقونة التنبيه من وصفة رسالة الخطأ (قناعٌ بلون النصّ). */
+.text {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  min-inline-size: 200px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.retry {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+}

@@ -1,0 +1,261 @@
+# =============================================================================
+# Tahdheer — Traefik coexistence OVERRIDE (shared VPS 186.241.18.59)
+# =============================================================================
+# The target VPS ALREADY runs n8n behind an existing Traefik instance, and that
+# Traefik owns ports 80/443. Tahdheer must therefore be deployed *beside* it:
+#   - the bundled Caddy edge is neutralized (it would fight for 80/443 and take
+#     n8n down),
+#   - storefront / admin / api join the EXISTING Traefik's docker network,
+#   - routing + TLS are expressed as Traefik docker-provider labels.
+#
+# Usage (always both files, in this order):
+#   docker compose -f docker-compose.yml -f docker-compose.traefik.yml \
+#     --env-file .env --env-file .env.traefik --profile apps up -d
+#
+# Validation (no daemon interaction required):
+#   docker compose -f docker-compose.yml -f docker-compose.traefik.yml \
+#     --env-file .env.example --env-file .env.traefik.example config -q
+#
+# Operator runbook (Arabic): ../../docs/deployment/VPS-TRAEFIK.md
+#
+# -----------------------------------------------------------------------------
+# UNVERIFIED VALUES — READ THIS FIRST
+# -----------------------------------------------------------------------------
+# TRAEFIK_NETWORK, TRAEFIK_ENTRYPOINT and TRAEFIK_CERTRESOLVER are NOT known to
+# us. The `:-` fallbacks below are the *community conventions* only; they are a
+# documented default, NOT a fact about this server. Discover the real values on
+# the server before the first `up` — the exact commands are in the runbook,
+# section "اكتشاف القيم المجهولة".
+# If TRAEFIK_NETWORK is wrong, `up` fails loudly with
+#   `network <name> declared as external, but could not be found`
+# which is the intended behaviour: fail before serving, never guess.
+# =============================================================================
+
+networks:
+  # The pre-existing Traefik network. `external: true` => Compose will NEVER
+  # create it; it must already exist (Traefik created it). We only attach.
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK:-traefik_proxy}
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1) Neutralize the bundled edge
+  # ---------------------------------------------------------------------------
+  # Why `profiles: [never]` instead of deleting the service: the base
+  # docker-compose.yml stays a valid *standalone* deployment (single VPS, Caddy
+  # owns 80/443). Deleting caddy here would only be possible by editing the base
+  # file, which would break that path. `never` is a profile nobody ever passes,
+  # so caddy is excluded from every `up`, `ps`, `restart` and `down` in this
+  # composition — while remaining fully defined and diffable.
+  #
+  # `ports: !reset []` is belt-and-braces: even an explicit
+  # `docker compose --profile never up caddy` (or a stray `up caddy`) cannot
+  # bind 80/443 and take n8n offline. Requires Compose >= 2.24 for the `!reset`
+  # tag; this repo is validated on Compose v5.x.
+  caddy:
+    profiles: [never]
+    ports: !reset []
+
+  # ---------------------------------------------------------------------------
+  # 2) Storefront (Next.js) — public store host
+  # ---------------------------------------------------------------------------
+  # Two networks on purpose:
+  #   tahdheer → service-to-service (api, valkey, otel…) stays private
+  #   traefik  → ingress only; nothing else on that net may reach it by name
+  # `traefik.docker.network` is MANDATORY here: a container on two networks has
+  # two IPs, and without this label Traefik may pick the `tahdheer` IP, which it
+  # cannot reach → intermittent 502/504.
+  storefront:
+    networks:
+      tahdheer: {}
+      traefik: {}
+    environment:
+      # Point the browser at the real public API host instead of api.$DOMAIN.
+      NEXT_PUBLIC_API_URL: https://${API_HOST:-api.example.com}
+      # Absolute canonicals, robots and sitemap URLs must use the selected
+      # public storefront host rather than the local-development fallback.
+      NEXT_PUBLIC_SITE_URL: https://${STORE_HOST:-store.example.com}
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${TRAEFIK_NETWORK:-traefik_proxy}
+
+      traefik.http.routers.tahdheer-store.rule: Host(`${STORE_HOST:-store.example.com}`)
+      traefik.http.routers.tahdheer-store.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.tahdheer-store.tls: "true"
+      traefik.http.routers.tahdheer-store.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      traefik.http.routers.tahdheer-store.service: tahdheer-store
+      traefik.http.routers.tahdheer-store.middlewares: tahdheer-store-sec@docker
+      # Next.js standalone server listens on 3000 (PORT=3000 in the base file).
+      traefik.http.services.tahdheer-store.loadbalancer.server.port: "3000"
+
+      # Keep the conventional www hostname working, but make the apex host the
+      # single canonical storefront URL.
+      traefik.http.routers.tahdheer-store-www.rule: Host(`${WWW_HOST:-www.store.example.com}`)
+      traefik.http.routers.tahdheer-store-www.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.tahdheer-store-www.tls: "true"
+      traefik.http.routers.tahdheer-store-www.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      traefik.http.routers.tahdheer-store-www.service: tahdheer-store
+      traefik.http.routers.tahdheer-store-www.middlewares: tahdheer-store-www-redirect@docker,tahdheer-store-sec@docker
+      traefik.http.middlewares.tahdheer-store-www-redirect.redirectregex.regex: ^https?://${WWW_HOST:-www.store.example.com}(.*)
+      traefik.http.middlewares.tahdheer-store-www-redirect.redirectregex.replacement: https://${STORE_HOST:-store.example.com}$${1}
+      traefik.http.middlewares.tahdheer-store-www-redirect.redirectregex.permanent: "true"
+
+      # --- MIP §11.1 security headers -------------------------------------
+      # Each service gets its OWN uniquely-named middleware. Traefik's docker
+      # provider merges dynamic config from every labelled container; two
+      # containers declaring the SAME middleware name is a duplicate-definition
+      # hazard that can silently drop the middleware. Unique names per service
+      # cost three extra blocks and remove that class of failure entirely.
+      #
+      # Permissions-Policy is sent via customResponseHeaders (not the old
+      # `featurePolicy` option) because `featurePolicy` was REMOVED in Traefik
+      # v3; customResponseHeaders works identically on v2 and v3.
+      # An EMPTY value tells Traefik to strip the header (Server, X-Powered-By).
+      traefik.http.middlewares.tahdheer-store-sec.headers.referrerPolicy: strict-origin-when-cross-origin
+      traefik.http.middlewares.tahdheer-store-sec.headers.contentTypeNosniff: "true"
+      traefik.http.middlewares.tahdheer-store-sec.headers.frameDeny: "true"
+      traefik.http.middlewares.tahdheer-store-sec.headers.customResponseHeaders.Cross-Origin-Opener-Policy: same-origin-allow-popups
+      traefik.http.middlewares.tahdheer-store-sec.headers.customResponseHeaders.Permissions-Policy: "camera=(), microphone=(), geolocation=(), accelerometer=(), gyroscope=(), magnetometer=(), usb=(), serial=(), midi=(), display-capture=(), idle-detection=(), browsing-topics=(), payment=(self), fullscreen=(self)"
+      traefik.http.middlewares.tahdheer-store-sec.headers.customResponseHeaders.Server: ""
+      traefik.http.middlewares.tahdheer-store-sec.headers.customResponseHeaders.X-Powered-By: ""
+      # HSTS stays OFF until every host serves valid TLS (max-age is effectively
+      # irreversible). Enable by uncommenting BOTH lines, then re-`up -d`:
+      # traefik.http.middlewares.tahdheer-store-sec.headers.stsSeconds: "31536000"
+      # traefik.http.middlewares.tahdheer-store-sec.headers.stsIncludeSubdomains: "true"
+
+  # ---------------------------------------------------------------------------
+  # 3) Admin (Next.js) — admin host, never indexable
+  # ---------------------------------------------------------------------------
+  admin:
+    networks:
+      tahdheer: {}
+      traefik: {}
+    environment:
+      NEXT_PUBLIC_API_URL: https://${API_HOST:-api.example.com}
+      # The admin's same-origin Next.js proxy runs server-side and must reach
+      # Laravel through the internal HTTP-to-FastCGI sidecar, not localhost.
+      ADMIN_API_URL: http://api-web:8080
+    depends_on:
+      api-web:
+        condition: service_healthy
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${TRAEFIK_NETWORK:-traefik_proxy}
+
+      traefik.http.routers.tahdheer-admin.rule: Host(`${ADMIN_HOST:-admin.example.com}`)
+      traefik.http.routers.tahdheer-admin.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.tahdheer-admin.tls: "true"
+      traefik.http.routers.tahdheer-admin.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      traefik.http.routers.tahdheer-admin.service: tahdheer-admin
+      traefik.http.routers.tahdheer-admin.middlewares: tahdheer-admin-sec@docker
+      traefik.http.services.tahdheer-admin.loadbalancer.server.port: "3000"
+
+      traefik.http.middlewares.tahdheer-admin-sec.headers.referrerPolicy: strict-origin-when-cross-origin
+      traefik.http.middlewares.tahdheer-admin-sec.headers.contentTypeNosniff: "true"
+      traefik.http.middlewares.tahdheer-admin-sec.headers.frameDeny: "true"
+      traefik.http.middlewares.tahdheer-admin-sec.headers.customResponseHeaders.Cross-Origin-Opener-Policy: same-origin-allow-popups
+      traefik.http.middlewares.tahdheer-admin-sec.headers.customResponseHeaders.Permissions-Policy: "camera=(), microphone=(), geolocation=(), accelerometer=(), gyroscope=(), magnetometer=(), usb=(), serial=(), midi=(), display-capture=(), idle-detection=(), browsing-topics=(), payment=(self), fullscreen=(self)"
+      traefik.http.middlewares.tahdheer-admin-sec.headers.customResponseHeaders.Server: ""
+      traefik.http.middlewares.tahdheer-admin-sec.headers.customResponseHeaders.X-Powered-By: ""
+      # Admin must never reach a search index (mirrors the Caddyfile rule).
+      traefik.http.middlewares.tahdheer-admin-sec.headers.customResponseHeaders.X-Robots-Tag: "noindex, nofollow"
+
+  # ---------------------------------------------------------------------------
+  # 4) API (Laravel / PHP-FPM) — NO Traefik labels on this service. On purpose.
+  # ---------------------------------------------------------------------------
+  # php-fpm speaks FastCGI on :9000, NOT HTTP. Traefik has no FastCGI backend,
+  # so pointing a loadbalancer at api:9000 yields a permanent 502 — the classic
+  # failure of this migration. Two ways out:
+  #   (a) change the API image to run an HTTP server (FrankenPHP / Octane /
+  #       `php artisan serve`). Real change to the app image + a measured
+  #       baseline first (MIP §2.1) — NOT something to decide inside an
+  #       infrastructure override.
+  #   (b) put a tiny HTTP→FastCGI translator in front of php-fpm.
+  # (b) is implemented below as `api-web`: it is the safe default because it
+  # changes nothing about the API image or the app. If (a) is ever adopted,
+  # delete `api-web` and move the labels onto `api` with server.port=8000.
+  #
+  # `api` itself stays on the internal network only: it must be unreachable
+  # from the Traefik network, and it stays unlabelled so Traefik ignores it.
+  api:
+    environment:
+      APP_URL: https://${API_HOST:-api.example.com}
+      # The public storefront calls the API directly from the browser, so the
+      # production CORS origin must follow the selected staging/production host.
+      FRONTEND_URL: https://${STORE_HOST:-store.example.com}
+
+  # Worker and scheduler generate absolute URLs (signed download links, emails,
+  # notifications). They must agree with the public API host.
+  worker:
+    environment:
+      APP_URL: https://${API_HOST:-api.example.com}
+
+  scheduler:
+    environment:
+      APP_URL: https://${API_HOST:-api.example.com}
+
+  # ---------------------------------------------------------------------------
+  # 5) api-web — internal-only nginx sidecar: HTTP (Traefik) → FastCGI (php-fpm)
+  # ---------------------------------------------------------------------------
+  # NO `ports:` — the sidecar is reachable only over docker networks. Traefik
+  # reaches it on the traefik network; it reaches php-fpm on the tahdheer one.
+  #
+  # The config is written inline (heredoc) rather than bind-mounted so this
+  # override is a single self-contained file and adds no new mount to manage.
+  # `$$` is Compose escaping for a literal `$` (nginx variables), and the
+  # heredoc is quoted (<<'NGINX') so the shell does not expand anything either.
+  #
+  # Deliberate design note: there is NO `try_files`. The Laravel `public/`
+  # directory lives in the `api` container, not in this one, so nginx must not
+  # test the filesystem — every request is handed to php-fpm's front controller
+  # with an absolute SCRIPT_FILENAME that php-fpm resolves on ITS OWN
+  # filesystem. Consequence, stated honestly: this sidecar does NOT serve static
+  # files from the API's public/ dir. That is correct for a JSON API (assets
+  # belong in Garage/CDN); if the API ever must serve static files, share the
+  # public/ dir with a volume and add `try_files $uri /index.php?$query_string`.
+  api-web:
+    # التعريف الكامل (nginx → FastCGI) انتقل إلى docker-compose.yml:
+    # المتجر واللوحة في النشر الأساسيّ (Caddy) يخاطبانه أيضًا، فبقاؤه
+    # هنا كان يجعل النشر الأساسيّ يشير إلى مضيفٍ لا يُحَلّ. هذا الملفّ
+    # يضيف التوجيه وحده.
+    networks:
+      tahdheer: {}
+      traefik: {}
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${TRAEFIK_NETWORK:-traefik_proxy}
+
+      traefik.http.routers.tahdheer-api.rule: Host(`${API_HOST:-api.example.com}`)
+      traefik.http.routers.tahdheer-api.entrypoints: ${TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.tahdheer-api.tls: "true"
+      traefik.http.routers.tahdheer-api.tls.certresolver: ${TRAEFIK_CERTRESOLVER:-letsencrypt}
+      traefik.http.routers.tahdheer-api.service: tahdheer-api
+      traefik.http.routers.tahdheer-api.middlewares: tahdheer-api-sec@docker
+      # The sidecar's HTTP port — NOT php-fpm's 9000.
+      traefik.http.services.tahdheer-api.loadbalancer.server.port: "8080"
+
+      traefik.http.middlewares.tahdheer-api-sec.headers.referrerPolicy: strict-origin-when-cross-origin
+      traefik.http.middlewares.tahdheer-api-sec.headers.contentTypeNosniff: "true"
+      traefik.http.middlewares.tahdheer-api-sec.headers.frameDeny: "true"
+      traefik.http.middlewares.tahdheer-api-sec.headers.customResponseHeaders.Cross-Origin-Opener-Policy: same-origin-allow-popups
+      traefik.http.middlewares.tahdheer-api-sec.headers.customResponseHeaders.Permissions-Policy: "camera=(), microphone=(), geolocation=(), accelerometer=(), gyroscope=(), magnetometer=(), usb=(), serial=(), midi=(), display-capture=(), idle-detection=(), browsing-topics=(), payment=(self), fullscreen=(self)"
+      traefik.http.middlewares.tahdheer-api-sec.headers.customResponseHeaders.Server: ""
+      traefik.http.middlewares.tahdheer-api-sec.headers.customResponseHeaders.X-Powered-By: ""
+      # An API is not a web page: keep it out of indexes entirely.
+      traefik.http.middlewares.tahdheer-api-sec.headers.customResponseHeaders.X-Robots-Tag: "noindex, nofollow"
+
+  # ---------------------------------------------------------------------------
+  # 6) Data plane — NO host ports, NO Traefik network, NO labels
+  # ---------------------------------------------------------------------------
+  # postgres, valkey, meilisearch and garage are intentionally left untouched by
+  # this override: they stay on the internal `tahdheer` network only, publish no
+  # host port, and carry no `traefik.enable` label, so Traefik never routes to
+  # them. This is what keeps a shared VPS safe — the database must not become
+  # reachable just because another tenant's proxy lives on the same host.
+  # Reach them for debugging with `docker compose exec` or an SSH tunnel, never
+  # by publishing a port.
+  #
+  # Same rule for the `observability` profile: Grafana publishes 127.0.0.1:3001
+  # (loopback only) and that profile is not part of the deploy command above.
+  # Do NOT add it to a Traefik router without authentication in front.

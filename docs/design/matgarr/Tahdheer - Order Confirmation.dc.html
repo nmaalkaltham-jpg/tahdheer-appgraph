@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahPop{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:{{ pageW }};background:#fff;color:#223129;box-sizing:border-box;padding:{{ pagePad }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:16px">
+<button type="button" onClick="{{ onState }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid #dde3dc;border-radius:8px;background:#fbfcfa;color:#14261d;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ stateBtn }}</button>
+<span style="font-size:10.5px;color:#5f7167">{{ stateHint }}</span>
+</div>
+
+<section style="padding:{{ heroPad }};border:1px solid {{ hero.border }};border-radius:16px;background:{{ hero.bg }};margin-bottom:14px">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px">
+<span aria-hidden="true" style="flex:0 0 auto;display:grid;place-items:center;width:{{ hero.iconSize }};height:{{ hero.iconSize }};border-radius:14px;background:{{ hero.iconBg }};color:{{ hero.iconFg }};animation:tahPop .42s cubic-bezier(.34,1.56,.64,1) both">
+<svg style="width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="{{ hero.icon }}"></use></svg>
+</span>
+<div style="flex:1;min-width:200px">
+<h1 style="margin:0 0 7px;font-size:{{ hero.titleSize }};font-weight:900;color:#14261d;line-height:1.3;text-wrap:balance">{{ hero.title }}</h1>
+<p style="margin:0 0 10px;font-size:{{ hero.subSize }};line-height:1.85;color:#3b4d43;max-width:56ch">{{ hero.sub }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px 16px">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:#5f7167">رقم الطلب <bdi dir="ltr" style="font:900 12.5px ui-monospace,Menlo,monospace;color:#14261d">#10571</bdi></span>
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:#5f7167">الإجمالي <bdi dir="ltr" style="font:900 12.5px ui-monospace,Menlo,monospace;color:#14261d">455.00</bdi> ر.س</span>
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#5f7167"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-mail"></use></svg><bdi dir="ltr">hesham@example.com</bdi></span>
+</div>
+</div>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:14px">
+
+<div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+
+<section style="padding:16px 18px;border:1px solid {{ files.border }};border-radius:14px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:6px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:15px;font-weight:900;color:#14261d;text-align:start">{{ files.title }}</h2>
+<span style="box-sizing:border-box;padding:4px 11px;border-radius:7px;background:{{ files.chipBg }};font-size:10.5px;font-weight:900;color:{{ files.chipFg }};white-space:nowrap">{{ files.chip }}</span>
+</div>
+<p style="margin:0 0 13px;font-size:12px;line-height:1.8;color:#5f7167;text-align:start">{{ files.note }}</p>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ files.items }}" as="f" hint-placeholder-count="3">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:11px;padding:12px;border:1px solid {{ f.border }};border-radius:12px;background:{{ f.bg }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:40px;height:40px;border-radius:11px;background:{{ f.iconBg }};color:{{ f.iconFg }};display:grid;place-items:center"><svg style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span>
+<span style="flex:1;min-width:140px">
+<b dir="auto" style="display:block;font-size:13.5px;font-weight:800;color:#14261d;line-height:1.5;text-align:start">{{ f.title }}</b>
+<span style="display:flex;flex-wrap:wrap;gap:5px 11px;margin-top:4px">
+<bdi dir="ltr" style="font:600 10px ui-monospace,Menlo,monospace;color:#5f7167">{{ f.name }}</bdi>
+<span dir="rtl" style="font-size:10px;font-weight:700;color:#5f7167">{{ f.meta }}</span>
+</span>
+</span>
+<a href="#" aria-label="{{ f.aria }}" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:{{ tap }};padding:0 18px;border-radius:11px;background:{{ f.btnBg }};color:{{ f.btnFg }};font-size:13px;font-weight:900;pointer-events:{{ f.btnEvents }};opacity:{{ f.btnOpacity }}">
+<svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.btnIcon }}"></use></svg>{{ f.btnLabel }}
+</a>
+</div>
+</sc-for>
+</div>
+
+<div style="display:{{ files.lockedDisplay }};margin-top:12px;padding:12px 13px;border-radius:11px;background:rgba(216,181,106,.1);border:1px solid rgba(216,181,106,.4)">
+<div style="display:flex;align-items:flex-start;gap:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:2px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-lock"></use></svg>
+<div style="min-width:0;text-align:start">
+<b style="display:block;font-size:12px;font-weight:900;color:#7a5d20;margin-bottom:4px">{{ files.lockedTitle }}</b>
+<span style="font-size:11.5px;line-height:1.8;color:#3b4d43">{{ files.lockedBody }}</span>
+</div>
+</div>
+</div>
+
+<div style="display:{{ files.allDisplay }};margin-top:12px;padding-top:12px;border-top:1px solid #eef1ec;flex-wrap:wrap;align-items:center;gap:9px">
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;min-height:{{ tap }};padding:0 16px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font-size:12.5px;font-weight:800">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-download"></use></svg>حمّل الكل في ملف مضغوط
+</a>
+<span style="font-size:10.5px;color:#5f7167">{{ files.allNote }}</span>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa">
+<h2 style="margin:0 0 12px;font-size:14px;font-weight:900;color:#14261d;text-align:start">ماذا بعد؟</h2>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:11px">
+<span aria-hidden="true" style="flex:0 0 auto;width:24px;height:24px;border-radius:8px;background:{{ s.bg }};color:{{ s.fg }};display:grid;place-items:center;font:900 11px ui-monospace,monospace">{{ s.n }}</span>
+<div style="min-width:0;text-align:start">
+<b style="display:block;font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:3px">{{ s.title }}</b>
+<span style="font-size:11.5px;line-height:1.8;color:#5f7167">{{ s.body }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<aside style="min-width:0;display:flex;flex-direction:column;gap:14px">
+
+<section style="padding:16px;border:1px solid #e6e9e2;border-radius:14px;background:#fff">
+<h2 style="margin:0 0 12px;font-size:13.5px;font-weight:900;color:#14261d;text-align:start">ملخّص الطلب</h2>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ summary }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:11.5px;font-weight:{{ r.weight }};color:{{ r.fg }};text-align:start">{{ r.label }}</span>
+<span dir="ltr" style="flex:0 0 auto;font-family:ui-monospace,Menlo,monospace;font-size:{{ r.size }};font-weight:{{ r.weight }};color:{{ r.fg }}">{{ r.value }}</span>
+<span style="flex:0 0 auto;font-size:10px;font-weight:800;color:#5f7167">ر.س</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:12px;padding-top:11px;border-top:1px solid #eef1ec;display:flex;flex-direction:column;gap:6px">
+<a href="#" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;font-size:12px;font-weight:800;color:#1e7355"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-files"></use></svg>الفاتورة الضريبية (PDF)</a>
+<a href="#" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;font-size:12px;font-weight:800;color:#1e7355"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-eye"></use></svg>تفاصيل الطلب كاملة</a>
+</div>
+</section>
+
+<section style="padding:16px;border:1px solid rgba(37,155,111,.28);border-radius:14px;background:rgba(37,155,111,.05)">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-user"></use></svg>
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:#14261d;text-align:start">احفظ ملفاتك في حساب؟</h2>
+</div>
+<p style="margin:0 0 12px;font-size:11.5px;line-height:1.85;color:#3b4d43;text-align:start">اختياري تمامًا — طلبك مكتمل وروابطك تعمل بدونه. الحساب يجمع تنزيلاتك في مكان واحد ويُبقيها متاحة، ونربط هذا الطلب به بعد تأكيد ملكية بريدك.</p>
+<div style="display:flex;flex-direction:column;gap:7px">
+<a href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:{{ tap }};border-radius:11px;background:#1e7355;color:#fff;font-size:12.5px;font-weight:900">أنشئ حسابًا بضغطة</a>
+<span style="font-size:10px;line-height:1.7;color:#5f7167;text-align:center">لن نرسل رسائل تسويقية دون موافقتك</span>
+</div>
+</section>
+
+<section style="padding:16px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa">
+<h2 style="margin:0 0 10px;font-size:13px;font-weight:900;color:#14261d;text-align:start">مشكلة في التحميل؟</h2>
+<p style="margin:0 0 11px;font-size:11.5px;line-height:1.8;color:#5f7167;text-align:start">راسلنا برقم الطلب <bdi dir="ltr" style="font-weight:900;color:#14261d">#10571</bdi> ونحلّها خلال ساعة في أوقات العمل.</p>
+<a href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:{{ tap }};border-radius:11px;background:#25d366;color:#fff;font-size:12.5px;font-weight:900;width:100%;box-sizing:border-box">
+<svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-headset"></use></svg>واتساب الدعم
+</a>
+</section>
+
+</aside>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:900},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { paid: true };
+
+  renderVals() {
+    const p = this.props;
+    const mobile = !!p.mobile;
+    const paid = this.state.paid;
+    const pick = (m, d) => (mobile ? m : d);
+
+    /*
+     * Two states, one page. The bank-transfer path is the honest hard case: the
+     * order EXISTS but the files do not unlock yet — so the hero must not say
+     * "your files are ready" and the buttons must not look pressable. Digital
+     * delivery is the whole promise; a green tick over a locked file breaks it.
+     */
+    const heroPaid = {
+      icon: '#i-check', iconBg: 'rgba(37,155,111,.14)', iconFg: '#1e7355',
+      border: 'rgba(37,155,111,.3)', bg: 'rgba(37,155,111,.05)',
+      title: 'تم الدفع — ملفاتك جاهزة الآن',
+      sub: 'حُمّلت روابطك في الأسفل وتعمل فورًا. أرسلنا نسخة إلى بريدك، والروابط تبقى في «حسابي ← تنزيلاتي» إن أنشأت حسابًا.'
+    };
+    const heroPending = {
+      icon: '#i-clock', iconBg: 'rgba(216,181,106,.2)', iconFg: '#7a5d20',
+      border: 'rgba(216,181,106,.45)', bg: 'rgba(216,181,106,.07)',
+      title: 'سُجّل طلبك — بانتظار التحويل',
+      sub: 'لم يُخصم أي مبلغ بعد. أرسلنا بيانات الحساب البنكي إلى بريدك، وتُفتح روابط التحميل تلقائيًا بعد تحقّقنا من التحويل.'
+    };
+    const hero = Object.assign({}, paid ? heroPaid : heroPending, {
+      iconSize: pick('50px', '58px'),
+      titleSize: pick('20px', '25px'),
+      subSize: pick('13px', '14.5px')
+    });
+
+    const fileDefs = [
+      ['عرض بوربوينت — الكيمياء العضوية', 'organic-chemistry.pptx', '22 شريحة · 18.4MB · PowerPoint'],
+      ['أوراق عمل مرافقة', 'worksheets-organic.pdf', '7 أوراق · 2.1MB · PDF'],
+      ['دليل المعلّم', 'teacher-guide.docx', '12 صفحة · 840KB · Word']
+    ];
+
+    const items = fileDefs.map(f => ({
+      title: f[0], name: f[1], meta: f[2],
+      border: paid ? '#e6e9e2' : 'rgba(216,181,106,.4)',
+      bg: paid ? '#fbfcfa' : 'rgba(216,181,106,.05)',
+      iconBg: paid ? 'rgba(37,155,111,.10)' : '#f2f5f2',
+      iconFg: paid ? '#1e7355' : '#7a5d20',
+      btnLabel: paid ? 'حمّل' : 'مُقفَل',
+      btnIcon: paid ? '#i-download' : '#i-lock',
+      /*
+       * A disabled control still has to be readable — «مُقفَل» at 4.23:1 on a pale
+       * fill was the least legible label in the state that most needs explaining.
+       * Darker text on a lighter fill: inert by pointer-events, not by fading.
+       */
+      btnBg: paid ? '#1e7355' : '#eef1ec',
+      btnFg: paid ? '#fff' : '#3b4d43',
+      btnEvents: paid ? 'auto' : 'none',
+      btnOpacity: paid ? '1' : '.75',
+      aria: paid ? 'حمّل ' + f[0] + ' — ' + f[2] : f[0] + ' — مُقفَل حتى تأكيد التحويل'
+    }));
+
+    const summary = [
+      { label: 'المجموع الفرعي', value: '588.00', weight: '600', fg: '#5f7167', size: '11.5px' },
+      { label: 'خصم TEACHER15', value: '−88.20', weight: '700', fg: '#1e7355', size: '11.5px' },
+      { label: 'الضريبة المشمولة 15%', value: '59.32', weight: '600', fg: '#5f7167', size: '11.5px' },
+      { label: 'الإجمالي المدفوع', value: '455.00', weight: '900', fg: '#14261d', size: '14px' }
+    ];
+    if (!paid) summary[3].label = 'الإجمالي المستحقّ';
+
+    const stepsPaid = [
+      ['١', 'حمّل ملفاتك الآن', 'الروابط أعلاه تعمل فورًا وبلا حدّ زمني. لو أغلقت الصفحة، النسخة في بريدك.', 'rgba(37,155,111,.14)', '#1e7355'],
+      ['٢', 'افتحها وعدّلها', 'ملفات PowerPoint وWord مفتوحة بالكامل — غيّر اسمك وشعار مدرستك والمحتوى.', '#f2f5f2', '#5f7167'],
+      ['٣', 'التحديثات تصلك مجانًا', 'مع كل تحديث للمنهج نُصدر نسخة جديدة وتصلك على البريد نفسه.', '#f2f5f2', '#5f7167'],
+      ['٤', 'احتجت مساعدة؟', 'راسلنا برقم الطلب على واتساب — لا حاجة لحساب ولا تذكرة.', '#f2f5f2', '#5f7167']
+    ];
+    const stepsPending = [
+      ['١', 'حوّل المبلغ', 'بيانات الحساب في بريدك. اكتب رقم الطلب في خانة الملاحظات ليُطابَق تلقائيًا.', 'rgba(216,181,106,.2)', '#7a5d20'],
+      ['٢', 'نتحقّق من التحويل', 'خلال ساعات العمل عادةً. لا حاجة لإرسال إيصال إن كتبت رقم الطلب.', '#f2f5f2', '#5f7167'],
+      ['٣', 'تُفتح الروابط تلقائيًا', 'تصلك رسالة بروابط التحميل على البريد نفسه — لا حاجة للعودة إلى هذه الصفحة.', '#f2f5f2', '#5f7167'],
+      ['٤', 'تأخّر الأمر؟', 'راسلنا برقم الطلب على واتساب ونتابعه معك.', '#f2f5f2', '#5f7167']
+    ];
+
+    return {
+      pageW: pick('390px', '1120px'),
+      pagePad: pick('16px 16px 28px', '22px 26px 34px'),
+      heroPad: pick('16px', '20px 22px'),
+      gridCols: pick('1fr', '1.42fr .58fr'),
+      tap: pick('48px', '42px'),
+
+      onState: () => this.setState(s => ({ paid: !s.paid })),
+      stateBtn: paid ? 'اعرض حالة التحويل البنكي' : 'اعرض حالة الدفع المكتمل',
+      stateHint: paid ? 'الحالة الحالية: مدفوع — الملفات مفتوحة' : 'الحالة الحالية: بانتظار التحويل — الملفات مقفلة',
+
+      hero,
+      files: {
+        title: paid ? 'ملفاتك — 3 ملفات' : 'ملفاتك — 3 ملفات مقفلة',
+        chip: paid ? 'جاهزة للتحميل' : 'تُفتح بعد التحويل',
+        chipBg: paid ? 'rgba(37,155,111,.12)' : 'rgba(216,181,106,.2)',
+        chipFg: paid ? '#1e7355' : '#7a5d20',
+        border: paid ? 'rgba(37,155,111,.28)' : 'rgba(216,181,106,.45)',
+        note: paid
+          ? 'كل ملف قابل للتعديل بالكامل. حمّله على جهازك — لا يعتمد على بقائك في هذه الصفحة.'
+          : 'الملفات مسجَّلة على طلبك ومحفوظة لك. تُفتح لحظة تأكيد التحويل، ولا تحتاج إلى إعادة الشراء.',
+        items,
+        lockedDisplay: paid ? 'none' : 'block',
+        lockedTitle: 'لماذا مقفلة؟',
+        lockedBody: 'التحويل البنكي لا يُؤكَّد لحظيًا كالبطاقة. نُفتح الروابط بعد وصول المبلغ، وهذا يحمي الطرفين — ولا يُخصم منك شيء قبل ذلك.',
+        allDisplay: paid ? 'flex' : 'none',
+        allNote: '21.3MB · ملف واحد'
+      },
+      steps: (paid ? stepsPaid : stepsPending).map(s => ({ n: s[0], title: s[1], body: s[2], bg: s[3], fg: s[4] })),
+      summary
+    };
+  }
+}
+</script>
+</body>
+</html>

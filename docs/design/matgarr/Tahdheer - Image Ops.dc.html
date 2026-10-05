@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:820px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:14px">
+<h1 style="margin:0;font-size:18px;font-weight:900;color:{{ t.text }}">تحسين الصور</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">الملف الأصلي لا يُمسّ — التحويل يجري على المقاسات الفرعية وحدها</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ t.darkLabel }}</button>
+</div>
+
+<section style="padding:13px 15px;border:1px solid {{ t.okFg }};border-radius:11px;background:{{ t.okBg }};margin-bottom:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;color:{{ t.okFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-shield"></use></svg>
+<span style="flex:1;min-width:200px;font-size:11.5px;line-height:1.75;color:{{ t.text }};text-align:start">{{ guarantee }}</span>
+<span style="box-sizing:border-box;padding:3px 10px;border-radius:6px;background:{{ t.surface }};border:1px solid {{ t.okFg }};font-size:10px;font-weight:900;color:{{ t.okFg }};white-space:nowrap">{{ restorableCount }} قابلة للاسترجاع</span>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:12px">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+<div style="padding:12px;border:1px solid {{ t.border }};border-radius:10px;background:{{ t.surface }}">
+<div style="font-size:10.5px;font-weight:800;color:{{ t.muted }};margin-bottom:6px;text-align:start">{{ s.label }}</div>
+<div style="display:flex;align-items:baseline;gap:6px"><b dir="ltr" style="font-size:19px;font-weight:900;color:{{ s.fg }};line-height:1.1">{{ s.value }}</b><span style="font-size:10px;font-weight:800;color:{{ t.muted }}">{{ s.unit }}</span></div>
+<div style="display:{{ s.noteDisplay }};margin-top:5px;font-size:9.5px;line-height:1.6;color:{{ t.muted }};text-align:start">{{ s.note }}</div>
+</div>
+</sc-for>
+</div>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:12px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">التشغيل</h2>
+<button type="button" onClick="{{ onDry }}" aria-pressed="{{ dryPressed }}" style="display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 13px;border:1px solid {{ dryBorder }};border-radius:9px;background:{{ dryBg }};color:{{ dryFg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:900;cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-eye"></use></svg>{{ dryLabel }}
+</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px">
+<sc-for list="{{ runBtns }}" as="rb" hint-placeholder-count="4">
+<button type="button" onClick="{{ rb.onClick }}" disabled="{{ rb.disabled }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 16px;border:1px solid {{ rb.border }};border-radius:9px;background:{{ rb.bg }};color:{{ rb.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:900;cursor:{{ rb.cursor }};white-space:nowrap">
+<span style="display:{{ rb.spinner }};width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:tahSpin .7s linear infinite"></span>
+<svg aria-hidden="true" style="display:{{ rb.iconDisplay }};width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ rb.icon }}"></use></svg>{{ rb.label }}
+</button>
+</sc-for>
+<div style="flex:1"></div>
+<span style="font-size:10.5px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ batchNote }}</span>
+</div>
+
+<div style="display:{{ progressDisplay }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px">
+<span style="font-size:11px;font-weight:900;color:{{ t.text }}">{{ progressLabel }}</span>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:800 11px ui-monospace,Menlo,monospace;color:{{ t.muted }}">{{ progressCount }}</span>
+</div>
+<div role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="تقدّم المعالجة" style="height:8px;border-radius:5px;background:{{ t.inset }};overflow:hidden">
+<span aria-hidden="true" style="display:block;height:100%;width:{{ pctW }};background:{{ progressFg }};transition:width .25s ease"></span>
+</div>
+<p style="margin:8px 0 0;font-size:10px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ progressNote }}</p>
+</div>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ previewBorder }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">{{ tableTitle }}</h2>
+<span style="box-sizing:border-box;padding:3px 10px;border-radius:6px;background:{{ tableChipBg }};font-size:10px;font-weight:900;color:{{ tableChipFg }};white-space:nowrap">{{ tableChip }}</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:3px">
+<div aria-hidden="true" style="display:flex;gap:9px;padding:0 10px 4px">
+<span style="flex:1;font-size:9px;font-weight:900;color:{{ t.muted }}">الملف</span>
+<span style="flex:0 0 62px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الحالي</span>
+<span style="flex:0 0 62px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">المتوقّع</span>
+<span style="flex:0 0 58px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">التوفير</span>
+<span style="flex:0 0 96px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الحالة</span>
+<span style="flex:0 0 72px"></span>
+</div>
+
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+<div style="border:1px solid {{ r.border }};border-radius:9px;background:{{ r.bg }};overflow:hidden">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 10px">
+<span style="flex:1;min-width:140px;display:flex;align-items:center;gap:8px">
+<span aria-hidden="true" style="flex:0 0 auto;width:24px;height:24px;border-radius:6px;background:{{ t.inset }};color:{{ t.muted }};display:grid;place-items:center"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span>
+<span style="min-width:0"><bdi dir="ltr" style="display:block;font:700 10.5px ui-monospace,Menlo,monospace;color:{{ t.text }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</bdi><span dir="rtl" style="display:block;font-size:9px;color:{{ t.muted }};text-align:start">{{ r.usage }}</span></span>
+</span>
+<span dir="ltr" style="flex:0 0 62px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ r.before }}</span>
+<span dir="ltr" style="flex:0 0 62px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ r.afterFg }};text-align:start">{{ r.after }}</span>
+<span dir="ltr" style="flex:0 0 58px;font:900 10.5px ui-monospace,Menlo,monospace;color:{{ r.saveFg }};text-align:start">{{ r.saving }}</span>
+<span style="flex:0 0 96px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:6px;background:{{ r.stateBg }};font-size:9px;font-weight:900;color:{{ r.stateFg }};white-space:nowrap">{{ r.state }}</span>
+<button type="button" onClick="{{ r.onAction }}" disabled="{{ r.actionDisabled }}" style="flex:0 0 72px;box-sizing:border-box;min-height:30px;border:1px solid {{ r.actionBorder }};border-radius:8px;background:{{ r.actionBg }};color:{{ r.actionFg }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:{{ r.actionCursor }};white-space:nowrap">{{ r.actionLabel }}</button>
+</div>
+<div style="display:{{ r.errDisplay }};padding:0 10px 9px">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:8px;background:{{ t.badBg }};border:1px solid {{ t.badFg }}">
+<svg aria-hidden="true" style="flex:0 0 auto;width:12px;height:12px;margin-top:2px;color:{{ t.badFg }};fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-info"></use></svg>
+<span dir="rtl" style="font-size:10px;line-height:1.7;color:{{ t.text }};text-align:start">{{ r.err }}</span>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ tableNote }}</p>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">سجلّ التغييرات</h2>
+<span style="font-size:10px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ logNote }}</span>
+</div>
+<div style="display:{{ logEmptyDisplay }};padding:22px 16px;border:1px dashed {{ t.border }};border-radius:10px;text-align:center">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;background:{{ t.inset }};color:{{ t.muted }};margin-bottom:9px"><svg style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-clock"></use></svg></span>
+<p style="margin:0;font-size:11.5px;line-height:1.75;color:{{ t.muted }}">لا تغييرات بعد. المعاينة لا تُسجَّل — يبدأ السجلّ عند أول تشغيل فعلي.</p>
+</div>
+<div style="display:{{ logListDisplay }};flex-direction:column;gap:4px">
+<sc-for list="{{ log }}" as="l" hint-placeholder-count="3">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ t.hair }};border-radius:9px;background:{{ t.inset }}">
+<span dir="ltr" style="flex:0 0 88px;font:700 9.5px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ l.time }}</span>
+<span style="flex:1;min-width:140px;font-size:10.5px;line-height:1.65;color:{{ t.text }};text-align:start">{{ l.text }}</span>
+<span dir="ltr" style="flex:0 0 66px;font:800 10px ui-monospace,Menlo,monospace;color:{{ l.deltaFg }};text-align:start">{{ l.delta }}</span>
+<button type="button" onClick="{{ l.onRestore }}" style="flex:0 0 auto;box-sizing:border-box;min-height:30px;padding:0 11px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap">استرجِع</button>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { dark: false, dry: true, run: 'idle', done: 0, log: [], restored: {} };
+
+  componentWillUnmount() { if (this._t) clearInterval(this._t); }
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.10)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.18)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.08)' };
+    return d
+      ? { ...sem, pageBg: '#14181a', surface: '#1c2225', inset: '#252d31', text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236', darkLabel: 'الوضع الفاتح' }
+      : { ...sem, pageBg: '#f0f0f1', surface: '#fff', inset: '#f2f5f2', text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec', darkLabel: 'الوضع الداكن' };
+  }
+
+  files() {
+    /*
+     * Six real shapes the optimiser meets. Two cannot be converted and say why —
+     * an operation that silently skips is worse than one that explains.
+     */
+    return [
+      { name: 'organic-chem-slide-01.jpg', usage: 'مستخدمة في 3 منتجات', before: 842, after: 231, ok: true },
+      { name: 'arabic-pack-cover.png', usage: 'صورة رئيسية — منتج واحد', before: 1310, after: 402, ok: true },
+      { name: 'worksheet-preview-04.jpg', usage: 'معرض — منتجان', before: 618, after: 178, ok: true },
+      { name: 'physics-hero.webp', usage: 'مستخدمة في منتج واحد', before: 244, after: 244, ok: false, err: 'الملف بصيغة WebP أصلًا — إعادة الترميز تُفقد جودة بلا مكسب في الحجم. يُتجاوَز.' },
+      { name: 'logo-mark.svg', usage: 'الهوية — كل الصفحات', before: 12, after: 12, ok: false, err: 'SVG متجهي لا يُحوَّل إلى WebP. لا إجراء.' },
+      { name: 'teacher-portrait.jpg', usage: 'غير مستخدمة — ملف يتيم', before: 990, after: 268, ok: true }
+    ];
+  }
+
+  fmt(kb) { return kb >= 1024 ? (kb / 1024).toFixed(1) + 'MB' : kb + 'KB'; }
+
+  start() {
+    if (this.state.run === 'running') return;
+    this.setState({ run: 'running' });
+    if (this._t) clearInterval(this._t);
+    this._t = setInterval(() => {
+      this.setState(s => {
+        if (s.run !== 'running') return {};
+        const convertible = this.files().filter(f => f.ok).length;
+        if (s.done >= convertible) {
+          clearInterval(this._t);
+          return { run: 'finished' };
+        }
+        const f = this.files().filter(x => x.ok)[s.done];
+        const entry = s.dry
+          ? null
+          : { time: '14:0' + (2 + s.done) + ':11', text: 'حُوّلت المقاسات الفرعية لـ ' + f.name + ' — الأصل باقٍ', delta: '−' + Math.round(((f.before - f.after) / f.before) * 100) + '%' };
+        return { done: s.done + 1, log: entry ? [entry, ...s.log] : s.log };
+      });
+    }, 700);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+    const files = this.files();
+    const convertible = files.filter(f => f.ok);
+    const totalBefore = convertible.reduce((a, f) => a + f.before, 0);
+    const totalAfter = convertible.reduce((a, f) => a + f.after, 0);
+    const running = st.run === 'running';
+    const finished = st.run === 'finished';
+    const paused = st.run === 'paused';
+
+    const rows = files.map((f, i) => {
+      const processed = f.ok && st.done > convertible.indexOf(f) && convertible.indexOf(f) > -1 && convertible.indexOf(f) < st.done;
+      const wasRestored = st.restored[f.name];
+      let state, stateBg, stateFg;
+      if (!f.ok) { state = 'يُتجاوَز'; stateBg = t.warnBg; stateFg = t.warnFg; }
+      else if (wasRestored) { state = 'مُسترجَعة'; stateBg = t.inset; stateFg = t.muted; }
+      else if (processed && !st.dry) { state = 'محوّلة'; stateBg = t.okBg; stateFg = t.okFg; }
+      else if (processed && st.dry) { state = 'معاينة فقط'; stateBg = t.warnBg; stateFg = t.warnFg; }
+      else { state = st.dry ? 'ستُعايَن' : 'بالانتظار'; stateBg = t.inset; stateFg = t.muted; }
+
+      const canRestore = f.ok && processed && !st.dry && !wasRestored;
+      return {
+        name: f.name, usage: f.usage,
+        before: this.fmt(f.before),
+        after: f.ok ? this.fmt(f.after) : '—',
+        afterFg: f.ok ? t.okFg : t.muted,
+        saving: f.ok ? '−' + Math.round(((f.before - f.after) / f.before) * 100) + '%' : '—',
+        saveFg: f.ok ? t.okFg : t.muted,
+        state, stateBg, stateFg,
+        border: f.ok ? t.hair : t.warnFg,
+        bg: f.ok ? t.inset : t.warnBg,
+        errDisplay: f.ok ? 'none' : 'block',
+        err: f.err || '',
+        actionLabel: canRestore ? 'استرجِع' : (f.ok ? 'تفاصيل' : 'السبب'),
+        actionDisabled: false,
+        actionBorder: canRestore ? t.okFg : t.border,
+        actionBg: t.surface,
+        actionFg: canRestore ? t.okFg : t.muted,
+        actionCursor: 'pointer',
+        onAction: canRestore
+          ? (() => this.setState(s => ({
+              restored: { ...s.restored, [f.name]: true },
+              log: [{ time: '14:12:40', text: 'استُرجعت ' + f.name + ' من الأصل المحفوظ', delta: '+' + Math.round(((f.before - f.after) / f.before) * 100) + '%' }, ...s.log]
+            })))
+          : (() => {})
+      };
+    });
+
+    const runDefs = [
+      ['start', st.dry ? 'شغّل المعاينة' : 'ابدأ التحويل', '#i-bolt', !running && !finished],
+      ['pause', 'إيقاف مؤقّت', '#i-clock', running],
+      ['resume', 'استئناف', '#i-refresh', paused],
+      ['cancel', 'إلغاء', '#i-close', running || paused]
+    ];
+
+    const logRows = st.log.map(l => ({
+      time: l.time, text: l.text, delta: l.delta,
+      deltaFg: l.delta.indexOf('−') === 0 ? t.okFg : t.warnFg,
+      onRestore: () => {}
+    }));
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      guarantee: 'التحويل يعمل على المقاسات الفرعية فقط، والملف المرفوع يبقى كما هو على القرص — وعليه يقوم الاسترجاع. لا كتابة فوق أصل ولا فوق نصّ بديل كتبته بيدك.',
+      restorableCount: convertible.length,
+
+      stats: [
+        { label: 'صور المكتبة', value: '1,284', unit: 'صورة', fg: t.text, noteDisplay: 'none', note: '' },
+        { label: 'قابلة للتحويل', value: String(convertible.length * 214), unit: 'صورة', fg: t.okFg, noteDisplay: 'block', note: 'ليست WebP ولا AVIF' },
+        { label: 'تُتجاوَز', value: String((files.length - convertible.length) * 86), unit: 'صورة', fg: t.warnFg, noteDisplay: 'block', note: 'WebP أصلًا أو SVG' },
+        { label: 'الحجم الحالي', value: '412', unit: 'MB', fg: t.text, noteDisplay: 'none', note: '' },
+        { label: 'التوفير المتوقّع', value: '~118', unit: 'MB', fg: t.okFg, noteDisplay: 'block', note: 'تقدير من عيّنة، لا وعد' }
+      ],
+
+      onDry: () => this.setState(s => ({ dry: !s.dry, run: 'idle', done: 0 })),
+      dryPressed: st.dry ? 'true' : 'false',
+      dryLabel: st.dry ? 'معاينة فقط — مفعّلة' : 'معاينة فقط — مطفأة',
+      dryBg: st.dry ? t.okBg : t.warnBg,
+      dryBorder: st.dry ? t.okFg : t.warnFg,
+      dryFg: st.dry ? t.okFg : t.warnFg,
+
+      runBtns: runDefs.map(r => {
+        const on = r[3];
+        const isStart = r[0] === 'start';
+        return {
+          label: running && isStart ? 'جارٍ…' : r[1],
+          icon: r[2],
+          disabled: !on,
+          spinner: running && isStart ? 'inline-block' : 'none',
+          iconDisplay: running && isStart ? 'none' : 'inline-block',
+          border: isStart && on ? (st.dry ? t.okFg : t.warnFg) : t.border,
+          bg: isStart && on ? (st.dry ? t.okFg : t.warnFg) : t.surface,
+          fg: isStart && on ? (st.dark ? '#14181a' : '#fff') : (on ? t.text : t.muted),
+          cursor: on ? 'pointer' : 'not-allowed',
+          onClick: on
+            ? (r[0] === 'start' ? () => this.start()
+              : r[0] === 'pause' ? () => this.setState({ run: 'paused' })
+              : r[0] === 'resume' ? () => this.start()
+              : () => { if (this._t) clearInterval(this._t); this.setState({ run: 'idle', done: 0 }); })
+            : (() => {})
+        };
+      }),
+      batchNote: 'دفعات من 20 صورة · التقدّم محفوظ فيستأنف بعد إغلاق الصفحة',
+
+      progressDisplay: st.run === 'idle' ? 'none' : 'block',
+      progressLabel: finished ? (st.dry ? 'انتهت المعاينة — لم يُعدَّل ملف' : 'انتهى التحويل') : paused ? 'موقوف مؤقّتًا' : 'جارٍ المعالجة',
+      progressCount: st.done + ' / ' + convertible.length,
+      pct: Math.round((st.done / convertible.length) * 100),
+      pctW: Math.round((st.done / convertible.length) * 100) + '%',
+      progressFg: st.dry ? t.warnFg : t.okFg,
+      progressNote: st.dry
+        ? 'المعاينة تحسب الأحجام ولا تكتب شيئًا. أطفئ «معاينة فقط» للتنفيذ الفعلي.'
+        : 'كل ملف يُحوَّل ويُسجَّل فورًا، فالإلغاء يوقف الباقي ولا يُبطل ما تمّ.',
+
+      tableTitle: st.dry ? 'المعاينة — ما سيحدث' : 'التنفيذ — ما حدث',
+      tableChip: st.dry ? 'لا كتابة على القرص' : 'كتابة فعلية',
+      tableChipBg: st.dry ? t.okBg : t.warnBg,
+      tableChipFg: st.dry ? t.okFg : t.warnFg,
+      previewBorder: st.dry ? t.okFg : t.warnFg,
+      rows,
+      tableNote: 'الحجم «المتوقّع» محسوب من جودة WebP المضبوطة في performance-images.php على عيّنة فعلية — لا من نسبة ثابتة. الإجمالي: '
+        + this.fmt(totalBefore) + ' ← ' + this.fmt(totalAfter) + '.',
+
+      log: logRows,
+      logEmptyDisplay: logRows.length ? 'none' : 'block',
+      logListDisplay: logRows.length ? 'flex' : 'none',
+      logNote: logRows.length ? logRows.length + ' عملية مسجّلة' : 'فارغ'
+    };
+  }
+}
+</script>
+</body>
+</html>

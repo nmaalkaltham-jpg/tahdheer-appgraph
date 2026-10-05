@@ -1,0 +1,385 @@
+/*
+ * مركز المساعدة — لغة تصميم المتجر (Storefront Home/Product.dc.html):
+ * رأس بسيط، شريط أسئلة بتخطيط «قبل الشراء»، وشريط دعوة متدرّج.
+ * Tokens only, logical properties only.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+/* رأس الصفحة: عنوان ووصف بلا شريطٍ داكن. */
+.head {
+  padding-block: 20px 8px;
+}
+
+.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+/* شريط الدعوة الختامي — «ابدأ فصلك وأنت مطمئن» في Storefront Home.dc.html. */
+.cta {
+  margin-block-start: 64px; /* فاصل قسم (عقد الإيقاع: ‎64‎ مكتب / ‎32‎ جوّال) */
+  padding: 32px;
+  border-radius: var(--r-xl);
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+}
+
+.ctaCopy {
+  max-inline-size: 52ch;
+}
+
+.ctaTitle {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: inherit;
+}
+
+.ctaLede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--hm-white-85);
+}
+
+.ctaBtns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary,
+.ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  padding: 0 24px;
+  border-radius: var(--r-md);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.ctaPrimary:active,
+.ctaGhost:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaPrimary,
+  .ctaGhost {
+    transition: none;
+  }
+
+  .ctaPrimary:active,
+  .ctaGhost:active {
+    transform: none;
+  }
+}
+
+.ctaPrimary {
+  background: var(--bg);
+  color: var(--color-secondary-text);
+}
+
+.ctaPrimary:hover {
+  background: var(--sf-cool);
+}
+
+.ctaGhost {
+  border: 1.5px solid var(--hm-white-45);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+.ctaGhost:hover {
+  background: var(--ct-white-12);
+}
+
+.cta :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+/* ── أقسام المساعدة — حالة فارغة صادقة على سطحٍ بارد ─────────────── */
+/* ── روابط سريعة — بطاقات تفاعليّة ترتفع ظلًّا (e-2) ولا تتحرّك ─────── */
+.quick {
+  padding-block: 24px 0;
+}
+
+.quickList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quickLink {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  display: grid;
+  gap: 4px;
+  min-block-size: 44px;
+  padding: 16px;
+  color: var(--sf-ink);
+  text-decoration: none;
+}
+
+.quickTitle {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.quickHint {
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.empty {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 24px;
+  background: var(--sf-cool);
+  text-align: center;
+}
+
+.emptyTitle {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.emptyHint {
+  margin: 0 auto;
+  max-inline-size: 60ch;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-muted);
+}
+
+/* ── شريط الأسئلة — «قبل الشراء» في Storefront Product.dc.html حرفيًّا ── */
+.faqBand {
+  margin-block-start: 32px;
+  background: var(--sf-cool);
+  border-block: 1px solid var(--sf-line);
+}
+
+.faqBandInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 48px var(--sf-gutter);
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.faqTitle {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.faqCount {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sf-muted);
+  white-space: nowrap;
+}
+
+.faqNote {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-muted);
+}
+
+.faqNote a {
+  color: var(--teal-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.faqNote a:hover {
+  text-decoration: underline;
+}
+
+.faqMain {
+  min-inline-size: 0;
+}
+
+/* عمود العنوان يلازم الشاشة ما طالت الأسئلة — لا عمودٌ فارغ بجوار القائمة. */
+@media (min-width: 1024px) {
+  .faqBandInner > :first-child {
+    position: sticky;
+    inset-block-start: 24px;
+  }
+}
+
+/* الحالة الفارغة داخل الشريط: سطح أبيض لا بارد فوق بارد. */
+.faqMain .empty {
+  background: var(--bg);
+}
+
+/* ── الجوّال — في آخر الورقة كي تعلو قواعدُه على ما قبلها ───────────── */
+@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  .h2 {
+    font-size: 22px;
+  }
+
+  .cta {
+    margin-block-start: 32px;
+    padding: 24px 20px;
+    border-radius: var(--r-lg);
+  }
+
+  .ctaTitle {
+    font-size: 22px;
+  }
+
+  .ctaBtns,
+  .ctaPrimary,
+  .ctaGhost {
+    inline-size: 100%;
+  }
+
+  .faqBand {
+    margin-block-start: 32px;
+  }
+
+  .faqBandInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 32px 14px;
+  }
+
+  .faqTitle {
+    font-size: 24px;
+  }
+}

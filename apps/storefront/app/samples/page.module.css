@@ -1,0 +1,253 @@
+/*
+ * صفحة العيّنات — بلغة القالب: أساسٌ ‎15px/1.6/400‎ على أبيض، عناوين ‎800‎،
+ * قائمةُ ملفّاتٍ ببطاقاتٍ ‎1px --sf-line‎، وأزرارٌ تركوازيّة/شبحيّة.
+ */
+.page {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px 16px 64px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: 15px;
+  color: var(--sf-body);
+  text-wrap: pretty;
+}
+
+/*
+ * المجموعات شبكة: عمودٌ على الجوّال، ومن ‎1024‎ أعمدةٌ بعرض ‎≥360‎ (ثلاثة عند ‎1440‎)
+ * فلا تبقى بطاقةٌ وحيدة في صفٍّ عرضه ‎1360‎. ذاتُ العيّنات الكثيرة تمتدّ على الصفّ.
+ */
+.groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px 24px;
+  align-items: start;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-inline-size: 0;
+  container-type: inline-size;
+}
+
+.group[data-many] {
+  grid-column: 1 / -1;
+}
+
+.groupBody,
+.groupFiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-inline-size: 0;
+}
+
+/*
+ * مجموعةٌ بعيّنةٍ واحدة في حاويةٍ عريضة (‎768–1023‎): البطاقة وقائمة التحميل
+ * جنبًا إلى جنب بدل أن تتكدّسا تحت بطاقةٍ في صفٍّ فارغ.
+ */
+@container (min-width: 600px) {
+  .group:not([data-many]) .groupBody {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .group:not([data-many]) .groupBody > ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .groups {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  }
+}
+
+/* العنوان الفرعيّ لقائمة التحميل المباشر تحت شبكة البطاقات. */
+.filesTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.groupTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.groupCount {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 8px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * صفّ التحميل: بطاقةٌ تفاعليّة (‎--e-2‎ عند التحويم، بلا إزاحة) — أيقونة تنزيل
+ * في بلاطة، واسم العيّنة، وشارة الصيغة في النهاية. الصفّ كلّه هدف اللمس.
+ */
+.file {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-block-size: 56px;
+  padding-inline: 12px 16px;
+  padding-block: 8px;
+  border-radius: var(--r-md);
+}
+
+.fileIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--r-sm);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+.fileIcon > svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.fileLink {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--sf-ink);
+  text-decoration: none;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+/* الصفّ كلّه هدفُ اللمس (‎≥44px‎): الرابط ممدود فوق البطاقة، والشارة غير تفاعليّة. */
+.fileLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+@media (hover: hover) {
+  .file:hover .fileLink {
+    color: var(--teal-text);
+  }
+}
+
+.fileFormat {
+  flex: 0 0 auto;
+  padding-inline: 8px;
+  padding-block: 2px;
+  border-radius: var(--r-xs);
+  background: var(--sf-chip);
+  color: var(--sf-ink-2);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-inline: 24px;
+  padding-block: 40px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.emptyBody {
+  margin: 0;
+  max-inline-size: 56ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 8px;
+}
+
+.emptyPrimary {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.emptySecondary {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sf-gutter);
+    padding-block: 32px 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fileLink {
+    transition: none;
+  }
+}

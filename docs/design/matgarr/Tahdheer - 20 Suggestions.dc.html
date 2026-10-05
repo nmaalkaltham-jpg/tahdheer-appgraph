@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — ٢٠ اقتراحًا لتطوير القالب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes sFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1220px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — ‎٢٠ اقتراحًا مرتّبة بالرافعة</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">‎٦ جديدة · ‎٣ تنتظر جوابك · ‎١١ مُرحَّلة</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.go }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ f.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1220px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:14px 18px">
+<b style="font-size:12.5px;color:#8a6500">تصحيح لاقتراح سابق مني</b>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#5f4f2f">في خريطة التطوير اقترحت «ربط المكوّنات بنظام التصميم لأن الأنماط اليدوية تتراكم». الفحص أظهر أن أنماط القالب تستخدم الرموز فعلًا وبشكل منهجي — <code dir="ltr">var(--tg-*)</code> و<code dir="ltr">var(--green-700)</code> و<code dir="ltr">var(--radius-pill)</code> عبر ملفات CSS كلها، مع خصائص منطقية و<code dir="ltr">prefers-reduced-motion</code> في ثمانية ملفات. الـ‎١١ ألف نمط مضمَّن موجودة في <span style="white-space:nowrap">ملفات النماذج</span> لا في القالب. الاقتراح يُسحب، ويبقى منه بند واحد فقط: منع تسرّب أنماط النماذج إلى الإنتاج عند نقل أي تصميم.</p>
+</section>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="6">
+<sc-if value="{{ g.show }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:9px;animation:sFade .25s ease">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px">
+<h2 style="margin:0;font:900 16px Tajawal;color:{{ g.c }}">{{ g.t }}</h2>
+<span style="flex:1;height:1px;background:#dce2dd;min-width:20px"></span>
+<span style="font-size:10.5px;color:#8b978f">{{ g.sub }}</span>
+</div>
+<sc-for list="{{ g.items }}" as="p" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ g.c }};border-radius:13px;background:#fff;padding:13px 16px">
+<div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap">
+<span style="flex:0 0 27px;height:27px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:11.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<div style="flex:1;min-width:230px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:13px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ p.tBg }};color:{{ p.tC }};font-size:8.5px;font-weight:900;white-space:nowrap">{{ p.tag }}</span>
+</div>
+<p style="margin:5px 0 0;font-size:11.5px;line-height:1.9;color:#3d4f45">{{ p.b }}</p>
+<code dir="auto" style="display:block;margin-top:5px;font-size:9.5px;line-height:1.7;color:#a9b4ad;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+</sc-for>
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #146c4c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px">لو نفّذت خمسة فقط</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">‎١ و‎٢ (الاختبارات والبوابات) لأنهما يحوّلان كل ما بعدهما إلى عمل قابل للإثبات · ‎٥ (جرد استدعاءات الإجراءات) لأنه يفتح الدمج بأمان · ‎١٨ (كلب حراسة المهام) لأنه أرخص مكسب موثوقية في القالب · و‎١٤ (السلة المختلطة) لأنه البند الوحيد في القائمة الذي يظهر أثره في نسبة إتمام الشراء.</p>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:900}}">
+const NEW = { tag: 'جديد', tBg: '#fdf3e0', tC: '#8a5a00' };
+const OLD = { tag: 'مُرحَّل', tBg: '#e8f2fc', tC: '#1d5f9c' };
+const WAIT = { tag: 'ينتظر جوابك', tBg: '#fff4d6', tC: '#8a6500' };
+
+const GROUPS = [
+  { id: 'base', t: 'أ · الأرضية', c: '#b42318', sub: 'لا يُرى منها شيء في الواجهة — وكلها تُضاعف سرعة ما بعدها', items: [
+    { i: '١', ...OLD, n: 'تسعة اختبارات انحدار تحمي ما أُصلح فعلًا', b: 'ثمانية عيوب أُصلحت في القالب وصفر بوابة تمنع رجوعها. أخطرها بندان: عودة innerHTML إلى عرض نتائج البحث، وعودة الكبت الشامل لمخرجات مزوّد SEO. المواصفات التسع جاهزة في وثيقة الدفعة ٢.', src: 'لا مجلد tests/ في الجذر — مع وجود docs/testing.md' },
+    { i: '٢', ...OLD, n: 'تفعيل بوابات الجودة بـ baseline محايد', b: 'npm install ثم تثبيت الحالة الراهنة كخط أساس، ثم قاعدة «لا تسوء» على الملفات المعدَّلة فقط. وممنوع phpcbf شامل: إعادة تنسيق ‎٧٧ ملفًا تطمس تغييراتك وتجعل المراجعة مستحيلة.', src: 'PHPCS: 5,864 خطأ · PHPStan لم يُشغَّل · لا node_modules/.bin' },
+    { i: '٣', ...OLD, n: 'توسيع server-timing ليُصدر الاستعلامات والذاكرة', b: 'الوحدة موجودة عندك. بلا رقم قبل، كل بند أداء في القائمة يبقى رأيًا، وكل «تحسين» غير قابل للتحقق — وهو ما يمنعه تعريف مشروعك نصًّا.', src: 'inc/server-timing.php · خط الأساس §9 يعلن أنهما لم يُقاسا' },
+    { i: '٤', ...OLD, n: 'وسم كل بند في خط الأساس بحالته وتاريخه', b: 'الوثيقة قديمة بنسبة ‎٨ من ‎١٣ على البنود المفحوصة، وهي مع ذلك المرجع الذي تُبنى عليه القرارات. أرخص خطوة في القائمة كلها، وتمنع كل جهد قادم من إصلاح ما لا يحتاج إصلاحًا.', src: 'docs/audit-phase-0-baseline.md — 2026-08-17' },
+    { i: '٥', ...NEW, n: 'جرد استدعاءات الـ‎٤٥ إجراء AJAX قبل أي دمج', b: 'سكربت واحد يمسح assets/js وقوالب الإدارة عن كل اسم إجراء، ويُخرج قائمة بما لا يُستدعى من أي مكان. هذا يفتح دمج الـ‎١١ مركز إدارة بأمان: تُدمج الواجهة ويُحفظ كل إجراء مُستدعى، ويُحذف المهجور بالدليل لا بالحدس.', src: '‎٤٥ إجراء AJAX · ‎٩ مسارات REST · خط الأساس §4' },
+  ] },
+
+  { id: 'sec', t: 'ب · الأمان والصلابة', c: '#8e2223', sub: 'الفحص العميق لم يجد ثغرة — هذه بنود تصليب لا إصلاح', items: [
+    { i: '٦', ...NEW, n: 'ترويسات الأمان ثلاث فقط — والباقي غائب', b: 'الملف يضع nosniff وReferrer-Policy وX-Frame-Options ويزيل مولّد ووردبريس. الناقص: Permissions-Policy لتقييد الكاميرا والموقع والمستشعرات، وContent-Security-Policy بوضع report-only أولًا لجمع الخروقات بلا كسر شيء، وCross-Origin-Opener-Policy. الترتيب: report-only لأسبوع، ثم قراءة التقارير، ثم الإنفاذ.', src: 'inc/security.php:17-26 — ثلاث ترويسات' },
+    { i: '٧', ...NEW, n: 'ثلاثة مواضع echo بلا هروب — واثنان بلا تبرير', b: 'في القوالب ثلاثة استثناءات من قاعدة الهروب: واحد مبرَّر بتعليق صريح لأنه ناتج wp_get_attachment_image، واثنان بـ phpcs:ignore عاري بلا سبب مكتوب. هذان يُراجعان: إمّا يُهرَّبان، أو يُوثَّق مصدرهما بتعليق يمنع تغييره لاحقًا.', src: 'template-parts/education/subject-card.php:18 · components/button.php:20' },
+    { i: '٨', ...OLD, n: 'HttpOnly على كوكي اللغة', b: 'الإصلاح الحتمي الوحيد المتبقّي من كل الجلسات: سطر واحد، ودليل السلامة مُثبَت — صفر document.cookie في كل assets/ والقراءة كلها من PHP.', src: 'inc/language.php:207' },
+    { i: '٩', ...WAIT, n: 'قائمة بيضاء لوسطاء موثوقين في حدّ المعدّل', b: 'الدالة تقرأ REMOTE_ADDR وحده — صحيح أمنيًا لكنه خلف Cloudflare أو موازن حِمل يجعل كل الزوّار يتقاسمون عدّادًا واحدًا: ‎١٢ محاولة دخول كل ‎١٥ دقيقة للموقع بأكمله. الرقعة جاهزة وبقائمة فارغة افتراضيًا فلا تغيّر شيئًا حتى تُعبّئها.', src: 'inc/login/otp.php:207 · login/ajax.php:183' },
+  ] },
+
+  { id: 'perf', t: 'ج · الأداء والبيانات', c: '#d99a00', sub: 'كل بند هنا يحتاج رقمًا قبله — لا استثناء', items: [
+    { i: '١٠', ...OLD, n: 'إخراج كتابة القياس من طلب الزائر', b: 'المتتبّع يكتب صفًّا على خطّاف wp بأولوية ‎٩٩، والخريطة الحرارية تكتب transient لكل نبضة. والقالب يفعل الصحيح جزئيًا عبر flush_deferred_writes — فالعمل توسيع نمط قائم لا اختراعه.', src: 'class-seo-analytics-tracker.php:54 · attention-heatmap.php:112' },
+    { i: '١١', ...NEW, n: 'حدود المعدّل تسكن كاش الكائنات لا wp_options', b: 'كل زيادة عدّاد دخول أو OTP تمرّ بـ set_transient: كتابة صف لكل محاولة بلا object cache دائم. وعلى بنية متعدّدة الخوادم بلا كاش مشترك لا تتشارك الخوادم العدّاد أصلًا، فيتضاعف الحدّ الفعلي بعددها.', src: 'inc/login/otp.php:221 — tahdheer_rate_bump()' },
+    { i: '١٢', ...NEW, n: 'نقل ‎٢٤ خيار سجل من wp_options إلى جدول', b: 'خيارات بنمط tahdheer_wf_log_*_scan تخزّن سجلات فحوصات كاملة، ‎٣–٧ ك.ب لكل واحد و~‎١١٨ ك.ب مجتمعة. غير autoloaded فلا أثر على كل طلب، لكنها بيانات سجلّية في جدول إعدادات — وعندك سبعة جداول مخصّصة أصلًا فالنمط قائم.', src: 'خط الأساس §3 · ‎٧٩ خيار tahdheer_*' },
+    { i: '١٣', ...WAIT, n: 'قياس CLS ميداني قبل الحكم على async', b: 'قائمة الأنماط غير المتزامنة تشمل theme وcomponents وresponsive، لكن critical.css مضمَّن في wp_head بأولوية ‎٢ — أي أن النمط مقصود لا سهو. الخطر أن responsive.css غير المتزامن يُنتج إزاحة على شبكة بطيئة، وهذا لا يُثبَت إلا بقياس.', src: 'inc/enqueue.php:202 · enqueue.php:182' },
+  ] },
+
+  { id: 'store', t: 'د · التجارة والعميل', c: '#146c4c', sub: 'البنود التي يراها العميل فعلًا', items: [
+    { i: '١٤', ...OLD, n: 'منطق صريح للسلة المختلطة', b: 'الفجوة الوظيفية الحقيقية الوحيدة التي وجدتها. الملف يرخّي الحقول للسلة الافتراضية بالكامل فقط، والسلة التي تجمع رقميًا وماديًا تعود لسلوك الحقول الكامل: عنوان للمادي فقط، واستحقاق تنزيل للرقمي، وشرح للعميل لماذا يُطلب العنوان.', src: 'inc/checkout-virtual.php:48,71,166' },
+    { i: '١٥', ...OLD, n: 'مركز تفضيلات خصوصية ورابط دائم في التذييل', b: 'محرك الموافقة سليم ولا واجهة تسمح للعميل بمراجعة قراره أو سحبه. اليوم لا سبيل لتغيير الاختيار إلا حذف كوكيز المتصفح يدويًا — وهو تحديدًا ما يجب ألا يحدث.', src: 'inc/privacy-consent.php — وثيقة الخصوصية P0' },
+    { i: '١٦', ...WAIT, n: 'حسم من يكتب كوكي الموافقة — فحص حي واحد', b: 'القالب يقرأ tahdheer_consent ولا يكتبه، وإضافة WP Consent API غير مثبّتة. إن لم تكتبه المنصّة المثبّتة فالحالة عالقة على unknown دائمًا: لافتة تُطمئن الزائر والبوابة لا تسمعها. يُحسم بفتح المتصفح لا بقراءة شيفرة.', src: 'privacy-consent.php:24 — قراءة فقط' },
+    { i: '١٧', ...NEW, n: 'جرد حالات الفراغ والخطأ ثم معالجتها كنظام', b: 'سلة فارغة، صفر نتائج، لا طلبات، لا تنزيلات، دفع مرفوض أو معلّق، كوبون منتهٍ، تنزيل غير مصرّح. لم أفحص وضعها الحالي، فالاقتراح جرد أولًا: أي منها له معالجة اليوم وأيها يترك العميل في طريق مسدود.', src: 'لم يُفحص — template-parts/ وقوالب ووكومرس' },
+  ] },
+
+  { id: 'auto', t: 'هـ · الاستقلالية الذاتية', c: '#1d5f9c', sub: 'أرخص أربعة مكاسب من وثيقة الاستقلالية', items: [
+    { i: '١٨', ...OLD, n: 'كلب حراسة للمهام المجدولة', b: 'تسع مهام cron مؤكَّدة حيّة، وفشل أيّها صامت تمامًا. لكل مهمة توقيع: آخر تشغيل ناجح ومدّته ونطاقه المتوقّع؛ تفويت نافذة يعني إعادة جدولة ومحاولة واحدة، وتنبيهًا عند فشل محاولتين. بلا cron موثوق كل حلقة ذاتية أخرى وهم.', src: 'خط الأساس §4 — جدول المهام' },
+    { i: '١٩', ...OLD, n: 'صيانة فهرس ذاتية ومعجم مجال من الكتالوج', b: 'فحص ليلي يقارن عدد صفوف الفهرس بالمنشور ويرصد الصفوف اليتيمة والقديمة، ويُصلح الفارق بتحديث تفاضلي لا إعادة بناء. ومعجم المرحلة والصف والمادة يُستخرج من منتجاتك تلقائيًا — بلا كتابة مرادف واحد بيدك.', src: 'Tahdheer_Search_Index::generation() · education_meta_keys()' },
+    { i: '٢٠', ...OLD, n: 'استثمار إشارات البحث المسجَّلة في التعافي من صفر النتائج', b: 'نقطة الإشارات موجودة والجدول قائم، ولا أحد يقرأهما. مهمة ليلية تُعدّن الاستعلامات صفرية النتائج، تطبّعها بمطبّعك نفسه، وتقيس قربها من مفردات الفهرس — فوق العتبة يُضاف المرادف، وتحتها يدخل طابورًا أسبوعيًا.', src: 'search/bootstrap.php:319 · wp_tahdheer_seo_searches' },
+  ] },
+];
+
+class Component extends DCLogic {
+  state = { f: 'all' };
+
+  renderVals() {
+    const cur = this.state.f;
+
+    const filters = [
+      ['all', 'الكل'], ['new', 'الجديد فقط'], ['wait', 'ينتظر جوابك'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ f: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const groups = GROUPS.map(g => {
+      const items = g.items.filter(p =>
+        cur === 'all' ? true : cur === 'new' ? p.tag === 'جديد' : p.tag === 'ينتظر جوابك'
+      );
+      return { ...g, items, show: items.length > 0 };
+    });
+
+    return { filters, groups };
+  }
+}
+</script>
+</body>
+</html>

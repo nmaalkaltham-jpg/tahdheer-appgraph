@@ -1,0 +1,261 @@
+/*
+ * تواصل معنا — لغة تصميم المتجر: قنوات كبطاقات الثقة في Storefront Home.dc.html
+ * (بيضاء، حدّ ‎--sf-line‎، نصف قطر 14، بلاطة 44px ملوّنة)، ونموذج بحقول لوحة
+ * الشراء مع سبب التعطيل نصًّا. Tokens only, logical properties only.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+/* رأس الصفحة: عنوان ووصف بلا شريطٍ داكن. */
+.head {
+  padding-block: 20px 8px;
+}
+
+.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  }
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 24px;
+  align-items: start;
+  margin-block-start: 24px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+
+.channels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.channel {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-block-size: 44px;
+  padding: 16px;
+  color: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+
+.channelIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--r-md);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.channel:nth-child(2) .channelIcon {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.channelIcon svg {
+  inline-size: 20px;
+  block-size: 20px;
+}
+
+.channelText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.channelName {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.channelHint {
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-muted);
+}
+
+/* ── حالة فارغة صادقة: لا قناة مضبوطة ─────────────────────────────── */
+.empty {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 32px 24px;
+  background: var(--sf-cool);
+  text-align: center;
+}
+
+.emptyTitle {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.emptyHint {
+  margin: 0 auto;
+  max-inline-size: 50ch;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+/* أساسيٌّ واحد في الصفحة («اطلب ملفًّا» في بطاقة المراسلة) — هذا محيطيّ. */
+.emptyAction {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  margin-block-start: 16px;
+}
+
+/* ── النموذج المعطَّل وسببه ──────────────────────────────────────── */
+.formCard {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 24px;
+}
+
+.formTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.formReason {
+  composes: notice noticeInfo from '@tahdheer/ui/controls.module.css';
+  display: block;
+  margin: 0 0 16px;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.formAction {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.formActionQuiet {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#dcdad5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+.tt{padding:36px 40px 30px;border-bottom:1px solid rgba(0,0,0,.08)}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttsub{margin:6px 0 20px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:84ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:44ch}
+.opt{flex:none;display:flex;flex-direction:column;gap:9px}
+.card{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t1">
+<div style="display:flex;align-items:baseline;gap:10px"><a class="ttid" href="#t1">1</a><span style="font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a">صفحة الدخول — مسارَان فقط: رقم الجوال، أو Google</span></div>
+<p class="ttsub">لا كلمة مرور ولا بريد إلكتروني، لأن نظام الدخول في القالب قائم على رمز يُرسَل للجوال (<code>inc/login/otp.php</code>). كل الأرقام والقيود هنا مقروءة من الملف لا مُقدَّرة: الرمز <b>ست خانات</b>، صالح <b>خمس دقائق</b> (<code dir="ltr">TTL 300</code>)، إعادة الإرسال بعد <b>60 ثانية</b> (<code dir="ltr">RESEND_COOLDOWN</code>)، و<b>خمس محاولات</b> (<code dir="ltr">MAX_ATTEMPTS</code>). زر Google مُعرَّف في <code>inc/login/providers.php</code> بلا عنوان OAuth، فيظهر موسومًا «يحتاج ربطًا» لا مفعّلًا.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">
+<sc-for list="{{ states }}" as="s" hint-placeholder-count="6">
+<div class="opt">
+<div class="olab"><a class="oid" href="#1a">{{ s.id }}</a><span>{{ s.note }}</span></div>
+<div class="card" style="width:{{ s.w }}"><dc-import name="Tahdheer - Login" mobile="{{ s.mobile }}" google-linked="{{ s.google }}" force-step="{{ s.step }}" motion="{{ false }}" hint-size="100%,600px"></dc-import></div>
+</div>
+</sc-for>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      states: [
+        { id: '1a', w: '460px', mobile: false, google: false, step: 'phone', note: 'سطح المكتب — إدخال الرقم. Google موسوم «يحتاج ربطًا» مع بيان ما يلزم.' },
+        { id: '1b', w: '460px', mobile: false, google: false, step: 'code', note: 'إدخال الرمز — ست خانات، عدّاد إعادة إرسال حقيقي ينزل من 60، وتغيير الرقم.' },
+        { id: '1c', w: '460px', mobile: false, google: false, step: 'done', note: 'نجاح — رسالة بـ role="status" وتحويل إلى الحساب.' },
+        { id: '1d', w: '460px', mobile: false, google: true, step: 'phone', note: 'الحالة بعد ربط Google فعليًا: الزر مفعّل، والوسم والملاحظة يختفيان تلقائيًا.' },
+        { id: '1e', w: '390px', mobile: true, google: false, step: 'phone', note: 'الجوال 390px — حقل بارتفاع 48px وزر 50px.' },
+        { id: '1f', w: '390px', mobile: true, google: false, step: 'code', note: 'الجوال — خانات 44×52px تتّسع دون تمرير أفقي.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div style="width:1280px;margin:0 auto;padding:20px;box-sizing:border-box">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px">
+<div style="flex:1;min-width:0">
+<div style="display:flex;align-items:baseline;gap:9px;margin-bottom:4px">
+<span style="font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px">PRODUCT STUDIO</span>
+<span style="font:700 12.5px/1.3 system-ui,sans-serif;color:#1a1a1a">إضافة منتج جديد — WooCommerce</span>
+</div>
+<p style="margin:0;font:400 11.5px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:80ch">الحقول التعليمية أدناه ليست مقترحة — كل حقل معلَّم <b>موجود</b> مأخوذ من <code style="font-size:11px">inc/product-education-meta.php</code> بمفتاحه الحقيقي.</p>
+</div>
+<div style="display:flex;gap:4px;padding:3px;border-radius:9px;background:#fff;border:1px solid #dcdcde">
+<sc-for list="{{ modeBtns }}" as="m" hint-placeholder-count="2">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.pressed }}" style="min-height:36px;padding:0 14px;border:0;border-radius:7px;background:{{ m.bg }};color:{{ m.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">{{ m.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,280px);gap:16px;align-items:start">
+
+<nav aria-label="أقسام المنتج" style="display:flex;flex-direction:column;gap:3px;padding:10px;border:1px solid #dcdcde;border-radius:12px;background:#fff;position:sticky;inset-block-start:16px">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="8">
+<button type="button" onClick="{{ s.onClick }}" aria-current="{{ s.current }}" style="display:flex;align-items:center;gap:9px;min-height:40px;padding:0 10px;border:0;border-inline-start:3px solid {{ s.edge }};border-radius:8px;background:{{ s.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:{{ s.dotBg }};color:{{ s.dotFg }};display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ s.n }}</span>
+<span dir="rtl" style="flex:1;min-width:0;font-family:Tajawal,sans-serif;font-size:12px;font-weight:{{ s.weight }};color:{{ s.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ s.label }}</span>
+<sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}">
+<svg aria-hidden="true" style="flex:0 0 auto;width:12px;height:12px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>
+</sc-if>
+</button>
+</sc-for>
+</nav>
+
+<main style="display:flex;flex-direction:column;gap:14px;min-width:0">
+
+<sc-if value="{{ is.master }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahMasterTree" help="{{ advanced }}" product-name="{{ f.title }}" hint-size="100%,240px"></dc-import>
+</sc-if>
+
+<sc-if value="{{ is.coverage }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahApplicability" help="{{ advanced }}" dc-props="{{ coverageFacts }}" hint-size="100%,520px"></dc-import>
+</sc-if>
+
+<section style="display:{{ show.basics }};padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 12px;font-size:14px;font-weight:900;color:#14261d">أساسيات المنتج</h2>
+<label style="display:block;margin-bottom:12px">
+<span style="display:block;font-size:11.5px;font-weight:800;color:#5f7167;margin-bottom:5px">اسم المنتج</span>
+<input type="text" dir="auto" value="{{ f.title }}" onChange="{{ onTitle }}" style="width:100%;box-sizing:border-box;min-height:46px;padding:0 13px;border:1px solid #dde3dc;border-radius:10px;background:#fff;font:800 15px Tajawal,sans-serif;color:#14261d;outline:none">
+</label>
+<label style="display:block">
+<span style="display:block;font-size:11.5px;font-weight:800;color:#5f7167;margin-bottom:5px">وصف قصير</span>
+<textarea dir="auto" rows="2" value="{{ f.excerpt }}" onChange="{{ onExcerpt }}" style="width:100%;box-sizing:border-box;padding:11px 13px;border:1px solid #dde3dc;border-radius:10px;background:#fff;font:600 13px/1.8 Tajawal,sans-serif;color:#14261d;outline:none;resize:vertical"></textarea>
+</label>
+</section>
+
+<section style="display:{{ show.edu }};padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:6px">
+<h2 style="margin:0;font-size:14px;font-weight:900;color:#14261d;flex:1;min-width:0">التصنيف التعليمي</h2>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(37,155,111,.1);font-size:10px;font-weight:900;color:#1e7355">{{ existingCount }} حقل موجود</span>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(216,181,106,.18);font-size:10px;font-weight:900;color:#7a5d20">{{ newCount }} يحتاج إضافة</span>
+</div>
+<p style="display:{{ show.help }};margin:0 0 13px;font-size:11px;line-height:1.7;color:#5f7167">هذا التصنيف هو ما يقود أهلية الأسواق في قسم الانتشار — لا يُملأ للأرشفة.</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">
+<sc-for list="{{ eduFields }}" as="e" hint-placeholder-count="9">
+<label style="display:block;padding:11px;border:1px solid {{ e.border }};border-radius:10px;background:{{ e.bg }}">
+<span style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:11px;font-weight:800;color:#14261d;text-align:start">{{ e.label }}</span>
+<span style="flex:0 0 auto;padding:1px 6px;border-radius:4px;background:{{ e.tagBg }};color:{{ e.tagFg }};font-size:8.5px;font-weight:900">{{ e.tag }}</span>
+</span>
+<sc-if value="{{ e.isSelect }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ e.options }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.onClick }}" aria-pressed="{{ o.pressed }}" style="min-height:32px;padding:0 10px;border:1px solid {{ o.border }};border-radius:7px;background:{{ o.bg }};color:{{ o.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ o.label }}</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ e.isInput }}" hint-placeholder-val="{{ true }}">
+<input type="text" dir="{{ e.dir }}" value="{{ e.value }}" onChange="{{ e.onChange }}" placeholder="{{ e.ph }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font:700 12px Tajawal,sans-serif;color:#14261d;outline:none">
+</sc-if>
+<code dir="ltr" style="display:block;margin-top:6px;font-size:9px;color:#5f7167;text-align:start;word-break:break-all">{{ e.key }}</code>
+</label>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ show.price }};padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 12px;font-size:14px;font-weight:900;color:#14261d">السعر والملفات</h2>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:12px">
+<sc-for list="{{ priceFields }}" as="p" hint-placeholder-count="3">
+<label style="display:block">
+<span style="display:block;font-size:11px;font-weight:800;color:#5f7167;margin-bottom:5px">{{ p.label }}</span>
+<div style="display:flex;align-items:center;gap:7px;min-height:40px;padding-inline:11px;border:1px solid #dde3dc;border-radius:9px;background:#fff">
+<input type="text" dir="ltr" value="{{ p.value }}" onChange="{{ p.onChange }}" style="flex:1;min-width:0;border:0;outline:none;background:none;font:800 13px ui-monospace,Menlo,monospace;color:#14261d;text-align:start">
+<span style="flex:0 0 auto;font-size:10.5px;font-weight:800;color:#5f7167">{{ p.unit }}</span>
+</div>
+</label>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px 13px;border:1px dashed {{ derived.border }};border-radius:10px;background:{{ derived.bg }}">
+<svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:{{ derived.fg }};fill:none;stroke:currentColor;stroke-width:2"><use href="#i-percent"></use></svg>
+<span dir="rtl" style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:{{ derived.fg }};text-align:start">{{ derived.text }}</span>
+<code dir="ltr" style="flex:0 0 auto;font-size:10px;color:#5f7167">{{ derived.math }}</code>
+</div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ files }}" as="fl" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid #eef1ec;border-radius:9px;background:#fbfcfa">
+<span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:rgba(37,155,111,.1);color:#1e7355;display:grid;place-items:center"><svg style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span>
+<div style="min-width:0">
+<bdi dir="ltr" style="display:block;font:700 10.5px ui-monospace,Menlo,monospace;color:#14261d">{{ fl.name }}</bdi>
+<span style="font-size:9.5px;color:#5f7167">{{ fl.size }}</span>
+</div>
+</div>
+</sc-for>
+<button type="button" style="display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;border:1px dashed #c9d4cd;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#5f7167;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-plus"></use></svg>أضف ملفًا</button>
+</div>
+</section>
+
+<sc-if value="{{ show.intlBlock }}" hint-placeholder-val="{{ false }}">
+<section style="padding:16px 18px;border:1px solid rgba(37,155,111,.28);border-radius:12px;background:rgba(37,155,111,.04)">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px">
+<h2 style="margin:0;font-size:14px;font-weight:900;color:#14261d;flex:1;min-width:0">الانتشار العربي والدولي</h2>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:#fff;border:1px solid rgba(37,155,111,.3);font-size:10px;font-weight:900;color:#1e7355">{{ intl.eligible }} لغة مؤهَّلة من 23</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:11px">
+<sc-for list="{{ intl.cards }}" as="c" hint-placeholder-count="4">
+<div style="padding:11px;border:1px solid {{ c.border }};border-radius:9px;background:#fff">
+<div style="font-size:17px;font-weight:900;color:{{ c.fg }};line-height:1.1">{{ c.n }}</div>
+<div dir="rtl" style="font-size:10px;font-weight:700;color:#5f7167;margin-top:3px;text-align:start">{{ c.label }}</div>
+</div>
+</sc-for>
+</div>
+<p dir="rtl" style="margin:0;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">الأهلية محسوبة من «{{ f.level }} · منهج {{ f.curriculum }}» أعلاه. النشر موقوف حتى تتوفّر بنية روابط اللغات — التفصيل في <b>Tahdheer - International SEO</b>.</p>
+</section>
+</sc-if>
+
+<section style="display:{{ show.media }};padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font-size:14px;font-weight:900;color:#14261d">الوسائط</h2>
+<p style="display:{{ show.help }};margin:0 0 12px;font-size:11px;line-height:1.7;color:#5f7167">النصّ البديل يوصف الصورة لا يحشوها بالكلمات — والحقل فارغ أصدق من وصف مخترع.</p>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px">
+<sc-for list="{{ mediaSlots }}" as="m" hint-placeholder-count="4">
+<div style="padding:11px;border:1px solid {{ m.border }};border-radius:10px;background:{{ m.bg }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<span aria-hidden="true" style="flex:0 0 auto;width:34px;height:34px;border-radius:8px;background:#f2f5f2;color:#5f7167;display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ m.icon }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b dir="rtl" style="display:block;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">{{ m.label }}</b><span dir="ltr" style="display:block;font:600 9px ui-monospace,Menlo,monospace;color:#5f7167;text-align:start">{{ m.dim }}</span></span>
+<span style="flex:0 0 auto;box-sizing:border-box;padding:2px 7px;border-radius:5px;background:{{ m.stateBg }};font-size:9px;font-weight:900;color:{{ m.stateFg }};white-space:nowrap">{{ m.state }}</span>
+<button type="button" onClick="{{ m.onUpload }}" style="flex:0 0 auto;box-sizing:border-box;min-height:32px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:9.5px;font-weight:800;color:#14261d;cursor:pointer;white-space:nowrap">{{ m.uploadLabel }}</button>
+</div>
+<input type="text" dir="auto" value="{{ m.alt }}" onChange="{{ m.onAlt }}" disabled="{{ m.altDisabled }}" placeholder="{{ m.ph }}" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font:600 11.5px Tajawal,sans-serif;color:#14261d;outline:none">
+<span dir="rtl" style="display:block;margin-top:5px;font-size:9.5px;line-height:1.6;color:{{ m.hintFg }};text-align:start">{{ m.hint }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ show.search }};padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:4px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:14px;font-weight:900;color:#14261d;text-align:start">البحث والوصف</h2>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:rgba(216,181,106,.18);font-size:10px;font-weight:900;color:#7a5d20;white-space:nowrap">يكتب في لوحة SEO القائمة</span>
+</div>
+<p style="display:{{ show.help }};margin:0 0 12px;font-size:11px;line-height:1.7;color:#5f7167">الاستوديو لا يطبع وسمًا — يكتب في <code dir="ltr" style="font-size:10px">product-seo-fields.php</code> التي تملك المخرَج.</p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ searchFields }}" as="sf" hint-placeholder-count="3">
+<label style="display:block">
+<span style="display:flex;align-items:baseline;gap:8px;margin-bottom:5px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:#5f7167;text-align:start">{{ sf.label }}</span>
+<span dir="ltr" style="flex:0 0 auto;font:700 9.5px ui-monospace,Menlo,monospace;color:{{ sf.countFg }}">{{ sf.count }}</span>
+</span>
+<input type="text" dir="auto" value="{{ sf.value }}" onChange="{{ sf.onChange }}" style="width:100%;box-sizing:border-box;min-height:42px;padding:0 12px;border:1px solid {{ sf.border }};border-radius:9px;background:#fff;font:700 12.5px Tajawal,sans-serif;color:#14261d;outline:none">
+<span dir="rtl" style="display:block;margin-top:5px;font-size:10px;line-height:1.6;color:{{ sf.hintFg }};text-align:start">{{ sf.hint }}</span>
+</label>
+</sc-for>
+</div>
+<div style="margin-top:13px;padding:12px 13px;border:1px solid #eef1ec;border-radius:10px;background:#fbfcfa">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:7px">معاينة نتيجة البحث</span>
+<div dir="rtl" style="text-align:start">
+<span dir="rtl" style="display:block;font-size:10.5px;color:#1e7355;margin-bottom:2px;text-align:start"><bdi dir="ltr">tahdheer.com</bdi> › الثانوية › الكيمياء</span>
+<span style="display:block;font-size:14px;font-weight:700;color:#1a0dab;line-height:1.4;margin-bottom:3px">{{ preview.title }}</span>
+<span style="display:block;font-size:11.5px;line-height:1.65;color:#3b4d43">{{ preview.desc }}</span>
+</div>
+</div>
+</section>
+
+<sc-if value="{{ is.intl }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahLocaleInherit" hint-size="100%,380px"></dc-import>
+</sc-if>
+
+<sc-if value="{{ is.ai }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahQwenPanel" online="{{ qwenOnline }}" hint-size="100%,300px"></dc-import>
+</sc-if>
+
+<section style="display:{{ show.publish }};padding:14px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:10px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13.5px;font-weight:900;color:#14261d;text-align:start">ملكية مخرجات البحث</h2>
+<button type="button" onClick="{{ onToggleQwen }}" style="display:inline-flex;align-items:center;min-height:32px;padding:0 11px;border:1px solid #dde3dc;border-radius:8px;background:#fbfcfa;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#5f7167;cursor:pointer">{{ qwenToggleLabel }}</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ ownership }}" as="o" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid #eef1ec;border-radius:9px;background:#fbfcfa">
+<span aria-hidden="true" style="flex:0 0 auto;width:18px;height:18px;border-radius:5px;background:{{ o.badgeBg }};color:{{ o.badgeFg }};display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ o.mark }}</span>
+<span dir="rtl" style="flex:0 0 108px;font-size:11px;font-weight:900;color:#14261d;text-align:start">{{ o.output }}</span>
+<code dir="{{ o.ownerDir }}" style="flex:0 0 176px;font:600 9.5px ui-monospace,Menlo,monospace;color:#3b4d43;text-align:start">{{ o.owner }}</code>
+<span dir="rtl" style="flex:1;min-width:0;font-size:10.5px;line-height:1.6;color:#3b4d43;text-align:start">{{ o.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</main>
+
+<div style="display:flex;flex-direction:column;gap:14px;position:sticky;inset-block-start:16px">
+
+<section style="padding:16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 11px;font-size:13px;font-weight:900;color:#14261d">جاهزية النشر</h2>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:11px">
+<div style="flex:1;min-width:0">
+<span style="display:block;height:8px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ ready.pct }}%;border-radius:999px;background:{{ ready.fg }};animation:{{ ready.anim }}"></span></span>
+</div>
+<bdi dir="ltr" style="flex:0 0 auto;font:900 13px ui-monospace,Menlo,monospace;color:{{ ready.textFg }}">{{ ready.pct }}%</bdi>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ gates }}" as="g" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:8px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:13px;height:13px;color:{{ g.fg }};fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="{{ g.icon }}"></use></svg>
+<span dir="rtl" style="flex:1;min-width:0;font-size:11px;font-weight:700;color:{{ g.textFg }};text-align:start">{{ g.label }}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" disabled="{{ publishDisabled }}" style="width:100%;margin-top:13px;min-height:46px;border:0;border-radius:10px;background:{{ publishBg }};color:{{ publishFg }};font:900 14px Tajawal,sans-serif;cursor:{{ publishCursor }}">{{ publishLabel }}</button>
+<button type="button" style="width:100%;margin-top:7px;min-height:40px;border:1px solid #dde3dc;border-radius:10px;background:#fff;color:#5f7167;font:800 12px Tajawal,sans-serif;cursor:pointer">حفظ كمسودّة</button>
+</section>
+
+<section style="padding:14px 16px;border:1px solid rgba(216,181,106,.42);border-radius:12px;background:rgba(216,181,106,.08)">
+<div style="font-size:12px;font-weight:900;color:#7a5d20;margin-bottom:7px">حقول تحتاج إضافة للقالب</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ missingFields }}" as="m" hint-placeholder-count="3">
+<div style="display:flex;align-items:baseline;gap:7px">
+<code dir="ltr" style="flex:1;min-width:0;font-size:9.5px;color:#7a5d20;text-align:start;word-break:break-all">{{ m.key }}</code>
+<span dir="rtl" style="flex:0 0 auto;font-size:9.5px;font-weight:800;color:#7a5d20">{{ m.label }}</span>
+</div>
+</sc-for>
+</div>
+<p dir="rtl" style="margin:8px 0 0;font-size:10px;line-height:1.65;color:#7a5d20;text-align:start">تُضاف في <code dir="ltr" style="font-size:9.5px">inc/product-education-meta.php</code> بنفس نمط <code dir="ltr" style="font-size:9.5px">_tahdheer_slides_count</code> مع تنقية المدخلات.</p>
+</section>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  /*
+   * Add New Product — Product Studio.
+   *
+   * The educational block is keyed to the meta names actually present in
+   * inc/product-education-meta.php (read verbatim earlier), each labelled
+   * «موجود». Three fields the wider brief assumes — worksheets, activities,
+   * semester — have no storage, so they are labelled «جديد» and listed in the
+   * sidebar as work to do, rather than drawn as if they already persist.
+   *
+   * The discount line is derived from the two price inputs, never typed, so the
+   * studio cannot display a percentage its own numbers contradict.
+   */
+  state = {
+    mode: 'advanced', step: 'edu',
+    title: 'عرض بوربوينت — الكيمياء العضوية',
+    excerpt: 'درس تعليمي متكامل وجاهز للشرح والتقديم، مبني على المنهج الحالي وقابل للتعديل بالكامل.',
+    level: 'الثانوية', curriculum: 'سعودي', editable: 'yes', format: 'PPTX', delivery: 'instant',
+    media: [
+      { label: 'الصورة الرئيسية', dim: '1200×900', icon: '#i-files', filled: true, alt: 'شريحة من عرض الكيمياء العضوية تُظهر أنواع التفاعلات', ph: 'صِف ما في الصورة', hint: 'وصف يقرأه من لا يرى الصورة — لا قائمة كلمات مفتاحية.' },
+      { label: 'صورة اجتماعية', dim: '1200×630', icon: '#i-files', filled: false, isSocial: true, alt: '', ph: 'صِف ما في الصورة', hint: 'بدونها تختار المنصّات صورة عشوائية من الصفحة.' },
+      { label: 'معاينة الشرائح', dim: '1200×900', icon: '#i-files', filled: true, alt: '', ph: 'صِف ما في الصورة', hint: 'مرفوعة بلا نصّ بديل — هذا ما يخفض حكم صور البحث.' },
+      { label: 'فيديو تعريفي', dim: '—', icon: '#i-play', filled: false, isVideo: true, alt: '', ph: 'ارفع فيديو أولًا', hint: 'لا تُخرَج بيانات VideoObject بلا فيديو حقيقي.' }
+    ],
+    slides: '22', pages: '22', subject: 'الكيمياء',
+    worksheets: '7', activities: '3', semester: 'الأول',
+    regular: '400', sale: '300'
+  };
+
+  set(p) { this.setState(p); }
+
+  renderVals() {
+    const st = this.state;
+    const advanced = st.mode === 'advanced';
+    const media = st.media || [];
+    const imageSlots = media.filter(m => !m.isVideo);
+    const socialSlot = media.find(m => m.isSocial);
+    const videoSlot = media.find(m => m.isVideo);
+    const fmt = n => Number(n).toLocaleString('en-US');
+
+    const stepDefs = [
+      ['master', 'المنتج الأصل', true],
+      ['basics', 'أساسيات المنتج', true],
+      ['edu', 'التصنيف التعليمي', true],
+      ['price', 'السعر', true],
+      ['files', 'الملفات', true],
+      ['media', 'الوسائط', false],
+      ['search', 'البحث والوصف', false],
+      ['intl', 'الانتشار الدولي', true],
+      ['coverage', 'تغطية التخصّصات', true],
+      ['ai', 'مساعد الكتابة', false],
+      ['publish', 'النشر', false]
+    ];
+    const steps = stepDefs.map((s, i) => {
+      const on = st.step === s[0];
+      return {
+        n: String(i + 1), label: s[1], done: s[2],
+        current: on ? 'step' : 'false',
+        bg: on ? 'rgba(37,155,111,.08)' : 'transparent',
+        edge: on ? '#1e7355' : 'transparent',
+        fg: on ? '#14261d' : '#3b4d43',
+        weight: on ? '900' : '700',
+        dotBg: s[2] ? 'rgba(37,155,111,.14)' : '#f2f5f2',
+        dotFg: s[2] ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ step: s[0] })
+      };
+    });
+
+    const EXIST = ['rgba(37,155,111,.12)', '#1e7355', 'موجود'];
+    const NEWF = ['rgba(216,181,106,.2)', '#7a5d20', 'جديد'];
+
+    const chips = (key, opts) => opts.map(o => ({
+      label: o[1],
+      pressed: st[key] === o[0] ? 'true' : 'false',
+      border: st[key] === o[0] ? '#1e7355' : '#dde3dc',
+      bg: st[key] === o[0] ? 'rgba(37,155,111,.08)' : '#fff',
+      fg: st[key] === o[0] ? '#1e7355' : '#5f7167',
+      onClick: () => this.set({ [key]: o[0] })
+    }));
+
+    const mk = (tag, label, key, kind, extra) => {
+      const t = tag === 'new' ? NEWF : EXIST;
+      return {
+        label, key, tag: t[2], tagBg: t[0], tagFg: t[1],
+        border: tag === 'new' ? 'rgba(216,181,106,.4)' : '#eef1ec',
+        bg: tag === 'new' ? 'rgba(216,181,106,.06)' : '#fbfcfa',
+        isSelect: kind === 'select', isInput: kind === 'input',
+        options: extra && extra.options ? extra.options : [],
+        value: extra && extra.value != null ? extra.value : '',
+        dir: extra && extra.dir ? extra.dir : 'auto',
+        ph: extra && extra.ph ? extra.ph : '',
+        onChange: extra && extra.onChange ? extra.onChange : (() => {})
+      };
+    };
+
+    const eduFields = [
+      mk('exist', 'المرحلة التعليمية', '_tahdheer_educational_level', 'select', { options: chips('level', [['الابتدائية', 'ابتدائي'], ['المتوسطة', 'متوسط'], ['الثانوية', 'ثانوي']]) }),
+      mk('exist', 'المادة', '_tahdheer_subject', 'input', { value: st.subject, dir: 'rtl', onChange: e => this.set({ subject: e.target.value }) }),
+      mk('exist', 'قابل للتعديل', '_tahdheer_editable', 'select', { options: chips('editable', [['yes', 'نعم'], ['partial', 'جزئيًا'], ['no', 'لا']]) }),
+      mk('exist', 'عدد الشرائح', '_tahdheer_slides_count', 'input', { value: st.slides, dir: 'ltr', ph: '22', onChange: e => this.set({ slides: e.target.value }) }),
+      mk('exist', 'عدد الصفحات', '_tahdheer_pages_count', 'input', { value: st.pages, dir: 'ltr', onChange: e => this.set({ pages: e.target.value }) }),
+      mk('exist', 'صيغة الملف', '_tahdheer_file_format', 'select', { options: chips('format', [['PPTX', 'PPTX'], ['PDF', 'PDF'], ['DOCX', 'Word']]) }),
+      mk('exist', 'طريقة التسليم', '_tahdheer_prd_delivery', 'select', { options: chips('delivery', [['instant', 'فوري'], ['manual', 'يدوي']]) }),
+      mk('new', 'أوراق العمل', '_tahdheer_worksheets_count', 'input', { value: st.worksheets, dir: 'ltr', onChange: e => this.set({ worksheets: e.target.value }) }),
+      mk('new', 'الفصل الدراسي', '_tahdheer_semester', 'select', { options: chips('semester', [['الأول', 'الأول'], ['الثاني', 'الثاني'], ['الثالث', 'الثالث']]) })
+    ];
+
+    const reg = Number(st.regular) || 0, sale = Number(st.sale) || 0;
+    const saving = Math.max(0, reg - sale);
+    const pct = reg > 0 ? Math.round((saving / reg) * 100) : 0;
+    const derived = saving > 0
+      ? { text: 'خصم ' + pct + '% — توفير ' + fmt(saving) + ' ر.س', math: '(' + fmt(reg) + ' − ' + fmt(sale) + ') ÷ ' + fmt(reg), border: 'rgba(37,155,111,.35)', bg: 'rgba(37,155,111,.06)', fg: '#1e7355' }
+      : { text: 'لا خصم — لن تظهر أي شارة', math: fmt(reg) + ' = ' + fmt(sale), border: '#dde3dc', bg: '#fbfcfa', fg: '#5f7167' };
+
+    // Eligibility mirrors the International SEO panel: curriculum drives it.
+    const eligible = st.curriculum === 'سعودي' ? 2 : 8;
+
+    const gateDefs = [
+      [!!st.title.trim(), 'اسم المنتج'],
+      [!!st.subject.trim() && !!st.slides, 'التصنيف التعليمي مكتمل'],
+      [sale > 0, 'السعر مضبوط'],
+      [true, 'ملف واحد على الأقل'],
+      [false, 'صورة المنتج']
+    ];
+    const gates = gateDefs.map(g => ({
+      label: g[1],
+      icon: g[0] ? '#i-check' : '#i-close',
+      fg: g[0] ? '#1e7355' : '#b42318',
+      textFg: g[0] ? '#3b4d43' : '#b42318'
+    }));
+    const passed = gateDefs.filter(g => g[0]).length;
+    const pct2 = Math.round((passed / gateDefs.length) * 100);
+    const canPublish = passed === gateDefs.length;
+
+    return {
+      advanced,
+      modeBtns: [['quick', 'وضع سريع'], ['advanced', 'وضع متقدّم']].map(m => ({
+        label: m[1],
+        pressed: st.mode === m[0] ? 'true' : 'false',
+        bg: st.mode === m[0] ? '#1e7355' : 'transparent',
+        fg: st.mode === m[0] ? '#fff' : '#5f7167',
+        onClick: () => this.setState({ mode: m[0] })
+      })),
+      steps,
+      /*
+       * The nav wrote st.step but nothing read it — every section rendered at once
+       * and three nav items had no section at all. Each section is now gated on
+       * the step, and the three orphan steps got real content (media, search,
+       * publish) rather than being quietly deleted from a required tab list.
+       */
+      /*
+       * The four analysis panels mount through sc-if, so an inactive step holds no
+       * DOM at all — display:none hid them but still rendered every module at first
+       * paint (§6 lazy tabs, §26 DOM budget).
+       */
+      is: {
+        master: st.step === 'master',
+        coverage: st.step === 'coverage',
+        intl: st.step === 'intl',
+        ai: st.step === 'ai'
+      },
+      show: {
+        master: st.step === 'master' ? 'block' : 'none',
+        coverage: st.step === 'coverage' ? 'block' : 'none',
+        basics: st.step === 'basics' ? 'block' : 'none',
+        edu: st.step === 'edu' ? 'block' : 'none',
+        price: (st.step === 'price' || st.step === 'files') ? 'block' : 'none',
+        media: st.step === 'media' ? 'block' : 'none',
+        search: st.step === 'search' ? 'block' : 'none',
+        intl: st.step === 'intl' ? 'block' : 'none',
+        /*
+         * ONE predicate per logical section. The summary and its own drill-down
+         * table were gated differently, so quick mode hid the entry point and kept
+         * the expansion. The locale engine (§15) and the writing assistant (§20)
+         * are core requirements, not advanced extras — so the mode no longer gates
+         * capability at all. It gates DENSITY: the explanatory copy, per §5's
+         * "same data model and validation" for both modes.
+         */
+        intlBlock: st.step === 'intl',
+        ai: st.step === 'ai' ? 'block' : 'none',
+        publish: st.step === 'publish' ? 'block' : 'none',
+        help: advanced ? 'block' : 'none'
+      },
+      /*
+       * The alt fields were `onAlt: () => {}` with values bound to literals — an
+       * inert control under copy promising it drove the verdicts. Slots now live in
+       * state: typing persists, the upload toggle is real, and the four media
+       * facts below are DERIVED from this same array.
+       */
+      mediaSlots: media.map((m, i) => ({
+        label: m.label, dim: m.dim, icon: m.icon, ph: m.ph, hint: m.hint,
+        alt: m.alt,
+        state: !m.filled ? (m.isVideo ? 'لا يوجد' : 'ناقصة') : (m.alt.trim() ? 'مكتملة' : 'بلا نصّ بديل'),
+        border: m.filled && m.alt.trim() ? '#eef1ec' : 'rgba(216,181,106,.4)',
+        bg: m.filled && m.alt.trim() ? '#fbfcfa' : 'rgba(216,181,106,.06)',
+        stateBg: m.filled && m.alt.trim() ? 'rgba(37,155,111,.12)' : 'rgba(216,181,106,.2)',
+        stateFg: m.filled && m.alt.trim() ? '#1e7355' : '#7a5d20',
+        hintFg: m.filled && m.alt.trim() ? '#5f7167' : '#7a5d20',
+        altDisabled: !m.filled,
+        uploadLabel: m.filled ? 'أزِل' : (m.isVideo ? 'أضِف فيديو' : 'ارفع'),
+        onUpload: () => this.setState(s => {
+          const next = s.media.map((x, j) => (j === i ? { ...x, filled: !x.filled, alt: x.filled ? '' : x.alt } : x));
+          return { media: next };
+        }),
+        onAlt: e => {
+          const v = e.target.value;
+          this.setState(s => ({ media: s.media.map((x, j) => (j === i ? { ...x, alt: v } : x)) }));
+        }
+      })),
+      searchFields: [
+        { label: 'عنوان البحث', value: 'عرض بوربوينت — الكيمياء العضوية للثانوية', len: 41, max: 60, hint: 'يظهر كاملًا في نتائج جوجل.' },
+        { label: 'وصف البحث', value: '22 شريحة قابلة للتعديل في الكيمياء العضوية، مع 7 أوراق عمل — تحميل فوري.', len: 71, max: 155, hint: 'الوصف لا يرفع الترتيب لكنه يرفع النقر.' },
+        { label: 'الرابط', value: 'organic-chemistry-presentation', len: 30, max: 75, hint: 'لا يُغيَّر بعد النشر إلا مع إعادة توجيه.' }
+      ].map(sf => {
+        const over = sf.len > sf.max;
+        return {
+          label: sf.label, value: sf.value, hint: sf.hint,
+          count: sf.len + '/' + sf.max,
+          countFg: over ? '#a33a2d' : '#5f7167',
+          border: over ? '#a33a2d' : '#dde3dc',
+          hintFg: over ? '#a33a2d' : '#5f7167',
+          onChange: () => {}
+        };
+      }),
+      preview: {
+        title: 'عرض بوربوينت — الكيمياء العضوية للثانوية',
+        desc: '22 شريحة قابلة للتعديل في الكيمياء العضوية، مع 7 أوراق عمل — تحميل فوري.'
+      },
+      qwenOnline: st.qwenOnline !== false,
+      qwenToggleLabel: st.qwenOnline !== false ? 'محاكاة انقطاع الخادم' : 'إعادة وصل الخادم',
+      onToggleQwen: () => this.setState(s => ({ qwenOnline: s.qwenOnline === false })),
+      /*
+       * The studio does NOT own these outputs. seo-ownership-manager.php already
+       * arbitrates between Rank Math / Yoast / AIOSEO, and
+       * product-education-schema.php already owns the Product entity — a fourth
+       * writer would emit duplicate tags. The studio reads, suggests, and feeds.
+       */
+      ownership: [
+        { mark: '→', output: 'العنوان والوصف', owner: 'product-seo-fields.php', note: 'لوحة قائمة على شاشة المنتج. الاستوديو يقترح ويكتب فيها، ولا يطبع وسمًا.', badgeBg: 'rgba(37,155,111,.12)', badgeFg: '#1e7355' },
+        { mark: '→', output: 'canonical و robots', owner: 'seo-ownership-manager.php', note: 'تحكيم قائم بين Rank Math و Yoast و AIOSEO. كاتب رابع يُنتج وسمين.', badgeBg: 'rgba(37,155,111,.12)', badgeFg: '#1e7355' },
+        { mark: '→', output: 'Product Schema', owner: 'product-education-schema.php', note: 'يملك الكيان ويرشّح مخرَج Rank Math. الاستوديو يغذّيه بالحقائق المقفلة.', badgeBg: 'rgba(37,155,111,.12)', badgeFg: '#1e7355' },
+        { mark: '✕', output: 'hreflang', owner: '— لا مالك', note: 'محجوب: لا إضافة ترجمة ولا روابط لغات. ملفّات اللغات تحليل لا نشر.', badgeBg: 'rgba(163,58,45,.12)', badgeFg: '#a33a2d' }
+      ].map(o => Object.assign({}, o, { ownerDir: /[\u0600-\u06FF]/.test(o.owner) ? 'rtl' : 'ltr' })),
+      /*
+       * Real product state feeds the applicability engine, so a verdict can never
+       * describe a product the studio is no longer editing.
+       */
+      coverageFacts: {
+        format: st.format, level: st.level, curriculum: st.curriculum, delivery: st.delivery,
+        isDigital: true, isApp: false, isNews: false,
+        hasVideo: videoSlot ? videoSlot.filled : false,
+        imagesTotal: imageSlots.filter(m => m.filled).length,
+        imagesMissingAlt: imageSlots.filter(m => m.filled && !m.alt.trim()).length,
+        hasSocialImage: socialSlot ? socialSlot.filled : false,
+        hasTranslationPlugin: false, hasMarketplaceFeed: false, hasPhysicalLocation: false,
+        hasFaq: true, localeCount: 1
+      },
+      f: { title: st.title, excerpt: st.excerpt, level: st.level, curriculum: st.curriculum },
+      onTitle: e => this.set({ title: e.target.value }),
+      onExcerpt: e => this.set({ excerpt: e.target.value }),
+      eduFields,
+      existingCount: 7, newCount: 3,
+      priceFields: [
+        { label: 'السعر الأصلي', value: st.regular, unit: 'ر.س', onChange: e => this.set({ regular: e.target.value }) },
+        { label: 'سعر العرض', value: st.sale, unit: 'ر.س', onChange: e => this.set({ sale: e.target.value }) },
+        { label: 'رمز المنتج (SKU)', value: 'CHEM-ORG-12', unit: '', onChange: () => {} }
+      ],
+      derived,
+      files: [
+        { name: 'organic-chem.pptx', size: '18.4 MB' },
+        { name: 'worksheets-u3.pdf', size: '2.1 MB' }
+      ],
+      intl: {
+        eligible: String(eligible),
+        cards: [
+          { n: '23', label: 'لغة مسجَّلة', border: '#eef1ec', fg: '#14261d' },
+          { n: String(eligible), label: 'مؤهَّلة', border: 'rgba(37,155,111,.3)', fg: '#1e7355' },
+          { n: '5', label: 'مُحتملة', border: 'rgba(216,181,106,.4)', fg: '#7a5d20' },
+          { n: '0', label: 'أخطاء', border: 'rgba(37,155,111,.3)', fg: '#1e7355' }
+        ]
+      },
+      /*
+       * Bar fill and numeral need different tokens: #c9b489 clears the 3:1
+       * non-text rule as a fill but is 2.02:1 as 13px text. One token for both
+       * is how a readable bar produced an unreadable number.
+       */
+      ready: {
+        pct: pct2,
+        fg: canPublish ? '#1e7355' : '#c9b489',
+        textFg: canPublish ? '#1e7355' : '#7a5d20',
+        anim: 'tahBarGrow .8s cubic-bezier(.22,1,.36,1) both'
+      },
+      gates,
+      publishDisabled: canPublish ? null : 'disabled',
+      publishBg: canPublish ? '#1e7355' : '#eef1ec',
+      publishFg: canPublish ? '#fff' : '#5f7167',
+      publishCursor: canPublish ? 'pointer' : 'not-allowed',
+      publishLabel: canPublish ? 'نشر المنتج' : 'أكمل الحقول المطلوبة',
+      missingFields: [
+        { key: '_tahdheer_worksheets_count', label: 'أوراق العمل' },
+        { key: '_tahdheer_activities_count', label: 'الأنشطة' },
+        { key: '_tahdheer_semester', label: 'الفصل الدراسي' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

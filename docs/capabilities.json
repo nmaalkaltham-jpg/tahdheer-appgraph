@@ -1,0 +1,665 @@
+{
+  "_": "سجلّ القدرات: كلّ عمليّة إدارةٍ في العقد، وكلّ شاشةٍ في اللوحة، مصنّفةٌ صراحةً. يفرضه تطابق السجلّ بالشاشات ويفشل عند الانحراف. التصنيفات: COMPLETE (نقاط نهاية + شاشة) · ADMIN_UI (شاشة بلا عمليّات مُعلنة) · API_ONLY (نقاط نهاية بلا شاشة، بقرار) · SYSTEM_ONLY (لا سطح مشغّل بالتصميم) · DEFERRED (غير مبنيّ — الشاشة إن وُجدت تحمل CapabilityGate فلا تُرسل طلبًا).",
+  "capabilities": [
+    {
+      "key": "ai.gateway",
+      "title": "بوّابة الذكاء المحلّيّة",
+      "classification": "COMPLETE",
+      "screens": [
+        "/system/ai"
+      ],
+      "operations": [
+        "adminAiStatus",
+        "adminAiProbe",
+        "adminAiPause",
+        "adminAiResume",
+        "adminAiClearCache",
+        "adminAiSuggestionIndex",
+        "adminAiSuggestionApprove",
+        "adminAiSuggestionReject",
+        "adminAiSuggestionEnrichProduct",
+        "adminAiRequests",
+        "adminAiShowRequest",
+        "adminAiStoreRequest",
+        "adminAiRetryRequest",
+        "adminAiCancelRequest"
+      ],
+      "note": "محرّك استدلالٍ محلّيّ (llama.cpp يخدم Qwen3.5-2B بتكميم Q4_K_M) خلف بوّابةٍ واحدة في Laravel. الخدمة بلا منفذٍ منشور: تُنادى من شبكة Docker وحدها، ولا نقطة تستدلّ مباشرةً — الاستدلال يمرّ بالبوّابة من داخل الميزات وطوابيرها، ولا زرّ في الشاشة ينادي النموذج. إثراء المنتجات يُنتج مرشَّحاتٍ بمصدرٍ خارج CANONICAL_SOURCES، ولا يُكتب في منتجٍ إلّا باعتماد مشرفٍ يملك products.update، ولا يطمس حقلًا ممتلئًا حتّى حينها. وإعانة البحث لا تُنادى إلّا بعد أن يعود البحث الحتميّ بصفر، فالمسار السعيد لا يدفع مليًّا واحدًا. ودفتر النداءات (‎/admin/ai/requests‎) كامل الدورة: يُحجز الصفّ عند الجدولة فيُرى ويُلغى قبل أن يبدأ، ويُعاد على الكيان نفسه — والمدخل لا يُخزَّن نصًّا فنداءٌ بلا كيانٍ يُعلَن غير قابلٍ للإعادة بسببه."
+    },
+    {
+      "key": "ai.usage",
+      "title": "محاسبة استهلاك الذكاء الاصطناعيّ",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/system/ai"
+      ],
+      "operations": [],
+      "note": "المحاسبة مبنيّة في ai_runs: المزوّد والنموذج ونسخة الموجّه والزمن ووحدات الدخل والخرج لكلّ نداء. والكلفة تبقى null معلَنة الغياب — نموذجٌ محلّيّ بلا سعرٍ مُعلَن للرمز، وصفرٌ يُقرأ «مجّانيّ ومقيس» وهو ادّعاءٌ لا سند له."
+    },
+    {
+      "key": "analytics.carts",
+      "title": "تحليلات السلال المتروكة",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/analytics"
+      ],
+      "operations": [],
+      "note": "تجميعٌ خادميّ مبنيّ وموصول: CartsInsight يقرأ السلال وأصنافها ويردّ المهجورة وقيمتها ومعدّل الهجر عبر GET /admin/insights/carts. وسلال الضيوف تُفصل عدّادًا قائمًا بذاته لأنّها غير قابلة للحكم — لا هويّة تربطها بطلب."
+    },
+    {
+      "key": "analytics.dashboard",
+      "title": "لوحة المؤشّرات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/analytics"
+      ],
+      "operations": [
+        "getApiV1AdminDashboard"
+      ]
+    },
+    {
+      "key": "analytics.funnel",
+      "title": "قمع الشراء",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/analytics"
+      ],
+      "operations": [],
+      "note": "القمع مبنيّ: مراحله السفلى تُقاس من صفوف المعاملات، والعليا تُعلَن غير مقيسة باسمها وسببها. ونسبة «من سلّةٍ إلى طلب» تبقى معلَنة الغياب: لا عمود يربط السلّة بالطلب، وقسمة المجموعتين أخرجت ١٨٦٪ — تحويلٌ فوق المئة مستحيل."
+    },
+    {
+      "key": "analytics.intelligence",
+      "title": "ذكاء أصول المنتجات",
+      "classification": "DEFERRED",
+      "screens": [
+        "/analytics/os/assets"
+      ],
+      "operations": []
+    },
+    {
+      "key": "analytics.os",
+      "title": "مركز العمليّات التحليليّة",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/analytics/os"
+      ],
+      "operations": []
+    },
+    {
+      "key": "audit",
+      "title": "سجلّ التدقيق",
+      "classification": "COMPLETE",
+      "screens": [
+        "/system"
+      ],
+      "operations": [
+        "adminAuditExport",
+        "adminAuditIndex"
+      ]
+    },
+    {
+      "key": "auth",
+      "title": "جلسة اللوحة",
+      "classification": "SYSTEM_ONLY",
+      "screens": [],
+      "operations": [
+        "adminAuthLogin",
+        "adminAuthLogout",
+        "adminAuthMe"
+      ]
+    },
+    {
+      "key": "catalog.products",
+      "title": "المنتجات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/studio/catalog"
+      ],
+      "operations": [
+        "adminProductBundleDestroy",
+        "adminProductBundleIndex",
+        "adminProductBundleStore",
+        "adminProductDriveHealth",
+        "adminProductDriveIndex",
+        "adminProductDriveReplace",
+        "adminProductDriveStore",
+        "adminProductFileDestroy",
+        "adminProductFileIndex",
+        "adminProductFileReorder",
+        "adminProductFileStore",
+        "adminProductFileUpdate",
+        "adminProductIndex",
+        "adminProductLayoutCoverage",
+        "adminProductLayoutPublish",
+        "adminProductLayoutShow",
+        "adminProductLayoutSuggest",
+        "adminProductLayoutUpdate",
+        "adminProductMediaDestroy",
+        "adminProductMediaIndex",
+        "adminProductMediaReorder",
+        "adminProductMediaStore",
+        "adminProductMediaUpdate",
+        "adminProductPublish",
+        "adminProductSeoShow",
+        "adminProductSeoUpdate",
+        "adminProductShow",
+        "adminProductStore",
+        "adminProductTranslationEligibility",
+        "adminProductTranslationIndex",
+        "adminProductTranslationPublish",
+        "adminProductTranslationUpdate",
+        "adminProductTypeIndex",
+        "adminProductUpdate",
+        "adminProductVariantDestroy",
+        "adminProductVariantIndex",
+        "adminProductVariantStore",
+        "adminProductVariantUpdate",
+        "adminProductWithdraw"
+      ]
+    },
+    {
+      "key": "catalog.quality",
+      "title": "جودة الكتالوج",
+      "classification": "COMPLETE",
+      "screens": [
+        "/studio/catalog"
+      ],
+      "operations": [
+        "adminCatalogQualityIndex"
+      ]
+    },
+    {
+      "key": "catalog.intelligence",
+      "title": "ذكاء المنتج",
+      "classification": "COMPLETE",
+      "screens": [
+        "/catalog/intelligence"
+      ],
+      "operations": [
+        "adminProductIntelligenceIndex",
+        "adminProductIntelligenceShow"
+      ]
+    },
+    {
+      "key": "content.home",
+      "title": "محتوى الصفحة الرئيسة",
+      "classification": "COMPLETE",
+      "screens": [
+        "/home-content"
+      ],
+      "operations": [
+        "adminHomeContentIndex",
+        "adminHomeContentUpdate"
+      ],
+      "note": "كتل `home.*` في `settings`: الهيرو والدعوة الختاميّة والبطاقات والأسئلة والقسيمة المُعلَنة. كانت تُقرأ ولا تُكتب — لا مسار إداريّ ولا شاشة — فكان محتوى الرئيسة يتغيّر بالبذّار لا بقرار المالك. وصلاحيّتها `content.manage` مستقلّةً عن `appearance.manage` عمدًا."
+    },
+    {
+      "key": "crawl",
+      "title": "زحف الموقع",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo"
+      ],
+      "operations": [
+        "adminCrawlPage",
+        "adminCrawlRun",
+        "adminCrawlShow"
+      ]
+    },
+    {
+      "key": "customers",
+      "title": "العملاء والاستحقاقات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/customers"
+      ],
+      "operations": [
+        "adminCustomerIndex",
+        "adminCustomerShow",
+        "adminEntitlementRevoke"
+      ]
+    },
+    {
+      "key": "dashboard",
+      "title": "لوحة التشغيل",
+      "classification": "COMPLETE",
+      "screens": [
+        "/dashboard"
+      ],
+      "operations": [
+        "getApiV1AdminDashboardSummary",
+        "getApiV1AdminOpsSummary",
+        "adminInsightsIndex",
+        "adminInsightsShow",
+        "adminAdminPreferencesShow",
+        "adminAdminPreferencesUpdate"
+      ],
+      "note": "الصفحة الأولى للمشغّل: مؤشّرات على مدًى مع مقارنةٍ بالمدى السابق، ولوحة «ما يحتاج انتباهي» من عدّاداتٍ مقيسة. ما لا مصدر له يُعلَن غير مُهيّأ ولا يُعرض صفرًا. وطبقة التجميع الموحّدة (‎/admin/insights/{domain}‎) تخدم ودجات اللوحة نطاقًا نطاقًا بتحميلٍ كسول: البحث والظهور ليسا نطاقين فيها لأنّ لهما تجميعًا خادميًّا قائمًا يُنادى كما هو."
+    },
+    {
+      "key": "demand",
+      "title": "الطلب غير الملبّى",
+      "classification": "COMPLETE",
+      "screens": [
+        "/analytics"
+      ],
+      "operations": [
+        "adminDemandIndex",
+        "adminDemandUpdate"
+      ]
+    },
+    {
+      "key": "design.theme",
+      "title": "وثيقة السمة",
+      "classification": "API_ONLY",
+      "screens": [],
+      "operations": [
+        "adminThemeDestroy",
+        "adminThemePreview",
+        "adminThemeRestore",
+        "adminThemeShow",
+        "adminThemeUpdate",
+        "adminThemeVersions"
+      ],
+      "note": "وثيقة السمة تخدم `theme.css` في المتجر. سطح تحريرها (استوديو التصميم) حُذف في ٢٠٢٦-٠٩-١٧؛ النقاط باقية لأنّ المتجر يقرأ المُصرَّف منها في كلّ صفحة."
+    },
+    {
+      "key": "diagnostics",
+      "title": "تشخيص اللوحة",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/system"
+      ],
+      "operations": []
+    },
+    {
+      "key": "growth",
+      "title": "لوحة النموّ",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/analytics/os/flows"
+      ],
+      "operations": []
+    },
+    {
+      "key": "integrations",
+      "title": "مفاتيح الربط",
+      "classification": "COMPLETE",
+      "screens": [
+        "/settings"
+      ],
+      "operations": [
+        "adminIntegrationIndex",
+        "adminIntegrationStore",
+        "adminIntegrationDestroy"
+      ],
+      "note": "اعتمادات المزوّدين: السرّ مُعمًّى في المحرّك ولا يُرَدّ عبر الشبكة بعد الحفظ، وغيرُ السرّ يُعرض كاملًا. للمالك وحده (integrations.manage). البادئة والبيئة تُفحصان قبل الكتابة."
+    },
+    {
+      "key": "media.library",
+      "title": "مكتبة الوسائط",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/media"
+      ],
+      "operations": [],
+      "note": "شاشةٌ تؤلّف بيانات قدراتٍ أخرى ولا تملك عمليّاتٍ خاصّة: تقرأ المنتجات (`useResource(PRODUCTS_PATH)`) وتشتقّ منها الأغلفة، وتُعلن بصدقٍ ما لا مصدر له (`media-state.tsx`: رفعٌ وحذفٌ وتحسينُ صور). كانت موصوفةً خطأً بقدرة «وسائط الاستوديو» التي تملك نقاطًا أخرى، وقد حُذفت مع استوديو التصميم في ٢٠٢٦-٠٩-١٧."
+    },
+    {
+      "key": "navigation",
+      "title": "قوائم المتجر",
+      "classification": "COMPLETE",
+      "screens": [
+        "/navigation"
+      ],
+      "operations": [
+        "adminNavigationIndex",
+        "adminNavigationLinkCheck",
+        "adminNavigationOperation",
+        "adminNavigationPages",
+        "adminNavigationPublish",
+        "adminNavigationRollback",
+        "adminNavigationShow",
+        "adminNavigationUpdate"
+      ]
+    },
+    {
+      "key": "operations.asset_sources",
+      "title": "مصادر الأصول",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/fulfillment"
+      ],
+      "operations": [
+        "adminOperationsActionVerifySource",
+        "adminOperationsAssetSources"
+      ]
+    },
+    {
+      "key": "operations.cases",
+      "title": "القضايا: احتيال وحوادث ودعم",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/cases",
+        "/operations/cases/[id]"
+      ],
+      "operations": [
+        "adminCaseAssign",
+        "adminCaseIndex",
+        "adminCaseNote",
+        "adminCaseRemediate",
+        "adminCaseShow",
+        "adminCaseTransition"
+      ]
+    },
+    {
+      "key": "operations.fulfillment",
+      "title": "التنفيذ",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/fulfillment"
+      ],
+      "operations": [
+        "adminOperationsActionRetryUnit",
+        "adminOperationsFulfillmentUnits"
+      ]
+    },
+    {
+      "key": "operations.inventory",
+      "title": "المخزون وحركاته",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/inventory"
+      ],
+      "operations": [
+        "adminOperationsActionStockMovement",
+        "adminOperationsInventory"
+      ]
+    },
+    {
+      "key": "operations.returns",
+      "title": "الإرجاعات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/fulfillment"
+      ],
+      "operations": [
+        "adminOperationsActionUpdateReturn",
+        "adminOperationsReturns"
+      ]
+    },
+    {
+      "key": "operations.risk",
+      "title": "مراجعة المخاطر",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/fulfillment"
+      ],
+      "operations": [
+        "adminOperationsActionReviewRisk",
+        "adminOperationsRiskClusters",
+        "adminOperationsRiskReviews"
+      ]
+    },
+    {
+      "key": "operations.shipments",
+      "title": "الشحنات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/operations/fulfillment"
+      ],
+      "operations": [
+        "adminOperationsActionUpdateShipment",
+        "adminOperationsShipments"
+      ]
+    },
+    {
+      "key": "orders",
+      "title": "الطلبات والملاحظات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/orders"
+      ],
+      "operations": [
+        "adminAdminNoteDestroy",
+        "adminAdminNoteIndex",
+        "adminAdminNoteStore",
+        "adminAdminNoteUpdate",
+        "adminOrderIndex",
+        "adminOrderRefund",
+        "adminOrderShow"
+      ]
+    },
+    {
+      "key": "payments.center",
+      "title": "مركز المدفوعات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/payments"
+      ],
+      "operations": [
+        "adminPaymentLedgerProvider",
+        "adminPaymentLedgerReconciliation",
+        "adminPaymentLedgerRefundCapture",
+        "adminPaymentLedgerRefunds",
+        "adminPaymentLedgerTransaction",
+        "adminPaymentLedgerTransactions"
+      ]
+    },
+    {
+      "key": "payments.webhooks",
+      "title": "أحداث الدفع الواردة",
+      "classification": "COMPLETE",
+      "screens": [
+        "/payments/webhooks"
+      ],
+      "operations": [
+        "adminPaymentOperationsReplayWebhook",
+        "adminPaymentOperationsWebhooks"
+      ]
+    },
+    {
+      "key": "performance",
+      "title": "قياسات الأداء",
+      "classification": "DEFERRED",
+      "screens": [
+        "/performance"
+      ],
+      "operations": []
+    },
+    {
+      "key": "promotions",
+      "title": "رموز الخصم",
+      "classification": "COMPLETE",
+      "screens": [
+        "/promotions"
+      ],
+      "operations": [
+        "adminCouponDestroy",
+        "adminCouponExpire",
+        "adminCouponIndex",
+        "adminCouponStore",
+        "adminCouponUpdate"
+      ]
+    },
+    {
+      "key": "redirects",
+      "title": "إدارة التحويلات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo"
+      ],
+      "operations": [
+        "adminRedirectAdminIndex",
+        "adminRedirectAdminStore",
+        "adminRedirectAdminUpdate",
+        "adminRedirectAdminDestroy"
+      ]
+    },
+    {
+      "key": "reviews",
+      "title": "المراجعات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/reviews"
+      ],
+      "operations": [
+        "adminReviewApprove",
+        "adminReviewIndex",
+        "adminReviewReject",
+        "adminReviewReply"
+      ]
+    },
+    {
+      "key": "search",
+      "title": "البحث والمرادفات",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo",
+        "/search/explain"
+      ],
+      "operations": [
+        "adminSearchIndexReindex",
+        "adminSearchIndexRollback",
+        "adminSearchIndexShow",
+        "adminSearchExplainShow",
+        "adminSearchQueries",
+        "adminSearchStoreSynonym",
+        "adminSearchSynonyms",
+        "adminSearchUpdateSynonym"
+      ]
+    },
+    {
+      "key": "seo.health",
+      "title": "صحّة SEO",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/seo"
+      ],
+      "operations": []
+    },
+    {
+      "key": "seo.international",
+      "title": "التدويل وhreflang",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo/international"
+      ],
+      "operations": [
+        "adminI18nHreflangAudit",
+        "adminI18nOverview",
+        "adminI18nUpdateLocale"
+      ]
+    },
+    {
+      "key": "seo.overview",
+      "title": "نظرة SEO",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/seo"
+      ],
+      "operations": []
+    },
+    {
+      "key": "seo.sitemap_audit",
+      "title": "تدقيق خريطة الموقع",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo-health/sitemap"
+      ],
+      "operations": [
+        "adminSitemapAuditShow"
+      ]
+    },
+    {
+      "key": "settings",
+      "title": "الإعدادات",
+      "classification": "ADMIN_UI",
+      "screens": [
+        "/settings"
+      ],
+      "operations": []
+    },
+    {
+      "key": "settings.email",
+      "title": "إعدادات البريد",
+      "classification": "DEFERRED",
+      "screens": [],
+      "operations": [],
+      "note": "البريد يُضبط ببيئة التشغيل وحدها (mail.*). لا جدول ولا نقطة نهاية ولا شاشة. بناؤه يعني تخزين اعتمادٍ في قاعدة البيانات — قرارٌ أمنيّ يسبق الشيفرة."
+    },
+    {
+      "key": "settings.storage",
+      "title": "إعدادات التخزين والمزوّدين",
+      "classification": "DEFERRED",
+      "screens": [],
+      "operations": [],
+      "note": "اعتمادات التخزين ومزوّدي المصادر تُضبط ببيئة التشغيل. إدارةُ **مصادر الأصول** نفسها مبنيّة تحت operations.asset_sources؛ الناقص هو ضبط الاعتماد لا المصدر."
+    },
+    {
+      "key": "shipping.rules",
+      "title": "مناطق الشحن وقواعده",
+      "classification": "COMPLETE",
+      "screens": [
+        "/shipping"
+      ],
+      "operations": [
+        "adminShippingIndex",
+        "adminShippingPreview",
+        "adminShippingStoreRate",
+        "adminShippingStoreZone",
+        "adminShippingUpdateRate",
+        "adminShippingUpdateZone"
+      ]
+    },
+    {
+      "key": "system.health",
+      "title": "صحّة النظام",
+      "classification": "COMPLETE",
+      "screens": [
+        "/system"
+      ],
+      "operations": [
+        "adminSystemHealth",
+        "adminSystemDeadEvents",
+        "adminSystemReplayOutboxEvent"
+      ]
+    },
+    {
+      "key": "url.platform",
+      "title": "منصّة العناوين",
+      "classification": "COMPLETE",
+      "screens": [
+        "/seo"
+      ],
+      "operations": [
+        "adminUrlPlatformAdminHealth",
+        "adminUrlPlatformAdminInspect",
+        "adminUrlPlatformAdminIndex",
+        "adminUrlPlatformAdminHistory",
+        "adminUrlPlatformAdminSuggest",
+        "adminUrlPlatformAdminChangeSlug",
+        "adminUrlPlatformAdminLock",
+        "adminUrlPlatformAdminUnlock",
+        "adminUrlPlatformAdminRollback",
+        "adminUrlPlatformAdminNotFound"
+      ],
+      "note": "سجلّ عناوين واحد يملك هويّة الرابط لكلّ كيانٍ ولغة: الحجز بلاحقةٍ حتميّة تحت قيد القاعدة الجزئيّ، ودورة حياةٍ بثماني حالات، وتاريخٌ لا يُحذف، وتحويل ٣٠١ يُكتب في معاملة التغيير نفسها مع حدث صادر يُبطل مخزن المتجر ويُصلح روابط القوائم الداخليّة. المفتّش يشرح حلّ أيّ مسار خطوةً خطوة، والصحّة عدّاداتٌ مقيسة — hreflang والصفحات اليتيمة تُعلَن غير مقيسة هنا. تقرير ٤٠٤ (‎/admin/seo/not-found‎) كانت شاشة الروابط المكسورة تناديه بلا مسارٍ يجيبها."
+    },
+    {
+      "key": "users",
+      "title": "مستخدمو اللوحة",
+      "classification": "COMPLETE",
+      "screens": [
+        "/settings"
+      ],
+      "operations": [
+        "adminAdminUserDestroy",
+        "adminAdminUserIndex",
+        "adminAdminUserResetPassword",
+        "adminAdminUserStore",
+        "adminAdminUserUpdate"
+      ]
+    }
+  ]
+}

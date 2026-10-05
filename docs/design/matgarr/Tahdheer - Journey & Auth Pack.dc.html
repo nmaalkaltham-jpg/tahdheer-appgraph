@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes jaFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">الرحلة والدخول — بلا كلمات مرور · موصّل الرحلة · دورة التقييم · نظام التصميم</b>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.auth }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:420px minmax(0,1fr);gap:14px;align-items:start;animation:jaFade .25s ease">
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:22px 24px">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px"><span aria-hidden="true" style="width:36px;height:36px;border-radius:11px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 15px Tajawal">ت</span><h1 style="margin:0;font-size:16px;font-weight:900">تسجيل الدخول</h1></div>
+<span style="font-size:10px;color:#8b978f">بلا كلمات مرور — مزودك الموثوق أو رابط بريدي سحري · التسجيل القديم أُزيل: أول دخول يُنشئ حسابك</span>
+
+<sc-if value="{{ au.stepPick }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:7px;margin-top:14px">
+<sc-for list="{{ au.provs }}" as="p" hint-placeholder-count="5">
+<button type="button" onClick="{{ p.onGo }}" disabled="{{ p.busy }}" style="display:flex;align-items:center;gap:11px;width:100%;min-height:46px;padding:0 14px;border:1.5px solid {{ p.bd }};border-radius:12px;background:{{ p.bg }};cursor:pointer;text-align:start">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:{{ p.gBg }};color:{{ p.gFg }};font:900 13px Tajawal">{{ p.g }}</span>
+<span style="flex:1;font-size:12.5px;font-weight:900;color:#14261d">{{ p.n }}</span>
+<span style="font-size:9.5px;color:#8b978f">{{ p.hint }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin:13px 0"><span aria-hidden="true" style="flex:1;height:1px;background:#e2e8e4"></span><span style="font-size:10px;font-weight:900;color:#8b978f">أو برابط سحري لبريدك</span><span aria-hidden="true" style="flex:1;height:1px;background:#e2e8e4"></span></div>
+<label style="display:block"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">البريد الإلكتروني</span>
+<input type="email" dir="ltr" value="{{ au.email }}" onChange="{{ au.onEmail }}" placeholder="you@example.com" autocomplete="email" style="width:100%;box-sizing:border-box;min-height:46px;padding:0 14px;border:1.5px solid {{ au.emBd }};border-radius:12px;font:800 13px Tajawal;outline:none;text-align:start"></label>
+<sc-if value="{{ au.emErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="display:block;margin-top:5px;font-size:10px;font-weight:800;color:#b32d2e">{{ au.emErr }}</span></sc-if>
+<button type="button" onClick="{{ au.onMagic }}" style="width:100%;min-height:46px;margin-top:9px;border:0;border-radius:12px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13px;font-weight:900;cursor:pointer">أرسل رابط الدخول ✉</button>
+<span style="display:block;margin-top:10px;font-size:9.5px;line-height:1.7;color:#8b978f">بالمتابعة توافق على <a href="#" style="color:#1e7355">الشروط</a> و<a href="#" style="color:#1e7355">الخصوصية</a> · <a href="#" style="color:#1e7355;font-weight:900">تعذّر الوصول لحسابك؟ الاسترداد هنا</a></span>
+</sc-if>
+
+<sc-if value="{{ au.stepSent }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:16px;padding:16px;border-radius:13px;background:#f2f8f5;text-align:center">
+<span aria-hidden="true" style="font-size:30px">✉</span>
+<b style="display:block;margin-top:6px;font-size:13.5px">أُرسل رابط الدخول إلى</b>
+<bdi dir="ltr" style="font-size:12px;font-weight:800;color:#146c4c">{{ au.email }}</bdi>
+<span style="display:block;margin-top:5px;font-size:10px;line-height:1.7;color:#5f7167">افتح بريدك وانقر الرابط — صالح ١٠ دقائق ولاستخدام واحد، ويعيدك لهذه الجلسة نفسها.</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:11px;flex-wrap:wrap">
+<button type="button" onClick="{{ au.onBack }}" style="min-height:32px;padding:0 12px;border:1px solid #d5dbd6;border-radius:9px;background:#fff;font-size:10.5px;font-weight:800;color:#3d4f45;cursor:pointer">تغيير البريد</button>
+<sc-if value="{{ au.waiting }}" hint-placeholder-val="{{ true }}"><span style="font-size:10.5px;color:#8b978f">إعادة الإرسال بعد <b style="color:#14261d">{{ au.left }}</b> ث</span></sc-if>
+<sc-if value="{{ au.canResend }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ au.onResend }}" style="min-height:32px;padding:0 13px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">أعد الإرسال</button></sc-if>
+<span style="margin-inline-start:auto;font-size:9px;color:#a9b4ad">{{ au.tries }}</span>
+</div>
+<button type="button" onClick="{{ au.onSim }}" style="width:100%;min-height:38px;margin-top:10px;border:1.5px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">（معاينة تصميمية）حاكِ نقر الرابط من البريد</button>
+</sc-if>
+
+<sc-if value="{{ au.stepDone }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:16px;padding:18px;border-radius:13px;background:#f2f8f5;text-align:center">
+<span style="display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#1e7355;color:#fff;font:900 24px Tajawal">✓</span>
+<b style="display:block;margin-top:8px;font-size:14px">{{ au.doneMsg }}</b>
+<span style="display:block;margin-top:3px;font-size:10.5px;color:#5f7167">حساب WooCommerce واحد مهما تعددت طرق دخولك — وتُوجَّه الآن لسياقك (السلة أو المكتبة)</span>
+</div>
+<button type="button" onClick="{{ au.onBack }}" style="width:100%;min-height:34px;margin-top:9px;border:1px solid #d5dbd6;border-radius:10px;background:#fff;font-size:10px;font-weight:800;color:#5f7167;cursor:pointer">← جرّب طريقة أخرى (معاينة)</button>
+</sc-if>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:16px 19px">
+<h2 style="margin:0 0 9px;font-size:13.5px;font-weight:900">عقد تجربة الدخول — حالات محكومة</h2>
+<sc-for list="{{ au.contract }}" as="c" hint-placeholder-count="7">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px dashed #f1f4f2">
+<span aria-hidden="true" style="color:#146c4c;font-weight:900;margin-top:1px">✓</span>
+<span style="font-size:10.5px;line-height:1.8;color:#3d4f45"><b>{{ c.t }}:</b> {{ c.d }}</span>
+</div>
+</sc-for>
+<div style="margin-top:9px;padding:9px 12px;border:1px dashed #f0d3d3;border-radius:10px;background:#fdf6f6;font-size:9.5px;line-height:1.7;color:#8e2223"><b>توافق WooCommerce:</b> المزودون طبقة توثيق فقط — العميل والطلبات والتنزيلات تبقى في Woo نفسه؛ وعملاء كلمات المرور القدامى يدخلون بالرابط السحري لبريدهم المسجل دون أي ترحيل.</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.journey }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:jaFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">موصّل الرحلة — ١٤ محطة بلا شاشة عامة واحدة</h1>
+<span style="margin-inline-start:auto;padding:3px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9.5px;font-weight:900">{{ jr.wired }} انتقالًا موصولًا · صفر قفزات لواجهة Woo الخام</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+<sc-for list="{{ jr.rows }}" as="r" hint-placeholder-count="7">
+<section style="display:flex;align-items:center;gap:10px;border:1px solid #dce2dd;border-radius:12px;background:#fff;padding:10px 14px">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:26px;height:26px;border-radius:9px;background:#14261d;color:#fff;font:900 11px Tajawal;flex:0 0 auto">{{ r.i }}</span>
+<span style="flex:1;min-width:0"><b style="font-size:11.5px">{{ r.n }}</b><span style="display:block;font-size:9px;color:#8b978f">{{ r.src }}</span></span>
+<span style="font-size:9px;color:#5f7167;text-align:end">{{ r.next }}</span>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #1e7355;border-radius:14px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:13px 17px">
+<b style="font-size:12px">فحوص الوصل الأربعة (تدخل CI):</b>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px">
+<sc-for list="{{ jr.checks }}" as="c" hint-placeholder-count="4">
+<span style="display:flex;align-items:center;gap:7px;font-size:10.5px;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ c }}</span>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.review }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:jaFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">دورة طلب التقييم — رسالة واحدة محترمة</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">تكمل حلقة الأثر: تقييم موثق ← طزاجة الصفحة ← ثقة أعلى ← بيع أكثر</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ rq.steps }}" as="s" hint-placeholder-count="6">
+<section style="display:flex;align-items:center;gap:11px;border:1px solid #dce2dd;border-inline-start:4px solid {{ s.c }};border-radius:12px;background:#fff;padding:10px 15px;flex-wrap:wrap">
+<span style="flex:0 0 110px;font-size:9.5px;font-weight:900;color:{{ s.c }}">{{ s.w }}</span>
+<span style="flex:1;min-width:240px"><b style="font-size:11.5px">{{ s.t }}</b><span style="display:block;font-size:9.5px;line-height:1.7;color:#5f7167">{{ s.d }}</span></span>
+<span style="padding:2px 10px;border-radius:999px;background:{{ s.sBg }};color:{{ s.sC }};font-size:8.5px;font-weight:900">{{ s.st }}</span>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 15px;border:1px solid #dce2dd;border-radius:13px;background:#fff;flex-wrap:wrap">
+<b style="font-size:11.5px">تذكير واحد بعد أسبوع؟</b>
+<button type="button" onClick="{{ rq.onTog }}" role="switch" aria-checked="{{ rq.on }}" aria-label="التذكير" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ rq.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ rq.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+<span style="flex:1;min-width:220px;font-size:9.5px;color:#8b978f">تذكير يتيم ثم صمت نهائي — والمتجاهل مرتين لا يُطلب منه ثانية موقعًا كاملًا (احترام دائم يُخزن في حسابه)</span>
+<span style="padding:5px 12px;border-radius:10px;background:#f6fbf8;border:1px solid #e2ece5;font-size:9.5px;font-weight:900;color:#146c4c">{{ rq.stat }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.tokens }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:jaFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">نظام التصميم الموحد — مصدر واحد للحقيقة البصرية</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">كل ما بُني عبر الجلسة يلتزمه — وهذه ورقته المرجعية</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">الألوان</b>
+<sc-for list="{{ tk.colors }}" as="c" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:5px 0;border-top:1px dashed #f1f4f2">
+<span aria-hidden="true" style="width:26px;height:26px;border-radius:8px;background:{{ c.v }};border:1px solid #e2e8e4"></span>
+<code dir="ltr" style="flex:0 0 70px;font-size:9px;color:#5f7167">{{ c.v }}</code>
+<span style="font-size:9.5px;color:#3d4f45">{{ c.n }}</span>
+</div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">المقاييس</b>
+<sc-for list="{{ tk.scales }}" as="s" hint-placeholder-count="4">
+<div style="padding:6px 0;border-top:1px dashed #f1f4f2"><span style="font-size:9.5px;font-weight:900;color:#5f7167">{{ s.n }}</span><code dir="ltr" style="display:block;margin-top:2px;font-size:9px;color:#3d4f45">{{ s.v }}</code></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">قواعد ملزمة</b>
+<sc-for list="{{ tk.rules }}" as="r" hint-placeholder-count="5">
+<span style="display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-top:1px dashed #f1f4f2;font-size:10px;line-height:1.7;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ r }}</span>
+</sc-for>
+</section>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ tk.inv }}" as="i" hint-placeholder-count="4">
+<span style="padding:8px 14px;border-radius:11px;background:#fff;border:1px solid #dce2dd;text-align:center"><b style="display:block;font:900 15px Tajawal;color:#146c4c">{{ i.v }}</b><span style="font-size:8.5px;color:#7c8a82">{{ i.l }}</span></span>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:jaFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:860},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auth&quot;,&quot;journey&quot;,&quot;review&quot;,&quot;tokens&quot;],&quot;default&quot;:&quot;auth&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+state={scr:'auth',step:'pick',email:'',emErr:'',prov:'',doneVia:'',left:30,resends:0,remind:true,toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+startTimer(){
+ this.stopTimer();
+ this.setState({left:30});
+ this._iv=setInterval(()=>{ const l=this.state.left-1;
+  this.setState({left:l}); if(l<=0) this.stopTimer(); },1000);
+}
+stopTimer(){ if(this._iv){ clearInterval(this._iv); this._iv=null; } }
+componentWillUnmount(){ this.stopTimer(); (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['auth','الدخول الحديث'],['journey','موصّل الرحلة'],['review','دورة التقييم'],['tokens','نظام التصميم']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{auth:st.scr==='auth',journey:st.scr==='journey',review:st.scr==='review',tokens:st.scr==='tokens',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const PROV=[
+  ['google','Google','G','#fff','#1a73e8','الأسرع للأغلبية'],
+  ['microsoft','Microsoft','M','#f3f3f3','#5e5e5e','حسابات العمل والمدارس'],
+  ['facebook','Facebook','f','#1877f2','#fff','بنقرة واحدة'],
+  ['linkedin','LinkedIn','in','#0a66c2','#fff','للمعلمين المهنيين'],
+  ['telegram','Telegram','✈','#229ed9','#fff','تحقق توقيع hash']
+ ];
+ base.au={
+  stepPick:st.step==='pick',stepSent:st.step==='sent',stepDone:st.step==='done',
+  provs:PROV.map(p=>({n:'المتابعة بـ '+p[1],g:p[2],gBg:p[3],gFg:p[4],hint:p[5],
+   busy:st.prov===p[0],
+   bd:st.prov===p[0]?'#1e7355':'#d5dbd6',bg:st.prov===p[0]?'#f2f8f5':'#fff',
+   onGo:()=>{ this.setState({prov:p[0]});
+    this.toast('تحويل آمن لـ '+p[1]+' عبر OAuth/OIDC: state + PKCE + nonce — لا كلمة مرور تلمس خادمنا');
+    (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({step:'done',doneVia:p[1],prov:''}),900)); }})),
+  email:st.email,onEmail:(e)=>this.setState({email:e.target.value,emErr:''}),
+  emBd:st.emErr?'#b32d2e':'#d5dbd6',emErr:st.emErr,
+  onMagic:()=>{ const m=st.email.trim();
+   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)) return this.setState({emErr:'أدخل بريدًا صحيحًا — هو مفتاح حسابك الوحيد'});
+   this.setState({step:'sent'}); this.startTimer();
+   this.toast('أُرسل رابط سحري موقَّع — استخدام واحد و١٠ دقائق صلاحية'); },
+  onSim:()=>{ this.stopTimer(); this.setState({step:'done',doneVia:'الرابط السحري'}); },
+  onBack:()=>{ this.stopTimer(); this.setState({step:'pick',emErr:'',prov:''}); },
+  doneMsg:'أهلًا بك — دخلت عبر '+(st.doneVia||'مزودك'),
+  waiting:st.left>0,canResend:st.left<=0,left:this.ar(Math.max(0,st.left)),
+  tries:st.resends>=2?'حد الإرسال: بلغت ٣ — التالي بعد ١٥ دقيقة':'إرسالات: '+this.ar(st.resends+1)+' من ٣',
+  onResend:()=>{ if(st.resends>=2) return this.toast('حد المعدل: ٣ روابط كل ١٥ دقيقة — حماية من الاستنزاف');
+   this.setState({resends:st.resends+1}); this.startTimer(); this.toast('أُعيد الإرسال — الرابط السابق أُبطل فورًا'); },
+  contract:[
+   {t:'OAuth 2.0 + OIDC صارم',d:'state ضد CSRF + PKCE + التحقق من توقيع id_token وnonce لكل مزود'},
+   {t:'أذونات دنيا فقط',d:'openid · email · profile — لا وصول لجهات الاتصال أو المنشورات أبدًا'},
+   {t:'حساب واحد مهما تعددت الطرق',d:'الربط بالبريد الموثق: Google اليوم وMagic Link غدًا = نفس عميل WooCommerce وطلباته'},
+   {t:'تليجرام موثق',d:'التحقق من hash التوقيع بمفتاح البوت — لا ثقة عمياء ببيانات الودجة'},
+   {t:'لا كلمات مرور تُخزن',d:'التسجيل القديم أُزيل — أول دخول يُنشئ العميل تلقائيًا ويرث الضيف مشترياته برابط موثق'},
+   {t:'الاسترداد محفوظ',d:'فقدت مزودك؟ الرابط السحري لبريدك الموثق يفتح الحساب دائمًا + دعم بشري بتحقق هوية'},
+   {t:'جلسات مرئية وعودة ذكية',d:'أجهزتك النشطة قابلة للإنهاء عن بعد — والدخول وسط شراء يعيدك لسلتك كما هي'}
+  ]};
+ base.jr={wired:'١٣',
+  rows:[
+   ['الرئيسية','Storefront Core','← تصنيف/بحث/منتج'],
+   ['التصنيف والمصفوفة','Storefront + Growth Pages','← المنتج بعمق ≤ ٣'],
+   ['صفحة المنتج V2','Product Page Pro','← سلة/شراء الآن'],
+   ['السلة المصغرة','Storefront (درج)','← السلة أو متابعة التسوق'],
+   ['السلة','Storefront Core','← الدفع (الشحن ظاهر هنا)'],
+   ['الدفع الموجز','Storefront Core','← Tap ثم التأكيد'],
+   ['التأكيد','Order Confirmation','← تنزيل فوري + الحساب'],
+   ['التنزيلات الفورية','في التأكيد نفسه','← المكتبة الرقمية'],
+   ['المكتبة الرقمية','Customer Completion','← تحديثات + الفصل التالي'],
+   ['الدخول الاجتماعي/السحري','هذه الحزمة','← عودة ذكية للسياق'],
+   ['طلب التقييم','دورة التقييم هنا','← تقييم موثق في PDP'],
+   ['ذات صلة/الفصل التالي','حلقات النمو الذاتي','← شراء متكرر'],
+   ['الدعم','مركز المساعدة','← رقم الطلب مرفق تلقائيًا'],
+   ['أي خطأ/فراغ','Discovery & States','← تعافٍ بلا طريق مسدود']
+  ].map((r,i)=>({i:this.ar(i+1),n:r[0],src:r[1],next:r[2]})),
+  checks:['كل CTA يشير لمحطة مصممة — فحص CI يرفض href="#"','لا قالب Woo خام يظهر للعميل في المسار كله','التأكيد يعرض التنزيل قبل أي بيع إضافي (هرم §17)','العودة من الدفع الفاشل تحفظ السلة وتعرض بدائل الدفع']};
+ base.rq={on:st.remind,swBg:st.remind?'#1e7355':'#cfd8d3',knob:st.remind?'17px':'2px',
+  onTog:()=>{ this.setState({remind:!st.remind}); this.toast(st.remind?'أُوقف التذكير — يبقى الطلب الأول فقط':'تذكير يتيم بعد ٧ أيام ثم صمت نهائي'); },
+  stat:'معدل استجابة الدورة: ٢٢٪ — كلها موثقة',
+  steps:[
+   {w:'اليوم ٠',t:'شراء مكتمل',d:'تبدأ هدنة ما بعد الشراء — لا رسائل تسويق ٧ أيام (موروثة من النمو الذاتي).',st:'تلقائي',c:'#527a96',sBg:'#e8f2fc',sC:'#1d5f9c'},
+   {w:'اليوم ٧',t:'طلب التقييم الوحيد',d:'رسالة باسم المنتج الفعلي مع رابط موقَّع يفتح نموذجًا مسبق التعبئة — بلا دخول إضافي.',st:'رسالة ١/١',c:'#1e7355',sBg:'#e4f4ec',sC:'#146c4c'},
+   {w:'عند الفتح',t:'نموذج ٣٠ ثانية',d:'نجوم + سطر اختياري + صورة اختيارية — تدخل طابور الإشراف البشري (عدة النتائج).',st:'يدوي منك؟ لا — منه',c:'#1e7355',sBg:'#e4f4ec',sC:'#146c4c'},
+   {w:'بعد الاعتماد',t:'نشر موثق بشارة الشراء',d:'يظهر في PDP والشريط المتحرك — وschema يتحدث (طزاجة حية).',st:'حلقة النمو',c:'#1e7355',sBg:'#e4f4ec',sC:'#146c4c'},
+   {w:'اليوم ١٤',t:'التذكير اليتيم (اختياري)',d:'إن لم يُفتح الطلب الأول فقط — ثم صمت نهائي مهما كان.',st:st.remind?'مفعّل':'موقوف',c:'#8a6500',sBg:'#fff4d6',sC:'#8a6500'},
+   {w:'دائمًا',t:'ذاكرة الاحترام',d:'من تجاهل مرتين لا يُطلب منه لأي منتج مستقبلًا — ومن قيّم لا يُسأل عن نفس المنتج ثانية.',st:'قاعدة ثابتة',c:'#b32d2e',sBg:'#fce8e8',sC:'#b32d2e'}
+  ]};
+ base.tk={
+  colors:[
+   {v:'#14261d',n:'الداكن الأساسي — رؤوس وأزرار قاتمة'},
+   {v:'#1e7355',n:'الأخضر التجاري — CTA والحالات الإيجابية'},
+   {v:'#d8b56a',n:'الذهبي — الشارات والتمييز'},
+   {v:'#eef0ee',n:'أرضية الصفحات'},
+   {v:'#b32d2e',n:'الخطر — حذف وأخطاء فقط'}
+  ],
+  scales:[
+   {n:'المسافات',v:'4 · 8 · 12 · 16 · 20 · 24 (gap دائمًا — لا هوامش متناثرة)'},
+   {n:'الخط Tajawal',v:'9 · 10.5 · 12 · 13.5 · 16 · 18 · 24 — أوزان 700/800/900'},
+   {n:'الأقطار',v:'8 (عناصر) · 12 (بطاقات) · 999 (حبوب)'},
+   {n:'الظلال',v:'مستويان فقط: بطاقة خفيف · طافٍ 0 12px 32px'}
+  ],
+  rules:['خصائص منطقية فقط: inset/margin/padding-inline — لا left/right','أهداف لمس ≥ ٤٤px في كل واجهات العميل','prefers-reduced-motion يعطل كل حركة','لون واحد لا يحمل معنى وحده — نص أو أيقونة معه','أرقام عربية-هندية موحدة عبر ar() واحدة'],
+  inv:[['١٩','أداة إدارة موحدة'],['٨٠٠','ودجة مسجلة بالكتالوج'],['٧٨','شاشة عمل'],['١','لغة بصرية واحدة']].map(i=>({v:i[0],l:i[1]}))};
+ return base;
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# =============================================================================
+# Tahdheer — Prometheus (MIP §11.4)
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 30s
+
+rule_files:
+  - /etc/prometheus/alerts/*.yml
+
+# TODO(alerting): wire Alertmanager (or Grafana alerting) before production;
+# rules evaluate but route nowhere until then.
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Collector self-metrics + app metrics exported via OTLP→prometheus exporter.
+  - job_name: otel-collector
+    static_configs:
+      - targets: ["otel-collector:8888", "otel-collector:8889"]
+
+  # Caddy admin metrics endpoint (edge: requests, status classes → 404 spike).
+  - job_name: caddy
+    static_configs:
+      - targets: ["caddy:2019"]
+
+  # Laravel API /metrics (exposed once the app ships its Prometheus endpoint;
+  # until then most app metrics arrive via OTLP through the collector).
+  - job_name: api
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["api:9000"] # TODO: real metrics port when the app image lands
+
+  # Worker (queue depth, outbox lag, job outcomes) — same note as api.
+  - job_name: worker
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["worker:9091"] # TODO: real metrics port when the app image lands
+
+  # Garage admin metrics (requires GARAGE_METRICS_TOKEN as bearer once enforced).
+  - job_name: garage
+    static_configs:
+      - targets: ["garage:3903"]

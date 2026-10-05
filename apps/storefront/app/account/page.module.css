@@ -1,0 +1,113 @@
+/*
+ * Dashboard-only layout — «Tahdheer - My Account» stat grid (2 cols on
+ * mobile/tablet, 4 on desktop) and the asymmetric orders/updates split
+ * (1.15fr / .85fr) that only exists at the desktop story.
+ * Tokens only, logical properties only.
+ */
+
+.heroText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* بطاقة ساكنة: لا شيء فيها يُضغط، فلا ترتفع عند التحويم. */
+.stat {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 16px;
+}
+
+.statHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 10px;
+}
+
+.statIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--r-sm);
+}
+
+.statGreen .statIcon {
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.statGold .statIcon {
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+}
+
+.statGlyph {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.statLabel {
+  font-size: var(--tp-label-size);
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.statValue {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--sf-ink);
+}
+
+.statHint {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: var(--sf-muted);
+}
+
+.quick {
+  margin: 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+@media (min-width: 834px) {
+  .stat {
+    padding: 14px;
+  }
+
+  .split {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stat {
+    padding: 15px;
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 18px;
+  }
+}

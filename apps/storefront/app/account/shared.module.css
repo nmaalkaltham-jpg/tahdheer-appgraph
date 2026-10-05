@@ -1,0 +1,501 @@
+/*
+ * Shared account surfaces — «Tahdheer - My Account» card, heading, chip, empty
+ * and «ميزات غير مربوطة بعد» specs, plus the «Customer Completion Pack»
+ * download row. Imported by every account page so the four routes are one
+ * surface, not four look-alikes.
+ *
+ * Two deliberate departures, both documented where they occur:
+ * · the Completion Pack's 8.5–9.5px micro type is raised to the My Account
+ *   scale (10.5–11.5px), which is the canonical account design and legible;
+ * · the design's fade-up entrance is not implemented: these pages render empty
+ *   states, and animating an explanation into view delays the explanation.
+ *
+ * Tokens only, logical properties only.
+ */
+
+/* ────────────────────────────────────────────────────────────── surfaces ── */
+
+.section {
+  padding: 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  min-inline-size: 0;
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-block-end: 12px;
+}
+
+.pageTitle {
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+/*
+ * A heading that stands directly above its content carries the separation the
+ * design gives it — 12px over «إجراءات سريعة», 14px over «تحديثات مشترياتك».
+ * Inside .sectionHead the row already owns that margin, so .sectionTitle
+ * stays at zero there.
+ */
+.sectionTitleSpaced {
+  margin-block-end: 12px;
+}
+
+.sectionTitleSpacedWide {
+  margin-block-end: 14px;
+}
+
+.libraryTitle {
+  margin: 0 0 3px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.lead {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--sf-muted);
+}
+
+.meta {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--sf-muted);
+}
+
+/* ──────────────────────────────────────────────────────────────── chips ── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.chipGreen {
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.chipAmber {
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+}
+
+.chipNeutral {
+  background: var(--sf-cool);
+  color: var(--sf-muted);
+}
+
+.chipIcon {
+  inline-size: 11px;
+  block-size: 11px;
+}
+
+/* ────────────────────────────────────────────────────────────── actions ── */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.action {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  font-size: 14px;
+}
+
+.actionIcon {
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--teal-text);
+}
+
+.primary {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.inlineLink {
+  color: var(--teal-text);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.inlineLink:hover {
+  color: var(--teal-text);
+}
+
+.inlineLink:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/*
+ * The «عرض الكل» link of a section head. It stands alone next to the heading,
+ * so it takes the design's own 12px type and the full tap target (44px, 38px
+ * from the tablet story up) — unlike .inlineLink, which sits inside a running
+ * sentence and must keep the line box intact.
+ */
+.headLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--teal-text);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.headLink:hover {
+  color: var(--teal-text);
+}
+
+.headLink:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* ────────────────────────────────────────────── explainer / lookup box ──── */
+
+.heroHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 14px;
+  margin-block-end: 14px;
+}
+
+/*
+ * The greeting card is the head alone: the design gives that card uniform
+ * padding, so the 14px only applies when something follows (the lookup box).
+ */
+.heroHead:last-child {
+  margin-block-end: 0;
+}
+
+.heroIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 52px;
+  block-size: 52px;
+  border-radius: var(--r-round);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+/*
+ * فتح الطلب بالرمز هو المسلك العامل الوحيد في كل أقسام الحساب — والحساب كلّه
+ * بلا جلسة. يحمل الحدّ الأخضر الخفيف وظلّ البطاقات نفسهما اللذين يحملهما في
+ * بطاقة الدخول (login/AuthCard.module.css)، فيُعرَف بهيئته أينما ظهر.
+ */
+.lookupBox {
+  margin-block-end: 12px;
+  padding: 16px;
+  border: 1px solid var(--st-success-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  box-shadow: none;
+  max-inline-size: 420px;
+}
+
+/* ─────────────────────────────────────────────────────────── empty state ── */
+
+.empty {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 32px 24px;
+  background: var(--sf-cool);
+  text-align: center;
+}
+
+/* رسم ‎EMPTY_ART‎ في صندوقٍ ثابت ‎144²‎ (‎112²‎ جوّالًا) — لا إزاحة، كسولٌ افتراضًا. */
+.emptyArt {
+  display: block;
+  inline-size: 144px;
+  block-size: 144px;
+  margin-block: 0 var(--space-3);
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .emptyArt {
+    inline-size: 112px;
+    block-size: 112px;
+  }
+}
+
+/* رمزٌ لا يطابق طلبًا: رسم البحث بجوار الشرح، والنموذج تحته. */
+.badTokenHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.badTokenArt {
+  flex: 0 0 auto;
+  inline-size: 96px;
+  block-size: 96px;
+  object-fit: contain;
+}
+
+@media (max-width: 479px) {
+  .badTokenArt {
+    inline-size: 72px;
+    block-size: 72px;
+  }
+}
+
+.emptyGlyph {
+  inline-size: 24px;
+  block-size: 24px;
+}
+
+.emptyTitle {
+  margin: 0 0 var(--space-2);
+  font: var(--type-h3);
+  color: var(--color-text);
+}
+
+.emptyBody {
+  margin: 0 auto var(--space-5);
+  max-inline-size: 46ch;
+  font: var(--type-body);
+  color: var(--color-text-muted);
+  text-wrap: pretty;
+}
+
+/* ─────────────────────────────────────────────────────── order/file rows ── */
+
+.orderRow {
+  padding: 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+.orderHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 7px;
+}
+
+.orderId {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.orderDate {
+  margin-inline-start: auto;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.orderFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.orderLink {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+  margin-inline-start: auto;
+}
+
+/* ──────────────────────────────────────────────── not-connected panel ──── */
+
+.notConnected {
+  padding: 16px;
+  border: 1px solid var(--st-warning-line);
+  border-radius: var(--r-lg);
+  background: var(--st-warning-bg);
+}
+
+.notConnectedHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-block-end: 12px;
+}
+
+.notConnectedIcon {
+  flex: 0 0 auto;
+  inline-size: 17px;
+  block-size: 17px;
+  margin-block-start: 2px;
+  color: var(--gold-ink);
+}
+
+.notConnectedTitle {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gold-ink);
+}
+
+.notConnectedBody {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--gold-ink);
+}
+
+.notConnectedList {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notConnectedItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--st-warning-line);
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+.notConnectedItemIcon {
+  flex: 0 0 auto;
+  inline-size: 14px;
+  block-size: 14px;
+  color: var(--gold-ink);
+}
+
+.notConnectedLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: calc(var(--tp-label-size) * 0.9583);
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.notConnectedTag {
+  flex: 0 0 auto;
+  /* 9.5px — the My Account literal, same computation as AccountNav .tag. */
+  font-size: calc(var(--tp-badge-size) * 0.9048);
+  font-weight: 800;
+  color: var(--gold-ink);
+}
+
+/* ───────────────────────────────────────────────── order-context links ─── */
+
+.contextLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.contextLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border-radius: var(--r-xs);
+  color: var(--teal-text);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.contextLink:hover {
+  color: var(--teal-text);
+}
+
+.contextLink:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────── breakpoints ── */
+
+@media (min-width: 834px) {
+  .section,
+  .notConnected {
+    padding: 18px;
+  }
+
+  .pageTitle {
+    font-size: 21px;
+  }
+
+  .libraryTitle {
+    font-size: 18px;
+  }
+
+  .notConnectedList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (min-width: 1280px) {
+  .section,
+  .notConnected {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 23px;
+  }
+
+  .libraryTitle {
+    font-size: 20px;
+  }
+
+  .notConnectedList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* زرّ ‎36px‎ المرئيّ: الهدف يمتدّ رأسيًّا إلى ‎46px‎. */
+.orderLink::before {
+  inset-block: -5px;
+}

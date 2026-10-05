@@ -1,0 +1,29 @@
+/*
+ * رموز جديدة من لوح «Tahdheer - International SEO Studio.dc.html»
+ * (شاشتا «سجل المواقع المحلية» و«مدقّق hreflang») — قيم خارج سلّم
+ * packages/design-system/src/tokens.css.
+ *
+ * التعريف العامل يعيش محليًا في
+ * apps/admin/app/(workspaces)/seo/international/international.module.css
+ * (نمط seo.module.css نفسه)؛ هذا الملف سجلّ الدمج في سلّم الرموز.
+ */
+:root {
+  --intl-edge: #dce2dd;                        /* حدود الألواح والصفوف */
+  --intl-green-edge: #cfe0d6;                  /* حدّ الصفّ النشط وقاعدة التفعيل */
+  --intl-row-active: #f6fbf8;                  /* خلفية الصفّ النشط */
+  --intl-gate-tint: #f8fbf9;                   /* خلفية صندوق قاعدة التفعيل */
+  --intl-rule: #f1f4f2;                        /* فواصل متقطّعة داخل الألواح */
+  --intl-dim: #7c8a82;                         /* نصّ سجلّ المهام الخافت */
+  --intl-body-2: #3d4f45;                      /* نصّ الشرح الثانوي */
+  --intl-chrome-light: #eaf2ee;                /* نصّ الرأس الداكن وتبويبه النشط */
+  --intl-tab-ink: #0c1411;                     /* نصّ التبويب النشط فوق الفاتح */
+  --intl-tab-idle: rgba(234, 242, 238, 0.72);  /* التبويب الخامل على الداكن */
+  --intl-tab-edge: rgba(255, 255, 255, 0.14);  /* حدّ التبويب الخامل */
+  --intl-code-mint: #a8e2c5;                   /* رمز اللغة داخل الرقاقة الداكنة */
+  --intl-gold-text: #e8d3a6;                   /* نصّ شارة البوابة الذهبية */
+  --intl-gold-bg: rgba(216, 181, 106, 0.16);   /* خلفية شارة البوابة */
+  --intl-gold-edge: rgba(216, 181, 106, 0.36); /* حدّ شارة البوابة */
+  --intl-danger-text: #b32d2e;                 /* فشل الفحص (لوح الاستوديو، لا #b42318) */
+  --intl-danger-chip: #fce8e8;                 /* خلفية رقاقة المخالفين */
+  --intl-neutral-chip: #f2f6f3;                /* رقاقة الحياد «لا يُخدم مسارها» */
+}

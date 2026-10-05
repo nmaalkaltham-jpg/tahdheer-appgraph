@@ -1,0 +1,695 @@
+/**
+ * Tahdheer — أنماط الهيرو: عشرة هياكل تحت [data-tah-hero="…"].
+ *
+ * كل هيكل يُعرَّف مرّة، والأهداف الثلاثون تتشارك التعريفات. الخصائص منطقية
+ * لا فيزيائية، فتعمل في الاتجاهين بلا نسخة ثانية.
+ */
+
+[data-tah-c='hero'] {
+  --tah-hero-minh: auto;
+  --tah-hero-cols: 4;
+  --tah-hero-overlay: 0.45;
+  --tah-hero-pad: clamp(24px, 5vw, 64px);
+  --tah-hero-gap: clamp(18px, 3vw, 40px);
+
+  position: relative;
+  padding: var(--tah-hero-pad);
+  min-block-size: var(--tah-hero-minh);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--tah-fg);
+}
+
+[data-tah-hero-inner] {
+  position: relative;
+  display: grid;
+  gap: var(--tah-hero-gap);
+  align-items: center;
+  z-index: 2;
+}
+
+[data-tah-hero-wide] {
+  position: relative;
+  margin-block-start: var(--tah-hero-gap);
+  z-index: 2;
+}
+
+/* ───────── الخلفية ─────────
+ *
+ * أربعة تأثيرات وطبقتان زائفتان على الجذر = تنافس صامت: الوهج وصورة الخلفية
+ * كانا على ::before نفسه، والتعمية والحبيبات على ::after نفسه — بتخصيص متساوٍ،
+ * فيفوز ترتيب الملف ويختفي الأوّل بلا خطأ. لكل تأثير طبقته الآن:
+ *
+ *   الجذر  ::before → صورة الخلفية
+ *   الجذر  ::after  → التعمية
+ *   الداخل ::before → الوهج
+ *   الداخل ::after  → الحبيبات
+ */
+
+[data-tah-c='hero'][data-bg='image']::before,
+[data-tah-c='hero'][data-bg='image-overlay']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--tah-hero-bg);
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* لون احتياطي تحت الصورة: لو فشل تحميلها فالنصّ الأبيض يبقى مقروءًا
+ * بدل أن يسقط على خلفية الصفحة الفاتحة. */
+[data-tah-c='hero'][data-bg='image-overlay'] {
+  background-color: color-mix(in oklab, var(--tah-fg) 82%, #000);
+}
+
+[data-tah-c='hero'][data-bg='image-overlay']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* to right لا to inline-end: الكلمات المنطقية غير صالحة داخل التدرّجات،
+   * والقاعدة كلّها تُرفَض إن استُخدمت. الاتجاه يُقلَب بـ[dir] أدناه. */
+  background: linear-gradient(
+    to right,
+    rgb(0 0 0 / var(--tah-hero-overlay)),
+    rgb(0 0 0 / calc(var(--tah-hero-overlay) * 0.35))
+  );
+  z-index: 1;
+}
+
+[dir='rtl'] [data-tah-c='hero'][data-bg='image-overlay']::after {
+  background: linear-gradient(
+    to left,
+    rgb(0 0 0 / var(--tah-hero-overlay)),
+    rgb(0 0 0 / calc(var(--tah-hero-overlay) * 0.35))
+  );
+}
+
+[data-tah-c='hero'][data-bg='image-overlay'],
+[data-tah-c='hero'][data-bg='image-overlay'] [data-tah-hero-title],
+[data-tah-c='hero'][data-bg='image-overlay'] [data-tah-hero-body] {
+  color: #fff;
+}
+
+[data-tah-c='hero'][data-bg='tint'] {
+  background: color-mix(in oklab, var(--tah-accent) 7%, var(--tah-surface));
+}
+
+[data-tah-c='hero'][data-glow='1'] [data-tah-hero-inner]::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -42%;
+  inset-inline-end: -14%;
+  inline-size: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--tah-accent) 22%, transparent),
+    transparent 68%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+[data-tah-c='hero'][data-grain='1'] [data-tah-hero-inner]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-radial-gradient(circle at 0 0, #000 0 1px, transparent 1px 3px);
+}
+
+/* ───────── عناصر النصّ ───────── */
+
+[data-tah-hero-eyebrow],
+[data-tah-hero-label] {
+  display: inline-block;
+  margin-block-end: 10px;
+  font-size: 0.8em;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+[data-tah-hero-eyebrow] {
+  color: var(--tah-accent);
+}
+
+[data-tah-hero-label] {
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--tah-accent) 12%, transparent);
+  color: var(--tah-accent);
+}
+
+[data-tah-hero-title] {
+  margin: 0 0 12px;
+  font-family: var(--t-font-heading, inherit);
+  font-size: clamp(1.7rem, 4.2vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+[data-tah-hl] {
+  background: linear-gradient(to top, color-mix(in oklab, var(--tah-accent) 22%, transparent) 38%, transparent 38%);
+  color: inherit;
+  padding: 0 2px;
+}
+
+[data-tah-hero-body] {
+  margin: 0 0 18px;
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+  line-height: 1.85;
+  color: var(--tah-muted);
+  max-inline-size: 58ch;
+  text-wrap: pretty;
+}
+
+[data-tah-hero-price] {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-block-end: 14px;
+  font-size: 1.28em;
+  font-weight: 800;
+}
+
+[data-tah-hero-price] del {
+  font-size: 0.72em;
+  font-weight: 600;
+  color: var(--tah-muted);
+}
+
+[data-tah-hero-off] {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--t-color-error, #a5261b) 12%, transparent);
+  color: var(--t-color-error, #a5261b);
+  font-size: 0.6em;
+  font-weight: 800;
+}
+
+/* ───────── النداءات ───────── */
+
+[data-tah-hero-cta] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: 48px;
+  padding: 0 24px;
+  border-radius: var(--tah-radius);
+  font-weight: 800;
+  text-decoration: none;
+  margin-inline-end: 8px;
+  margin-block-end: 8px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+[data-tah-hero-cta][data-tone='primary'] {
+  background: var(--tah-accent);
+  color: #fff;
+}
+
+[data-tah-hero-cta][data-tone='primary']:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--tah-accent) 32%, transparent);
+  color: #fff;
+}
+
+[data-tah-hero-cta][data-tone='secondary'] {
+  border: 1px solid var(--tah-edge);
+  background: var(--tah-surface);
+  color: var(--tah-fg);
+}
+
+[data-tah-hero-cta][data-tone='ghost'] {
+  padding: 0 8px;
+  color: var(--tah-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ───────── الثقة والفوائد والشرائح ───────── */
+
+[data-tah-hero-trust],
+[data-tah-hero-benefits],
+[data-tah-hero-chips] {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-tah-hero-trust] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+[data-tah-hero-trust] li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--tah-muted);
+}
+
+[data-tah-hero-trust] svg {
+  flex: 0 0 auto;
+  color: var(--tah-accent);
+}
+
+[data-tah-hero-benefits] {
+  display: grid;
+  gap: 9px;
+}
+
+[data-tah-hero-benefits] li {
+  display: grid;
+  gap: 2px;
+  padding-inline-start: 20px;
+  position: relative;
+  line-height: 1.7;
+}
+
+[data-tah-hero-benefits] li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 3px;
+  inset-block-start: 0.62em;
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: var(--tah-accent);
+}
+
+[data-tah-hero-benefits] strong {
+  font-weight: 800;
+}
+
+[data-tah-hero-benefits] span {
+  color: var(--tah-muted);
+  font-size: 0.92em;
+}
+
+[data-tah-hero-chips] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+[data-tah-hero-chips] a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 40px;
+  padding: 0 15px;
+  border: 1px solid var(--tah-edge);
+  border-radius: 999px;
+  background: var(--tah-surface);
+  font-weight: 700;
+  font-size: 0.92em;
+  text-decoration: none;
+  color: var(--tah-fg);
+}
+
+[data-tah-hero-chips] a:hover {
+  border-color: var(--tah-accent);
+  color: var(--tah-accent);
+}
+
+[data-tah-hero-chips] span {
+  font-size: 0.82em;
+  color: var(--tah-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────── البحث ───────── */
+
+[data-tah-hero-search] {
+  display: flex;
+  gap: 7px;
+  margin-block-start: 16px;
+  max-inline-size: 560px;
+}
+
+[data-tah-hero-search] input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 52px;
+  padding: 0 18px;
+  border: 1px solid var(--tah-edge);
+  border-radius: var(--tah-radius);
+  background: var(--tah-surface);
+  font: inherit;
+  font-size: 1em;
+  color: var(--tah-fg);
+}
+
+[data-tah-hero-search] button {
+  min-block-size: 52px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--tah-radius);
+  background: var(--tah-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ───────── العدّاد ───────── */
+
+[data-tah-hero-countdown] {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-block-end: 14px;
+  padding: 9px 15px;
+  border-radius: var(--tah-radius);
+  background: color-mix(in oklab, var(--t-color-error, #a5261b) 8%, transparent);
+}
+
+[data-tah-cd-label] {
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--tah-muted);
+}
+
+[data-tah-hero-countdown] time {
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--t-color-error, #a5261b);
+}
+
+/* ───────── الوسيط ───────── */
+
+[data-tah-hero-media],
+[data-tah-hero-video] {
+  margin: 0;
+  border-radius: var(--tah-radius);
+  overflow: hidden;
+}
+
+[data-tah-hero-media] [data-tah-mslot],
+[data-tah-hero-video] [data-tah-mslot] {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+[data-tah-hero-media] figcaption {
+  padding: 8px 2px 0;
+  font-size: 0.82em;
+  color: var(--tah-muted);
+}
+
+/* ───────── قوائم المنتجات والبطاقات ───────── */
+
+[data-tah-hero-products],
+[data-tah-hero-cards] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+}
+
+[data-tah-hero-products] a,
+[data-tah-hero-cards] a,
+[data-tah-hero-cards] > li > div {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--tah-edge);
+  border-radius: var(--tah-radius);
+  background: var(--tah-surface);
+  text-decoration: none;
+  color: var(--tah-fg);
+  block-size: 100%;
+  align-content: start;
+}
+
+[data-tah-hero-products] a:hover,
+[data-tah-hero-cards] a:hover {
+  border-color: var(--tah-accent);
+}
+
+[data-tah-hero-products] [data-tah-mslot],
+[data-tah-hero-cards] [data-tah-mslot] {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: calc(var(--tah-radius) - 3px);
+}
+
+[data-tah-p-title],
+[data-tah-card-label] {
+  font-weight: 800;
+  font-size: 0.94em;
+  line-height: 1.45;
+}
+
+[data-tah-p-price] {
+  font-weight: 700;
+  color: var(--tah-accent);
+  font-size: 0.92em;
+}
+
+[data-tah-card-body] {
+  font-size: 0.86em;
+  color: var(--tah-muted);
+  line-height: 1.6;
+}
+
+[data-tah-card-count] {
+  font-size: 0.8em;
+  color: var(--tah-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────── الطبقات ───────── */
+
+[data-tah-hero-layers] {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+[data-tah-layer] {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: calc(0.9 / var(--tah-depth, 1));
+  transform: scale(calc(1 + var(--tah-depth, 1) * 0.02));
+}
+
+/* ═════════ الهياكل العشرة ═════════ */
+
+/* ١ · منقسم */
+[data-tah-hero='split'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 860px) {
+  [data-tah-hero='split'] [data-tah-hero-inner] {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  [data-tah-hero='split'][data-reverse='1'] [data-tah-hero-text] {
+    order: 2;
+  }
+}
+
+/* ٢ · مركزي */
+[data-tah-hero='centered'] {
+  text-align: center;
+}
+
+[data-tah-hero='centered'] [data-tah-hero-inner] {
+  justify-items: center;
+}
+
+[data-tah-hero='centered'] [data-tah-hero-body] {
+  margin-inline: auto;
+}
+
+[data-tah-hero='centered'] [data-tah-hero-trust],
+[data-tah-hero='centered'] [data-tah-hero-chips] {
+  justify-content: center;
+}
+
+[data-tah-hero='centered'] [data-tah-hero-search] {
+  margin-inline: auto;
+}
+
+/* ٣ · شبكي / بينتو */
+[data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-cards],
+[data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-products] {
+  grid-template-columns: repeat(var(--tah-hero-cols, 4), minmax(0, 1fr));
+}
+
+[data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='2'] {
+  grid-column: span 2;
+}
+
+[data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='3'] {
+  grid-column: span 3;
+}
+
+@media (max-width: 1023px) {
+  [data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-cards],
+  [data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-products] {
+    grid-template-columns: repeat(min(2, var(--tah-hero-cols, 4)), minmax(0, 1fr));
+  }
+
+  [data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='2'],
+  [data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='3'] {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 599px) {
+  [data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-cards],
+  [data-tah-hero='grid'] [data-tah-hero-wide] [data-tah-hero-products] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='2'],
+  [data-tah-hero='grid'] [data-tah-hero-cards] > li[data-span='3'] {
+    grid-column: span 1;
+  }
+}
+
+/* ٤ · كاروسيل — يتحوّل لمسار متمرِّر يقوده rt-gallery */
+[data-tah-hero='carousel'] [data-tah-hero-products] {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  grid-template-columns: none;
+}
+
+[data-tah-hero='carousel'] [data-tah-hero-products]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-tah-hero='carousel'] [data-tah-hero-products] > li {
+  flex: 0 0 clamp(180px, 42vw, 240px);
+  scroll-snap-align: start;
+}
+
+/* ٥ · البحث أولًا */
+[data-tah-hero='search'] {
+  text-align: center;
+}
+
+[data-tah-hero='search'] [data-tah-hero-inner] {
+  justify-items: center;
+}
+
+[data-tah-hero='search'] [data-tah-hero-body] {
+  margin-inline: auto;
+}
+
+[data-tah-hero='search'] [data-tah-hero-search] {
+  margin-inline: auto;
+}
+
+[data-tah-hero='search'] [data-tah-hero-chips] {
+  justify-content: center;
+}
+
+/* ٦ · تحريري — إيقاع طباعي أوسع لا هيكل جديد */
+[data-tah-hero='editorial'] {
+  --tah-hero-gap: clamp(22px, 3vw, 46px);
+}
+
+[data-tah-hero='editorial'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+  max-inline-size: 72ch;
+  margin-inline: auto;
+  align-items: start;
+}
+
+[data-tah-hero='editorial'] [data-tah-hero-title] {
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.25;
+}
+
+[data-tah-hero='editorial'] [data-tah-hero-body] {
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  line-height: 1.95;
+  max-inline-size: none;
+}
+
+/* ٧ · حملة */
+[data-tah-hero='campaign'] {
+  background: color-mix(in oklab, var(--t-color-error, #a5261b) 5%, var(--tah-surface));
+}
+
+[data-tah-hero='campaign'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+}
+
+[data-tah-hero='campaign'] [data-tah-hero-body] {
+  margin-inline: auto;
+}
+
+/* ٨ · طبقي */
+[data-tah-hero='layered'] {
+  --tah-hero-minh: clamp(340px, 52vh, 560px);
+}
+
+[data-tah-hero='layered'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+  min-block-size: inherit;
+  align-content: center;
+}
+
+/* ٩ · قائم على قائمة */
+[data-tah-hero='listed'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+}
+
+@media (min-width: 860px) {
+  [data-tah-hero='listed'] [data-tah-hero-inner] {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+/* ١٠ · تكيّفي */
+[data-tah-hero='adaptive'] [data-tah-hero-inner] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 860px) {
+  [data-tah-hero='adaptive'] [data-tah-hero-inner] {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tah-c='hero'] [data-tah-layer],
+  [data-tah-hero-cta] {
+    transform: none !important;
+    transition: none !important;
+  }
+}

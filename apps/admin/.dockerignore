@@ -1,0 +1,18 @@
+# Admin build-context exclusions.
+#
+# NOTE: the real image builds from the MONOREPO ROOT context
+# (`docker build -f apps/admin/Dockerfile .`) because the app resolves
+# npm-workspace packages hoisted into ../../node_modules. In that mode Docker
+# reads /.dockerignore, not this file.
+node_modules
+.next
+out
+dist
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Dockerfile
+.dockerignore

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,textarea,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes chFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="c2-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="c2-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="c2-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></symbol>
+<symbol id="c2-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v11H9l-5 4z"></path><path d="M8 10h8M8 13h5"></path></symbol>
+<symbol id="c2-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></symbol>
+<symbol id="c2-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="12" cy="11" r="2.2"></circle></symbol>
+<symbol id="c2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="c2-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5.5l3.5 2"></path></symbol>
+<symbol id="c2-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="c2-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1080px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">مركز المحتوى والثقة</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="7">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">{{ seoNote }}</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1080px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:12px">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><span style="font:900 16px Tajawal;color:#14261d">تذكير</span></span>
+<div style="flex:1"></div>
+<a href="#" style="padding:8px 12px;font-size:12px;font-weight:800;color:#3d4f45">المتجر</a>
+</div>
+</header>
+
+<main id="main" style="max-width:1080px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+<sc-if value="{{ is.blog }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden;animation:chFade .3s ease">
+<div style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)">
+<a href="#" onClick="{{ blog.feat.onGo }}" aria-label="{{ blog.feat.t }}" style="display:block;min-height:220px;background:linear-gradient(140deg,#14261d,#1e5c42)"></a>
+<div style="padding:22px 24px;display:flex;flex-direction:column;gap:8px">
+<span style="display:flex;gap:6px"><span style="padding:3px 10px;border-radius:999px;background:#eaf3ee;color:#146c4c;font-size:9.5px;font-weight:900">مقال مميز</span><span style="padding:3px 10px;border-radius:999px;background:#f2f4f2;color:#5f7167;font-size:9.5px;font-weight:800">{{ blog.feat.cat }}</span></span>
+<h1 style="margin:0;font:900 20px/1.5 Tajawal"><a href="#" onClick="{{ blog.feat.onGo }}" style="color:#14261d">{{ blog.feat.t }}</a></h1>
+<p style="margin:0;font-size:12px;line-height:1.9;color:#5f7167">{{ blog.feat.d }}</p>
+<span style="margin-top:auto;font-size:10px;color:#8b978f">{{ blog.feat.meta }}</span>
+</div>
+</div>
+</section>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ blog.cats }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="min-height:32px;padding:0 13px;border:1px solid {{ c.bd }};border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:11px;font-weight:800;cursor:pointer">{{ c.n }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<sc-for list="{{ blog.rows }}" as="a" hint-placeholder-count="4">
+<article style="display:flex;gap:12px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:12px;animation:chFade .25s ease">
+<a href="#" onClick="{{ a.onGo }}" aria-label="{{ a.t }}" style="flex:0 0 84px;height:84px;border-radius:11px;background:{{ a.img }}"></a>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<span style="font-size:9px;font-weight:900;color:#146c4c">{{ a.cat }}</span>
+<h2 style="margin:0;font-size:13px;font-weight:900;line-height:1.5"><a href="#" onClick="{{ a.onGo }}" style="color:#14261d">{{ a.t }}</a></h2>
+<span style="font-size:10.5px;line-height:1.7;color:#7c8a82">{{ a.d }}</span>
+<span style="margin-top:auto;font-size:9px;color:#a9b4ad">{{ a.meta }}</span>
+</div>
+</article>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.article }}" hint-placeholder-val="{{ false }}">
+<article style="max-width:760px;margin:0 auto;width:100%;animation:chFade .3s ease">
+<nav aria-label="مسار" style="display:flex;gap:6px;font-size:10.5px;margin-bottom:10px"><a href="#">المدونة</a><span style="color:#b9c4bd">‹</span><span style="color:#5f7167">أدلة الاختيار</span></nav>
+<h1 style="margin:0 0 10px;font:900 26px/1.5 Tajawal">{{ art.h1 }}</h1>
+<div style="display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid #e2e8e4;border-radius:13px;background:#fff;flex-wrap:wrap">
+<span aria-hidden="true" style="width:38px;height:38px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:18px;height:18px"><use href="#c2-user"></use></svg></span>
+<span style="flex:1;min-width:200px"><b style="font-size:12px">أ. سارة القحطاني</b><span style="display:block;font-size:9.5px;color:#8b978f">معلمة رياضيات ١٢ عامًا — <a href="#">صفحة المُعِدّة</a></span></span>
+<span style="font-size:9.5px;color:#8b978f">نُشر: ١٢ أغسطس · <b style="color:#146c4c">رُوجع: ٢٧ أغسطس ٢٠٢٦</b> · ٦ دقائق</span>
+</div>
+<nav aria-label="محتويات" style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0">
+<sc-for list="{{ art.toc }}" as="t" hint-placeholder-count="4">
+<a href="#" style="min-height:30px;display:inline-flex;align-items:center;padding:0 12px;border:1px solid #e2e8e4;border-radius:999px;background:#fff;font-size:10.5px;font-weight:800;color:#3d4f45">{{ t }}</a>
+</sc-for>
+</nav>
+<div style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:20px 24px;display:flex;flex-direction:column;gap:13px">
+<sc-for list="{{ art.secs }}" as="s" hint-placeholder-count="3">
+<div><h2 style="margin:0 0 6px;font-size:16px;font-weight:900">{{ s.h }}</h2><p style="margin:0;font-size:13px;line-height:2.1;color:#3d4f45">{{ s.p }}</p></div>
+</sc-for>
+<div style="padding:12px 15px;border-radius:12px;background:#f2f8f5;border:1px solid #dceee4"><b style="font-size:11.5px;color:#146c4c">الخلاصة المباشرة: </b><span style="font-size:12px;line-height:1.9;color:#3d4f45">{{ art.answer }}</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;padding-top:6px;border-top:1px dashed #eef1ef">
+<sc-for list="{{ art.prods }}" as="p" hint-placeholder-count="2">
+<a href="#" onClick="{{ p.onGo }}" style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid #e2e8e4;border-radius:11px;background:#fbfcfb">
+<span aria-hidden="true" style="width:34px;height:34px;border-radius:9px;background:{{ p.img }}"></span>
+<span style="flex:1;font-size:11px;font-weight:900;color:#14261d">{{ p.n }}</span><span style="font:900 11px Tajawal;color:#146c4c">{{ p.pr }}</span>
+</a>
+</sc-for>
+</div>
+<div><h2 style="margin:0 0 5px;font-size:13px;font-weight:900">المصادر</h2>
+<sc-for list="{{ art.src }}" as="s" hint-placeholder-count="2"><span style="display:block;font-size:10.5px;line-height:1.8;color:#5f7167">• {{ s }}</span></sc-for></div>
+</div>
+</article>
+</sc-if>
+<sc-if value="{{ is.guide }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:6px 0;animation:chFade .3s ease"><h1 style="margin:0 0 6px;font:900 25px Tajawal">{{ gd.h1 }}</h1><p style="margin:0 auto;max-width:600px;font-size:12.5px;line-height:1.9;color:#5f7167">{{ gd.intro }}</p></section>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ gd.cases }}" as="c" hint-placeholder-count="3">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+<span style="font-size:10px;font-weight:900;color:#146c4c">{{ c.who }}</span>
+<h2 style="margin:0;font-size:14px;font-weight:900">{{ c.pick }}</h2>
+<p style="margin:0;font-size:11px;line-height:1.9;color:#5f7167">{{ c.why }}</p>
+<a href="#" onClick="{{ c.onGo }}" style="margin-top:auto;font-size:11.5px;font-weight:900">{{ c.cta }} ←</a>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<h2 style="margin:0;padding:14px 18px 8px;font-size:15px;font-weight:900">مقارنة سريعة</h2>
+<table style="width:100%;border-collapse:collapse">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:8px 18px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">المنتج</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الأنسب لـ</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">السعر</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">القرار</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ gd.table }}" as="r" hint-placeholder-count="3">
+<tr>
+<td style="padding:9px 18px;border-top:1px solid #f4f6f4"><button type="button" onClick="{{ r.onGo }}" style="border:0;background:none;padding:0;cursor:pointer;font:900 12px Tajawal;color:#1e7355">{{ r.n }}</button></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px;color:#5f7167">{{ r.who }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font:900 11.5px Tajawal">{{ r.p }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px;font-weight:900;color:#146c4c">{{ r.d }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<sc-for list="{{ gd.faq }}" as="f" hint-placeholder-count="2">
+<div style="padding:12px 15px;border:1px solid #e2e8e4;border-radius:13px;background:#fff"><span style="display:block;font-size:12px;font-weight:900">{{ f.q }}</span><span style="display:block;margin-top:3px;font-size:11px;line-height:1.9;color:#5f7167">{{ f.a }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.help }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:linear-gradient(170deg,#f0f7f3,#fff 60%);padding:26px 24px;text-align:center;animation:chFade .3s ease">
+<h1 style="margin:0 0 6px;font:900 24px Tajawal">كيف نساعدك؟</h1>
+<div style="position:relative;max-width:480px;margin:12px auto 0">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:13px;top:13px;color:#8b978f"><svg style="width:16px;height:16px"><use href="#c2-search"></use></svg></span>
+<input type="search" value="{{ help.q }}" onChange="{{ help.onQ }}" placeholder="ابحث: استرجاع، تتبع، فاتورة…" aria-label="بحث المساعدة" style="width:100%;box-sizing:border-box;min-height:44px;padding-inline:38px 14px;border:1.5px solid #d7ddd8;border-radius:12px;font:800 12.5px Tajawal;outline:none">
+</div>
+</section>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ help.cats }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onGo }}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:15px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;cursor:pointer">
+<span aria-hidden="true" style="width:38px;height:38px;border-radius:11px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><svg style="width:17px;height:17px"><use href="{{ c.ic }}"></use></svg></span>
+<span style="font-size:12px;font-weight:900;color:#14261d">{{ c.n }}</span><span style="font-size:9.5px;color:#8b978f">{{ c.count }}</span>
+</button>
+</sc-for>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:14px 18px">
+<h2 style="margin:0 0 8px;font-size:14px;font-weight:900">الأسئلة الأكثر شيوعًا <span style="font-size:10px;font-weight:700;color:#8b978f">({{ help.n }})</span></h2>
+<sc-for list="{{ help.rows }}" as="h" hint-placeholder-count="5">
+<details style="border:1px solid #eef1ef;border-radius:11px;margin-bottom:6px;background:#fbfcfb">
+<summary style="padding:11px 14px;font-size:12px;font-weight:900;cursor:pointer;color:#14261d">{{ h.q }} <span style="font-size:9px;font-weight:800;color:#8b978f">— {{ h.c }}</span></summary>
+<p style="margin:0;padding:0 14px 12px;font-size:11.5px;line-height:1.95;color:#4a5b51">{{ h.a }}</p>
+</details>
+</sc-for>
+<div style="display:flex;align-items:center;gap:10px;margin-top:10px;padding:11px 14px;border-radius:12px;background:#f2f8f5;flex-wrap:wrap">
+<span style="flex:1;min-width:200px;font-size:11.5px;font-weight:800;color:#146c4c">لم تجد إجابتك؟ بشر حقيقيون يردون خلال دقائق.</span>
+<button type="button" onClick="{{ help.onWhats }}" style="min-height:38px;padding:0 16px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer">تحدث معنا الآن</button>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{ is.about }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:18px;background:linear-gradient(140deg,#14261d,#1e5c42);color:#fff;padding:32px 30px;animation:chFade .3s ease">
+<h1 style="margin:0 0 8px;font:900 26px/1.5 Tajawal">ملازم من الفصل، لا من المكتب</h1>
+<p style="margin:0;max-width:640px;font-size:13px;line-height:2;color:rgba(255,255,255,.85)">بدأت تذكير عام ٢٠١٩ حين ضاق معلمون بملازم مكرَّرة لا تشبه فصولهم، فقرروا إعداد موادهم بأنفسهم ومشاركتها. اليوم يعتمدنا أكثر من ١٢ ألف أسرة، وما زالت القاعدة نفسها: لا تُنشر ملزمة قبل أن يجرّبها مُعِدّها على طلابه فصلًا كاملًا.</p>
+</section>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ about.stats }}" as="s" hint-placeholder-count="4">
+<div style="padding:14px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;text-align:center"><span style="display:block;font:900 19px Tajawal;color:#146c4c">{{ s.v }}</span><span style="font-size:10px;color:#7c8a82">{{ s.l }}</span></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ about.values }}" as="v" hint-placeholder-count="3">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:16px 18px">
+<h2 style="margin:0 0 5px;font-size:13.5px;font-weight:900;color:#146c4c">{{ v.t }}</h2>
+<p style="margin:0;font-size:11.5px;line-height:1.95;color:#5f7167">{{ v.d }}</p>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 9px;font-size:14px;font-weight:900">من يقف خلف الملازم</h2>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<sc-for list="{{ about.team }}" as="t" hint-placeholder-count="2">
+<span style="display:inline-flex;align-items:center;gap:10px;padding:9px 15px 9px 11px;border:1px solid #e2e8e4;border-radius:999px;background:#fbfcfb">
+<span aria-hidden="true" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:16px;height:16px"><use href="#c2-user"></use></svg></span>
+<span><b style="display:block;font-size:12px">{{ t.n }}</b><span style="font-size:9.5px;color:#8b978f">{{ t.r }}</span></span>
+</span>
+</sc-for>
+<a href="#" style="align-self:center;font-size:11.5px;font-weight:900">كل المُعِدّين (٤٠+) ←</a>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.contact }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 24px Tajawal;animation:chFade .3s ease">تواصل معنا</h1>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:13px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ ct.chans }}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{ c.onGo }}" style="display:flex;align-items:center;gap:11px;padding:13px 15px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="width:38px;height:38px;flex:0 0 auto;border-radius:11px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><svg style="width:17px;height:17px"><use href="{{ c.ic }}"></use></svg></span>
+<span style="flex:1"><b style="display:block;font-size:12.5px;color:#14261d">{{ c.n }}</b><span style="font-size:10.5px;color:#7c8a82">{{ c.d }}</span></span>
+</button>
+</sc-for>
+<section style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 7px;font-size:12.5px;font-weight:900;display:flex;align-items:center;gap:7px"><svg aria-hidden="true" style="width:14px;height:14px;color:#146c4c"><use href="#c2-clock"></use></svg>ساعات الدعم</h2>
+<sc-for list="{{ ct.hours }}" as="h" hint-placeholder-count="2">
+<div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px dashed #f1f4f2"><span style="font-size:11px;color:#5f7167">{{ h.d }}</span><b style="font-size:11px">{{ h.t }}</b></div>
+</sc-for>
+</section>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:18px 20px">
+<h2 style="margin:0 0 10px;font-size:14px;font-weight:900">أرسل رسالة</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<label><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">الاسم</span><input type="text" placeholder="اسمك" style="width:100%;box-sizing:border-box;min-height:42px;padding:0 12px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 12px Tajawal;outline:none"></label>
+<label><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">البريد</span><input type="email" dir="ltr" placeholder="you@example.com" style="width:100%;box-sizing:border-box;min-height:42px;padding:0 12px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 12px Tajawal;outline:none;text-align:start"></label>
+<label style="grid-column:1/-1"><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">رسالتك</span><textarea rows="4" placeholder="اذكر رقم الطلب إن وُجد ليصلك الرد أسرع" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid #d7ddd8;border-radius:11px;font:700 12px/1.8 Tajawal;outline:none;resize:vertical"></textarea></label>
+</div>
+<button type="button" onClick="{{ ct.onSend }}" style="min-height:44px;margin-top:10px;padding:0 22px;border:0;border-radius:11px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13px;font-weight:900;cursor:pointer">إرسال — يصلك رقم تذكرة</button>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.policies }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:210px minmax(0,1fr);gap:13px;align-items:start;animation:chFade .3s ease">
+<nav aria-label="السياسات" style="position:sticky;top:14px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:7px">
+<sc-for list="{{ pol.tabs }}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{ t.onClick }}" aria-current="{{ t.on }}" style="display:block;width:100%;min-height:40px;padding:0 12px;border:0;border-inline-start:3px solid {{ t.bd }};border-radius:9px;background:{{ t.bg }};color:{{ t.fg }};font-size:12px;font-weight:900;cursor:pointer;text-align:start">{{ t.n }}</button>
+</sc-for>
+</nav>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:20px 24px">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font-size:19px;font-weight:900">سياسة {{ pol.n }}</h1>
+<span style="font-size:10px;color:#8b978f">{{ pol.up }}</span>
+<button type="button" onClick="{{ pol.onPrint }}" style="margin-inline-start:auto;min-height:32px;padding:0 12px;border:1px solid #d7ddd8;border-radius:9px;background:#fbfcfb;font-size:10.5px;font-weight:800;color:#3d4f45;cursor:pointer">نسخة للطباعة</button>
+</div>
+<div style="margin-top:13px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ pol.secs }}" as="s" hint-placeholder-count="3">
+<div style="padding:13px 16px;border:1px solid #f1f4f2;border-radius:13px;background:#fbfcfb"><h2 style="margin:0 0 5px;font-size:13.5px;font-weight:900;color:#146c4c">{{ s.h }}</h2><p style="margin:0;font-size:12px;line-height:2;color:#3d4f45">{{ s.p }}</p></div>
+</sc-for>
+</div>
+<p style="margin:13px 0 0;font-size:10px;color:#a9b4ad">هذه السياسات تُدار من ووردبريس (قابلة للتحرير بلا كود)، وتُعرض ذاتها في الفوتر وMerchant Center وصفحة الدفع — مصدر واحد للحقيقة.</p>
+</section>
+</div>
+</sc-if>
+</main>
+
+<footer style="background:#14261d;color:rgba(234,242,238,.75)">
+<div style="max-width:1080px;margin:0 auto;padding:18px 20px;display:flex;gap:14px;flex-wrap:wrap;font-size:11px"><span style="font-weight:900;color:#fff">تذكير</span><a href="#" style="color:rgba(234,242,238,.75)">المتجر</a><a href="#" style="color:rgba(234,242,238,.75)">السياسات</a><span style="margin-inline-start:auto;opacity:.55">© ٢٠٢٦</span></div>
+</footer>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:400px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;animation:chFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;blog&quot;,&quot;article&quot;,&quot;guide&quot;,&quot;help&quot;,&quot;about&quot;,&quot;contact&quot;,&quot;policies&quot;],&quot;default&quot;:&quot;blog&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+G=['linear-gradient(140deg,#2b9c72,#14603f)','linear-gradient(140deg,#d8b56a,#8a6a35)','linear-gradient(140deg,#527a96,#2d5471)','linear-gradient(140deg,#6b8f5a,#3f6132)'];
+ARTS=[
+ {t:'كيف تختار الملزمة المناسبة لمستوى ابنك؟',d:'مقارنة عملية بين الملزمة المكثفة والمبسطة، ومتى يناسب كلٌّ منهما.',cat:'أدلة الاختيار',meta:'أ. سارة · ١٢ أغسطس · ٦ دقائق'},
+ {t:'خطة مراجعة ٤ أسابيع قبل الاختبارات',d:'جدول قابل للتنزيل مع توزيع المواد على الأسابيع.',cat:'تنظيم المذاكرة',meta:'أ. محمد · ٤ أغسطس · ٨ دقائق'},
+ {t:'٧ عادات للمراجعة النهائية',d:'عادات مجرَّبة على فصول حقيقية ترفع التركيز وتقلل التوتر.',cat:'تنظيم المذاكرة',meta:'أ. سارة · ١٩ يوليو · ٥ دقائق'},
+ {t:'تغييرات منهج المسارات هذا العام',d:'ملخص التعديلات وما يعنيه ذلك لملازمك الحالية.',cat:'أخبار المناهج',meta:'فريق تذكير · ٢٥ أغسطس · ٤ دقائق'},
+ {t:'الرقمي أم المطبوع؟ حسم الجدل بأرقام',d:'متى يتفوق كل تنسيق حسب عمر الطالب وأسلوب مذاكرته.',cat:'أدلة الاختيار',meta:'أ. خالد · ١٠ يوليو · ٧ دقائق'}
+];
+HELP=[
+ {q:'كيف أستلم ملفاتي الرقمية؟',a:'فور الدفع يظهر رابط التنزيل في صفحة التأكيد ويصلك نسخة بالبريد. من حسابك ← التنزيلات تجد كل ملفاتك دائمًا.',c:'الطلبات'},
+ {q:'كم تستغرق الشحنة؟',a:'المدن الرئيسية ١–٣ أيام عمل وبقية المناطق ٣–٥. يصلك رقم تتبع برسالة فور التسليم للناقل.',c:'الشحن'},
+ {q:'كيف أسترجع منتجًا؟',a:'المطبوعات خلال ١٤ يومًا بحالتها الأصلية، والرقمية قبل التنزيل الأول. ابدأ من حسابك ← طلباتي ← طلب استرجاع.',c:'الاسترجاع'},
+ {q:'هل الفاتورة ضريبية معتمدة؟',a:'نعم — فاتورة ضريبية مبسطة PDF لكل طلب، من صفحة التأكيد أو حسابك.',c:'الدفع'},
+ {q:'نسيت كلمة المرور؟',a:'من صفحة الدخول ← «نسيت كلمة المرور» يصلك رابط تعيين جديد صالح لساعة واحدة.',c:'الحساب'}
+];
+POL={
+ privacy:{n:'الخصوصية',secs:[['ما نجمعه','الاسم والبريد والجوال وعنوان الشحن وسجل الطلبات — فقط ما يلزم لتنفيذ طلبك وخدمتك.'],['ما لا نفعله','لا نبيع بياناتك، ولا نخزن أرقام البطاقات (تبقى لدى بوابة الدفع المرخصة)، ولا نتتبعك خارج موقعنا.'],['حقوقك','طلب نسخة من بياناتك أو حذفها من حسابك ← الإعدادات، وفق نظام حماية البيانات الشخصية السعودي.']],up:'٢٠ أغسطس ٢٠٢٦'},
+ terms:{n:'الشروط والأحكام',secs:[['الترخيص الرقمي','الملفات لاستخدامك الشخصي/التعليمي — يُمنع إعادة البيع أو الرفع على مواقع أخرى.'],['الأسعار','بالريال السعودي شاملة الضريبة. سعر لحظة الشراء هو الملزم.'],['الحساب','أنت مسؤول عن سرية بيانات دخولك، ولك إغلاق حسابك متى شئت.']],up:'٢٠ أغسطس ٢٠٢٦'},
+ refund:{n:'الاسترجاع',secs:[['المطبوعات','١٤ يومًا من الاستلام بالحالة الأصلية — والشحن علينا إن كان الخطأ منا.'],['الرقمية','استرجاع كامل قبل التنزيل الأول. بعده نساعدك تقنيًا حتى يعمل الملف.'],['مدة الاسترداد','مدى ٣–٥ أيام عمل، البطاقات ٥–١٠، التحويل ٢–٣.']],up:'١٥ يوليو ٢٠٢٦'},
+ shipping:{n:'الشحن',secs:[['المناطق والمدد','الرياض وجدة والدمام ١–٣ أيام عمل، بقية المناطق ٣–٥.'],['التكلفة','١٥ ر.س للرئيسية و١٩ لغيرها — مجاني فوق ٢٠٠ ر.س.'],['التتبع','رقم تتبع برسالة فور تسليم الناقل، والحالة في حسابك لحظيًا.']],up:'١ أغسطس ٢٠٢٦'}
+};
+state={scr:'blog',cat:'all',helpQ:'',pol:'privacy',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['blog','المدونة'],['article','قالب المقال'],['guide','دليل الشراء'],['help','مركز المساعدة'],['about','من نحن'],['contact','تواصل معنا'],['policies','السياسات']];
+ const NOTES={blog:'index · hub معرفي',article:'index · Article schema · تواريخ حقيقية',guide:'index · نية شراء استقصائية',help:'index · أسئلة حقيقية',about:'index · Organization entity',contact:'index · NAP متسق',policies:'index · مطلوبة للثقة وMerchant'};
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  seoNote:NOTES[st.scr],
+  is:{blog:st.scr==='blog',article:st.scr==='article',guide:st.scr==='guide',help:st.scr==='help',about:st.scr==='about',contact:st.scr==='contact',policies:st.scr==='policies',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const open=(t)=>()=>this.setState({scr:'article'});
+ if(st.scr==='blog'){
+  const cats=['all','أدلة الاختيار','تنظيم المذاكرة','أخبار المناهج'];
+  const rows=this.ARTS.slice(1).filter(a=>st.cat==='all'||a.cat===st.cat);
+  base.blog={feat:{t:this.ARTS[0].t,d:this.ARTS[0].d,cat:this.ARTS[0].cat,meta:this.ARTS[0].meta,onGo:(e)=>{e.preventDefault();this.setState({scr:'article'});}},
+   cats:cats.map(c=>({n:c==='all'?'الكل':c,on:st.cat===c,
+    bg:st.cat===c?'#14261d':'#fff',fg:st.cat===c?'#fff':'#3d4f45',bd:st.cat===c?'#14261d':'#dcdcde',
+    onClick:()=>this.setState({cat:c})})),
+   rows:rows.map((a,i)=>({t:a.t,d:a.d,cat:a.cat,meta:a.meta,img:this.G[i%4],onGo:(e)=>{e.preventDefault();this.setState({scr:'article'});}}))};
+ } else base.blog={cats:[],rows:[],feat:{}};
+ base.art=st.scr==='article'?{
+  h1:'كيف تختار الملزمة المناسبة لمستوى ابنك؟',
+  toc:['متى تكفي المبسطة؟','متى تحتاج المكثفة؟','اختبار الدقائق الخمس','قرارك النهائي'],
+  secs:[
+   ['متى تكفي الملزمة المبسطة؟','إن كان الطالب يتابع الحصص أولًا بأول ودرجاته فوق ٨٥، فالمبسطة تكفيه: مراجعة مركزة وتثبيت بلا إغراق. إضافة المكثفة هنا تستهلك وقته بلا مردود يُذكر.'],
+   ['متى تحتاج المكثفة؟','إن وُجدت فجوات من سنوات سابقة أو هبطت الدرجات تحت ٧٥، فالمكثفة تعيد البناء من الأساس بخرائط المفاهيم والتدرج — وهي الأنسب أيضًا للمنتقلين من مناهج أخرى.'],
+   ['اختبار الدقائق الخمس','افتح النموذج المجاني لأي ملزمة ودع ابنك يقرأ درسًا واحدًا: إن أعاد شرحه بلغته فقد أصبت الاختيار. هذا الاختبار أدق من أي وصف تسويقي.']
+  ].map(s=>({h:s[0],p:s[1]})),
+  answer:'فوق ٨٥ ومتابع ← مبسطة. تحت ٧٥ أو فجوات ← مكثفة. وبينهما جرّب النموذج المجاني قبل الدفع.',
+  prods:[{n:'مذكرة رياضيات (مكثفة)',pr:'٤٥ ر.س',img:this.G[0]},{n:'مذكرة المراجعة المبسطة',pr:'٢٩ ر.س',img:this.G[2]}].map(p=>Object.assign(p,{onGo:(e)=>{e.preventDefault();this.toast('فتح «'+p.n+'» — ربط محتوى↔منتج بنص وصفي');}})),
+  src:['وثيقة منهج المسارات المحدثة — وزارة التعليم ١٤٤٧','بيانات أداء ٤٢٠ طالبًا استخدموا الملازم (داخلية، بموافقة)']
+ }:{toc:[],secs:[],prods:[],src:[]};
+ base.gd=st.scr==='guide'?{
+  h1:'دليل شراء ملازم الثانوية ٢٠٢٦',
+  intro:'ثلاث حالات تغطي أغلب الطلاب — اعرف حالة ابنك وخذ قرارك في دقيقة، ثم تحقق بالنموذج المجاني.',
+  cases:[
+   {who:'طالب متفوق (٨٥+)',pick:'المبسطة + اختبارات',why:'يحتاج تثبيتًا وتدريبًا بنمط الأسئلة لا إعادة شرح.',cta:'ملازم المراجعة'},
+   {who:'طالب متوسط (٧٥–٨٥)',pick:'المكثفة لمادة الضعف فقط',why:'ركّز الاستثمار حيث الفجوة، والباقي بالمبسطة.',cta:'ملازم الشرح'},
+   {who:'فجوات متراكمة (<٧٥)',pick:'حزمة العام الكاملة',why:'بناء متدرج من الأساس بأوفر سعر — مع التحديثات.',cta:'الحزم'}
+  ].map(c=>Object.assign(c,{onGo:(e)=>{e.preventDefault();this.toast('الانتقال إلى «'+c.cta+'» — رابط تصنيف حقيقي');}})),
+  table:[
+   ['مذكرة الشرح المكثفة','بناء الفهم من الصفر','٤٥ ر.س','الأفضل للفجوات'],
+   ['مذكرة المراجعة المبسطة','التثبيت السريع','٢٩ ر.س','الأفضل للمتفوق'],
+   ['حزمة العام الكاملة','تغطية شاملة بأوفر سعر','١١٩ ر.س','الأفضل قيمة']
+  ].map(r=>({n:r[0],who:r[1],p:r[2],d:r[3],onGo:()=>this.toast('فتح «'+r[0]+'»')})),
+  faq:[['هل أشتري الفصلين معًا؟','حزمة العام أوفر ٢٥٪ وتضمن لك تحديثات الفصل الثاني تلقائيًا.'],['ابني بين مستويين؟','خذ المبسطة وجرّب النموذج المجاني للمكثفة — القرار يتضح من درس واحد.']].map(f=>({q:f[0],a:f[1]}))
+ }:{cases:[],table:[],faq:[]};
+ if(st.scr==='help'){
+  const q=st.helpQ.trim();
+  const rows=this.HELP.filter(h=>!q||(h.q+h.a+h.c).indexOf(q)>=0);
+  base.help={q:st.helpQ,onQ:(e)=>this.setState({helpQ:e.target.value}),
+   cats:[['الطلبات والتنزيلات','٨','#c2-doc'],['الشحن والتتبع','٦','#c2-truck'],['الدفع والفواتير','٥','#c2-shield'],['الحساب','٤','#c2-user']].map(c=>({n:c[0],count:c[1]+' مقالات',ic:c[2],onGo:()=>this.toast('فتح قسم «'+c[0]+'»')})),
+   rows:rows.map(h=>({q:h.q,a:h.a,c:h.c})),
+   n:this.ar(rows.length),
+   onWhats:()=>this.toast('فتح واتساب الدعم — ٩ص–١١م، بشر حقيقيون')};
+ } else base.help={cats:[],rows:[]};
+ base.about=st.scr==='about'?{
+  stats:[['٢٠١٩','سنة التأسيس'],['٢١٤','ملزمة منشورة'],['+٤٠','معلمًا مُعِدًّا'],['+١٢ ألف','أسرة تعتمدنا']].map(s=>({v:s[0],l:s[1]})),
+  values:[['من الفصل لا من المكتب','كل ملزمة يجرّبها مُعِدّها على طلابه فصلًا كاملًا قبل النشر.'],['تحديث لا إعادة بيع','المنهج تغيّر؟ التحديث يصلك مجانًا لنفس العام — لا نبيعك نفس الملف باسم جديد.'],['شفافية الأرقام','تقييماتنا موثقة بمشتريات، وأرقامنا المعلنة قابلة للتدقيق.']].map(v=>({t:v[0],d:v[1]})),
+  team:[['أ. سارة القحطاني','رئيسة الإعداد — رياضيات'],['أ. محمد العبدالله','المؤسس — ١٥ عامًا في التعليم']].map(t=>({n:t[0],r:t[1]}))
+ }:{stats:[],values:[],team:[]};
+ base.ct=st.scr==='contact'?{
+  chans:[['واتساب','رد خلال دقائق · ٩ص–١١م','#c2-chat'],['البريد','support@tahdheer.sa · خلال ٢٤ ساعة','#c2-mail'],['المقر','الرياض — حي العليا، طريق الملك فهد','#c2-pin']].map(c=>({n:c[0],d:c[1],ic:c[2],onGo:()=>this.toast('فتح '+c[0])})),
+  onSend:()=>this.toast('أُرسلت رسالتك — رقم تذكرة بالبريد ورد خلال يوم عمل'),
+  hours:[['الأحد–الخميس','٩ ص – ١١ م'],['الجمعة–السبت','٤ م – ١١ م']].map(h=>({d:h[0],t:h[1]}))
+ }:{chans:[],hours:[]};
+ if(st.scr==='policies'){
+  const P=this.POL[st.pol];
+  base.pol={tabs:Object.keys(this.POL).map(k=>({n:this.POL[k].n,on:st.pol===k,
+    bg:st.pol===k?'#eaf3ee':'transparent',fg:st.pol===k?'#146c4c':'#3d4f45',bd:st.pol===k?'#1e7355':'transparent',
+    onClick:()=>this.setState({pol:k})})),
+   n:P.n,up:'آخر تحديث: '+P.up,
+   secs:P.secs.map(s=>({h:s[0],p:s[1]})),
+   onPrint:()=>this.toast('نسخة طباعة نظيفة — والتاريخ يتغير فقط عند تعديل حقيقي')};
+ } else base.pol={tabs:[],secs:[]};
+ return base;
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+/* الشعار بارتفاع ‎16px‎ داخل رقاقة ‎28px‎ (نسبة ‎3:1‎ ⇒ ‎48px‎ عرضًا) — صندوقٌ ثابت. */
+.logo {
+  display: block;
+  block-size: 16px;
+  inline-size: 48px;
+  object-fit: contain;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

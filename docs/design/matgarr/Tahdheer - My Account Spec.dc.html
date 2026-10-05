@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:2px solid #14261d;margin-bottom:24px">
+<span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:15px">ت</span>
+<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#14261d">Tahdheer — My Account V2</div><div style="font-size:11.5px;color:#5f7167">Endpoints · data service · feature detection · bilingual RTL</div></div>
+<div style="text-align:end;font:600 10.5px ui-monospace,Menlo,monospace;color:#5f7167">v1 · draft<br>2026-08-27</div>
+</div>
+
+<div style="padding:14px 16px;border:1px solid rgba(216,181,106,.45);background:rgba(216,181,106,.09);border-radius:10px;margin-bottom:22px">
+<div style="font-size:13px;font-weight:900;color:#7a5d20;margin-bottom:6px">Audit finding that changes the plan</div>
+<p dir="auto" style="margin:0;font-size:12.5px;line-height:1.8;color:#3b4d43">The brief's §11–§13 assume an existing multilingual system to integrate with. There is none. <code style="font-size:11.5px">inc/setup.php:16</code> calls <code style="font-size:11.5px">load_theme_textdomain('tahdheer', …/languages)</code>, but no WPML, Polylang or TranslatePress is present and there is no language switcher anywhere in the theme. Arabic today comes from two filters — <code style="font-size:11.5px">woocommerce_account_menu_items</code> (<code style="font-size:11.5px">inc/woocommerce.php:63</code>) and a page-title filter — not from a translation layer. There are also <b>no</b> <code style="font-size:11.5px">myaccount/</code> template overrides: the account page is stock WooCommerce output, which is why the default «Hello username / From your account dashboard» paragraph is still printed. <b>Decision required before build:</b> install Polylang/WPML, or build an in-theme locale layer on <code style="font-size:11.5px">.po</code> files. This spec assumes the second, being lighter and dependency-free, and marks the parts that change if you pick the first.</p>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">1 · Endpoints</h2>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.75;color:#5f7167">Native endpoints keep working untouched (brief §172). Four are added; each is registered once and flushed on activation only — never on every load.</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:12px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:24%">Endpoint</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:20%">Slug</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Notes</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Library</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">library</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">The centrepiece. Derived from download permissions + order items, not a new store.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Preferences</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">preferences</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Stage / grade / subject / semester on user meta; reuses existing taxonomies.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Security</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">security</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Only real states: password-changed date, active sessions via <code style="font-size:10.5px">WP_Session_Tokens</code>. No fake 2FA (§113).</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Support</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code dir="ltr" style="font-size:10.5px;color:#1e7355">support</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">WhatsApp deep link from the existing <code style="font-size:10.5px">whatsapp_number</code> option + FAQ links.</td></tr>
+</tbody>
+</table>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>Slugs stay Latin in both languages.</b> Localise the visible label, never the URL — per-language slugs double the rewrite table and break bookmarks on switch. Language switching must preserve the endpoint and the session (§12–§13, §176): swap only the locale query var/cookie and re-render the same endpoint.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">2 · Data service</h2>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.75;color:#5f7167">One class, one request, memoised. Templates consume prepared arrays and never query (§182).</p>
+<div style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:12px">
+<pre style="margin:0;font:600 10.5px/1.85 ui-monospace,Menlo,monospace;color:#3b4d43;white-space:pre-wrap;direction:ltr;text-align:start">inc/account/class-account-data.php
+
+  ::for_user( $user_id )        one instance per request, memoised
+  ->stats()                    orders, library, downloads, wishlist
+  ->orders( $limit )           wc_get_orders, customer-scoped
+  ->owned_product_ids()        one query, reused by library + recommendations
+  ->library( $filters )        owned + downloadable, with edu meta
+  ->downloads()                wc_get_customer_available_downloads
+  ->updates()                  post_modified &gt; order date, owned only
+  ->progress( $subject )       owned ÷ catalogue relationship
+  ->recommendations()          deterministic; excludes owned
+  ->features()                 capability map — see §3</pre>
+</div>
+<p style="margin:0 0 22px;font-size:12px;line-height:1.75;color:#3b4d43"><b>N+1 avoidance:</b> <code style="font-size:11px">owned_product_ids()</code> runs once and every downstream method takes it as input — library, updates, progress and recommendations must not each re-derive ownership. <b>Cache:</b> per-user transient keyed <code dir="ltr" style="font-size:11px">tah_acct_{user_id}_{hash}</code>, private only, invalidated on <code style="font-size:11px">woocommerce_order_status_changed</code>, <code style="font-size:11px">woocommerce_grant_product_download_permissions</code>, profile update and wishlist change (§190–§192). Never a public/page cache on these endpoints, and <code style="font-size:11px">nocache_headers()</code> on all of them.</p>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">3 · Feature detection — what is real today</h2>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.75;color:#5f7167">§145 forbids UI for absent features. The audit found none of the following in the theme, so the dashboard lists them as «يحتاج ربطًا» rather than drawing them with invented numbers.</p>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:12px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:26%">Module</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:22%">Status</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Detection gate</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Orders · Downloads · Library</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Real now</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">WooCommerce core + <code style="font-size:10.5px">_tahdheer_*</code> edu meta.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Purchase updates</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Real now</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Derived from <code style="font-size:10.5px">post_modified</code> vs. purchase date. Show a re-download link only if a new file actually exists.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Wishlist</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">Plugin-dependent</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Gate on the plugin's own function existing. Hide the module otherwise.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Wallet · Rewards · Coupons</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Absent</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">No balance, ledger or points store exists. Each needs a real backend before any panel ships.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">PDF invoices</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Absent</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Order view exists; PDF generation does not. Do not print a Download-PDF button that 404s.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Notification centre</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Absent</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Needs an events table. Store structured events and translate at display (§64) — never store pre-translated text.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Two-factor auth</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Absent</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">§113: never render a 2FA toggle that does nothing — it is a safety claim, not a decoration.</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">4 · Bilingual RTL — the rules that were implemented</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:22px">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="7">
+<div dir="rtl" style="display:flex;gap:10px;padding:10px 12px;border:1px solid {{ r.border }};border-radius:9px;background:{{ r.bg }};break-inside:avoid">
+<span style="flex:0 0 auto;font-size:13px;color:{{ r.fg }};font-weight:900">{{ r.mark }}</span>
+<div style="min-width:0"><b dir="rtl" style="display:block;text-align:start;font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:2px">{{ r.title }}</b><span dir="rtl" style="display:block;text-align:start;font-size:11.5px;line-height:1.7;color:#5f7167">{{ r.body }}</span></div>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">5 · Security &amp; privacy</h2>
+<div dir="rtl" style="columns:2;column-gap:24px;font-size:11.5px;line-height:1.9;color:#3b4d43;margin-bottom:22px">
+<sc-for list="{{ sec }}" as="s" hint-placeholder-count="10">
+<div dir="rtl" style="break-inside:avoid;display:flex;gap:7px;align-items:flex-start"><span style="flex:0 0 auto;width:12px;height:12px;border:1.5px solid #c9d4cd;border-radius:3px;margin-top:4px"></span><span dir="rtl" style="flex:1;min-width:0;text-align:start">{{ s }}</span></div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">6 · Performance budget</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:22px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Item</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:20%">Budget</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">How</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">CSS</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">≤ 8 KB</code> gzip</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">One <code style="font-size:10.5px">account.css</code>, enqueued on <code style="font-size:10.5px">is_account_page()</code> only.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">JS</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">≤ 3 KB</code> gzip</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Vanilla, deferred: count-up, filters, bottom sheet. No framework (§138, §206).</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">DB queries added</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">≤ 6</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Measured against the stock dashboard. Ownership resolved once.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">CLS</td><td style="padding:6px 9px;border:1px solid #e6e9e2"><code style="font-size:10.5px">0</code></td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Server-rendered; count-up starts at the true value; no JS-inserted blocks.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Failure isolation</td><td style="padding:6px 9px;border:1px solid #e6e9e2">per module</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Each section renders in a try/catch that degrades to its empty state — a wallet error must not blank Orders (§211–§212).</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">7 · Files</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<sc-for list="{{ files }}" as="f" hint-placeholder-count="8">
+<div style="display:flex;gap:12px;padding:9px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;padding:2px 8px;border-radius:5px;background:{{ f.tagBg }};color:{{ f.tagFg }};font:800 9.5px ui-monospace,monospace">{{ f.tag }}</span>
+<code dir="ltr" style="flex:1;font-size:11px;color:#14261d;text-align:start">{{ f.path }}</code>
+<span dir="{{ f.dir }}" style="flex:0 0 auto;text-align:start;font-size:11px;color:#5f7167;white-space:nowrap">{{ f.role }}</span>
+</div>
+</sc-for>
+</div>
+
+<p style="margin:0;padding-top:12px;border-top:1px solid #e6e9e2;font-size:11px;color:#5f7167;line-height:1.7">Audited for this spec: <code style="font-size:10.5px">inc/setup.php</code>, <code style="font-size:10.5px">inc/woocommerce.php</code>, <code style="font-size:10.5px">inc/product-education-meta.php</code>, <code style="font-size:10.5px">inc/product-sales-count.php</code>, <code style="font-size:10.5px">inc/smart-review-engine.php</code>, <code style="font-size:10.5px">woocommerce/</code> (no <code style="font-size:10.5px">myaccount/</code> overrides present), <code style="font-size:10.5px">languages/</code>. Design reference: <b>Tahdheer - My Account</b> and <b>Tahdheer - My Account Responsive</b> (390 / 834 / 1280).</p>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const ok = { mark: '✓', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' };
+    const no = { mark: '✕', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' };
+    /*
+     * Direction is DERIVED from the string, never assumed. Forcing rtl onto a
+     * Latin value reverses its run order and mirrors U+2264 ≤ into ≥ — turning
+     * "at most 8 KB" into "at least 8 KB". A budget that reads backwards is worse
+     * than one that is left-aligned.
+     */
+    const dirOf = (s) => /[\u0600-\u06FF]/.test(String(s)) ? 'rtl' : 'ltr';
+    /*
+     * Latin/technical islands inside Arabic prose need isolation, not a base
+     * direction. Without it their glyph order reverses and the Unicode mirrored
+     * pairs < > ( ) swap, so `<bdi dir="ltr">` renders as `bdi dir="ltr"> <` and
+     * `is_user_logged_in()` as `)(`. A <bdi> element cannot be injected through a
+     * {{ }} hole (HTML there is escaped text), so use the string-level equivalent:
+     * U+2066 LEFT-TO-RIGHT ISOLATE … U+2069 POP DIRECTIONAL ISOLATE.
+     */
+    const iso = (s) => '\u2066' + s + '\u2069';
+    return {
+      rules: [
+        { ...ok, title: 'كلتا اللغتين ' + iso('dir="rtl"'), body: 'العربية والإنجليزية تشتركان في تخطيط RTL كما نصّت المواصفة صراحةً (§274). التبديل يغيّر lang والنصوص فقط، لا الاتجاه.' },
+        { ...no, title: 'لا عكس لنصوص لاتينية', body: 'الإنجليزية تحتفظ بترتيب حروفها الطبيعي عبر سلوك Unicode القياسي. «RTL layout» لا تعني قلب الكلمات (§275).' },
+        { ...ok, title: 'جزر LTR معزولة', body: 'أرقام الطلبات وأسماء الملفات والبُرد والنسب داخل ' + iso('<bdi dir="ltr">') + ' — 16 عنصرًا في اللوحة، سبعة منها معزولة صراحةً — فلا تُفسد المحيط.' },
+        // The Latin list is ONE isolate: its items are separated by neutral " / ",
+        // so as separate runs in an RTL base their sequence reverses.
+        { ...ok, title: 'خصائص منطقية لا فيزيائية', body: iso('margin-inline / inset-inline / border-inline / text-align:start') + '. مؤشّر التنقّل النشط يستقرّ على الحدّ الأيمن تلقائيًا بلا شرط لغة.' },
+        { ...ok, title: 'أيقونات تُقلَب وأخرى لا', body: 'الشيفرونات وأسهم الاتجاه تُقلَب مع الاتجاه؛ التحميل والقلب والمحفظة والدرع وواتساب لا تُقلَب (§9).' },
+        { ...ok, title: 'ثلاث نقاط انكسار حقيقية', body: 'جوال 390 / تابلت 834 / سطح مكتب 1280 — لكلٍّ قصّة أعمدة خاصة، لا تصغير لتخطيط واحد (§29 و§30 و§152).' },
+        { ...no, title: 'لا مفاتيح ترجمة مكشوفة', body: 'المفتاح المفقود يعود إلى نصّ احتياطي مضبوط، ولا يُطبع account.dashboard.title للعميل أبدًا (§19).' }
+      ],
+      sec: [
+        'كل نقطة نهاية تتحقّق من ' + iso('is_user_logged_in()'),
+        'ملكية الطلب تُتحقَّق قبل أي عرض',
+        'صلاحية التنزيل تُتحقَّق لكل ملف',
+        'nonces على كل إجراء يغيّر حالة',
+        'تحقّق صلاحيات في كل REST/AJAX',
+        'تهريب المخرجات وتنقية المدخلات',
+        'استعلامات مُعدَّة فقط',
+        'لا كشف لمسار الملف على السيرفر',
+        'لا بيانات عميل في JSON-LD أو OG',
+        'noindex على صفحات الحساب',
+        'nocache_headers على كل نقطة',
+        'مفاتيح الذاكرة المؤقتة تتضمّن هوية العميل',
+        'اختبار: العميل أ لا يرى بيانات العميل ب'
+      ],
+      files: [
+        ['جديد', 'inc/account/class-account-data.php', 'خدمة البيانات'],
+        ['جديد', 'inc/account/endpoints.php', '4 نقاط نهاية'],
+        ['جديد', 'inc/account/features.php', 'كشف الميزات'],
+        ['جديد', 'inc/account/i18n.php', 'طبقة اللغة + المبدّل'],
+        ['جديد', 'woocommerce/myaccount/dashboard.php', 'يستبدل نصّ Woo الافتراضي'],
+        ['جديد', 'woocommerce/myaccount/navigation.php', 'تنقّل ثنائي اللغة'],
+        ['جديد', 'assets/css/account.css', '≤ 8 KB'],
+        ['جديد', 'assets/js/account.js', '≤ 3 KB'],
+        ['تعديل', 'inc/woocommerce.php', 'ينقل تعريب القائمة إلى i18n'],
+        ['تعديل', 'languages/*.po', 'مفاتيح account.*']
+      ].map(f => ({
+        tag: f[0],
+        tagBg: f[0] === 'جديد' ? 'rgba(37,155,111,.12)' : 'rgba(216,181,106,.18)',
+        tagFg: f[0] === 'جديد' ? '#1e7355' : '#7a5d20',
+        path: f[1], role: f[2], dir: dirOf(f[2])
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

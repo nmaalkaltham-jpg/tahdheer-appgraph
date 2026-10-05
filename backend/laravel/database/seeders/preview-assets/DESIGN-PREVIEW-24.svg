@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="cover-title" lang="ar">
+  <title id="cover-title">وسائل تعليمية التربية البدنية — الصف الأول الابتدائي — الفصل الدراسي الثاني — غلاف معاينة للتصميم</title>
+  <rect width="1200" height="900" fill="#ffffff"/>
+  <rect width="1200" height="132" fill="#123d2f"/>
+  <rect y="132" width="1200" height="6" fill="#d8b56a"/>
+  <text x="1120" y="84" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">وسائل تعليمية</text>
+  <text x="80" y="84" text-anchor="end" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="28" font-weight="400" fill="#d8b56a">الفصل الدراسي الثاني</text>
+  <rect x="72" y="196" width="1056" height="470" rx="28" fill="#1e7355" fill-opacity="0.06" stroke="#e6e9e2"/>
+  <text x="1064" y="320" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="74" font-weight="700" fill="#123d2f">التربية البدنية</text>
+  <text x="1064" y="396" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="40" font-weight="400" fill="#14261d" fill-opacity="0.78">الصف الأول الابتدائي</text>
+  <text x="1064" y="452" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="32" font-weight="400" fill="#14261d" fill-opacity="0.55">PDF · جاهز للطباعة</text>
+  <text x="1064" y="508" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="32" font-weight="700" fill="#1e7355">18 صفحة</text>
+  <rect x="914" y="552" width="150" height="60" rx="30" fill="#1e7355"/>
+  <text x="989" y="592" text-anchor="middle" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff">PDF</text>
+  <rect x="638" y="552" width="256" height="60" rx="30" fill="#ffffff" stroke="#e6e9e2"/>
+  <text x="766" y="592" text-anchor="middle" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="28" font-weight="400" fill="#14261d">جاهز للطباعة</text>
+  <g>
+    <rect x="128" y="256" width="260" height="340" rx="14" fill="#ffffff" stroke="#123d2f" stroke-opacity="0.25" stroke-width="3"/>
+    <rect x="128" y="324" width="260" height="2" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="128" y="392" width="260" height="2" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="128" y="460" width="260" height="2" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="128" y="528" width="260" height="2" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="215" y="256" width="2" height="340" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="302" y="256" width="2" height="340" fill="#1e7355" fill-opacity="0.22"/>
+    <rect x="152" y="284" width="96" height="14" rx="7" fill="#d8b56a" fill-opacity="0.85"/>
+  </g>
+  <rect x="80" y="762" width="1040" height="2" fill="#e6e9e2"/>
+  <text x="1120" y="836" text-anchor="start" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="30" font-weight="700" fill="#123d2f">التحاضير الحديثة</text>
+  <text x="80" y="836" text-anchor="end" direction="rtl" unicode-bidi="embed" font-family="-apple-system, &apos;Segoe UI&apos;, Tahoma, &apos;Noto Naskh Arabic&apos;, Arial, sans-serif" font-size="26" font-weight="400" fill="#14261d" fill-opacity="0.45">غلاف معاينة للتصميم</text>
+</svg>

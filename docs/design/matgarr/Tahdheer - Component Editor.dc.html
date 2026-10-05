@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+::placeholder{color:rgba(0,0,0,.35)}
+input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:3px;background:#e4e4e7;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:#1e7355;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:#1e7355;cursor:pointer;border:2px solid #fff}
+@keyframes tahIn{from{opacity:0;transform:translateY(var(--tahD,24px)) scale(var(--tahS,1));filter:blur(var(--tahB,0px))}to{opacity:1;transform:none;filter:none}}
+@keyframes tahPulse{0%,100%{opacity:.55}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1440px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:13px">
+<div style="flex:1;min-width:250px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">COMPONENT EDITOR</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">مجموعة مُستعلَمة — <span style="font-family:ui-monospace,monospace;font-size:11px;font-weight:600;color:rgba(0,0,0,.5)">tah/collection.0101</span></span>
+</div>
+<p style="margin:0;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">قاعدة المحرّر: <b style="color:#1e7355">{{ wiredLabel }}</b> — والباقي يحمل وسم <span style="font:700 9px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:#f2f2f4;color:rgba(0,0,0,.5)">خادم</span> لأنه يُقيَّم عند التصيير ولا تظهر أثره معاينة. لا ضابط بلا تنفيذ خلفه.</p>
+</div>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:#fff;border:1px solid #dcdcde">
+<sc-for list="{{ modes }}" as="md" hint-placeholder-count="3">
+<button type="button" onClick="{{ md.onClick }}" aria-pressed="{{ md.on }}" style="min-height:34px;padding:0 14px;border:0;border-radius:7px;background:{{ md.bg }};color:{{ md.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer">{{ md.label }}</button>
+</sc-for>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:minmax(0,392px) minmax(0,1fr);gap:13px;align-items:start">
+
+<aside style="display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+
+<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;padding-bottom:9px;border-bottom:1px solid #ececef">
+<button type="button" onClick="{{ undo }}" disabled="{{ noUndo }}" style="display:flex;align-items:center;gap:5px;min-height:28px;padding:0 9px;border:1px solid #dcdcde;border-radius:7px;background:{{ undoBg }};cursor:pointer">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:{{ undoFg }};stroke-width:2.4;stroke-linecap:round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"></path></svg>
+<span style="font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:{{ undoFg }}">تراجع</span>
+</button>
+<button type="button" onClick="{{ redo }}" disabled="{{ noRedo }}" style="display:flex;align-items:center;gap:5px;min-height:28px;padding:0 9px;border:1px solid #dcdcde;border-radius:7px;background:{{ redoBg }};cursor:pointer">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:{{ redoFg }};stroke-width:2.4;stroke-linecap:round;transform:scaleX(-1)"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"></path></svg>
+<span style="font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:{{ redoFg }}">إعادة</span>
+</button>
+<span style="font:700 8.5px ui-monospace,monospace;color:rgba(0,0,0,.35)">{{ histLabel }}</span>
+<span style="flex:1"></span>
+<button type="button" onClick="{{ copyStyle }}" style="min-height:28px;padding:0 9px;border:1px solid #dcdcde;border-radius:7px;background:#fcfcfd;font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:#1a1a1a;cursor:pointer">نسخ النمط</button>
+</div>
+
+<div style="display:{{ clipShow }};flex-direction:column;gap:6px;padding:9px 10px;border-radius:9px;background:#f6faf8;border:1px solid #cfe6dc">
+<span style="font:800 10px Tajawal,sans-serif;color:#123d2f">نمط منسوخ — الصق منه ما تريد فقط</span>
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ pasteBtns }}" as="pb" hint-placeholder-count="4">
+<button type="button" onClick="{{ pb.onClick }}" style="min-height:26px;padding:0 9px;border:1px solid #cfe6dc;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:9.5px;font-weight:800;color:#1e7355;cursor:pointer">{{ pb.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:9px;background:#fcfcfd;border:1px solid #e4e4e7">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:rgba(0,0,0,.4);stroke-width:2.2;stroke-linecap:round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+<input type="text" value="{{ q }}" onChange="{{ setQ }}" placeholder="ابحث في الإعدادات… مثال: سرعة الحركة" style="flex:1;min-width:0;min-height:26px;border:0;background:transparent;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:600;color:#1a1a1a">
+<span style="display:{{ qShow }};font:700 9px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ qCount }}</span>
+</div>
+
+<div style="display:{{ tabsShow }};flex-wrap:wrap;gap:3px">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="13">
+<button type="button" onClick="{{ tb.onClick }}" aria-pressed="{{ tb.on }}" style="display:flex;align-items:center;gap:5px;min-height:28px;padding:0 9px;border:1px solid {{ tb.edge }};border-radius:20px;background:{{ tb.bg }};color:{{ tb.fg }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:pointer">
+<span>{{ tb.label }}</span>
+<sc-if value="{{ tb.dirty }}" hint-placeholder-val="{{ false }}">
+<span aria-hidden="true" style="width:5px;height:5px;border-radius:50%;background:#c99700"></span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ controls }}" as="ct" hint-placeholder-count="7">
+<div style="padding:10px 11px;border:1px solid {{ ct.edge }};border-radius:10px;background:{{ ct.bg }}">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ ct.label }}</span>
+<sc-if value="{{ ct.dirty }}" hint-placeholder-val="{{ false }}">
+<span aria-hidden="true" title="قيمة معدّلة" style="width:6px;height:6px;border-radius:50%;background:#c99700"></span>
+</sc-if>
+<span style="flex:1"></span>
+<span style="font:700 8.5px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:{{ ct.srcBg }};color:{{ ct.srcFg }}">{{ ct.src }}</span>
+<sc-if value="{{ ct.dirty }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ ct.onReset }}" aria-label="إعادة للموروث" style="width:20px;height:20px;border:1px solid #dcdcde;border-radius:5px;background:#fff;cursor:pointer;display:grid;place-items:center;padding:0">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:10px;height:10px;fill:none;stroke:rgba(0,0,0,.5);stroke-width:2.4;stroke-linecap:round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"></path></svg>
+</button>
+</sc-if>
+</div>
+
+<div style="display:{{ ct.k.seg }};flex-wrap:wrap;gap:3px">
+<sc-for list="{{ ct.opts }}" as="op" hint-placeholder-count="3">
+<button type="button" onClick="{{ op.onClick }}" aria-pressed="{{ op.on }}" style="min-height:28px;padding:0 10px;border:1px solid {{ op.edge }};border-radius:7px;background:{{ op.bg }};color:{{ op.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ op.label }}</button>
+</sc-for>
+</div>
+
+<div style="display:{{ ct.k.range }};align-items:center;gap:9px">
+<input type="range" min="{{ ct.min }}" max="{{ ct.max }}" step="{{ ct.step }}" value="{{ ct.value }}" onChange="{{ ct.onRange }}" style="flex:1;min-width:0">
+<span style="min-width:46px;text-align:center;font:800 11px ui-monospace,monospace;color:#1a1a1a;padding:3px 6px;border-radius:6px;background:#f6f7f7;border:1px solid #e4e4e7">{{ ct.display }}</span>
+</div>
+
+<div style="display:{{ ct.k.toggles }};flex-wrap:wrap;gap:4px">
+<sc-for list="{{ ct.opts }}" as="tg" hint-placeholder-count="5">
+<button type="button" onClick="{{ tg.onClick }}" aria-pressed="{{ tg.on }}" style="display:flex;align-items:center;gap:6px;min-height:28px;padding:0 9px;border:1px solid {{ tg.edge }};border-radius:7px;background:{{ tg.bg }};cursor:pointer">
+<span aria-hidden="true" style="width:13px;height:13px;border-radius:4px;border:1.5px solid {{ tg.ring }};background:{{ tg.fill }};display:grid;place-items:center">
+<sc-if value="{{ tg.on }}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 24 24" style="width:8px;height:8px;fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+</sc-if>
+</span>
+<span style="font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:700;color:{{ tg.fg }}">{{ tg.label }}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display:{{ ct.k.color }};gap:5px;flex-wrap:wrap">
+<sc-for list="{{ ct.opts }}" as="cl" hint-placeholder-count="4">
+<button type="button" onClick="{{ cl.onClick }}" aria-pressed="{{ cl.on }}" aria-label="{{ cl.label }}" style="width:30px;height:30px;border:2px solid {{ cl.edge }};border-radius:8px;background:{{ cl.sw }};cursor:pointer;padding:0"></button>
+</sc-for>
+</div>
+
+<div style="display:{{ ct.k.text }}">
+<input type="text" value="{{ ct.value }}" onChange="{{ ct.onText }}" placeholder="{{ ct.ph }}" style="width:100%;box-sizing:border-box;min-height:34px;padding:0 10px;border:1px solid #c9c9cd;border-radius:8px;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:600;color:#1a1a1a;background:#fff">
+</div>
+
+<p style="display:{{ ct.helpShow }};margin:7px 0 0;font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ ct.help }}</p>
+</div>
+</sc-for>
+</div>
+
+<div style="display:{{ repShow }};flex-direction:column;gap:7px;padding:11px;border:1px solid #ececef;border-radius:10px;background:#fff">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">العناصر المختارة يدويًا</span>
+<span style="font:700 8.5px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:#eaf5ef;color:#1e7355">مُكرِّر</span>
+<span style="flex:1"></span>
+<button type="button" onClick="{{ repAdd }}" style="min-height:26px;padding:0 10px;border:1px solid #cfe6dc;border-radius:7px;background:#f6faf8;font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:#1e7355;cursor:pointer">+ عنصر</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ repItems }}" as="ri" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:7px;align-items:center;padding:7px 9px;border:1px solid #ececef;border-radius:8px;background:#fcfcfd">
+<span style="font:900 9px ui-monospace,monospace;color:rgba(0,0,0,.35)">{{ ri.n }}</span>
+<span style="min-width:0;font:700 10.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ri.label }}</span>
+<span style="display:flex;gap:3px">
+<sc-for list="{{ ri.acts }}" as="ra" hint-placeholder-count="4">
+<button type="button" onClick="{{ ra.onClick }}" aria-label="{{ ra.aria }}" style="width:22px;height:22px;border:1px solid #dcdcde;border-radius:5px;background:#fff;cursor:pointer;font:800 9px ui-monospace,monospace;color:{{ ra.fg }};padding:0">{{ ra.g }}</button>
+</sc-for>
+</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:0;font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.5)">عدد العناصر هنا يقود المعاينة مباشرة — إضافة أو حذف يظهر أثره فورًا.</p>
+</div>
+
+<div style="display:{{ emptyShow }};padding:14px;border-radius:10px;background:#fcfcfd;border:1px dashed #dcdcde;text-align:center">
+<p style="margin:0;font:600 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.5)">لا ضابط مطابق. جرّب كلمة أخرى، أو انتقل لوضع «خبير» — بعض الضوابط مخفيّة في الوضع الحالي.</p>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:7px;padding-top:10px;border-top:1px solid #ececef">
+<div style="display:flex;align-items:center;gap:5px">
+<input type="text" value="{{ pName }}" onChange="{{ setPName }}" placeholder="اسم القالب…" style="flex:1;min-width:0;min-height:32px;padding:0 10px;border:1px solid #c9c9cd;border-radius:8px;font-family:Tajawal,sans-serif;font-size:11px;font-weight:600;color:#1a1a1a">
+<button type="button" onClick="{{ savePreset }}" style="min-height:32px;padding:0 12px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">حفظ قالب</button>
+</div>
+<div style="display:{{ presetsShow }};flex-direction:column;gap:4px">
+<sc-for list="{{ presets }}" as="ps" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:5px;align-items:center;padding:7px 9px;border:1px solid #ececef;border-radius:8px;background:#fcfcfd">
+<span style="min-width:0;font:700 10.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ps.name }}</span>
+<button type="button" onClick="{{ ps.apply }}" style="min-height:24px;padding:0 9px;border:1px solid #cfe6dc;border-radius:6px;background:#f6faf8;font-family:Tajawal,sans-serif;font-size:9.5px;font-weight:800;color:#1e7355;cursor:pointer">تطبيق</button>
+<button type="button" onClick="{{ ps.del }}" aria-label="حذف" style="width:24px;height:24px;border:1px solid #f5c9c4;border-radius:6px;background:#fff;cursor:pointer;font:800 10px ui-monospace,monospace;color:#a5261b;padding:0">×</button>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{ resetAll }}" style="min-height:32px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">إعادة الكل للموروث</button>
+</div>
+</aside>
+
+<main style="display:flex;flex-direction:column;gap:12px;min-width:0">
+<div style="padding:12px 14px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">المعاينة الحيّة</span>
+<div style="display:flex;gap:3px">
+<sc-for list="{{ devices }}" as="dv" hint-placeholder-count="3">
+<button type="button" onClick="{{ dv.onClick }}" aria-pressed="{{ dv.on }}" style="min-height:26px;padding:0 10px;border:1px solid {{ dv.edge }};border-radius:7px;background:{{ dv.bg }};color:{{ dv.fg }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:pointer">{{ dv.label }}</button>
+</sc-for>
+</div>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ devW }}</span>
+<span style="display:{{ stateBadgeShow }};font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ stateBadgeBg }};color:{{ stateBadgeFg }}">{{ stateBadge }}</span>
+<span style="flex:1"></span>
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">أعمدة فعلية {{ effCols }}</span>
+<button type="button" onClick="{{ replay }}" style="min-height:26px;padding:0 10px;border:1px solid #c9c9cd;border-radius:7px;background:#fcfcfd;font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:#1a1a1a;cursor:pointer">تشغيل الحركة</button>
+</div>
+
+<div style="padding:16px;border-radius:11px;background:{{ pv.bg }};border:1px solid #ececef;overflow:hidden">
+<div style="width:{{ pv.w }};margin:0 auto;transition:width .2s ease">
+<div style="display:flex;flex-direction:column;gap:{{ pv.gap }};--tahD:{{ pv.d }};--tahB:{{ pv.b }};--tahS:{{ pv.s }};animation:{{ pv.anim }}">
+<sc-for list="{{ pv.rows }}" as="rw" hint-placeholder-count="3">
+<div style="display:flex;gap:{{ pv.gap }};align-items:stretch">
+<sc-for list="{{ rw.cells }}" as="ce" hint-placeholder-count="3">
+<div style="flex:{{ ce.f }};min-width:0;display:flex;flex-direction:{{ ce.dir }};gap:{{ ce.gap }};border:{{ ce.bd }};box-shadow:{{ ce.sh }};padding:{{ ce.p }};border-radius:{{ ce.br }};background:{{ ce.cbg }};box-sizing:border-box;opacity:{{ ce.op }}">
+<sc-for list="{{ ce.bars }}" as="br" hint-placeholder-count="3">
+<span style="flex:{{ br.f }};height:{{ br.h }};border-radius:{{ br.r }};background:{{ br.bg }};display:block"></span>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<p style="margin:10px 0 0;font:500 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ pv.note }}</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px">
+<div style="padding:13px 15px;border:1px solid {{ cost.edge }};border-radius:12px;background:{{ cost.bg }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">كلفة الحركة</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ cost.chipBg }};color:{{ cost.chipFg }}">{{ cost.label }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ cost.rows }}" as="cr" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;padding:7px 9px;border-radius:7px;background:#fff;border:1px solid #ececef">
+<span style="font:700 10px Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ cr.k }}</span>
+<span style="font:800 10px ui-monospace,monospace;color:{{ cr.fg }}">{{ cr.v }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:9px 0 0;font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ cost.note }}</p>
+</div>
+
+<div style="padding:13px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">فاحص الجودة</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ qa.chipBg }};color:{{ qa.chipFg }}">{{ qa.label }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ qa.items }}" as="qi" hint-placeholder-count="3">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 10px;border-radius:8px;background:{{ qi.bg }};border:1px solid {{ qi.edge }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;margin-top:1px;border-radius:5px;background:{{ qi.mBg }};color:#fff;display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ qi.mark }}</span>
+<span style="font:600 10px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ qi.text }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:9px 0 0;font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.5)">تحذيرات لا حواجب — محسوبة من قيمك الحالية لا من قائمة ثابتة.</p>
+</div>
+</div>
+
+<div style="padding:13px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap">
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">الحالات الأربع الإلزامية</span>
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">كل عنصر يجب أن يُعرّفها — اضغط أيًّا منها لتراها</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ stateBtns }}" as="sb" hint-placeholder-count="4">
+<button type="button" onClick="{{ sb.onClick }}" aria-pressed="{{ sb.on }}" style="display:flex;flex-direction:column;gap:2px;min-width:104px;min-height:50px;padding:8px 11px;border:1px solid {{ sb.edge }};border-radius:9px;background:{{ sb.bg }};cursor:pointer;text-align:start">
+<span style="font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:{{ sb.fg }}">{{ sb.label }}</span>
+<span style="font-family:Tajawal,sans-serif;font-size:9px;font-weight:600;color:rgba(0,0,0,.5)">{{ sb.note }}</span>
+</button>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font:600 9.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">هذا أكثر ما يُنسى في مكتبات العناصر: عنصر بلا حالة فراغ يعرض قسمًا فارغًا للزائر بلا تفسير، وبلا حالة خطأ يعرض رسالة خام. الحالات ليست زينة — هي ما يظهر فعلًا في أسوأ يوم.</p>
+</div>
+
+<div style="padding:13px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">سلسلة التوريث</span>
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">الأدنى يتجاوز الأعلى</span>
+</div>
+<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:10px">
+<sc-for list="{{ chain }}" as="chn" hint-placeholder-count="5">
+<span style="display:flex;align-items:center;gap:5px">
+<span style="font:800 10px Tajawal,sans-serif;padding:6px 11px;border-radius:8px;background:{{ chn.bg }};color:{{ chn.fg }};border:1px solid {{ chn.edge }}">{{ chn.label }}</span>
+<span aria-hidden="true" style="display:{{ chn.arrow }};font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.25)">←</span>
+</span>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px">
+<sc-for list="{{ chainStats }}" as="cs" hint-placeholder-count="3">
+<div style="padding:9px 10px;border-radius:8px;background:#fcfcfd;border:1px solid #ececef">
+<span style="display:block;font:900 16px ui-monospace,monospace;color:{{ cs.fg }};margin-bottom:1px">{{ cs.n }}</span>
+<span style="display:block;font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ cs.label }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;basic&quot;,&quot;adv&quot;,&quot;expert&quot;],&quot;default&quot;:&quot;adv&quot;,&quot;tsType&quot;:&quot;'basic' | 'adv' | 'expert'&quot;,&quot;section&quot;:&quot;المحرّر&quot;},&quot;defaultMotionLevel&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5,&quot;min&quot;:0,&quot;max&quot;:10,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;الحركة&quot;},&quot;showQualityChecker&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;المحرّر&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+const T1 = 'rgba(0,0,0,.14)', T2 = 'rgba(0,0,0,.07)', TG = 'rgba(30,115,85,.24)';
+const NF = '0 0 auto';
+
+const LV = [
+  ['0px', '0ms', '—', '0ms', '0px', '1'], ['4px', '200ms', 'ease-out', '20ms', '0px', '1'],
+  ['8px', '260ms', 'ease-out', '30ms', '0px', '1'], ['12px', '320ms', 'smooth', '40ms', '0px', '1'],
+  ['18px', '400ms', 'smooth', '50ms', '2px', '1'], ['24px', '480ms', 'smooth', '60ms', '4px', '1'],
+  ['34px', '560ms', 'soft-spring', '80ms', '6px', '.98'], ['46px', '640ms', 'soft-spring', '100ms', '8px', '.96'],
+  ['62px', '760ms', 'spring', '120ms', '12px', '.94'], ['84px', '880ms', 'spring', '150ms', '16px', '.9'],
+  ['110px', '1200ms', 'مخصّص', '200ms', '24px', '.86'],
+];
+const EASE = { '—': 'linear', 'ease-out': 'ease-out', smooth: 'cubic-bezier(.22,.61,.36,1)', 'soft-spring': 'cubic-bezier(.16,1,.3,1)', spring: 'cubic-bezier(.34,1.56,.64,1)', 'مخصّص': 'cubic-bezier(.2,1.4,.3,1)' };
+
+const TABS = [
+  ['content', 'المحتوى', 1], ['layout', 'التخطيط', 1], ['style', 'النمط', 1], ['type', 'الطباعة', 2],
+  ['img', 'الصور', 2], ['bg', 'الخلفية', 2], ['fx', 'التأثيرات', 3], ['motion', 'الحركة', 1],
+  ['resp', 'الاستجابة', 2], ['states', 'الحالات', 1], ['vis', 'الظهور', 3], ['seo', 'بنية البحث', 2], ['adv', 'متقدّم', 3],
+];
+
+const notManual = (v) => v.source !== 'manual';
+const isSched = (v) => v.cond === 'sched';
+
+const DEFS = {
+  heading: { tab: 'content', label: 'عنوان القسم', kind: 'text', def: 'الأكثر مبيعًا', ph: 'اتركه فارغًا لإخفاء العنوان', src: 'component', wired: 1 },
+  source: { tab: 'content', label: 'مصدر البيانات', kind: 'seg', def: 'best', src: 'component', wired: 1, opts: [['best', 'الأكثر مبيعًا'], ['new', 'الجديد'], ['rel', 'ذات صلة'], ['manual', 'يدوي']], help: 'اختيار «يدوي» يفتح المُكرِّر أدناه، وغيره يفتح باني الاستعلام.' },
+  limit: { tab: 'content', label: 'الحدّ', kind: 'range', def: 6, min: 2, max: 12, step: 1, src: 'component', wired: 1, when: notManual, help: 'باني استعلام آمن — لا SQL خام. يحرّك عدد الصفوف فعلًا.' },
+  sort: { tab: 'content', label: 'الترتيب', kind: 'seg', def: 'sales', src: 'component', wired: 0, when: notManual, opts: [['sales', 'المبيعات'], ['date', 'الأحدث'], ['price', 'السعر'], ['title', 'الاسم']], help: 'يُنفَّذ في الاستعلام على الخادم.' },
+  skipOOS: { tab: 'content', label: 'استثناءات', kind: 'toggles', def: { oos: 1, empty: 1 }, src: 'component', wired: 0, when: notManual, opts: [['oos', 'استثنِ غير المتوفّر'], ['empty', 'استثنِ بلا صورة']] },
+  layout: { tab: 'layout', label: 'التخطيط', kind: 'seg', def: 'grid', src: 'component', wired: 1, opts: [['grid', 'شبكة'], ['carousel', 'كاروسيل'], ['slider', 'سلايدر'], ['list', 'قائمة'], ['bento', 'بينتو']], help: 'المفتاح الذي يجعل عشرة اختيارات في المتصفّح مكوّنًا واحدًا.' },
+  cols: { tab: 'layout', label: 'الأعمدة', kind: 'range', def: 3, min: 1, max: 6, step: 1, src: 'section', wired: 1, help: 'يُقصّ تلقائيًا على المقاسات الصغيرة — انظر «أعمدة فعلية».' },
+  gap: { tab: 'layout', label: 'الفراغ', kind: 'range', def: 10, min: 2, max: 24, step: 2, unit: 'px', src: 'global', wired: 1 },
+  density: { tab: 'layout', label: 'الكثافة', kind: 'seg', def: 'comfy', src: 'global', wired: 1, opts: [['comfy', 'مريح'], ['mid', 'متوسط'], ['tight', 'مضغوط']] },
+  parts: { tab: 'content', label: 'أجزاء البطاقة', kind: 'toggles', def: { img: 1, title: 1, price: 1, badge: 0, cta: 0 }, src: 'component', wired: 1, opts: [['img', 'صورة'], ['title', 'عنوان'], ['price', 'سعر'], ['badge', 'شارة'], ['cta', 'نداء']] },
+  radius: { tab: 'style', label: 'الاستدارة', kind: 'range', def: 6, min: 0, max: 20, step: 2, unit: 'px', src: 'global', wired: 1 },
+  border: { tab: 'style', label: 'الحدّ', kind: 'seg', def: 'none', src: 'global', wired: 1, opts: [['none', 'بلا'], ['thin', 'رقيق'], ['solid', 'واضح']] },
+  shadow: { tab: 'style', label: 'الظل', kind: 'seg', def: 'none', src: 'global', wired: 1, opts: [['none', 'بلا'], ['soft', 'ناعم'], ['lift', 'مرتفع']], help: 'الظل والحدّ يبنيان «شكل البطاقة» — وهما ما يفرّق نسخة نظيفة عن نسخة زجاجية.' },
+  hSize: { tab: 'type', label: 'حجم العنوان', kind: 'range', def: 11, min: 8, max: 22, step: 1, unit: 'px', src: 'global', wired: 1, help: 'يحرّك شريط العنوان في المعاينة.' },
+  hWeight: { tab: 'type', label: 'وزن العنوان', kind: 'seg', def: '800', src: 'global', wired: 0, opts: [['700', '700'], ['800', '800'], ['900', '900']] },
+  ratio: { tab: 'img', label: 'نسبة الصورة', kind: 'seg', def: 'square', src: 'component', wired: 1, opts: [['square', 'مربّع'], ['wide', 'عريض'], ['tall', 'طويل']] },
+  fit: { tab: 'img', label: 'ملاءمة الصورة', kind: 'seg', def: 'cover', src: 'component', wired: 0, opts: [['cover', 'تغطية'], ['contain', 'احتواء']], help: 'يُطبَّق على الصورة الحقيقية لا على الهيكل السلكي.' },
+  surface: { tab: 'bg', label: 'لون السطح', kind: 'color', def: 'plain', src: 'global', wired: 1, opts: [['plain', '#fcfcfd', 'محايد'], ['soft', '#f6faf8', 'أخضر ناعم'], ['warm', '#fdf9ef', 'دافئ'], ['dark', '#1a1d21', 'غامق']] },
+  hover: { tab: 'fx', label: 'تأثير التمرير', kind: 'seg', def: 'lift', src: 'global', wired: 0, opts: [['lift', 'رفع'], ['glow', 'توهّج'], ['tilt', 'ميل'], ['none', 'بلا']], help: 'لا تظهر أثره معاينة ساكنة — يُختبر على الواجهة.' },
+  spotlight: { tab: 'fx', label: 'بؤرة المؤشّر', kind: 'toggles', def: { on: 0 }, src: 'component', wired: 0, opts: [['on', 'مُفعَّلة']], help: 'تُعطَّل تلقائيًا مع تقليل الحركة.' },
+  motion: { tab: 'motion', label: 'شدّة الحركة', kind: 'range', def: 5, min: 0, max: 10, step: 1, src: 'global', wired: 1, help: 'المستوى يشتقّ المسافة والمدّة والمنحنى والضباب والتكبير معًا — لا خمسة مقابض منفصلة.' },
+  entrance: { tab: 'motion', label: 'حركة الدخول', kind: 'seg', def: 'up', src: 'component', wired: 1, opts: [['up', 'صعود'], ['fade', 'تلاشٍ'], ['zoom', 'تكبير'], ['none', 'بلا']] },
+  mobCols: { tab: 'resp', label: 'أعمدة الجوال', kind: 'range', def: 2, min: 1, max: 3, step: 1, src: 'component', wired: 1, help: 'تجاوز نقطي حقيقي — لا تصغير للمكتب.' },
+  hide: { tab: 'resp', label: 'إخفاء على', kind: 'toggles', def: { desk: 0, tab: 0, mob: 0 }, src: 'component', wired: 1, opts: [['desk', 'مكتب'], ['tab', 'تابلت'], ['mob', 'جوال']] },
+  state: { tab: 'states', label: 'الحالة المعروضة', kind: 'seg', def: 'normal', src: 'component', wired: 1, opts: [['normal', 'طبيعي'], ['loading', 'تحميل'], ['empty', 'فارغ'], ['error', 'خطأ']], help: 'ليست إعدادًا للواجهة — بل مبدّل معاينة يجبرك على تصميم الحالات الأربع.' },
+  emptyMsg: { tab: 'states', label: 'نص حالة الفراغ', kind: 'text', def: 'لا منتجات في هذا التصنيف بعد', ph: 'اكتب ما يراه الزائر', src: 'component', wired: 1, help: 'طول النص يظهر في المعاينة — نصّ طويل يكسر التوسيط.' },
+  cond: { tab: 'vis', label: 'شرط الظهور', kind: 'seg', def: 'always', src: 'component', wired: 0, opts: [['always', 'دائمًا'], ['loggedin', 'مسجّل'], ['sale', 'عليه تخفيض'], ['sched', 'مجدول']], help: 'يُقيَّم في الخادم — لا شرط يُقرَّر في المتصفّح.' },
+  from: { tab: 'vis', label: 'يبدأ', kind: 'text', def: '', ph: '2026-09-01 08:00', src: 'component', wired: 0, when: isSched },
+  to: { tab: 'vis', label: 'ينتهي', kind: 'text', def: '', ph: '2026-09-30 23:59', src: 'component', wired: 0, when: isSched },
+  heads: { tab: 'seo', label: 'مستوى العنوان', kind: 'seg', def: 'h2', src: 'component', wired: 0, opts: [['h2', 'H2'], ['h3', 'H3'], ['none', 'بلا عنوان']], help: 'يُصيَّر في الخادم. لا H1 ثانٍ في الصفحة أبدًا.' },
+  crawl: { tab: 'seo', label: 'قابلية الزحف', kind: 'toggles', def: { a: 1, alt: 1 }, src: 'component', wired: 0, opts: [['a', 'وسم a حقيقي'], ['alt', 'alt إلزامي']] },
+  anchor: { tab: 'seo', label: 'مرساة القسم', kind: 'text', def: '', ph: 'best-sellers', src: 'component', wired: 0, help: 'يفتح الاقتباس الدقيق للقسم في محرّكات الإجابة — وهو الناقص المرصود في تدقيق الذكاء.' },
+  cls: { tab: 'adv', label: 'صنف CSS مخصّص', kind: 'text', def: '', ph: 'tah-my-block', src: 'component', wired: 0 },
+};
+const SRC = { global: ['عام', '#eef2f7', '#3a5a80'], section: ['قسم', ABG, '#7a5a00'], component: ['عنصر', GBG, G] };
+const GROUPS = { type: ['hSize', 'hWeight'], space: ['gap', 'density', 'radius', 'border', 'shadow'], motion: ['motion', 'entrance'] };
+
+class Component extends DCLogic {
+  state = {
+    mode: 'adv', tab: 'layout', q: '', dev: 'desk', play: true,
+    v: {}, hist: [{}], hp: 0, clip: null, presets: [], pName: '',
+    rep: ['تحضير الرياضيات — سادس', 'تحضير العلوم — سادس', 'حزمة الفصل الأول', 'دليل المعلم'],
+  };
+
+  val(k) { const d = DEFS[k]; return this.state.v[k] !== undefined ? this.state.v[k] : d.def; }
+  dirty(k) { return this.state.v[k] !== undefined; }
+
+  commit(nv) {
+    this.setState((s) => {
+      const h = s.hist.slice(0, s.hp + 1).concat([nv]).slice(-30);
+      return { v: nv, hist: h, hp: h.length - 1, play: true };
+    });
+  }
+  set(k, x) { this.commit({ ...this.state.v, [k]: x }); }
+
+  renderVals() {
+    const mode = this.state.mode, lvl = mode === 'basic' ? 1 : mode === 'adv' ? 2 : 3;
+    const q = this.state.q.trim();
+    const vAll = {}; Object.keys(DEFS).forEach((k) => { vAll[k] = this.val(k); });
+    const keys = Object.keys(DEFS).filter((k) => !DEFS[k].when || DEFS[k].when(vAll));
+    const inMode = keys.filter((k) => (TABS.find((t) => t[0] === DEFS[k].tab) || [0, 0, 3])[2] <= lvl);
+    const matched = q ? inMode.filter((k) => (DEFS[k].label + ' ' + (DEFS[k].help || '') + ' ' + (TABS.find((t) => t[0] === DEFS[k].tab) || ['', ''])[1]).indexOf(q) !== -1) : inMode.filter((k) => DEFS[k].tab === this.state.tab);
+
+    const source = this.val('source'), manual = source === 'manual';
+    const items = manual ? this.state.rep.length : this.val('limit');
+    const cols = this.val('cols'), gap = this.val('gap'), rad = this.val('radius');
+    const layout = this.val('layout'), dens = this.val('density'), parts = this.val('parts'), ratio = this.val('ratio');
+    const bd = this.val('border'), sh = this.val('shadow'), hSize = this.val('hSize');
+    const lv = LV[this.val('motion')], ent = this.val('entrance'), dev = this.state.dev, view = this.val('state');
+    const surf = this.val('surface'), surfDef = DEFS.surface.opts.find((o) => o[0] === surf) || DEFS.surface.opts[0];
+    const dark = surf === 'dark';
+    const dim = view === 'loading' ? .55 : 1;
+    const c1 = dark ? 'rgba(255,255,255,.2)' : T1, c2 = dark ? 'rgba(255,255,255,.1)' : T2, cg = dark ? 'rgba(120,220,180,.3)' : TG;
+
+    const effCols = layout === 'slider' || layout === 'list' ? 1 : dev === 'mob' ? Math.min(cols, this.val('mobCols')) : dev === 'tab' ? Math.min(cols, 3) : cols;
+    const dm = dens === 'tight' ? .74 : dens === 'mid' ? .88 : 1;
+    const imgH = Math.round((ratio === 'wide' ? 42 : ratio === 'tall' ? 78 : 58) * dm);
+    const rpx = rad + 'px';
+    const cellBd = bd === 'none' ? '0' : bd === 'thin' ? '1px solid ' + (dark ? 'rgba(255,255,255,.14)' : 'rgba(0,0,0,.09)') : '1.5px solid ' + (dark ? 'rgba(255,255,255,.24)' : 'rgba(0,0,0,.18)');
+    const cellSh = sh === 'none' ? 'none' : sh === 'soft' ? '0 1px 3px rgba(0,0,0,.08)' : '0 6px 16px rgba(0,0,0,.14)';
+    const boxed = bd !== 'none' || sh !== 'none';
+    const cellPad = boxed ? '6px' : '0';
+    const cellBg = boxed ? (dark ? 'rgba(255,255,255,.05)' : '#fff') : 'transparent';
+
+    const bars = () => {
+      const b = [];
+      if (parts.img) b.push({ f: NF, h: imgH + 'px', r: rpx, bg: c1 });
+      if (parts.badge) b.push({ f: NF, h: Math.round(10 * dm) + 'px', r: '20px', bg: cg });
+      if (parts.title) b.push({ f: NF, h: Math.round(7 * dm) + 'px', r: '3px', bg: c2 });
+      if (parts.price) b.push({ f: NF, h: Math.round(6 * dm) + 'px', r: '3px', bg: c2 });
+      if (parts.cta) b.push({ f: NF, h: Math.round(18 * dm) + 'px', r: rpx, bg: cg });
+      return b.length ? b : [{ f: NF, h: '30px', r: rpx, bg: c2 }];
+    };
+    const cell = (f, dir, over) => Object.assign({
+      f, dir: dir || 'column', gap: Math.max(3, Math.round(gap * .6)) + 'px', bars: bars(),
+      bd: cellBd, sh: cellSh, p: cellPad, br: boxed ? rpx : '0', cbg: cellBg, op: String(dim),
+    }, over || {});
+    const plain = (barsArr, f, dir) => ({ f: f === undefined ? 1 : f, dir: dir || 'column', gap: '0px', bars: barsArr, bd: '0', sh: 'none', p: '0', br: '0', cbg: 'transparent', op: '1' });
+
+    let rows = [];
+    if (view === 'empty') {
+      const msg = String(this.val('emptyMsg') || '');
+      const w = Math.max(28, Math.min(88, msg.length * 2.6));
+      rows = [{ cells: [plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], .5), plain([{ f: NF, h: '26px', r: '8px', bg: c2 }], .14), plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], .5)] },
+        { cells: [plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], (100 - w) / 200), plain([{ f: NF, h: '9px', r: '3px', bg: c1 }], w / 100), plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], (100 - w) / 200)] },
+        { cells: [plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], .36), plain([{ f: NF, h: '22px', r: rpx, bg: cg }], .28), plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], .36)] }];
+    } else if (view === 'error') {
+      rows = [{ cells: [plain([{ f: NF, h: '40px', r: '4px', bg: 'rgba(165,38,27,.5)' }], .05), plain([{ f: NF, h: '9px', r: '3px', bg: 'rgba(165,38,27,.28)' }, { f: NF, h: '7px', r: '3px', bg: 'rgba(165,38,27,.16)' }], 1)] }];
+    } else if (layout === 'carousel') {
+      const cs = []; for (let i = 0; i < effCols; i++) cs.push(cell(1)); cs.push(cell(.35));
+      rows = [{ cells: cs }];
+    } else if (layout === 'slider') {
+      rows = [{ cells: [cell(1)] }, { cells: [plain([{ f: 1, h: '4px', r: '3px', bg: cg }, { f: 3, h: '4px', r: '3px', bg: c2 }], 1, 'row')] }];
+    } else if (layout === 'list') {
+      for (let i = 0; i < Math.min(items, 5); i++) rows.push({ cells: [cell(.28, 'column', { bars: [{ f: NF, h: Math.round(34 * dm) + 'px', r: rpx, bg: c1 }] }), cell(1)] });
+    } else if (layout === 'bento') {
+      rows = [{ cells: [cell(2), cell(1)] }, { cells: [cell(1), cell(1), cell(1.4)] }];
+    } else {
+      const n = Math.ceil(items / effCols);
+      for (let r2 = 0; r2 < n; r2++) {
+        const cs = []; const left = items - r2 * effCols;
+        for (let i = 0; i < effCols; i++) cs.push(i < left ? cell(1) : plain([{ f: NF, h: '0px', r: '0px', bg: 'transparent' }], 1));
+        rows.push({ cells: cs });
+      }
+    }
+    if (this.val('heading') && view !== 'error') {
+      rows.unshift({ cells: [plain([{ f: NF, h: hSize + 'px', r: '3px', bg: c1 }], 1), plain([{ f: NF, h: hSize + 'px', r: '3px', bg: 'transparent' }], 2)] });
+    }
+
+    // إخفاء لكل مقاس: تجاوز نقطي حقيقي — عند إخفاء المقاس المعروض لا يبقى تخطيط.
+    const hidden = !!this.val('hide')[dev];
+    if (hidden) rows = [{ cells: [plain([{ f: NF, h: '34px', r: rpx, bg: c2 }], 1)] }];
+
+    const animOn = this.state.play && this.val('motion') > 0 && ent !== 'none' && view === 'normal' && !hidden;
+    const dist = ent === 'fade' ? '0px' : lv[0];
+    const scl = ent === 'zoom' ? '.92' : lv[5];
+
+    const cells = rows.reduce((a, r2) => a + r2.cells.length, 0);
+    const score = cells * (1 + this.val('motion') * .5) + (parseFloat(lv[4]) > 0 ? 8 : 0) + (layout === 'carousel' ? 6 : 0) + (sh === 'lift' ? 5 : 0);
+    const cost = score < 22 ? ['منخفضة', 'ok'] : score < 45 ? ['متوسطة', 'ok'] : score < 80 ? ['مرتفعة', 'part'] : ['أقصى', 'no'];
+    const cCh = cost[1] === 'ok' ? { bg: GBG, fg: G } : cost[1] === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+    const warns = [];
+    if (view !== 'normal') warns.push(['المعاينة في حالة «' + (DEFS.state.opts.find((o) => o[0] === view) || ['', ''])[1] + '» — أعِدها لـ«طبيعي» لفحص التخطيط.', 'part']);
+    if (dev === 'mob' && this.val('mobCols') > 2) warns.push(['خطر فيض أفقي: ثلاثة أعمدة على جوال ٣٦٠px تعطي بطاقة أضيق من ١٠٠px.', 'no']);
+    if (this.val('motion') >= 8) warns.push(['شدّة الحركة ' + this.val('motion') + ' فوق حدّ الأمان — إزاحة ' + lv[0] + ' تؤجّل القرار الشرائي.', 'no']);
+    if (items > 8 && this.val('motion') >= 6) warns.push(['‏' + items + ' عنصرًا بشدّة ' + this.val('motion') + ': التتالي الكلي ' + (items * parseInt(lv[3], 10)) + 'ms قبل ظهور الأخير.', 'part']);
+    if (!parts.price) warns.push(['السعر مُخفى — على قسم منتجات هذا يخفض النقر ويمنع Offer schema من العرض.', 'part']);
+    if (!this.val('anchor')) warns.push(['لا مرساة للقسم — يمنع الاقتباس الدقيق في محرّكات الإجابة.', 'part']);
+    if (!String(this.val('emptyMsg') || '').trim()) warns.push(['حالة الفراغ بلا نص — الزائر سيرى قسمًا فارغًا بلا تفسير.', 'no']);
+    if (String(this.val('emptyMsg') || '').length > 44) warns.push(['نص الفراغ طويل (' + String(this.val('emptyMsg')).length + ' حرفًا) — يكسر التوسيط على الجوال.', 'part']);
+    if (isSched(vAll) && (!this.val('from') || !this.val('to'))) warns.push(['الظهور مجدول بلا تاريخين مكتملين — سيُعرض دائمًا.', 'no']);
+    if (rad > 14 && dens === 'tight') warns.push(['استدارة ' + rad + 'px مع كثافة مضغوطة تقصّ المحتوى بصريًا.', 'part']);
+    if (!warns.length) warns.push(['لا تحذيرات على القيم الحالية.', 'ok']);
+    const worst = warns.some((w) => w[1] === 'no') ? 'no' : warns.some((w) => w[1] === 'part') ? 'part' : 'ok';
+    const qCh = worst === 'ok' ? { bg: GBG, fg: G } : worst === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+    const dirtyKeys = Object.keys(this.state.v);
+    const bySrc = { global: 0, section: 0, component: 0 };
+    inMode.forEach((k) => { bySrc[this.dirty(k) ? 'component' : DEFS[k].src] += 1; });
+    const wiredN = Object.keys(DEFS).filter((k) => DEFS[k].wired).length;
+
+    const paste = (grp) => () => {
+      const cl = this.state.clip; if (!cl) return;
+      const nv = { ...this.state.v };
+      const ks = grp === 'all' ? Object.keys(cl) : GROUPS[grp] || [];
+      ks.forEach((k) => { if (cl[k] !== undefined) nv[k] = cl[k]; });
+      this.commit(nv);
+    };
+
+    return {
+      wiredLabel: wiredN + ' من ' + Object.keys(DEFS).length + ' ضابطًا يحرّك المعاينة فعلًا',
+      modes: [['basic', 'بسيط'], ['adv', 'متقدّم'], ['expert', 'خبير']].map((m) => ({
+        label: m[1], on: mode === m[0], onClick: () => this.setState({ mode: m[0], q: '', tab: 'layout' }),
+        bg: mode === m[0] ? '#1a1a1a' : 'transparent', fg: mode === m[0] ? '#fff' : 'rgba(0,0,0,.6)',
+      })),
+
+      undo: () => this.setState((s) => (s.hp > 0 ? { hp: s.hp - 1, v: s.hist[s.hp - 1], play: true } : {})),
+      redo: () => this.setState((s) => (s.hp < s.hist.length - 1 ? { hp: s.hp + 1, v: s.hist[s.hp + 1], play: true } : {})),
+      noUndo: this.state.hp <= 0, noRedo: this.state.hp >= this.state.hist.length - 1,
+      undoBg: this.state.hp > 0 ? '#fcfcfd' : '#f6f7f7', undoFg: this.state.hp > 0 ? '#1a1a1a' : 'rgba(0,0,0,.3)',
+      redoBg: this.state.hp < this.state.hist.length - 1 ? '#fcfcfd' : '#f6f7f7', redoFg: this.state.hp < this.state.hist.length - 1 ? '#1a1a1a' : 'rgba(0,0,0,.3)',
+      histLabel: (this.state.hp + 1) + '/' + this.state.hist.length,
+      copyStyle: () => this.setState((s) => ({ clip: { ...s.v } })),
+      clipShow: this.state.clip ? 'flex' : 'none',
+      pasteBtns: [['all', 'الكل'], ['type', 'الطباعة فقط'], ['space', 'التباعد فقط'], ['motion', 'الحركة فقط']].map((p) => ({ label: p[1], onClick: paste(p[0]) })),
+
+      q: this.state.q, setQ: (e) => this.setState({ q: e && e.target ? e.target.value : '' }),
+      qShow: q ? 'inline' : 'none', qCount: String(matched.length),
+      tabsShow: q ? 'none' : 'flex',
+      tabs: TABS.filter((t) => t[2] <= lvl).map((t) => {
+        const on = this.state.tab === t[0] && !q;
+        const d = keys.some((k) => DEFS[k].tab === t[0] && this.dirty(k));
+        return { label: t[1], on, dirty: d, onClick: () => this.setState({ tab: t[0], q: '' }), edge: on ? '#1a1a1a' : '#dcdcde', bg: on ? '#1a1a1a' : '#fff', fg: on ? '#fff' : 'rgba(0,0,0,.6)' };
+      }),
+      emptyShow: matched.length ? 'none' : 'block',
+      resetAll: () => this.commit({}),
+
+      controls: matched.map((k) => {
+        const d = DEFS[k], v = this.val(k), dty = this.dirty(k);
+        const s = SRC[dty ? 'component' : d.src];
+        const kk = { seg: 'none', range: 'none', toggles: 'none', color: 'none', text: 'none' };
+        kk[d.kind] = d.kind === 'text' ? 'block' : 'flex';
+        let opts = [];
+        if (d.kind === 'seg') opts = d.opts.map((o) => { const on = v === o[0]; return { label: o[1], on, onClick: () => this.set(k, o[0]), edge: on ? G : '#dcdcde', bg: on ? G : '#fff', fg: on ? '#fff' : 'rgba(0,0,0,.62)' }; });
+        if (d.kind === 'toggles') opts = d.opts.map((o) => { const on = !!v[o[0]]; return { label: o[1], on, onClick: () => this.set(k, { ...v, [o[0]]: on ? 0 : 1 }), edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', ring: on ? G : '#c9c9cd', fill: on ? G : 'transparent', fg: on ? '#123d2f' : 'rgba(0,0,0,.6)' }; });
+        if (d.kind === 'color') opts = d.opts.map((o) => { const on = v === o[0]; return { label: o[2], on, sw: o[1], onClick: () => this.set(k, o[0]), edge: on ? G : '#dcdcde' }; });
+        return {
+          label: d.label, dirty: dty, src: (d.wired ? s[0] : 'خادم') + (dty ? ' · معدّل' : ''),
+          srcBg: d.wired ? s[1] : '#f2f2f4', srcFg: d.wired ? s[2] : 'rgba(0,0,0,.5)',
+          onReset: () => this.commit((function (o, kk2) { const n = { ...o }; delete n[kk2]; return n; })(this.state.v, k)),
+          k: kk, opts, value: v, min: d.min, max: d.max, step: d.step,
+          display: String(v) + (d.unit || ''),
+          onRange: (e) => this.set(k, Number(e && e.target ? e.target.value : v)),
+          onText: (e) => this.set(k, e && e.target ? e.target.value : ''),
+          ph: d.ph || '', help: d.help || '', helpShow: d.help ? 'block' : 'none',
+          edge: d.wired ? '#ececef' : '#e4e4e7', bg: d.wired ? '#fff' : '#fbfbfc',
+        };
+      }),
+
+      repShow: manual && (!q && this.state.tab === 'content') ? 'flex' : 'none',
+      repItems: this.state.rep.map((label, i) => ({
+        n: String(i + 1).padStart(2, '0'), label,
+        acts: [
+          { g: '↑', aria: 'أعلى', fg: i === 0 ? 'rgba(0,0,0,.25)' : '#1a1a1a', onClick: () => this.setState((s) => { if (i === 0) return {}; const r2 = s.rep.slice(); const t = r2[i - 1]; r2[i - 1] = r2[i]; r2[i] = t; return { rep: r2, play: true }; }) },
+          { g: '↓', aria: 'أسفل', fg: i === this.state.rep.length - 1 ? 'rgba(0,0,0,.25)' : '#1a1a1a', onClick: () => this.setState((s) => { if (i >= s.rep.length - 1) return {}; const r2 = s.rep.slice(); const t = r2[i + 1]; r2[i + 1] = r2[i]; r2[i] = t; return { rep: r2, play: true }; }) },
+          { g: '⧉', aria: 'تكرار', fg: '#1a1a1a', onClick: () => this.setState((s) => ({ rep: s.rep.slice(0, i + 1).concat([s.rep[i]]).concat(s.rep.slice(i + 1)), play: true })) },
+          { g: '×', aria: 'حذف', fg: '#a5261b', onClick: () => this.setState((s) => ({ rep: s.rep.filter((x, j) => j !== i), play: true })) },
+        ],
+      })),
+      repAdd: () => this.setState((s) => ({ rep: s.rep.concat(['عنصر ' + (s.rep.length + 1)]), play: true })),
+
+      pName: this.state.pName, setPName: (e) => this.setState({ pName: e && e.target ? e.target.value : '' }),
+      savePreset: () => this.setState((s) => (s.pName.trim() ? { presets: s.presets.concat([{ name: s.pName.trim(), v: { ...s.v } }]), pName: '' } : {})),
+      presetsShow: this.state.presets.length ? 'flex' : 'none',
+      presets: this.state.presets.map((p, i) => ({
+        name: p.name, apply: () => this.commit({ ...p.v }),
+        del: () => this.setState((s) => ({ presets: s.presets.filter((x, j) => j !== i) })),
+      })),
+
+      devices: [['desk', 'مكتب'], ['tab', 'تابلت'], ['mob', 'جوال']].map((x) => {
+        const on = dev === x[0];
+        return { label: x[1], on, onClick: () => this.setState({ dev: x[0], play: true }), edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)' };
+      }),
+      devW: dev === 'desk' ? '≥1025px' : dev === 'tab' ? '≤1024px' : '≤767px',
+      effCols: String(effCols),
+      replay: () => { this.setState({ play: false }); window.setTimeout(() => this.setState({ play: true }), 40); },
+      stateBadgeShow: (hidden || view !== 'normal') ? 'inline' : 'none',
+      stateBadge: hidden ? ('مُخفى على ' + (dev === 'desk' ? 'المكتب' : dev === 'tab' ? 'التابلت' : 'الجوال')) : 'حالة: ' + (DEFS.state.opts.find((o) => o[0] === view) || ['', ''])[1],
+      stateBadgeBg: (hidden || view === 'error') ? RBG : ABG, stateBadgeFg: (hidden || view === 'error') ? R : '#7a5a00',
+
+      stateBtns: [['normal', 'طبيعي', 'التخطيط كما هو'], ['loading', 'تحميل', 'هيكل باهت لا دوّارة'], ['empty', 'فارغ', 'سبب + مخرج'], ['error', 'خطأ', 'رسالة مفهومة لا كود']].map((s2) => {
+        const on = view === s2[0];
+        return { label: s2[1], note: s2[2], on, onClick: () => this.set('state', s2[0]), edge: on ? G : '#dcdcde', bg: on ? GBG : '#fcfcfd', fg: on ? '#123d2f' : '#1a1a1a' };
+      }),
+
+      pv: {
+        rows, gap: gap + 'px', bg: surfDef[1], w: dev === 'desk' ? '100%' : dev === 'tab' ? '74%' : '46%',
+        d: dist, b: lv[4], s: scl,
+        anim: animOn ? 'tahIn ' + lv[1] + ' ' + (EASE[lv[2]] || 'ease-out') + ' both' : 'none',
+        note: hidden ? 'العنصر مُخفى على هذا المقاس — لا يُصيَّر في الواجهة إطلاقًا، لا يُخفى بـCSS. الفرق مهم: المخفي بـCSS يُحمَّل ويُزحف ويُقاس.' : view === 'normal' ? 'هيكل سلكي مقصود لا صور نهائية — لأن الهيكل هو ما تتحكّم فيه هذه الضوابط. الصور والأسعار تأتي من الاستعلام في الواجهة.' : view === 'loading' ? 'حالة التحميل = نفس الهيكل بتباين أخفض. لا دوّارة تدور في الفراغ ولا قفزة تخطيط عند وصول البيانات.' : view === 'empty' ? 'حالة الفراغ تحتاج ثلاثة أشياء: سبب واضح، ومخرج (زر)، وألّا تبدو خطأ. طول النص يظهر أثره هنا.' : 'حالة الخطأ للزائر لا للمطوّر: رسالة مفهومة بلا رقم استجابة ولا اسم دالّة. التفصيل التقني يذهب للسجل.',
+      },
+
+      cost: {
+        label: cost[0], chipBg: cCh.bg, chipFg: cCh.fg,
+        edge: cost[1] === 'no' ? '#f5c9c4' : cost[1] === 'part' ? '#f0dca0' : '#cfe6dc',
+        bg: cost[1] === 'no' ? RBG : cost[1] === 'part' ? '#fdf9ef' : '#f6faf8',
+        rows: [
+          { k: 'عناصر متحرّكة', v: String(cells), fg: cells > 12 ? A : G },
+          { k: 'المسافة', v: dist, fg: parseFloat(dist) > 46 ? R : G },
+          { k: 'الضباب', v: lv[4], fg: parseFloat(lv[4]) > 8 ? R : G },
+          { k: 'التتالي الكلي', v: (cells * parseInt(lv[3], 10)) + 'ms', fg: cells * parseInt(lv[3], 10) > 900 ? R : G },
+        ],
+        note: 'محسوبة من عدّ حقيقي للعناصر في المعاينة. ' + (parseFloat(lv[4]) > 0 ? 'الضباب أغلى بند هنا لأنه يُعيد الرسم لا التحويل فقط.' : 'بلا ضباب — الحركة على التحويل والشفافية فقط، وهو الأرخص.'),
+      },
+
+      qa: {
+        label: worst === 'ok' ? 'سليم' : worst === 'part' ? String(warns.length) + ' ملاحظات' : 'يحتاج نظرة',
+        chipBg: qCh.bg, chipFg: qCh.fg,
+        items: warns.map((w) => {
+          const ch = w[1] === 'ok' ? { bg: GBG, e: '#cfe6dc', m: G } : w[1] === 'part' ? { bg: '#fdf9ef', e: '#f0dca0', m: A } : { bg: RBG, e: '#f5c9c4', m: R };
+          return { text: w[0], mark: w[1] === 'ok' ? '✓' : '!', bg: ch.bg, edge: ch.e, mBg: ch.m };
+        }),
+      },
+
+      chain: [['عام', 0], ['صفحة', 0], ['قسم', 0], ['عنصر', 1], ['حالة', 0]].map((c3, i, all) => ({
+        label: c3[0], arrow: i < all.length - 1 ? 'inline' : 'none',
+        bg: c3[1] ? G : '#fff', fg: c3[1] ? '#fff' : 'rgba(0,0,0,.6)', edge: c3[1] ? G : '#dcdcde',
+      })),
+      chainStats: [
+        { n: String(bySrc.global), label: 'موروث من العام', fg: '#3a5a80' },
+        { n: String(bySrc.section), label: 'موروث من القسم', fg: '#7a5a00' },
+        { n: String(dirtyKeys.length), label: 'معدّل على هذا العنصر', fg: G },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

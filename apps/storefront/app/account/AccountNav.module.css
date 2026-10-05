@@ -1,0 +1,208 @@
+/*
+ * «Tahdheer - My Account» nav — literal spec.
+ * Rail: 12px padding, 16px radius, sticky at 16px, items 44px tall with the
+ * 3px inline-start edge that marks the active section and the 9px radius.
+ * Bar: 52px targets, 2px gutters, safe-area padding at the block-end.
+ * Tokens only, logical properties only.
+ */
+
+.sidebar {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  position: sticky;
+  inset-block-start: 16px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--sf-ink-2);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: start;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .item:hover {
+    background: var(--sf-cool);
+    color: var(--sf-ink);
+  }
+}
+
+.item:active {
+  background: var(--sf-chip);
+}
+
+.item:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* Sections with no backend: dimmed, uninteractive, and labelled with why. */
+/* ما لم يُربط: عنوان مجموعةٍ هادئ ثمّ أسطرٌ ساكنة. */
+.groupLabel {
+  margin: 12px 0 4px;
+  padding-block-start: 12px;
+  padding-inline: 12px;
+  border-block-start: 1px solid var(--sf-line);
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.soonList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.soonItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: 36px;
+  padding-inline: 12px;
+  color: var(--sf-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* الحاليّ: صبغةٌ كحليّة وحافّة بدايةٍ ‎3px‎ — لا كبسولة ممتلئة. */
+.active,
+.active:hover {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+  font-weight: 800;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  inset-block: 10px;
+  inset-inline-start: 0;
+  inline-size: 3px;
+  background: var(--color-secondary-text);
+}
+
+.itemIcon {
+  flex: 0 0 auto;
+  inline-size: 17px;
+  block-size: 17px;
+  color: var(--sf-muted);
+}
+
+.active .itemIcon {
+  color: var(--color-secondary-text);
+}
+
+.itemLabel {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────── block-end bar (≤1279) ── */
+
+.bottomBar {
+  position: sticky;
+  /* يرتفع فوق الطبقات الخارجة عن التدفّق — عقد `data-bottom-chrome` في `globals.css`. */
+  inset-block-end: var(--chrome-bottom-outflow, 0px);
+  z-index: var(--z-account-nav);
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--sf-line);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.bottomItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-block-size: 52px;
+  border-radius: var(--r-md);
+  color: var(--sf-muted);
+  text-decoration: none;
+}
+
+.bottomItem:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: -2px;
+}
+
+.bottomActive {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.bottomIcon {
+  inline-size: 19px;
+  block-size: 19px;
+}
+
+.bottomLabel {
+  font-size: calc(var(--tp-label-size) * 0.7917);
+  font-weight: 800;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}
+
+/*
+ * The rail appears at the desktop story only (the design drops it at 834px
+ * because 256px starves the library grid). The bar therefore covers mobile AND
+ * tablet — the design shows it on mobile alone, which would leave a tablet with
+ * no account navigation at all.
+ */
+@media (min-width: 1280px) {
+  .sidebar {
+    display: flex;
+  }
+
+  .bottomBar {
+    display: none;
+  }
+}
+
+/*
+ * تحت ‎768px‎ يسكن الحافّة نفسها شريطُ الجوّال العامّ (`MobileBottomBar`)، وهو
+ * ملتصقٌ مثل هذا — وعقد `data-bottom-chrome` لا يحتمل إلّا ملتصقًا واحدًا في
+ * الصفحة. كان الشريط العامّ (z=30) يغطّي هذا (z=20) تغطيةً تامّة؛ فيتنحّى هذا،
+ * ولسانُ «حسابي» في الشريط العامّ يكفي مدخلًا.
+ */
+@media (max-width: 767px) {
+  .bottomBar {
+    display: none;
+  }
+}

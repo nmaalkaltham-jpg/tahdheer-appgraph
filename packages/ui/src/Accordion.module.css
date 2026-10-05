@@ -1,0 +1,164 @@
+/*
+UNIT: ACCORDION
+COMPONENT: Accordion.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لغة التصميم: نسق ‎cards‎ = بطاقة الأسئلة في Storefront Product.dc.html
+ * (حدّ ‎--sf-line‎، نصف قطر 14، سؤال 16/800، سهم تركوازي 18px)؛ ونسق ‎soft‎
+ * يحتفظ ببنيته (رأس ملوّن وجسم مفصول) على سطوح التصميم الباردة.
+ * خصائص منطقية فقط.
+ */
+.section {
+  margin-block-start: var(--space-6, 32px);
+  color: var(--sf-ink, var(--ink));
+}
+
+.title {
+  margin-block: 0 var(--space-4, 16px);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink, var(--ink));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  border: 1px solid var(--sf-line, var(--border));
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .cards .item:hover {
+    border-color: var(--sf-control);
+  }
+}
+
+/* الحشو على الملخّص لا البطاقة: هو هدف اللمس (C108). */
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 15px;
+  padding-inline: 18px;
+  min-block-size: 56px;
+  box-sizing: border-box;
+  cursor: pointer;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink, var(--ink));
+  text-align: start;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  border-radius: var(--r-lg);
+}
+
+/* السهم: قناع SVG تركوازي 18px يدور مع الفتح — متناظر فلا ينقلب في RTL. */
+.icon {
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--teal-600);
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.item[open] > .summary .icon {
+  transform: rotate(180deg);
+}
+
+.body {
+  padding-block: 0 16px;
+  padding-inline: 18px;
+  max-inline-size: calc(70ch + 36px);
+}
+
+/* ───── المطويّات الناعمة (soft) ───── */
+.soft .item {
+  overflow: hidden;
+}
+
+.soft .summary {
+  background: var(--sf-cool, var(--bg-mist));
+}
+
+.soft .item[open] > .summary {
+  background: var(--tint-teal, var(--bg-green-light));
+  color: var(--tint-teal-fg);
+}
+
+.soft .icon {
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--r-round);
+  background: var(--bg);
+  border: 1px solid var(--sf-line, var(--border));
+  -webkit-mask: none;
+  mask: none;
+  display: grid;
+  place-items: center;
+}
+
+.soft .icon::before {
+  content: '';
+  inline-size: 16px;
+  block-size: 16px;
+  background: var(--teal-600);
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+}
+
+.soft .body {
+  padding-block: 16px;
+}
+
+/* فتح البند: الجواب يظهر بانزلاقٍ قصير — إجابةٌ لفعل المستخدم وحده. */
+@media (prefers-reduced-motion: no-preference) {
+  .item[open] > :not(summary) {
+    animation: accReveal var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes accReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon,
+  .item {
+    transition: none;
+  }
+}
+
+/* تحت تقليل الحركة: لا انزلاق، والمحتوى ظاهرٌ فورًا. */
+@media (prefers-reduced-motion: reduce) {
+  .item[open] > :not(summary) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

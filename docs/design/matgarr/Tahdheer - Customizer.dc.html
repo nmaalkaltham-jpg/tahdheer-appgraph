@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#dcdad5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tahscroll::-webkit-scrollbar{width:9px}
+.tahscroll::-webkit-scrollbar-thumb{background:#d3d8cf;border-radius:9px;border:3px solid #fff}
+.tahscroll::-webkit-scrollbar-track{background:transparent}
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="logo-mark" viewBox="0 0 24 24"><path d="M3 5.5A1.5 1.5 0 0 1 4.5 4H10a3 3 0 0 1 2 .9A3 3 0 0 1 14 4h5.5A1.5 1.5 0 0 1 21 5.5V18a1 1 0 0 1-1 1h-6a2 2 0 0 0-2 2 2 2 0 0 0-2-2H4a1 1 0 0 1-1-1V5.5Z" fill="none" stroke="currentColor" stroke-width="1.8"></path><path d="M12 6v15" stroke="currentColor" stroke-width="1.6"></path><path d="M15.5 9.5c1.6 0 2.6 1.6 1.8 3-.5.9-1.8 1.3-1.8 2.5" stroke="#d8bd86" stroke-width="1.7" fill="none" stroke-linecap="round"></path><circle cx="15.6" cy="17.4" r=".9" fill="#d8bd86"></circle></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"></path><path d="M9.3 12l1.9 1.9 3.6-3.7"></path></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4.5L4 9"></path><path d="M4 4v5h5"></path><path d="M4 13a8 8 0 0 0 14 4.5L20 15"></path><path d="M20 20v-5h-5"></path></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"></path><rect x="3" y="13" width="4" height="6" rx="1.4"></rect><rect x="17" y="13" width="4" height="6" rx="1.4"></rect><path d="M20 19a4 4 0 0 1-4 3h-2"></path></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><path d="M3.6 4.6h2l2.15 10.3a1.85 1.85 0 0 0 1.8 1.45h7.15a1.85 1.85 0 0 0 1.8-1.42L21.2 8.4H6.3"></path><circle cx="9.8" cy="19.6" r="1.4"></circle><circle cx="17.1" cy="19.6" r="1.4"></circle></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10"></path><path d="M8 11l4 4 4-4"></path><path d="M5 19h14"></path></symbol>
+<symbol id="i-files" viewBox="0 0 24 24"><path d="M8 3h6l4 4v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 7.6h.01"></path></symbol>
+<symbol id="i-blocks" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="8.5" y="13" width="7" height="7" rx="1.5"></rect></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M19 4H8a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h11z"></path><path d="M19 4v15"></path></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M3 9l9-4 9 4-9 4z"></path><path d="M7 11v4c0 1.2 2.2 2.6 5 2.6s5-1.4 5-2.6v-4"></path></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v4.5a4 4 0 0 1-8 0z"></path><path d="M8 6H5.5a2 2 0 0 0 2.2 3M16 6h2.5a2 2 0 0 1-2.2 3"></path><path d="M12 12.5V16M9 20h6M10 20l.6-4M14 20l-.6-4"></path></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M15 4l5 5L9 20l-5 1 1-5z"></path><path d="M13 6l5 5"></path></symbol>
+<symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-1 2-2 0-1.3-1-1.6-1-2.6 0-.8.7-1.4 1.6-1.4H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"></path><circle cx="7.5" cy="11" r="1"></circle><circle cx="10" cy="7.5" r="1"></circle><circle cx="14.5" cy="7.5" r="1"></circle></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"></path></symbol>
+<symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="10" r="5"></circle><path d="M9.5 14L8 21l4-2 4 2-1.5-7"></path></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"></path></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"></path></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 12l8-8h6a2 2 0 0 1 2 2v6l-8 8z"></path><circle cx="15.5" cy="8.5" r="1.3"></circle></symbol>
+<symbol id="i-wand" viewBox="0 0 24 24"><path d="M5 19l9-9"></path><path d="M15 4v4M13 6h4M18 12v3M16.5 13.5h3M6 4v3M4.5 5.5h3"></path></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"></path><path d="M3 13l9 5 9-5"></path></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M9 20h6M12 16v4"></path></symbol>
+<symbol id="i-tablet" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M11 18h2"></path></symbol>
+<symbol id="i-mobile" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.2"></rect><path d="M11 18.6h2"></path></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+<symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.4"></circle><circle cx="15" cy="6" r="1.4"></circle><circle cx="9" cy="12" r="1.4"></circle><circle cx="15" cy="12" r="1.4"></circle><circle cx="9" cy="18" r="1.4"></circle><circle cx="15" cy="18" r="1.4"></circle></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3 2"></path></symbol>
+<symbol id="i-type" viewBox="0 0 24 24"><path d="M5 6h14M12 6v13M9 19h6"></path></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"></rect></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"></path></symbol>
+<symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10l12-5v14L4 14z"></path><path d="M4 10H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h1"></path><path d="M19 9a3 3 0 0 1 0 6"></path></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"></path><path d="M12 17l4-5"></path></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 8h10M18 8h2M4 16h4M12 16h8"></path><circle cx="16" cy="8" r="2"></circle><circle cx="10" cy="16" r="2"></circle></symbol>
+</svg>
+
+<div style="width:1600px;height:1000px;display:flex;direction:rtl;background:#f2f4f1;border:1px solid rgba(0,0,0,.1);border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<aside style="width:392px;flex:0 0 auto;display:flex;flex-direction:column;background:#fff;border-inline-end:1px solid #e0e5dd">
+
+<div style="flex:0 0 auto;background:#14261d;padding:12px 16px;display:flex;align-items:center;gap:10px">
+<span style="width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;flex:0 0 auto"><svg aria-hidden="true" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span>
+<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:#fff;line-height:1.35">التحاضير الحديثة</div><div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#e6cd93;font-weight:700"><span style="width:6px;height:6px;border-radius:50%;background:#d8b56a"></span>{{ unsavedLabel }}</div></div>
+<button type="button" onClick="{{ onPublish }}" style="flex:0 0 auto;padding:9px 20px;border:0;border-radius:9px;background:#1e7355;color:#fff;font:800 13.5px Tajawal,sans-serif;cursor:pointer">نشر</button>
+<button type="button" aria-label="إغلاق" style="flex:0 0 auto;width:34px;height:34px;border:1px solid rgba(255,255,255,.14);border-radius:9px;background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-size:14px">✕</button>
+</div>
+
+<sc-if value="{{ showSearchBar }}" hint-placeholder-val="{{ true }}">
+<div style="flex:0 0 auto;padding:12px 16px 10px;border-bottom:1px solid #eef1ec">
+<div style="display:flex;align-items:center;gap:9px;height:42px;padding-inline:13px;border-radius:11px;border:1px solid #dde3dc;background:#fbfcfa">
+<svg aria-hidden="true" style="width:17px;height:17px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto"><use href="#i-search"></use></svg>
+<input type="search" value="{{ query }}" onChange="{{ onQuery }}" placeholder="ابحث في الإعدادات… مثال: واتساب" style="flex:1;min-width:0;background:none;border:0;outline:none;font:600 13.5px Tajawal,sans-serif;color:#14261d">
+<kbd style="flex:0 0 auto;padding:2px 7px;border-radius:5px;border:1px solid #dde3dc;background:#fff;font:700 10.5px ui-monospace,Menlo,monospace;color:#5f7167">⌘K</kbd>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showCrumbs }}" hint-placeholder-val="{{ false }}">
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid #eef1ec;background:#fbfcfa">
+<button type="button" onClick="{{ onBack }}" aria-label="رجوع" style="width:30px;height:30px;flex:0 0 auto;border:1px solid #dde3dc;border-radius:8px;background:#fff;color:#14261d;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:scaleX(-1)"><use href="#i-chev"></use></svg></button>
+<nav style="flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#5f7167;overflow:hidden;white-space:nowrap">
+<sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="2">
+<span onClick="{{ c.onClick }}" style="color:{{ c.color }};cursor:pointer">{{ c.label }}</span><span style="color:#c9d4cd">›</span>
+</sc-for>
+<span style="color:#14261d">{{ crumbLast }}</span>
+</nav>
+<button type="button" onClick="{{ onFav }}" aria-label="مفضلة" style="width:30px;height:30px;flex:0 0 auto;border:1px solid #dde3dc;border-radius:8px;background:#fff;color:{{ favColor }};display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:{{ favFill }};stroke:currentColor;stroke-width:1.9;stroke-linejoin:round"><use href="#i-star"></use></svg></button>
+</div>
+</sc-if>
+
+<div class="tahscroll" style="flex:1;min-height:0;overflow-y:auto;background:#fff">
+
+<sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 16px">
+<div style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em;margin-bottom:10px">{{ resultCount }} نتيجة لـ «{{ query }}»</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
+<button type="button" onClick="{{ r.onClick }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid #eef1ec;border-radius:11px;background:#fff;cursor:pointer;text-align:start;width:100%" style-hover="border-color:#c9d4cd;background:#fbfcfa">
+<span style="flex:0 0 auto;width:32px;height:32px;border-radius:9px;background:rgba(37,155,111,.10);color:#1e7355;display:grid;place-items:center"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ r.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:13.5px;font-weight:800;color:#14261d">{{ r.label }}</b><span style="font-size:11.5px;color:#5f7167">{{ r.path }}</span></span>
+<span style="flex:0 0 auto;padding:3px 8px;border-radius:6px;background:#f2f5f2;font-size:10.5px;font-weight:800;color:#5f7167">{{ r.kind }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isRoot }}" hint-placeholder-val="{{ true }}">
+<div style="padding:14px 16px 8px">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><span style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em">وصول سريع</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5f7167"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-clock"></use></svg>آخر ما استخدمت</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ quickAccess }}" as="q" hint-placeholder-count="6">
+<button type="button" onClick="{{ q.onClick }}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid #e0e5dd;background:#fbfcfa;font:700 12px Tajawal,sans-serif;color:#3b4d43;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355;background:rgba(37,155,111,.06)">{{ q.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:12px 16px 8px">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:9px"><svg aria-hidden="true" style="width:13px;height:13px;color:#d8b56a;fill:#d8b56a;stroke:#d8b56a;stroke-width:1.6;stroke-linejoin:round"><use href="#i-star"></use></svg><span style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em">المفضّلة</span></div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ favourites }}" as="f" hint-placeholder-count="2">
+<button type="button" onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid rgba(216,181,106,.35);border-radius:10px;background:rgba(216,181,106,.07);cursor:pointer;width:100%;text-align:start"><svg aria-hidden="true" style="width:13px;height:13px;color:#d8b56a;fill:#d8b56a;stroke:#d8b56a;stroke-width:1.6;stroke-linejoin:round;flex:0 0 auto"><use href="#i-star"></use></svg><span style="flex:1;font-size:13px;font-weight:800;color:#14261d">{{ f.label }}</span><span style="font-size:11px;color:#5f7167">{{ f.path }}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:12px 16px 20px">
+<div style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em;margin-bottom:9px">الأقسام الرئيسية</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="11">
+<button type="button" onClick="{{ n.onClick }}" style="display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid transparent;border-radius:12px;background:{{ n.bg }};cursor:pointer;width:100%;text-align:start" style-hover="background:#f4f7f3;border-color:#e6ebe4">
+<span style="flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:{{ n.tint }};color:{{ n.color }};display:grid;place-items:center"><svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ n.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:14px;font-weight:800;color:#14261d;line-height:1.4">{{ n.label }}</b><span style="font-size:11.5px;color:#5f7167">{{ n.sub }}</span></span>
+<span style="flex:0 0 auto;display:flex;align-items:center;gap:7px"><span style="padding:2px 7px;border-radius:6px;background:#f2f5f2;font:700 10.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ n.count }}</span><svg aria-hidden="true" style="width:14px;height:14px;color:#c9d4cd;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-chev"></use></svg></span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 16px 8px">
+<div style="display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border-radius:11px;background:rgba(37,155,111,.06);border:1px solid rgba(37,155,111,.16);margin-bottom:14px">
+<svg aria-hidden="true" style="width:16px;height:16px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-info"></use></svg>
+<span style="font-size:12px;line-height:1.7;color:#3b4d43">اسحب لإعادة الترتيب، أو أطفئ أي قسم دون حذفه. الأقسام الأساسية محميّة من الحذف.</span>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><span style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em">مدير الأقسام — {{ activeCount }} مفعّل من {{ totalCount }}</span></div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ sections }}" as="s" hint-placeholder-count="13">
+<div>
+<div draggable="true" onDragStart="{{ s.onDragStart }}" onDragOver="{{ s.onDragOver }}" onDrop="{{ s.onDrop }}" onDragEnd="{{ s.onDragEnd }}" onClick="{{ s.onOpen }}" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ s.border }};border-radius:11px;background:{{ s.bg }};cursor:grab;opacity:{{ s.opacity }}" style-hover="border-color:#c9d4cd">
+<span style="flex:0 0 auto;color:#c9d4cd;display:grid;place-items:center"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:0;fill:currentColor"><use href="#i-drag"></use></svg></span>
+<span style="flex:0 0 auto;width:22px;font:800 11px ui-monospace,Menlo,monospace;color:#5f7167;text-align:center">{{ s.num }}</span>
+<span style="flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:{{ s.tint }};color:{{ s.color }};display:grid;place-items:center"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:13px;font-weight:800;color:{{ s.labelColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.label }}</b><span style="font-size:10.5px;color:#5f7167">{{ s.meta }}</span></span>
+<button type="button" onClick="{{ s.onToggle }}" aria-label="تفعيل" style="flex:0 0 auto;width:36px;height:21px;border-radius:999px;border:0;background:{{ s.switchBg }};position:relative;cursor:pointer;padding:0"><span style="position:absolute;inset-block-start:2.5px;inset-inline-start:{{ s.knob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.16s"></span></button>
+<button type="button" aria-label="خيارات" style="flex:0 0 auto;width:26px;height:26px;border:0;border-radius:7px;background:transparent;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="background:#f2f5f2;color:#14261d"><svg aria-hidden="true" style="width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-dots"></use></svg></button>
+</div>
+<div onClick="{{ s.onInsert }}" style="height:{{ s.insertH }};display:flex;align-items:center;justify-content:center;gap:6px;margin:2px 0;border-radius:8px;border:1px dashed #d3d8cf;background:#fbfcfa;color:#5f7167;font-size:11px;font-weight:800;cursor:pointer;overflow:hidden;opacity:{{ s.insertOpacity }}" style-hover="border-color:#1e7355;color:#1e7355;background:rgba(30,115,85,.05)"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><use href="#i-plus"></use></svg>أضف قسمًا أو ودجة هنا</div>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{ onOpenWidgets }}" style="width:100%;margin:10px 0 20px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:1px solid #1e7355;border-radius:11px;background:rgba(30,115,85,.06);color:#1e7355;font:800 13.5px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-plus"></use></svg>إضافة قسم أو ودجة</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSection }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 16px 8px">
+<div style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em;margin-bottom:9px">التصميم الجاهز</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px">
+<sc-for list="{{ presets }}" as="p" hint-placeholder-count="6">
+<button type="button" onClick="{{ p.onClick }}" style="display:flex;flex-direction:column;gap:5px;padding:6px;border:1.5px solid {{ p.border }};border-radius:10px;background:{{ p.bg }};cursor:pointer">
+<span style="display:block;height:38px;border-radius:6px;background:#f2f5f2;padding:5px;display:flex;gap:3px;{{ p.thumbDir }}">
+<span style="flex:{{ p.f1 }};border-radius:3px;background:{{ p.c1 }}"></span><span style="flex:{{ p.f2 }};border-radius:3px;background:{{ p.c2 }}"></span>
+</span>
+<span style="font-size:10.5px;font-weight:800;color:{{ p.fg }};text-align:center">{{ p.label }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#fff;padding:0 16px 12px;border-bottom:1px solid #eef1ec">
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:4px;border-radius:11px;background:#f2f5f2">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="7">
+<button type="button" onClick="{{ t.onClick }}" style="flex:0 0 auto;min-height:34px;padding:0 13px;border:0;border-radius:8px;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;line-height:1;cursor:pointer;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.shadow }};white-space:nowrap">{{ t.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:16px">
+<sc-for list="{{ controls }}" as="c" hint-placeholder-count="6">
+<div style="margin-bottom:18px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+<label style="flex:1;font-size:12.5px;font-weight:800;color:#14261d">{{ c.label }}</label>
+<sc-if value="{{ c.hasTip }}" hint-placeholder-val="{{ false }}"><span title="{{ c.tip }}" style="width:17px;height:17px;border-radius:50%;border:1px solid #dde3dc;color:#5f7167;display:grid;place-items:center;font:800 10px Tajawal,sans-serif;cursor:help">؟</span></sc-if>
+<sc-if value="{{ c.hasDevice }}" hint-placeholder-val="{{ false }}">
+<span style="display:flex;gap:2px;padding:2px;border-radius:7px;background:#f2f5f2">
+<sc-for list="{{ c.devices }}" as="d" hint-placeholder-count="3"><button type="button" onClick="{{ d.onClick }}" aria-label="{{ d.name }}" style="width:22px;height:20px;border:0;border-radius:5px;background:{{ d.bg }};color:{{ d.fg }};display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ d.iconRef }}"></use></svg></button></sc-for>
+</span>
+</sc-if>
+<sc-if value="{{ c.hasGlobal }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ c.onGlobal }}" style="padding:3px 9px;border-radius:6px;border:1px solid {{ c.globalBorder }};background:{{ c.globalBg }};color:{{ c.globalFg }};font:800 10.5px Tajawal,sans-serif;cursor:pointer">{{ c.globalLabel }}</button></sc-if>
+</div>
+
+<sc-if value="{{ c.isText }}" hint-placeholder-val="{{ true }}"><input type="text" value="{{ c.value }}" onChange="{{ c.onChange }}" style="width:100%;min-height:40px;padding:0 13px;border:1px solid #dde3dc;border-radius:10px;background:#fff;font:600 13px Tajawal,sans-serif;color:#14261d;outline:none;box-sizing:border-box"></sc-if>
+<sc-if value="{{ c.isArea }}" hint-placeholder-val="{{ false }}"><textarea onChange="{{ c.onChange }}" value="{{ c.value }}" rows="3" style="width:100%;padding:10px 13px;border:1px solid #dde3dc;border-radius:10px;background:#fff;font:600 13px/1.75 Tajawal,sans-serif;color:#14261d;outline:none;resize:vertical;box-sizing:border-box"></textarea></sc-if>
+<sc-if value="{{ c.isSelect }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:5px">
+<sc-for list="{{ c.options }}" as="o" hint-placeholder-count="3"><button type="button" onClick="{{ o.onClick }}" style="flex:1;min-height:38px;border:1px solid {{ o.border }};border-radius:9px;background:{{ o.bg }};color:{{ o.fg }};font:800 12px Tajawal,sans-serif;cursor:pointer">{{ o.label }}</button></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ c.isColor }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="width:38px;height:38px;border-radius:10px;border:1px solid #dde3dc;background:{{ c.value }};flex:0 0 auto"></span>
+<code dir="ltr" style="flex:1;min-height:38px;display:flex;align-items:center;padding:0 12px;border:1px solid #dde3dc;border-radius:10px;background:#fbfcfa;font:700 12.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ c.value }}</code>
+<span dir="ltr" style="padding:5px 9px;border-radius:7px;background:#f2f5f2;font:700 10.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ c.token }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ c.isRange }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:11px">
+<input type="range" min="{{ c.min }}" max="{{ c.max }}" value="{{ c.value }}" onChange="{{ c.onChange }}" style="flex:1;accent-color:#1e7355">
+<span dir="ltr" style="flex:0 0 auto;min-width:56px;text-align:center;padding:6px 0;border:1px solid #dde3dc;border-radius:8px;background:#fbfcfa;font:800 12px ui-monospace,Menlo,monospace;color:#14261d">{{ c.value }}{{ c.unit }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ c.isToggle }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ c.onChange }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid #dde3dc;border-radius:10px;background:#fbfcfa;cursor:pointer;text-align:start"><span style="flex:0 0 auto;width:38px;height:22px;border-radius:999px;background:{{ c.switchBg }};position:relative"><span style="position:absolute;inset-block-start:3px;inset-inline-start:{{ c.knob }};width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></span><span style="flex:1;font-size:12.5px;font-weight:700;color:#3b4d43">{{ c.hint }}</span></button>
+</sc-if>
+<sc-if value="{{ c.hasHint }}" hint-placeholder-val="{{ false }}"><div style="margin-top:6px;font-size:11.5px;line-height:1.7;color:#5f7167">{{ c.hint2 }}</div></sc-if>
+</div>
+</sc-for>
+
+<button type="button" onClick="{{ onToggleAdvanced }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:0 13px;border:1px dashed #d3d8cf;border-radius:11px;background:#fbfcfa;color:#5f7167;font:800 12.5px Tajawal,sans-serif;cursor:pointer;margin-bottom:12px"><span>{{ advancedLabel }}</span><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ advancedRotate }}"><use href="#i-chev"></use></svg></button>
+
+<sc-if value="{{ advanced }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px;border:1px solid #e6ebe4;border-radius:12px;background:#fbfcfa;margin-bottom:14px">
+<div style="margin-bottom:12px"><label style="display:block;font-size:12.5px;font-weight:800;color:#14261d;margin-bottom:6px">فئات CSS إضافية</label><input type="text" placeholder="tah-hero--campaign" style="width:100%;min-height:38px;padding:0 12px;border:1px solid #dde3dc;border-radius:9px;background:#fff;font:600 12.5px ui-monospace,Menlo,monospace;color:#14261d;outline:none;box-sizing:border-box"></div>
+<div><label style="display:block;font-size:12.5px;font-weight:800;color:#14261d;margin-bottom:6px">معرّف مخصّص (ID)</label><input type="text" placeholder="hero-main" style="width:100%;min-height:38px;padding:0 12px;border:1px solid #dde3dc;border-radius:9px;background:#fff;font:600 12.5px ui-monospace,Menlo,monospace;color:#14261d;outline:none;box-sizing:border-box"></div>
+</div>
+</sc-if>
+
+<div style="display:flex;gap:8px;padding-bottom:20px">
+<button type="button" style="flex:1;min-height:40px;border:1px solid #dde3dc;border-radius:10px;background:#fff;color:#5f7167;font:800 12.5px Tajawal,sans-serif;cursor:pointer">إعادة ضبط القسم</button>
+<button type="button" style="flex:0 0 auto;min-height:40px;padding:0 14px;border:1px solid #dde3dc;border-radius:10px;background:#fff;color:#5f7167;font:800 12.5px Tajawal,sans-serif;cursor:pointer">تراجع</button>
+<button type="button" style="flex:0 0 auto;min-height:40px;padding:0 14px;border:1px solid #dde3dc;border-radius:10px;background:#fff;color:#5f7167;font:800 12.5px Tajawal,sans-serif;cursor:pointer">إعادة</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isWidgets }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 16px 8px">
+<div style="display:flex;align-items:center;gap:9px;height:40px;padding-inline:12px;border-radius:10px;border:1px solid #dde3dc;background:#fbfcfa;margin-bottom:12px"><svg aria-hidden="true" style="width:16px;height:16px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg><input type="search" value="{{ widgetQuery }}" onChange="{{ onWidgetQuery }}" placeholder="ابحث في مكتبة الودجات…" style="flex:1;min-width:0;background:none;border:0;outline:none;font:600 13px Tajawal,sans-serif;color:#14261d"></div>
+<div style="display:flex;flex-wrap:wrap;gap:5px;padding-bottom:10px;margin-bottom:6px">
+<sc-for list="{{ widgetCats }}" as="wc" hint-placeholder-count="7"><button type="button" onClick="{{ wc.onClick }}" style="flex:0 0 auto;padding:7px 13px;border-radius:999px;border:1px solid {{ wc.border }};background:{{ wc.bg }};color:{{ wc.fg }};font:800 12px Tajawal,sans-serif;cursor:pointer;white-space:nowrap">{{ wc.label }}</button></sc-for>
+</div>
+<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border-radius:10px;background:rgba(216,181,106,.09);border:1px solid rgba(216,181,106,.3);margin-bottom:14px"><svg aria-hidden="true" style="width:15px;height:15px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-info"></use></svg><span style="font-size:11.5px;line-height:1.65;color:#7a5d20">اختر ودجة ثم اختر موضعها من مناطق «أضف هنا» في المعاينة. كل ودجة تُضاف بمحتوى ابتدائي واقعي — لا مربّعات فارغة.</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;padding-bottom:20px">
+<sc-for list="{{ widgets }}" as="w" hint-placeholder-count="8">
+<button type="button" onClick="{{ w.onClick }}" style="display:flex;flex-direction:column;gap:8px;padding:9px;border:1.5px solid {{ w.border }};border-radius:12px;background:{{ w.bg }};cursor:pointer;text-align:start" style-hover="border-color:#1e7355">
+<span style="display:block;height:64px;border-radius:8px;background:#f4f7f3;border:1px solid #eef1ec;padding:8px;display:flex;flex-direction:column;gap:4px;overflow:hidden">
+<sc-for list="{{ w.thumb }}" as="th" hint-placeholder-count="3"><span style="display:block;height:{{ th.h }};width:{{ th.w }};border-radius:3px;background:{{ th.c }}"></span></sc-for>
+</span>
+<span style="display:flex;align-items:center;gap:6px"><span style="width:22px;height:22px;border-radius:6px;background:rgba(37,155,111,.10);color:#1e7355;display:grid;place-items:center;flex:0 0 auto"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ w.iconRef }}"></use></svg></span><b style="flex:1;font-size:12.5px;font-weight:800;color:#14261d">{{ w.label }}</b><svg aria-hidden="true" style="width:12px;height:12px;color:{{ w.starColor }};fill:{{ w.starFill }};stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;flex:0 0 auto"><use href="#i-star"></use></svg></span>
+<span style="font-size:10.5px;line-height:1.6;color:#5f7167">{{ w.desc }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDesign }}" hint-placeholder-val="{{ false }}">
+<div style="padding:14px 16px 20px">
+<div style="font-size:11.5px;font-weight:800;color:#5f7167;letter-spacing:.06em;margin-bottom:9px">حزمة تصميم جاهزة</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:20px">
+<sc-for list="{{ stylePresets }}" as="sp" hint-placeholder-count="5">
+<button type="button" onClick="{{ sp.onClick }}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:9px 4px;border:1.5px solid {{ sp.border }};border-radius:10px;background:{{ sp.bg }};cursor:pointer"><span style="display:flex;gap:2px"><span style="width:9px;height:20px;border-radius:{{ sp.r }};background:{{ sp.c1 }}"></span><span style="width:9px;height:20px;border-radius:{{ sp.r }};background:{{ sp.c2 }}"></span></span><span style="font-size:10.5px;font-weight:800;color:{{ sp.fg }}">{{ sp.label }}</span></button>
+</sc-for>
+</div>
+<sc-for list="{{ tokenGroups }}" as="tg" hint-placeholder-count="4">
+<div style="margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><span style="width:24px;height:24px;border-radius:7px;background:rgba(37,155,111,.10);color:#1e7355;display:grid;place-items:center"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ tg.iconRef }}"></use></svg></span><b style="font-size:13px;font-weight:800;color:#14261d">{{ tg.title }}</b><span style="margin-inline-start:auto;font:700 10.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ tg.count }}</span></div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ tg.rows }}" as="tr" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid #eef1ec;border-radius:9px;background:#fbfcfa"><span style="width:22px;height:22px;border-radius:{{ tr.swatchRadius }};background:{{ tr.swatch }};border:1px solid rgba(0,0,0,.08);flex:0 0 auto;box-shadow:{{ tr.swatchShadow }}"></span><code dir="ltr" style="flex:1;text-align:start;font:700 11px ui-monospace,Menlo,monospace;color:#5f7167">{{ tr.token }}</code><span dir="ltr" style="font:700 11px ui-monospace,Menlo,monospace;color:#14261d">{{ tr.value }}</span></div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</aside>
+
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;background:#e9ece7">
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 18px;background:#fff;border-bottom:1px solid #e0e5dd">
+<div style="display:flex;gap:2px;padding:3px;border-radius:10px;background:#f2f5f2">
+<sc-for list="{{ deviceBtns }}" as="d" hint-placeholder-count="3"><button type="button" onClick="{{ d.onClick }}" aria-label="{{ d.name }}" title="{{ d.name }}" style="width:36px;height:30px;border:0;border-radius:7px;background:{{ d.bg }};color:{{ d.fg }};display:grid;place-items:center;cursor:pointer;box-shadow:{{ d.shadow }}"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ d.iconRef }}"></use></svg></button></sc-for>
+</div>
+<span style="width:1px;height:22px;background:#e0e5dd"></span>
+<button type="button" title="تحديث المعاينة" aria-label="تحديث المعاينة" style="width:34px;height:34px;border:1px solid #e0e5dd;border-radius:9px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-refresh"></use></svg></button>
+<button type="button" title="فتح الصفحة في تبويب جديد" aria-label="فتح الصفحة" style="width:34px;height:34px;border:1px solid #e0e5dd;border-radius:9px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-eye"></use></svg></button>
+<div style="flex:1"></div>
+<div class="tahscroll" style="display:flex;align-items:center;gap:4px;max-width:560px;overflow-x:auto">
+<span style="font-size:11px;font-weight:800;color:#5f7167;flex:0 0 auto;padding-inline-end:4px">تنقّل الأقسام</span>
+<sc-for list="{{ navigator }}" as="nv" hint-placeholder-count="6"><button type="button" onClick="{{ nv.onClick }}" style="flex:0 0 auto;padding:5px 11px;border-radius:999px;border:1px solid {{ nv.border }};background:{{ nv.bg }};color:{{ nv.fg }};font:800 11.5px Tajawal,sans-serif;cursor:pointer;white-space:nowrap">{{ nv.label }}</button></sc-for>
+</div>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;background:rgba(216,181,106,.12);border:1px solid rgba(216,181,106,.35);font-size:11.5px;font-weight:800;color:#7a5d20"><span style="width:6px;height:6px;border-radius:50%;background:#d8b56a"></span>{{ unsavedLabel }}</span>
+<button type="button" title="إخفاء لوحة التحكم" style="height:34px;padding:0 13px;border:1px solid #e0e5dd;border-radius:9px;background:#fff;color:#5f7167;font:800 12px Tajawal,sans-serif;cursor:pointer">إخفاء اللوحة</button>
+</div>
+
+<div class="tahscroll" style="flex:1;min-height:0;overflow:auto;padding:20px;display:flex;justify-content:center;align-items:flex-start">
+<div style="width:{{ frameW }};flex:0 0 auto;border-radius:{{ frameRadius }};overflow:hidden;background:#fff;box-shadow:0 6px 30px rgba(20,45,33,.14);border:1px solid #dde3dc">
+<div style="width:{{ innerW }};transform:scale({{ scale }});transform-origin:top right">
+<sc-if value="{{ isMobileDevice }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahHomeMobile" hint-size="390px,3200px"></dc-import>
+</sc-if>
+<sc-if value="{{ isDesktopish }}" hint-placeholder-val="{{ true }}">
+<dc-import name="TahPreviewStack" state="{{ previewState }}" onSelect="{{ onSelectSection }}" onHover="{{ onHoverSection }}" onDrop="{{ onDropWidget }}" onDropHover="{{ onDropHover }}" hint-size="1440px,3000px"></dc-import>
+</sc-if>
+</div>
+</div>
+</div>
+</main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1600,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = {
+    view: 'root',
+    query: '',
+    widgetQuery: '',
+    widgetCat: 'الكل',
+    tab: 'content',
+    device: 'desktop',
+    advanced: false,
+    unsaved: 3,
+    favSection: false,
+    dragId: null,
+    overId: null,
+    selected: null,
+    hovered: null,
+    pickedWidget: null,
+    widgetPlaced: false,
+    dropTarget: null,
+    sectionTitle: 'الهيرو',
+    heroPreset: 'split',
+    bgType: 'gradient',
+    globalRadius: true,
+    heroEyebrow: 'متجر القوالب والملفات التعليمية الأول عربيًا',
+    heroTitle: 'كل ما تحتاجه لحصّة ناجحة في مكان واحد',
+    heroDesc: 'عروض بوربوينت، ملفات تعليمية، تحاضير جاهزة، أنشطة صفّية، ووسائل قابلة للتعديل — يعدّها معلّمون، وتصلك فور الدفع.',
+    heroPad: 56,
+    order: ['hero', 'trust', 'stages', 'featured', 'subjects', 'best', 'promo', 'why', 'benefits', 'reviews', 'faq', 'cta', 'newsletter'],
+    enabled: { hero: true, trust: true, stages: true, featured: true, subjects: true, best: true, promo: true, why: true, benefits: false, reviews: true, faq: true, cta: true, newsletter: false }
+  };
+
+  set(patch) { this.setState(s => ({ ...patch, unsaved: s.unsaved + 1 })); }
+
+  sectionMeta() {
+    return {
+      hero: { label: 'الهيرو', meta: 'مقسوم · صورة + نص', iconRef: '#i-wand', tint: 'rgba(37,155,111,.12)', color: '#1e7355', locked: true },
+      trust: { label: 'شريط الثقة', meta: '4 عناصر · تلقائي', iconRef: '#i-shield', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      stages: { label: 'تسوّق حسب المرحلة', meta: '4 بطاقات · شبكة', iconRef: '#i-blocks', tint: 'rgba(216,181,106,.18)', color: '#7a5d20' },
+      featured: { label: 'منتجات مختارة', meta: '4 منتجات · تبويبات', iconRef: '#i-grid', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      subjects: { label: 'تسوّق حسب المادة', meta: '12 مادة · 6 أعمدة', iconRef: '#i-book', tint: 'rgba(216,181,106,.18)', color: '#7a5d20' },
+      best: { label: 'الأكثر مبيعًا', meta: 'من WooCommerce', iconRef: '#i-trophy', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      promo: { label: 'البانر الترويجي', meta: 'مقسوم · 2 بطاقة', iconRef: '#i-tag', tint: 'rgba(216,181,106,.18)', color: '#7a5d20' },
+      why: { label: 'لماذا التحاضير الحديثة', meta: '3 أعمدة', iconRef: '#i-medal', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      benefits: { label: 'مزايا المنتجات الرقمية', meta: 'مطفأ', iconRef: '#i-download', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      reviews: { label: 'آراء العملاء', meta: '3 آراء · حقيقية', iconRef: '#i-star', tint: 'rgba(216,181,106,.18)', color: '#7a5d20' },
+      faq: { label: 'الأسئلة الشائعة', meta: '5 أسئلة · أكورديون', iconRef: '#i-info', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      cta: { label: 'دعوة الإجراء الختامية', meta: 'داكن · نشرة', iconRef: '#i-mega', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+      newsletter: { label: 'النشرة البريدية', meta: 'مطفأ', iconRef: '#i-mega', tint: 'rgba(37,155,111,.12)', color: '#1e7355' }
+    };
+  }
+
+  go(view, title) { this.setState({ view, sectionTitle: title || this.state.sectionTitle, query: '' }); }
+
+  reorder(from, to) {
+    this.setState(s => {
+      const arr = s.order.slice();
+      const i = arr.indexOf(from), j = arr.indexOf(to);
+      if (i < 0 || j < 0 || i === j) return { dragId: null, overId: null };
+      arr.splice(j, 0, arr.splice(i, 1)[0]);
+      return { order: arr, dragId: null, overId: null, unsaved: s.unsaved + 1 };
+    });
+  }
+
+  buildControls() {
+    const st = this.state;
+    const dev = (id) => ['desktop', 'tablet', 'mobile'].map(d => ({
+      name: d, iconRef: d === 'desktop' ? '#i-monitor' : d === 'tablet' ? '#i-tablet' : '#i-mobile',
+      bg: st.device === d ? '#fff' : 'transparent', fg: st.device === d ? '#1e7355' : '#5f7167',
+      onClick: () => this.setState({ device: d })
+    }));
+    const blank = { isText: false, isArea: false, isSelect: false, isColor: false, isRange: false, isToggle: false, hasTip: false, hasDevice: false, hasGlobal: false, hasHint: false, devices: [], options: [] };
+
+    if (st.tab === 'content') {
+      return [
+        { ...blank, label: 'الشارة الصغيرة', isText: true, value: st.heroEyebrow, onChange: e => this.set({ heroEyebrow: e.target.value }), hasTip: true, tip: 'نص قصير فوق العنوان — اتركه فارغًا لإخفائه.' },
+        { ...blank, label: 'العنوان الرئيسي (H1)', isText: true, value: st.heroTitle, onChange: e => this.set({ heroTitle: e.target.value }), hasHint: true, hint2: 'عنوان واحد فقط من نوع H1 في الصفحة — يُستخدم في نتائج البحث.' },
+        { ...blank, label: 'الوصف', isArea: true, value: st.heroDesc, onChange: e => this.set({ heroDesc: e.target.value }) },
+        { ...blank, label: 'الزر الأول — النص', isText: true, value: 'تصفّح المنتجات', onChange: () => this.set({}) },
+        { ...blank, label: 'الزر الثاني', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: 'مفعّل — «اكتشف المتجر»', onChange: () => this.set({}) },
+        { ...blank, label: 'مؤشّرات الثقة أسفل الأزرار', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: '4 عناصر مفعّلة', onChange: () => this.set({}) }
+      ];
+    }
+    if (st.tab === 'design') {
+      const bgOpts = ['solid', 'gradient', 'image'].map(o => ({
+        label: o === 'solid' ? 'لون' : o === 'gradient' ? 'تدرّج' : 'صورة',
+        border: st.bgType === o ? '#1e7355' : '#dde3dc', bg: st.bgType === o ? 'rgba(30,115,85,.07)' : '#fff',
+        fg: st.bgType === o ? '#1e7355' : '#5f7167', onClick: () => this.set({ bgType: o })
+      }));
+      const rows = [
+        { ...blank, label: 'نوع الخلفية', isSelect: true, options: bgOpts },
+        { ...blank, label: 'لون البداية', isColor: true, value: '#f7f9f6', token: '--color-surface' }
+      ];
+      if (st.bgType === 'gradient') rows.push({ ...blank, label: 'لون النهاية', isColor: true, value: '#ffffff', token: '--color-bg' }, { ...blank, label: 'زاوية التدرّج', isRange: true, value: 180, min: 0, max: 360, unit: '°', onChange: () => this.set({}) });
+      if (st.bgType === 'image') rows.push({ ...blank, label: 'شدّة التعتيم', isRange: true, value: 55, min: 0, max: 90, unit: '%', onChange: () => this.set({}) });
+      rows.push(
+        { ...blank, label: 'لون العنوان', isColor: true, value: '#14261d', token: '--color-text' },
+        { ...blank, label: 'لون الزر الأساسي', isColor: true, value: '#1e7355', token: '--color-primary' },
+        {
+          ...blank, label: 'استدارة الحواف', isRange: true, value: 12, min: 0, max: 32, unit: 'px', onChange: () => this.set({ globalRadius: false }),
+          hasGlobal: true, globalLabel: st.globalRadius ? 'عام' : 'مخصّص',
+          globalBorder: st.globalRadius ? '#1e7355' : '#dde3dc', globalBg: st.globalRadius ? 'rgba(30,115,85,.08)' : '#fff', globalFg: st.globalRadius ? '#1e7355' : '#5f7167',
+          onGlobal: () => this.set({ globalRadius: !st.globalRadius }),
+          hasHint: true, hint2: st.globalRadius ? 'موروث من نظام التصميم — --radius-md. غيّره ليصبح مخصّصًا لهذا القسم.' : 'قيمة مخصّصة لهذا القسم فقط.'
+        }
+      );
+      return rows;
+    }
+    if (st.tab === 'spacing') {
+      return [
+        { ...blank, label: 'الحشوة العلوية', isRange: true, value: st.heroPad, min: 0, max: 120, unit: 'px', hasDevice: true, devices: dev('pt'), onChange: e => this.set({ heroPad: e.target.value }) },
+        { ...blank, label: 'الحشوة السفلية', isRange: true, value: 64, min: 0, max: 120, unit: 'px', hasDevice: true, devices: dev('pb'), onChange: () => this.set({}) },
+        { ...blank, label: 'المسافة بين العمودين', isRange: true, value: 48, min: 0, max: 96, unit: 'px', hasDevice: true, devices: dev('gap'), onChange: () => this.set({}) },
+        { ...blank, label: 'أقصى عرض للمحتوى', isRange: true, value: 1200, min: 1040, max: 1440, unit: 'px', onChange: () => this.set({}), hasTip: true, tip: 'العرض الأقصى للحاوية الداخلية — كان اسمه سابقًا Section container max width.' }
+      ];
+    }
+    if (st.tab === 'motion') {
+      const opts = ['none', 'subtle', 'smooth', 'dynamic'].map(o => ({
+        label: o === 'none' ? 'بدون' : o === 'subtle' ? 'خفيفة' : o === 'smooth' ? 'ناعمة' : 'حيوية',
+        border: o === 'subtle' ? '#1e7355' : '#dde3dc', bg: o === 'subtle' ? 'rgba(30,115,85,.07)' : '#fff', fg: o === 'subtle' ? '#1e7355' : '#5f7167', onClick: () => this.set({})
+      }));
+      return [
+        { ...blank, label: 'حزمة الحركة', isSelect: true, options: opts, hasHint: true, hint2: 'الإعداد يحترم prefers-reduced-motion تلقائيًا.' },
+        { ...blank, label: 'مدّة الظهور', isRange: true, value: 360, min: 0, max: 1200, unit: 'ms', onChange: () => this.set({}) },
+        { ...blank, label: 'تتابع العناصر', isRange: true, value: 80, min: 0, max: 300, unit: 'ms', onChange: () => this.set({}) }
+      ];
+    }
+    if (st.tab === 'layout') {
+      const cols = ['نص + بصري', 'نص فقط', 'بصري فوق النص'].map((l, i) => ({ label: l, border: i === 0 ? '#1e7355' : '#dde3dc', bg: i === 0 ? 'rgba(30,115,85,.07)' : '#fff', fg: i === 0 ? '#1e7355' : '#5f7167', onClick: () => this.set({}) }));
+      const al = ['يمين', 'وسط'].map((l, i) => ({ label: l, border: i === 0 ? '#1e7355' : '#dde3dc', bg: i === 0 ? 'rgba(30,115,85,.07)' : '#fff', fg: i === 0 ? '#1e7355' : '#5f7167', onClick: () => this.set({}) }));
+      return [
+        { ...blank, label: 'ترتيب المحتوى', isSelect: true, options: cols },
+        { ...blank, label: 'محاذاة النص', isSelect: true, options: al },
+        { ...blank, label: 'نسبة العمودين', isRange: true, value: 53, min: 30, max: 70, unit: '%', onChange: () => this.set({}) },
+        { ...blank, label: 'أدنى ارتفاع', isRange: true, value: 430, min: 280, max: 720, unit: 'px', hasDevice: true, devices: dev('mh'), onChange: () => this.set({}) }
+      ];
+    }
+    if (st.tab === 'responsive') {
+      return [
+        { ...blank, label: 'إظهار على سطح المكتب', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: 'ظاهر', onChange: () => this.set({}) },
+        { ...blank, label: 'إظهار على التابلت', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: 'ظاهر', onChange: () => this.set({}) },
+        { ...blank, label: 'إظهار على الجوال', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: 'ظاهر — البصريات تنتقل أسفل النص', onChange: () => this.set({}) },
+        { ...blank, label: 'حجم العنوان على الجوال', isRange: true, value: 30, min: 20, max: 48, unit: 'px', hasDevice: true, devices: dev('fs'), onChange: () => this.set({}), hasHint: true, hint2: 'يُطبَّق داخل clamp() — لا حاجة لاستعلامات وسائط إضافية.' }
+      ];
+    }
+    return [
+      { ...blank, label: 'فئات CSS إضافية', isText: true, value: '', onChange: () => this.set({}) },
+      { ...blank, label: 'معرّف مخصّص', isText: true, value: '', onChange: () => this.set({}) },
+      { ...blank, label: 'تخطّي التحميل الكسول للصورة', isToggle: true, switchBg: '#1e7355', knob: '19px', hint: 'مفعّل — يحسّن LCP للهيرو', onChange: () => this.set({}) }
+    ];
+  }
+
+  searchIndex() {
+    return [
+      { label: 'رقم واتساب', path: 'التسويق والتحويل › واتساب', kind: 'نص', iconRef: '#i-headset', view: 'section', title: 'واتساب' },
+      { label: 'لون زر واتساب', path: 'التسويق والتحويل › واتساب', kind: 'لون', iconRef: '#i-palette', view: 'section', title: 'واتساب' },
+      { label: 'إظهار زر واتساب العائم', path: 'التسويق والتحويل › واتساب', kind: 'مفتاح', iconRef: '#i-headset', view: 'section', title: 'واتساب' },
+      { label: 'واتساب في الفوتر', path: 'الفوتر والتواصل › قنوات التواصل', kind: 'رابط', iconRef: '#i-globe', view: 'section', title: 'الفوتر' },
+      { label: 'رسالة واتساب الجاهزة', path: 'التسويق والتحويل › واتساب', kind: 'نص طويل', iconRef: '#i-headset', view: 'section', title: 'واتساب' },
+      { label: 'لون الأزرار الأساسي', path: 'نظام التصميم › الألوان', kind: 'لون', iconRef: '#i-palette', view: 'design', title: 'نظام التصميم' },
+      { label: 'استدارة الأزرار', path: 'نظام التصميم › الحدود والزوايا', kind: 'رقم', iconRef: '#i-box', view: 'design', title: 'نظام التصميم' },
+      { label: 'نص زر الهيرو الأول', path: 'الصفحة الرئيسية › الهيرو › المحتوى', kind: 'نص', iconRef: '#i-wand', view: 'section', title: 'الهيرو' },
+      { label: 'شكل الهيرو', path: 'الصفحة الرئيسية › الهيرو › التخطيط', kind: 'اختيار', iconRef: '#i-wand', view: 'section', title: 'الهيرو' },
+      { label: 'صورة خلفية الهيرو', path: 'الصفحة الرئيسية › الهيرو › التصميم', kind: 'صورة', iconRef: '#i-wand', view: 'section', title: 'الهيرو' },
+      { label: 'ارتفاع الهيرو', path: 'الصفحة الرئيسية › الهيرو › التخطيط', kind: 'رقم', iconRef: '#i-wand', view: 'section', title: 'الهيرو' },
+      { label: 'عرض الحاوية', path: 'نظام التصميم › المسافات', kind: 'رقم', iconRef: '#i-sliders', view: 'design', title: 'نظام التصميم' }
+    ];
+  }
+
+  renderVals() {
+    const st = this.state;
+    const meta = this.sectionMeta();
+    const q = st.query.trim();
+    const isSearch = q.length > 0;
+
+    const results = isSearch
+      ? this.searchIndex().filter(r => (r.label + ' ' + r.path).includes(q)).map(r => ({ ...r, onClick: () => this.go(r.view, r.title) }))
+      : [];
+
+    const sections = st.order.map((id, i) => {
+      const m = meta[id];
+      const on = st.enabled[id];
+      return {
+        id, num: String(i + 1).padStart(2, '0'), label: m.label, meta: m.meta, iconRef: m.iconRef, tint: m.tint, color: m.color,
+        labelColor: on ? '#14261d' : '#5f7167',
+        bg: st.overId === id ? 'rgba(30,115,85,.07)' : (on ? '#fff' : '#fbfcfa'),
+        border: st.overId === id ? '#1e7355' : '#eef1ec',
+        opacity: st.dragId === id ? '.4' : '1',
+        switchBg: on ? '#1e7355' : '#d3d8cf',
+        knob: on ? '17px' : '2.5px',
+        insertH: st.overId === id ? '30px' : '0px',
+        insertOpacity: st.overId === id ? '1' : '0',
+        onToggle: (e) => { e.stopPropagation(); this.setState(s => ({ enabled: { ...s.enabled, [id]: !s.enabled[id] }, unsaved: s.unsaved + 1 })); },
+        onOpen: () => this.setState({ view: 'section', sectionTitle: m.label, selected: id, tab: 'content' }),
+        onInsert: (e) => { e.stopPropagation(); this.setState({ view: 'widgets' }); },
+        onDragStart: () => this.setState({ dragId: id }),
+        onDragOver: (e) => { e.preventDefault(); if (st.overId !== id) this.setState({ overId: id }); },
+        onDrop: (e) => { e.preventDefault(); this.reorder(st.dragId, id); },
+        onDragEnd: () => this.setState({ dragId: null, overId: null })
+      };
+    });
+
+    const tabDefs = [['content', 'المحتوى'], ['layout', 'التخطيط'], ['design', 'التصميم'], ['motion', 'الحركة'], ['spacing', 'المسافات'], ['responsive', 'الاستجابة'], ['advanced', 'متقدم']];
+    const tabs = tabDefs.map(([id, label]) => ({
+      label, onClick: () => this.setState({ tab: id }),
+      bg: st.tab === id ? '#fff' : 'transparent', fg: st.tab === id ? '#14261d' : '#5f7167',
+      shadow: st.tab === id ? '0 1px 3px rgba(20,45,33,.13)' : 'none'
+    }));
+
+    const presetDefs = [
+      ['split', 'مقسوم', 'row', 1, 1, '#1e7355', '#d8b56a'], ['centered', 'مركزي', 'column', 1, 2, '#1e7355', '#e6ebe4'],
+      ['image', 'صورة', 'row', 1, 0, '#123d2f', '#123d2f'], ['minimal', 'بسيط', 'column', 1, 3, '#e6ebe4', '#1e7355'],
+      ['search', 'بحث', 'column', 2, 1, '#1e7355', '#d8b56a'], ['showcase', 'عرض', 'row', 2, 1, '#d8b56a', '#1e7355']
+    ];
+    const presets = presetDefs.map(([id, label, dir, f1, f2, c1, c2]) => ({
+      label, f1, f2, c1, c2, thumbDir: dir === 'column' ? 'flex-direction:column' : '',
+      border: st.heroPreset === id ? '#1e7355' : '#e6ebe4', bg: st.heroPreset === id ? 'rgba(30,115,85,.05)' : '#fff',
+      fg: st.heroPreset === id ? '#1e7355' : '#5f7167', onClick: () => this.set({ heroPreset: id })
+    }));
+
+    const widgetDefs = [
+      ['المزايا', 'محتوى', '#i-check', '3 مزايا بأيقونات ونص جاهز', [['8px', '40%', '#c9d4cd'], ['6px', '100%', '#e6ebe4'], ['6px', '80%', '#e6ebe4']]],
+      ['المنتجات', 'تجارة', '#i-grid', 'شبكة منتجات حقيقية من WooCommerce', [['26px', '100%', '#dde3dc'], ['6px', '70%', '#e6ebe4']]],
+      ['الأسئلة الشائعة', 'محتوى', '#i-info', '5 أسئلة وأجوبة كاملة', [['9px', '100%', '#dde3dc'], ['9px', '100%', '#e6ebe4'], ['9px', '100%', '#e6ebe4']]],
+      ['آراء العملاء', 'محتوى', '#i-star', '3 شهادات مكتملة', [['7px', '30%', '#d8b56a'], ['6px', '100%', '#e6ebe4'], ['6px', '85%', '#e6ebe4']]],
+      ['دعوة إجراء', 'تسويق', '#i-mega', 'عنوان + وصف + زر', [['10px', '70%', '#dde3dc'], ['6px', '100%', '#e6ebe4'], ['12px', '35%', '#1e7355']]],
+      ['بانر ترويجي', 'تسويق', '#i-tag', 'صورة + نص + زر بمقاسات آمنة', [['32px', '100%', '#1e7355']]],
+      ['قائمة تنقّل', 'تنقّل', '#i-list', 'قائمة ووردبريس حقيقية', [['6px', '55%', '#e6ebe4'], ['6px', '70%', '#e6ebe4'], ['6px', '45%', '#e6ebe4']]],
+      ['نشرة بريدية', 'تسويق', '#i-mega', 'حقل بريد + زر اشتراك', [['9px', '60%', '#dde3dc'], ['14px', '100%', '#e6ebe4']]],
+      ['بحث', 'تنقّل', '#i-search', 'بحث فعلي في المتجر', [['14px', '100%', '#e6ebe4']]],
+      ['واتساب', 'تواصل', '#i-headset', 'زر تواصل برسالة جاهزة', [['14px', '55%', '#259b6f']]]
+    ];
+    const wq = st.widgetQuery.trim();
+    const widgets = widgetDefs
+      .filter(w => (st.widgetCat === 'الكل' || w[1] === st.widgetCat) && (wq === '' || w[0].includes(wq)))
+      .map(w => ({
+        label: w[0], desc: w[3], iconRef: w[2],
+        border: st.pickedWidget === w[0] ? '#1e7355' : '#eef1ec',
+        bg: st.pickedWidget === w[0] ? 'rgba(30,115,85,.05)' : '#fff',
+        starColor: w[0] === 'المزايا' ? '#d8b56a' : '#d3d8cf', starFill: w[0] === 'المزايا' ? '#d8b56a' : 'none',
+        thumb: w[4].map(t => ({ h: t[0], w: t[1], c: t[2] })),
+        onClick: () => this.setState({ pickedWidget: w[0], dropTarget: null })
+      }));
+
+    const widgetCats = ['الكل', 'أساسيات', 'تجارة', 'محتوى', 'تسويق', 'تواصل', 'تنقّل'].map(c => ({
+      label: c, onClick: () => this.setState({ widgetCat: c }),
+      border: st.widgetCat === c ? '#1e7355' : '#e0e5dd', bg: st.widgetCat === c ? 'rgba(30,115,85,.07)' : '#fbfcfa', fg: st.widgetCat === c ? '#1e7355' : '#5f7167'
+    }));
+
+    const navDefs = [
+      ['الإعداد السريع', 'الشعار، الألوان، الخط، الأقسام', '#i-wand', 'rgba(216,181,106,.18)', '#7a5d20', '9', 'root'],
+      ['الصفحة الرئيسية', 'مدير الأقسام وترتيبها', '#i-layers', 'rgba(37,155,111,.12)', '#1e7355', '13', 'home'],
+      ['الهيدر والتنقّل', 'المحتوى، التصميم، السلوك', '#i-monitor', 'rgba(37,155,111,.12)', '#1e7355', '22', 'section'],
+      ['الودجات', '7 مناطق · مكتبة ومحتوى ابتدائي', '#i-box', 'rgba(37,155,111,.12)', '#1e7355', '7', 'widgets'],
+      ['القوائم', '8 مواقع · مدير القوائم', '#i-list', 'rgba(37,155,111,.12)', '#1e7355', '8', 'section'],
+      ['المنتجات والمتجر', 'البطاقات، الأرشيف، الثقة', '#i-cart', 'rgba(216,181,106,.18)', '#7a5d20', '18', 'section'],
+      ['نظام التصميم', 'ألوان، طباعة، مسافات، حركة', '#i-palette', 'rgba(216,181,106,.18)', '#7a5d20', '64', 'design'],
+      ['التسويق والتحويل', 'الشريط، واتساب، العروض', '#i-mega', 'rgba(37,155,111,.12)', '#1e7355', '19', 'section'],
+      ['الفوتر والتواصل', 'الأعمدة، الروابط، السياسات', '#i-globe', 'rgba(37,155,111,.12)', '#1e7355', '16', 'section'],
+      ['SEO والأداء', 'التقارير، الخرائط، الصور', '#i-gauge', 'rgba(37,155,111,.12)', '#1e7355', '12', 'section'],
+      ['إعدادات متقدمة', 'الاستيراد، التصدير، الضبط', '#i-sliders', 'rgba(37,155,111,.12)', '#1e7355', '6', 'section']
+    ];
+    const nav = navDefs.map(n => ({
+      label: n[0], sub: n[1], iconRef: n[2], tint: n[3], color: n[4], count: n[5], bg: 'transparent',
+      onClick: () => this.setState({ view: n[6], sectionTitle: n[0], tab: 'content' })
+    }));
+
+    const quickAccess = ['تعديل الهيرو', 'تغيير الشعار', 'اللون الأساسي', 'القائمة الرئيسية', 'المنتجات المختارة', 'واتساب', 'الفوتر']
+      .map(l => ({ label: l, onClick: () => this.setState({ view: l === 'تعديل الهيرو' ? 'section' : l === 'اللون الأساسي' ? 'design' : 'section', sectionTitle: l, tab: 'content' }) }));
+
+    const favourites = [
+      { label: 'اللون الأساسي', path: 'نظام التصميم', onClick: () => this.go('design', 'نظام التصميم') },
+      { label: 'رقم واتساب', path: 'التسويق والتحويل', onClick: () => this.go('section', 'واتساب') }
+    ];
+
+    const devices = ['desktop', 'tablet', 'mobile'];
+    const deviceBtns = devices.map(d => ({
+      name: d === 'desktop' ? 'سطح المكتب' : d === 'tablet' ? 'تابلت' : 'جوال',
+      iconRef: d === 'desktop' ? '#i-monitor' : d === 'tablet' ? '#i-tablet' : '#i-mobile',
+      bg: st.device === d ? '#fff' : 'transparent', fg: st.device === d ? '#1e7355' : '#5f7167',
+      shadow: st.device === d ? '0 1px 3px rgba(20,45,33,.13)' : 'none',
+      onClick: () => this.setState({ device: d })
+    }));
+
+    const navigator = ['الهيرو', 'الثقة', 'المراحل', 'المنتجات', 'العروض', 'الآراء', 'الأسئلة'].map((l, i) => {
+      const ids = ['hero', 'trust', 'stages', 'featured', 'promo', 'reviews', 'faq'];
+      const active = st.selected === ids[i];
+      return { label: l, border: active ? '#1e7355' : '#e0e5dd', bg: active ? 'rgba(30,115,85,.07)' : '#fff', fg: active ? '#1e7355' : '#5f7167', onClick: () => this.setState({ selected: ids[i], view: 'section', sectionTitle: l, tab: 'content' }) };
+    });
+
+    const scale = st.device === 'desktop' ? 0.735 : st.device === 'tablet' ? 0.58 : 1;
+    const innerW = st.device === 'mobile' ? '390px' : '1440px';
+    const frameW = st.device === 'desktop' ? '1058px' : st.device === 'tablet' ? '834px' : '390px';
+
+    const crumbBase = st.view === 'home' ? [] : st.view === 'widgets' ? [{ label: 'الصفحة الرئيسية', color: '#5f7167', onClick: () => this.go('home') }] : st.view === 'design' ? [] : [{ label: 'الصفحة الرئيسية', color: '#5f7167', onClick: () => this.go('home') }];
+    const crumbLast = st.view === 'home' ? 'مدير الأقسام' : st.view === 'widgets' ? 'مكتبة الودجات' : st.view === 'design' ? 'نظام التصميم' : st.sectionTitle;
+
+    return {
+      isRoot: st.view === 'root' && !isSearch,
+      isHome: st.view === 'home' && !isSearch,
+      isSection: st.view === 'section' && !isSearch,
+      isWidgets: st.view === 'widgets' && !isSearch,
+      isDesign: st.view === 'design' && !isSearch,
+      isSearch,
+      showSearchBar: st.view === 'root' || isSearch,
+      showCrumbs: st.view !== 'root' && !isSearch,
+      crumbs: crumbBase, crumbLast,
+      query: st.query,
+      onQuery: e => this.setState({ query: e.target.value }),
+      onBack: () => this.setState({ view: st.view === 'section' ? 'home' : 'root', query: '' }),
+      onFav: () => this.setState({ favSection: !st.favSection }),
+      favColor: st.favSection ? '#d8b56a' : '#5f7167',
+      favFill: st.favSection ? '#d8b56a' : 'none',
+      resultCount: results.length, results,
+      nav, quickAccess, favourites, sections, tabs, presets, widgets, widgetCats,
+      widgetQuery: st.widgetQuery,
+      onWidgetQuery: e => this.setState({ widgetQuery: e.target.value }),
+      activeCount: Object.values(st.enabled).filter(Boolean).length,
+      totalCount: st.order.length,
+      controls: this.buildControls(),
+      advanced: st.advanced,
+      advancedLabel: st.advanced ? 'إخفاء الإعدادات المتقدمة' : 'إظهار الإعدادات المتقدمة',
+      advancedRotate: st.advanced ? 'rotate(90deg)' : 'rotate(-90deg)',
+      onToggleAdvanced: () => this.setState({ advanced: !st.advanced }),
+      onOpenWidgets: () => this.setState({ view: 'widgets' }),
+      onPublish: () => this.setState({ unsaved: 0 }),
+      unsavedLabel: st.unsaved > 0 ? st.unsaved + ' تغييرات غير منشورة' : 'كل التغييرات منشورة',
+      deviceBtns, navigator, scale, innerW, frameW,
+      frameRadius: st.device === 'mobile' ? '22px' : '10px',
+      isMobileDevice: st.device === 'mobile',
+      isDesktopish: st.device !== 'mobile',
+      previewState: {
+        enabled: st.enabled, selected: st.selected, hovered: st.hovered,
+        showDrops: st.view === 'widgets' && !!st.pickedWidget,
+        dropTarget: st.dropTarget, widgetPlaced: st.widgetPlaced
+      },
+      onSelectSection: id => this.setState({ selected: id, view: 'section', sectionTitle: meta[id] ? meta[id].label : id, tab: 'content' }),
+      onHoverSection: id => this.setState({ hovered: id }),
+      onDropHover: id => this.setState({ dropTarget: id }),
+      onDropWidget: () => this.setState(s => ({ widgetPlaced: true, pickedWidget: null, view: 'home', unsaved: s.unsaved + 1 })),
+      stylePresets: [
+        ['حديث', '#1e7355', '#d8b56a', '8px'], ['بسيط', '#14261d', '#e6ebe4', '4px'],
+        ['أنيق', '#123d2f', '#e6cd93', '14px'], ['جريء', '#1e7355', '#14261d', '2px'], ['ناعم', '#259b6f', '#f0e2c4', '999px']
+      ].map((p, i) => ({
+        label: p[0], c1: p[1], c2: p[2], r: p[3],
+        border: i === 0 ? '#1e7355' : '#e6ebe4', bg: i === 0 ? 'rgba(30,115,85,.05)' : '#fff', fg: i === 0 ? '#1e7355' : '#5f7167',
+        onClick: () => this.set({})
+      })),
+      tokenGroups: [
+        {
+          title: 'الألوان', iconRef: '#i-palette', count: '8 رموز', rows: [
+            { token: '--color-primary', value: '#1e7355', swatch: '#1e7355', swatchRadius: '6px', swatchShadow: 'none' },
+            { token: '--color-secondary', value: '#123d2f', swatch: '#123d2f', swatchRadius: '6px', swatchShadow: 'none' },
+            { token: '--color-accent', value: '#d8b56a', swatch: '#d8b56a', swatchRadius: '6px', swatchShadow: 'none' },
+            { token: '--color-surface', value: '#ffffff', swatch: '#ffffff', swatchRadius: '6px', swatchShadow: 'none' },
+            { token: '--color-text', value: '#14261d', swatch: '#14261d', swatchRadius: '6px', swatchShadow: 'none' },
+            { token: '--color-muted', value: '#5f7167', swatch: '#5f7167', swatchRadius: '6px', swatchShadow: 'none' }
+          ]
+        },
+        {
+          title: 'الزوايا', iconRef: '#i-box', count: '3 رموز', rows: [
+            { token: '--radius-sm', value: '10px', swatch: '#eef1ec', swatchRadius: '4px', swatchShadow: 'none' },
+            { token: '--radius-md', value: '14px', swatch: '#eef1ec', swatchRadius: '7px', swatchShadow: 'none' },
+            { token: '--radius-lg', value: '20px', swatch: '#eef1ec', swatchRadius: '11px', swatchShadow: 'none' }
+          ]
+        },
+        {
+          title: 'الظلال', iconRef: '#i-layers', count: '3 رموز', rows: [
+            { token: '--shadow-sm', value: '0 1px 2px', swatch: '#fff', swatchRadius: '6px', swatchShadow: '0 1px 2px rgba(20,45,33,.14)' },
+            { token: '--shadow-md', value: '0 8px 24px', swatch: '#fff', swatchRadius: '6px', swatchShadow: '0 4px 10px rgba(20,45,33,.18)' },
+            { token: '--shadow-lg', value: '0 24px 60px', swatch: '#fff', swatchRadius: '6px', swatchShadow: '0 7px 16px rgba(20,45,33,.24)' }
+          ]
+        },
+        {
+          title: 'المسافات', iconRef: '#i-sliders', count: '5 رموز', rows: [
+            { token: '--space-xs', value: '8px', swatch: '#dde3dc', swatchRadius: '3px', swatchShadow: 'none' },
+            { token: '--space-sm', value: '12px', swatch: '#dde3dc', swatchRadius: '3px', swatchShadow: 'none' },
+            { token: '--space-md', value: '24px', swatch: '#dde3dc', swatchRadius: '3px', swatchShadow: 'none' },
+            { token: '--space-lg', value: '48px', swatch: '#dde3dc', swatchRadius: '3px', swatchShadow: 'none' },
+            { token: '--space-xl', value: '80px', swatch: '#dde3dc', swatchRadius: '3px', swatchShadow: 'none' }
+          ]
+        },
+        {
+          title: 'الطباعة', iconRef: '#i-type', count: '8 رموز', rows: [
+            { token: '--text-display', value: 'clamp 38–54', swatch: '#14261d', swatchRadius: '4px', swatchShadow: 'none' },
+            { token: '--text-h2', value: 'clamp 26–32', swatch: '#14261d', swatchRadius: '4px', swatchShadow: 'none' },
+            { token: '--text-body', value: '15px / 1.85', swatch: '#5f7167', swatchRadius: '4px', swatchShadow: 'none' },
+            { token: '--text-caption', value: '11.5px', swatch: '#5f7167', swatchRadius: '4px', swatchShadow: 'none' }
+          ]
+        }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "projectId": "6bdb6657-06ca-47e3-8dfd-c2bfbf721d58",
+  "shape": "package",
+  "pkg": "@tahdheer/ui",
+  "globalName": "TahdheerUI",
+  "srcDir": "src",
+  "tsconfig": "tsconfig.json",
+  "tokensPkg": "@tahdheer/design-system",
+  "tokensGlob": "src/*.css",
+  "buildCmd": "npm run build:types --workspace @tahdheer/ui",
+  "extraFonts": [
+    "fonts/tajawal.css"
+  ],
+  "overrides": {
+    "ToastViewport": {
+      "cardMode": "single",
+      "primaryStory": "OverLimitKeepsNewest"
+    },
+    "PopupShell": {
+      "cardMode": "single",
+      "primaryStory": "OfferPopup",
+      "viewport": "680x460"
+    },
+    "AdminShell": {
+      "cardMode": "column",
+      "primaryStory": "SidebarLayout",
+      "viewport": "1120x880"
+    }
+  },
+  "dtsPropsFor": {
+    "ProductCard": "  id: number | string;\n  sku: string;\n  title: string;\n  slug: string;\n  url: string;\n  categoryPath: string[];\n  /** صيغة الملفّ، مثل «PDF» / «Word» — تُصيَّر شريحة ثابتة. */\n  format: string;\n  /** السعر بالهللات (وحدات صغرى صحيحة) لا بالريالات. */\n  priceMinor: number;\n  /** السعر قبل الخصم — يُصيَّر مشطوبًا مع onSale. */\n  regularMinor?: number;\n  discountPct?: number;\n  onSale: boolean;\n  /** التقييم يُصيَّر فقط مع ratingCount؛ نجمة بلا عدد ادّعاء بلا مصدر. */\n  ratingAvg?: number;\n  ratingCount?: number;\n  /** الغلاف. غيابه يُصيَّر صندوقًا فارغًا صريحًا لا صورة نائبة. */\n  image?: { url: string; alt: string; w: number; h: number };\n  /** شارة تحريرية بلونَيها — لا تُشتقّ من المنتج، تُمرَّر. */\n  badge?: { label: string; bg: string; fg: string };\n  /** رتبة في قائمة مرتّبة (الأكثر مبيعًا) — تُصيَّر رقمًا في الزاوية. */\n  rank?: number;\n  editable?: boolean;\n  /** زرّ التذييل «أضف للسلة» — رابط تصريحي؛ بدونه لا زرّ (لا زرّ بلا وجهة). */\n  cta?: { label: string; href: string };\n  /** بديل الزرّ: عقدة جاهزة (زرّ عميل حقيقي مثلًا) — تفوز على cta عند وجودها. */\n  ctaSlot?: ReactNode;\n  /**\n   * أزرار الوسائط (المفضّلة · المقارنة) — عقدة جاهزة يملكها المستدعي، تُرسم في\n   * الزاوية المقابلة للشارات. لا يرسم المكوّن أيّ زرّ من عنده: زرٌّ بلا فعل ادّعاء.\n   */\n  actions?: ReactNode;",
+    "ProductCollection": "  /**\n   * إعدادات المجموعة كاملة. ابدأ دائمًا من COLLECTION_DEFAULTS وانشره:\n   * `{ ...COLLECTION_DEFAULTS, cols: 4 }`.\n   */\n  settings: {\n    heading: string;\n    headingLevel: 'h2' | 'h3' | 'none';\n    hSize: number;\n    hWeight: 700 | 800 | 900;\n    /** «التخطيط خاصّية لا ملفّ» — مكوّن واحد يغطّيها كلّها. */\n    layout: 'grid' | 'carousel' | 'slider' | 'list' | 'bento';\n    cols: number;\n    gap: number;\n    density: 'comfy' | 'mid' | 'tight';\n    mobCols: number;\n    radius: number;\n    border: 'none' | 'thin' | 'solid';\n    shadow: 'none' | 'soft' | 'lift';\n    surface: 'plain' | 'soft' | 'warm' | 'dark';\n    ratio: 'square' | 'wide' | 'tall';\n    fit: 'cover' | 'contain';\n    /** يعمل img وbadge وcta؛ أمّا title وprice فمطلوبان في البطاقة فلا يُحذفان. */\n    parts: { img: boolean; title: boolean; price: boolean; badge: boolean; cta: boolean };\n    hover: 'lift' | 'glow' | 'tilt' | 'none';\n    spotlight: boolean;\n    motion: number;\n    entrance: 'up' | 'fade' | 'zoom' | 'none';\n    hide: { desk: boolean; tab: boolean; mob: boolean };\n    anchor: string;\n    cls: string;\n    emptyMsg: string;\n    errorMsg: string;\n  };\n  /** نفس شكل ProductCardProps تمامًا. */\n  items: Array<{\n    id: number | string; sku: string; title: string; slug: string; url: string;\n    categoryPath: string[]; format: string; priceMinor: number; onSale: boolean;\n    regularMinor?: number; discountPct?: number; ratingAvg?: number; ratingCount?: number;\n  /** الغلاف. غيابه يُصيَّر صندوقًا فارغًا صريحًا لا صورة نائبة. */\n  image?: { url: string; alt: string; w: number; h: number };\n    /** شارة تحريرية بلونَيها — لا تُشتقّ من المنتج، تُمرَّر. */\n  badge?: { label: string; bg: string; fg: string };\n    rank?: number; editable?: boolean;\n    cta?: { label: string; href: string };\n  }>;\n  /** الحالات الأربع الإلزامية — تُمرَّر صراحةً لا تُستنتج من طول القائمة. */\n  state?: 'ready' | 'loading' | 'empty' | 'error';\n  /** يوقف حركة الدخول: تستعمله المعاينة لإعادة التشغيل عند الطلب. */\n  replayKey?: string | number;",
+    "TrustStrip": "  variant?: 'band' | 'classic' | 'minimal' | 'glass' | 'smart';\n  /** بقائمة فارغة يُصيَّر لا شيء — المكوّن لا يشحن نصًّا خاصًّا به. */\n  items: ReadonlyArray<{\n    id: string;\n    /** الادّعاء نفسه، مثل «دفع آمن». */\n    title: string;\n    /** سطر ثانٍ — نصّ البند في band وشريحة الحالة في smart. */\n    description?: string;\n    /** أيقونة زخرفية (مرّرها بـaria-hidden). */\n    icon?: ReactNode;\n    /** smart فقط: لون النقطة. */\n    tone?: 'primary' | 'bright' | 'gold';\n    /** smart فقط: الحلقة النابضة — لحالة حيّة فعلًا لا زينةً. */\n    live?: boolean;\n  }>;\n  /** يستعمل زوج الرموز الداكن (للوضع فوق كروم --ink). */\n  dark?: boolean;\n  compact?: boolean;",
+    "ToastViewport": "  /** يُفرَض TOAST_LIMIT = 2 بنيويًّا: الأحدثان يبقيان. */\n  toasts: ReadonlyArray<{ id: string; tone: 'status' | 'error'; message: string }>;\n  /** بدونها لا يُصيَّر زرّ الإغلاق — لا زرّ بلا فعل. */\n  onDismiss?: (id: string) => void;\n  /** مهلة الإخفاء التلقائي لكل إشعار؛ 0 يوقفها. */\n  durationMs?: number;\n  children?: ReactNode;"
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}

@@ -1,0 +1,1165 @@
+/*
+ * SiteHeader — the storefront chrome.
+ *
+ * Desktop (≥1200): ONE row on a four-column grid inside the 1440px frame —
+ * logo · nav · search (the flexible column) · actions (cart · theme ·
+ * wishlist · مكتبتي · حسابي). 1200–1439 keeps the single row by folding the
+ * two labelled actions to icons and hiding the cart's item-count line.
+ *
+ * Tablet (768–1199): logo · search · actions on the first row and the nav
+ * on a second row under a hairline — nothing is squeezed, nothing overflows.
+ *
+ * Mobile (≤767): sticky compact bar — logo · مكتبتي · المفضلة · السلة ·
+ * القائمة — with the search field under it. The nav lives in the drawer.
+ * Product pages render their own app bar, so this header hides there.
+ *
+ * Every control composes the shared `btn` recipe (height --ctl-md, radius
+ * --r-md), so heights, borders, focus rings and press states are one system.
+ * The primary layout is grid + flex only — no absolute positioning (badges
+ * and the mega panel are the only positioned pieces, as before).
+ */
+
+.header {
+  /* Design base type (Storefront *.dc.html root): 15px / 1.6 / 400. */
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  position: relative;
+  z-index: var(--z-header);
+  background: var(--bg);
+  color: var(--sf-ink);
+  font-family: var(--font-family);
+}
+
+/* حلقة التركيز الموحّدة — عدا حقل البحث: هالته على صدفته (‎.search‎) لا على السطر. */
+.header :focus-visible:not(input) {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── announcement bar ─────────────────────────────────────────────── */
+.announce {
+  /* الإعداد يُجاوز اللون والارتفاع (‎--ch-bar-*‎ من الطلب)؛ وإلّا فافتراض التصميم. */
+  background: var(--ch-bar-bg);
+  color: var(--ch-bar-fg);
+  font-size: 13px;
+}
+
+.announceInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-block: 0;
+  padding-inline: var(--sf-gutter);
+  min-block-size: var(--ch-bar-h);
+  flex-wrap: nowrap;
+}
+
+.announceTrack {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* «شريط متحرك» — Storefront Home.dc.html: tahMarquee من 0 إلى 50% خطّيًّا. */
+.announceMarquee {
+  display: flex;
+  gap: 56px;
+  align-items: center;
+  inline-size: max-content;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: chMarquee var(--ch-marquee-s) linear infinite;
+}
+
+/* WCAG 2.2.2: الحركة التي تدوم أكثر من خمس ثوانٍ تُوقَف بزرّ الإيقاف، وبالتحويم أو التركيز داخل الشريط أيضًا. */
+.announceMarquee[data-paused='true'],
+.announceMarquee:hover,
+.announce:focus-within .announceMarquee {
+  animation-play-state: paused;
+}
+
+/* زرّ الإيقاف/التشغيل: رقاقةٌ داكنة الصبغة على التدرّج (لا بيضاء: البيضاء ترفع الخلفيّة فتُضعف تباين ما فوقها). */
+.announcePause {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--navy-900) 22%, transparent);
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+/* هدف اللمس ‎≥44px‎ لزرٍّ ارتفاعه 28. */
+.announcePause::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+@media (hover: hover) {
+  .announcePause:hover {
+    background: color-mix(in srgb, var(--navy-900) 34%, transparent);
+  }
+}
+
+.header .announcePause:focus-visible {
+  outline-color: currentColor;
+}
+
+.announceLoopItem {
+  display: flex;
+  gap: 56px;
+  align-items: center;
+}
+
+.announceLoopItem::after {
+  content: '•';
+  opacity: var(--ch-announce-sep);
+}
+
+@keyframes chMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
+}
+
+.announceItems {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.announceItems > li {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+/* الفاصل «|» زخرفةٌ في ::before (Storefront Home.dc.html: opacity .35). */
+.announceSep::before {
+  content: '|';
+  opacity: var(--ch-announce-sep);
+}
+
+/* رابط الشريط رقاقةٌ شفّافة: سطحٌ أبيض خافت يشتدّ بالتحويم، وإزاحة ‎1px‎ بالضغط. */
+.announcePill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  white-space: nowrap;
+  min-block-size: 28px;
+  padding-inline: 10px 8px;
+  border-radius: var(--r-xs);
+  /* صبغةٌ داكنة لا بيضاء: البيضاء فوق الطرف التركوازيّ كانت تُنزل نصّ ‎13px‎ إلى ‎3.6:1‎. */
+  background: color-mix(in srgb, var(--navy-900) 22%, transparent);
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  /* The design's pill sits at the row's end even when no messages render. */
+  margin-inline-start: auto;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+/* هدف اللمس ‎≥44px‎ (§12) لرقاقةٍ ارتفاعها 28: يمتدّ الهدف لا الصندوق. */
+.announcePill::after {
+  content: '';
+  position: absolute;
+  inset: -10px 0;
+}
+
+@media (hover: hover) {
+  .announcePill:hover {
+    color: inherit;
+    background: color-mix(in srgb, var(--navy-900) 34%, transparent);
+  }
+}
+
+.announcePill:active {
+  transform: translateY(1px);
+}
+
+/* على التدرّج الكحليّ/التركوازيّ الحلقةُ التركوازيّة لا تُرى — تُرسم بلون النصّ. */
+.header .announcePill:focus-visible {
+  outline-color: currentColor;
+}
+
+/* ── main row ─────────────────────────────────────────────────────── */
+.bar {
+  border-block-end: 1px solid var(--sf-line);
+  background: var(--bg);
+  box-shadow: var(--e-1);
+}
+
+/*
+ * الصفّ شبكةٌ بمناطق مسمّاة لا صفٌّ يلتفّ: على سطح المكتب أربعة أعمدة —
+ * الشعار والملاحة بحجم محتواهما، والبحث هو العمود المرن الوحيد فيأخذ كلّ ما
+ * يبقى، والأدوات في الطرف. الشبكة تتبع اتّجاه الكتابة فتُرصّ من اليمين في RTL.
+ */
+/*
+ * أرضيّة البحث ‎180px‎: بدونها يأخذ عمود الملاحة (‎auto‎) أقصى عرضه أوّلًا فيُسحق
+ * البحث إلى الصفر حين تنشر اللوحة بنودًا أكثر أو أطول. بالأرضيّة تلتفّ
+ * الملاحة سطرين قبل أن يضيق البحث — ولا يفيض شيء.
+ */
+.barInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: auto auto minmax(180px, 1fr) auto;
+  grid-template-areas: 'logo nav search actions';
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 8px;
+  padding-block: 10px;
+  padding-inline: var(--sf-gutter);
+  min-block-size: 68px;
+}
+
+.logo {
+  grid-area: logo;
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+  border-radius: var(--r-sm);
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ارتفاع الشعار = ارتفاع التحكّمات: الصفّ كلّه على خطٍّ واحد. */
+.logoImage {
+  block-size: var(--ctl-md);
+  inline-size: auto;
+  display: block;
+}
+
+/* ── nav ── */
+.nav {
+  grid-area: nav;
+  min-inline-size: 0;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--sf-ink-2);
+}
+
+/*
+ * البند رقاقةٌ ارتفاعها 44 (هدف اللمس نفسه هو الصندوق — لا امتداد خفيّ):
+ * سطحٌ بارد بالتحويم، وصبغةٌ تركوازيّة للصفحة الحاليّة.
+ */
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border-radius: var(--r-md);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .navLink:hover {
+    background: var(--sf-cool);
+    color: var(--teal-text);
+  }
+}
+
+.navLink:active {
+  background: var(--sf-chip);
+}
+
+.navLinkActive,
+.navLink[aria-current='page'] {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+/*
+ * «العروض» — رقاقةٌ ذهبيّة هادئة: صبغةٌ شفّافة وحدٌّ داخليّ، ونصٌّ ذهبيٌّ مقروء.
+ * الصبغة لا تشتدّ بالتحويم ولا للصفحة الحاليّة (‎--gold-ink‎ على صبغةٍ أغمق
+ * ينزل تحت ‎4.5:1‎)؛ الحالة يقولها الحدّ الداخليّ إذ يغمق ويثخن.
+ */
+.navLinkOffers {
+  color: var(--gold-ink);
+  background: var(--tint-gold);
+  box-shadow: inset 0 0 0 1px var(--tint-gold-border-soft);
+}
+
+@media (hover: hover) {
+  .navLinkOffers:hover {
+    color: var(--gold-ink);
+    background: var(--tint-gold);
+    box-shadow: inset 0 0 0 1.5px var(--gold-ink-deco);
+  }
+}
+
+.navLinkOffers:active,
+.navLinkOffers.navLinkActive,
+.navLinkOffers[aria-current='page'] {
+  color: var(--gold-ink);
+  background: var(--tint-gold);
+  box-shadow: inset 0 0 0 1.5px var(--gold-ink-deco);
+}
+
+/* حبر الشارة كحليٌّ ثابت لا ‎--sf-ink‎: في الداكن ينقلب الحبر فاتحًا على الذهبيّ نفسه (‎2:1‎). */
+.navBadge {
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-400);
+  color: var(--navy-900);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.navBranch {
+  position: relative;
+}
+
+/* رأس الفرع: الرابط وزرّ الفتح يملآن ارتفاع الرقاقة كلَّه، والزرّ ‎44px‎ عرضًا يمتدّ إلى طرف الرقاقة. */
+.navBranchHead {
+  gap: 0;
+  padding-inline-end: 0;
+}
+
+/* فرع اللوحة الكبرى ثابتٌ عمدًا: لوحته تتموضع على ‎.header‎ فتأخذ عرض الإطار كلّه (MegaMenu.module.css). */
+.navBranchMega {
+  position: static;
+}
+
+.navBranchLink {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 4px;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+}
+
+.navToggle {
+  display: inline-grid;
+  align-items: center;
+  justify-items: start;
+  align-self: stretch;
+  min-inline-size: 44px;
+  padding: 0;
+  padding-inline-start: 5px;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.navChevron {
+  transform: rotate(-90deg);
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+
+.navChevronOpen {
+  transform: rotate(90deg);
+}
+
+.dropdown,
+.drawerPanel {
+  display: none;
+}
+
+.dropdown[data-open='true'],
+.drawerPanel[data-open='true'] {
+  display: block;
+}
+
+[data-js='off'] .navBranch:hover > .dropdown,
+[data-js='off'] .navBranch:focus-within > .dropdown,
+[data-js='off'] .navBranch:hover > .drawerPanel,
+[data-js='off'] .navBranch:focus-within > .drawerPanel {
+  display: block;
+}
+
+/* القائمة المنسدلة — وصفة ‎menu‎ (‎--r-lg‎ · ‎--e-3‎)؛ هنا الموضع والعرض فقط. */
+.dropdown {
+  composes: menu from '@tahdheer/ui/controls.module.css';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: calc(100% + 6px);
+  z-index: 2;
+  min-inline-size: 248px;
+  max-inline-size: min(92vw, 640px);
+}
+
+.dropdownMega {
+  min-inline-size: min(88vw, 760px);
+  padding: 12px;
+}
+
+.dropdownMega .subList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 4px 24px;
+}
+
+.dropdownMega .subList > li > .subLink {
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+.subList,
+.subSubList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subSubList {
+  margin-block-start: 2px;
+  padding-inline-start: 12px;
+  border-inline-start: 1px solid var(--sf-line);
+}
+
+.subLink {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  min-block-size: 44px;
+  padding-block: 7px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  color: var(--sf-ink-2);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.subLink:hover {
+  background: var(--sf-cool);
+  color: var(--teal-text);
+}
+
+.subLink:active {
+  background: var(--sf-chip);
+}
+
+.subLinkActive {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+.subLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subDesc {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.drawerPanel {
+  padding-block: 4px 8px;
+  padding-inline-start: 12px;
+  margin-inline-start: 12px;
+  border-inline-start: 2px solid var(--sf-line);
+}
+
+/* ── search ── */
+/*
+ * صدفة البحث هي الحقل (وصفة ‎field‎ بحالاتها): العمود المرن الوحيد في الصفّ
+ * فهي أعرض عنصرٍ فيه. حدّ ‎1.5px‎ يغمق بالتحويم، وتركيزٌ بحدٍّ تركوازيّ + هالة
+ * ‎4px‎ على الصدفة كلّها. الارتفاع ‎--ctl-md‎ كبقيّة تحكّمات الصفّ.
+ */
+.search {
+  grid-area: search;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+  block-size: var(--ctl-md);
+  padding-block: 0;
+  padding-inline: 14px 5px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .search:hover {
+    border-color: var(--sf-sep);
+  }
+}
+
+.search:has(input:focus) {
+  border-color: var(--teal-600);
+  background: var(--bg);
+  box-shadow: var(--focus-halo);
+}
+
+/* حلقةٌ شفّافة لا تُرى عادةً — وتُرسم بلون النظام تحت الألوان المفروضة، حيث يسقط الظلّ والحدّ الملوّن. */
+.search:has(input:focus-visible) {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+}
+
+.search:has(input:focus) .searchIcon {
+  color: var(--teal-600);
+}
+
+.searchIcon {
+  color: var(--sf-icon);
+  display: flex;
+  flex: none;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+/* جذر SearchBox يملأ ارتفاع الصدفة فيكون هدف النقر الصدفةَ كلَّها لا سطر النصّ. */
+.search > div {
+  align-self: stretch;
+}
+
+.search input {
+  block-size: 100%;
+  font-size: 14.5px;
+  color: var(--sf-ink);
+}
+
+/* زرّ ‎sm‎ كحليّ داخل الصدفة: ‎36px‎ بهدف لمسٍ ‎44‎، وزاويته = ‎12 − 4‎ = ‎--r-xs‎. */
+.searchBtn {
+  composes: btn btnSecondary btnSm from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  padding-inline: 16px;
+  border-radius: var(--r-xs);
+  font-size: 13px;
+}
+
+/* ── actions ── */
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/*
+ * تحكّمات الصفّ من وصفة الزرّ نفسها: ‎btnOutline‎ لمكتبتي/حسابي/المفضلة/المظهر
+ * و‎btnPrimary‎ للسلة — ارتفاعٌ ‎--ctl-md‎ وزاويةٌ ‎--r-md‎، وحالات التحويم
+ * والضغط والتركيز واحدة. النصّ ‎14/700‎ لا ‎15/800‎: تسميات تنقّلٍ لا أوامر.
+ */
+.account {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  gap: 7px;
+  padding-inline: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-ink-2);
+}
+
+/* السلة: التحكّم التركوازيّ البارز — أيقونة وشارة وعمود «العدد ثمّ المبلغ». */
+.cart {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  gap: 10px;
+  min-inline-size: var(--ctl-md);
+  padding-inline: 14px 16px;
+}
+
+.cartIcon {
+  position: relative;
+  display: flex;
+  flex: none;
+}
+
+.cartBadge {
+  position: absolute;
+  inset-block-start: -9px;
+  inset-inline-start: -10px;
+  background: var(--gold-400);
+  color: var(--navy-900);
+  font-size: 11px;
+  font-weight: 800;
+  min-inline-size: 18px;
+  block-size: 18px;
+  padding-block: 0;
+  padding-inline: 5px;
+  border-radius: var(--r-round);
+  /* حلقةٌ بلون الزرّ تفصل الشارة عن الأيقونة تحتها. */
+  box-shadow: 0 0 0 2px var(--teal-on);
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.cartText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: start;
+}
+
+/* أبيضُ كامل لا ‎80%‎: ‎11px‎ على التركوازيّ يحتاج ‎4.5:1‎، والحجم وحده يرتّب السطرين. */
+.cartCount {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--on-accent);
+}
+
+.cartTotal {
+  font-size: 14.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.cartUnit {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* سلّةٌ فارغة: تسميةٌ لا رقمٌ صفريّ — فيبقى التحكّم بارزًا بحجمه لا بأيقونةٍ وحيدة. */
+.cartLabel {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ── wishlist ── */
+.wishlist {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  color: var(--sf-ink-2);
+}
+
+.wishlistIconDesktop {
+  display: flex;
+}
+
+.wishlistIconMobile {
+  display: none;
+}
+
+.wishlistBadge {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-start: -6px;
+  background: var(--color-secondary);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 800;
+  min-inline-size: 20px;
+  block-size: 20px;
+  padding-block: 0;
+  padding-inline: 5px;
+  border-radius: var(--r-round);
+  box-shadow: 0 0 0 2px var(--bg);
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * ── درج الجوّال (details/summary: يعمل بلا JavaScript) ──
+ *
+ * وصفة ‎drawer‎: لوحةٌ ثابتة تخرج من الحافّة الختاميّة (‎--e-4‎، الزاوية على
+ * الحافّة الداخليّة وحدها) فوق ستارٍ (‎scrim‎). الستار هو ‎::before‎ الملخّص نفسه،
+ * فالنقر عليه يطوي ‎<details>‎ بلا سطر شيفرة. و‎MobileMenu‎ (SiteHeaderClient)
+ * يضيف ما لا يقدر عليه الـHTML: حبس التركيز، و‎Escape‎، وقفل التمرير، وزرّ الإغلاق.
+ *
+ * الموضع النهائيّ ثابتٌ بـ‎[open]‎ وحده (فتحٌ بالنقر أو بالسمة سواء): اللوحة
+ * داخل الشاشة من الحافّة الختاميّة، وصندوقها لا يتحرّك أبدًا. الحركة كشفٌ
+ * (‎clip-path‎ + شفافيّة) من تلك الحافّة لا إزاحة — فالقياس في منتصف
+ * الانتقال يرى الموضع النهائيّ نفسه (sweep:disclosure قاس ‎x=-321‎ مع ‎translate‎).
+ * ‎@starting-style‎ للفتح، و‎::details-content‎ + ‎allow-discrete‎ للطيّ؛ ولها
+ * نظيرها في كتلة تقليل الحركة آخر الملفّ.
+ */
+.menu {
+  display: none;
+  flex: none;
+  /* الكشف يبدأ من الحافّة الختاميّة — اليسار في RTL. */
+  --_drawer-hidden: inset(0 100% 0 0);
+}
+
+.menu:dir(ltr) {
+  --_drawer-hidden: inset(0 0 0 100%);
+}
+
+/* 44×44 — هدف اللمس (§12) وارتفاع صفّ الجوّال كلّه. */
+.menuBtn {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  inline-size: 44px;
+  min-block-size: 44px;
+  border-width: 1px;
+  border-color: var(--sf-line);
+  color: var(--color-secondary-text);
+  list-style: none;
+}
+
+.menuBtn::-webkit-details-marker {
+  display: none;
+}
+
+/* مفتوحًا: لا إزاحة ضغط — ‎transform‎ يجعل الملخّص حاويةً لستاره الثابت فتضيع نقرة الإغلاق. */
+.menu[open] > .menuBtn {
+  background: var(--sf-cool);
+  border-color: var(--sf-control);
+  transform: none;
+}
+
+/* الستار — ملءُ الشاشة خلف الدرج؛ مخفيٌّ ولا يلتقط النقر ما دام الدرج مطويًّا. */
+.menuBtn::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-scrim);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    visibility var(--dur-reveal) allow-discrete;
+}
+
+.menu[open] > .menuBtn::before {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/*
+ * الدرج المطويّ: Chrome يُخفي محتوى <details> المطويّ بـcontent-visibility فتبقى
+ * لروابطه صناديقُ تخطيطٍ غير مرئيّة فوق المحتوى والشريط السفليّ (sweep:cardinality
+ * 320–512). display:none (بعد انتهاء انزلاق الطيّ) يُصفّر الصناديق ويُخرجها من
+ * شجرة الوصول والتركيز معًا.
+ */
+.menu:not([open]) > .menuPanel {
+  display: none;
+  clip-path: var(--_drawer-hidden);
+  opacity: 0;
+}
+
+.menu::details-content {
+  transition: content-visibility var(--dur-reveal) allow-discrete;
+}
+
+.menuPanel {
+  composes: drawer from '@tahdheer/ui/controls.module.css';
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  inline-size: min(86vw, 360px);
+  display: flex;
+  flex-direction: column;
+  padding-block: 0 max(24px, env(safe-area-inset-bottom));
+  padding-inline: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* مفتوحًا: القصّ أوسع من اللوحة فيبقى ظلّ ‎--e-4‎ ظاهرًا. */
+  clip-path: inset(-80px);
+  opacity: 1;
+  transition:
+    clip-path var(--dur-reveal) var(--ease-out),
+    opacity var(--dur-reveal) var(--ease-out),
+    display var(--dur-reveal) allow-discrete;
+}
+
+@starting-style {
+  .menu[open] > .menuPanel {
+    clip-path: var(--_drawer-hidden);
+    opacity: 0;
+  }
+
+  .menu[open] > .menuBtn::before {
+    opacity: 0;
+  }
+}
+
+/* رأس الدرج: عنوانه وزرّ الإغلاق (يظهر مع JavaScript؛ بدونه يطوي الستار الدرج). */
+.drawerHead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-block-size: 64px;
+  margin-block-end: 4px;
+  border-block-end: 1px solid var(--sf-line);
+  background: var(--bg);
+}
+
+.drawerTitle {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.drawerClose {
+  composes: btn btnGhost btnIcon from '@tahdheer/ui/controls.module.css';
+  inline-size: 44px;
+  min-block-size: 44px;
+  margin-inline-end: -8px;
+  color: var(--color-secondary-text);
+}
+
+.menuPanel .navList {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding-block: 4px;
+}
+
+.menuPanel .navLink,
+.menuPanel .navBranchHead {
+  display: flex;
+  min-block-size: 48px;
+  padding-inline: 12px;
+  border-radius: var(--r-md);
+  font-size: 15px;
+  font-weight: 700;
+  /* الصفّ كلّه هو المؤشّر (سطحٌ بارد بالتحويم، ‎tint‎ للحاليّة). */
+  background: none;
+  box-shadow: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .menuPanel .navLink:hover {
+    background: var(--sf-cool);
+  }
+}
+
+.menuPanel .navLink:active {
+  background: var(--sf-chip);
+}
+
+.menuPanel .navBranchLink {
+  flex: 1;
+}
+
+.menuPanel .navToggle {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+}
+
+.menuPanel :is(.navLinkActive, .navLink[aria-current='page']) {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  box-shadow: inset -3px 0 0 var(--teal-600);
+}
+
+.menuPanel .navLink:is(.navLinkActive, [aria-current='page']):dir(ltr) {
+  box-shadow: inset 3px 0 0 var(--teal-600);
+}
+
+/*
+ * ── ≤1439: الصفّ الواحد يُحفظ بطيّ التسميات ──
+ * مكتبتي/حسابي أيقونتان (النصّ يبقى للقارئ)، والسلة أيقونةٌ وشارةٌ ومبلغ بلا
+ * سطر العدد ولا تسمية «السلة» — فيبقى للبحث أوسعُ ما يمكن.
+ */
+@media (max-width: 1439px) {
+  .account {
+    inline-size: var(--ctl-md);
+    padding-inline: 0;
+  }
+
+  .actionLabel {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cart {
+    padding-inline: 12px;
+  }
+
+  .navLink {
+    padding-inline: 8px;
+  }
+
+  /* سطر العدد يُخفى للعين لا للقارئ: الشارة المرئيّة صامتة (‎aria-hidden‎) فهذا نصّها الوحيد. */
+  .cartCount {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cartLabel {
+    display: none;
+  }
+}
+
+/* ── tablet 768–1199: صفّان — الشعار والبحث والأدوات، ثمّ الملاحة تحت خطٍّ شعريّ ── */
+@media (max-width: 1199px) {
+  .barInner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'logo search actions'
+      'nav nav nav';
+    column-gap: 12px;
+    row-gap: 6px;
+    padding-block: 10px 6px;
+  }
+
+  .nav {
+    border-block-start: 1px solid var(--sf-hair);
+    padding-block-start: 4px;
+  }
+
+  .navList {
+    gap: 0;
+  }
+}
+
+/* ── mobile ───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .header {
+    position: sticky;
+    inset-block-start: 0;
+  }
+
+  :global(body[data-theme-page='product']) .header {
+    display: none;
+  }
+
+  .announce {
+    display: none;
+  }
+
+  .bar {
+    border-block-end-color: var(--sf-hair-2);
+    box-shadow: none;
+  }
+
+  .barInner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'logo actions'
+      'search search';
+    gap: 8px 6px;
+    min-block-size: 0;
+    padding-block: 8px 10px;
+    padding-inline: var(--header-pad-inline-mobile);
+  }
+
+  /* الصفّ كلّه 44: الشعار والتحكّمات الأربعة على ارتفاعٍ واحد. */
+  .logoImage {
+    block-size: 44px;
+    max-inline-size: 100%;
+    object-fit: contain;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .search {
+    block-size: 44px;
+    gap: 9px;
+    padding-block: 0;
+    padding-inline: 12px;
+  }
+
+  .search input {
+    font-size: 14px;
+  }
+
+  .searchBtn {
+    display: none;
+  }
+
+  .actions {
+    gap: 6px;
+  }
+
+  /* الترتيب البصريّ (من اليمين): مكتبتي · المفضلة · السلة · القائمة. */
+  .menu {
+    display: block;
+    order: 9;
+  }
+
+  .account {
+    order: 1;
+    inline-size: 44px;
+    min-block-size: 44px;
+    block-size: 44px;
+    padding: 0;
+    justify-content: center;
+    border-width: 1px;
+    border-color: var(--sf-line);
+    color: var(--color-secondary-text);
+  }
+
+  .accountDesktop {
+    display: none;
+  }
+
+  .wishlist {
+    order: 2;
+    inline-size: 44px;
+    min-block-size: 44px;
+    block-size: 44px;
+    border-width: 1px;
+    border-color: var(--sf-line);
+    color: var(--color-secondary-text);
+  }
+
+  .wishlistIconDesktop {
+    display: none;
+  }
+
+  .wishlistIconMobile {
+    display: flex;
+  }
+
+  .wishlistBadge {
+    font-size: 10px;
+    min-inline-size: 18px;
+    block-size: 18px;
+    padding-inline: 4px;
+    border: 2px solid var(--bg);
+    box-sizing: border-box;
+    box-shadow: none;
+  }
+
+  .cart {
+    order: 3;
+    inline-size: 44px;
+    min-inline-size: 44px;
+    min-block-size: 44px;
+    block-size: 44px;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .cartIcon {
+    position: static;
+  }
+
+  .cartBadge {
+    inset-block-start: -6px;
+    inset-inline-start: -6px;
+    background: var(--color-secondary);
+    color: var(--on-accent);
+    font-size: 10px;
+    min-inline-size: 18px;
+    block-size: 18px;
+    padding-inline: 4px;
+    border: 2px solid var(--bg);
+    box-sizing: border-box;
+    box-shadow: none;
+  }
+
+  /* عمود النصّ كلّه مخفيٌّ للعين وحدها — العدد والمبلغ يبقيان في اسم الرابط. */
+  .cartText {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cartLabel {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navChevron,
+  .navLink,
+  .search,
+  .searchIcon,
+  .subLink,
+  .announcePill,
+  .announcePause,
+  .menuPanel,
+  .menuBtn::before,
+  .menu::details-content {
+    transition: none;
+  }
+
+  .announcePill:active {
+    transform: none;
+  }
+
+  /*
+   * بلا حركة: الشريط صفٌّ يُمرَّر أفقيًّا لا نافذةٌ مقصوصة — كلّ رسالةٍ تبقى
+   * في المتناول، والنسخة المكرّرة للحلقة تُطوى، وزرّ الإيقاف لا شيء يوقفه.
+   */
+  .announceMarquee {
+    animation: none;
+  }
+
+  .announceTrack {
+    overflow-x: auto;
+  }
+
+  .announceLoopDup,
+  .announcePause {
+    display: none;
+  }
+}

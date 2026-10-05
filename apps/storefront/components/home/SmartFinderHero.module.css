@@ -1,0 +1,178 @@
+/*
+ * بطاقة هيرو «كلّ ما تحتاجه لدرسك» — الغلاف الخادميّ حول لوحة الوصول السريع.
+ *
+ * الهندسة من «Home Components.dc.html · HeroSmartFinder» حرفيًّا؛ والألوان
+ * رموزُ لوحة «Storefront redesign». حاشيةُ الصفحة حاشيةُ الرئيسة (‎--sf-gutter‎)
+ * لا حاشية لوحة المكوّنات (‎24px‎) — فهي إطارُ اللوحة لا المكوّن.
+ */
+
+.inner {
+  max-width: var(--sf-max);
+  margin-inline: auto;
+  padding: 24px var(--sf-gutter) 0;
+  color: var(--sf-ink);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.inner a {
+  text-decoration: none;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-2xl);
+  padding: clamp(28px, 4vw, 56px);
+  background: linear-gradient(118deg, var(--navy-700) 0%, var(--hm-navy-mid-2) 48%, var(--teal-600) 100%);
+  color: var(--on-accent);
+}
+
+/* حلقتان زخرفيّتان — خارج شجرة الوصول ولا تحملان معنًى. */
+.ringStart,
+.ringEnd {
+  position: absolute;
+  inline-size: 520px;
+  block-size: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ringStart {
+  inset-inline-start: -160px;
+  inset-block-start: -220px;
+  border: 80px solid var(--hm-white-05);
+}
+
+.ringEnd {
+  inset-inline-end: -140px;
+  inset-block-end: -260px;
+  border: 80px solid var(--hm-gold-12);
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 36px;
+  align-items: start;
+}
+
+.lead {
+  max-inline-size: 560px;
+}
+
+.title {
+  margin: 0 0 14px;
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+}
+
+.lede {
+  margin: 0 0 26px;
+  max-inline-size: 46ch;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--hm-white-84);
+}
+
+/* ----------------------------------------------------------- نموذج البحث */
+
+.search {
+  display: flex;
+  overflow: hidden;
+  block-size: 54px;
+  max-inline-size: 560px;
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.searchIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 48px;
+  flex: none;
+  color: var(--sf-icon);
+}
+
+.searchInput {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: transparent;
+  color: var(--sf-ink);
+  font: inherit;
+  font-size: 15px;
+}
+
+.searchInput:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: -3px;
+}
+
+.searchSubmit {
+  flex: none;
+  block-size: 100%;
+  padding: 0 20px;
+  border: 0;
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.searchSubmit:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: -3px;
+}
+
+/* ------------------------------------------------------------ الاختصارات */
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block-start: 14px;
+  font-size: 13px;
+  color: var(--hm-white-70);
+}
+
+.shortcutList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shortcut {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 16px;
+  border: 1.5px solid var(--hm-white-32);
+  border-radius: 999px;
+  background: var(--hm-white-10);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.shortcut:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .inner {
+    padding: 12px 14px 0;
+  }
+}

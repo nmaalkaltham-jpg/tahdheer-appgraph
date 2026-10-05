@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:{{ pageW }};background:#fff;color:#223129;box-sizing:border-box">
+
+<dc-import name="TahHeader" hint-size="100%,132px"></dc-import>
+
+<div style="padding:{{ pad }}">
+
+<nav aria-label="مسار التنقّل" style="margin-bottom:12px">
+<ol style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;list-style:none;margin:0;padding:0;font-size:12px;color:#5f7167">
+<li><a href="#" style="color:#5f7167">الرئيسية</a></li>
+<li aria-hidden="true">›</li>
+<li aria-current="page" style="color:#14261d;font-weight:800">المرحلة الثانوية</li>
+</ol>
+</nav>
+
+<header style="padding:{{ heroPad }};border-radius:16px;background:linear-gradient(135deg,#123d2f,#1e7355);color:#fff;margin-bottom:14px">
+<h1 style="margin:0 0 8px;font-size:{{ h1 }};font-weight:900;line-height:1.28;text-wrap:balance">المرحلة الثانوية</h1>
+<p style="margin:0 0 12px;font-size:{{ intro }};line-height:1.85;color:rgba(255,255,255,.8);max-width:62ch">ملفات وعروض وتحاضير جاهزة للصفوف 10 — 12، مبنية على المنهج الحالي وقابلة للتعديل بالكامل. اختر المادة أو الصف من المرشّحات، أو تصفّح الأكثر مبيعًا في المرحلة.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px 18px">
+<sc-for list="{{ heroFacts }}" as="hf" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#fff"><svg aria-hidden="true" style="width:15px;height:15px;color:#e6cd93;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ hf.icon }}"></use></svg>{{ hf.text }}</span>
+</sc-for>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:14px;align-items:start">
+
+<aside style="display:{{ asideDisplay }};min-width:0;position:sticky;inset-block-start:14px;padding:15px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:13px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13.5px;font-weight:900;color:#14261d;text-align:start">تصفية</h2>
+<button type="button" onClick="{{ onClear }}" style="display:{{ clearDisplay }};min-height:30px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#5f7167;cursor:pointer;white-space:nowrap">امسح ({{ activeCount }})</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:15px">
+<sc-for list="{{ facets }}" as="fc" hint-placeholder-count="3">
+<div>
+<h3 style="margin:0 0 8px;font-size:11.5px;font-weight:900;color:#5f7167;text-align:start">{{ fc.label }}</h3>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ fc.options }}" as="op" hint-placeholder-count="4">
+<button type="button" onClick="{{ op.onClick }}" aria-pressed="{{ op.pressed }}" style="display:flex;align-items:center;gap:9px;min-height:{{ tapSm }};padding:0 10px;border:1px solid {{ op.border }};border-radius:9px;background:{{ op.bg }};cursor:pointer;text-align:start">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;border-radius:4px;border:1.5px solid {{ op.boxBorder }};background:{{ op.boxBg }};display:grid;place-items:center;color:#fff"><svg style="width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;opacity:{{ op.tickOpacity }}"><use href="#i-check"></use></svg></span>
+<span style="flex:1;min-width:0;font-size:12px;font-weight:{{ op.weight }};color:{{ op.fg }}">{{ op.label }}</span>
+<span dir="ltr" style="flex:0 0 auto;font:700 10px ui-monospace,Menlo,monospace;color:#5f7167">{{ op.count }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</aside>
+
+<div style="min-width:0">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:11px 13px;border:1px solid #e6e9e2;border-radius:12px;background:#fbfcfa;margin-bottom:12px">
+<button type="button" onClick="{{ onSheet }}" style="display:{{ sheetBtnDisplay }};align-items:center;gap:7px;min-height:{{ tap }};padding:0 14px;border:1px solid #d3d8cf;border-radius:10px;background:#fff;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;color:#14261d;cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-sliders"></use></svg>تصفية{{ activeSuffix }}
+</button>
+<span dir="rtl" style="flex:1;min-width:120px;font-size:12px;font-weight:800;color:#3b4d43;text-align:start">{{ resultLabel }}</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ sorts }}" as="so" hint-placeholder-count="3">
+<button type="button" onClick="{{ so.onClick }}" aria-pressed="{{ so.pressed }}" style="min-height:32px;padding:0 11px;border:0;border-radius:7px;background:{{ so.bg }};color:{{ so.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ so.shadow }};white-space:nowrap">{{ so.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:{{ chipsDisplay }};flex-wrap:wrap;gap:6px;margin-bottom:12px">
+<sc-for list="{{ activeChips }}" as="ac" hint-placeholder-count="2">
+<button type="button" onClick="{{ ac.onClick }}" aria-label="أزل مرشّح {{ ac.label }}" style="display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 12px;border:1px solid rgba(37,155,111,.3);border-radius:999px;background:rgba(37,155,111,.08);font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#1e7355;cursor:pointer;white-space:nowrap">
+{{ ac.label }}<svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><use href="#i-close"></use></svg>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+<ul style="display:grid;grid-template-columns:{{ cardCols }};gap:12px;list-style:none;margin:0 0 16px;padding:0">
+<sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+<li><dc-import name="TahProductCard" p="{{ p }}" hint-size="100%,360px"></dc-import></li>
+</sc-for>
+</ul>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:9px;padding-top:4px">
+<button type="button" style="display:inline-flex;align-items:center;gap:8px;min-height:{{ tap }};padding:0 22px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;font-family:Tajawal,sans-serif;font-size:13px;font-weight:900;color:#14261d;cursor:pointer">حمّل 12 منتجًا آخر</button>
+<span style="font-size:11px;color:#5f7167">تعرض 6 من {{ total }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:34px 22px;border:1px dashed #d3d8cf;border-radius:14px;background:#fbfcfa;text-align:center">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#f2f5f2;color:#5f7167;margin-bottom:12px"><svg style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg></span>
+<h2 style="margin:0 0 8px;font-size:15px;font-weight:900;color:#14261d">لا نتائج بهذه المرشّحات</h2>
+<p style="margin:0 auto 15px;max-width:48ch;font-size:12.5px;line-height:1.85;color:#5f7167">المرشّحات المختارة لا تتقاطع في أي منتج. أزل أضيقها بدل مسحها كلها — <b style="color:#14261d">{{ narrowest }}</b> هو الأكثر تقييدًا هنا.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px">
+<button type="button" onClick="{{ onDropNarrowest }}" style="display:inline-flex;align-items:center;min-height:{{ tap }};padding:0 18px;border:0;border-radius:11px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:900;cursor:pointer">أزل «{{ narrowest }}»</button>
+<button type="button" onClick="{{ onClear }}" style="display:inline-flex;align-items:center;min-height:{{ tap }};padding:0 16px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;cursor:pointer">امسح الكل</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+<section style="margin-top:22px;padding:16px 18px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa">
+<h2 style="margin:0 0 8px;font-size:14px;font-weight:900;color:#14261d;text-align:start">عن ملفات المرحلة الثانوية</h2>
+<p style="margin:0;font-size:12.5px;line-height:1.9;color:#3b4d43;max-width:78ch;text-align:start">تشمل هذه المرحلة الصفوف 10 و11 و12 في مسارَي العلوم والإنسانيات. كل ملف يذكر صيغته وعدد شرائحه أو صفحاته وما إن كان قابلًا للتعديل قبل الشراء، ويصلك فور الدفع. التحديثات مع كل فصل دراسي مجانية لمن اشترى النسخة السابقة.</p>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:1000},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { subject: {}, grade: {}, format: {}, sort: 'best', sheet: false };
+
+  renderVals() {
+    const mobile = !!this.props.mobile;
+    const pick = (m, d) => (mobile ? m : d);
+    const st = this.state;
+
+    const facetDefs = [
+      ['subject', 'المادة', [['chem', 'الكيمياء', 84], ['phys', 'الفيزياء', 71], ['bio', 'الأحياء', 63], ['math', 'الرياضيات', 96]]],
+      ['grade', 'الصف', [['g10', 'العاشر', 118], ['g11', 'الحادي عشر', 104], ['g12', 'الثاني عشر', 92]]],
+      ['format', 'الصيغة', [['ppt', 'PowerPoint', 142], ['pdf', 'PDF', 98], ['doc', 'Word', 74]]]
+    ];
+
+    const active = [];
+    facetDefs.forEach(f => {
+      f[2].forEach(o => { if (st[f[0]][o[0]]) active.push({ group: f[0], key: o[0], label: o[1], count: o[2] }); });
+    });
+
+    /*
+     * Empty state names the NARROWEST active filter rather than telling the
+     * shopper to clear everything. Clearing all discards intent they expressed;
+     * dropping the most restrictive one usually restores results in a single tap.
+     */
+    const narrowest = active.length
+      ? active.slice().sort((a, b) => a.count - b.count)[0]
+      : null;
+
+    const toggle = (group, key) => () => this.setState(s => ({ [group]: { ...s[group], [key]: !s[group][key] } }));
+
+    const facets = facetDefs.map(f => ({
+      label: f[1],
+      options: f[2].map(o => {
+        const on = !!st[f[0]][o[0]];
+        return {
+          label: o[1], count: String(o[2]),
+          pressed: on ? 'true' : 'false',
+          border: on ? 'rgba(37,155,111,.35)' : '#eef1ec',
+          bg: on ? 'rgba(37,155,111,.07)' : '#fff',
+          boxBorder: on ? '#1e7355' : '#c9d4cd',
+          boxBg: on ? '#1e7355' : '#fff',
+          tickOpacity: on ? '1' : '0',
+          weight: on ? '900' : '700',
+          fg: on ? '#14261d' : '#3b4d43',
+          onClick: toggle(f[0], o[0])
+        };
+      })
+    }));
+
+    /* Three filters that genuinely cannot co-occur → the honest empty case. */
+    const impossible = !!(st.subject.chem && st.subject.phys && st.format.doc);
+    const hasResults = !impossible;
+
+    const prodDefs = [
+      ['عرض بوربوينت — الكيمياء العضوية كاملًا', 'الكيمياء · الثاني عشر', 'PowerPoint', '5.0', '212', '56.00', '75.00', 'خصم 25%', '#d8b56a', '#14261d'],
+      ['أوراق عمل الفيزياء — الحركة الدورانية', 'الفيزياء · الحادي عشر', 'PDF', '4.8', '96', '38.00', '', 'الأكثر رواجًا', '#14261d', '#fff'],
+      ['حزمة الأحياء — الوراثة والتصنيف', 'الأحياء · العاشر', 'PowerPoint', '4.9', '141', '88.00', '', '', '', ''],
+      ['تحاضير الرياضيات — الفصل الأول', 'الرياضيات · العاشر', 'Word', '4.7', '78', '95.00', '', 'جديد', '#1e7355', '#fff'],
+      ['اختبارات الكيمياء المحلولة', 'الكيمياء · الحادي عشر', 'PDF', '4.9', '164', '42.00', '', '', '', ''],
+      ['عروض الفيزياء — المنهج كاملًا', 'الفيزياء · الثاني عشر', 'PowerPoint', '4.7', '198', '120.00', '', '', '', '']
+    ];
+
+    const sortDefs = [['best', 'الأكثر مبيعًا'], ['new', 'الأحدث'], ['price', 'الأقل سعرًا']];
+
+    return {
+      pageW: pick('390px', '1240px'),
+      pad: pick('16px 16px 28px', '20px 26px 34px'),
+      heroPad: pick('18px 16px', '24px 26px'),
+      h1: pick('23px', '30px'),
+      intro: pick('13px', '14.5px'),
+      gridCols: pick('1fr', '244px minmax(0,1fr)'),
+      cardCols: pick('1fr 1fr', 'repeat(3,minmax(0,1fr))'),
+      asideDisplay: pick('none', 'block'),
+      sheetBtnDisplay: pick('inline-flex', 'none'),
+      tap: pick('48px', '40px'),
+      tapSm: pick('44px', '36px'),
+
+      heroFacts: [
+        { icon: '#i-files', text: '314 ملفًا في المرحلة' },
+        { icon: '#i-download', text: 'تحميل فوري بعد الدفع' },
+        { icon: '#i-pen', text: 'قابلة للتعديل بالكامل' }
+      ],
+
+      facets,
+      activeCount: active.length,
+      clearDisplay: active.length ? 'inline-flex' : 'none',
+      activeSuffix: active.length ? ' (' + active.length + ')' : '',
+      chipsDisplay: active.length ? 'flex' : 'none',
+      activeChips: active.map(a => ({
+        label: a.label,
+        onClick: () => this.setState(s => ({ [a.group]: { ...s[a.group], [a.key]: false } }))
+      })),
+      onClear: () => this.setState({ subject: {}, grade: {}, format: {} }),
+      onSheet: () => this.setState(s => ({ sheet: !s.sheet })),
+
+      resultLabel: hasResults
+        ? (active.length ? '18 منتجًا يطابق مرشّحاتك' : '314 منتجًا في المرحلة الثانوية')
+        : 'لا منتج يطابق كل المرشّحات',
+      total: '314',
+      hasResults, isEmpty: !hasResults,
+      narrowest: narrowest ? narrowest.label : '',
+      onDropNarrowest: narrowest
+        ? (() => this.setState(s => ({ [narrowest.group]: { ...s[narrowest.group], [narrowest.key]: false } })))
+        : (() => {}),
+
+      sorts: sortDefs.map(s => ({
+        label: s[1],
+        pressed: st.sort === s[0] ? 'true' : 'false',
+        bg: st.sort === s[0] ? '#fff' : 'transparent',
+        fg: st.sort === s[0] ? '#14261d' : '#5f7167',
+        shadow: st.sort === s[0] ? '0 1px 3px rgba(20,45,33,.12)' : 'none',
+        onClick: () => this.setState({ sort: s[0] })
+      })),
+
+      products: prodDefs.map(p => ({
+        title: p[0], cat: p[1], format: p[2], rating: p[3], reviews: p[4],
+        price: p[5], was: p[6], badge: p[7], badgeBg: p[8], badgeFg: p[9]
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

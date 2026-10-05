@@ -1,0 +1,80 @@
+/*
+UNIT: CONFIRM-DIALOG
+COMPONENT: confirm-dialog.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: var(--cc-overlay);
+}
+
+.dialog {
+  inline-size: min(440px, 100%);
+  padding: var(--sp-5);
+  background: var(--bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-pop);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-2);
+  justify-content: flex-end;
+}
+
+.cancel,
+.confirm,
+.confirmDanger {
+  min-block-size: var(--control-h);
+  padding-inline: var(--sp-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirm {
+  background: var(--cc-primary);
+  border-color: var(--cc-primary);
+  color: var(--adm-on-accent);
+}
+
+.confirmDanger {
+  background: var(--adm-danger-fill);
+  border-color: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+}
+
+.cancel:disabled,
+.confirm:disabled,
+.confirmDanger:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}

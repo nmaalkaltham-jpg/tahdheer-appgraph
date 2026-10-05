@@ -1,0 +1,9 @@
+/*
+ * نسختا الرسم: الفاتحة افتراضًا، والداكنة تحت `[data-theme='dark']` وحده.
+ * الإخفاء وحده يُكتب هنا (بتخصيصٍ يغلب صنف المستهلك)، فعرضُ الظاهرة يبقى
+ * لقاعدة المستهلك (`display:block` وغيرها) بلا تنازع.
+ */
+:global(html:not([data-theme='dark'])) .dark,
+:global([data-theme='dark']) .light {
+  display: none;
+}

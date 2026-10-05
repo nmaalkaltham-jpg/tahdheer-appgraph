@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:2px solid #14261d;margin-bottom:26px">
+<span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:15px">ت</span>
+<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#14261d">Tahdheer — Customizer IA Migration Spec</div><div style="font-size:11.5px;color:#5f7167">قالب «التحاضير الحديثة» · خريطة الانتقال من البنية الحالية إلى البنية الجديدة</div></div>
+<div style="text-align:end;font:600 10.5px ui-monospace,Menlo,monospace;color:#8b9a91">v1 · draft<br>2026-08-26</div>
+</div>
+
+<h1 style="margin:0 0 10px;font-size:26px;font-weight:900;color:#14261d;line-height:1.3">From 20 flat entries to 11 grouped panels — without losing a single setting</h1>
+<p style="margin:0 0 22px;font-size:13.5px;line-height:1.8;color:#3b4d43">This document is the contract for the reorganisation. Every existing <code style="font-size:12px;background:#f2f5f2;padding:1px 5px;border-radius:4px">theme_mod</code> keeps its storage key, its default and its sanitiser; only its <em>location in the UI</em> changes. No migration script is required for the settings listed here — the map is a pure re-parenting of Customizer sections and controls.</p>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:28px;break-inside:avoid">
+<div style="padding:14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa"><div style="font-size:22px;font-weight:900;color:#14261d">20 → 11</div><div style="font-size:11px;color:#5f7167;line-height:1.6">top-level entries</div></div>
+<div style="padding:14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa"><div style="font-size:22px;font-weight:900;color:#14261d">0</div><div style="font-size:11px;color:#5f7167;line-height:1.6">settings removed</div></div>
+<div style="padding:14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa"><div style="font-size:22px;font-weight:900;color:#14261d">0</div><div style="font-size:11px;color:#5f7167;line-height:1.6">storage keys renamed</div></div>
+<div style="padding:14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa"><div style="font-size:22px;font-weight:900;color:#14261d">3</div><div style="font-size:11px;color:#5f7167;line-height:1.6">new settings added</div></div>
+</div>
+
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900;color:#14261d">1 · New top-level structure</h2>
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:26px">
+<sc-for list="{{ topLevel }}" as="t" hint-placeholder-count="11">
+<div style="display:flex;gap:12px;padding:9px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;width:20px;font:800 11px ui-monospace,Menlo,monospace;color:#d8b56a">{{ t.n }}</span>
+<span style="flex:0 0 168px;font-size:13px;font-weight:800;color:#14261d">{{ t.name }}</span>
+<span style="flex:1;font-size:12px;line-height:1.65;color:#5f7167">{{ t.absorbs }}</span>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 6px;font-size:17px;font-weight:900;color:#14261d">2 · Setting-by-setting map</h2>
+<p style="margin:0 0 14px;font-size:12.5px;line-height:1.75;color:#5f7167">Read as: <b>storage key</b> (unchanged) · <b>old location</b> → <b>new location</b>. Keys are the <code style="font-size:11.5px">tahdheer_</code>-prefixed <code style="font-size:11.5px">theme_mod</code> names read through <code style="font-size:11.5px">tahdheer_get_option()</code>.</p>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="8">
+<div style="margin-bottom:20px;break-inside:avoid">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span style="width:5px;height:16px;border-radius:3px;background:#1e7355"></span><b style="font-size:13.5px;font-weight:900;color:#14261d">{{ g.title }}</b><span style="font:700 10.5px ui-monospace,Menlo,monospace;color:#8b9a91">{{ g.file }}</span></div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d;width:31%">Storage key</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d;width:29%">Old location</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">New location</th></tr></thead>
+<tbody>
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+<tr style="break-inside:avoid"><td style="padding:6px 9px;border:1px solid #e6e9e2;font:600 10.5px ui-monospace,Menlo,monospace;color:#1e7355">{{ r.key }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#8b9a91">{{ r.old }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ r.next }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-for>
+
+<h2 style="margin:24px 0 12px;font-size:17px;font-weight:900;color:#14261d;break-before:page">3 · New settings introduced</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:26px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">Key</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">Type</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">Purpose · default</th></tr></thead>
+<tbody>
+<sc-for list="{{ newSettings }}" as="n" hint-placeholder-count="3">
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font:600 10.5px ui-monospace,Menlo,monospace;color:#1e7355">{{ n.key }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">{{ n.type }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#14261d">{{ n.purpose }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900;color:#14261d">4 · Section order — from hard-coded to stored</h2>
+<p style="margin:0 0 12px;font-size:12.5px;line-height:1.8;color:#3b4d43">Today <code style="font-size:11.5px">front-page.php</code> fixes the order in PHP: hero → features-bar → stage-cards → best-sellers → <code style="font-size:11.5px">home-widgets</code>. The Section Manager needs the order in a setting so it can be dragged.</p>
+<div style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:12px;break-inside:avoid">
+<div style="font:600 11px ui-monospace,Menlo,monospace;color:#5f7167;line-height:1.9;white-space:pre-wrap">tahdheer_home_order = ["hero","trust","stages","featured","subjects",
+                       "best","promo","why","reviews","faq","cta"]</div>
+</div>
+<p style="margin:0 0 10px;font-size:12.5px;line-height:1.8;color:#3b4d43"><b>Migration (idempotent):</b> on first read, if <code style="font-size:11.5px">tahdheer_home_order</code> is unset, seed it from the current hard-coded order and persist. <code style="font-size:11.5px">front-page.php</code> then loops the array and calls <code style="font-size:11.5px">get_template_part()</code> per id, checked by the existing <code style="font-size:11.5px">tahdheer_feature_enabled()</code> checks — so the existing <code style="font-size:11.5px">enable_*</code> flags keep working unchanged. Unknown ids in the array are skipped; ids missing from the array are appended at the end, so a theme update that adds a section can never drop it.</p>
+<p style="margin:0 0 26px;font-size:12.5px;line-height:1.8;color:#3b4d43">Widgets inserted between sections are stored as <code style="font-size:11.5px">"widget:home-widgets:3"</code> entries in the same array, which is what makes <em>“+ add a section or widget here”</em> land where the user pointed instead of falling into the footer.</p>
+
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900;color:#14261d">5 · Widget areas — rename the labels, keep the ids</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:14px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">register_sidebar id</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">Current label</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;color:#14261d">New label</th></tr></thead>
+<tbody>
+<sc-for list="{{ widgetAreas }}" as="w" hint-placeholder-count="7">
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font:600 10.5px ui-monospace,Menlo,monospace;color:#1e7355">{{ w.id }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#8b9a91">{{ w.old }}</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ w.next }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+<p style="margin:0 0 26px;font-size:12.5px;line-height:1.8;color:#3b4d43">Ids are untouched, so every widget a merchant has already placed stays exactly where it is. Only <code style="font-size:11.5px">name</code> and <code style="font-size:11.5px">description</code> change, plus a new <code style="font-size:11.5px">data-tah-area</code> attribute on the wrapper so the preview can highlight an area on hover and show <em>“إدارة الودجات”</em>.</p>
+
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900;color:#14261d">6 · Ship order</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:24px">
+<sc-for list="{{ phases }}" as="p" hint-placeholder-count="6">
+<div style="display:flex;gap:12px;padding:10px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:{{ p.tint }};color:{{ p.color }};display:grid;place-items:center;font:900 10.5px ui-monospace,Menlo,monospace">{{ p.n }}</span>
+<span style="flex:0 0 150px;font-size:12.5px;font-weight:800;color:#14261d">{{ p.title }}</span>
+<span style="flex:1;font-size:12px;line-height:1.65;color:#5f7167">{{ p.body }}</span>
+<span style="flex:0 0 auto;font:700 10.5px ui-monospace,Menlo,monospace;color:#a3b0a8">{{ p.risk }}</span>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900;color:#14261d">7 · Regression checklist before publish</h2>
+<div style="columns:2;column-gap:26px;font-size:12px;line-height:1.95;color:#3b4d43">
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="18">
+<div style="break-inside:avoid;display:flex;gap:7px;align-items:flex-start"><span style="flex:0 0 auto;width:13px;height:13px;border:1.5px solid #c9d4cd;border-radius:3px;margin-top:4px"></span><span>{{ c }}</span></div>
+</sc-for>
+</div>
+
+<p style="margin:26px 0 0;padding-top:14px;border-top:1px solid #e6e9e2;font-size:11px;color:#8b9a91;line-height:1.7">Sources read for this map: <code style="font-size:10.5px">inc/customizer.php</code>, <code style="font-size:10.5px">inc/design-system/{registry,customizer}.php</code>, <code style="font-size:10.5px">inc/{widget-areas,menu-locations,education-boxes,hero,whatsapp-button}.php</code>, <code style="font-size:10.5px">front-page.php</code>, <code style="font-size:10.5px">template-parts/home/*</code>.</p>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      topLevel: [
+        { n: '01', name: 'الإعداد السريع', absorbs: 'New wizard surface. Re-exposes existing controls: custom_logo, blogname, color_primary, color_accent, font family, hero on/off, section toggles, social_*, whatsapp_number, header style, footer.' },
+        { n: '02', name: 'الصفحة الرئيسية', absorbs: 'Absorbs tahdheer_hero_design + tahdheer_hero (banner) + tahdheer_homepage + tahdheer_stages + tahdheer_education, behind one Section Manager.' },
+        { n: '03', name: 'الهيدر والتنقّل', absorbs: 'Absorbs tahdheer_header_icons + the header half of tahdheer_dark, as Content / Design / Behavior / Responsive tabs.' },
+        { n: '04', name: 'الودجات', absorbs: 'WordPress core Widgets panel, re-skinned: library, categories, search, favourites, recents, starter content, drop zones.' },
+        { n: '05', name: 'القوائم', absorbs: 'WordPress core Menus panel + inc/menu-locations.php labels + inc/menu-location-placements.php, as one Menu Manager.' },
+        { n: '06', name: 'المنتجات والمتجر', absorbs: 'Absorbs tahdheer_proof in full (sales count, sticky buy bar, category chips) plus product-card layout controls.' },
+        { n: '07', name: 'نظام التصميم', absorbs: 'Absorbs tahdheer_identity + the non-header half of tahdheer_dark + the whole tahdheer_ds panel + tahdheer_motion + tahdheer_components.' },
+        { n: '08', name: 'التسويق والتحويل', absorbs: 'Absorbs tahdheer_topbar + tahdheer_whatsapp + promo banners + urgency + social proof + coupons + CTAs.' },
+        { n: '09', name: 'الفوتر والتواصل', absorbs: 'Absorbs tahdheer_contact + tahdheer_social + footer menus + payment badges + policies + newsletter.' },
+        { n: '10', name: 'SEO والأداء', absorbs: 'Absorbs tahdheer_seo unchanged, plus the image/lazy-load options from inc/performance-images.php.' },
+        { n: '11', name: 'إعدادات متقدمة', absorbs: 'Absorbs tahdheer_advanced (presets, JSON import/export, reset) plus per-section CSS class / ID fields.' }
+      ],
+      groups: [
+        {
+          title: 'الهوية والألوان + ألوان القالب', file: 'inc/customizer.php:81–101', rows: [
+            { key: 'color_primary', old: 'الهوية والألوان', next: 'نظام التصميم › الألوان' },
+            { key: 'color_accent', old: 'الهوية والألوان', next: 'نظام التصميم › الألوان' },
+            { key: 'container_width', old: 'الهوية والألوان', next: 'نظام التصميم › المسافات' },
+            { key: 'topbar_bg', old: 'ألوان القالب', next: 'الهيدر والتنقّل › التصميم' },
+            { key: 'dark_bg / dark_surface', old: 'ألوان القالب', next: 'نظام التصميم › الألوان' },
+            { key: 'dark_text / dark_heading', old: 'ألوان القالب', next: 'نظام التصميم › الألوان' },
+            { key: 'dark_border', old: 'ألوان القالب', next: 'نظام التصميم › الحدود' },
+            { key: 'accent_green', old: 'ألوان القالب', next: 'نظام التصميم › الألوان' }
+          ]
+        },
+        {
+          title: 'الهيدر', file: 'inc/customizer.php:102–115', rows: [
+            { key: 'header_cart_icon', old: 'الهيدر — الأيقونات والسلة', next: 'الهيدر › المحتوى › السلة' },
+            { key: 'header_account_icon', old: 'الهيدر — الأيقونات والسلة', next: 'الهيدر › المحتوى › الحساب' },
+            { key: 'header_icon_color', old: 'الهيدر — الأيقونات والسلة', next: 'الهيدر › التصميم › الأيقونات' },
+            { key: 'cart_display', old: 'الهيدر — الأيقونات والسلة', next: 'الهيدر › المحتوى › السلة' }
+          ]
+        },
+        {
+          title: 'الشريط العلوي', file: 'inc/customizer.php:116–130', rows: [
+            { key: 'enable_topbar', old: 'الشريط العلوي المتحرك', next: 'التسويق › شريط الإعلانات' },
+            { key: 'topbar_items', old: 'الشريط العلوي المتحرك', next: 'التسويق › شريط الإعلانات › المحتوى' },
+            { key: 'topbar_speed', old: 'الشريط العلوي المتحرك', next: 'التسويق › شريط الإعلانات › الحركة' },
+            { key: 'topbar_text_color', old: 'الشريط العلوي المتحرك', next: 'التسويق › شريط الإعلانات › التصميم' },
+            { key: 'topbar_all_text / _url', old: 'الشريط العلوي المتحرك', next: 'التسويق › شريط الإعلانات › المحتوى' }
+          ]
+        },
+        {
+          title: 'واتساب', file: 'inc/customizer.php:131–147', rows: [
+            { key: 'enable_whatsapp_button', old: 'زر واتساب العائم', next: 'التسويق › واتساب' },
+            { key: 'whatsapp_number', old: 'زر واتساب العائم', next: 'التسويق › واتساب' },
+            { key: 'whatsapp_message', old: 'زر واتساب العائم', next: 'التسويق › واتساب' },
+            { key: 'whatsapp_position', old: 'زر واتساب العائم', next: 'التسويق › واتساب › التصميم' },
+            { key: 'whatsapp_color', old: 'زر واتساب العائم', next: 'التسويق › واتساب › التصميم' },
+            { key: 'whatsapp_hide_pages', old: 'زر واتساب العائم', next: 'التسويق › واتساب › متقدم' }
+          ]
+        },
+        {
+          title: 'الهيرو', file: 'inc/customizer.php:148–192 · inc/hero.php', rows: [
+            { key: 'enable_hero', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › مدير الأقسام (مفتاح)' },
+            { key: 'hero_style', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › التصميم الجاهز' },
+            { key: 'hero_size / hero_shape', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › التخطيط' },
+            { key: 'hero_align', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › التخطيط' },
+            { key: 'hero_eyebrow / _title / _description', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › المحتوى' },
+            { key: 'hero_cta1_* / hero_cta2_*', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › المحتوى' },
+            { key: 'hero_image / hero_overlay', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › التصميم (شرطي)' },
+            { key: 'hero_text_color', old: 'الصفحة الرئيسية — الهيرو', next: 'الرئيسية › الهيرو › التصميم' },
+            { key: 'hero_banner_image / _url / _alt', old: 'الصفحة الرئيسية — البانر', next: 'الرئيسية › الهيرو › التصميم الجاهز «بانر»' }
+          ]
+        },
+        {
+          title: 'أقسام الرئيسية والمراحل', file: 'inc/customizer.php:193–241', rows: [
+            { key: 'enable_categories', old: 'أقسام الصفحة الرئيسية', next: 'الرئيسية › مدير الأقسام (مفتاح)' },
+            { key: 'enable_featured', old: 'أقسام الصفحة الرئيسية', next: 'الرئيسية › مدير الأقسام (مفتاح)' },
+            { key: 'enable_features_bar', old: 'أقسام الصفحة الرئيسية', next: 'الرئيسية › مدير الأقسام (مفتاح)' },
+            { key: 'stages_title / _count / _shape', old: 'أقسام المراحل', next: 'الرئيسية › المراحل › المحتوى + التخطيط' },
+            { key: 'stage1..6_title / _sub / _color / _icon / _url', old: 'أقسام المراحل (30 حقل مسطّح)', next: 'الرئيسية › المراحل › محرّر بطاقات (بطاقة واحدة في كل مرة)' }
+          ]
+        },
+        {
+          title: 'المنتجات والثقة', file: 'inc/customizer.php:242–259', rows: [
+            { key: 'enable_sales_count', old: 'المنتجات — الثقة والمبيعات', next: 'المنتجات والمتجر › الثقة' },
+            { key: 'sales_count_on_cards / _on_single', old: 'المنتجات — الثقة والمبيعات', next: 'المنتجات والمتجر › الثقة' },
+            { key: 'sales_count_min / _hot / _zero_text', old: 'المنتجات — الثقة والمبيعات', next: 'المنتجات والمتجر › الثقة › متقدم' },
+            { key: 'enable_sticky_buy', old: 'المنتجات — الثقة والمبيعات', next: 'المنتجات والمتجر › الجوال' },
+            { key: 'enable_shop_cat_chips', old: 'المنتجات — الثقة والمبيعات', next: 'المنتجات والمتجر › الأرشيف' }
+          ]
+        },
+        {
+          title: 'التواصل والفوتر و SEO', file: 'inc/customizer.php:260–300', rows: [
+            { key: 'contact_phone / _whatsapp / _email / _website', old: 'بيانات التواصل', next: 'الفوتر والتواصل › بيانات التواصل' },
+            { key: 'footer_about / footer_copyright', old: 'بيانات التواصل', next: 'الفوتر والتواصل › الفوتر' },
+            { key: 'social_whatsapp / _x / _instagram / _youtube / _tiktok', old: 'روابط التواصل الاجتماعي', next: 'الفوتر والتواصل › قنوات التواصل' },
+            { key: 'enable_seo_* (7 مفاتيح)', old: 'SEO + الأتمتة', next: 'SEO والأداء › SEO (بلا تغيير)' },
+            { key: 'seo_map_refresh_interval', old: 'SEO + الأتمتة', next: 'SEO والأداء › الأتمتة' }
+          ]
+        },
+        {
+          title: 'نظام التصميم والحركة (موجود بالفعل)', file: 'inc/design-system/*', rows: [
+            { key: 'tahdheer_ds_* (colors, type, space, border, shadow, bg)', old: 'لوحة «نظام التصميم»', next: 'نظام التصميم (نفس المكان، واجهة جديدة برموز ظاهرة)' },
+            { key: 'tahdheer_mo_* (master, entrance, scroll, stagger, hover…)', old: 'لوحة «نظام الحركة»', next: 'نظام التصميم › الحركة' },
+            { key: 'tahdheer_cmp_* (hero, cards, sections, motion)', old: 'لوحة «المكوّنات»', next: 'نظام التصميم › المكوّنات (وراثة افتراضية)' },
+            { key: 'adv_preset_design / adv_preset_motion / adv_io', old: 'إعدادات متقدمة', next: 'نظام التصميم › الحِزَم + إعدادات متقدمة › استيراد/تصدير' }
+          ]
+        }
+      ],
+      newSettings: [
+        { key: 'tahdheer_home_order', type: 'array (JSON)', purpose: 'Section + widget order for the Section Manager. Seeded from the current front-page.php order on first read.' },
+        { key: 'tahdheer_favourites', type: 'array (JSON)', purpose: 'Starred control ids for the Favourites list. Default: empty.' },
+        { key: 'tahdheer_recent_controls', type: 'array (JSON)', purpose: 'Last 7 opened control ids for Quick Access. Client-side only, capped, never affects rendering.' }
+      ],
+      widgetAreas: [
+        { id: 'header-widgets', old: 'ودجات الهيدر (أعلى الموقع)', next: 'أدوات الهيدر' },
+        { id: 'home-widgets', old: 'ودجات الصفحة الرئيسية', next: 'محتوى الرئيسية' },
+        { id: 'footer-widgets', old: 'ودجات الفوتر (أسفل الموقع)', next: 'أعمدة الفوتر' },
+        { id: 'sidebar-widgets', old: 'ودجات القائمة الجانبية', next: 'الشريط الجانبي — المقالات' },
+        { id: 'product-widgets', old: 'ودجات المنتجات (ووكومرس)', next: 'الشريط الجانبي — المتجر' },
+        { id: 'blog-widgets', old: 'ودجات المدونة', next: 'أعلى قائمة المقالات' },
+        { id: 'mobile-widgets', old: 'ودجات قائمة الجوال', next: 'قائمة الجوال' }
+      ],
+      phases: [
+        { n: '1', title: 'Re-parent sections', body: 'Add the 11 panels, move existing add_section() calls under them. Pure UI change, no setting touched.', risk: 'low', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+        { n: '2', title: 'Tabs + contextual display', body: 'Group controls into Content/Layout/Design/Motion/Spacing/Responsive/Advanced via active_callback; hide gradient controls when bg=solid, etc.', risk: 'low', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+        { n: '3', title: 'Search, favourites, recents', body: 'Client-side index built from the registered controls; no server-side storage beyond the two new arrays.', risk: 'low', tint: 'rgba(37,155,111,.12)', color: '#1e7355' },
+        { n: '4', title: 'Section Manager + home_order', body: 'The one change that touches rendering. Seed-and-persist migration; check with the existing enable_* flags.', risk: 'medium', tint: 'rgba(216,181,106,.2)', color: '#7a5d20' },
+        { n: '5', title: 'Widget drop zones + starter content', body: 'Insertion points write into home_order. Starter content ships as widget defaults, not as published fake data.', risk: 'medium', tint: 'rgba(216,181,106,.2)', color: '#7a5d20' },
+        { n: '6', title: 'Homepage visual redesign', body: 'New hero, trust bar, stage cards, product cards, banner, reviews, FAQ, CTA. CSS-only where possible; markup changes kept to the template-parts already listed.', risk: 'medium', tint: 'rgba(216,181,106,.2)', color: '#7a5d20' }
+      ],
+      checks: [
+        'كل إعداد قديم له موقع جديد ويظهر في البحث',
+        'لا يوجد theme_mod تغيّر مفتاحه',
+        'القيم المحفوظة تُقرأ كما هي بعد الترقية',
+        'الودجات المضافة سابقًا بقيت في مناطقها',
+        'مواقع القوائم المسنَدة لم تتغيّر',
+        'front-page.php يحترم home_order والمفاتيح معًا',
+        'قسم مطفأ لا يطبع أي HTML',
+        'المعاينة الحيّة تعمل postMessage بلا إعادة تحميل',
+        'زر «نشر» يحفظ كل التغييرات',
+        'معاينة التابلت والجوال تعملان',
+        'لا أخطاء في وحدة التحكّم ولا أخطاء PHP',
+        'لا تمرير أفقي على 390px',
+        'RTL: اتجاه الأسهم والقوائم المنسدلة والأدراج',
+        'تباين WCAG 2.2 AA على كل نص',
+        'التنقّل بلوحة المفاتيح وحالات التركيز',
+        'H1 واحد فقط في الصفحة الرئيسية',
+        'WooCommerce: السلة، الدفع، الحساب، التنزيلات',
+        'LCP لا يتراجع بعد تغيير الهيرو'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

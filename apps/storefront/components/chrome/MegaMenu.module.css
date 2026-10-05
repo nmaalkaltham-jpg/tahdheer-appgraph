@@ -1,0 +1,223 @@
+/*
+ * اللوحة الكبرى — وصفة ‎menu‎ (‎--r-lg‎ · ‎--e-3‎ · حدّ ‎--sf-line‎) بعرض المحتوى
+ * تحت الترويسة. الغلاف مطلقٌ بالنسبة إلى ‎.header‎ (أقرب سلفٍ مموضَع — فرع
+ * البند ثابتٌ ‎static‎ عمدًا) فيمتدّ بعرض الإطار ‎--sf-max‎ بحشو ‎--sf-gutter‎.
+ */
+.wrap {
+  display: none;
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  z-index: 2;
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-block-start: 8px;
+  padding-inline: var(--sf-gutter);
+}
+
+.wrap[data-open='true'] {
+  display: block;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    translate var(--dur-reveal) var(--ease-out),
+    display var(--dur-reveal) allow-discrete;
+}
+
+@starting-style {
+  .wrap[data-open='true'] {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+}
+
+/* بلا JavaScript: التحويم والتركيز يفتحان (السمة يقلبها ‎PrimaryNav‎ إلى ‎on‎ عند التركيب). */
+[data-js='off'] li:is(:hover, :focus-within) > .wrap {
+  display: block;
+}
+
+.panel {
+  composes: menu from '@tahdheer/ui/controls.module.css';
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+/* عمود المواد صفٌّ كامل تحت المراحل حتّى يتّسع الإطار له جانبها. */
+.subjects {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(var(--_stages), minmax(0, 1fr)) minmax(0, 2.2fr);
+  }
+
+  .subjects {
+    grid-column: auto;
+    padding-inline-start: 24px;
+    border-inline-start: 1px solid var(--sf-line);
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+/* رأس العمود رابطُ أرشيف المرحلة نفسها: اسمٌ ‎15/800‎ وسطرٌ خافت للعدد والمدى. */
+.stageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-block-size: 44px;
+  justify-content: center;
+  padding-block: 4px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  color: var(--sf-ink);
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.stageName {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.stageMeta {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* المواد في أعمدة CSS متوازنة: ثمانية عشر بندًا لا تصير عمودًا بطول الشاشة. */
+.subjectList {
+  display: block;
+  columns: 5 140px;
+  column-gap: 8px;
+}
+
+@media (min-width: 1200px) {
+  .subjectList {
+    columns: 3 140px;
+  }
+}
+
+.subjectList > li {
+  break-inside: avoid;
+}
+
+/* الرابط — وصفة ‎menuItem‎ بوزن تنقّلٍ لا أمر (‎14/500‎). */
+.link {
+  composes: menuItem from '@tahdheer/ui/controls.module.css';
+  gap: 8px;
+  color: var(--sf-ink-2);
+  font-weight: 500;
+}
+
+.linkLabel {
+  min-inline-size: 0;
+}
+
+.count {
+  flex: none;
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) {
+  .stageHead:hover {
+    background: var(--sf-cool);
+  }
+
+  .link:hover,
+  .stageHead:hover .stageName {
+    color: var(--teal-text);
+  }
+}
+
+.stageHead:active,
+.link:active {
+  background: var(--sf-chip);
+}
+
+.stageHead[aria-current='page'],
+.link[aria-current='page'] {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+.stageName > svg,
+.footLink > svg {
+  flex: none;
+}
+
+/* صفّ «الكلّ» — روابط مختصرة إلى المحاور، مفصولةٌ بخطّ. */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 24px;
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.footLink {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  gap: 6px;
+  color: var(--teal-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* «تصفّح كل المنتجات» في الطرف الختاميّ — الفعل الأعمّ بعد الاختصارات. */
+.footShop {
+  margin-inline-start: auto;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap[data-open='true'],
+  .stageHead {
+    transition: none;
+  }
+
+  @starting-style {
+    .wrap[data-open='true'] {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}

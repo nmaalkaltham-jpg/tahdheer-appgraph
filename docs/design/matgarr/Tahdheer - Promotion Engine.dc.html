@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — محرك العروض والتخفيضات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f5f7f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#14261d;-webkit-font-smoothing:antialiased}
+a{color:#1e7355;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#185740}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:10px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes pmFade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes pmGlow{0%,100%{box-shadow:0 0 0 0 rgba(180,35,24,0)}50%{box-shadow:0 0 0 5px rgba(180,35,24,.10)}}
+@keyframes pmShine{0%{transform:translateX(-120%)}100%{transform:translateX(220%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#f5f7f4">
+
+<div style="background:#123d2f;color:#e8f2ec;position:sticky;top:0;z-index:20">
+<div style="max-width:1340px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — محرك العروض: حالات العميل · المؤقّتات · الجوال · الإدارة</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.18);border:1px solid rgba(216,181,106,.4);color:#e6cd93;font-size:10px;font-weight:900">نموذج بصري — السعر يبقى من ووكومرس وحده</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1340px;margin:0 auto;padding:20px 22px 70px;display:flex;flex-direction:column;gap:14px">
+
+<sc-if value="{{ is.pdp }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="00 صفحة الشراء" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+
+<nav aria-label="مسار التنقّل" style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:11px;color:#5f7167">
+<sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px"><a href="#" style="color:#5f7167;text-decoration:none;font-weight:700">{{ c }}</a><span aria-hidden="true" style="color:#d3d8cf">‹</span></span>
+</sc-for>
+<span style="font-weight:800;color:#14261d">تحضير الرياضيات — الصف السادس</span>
+</nav>
+
+<div style="display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:18px;align-items:start">
+
+<section style="display:flex;flex-direction:column;gap:11px">
+<div style="position:relative;border:1px solid #e6e9e2;border-radius:24px;background:#f5f7f4;padding:14px;box-shadow:0 4px 14px #142d2112,0 16px 40px #142d211f">
+<div style="position:absolute;top:24px;inset-inline-start:24px;z-index:2;display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+<span style="padding:5px 13px;border-radius:999px;background:linear-gradient(135deg,#1e7355,#185740);color:#fff;font-size:11px;font-weight:900;box-shadow:0 4px 14px #142d2112;white-space:nowrap">خصم ٤٠٪</span>
+<span style="padding:4px 11px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #e6e9e2;color:#b98f43;font-size:9.5px;font-weight:900;white-space:nowrap">معاينة مجانية متاحة</span>
+</div>
+<div style="aspect-ratio:4/5;border-radius:16px;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 11px,#e9eee9 11px,#e9eee9 22px);display:grid;place-items:center">
+<span style="font:700 11px ui-monospace,SFMono-Regular,monospace;color:#5f7167;letter-spacing:.06em">غلاف التحضير — ‎٤:٥</span>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px">
+<sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="4">
+<button type="button" style="padding:0;border:1.5px solid #e6e9e2;border-radius:10px;background:#f5f7f4;cursor:pointer;overflow:hidden" style-hover="border-color:#1e7355">
+<span style="display:grid;place-items:center;aspect-ratio:1;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 7px,#e9eee9 7px,#e9eee9 14px);font:700 8.5px ui-monospace,monospace;color:#5f7167">{{ t }}</span>
+</button>
+</sc-for>
+</div>
+<button type="button" style="padding:13px;border:1.5px dashed #c9a35a;border-radius:10px;background:#fffdf6;color:#b98f43;font-size:12.5px;font-weight:900;cursor:pointer" style-hover="background:#fdf8ea">افتح المعاينة — ‎٨ صفحات من أصل ‎١٤٢</button>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+
+<div style="border:1px solid #e6e9e2;border-radius:24px;background:#fff;padding:22px 24px;box-shadow:0 4px 14px #142d2112,0 16px 40px #142d211f">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:11px">
+<span style="padding:4px 12px;border-radius:999px;background:#f5f7f4;border:1px solid #e6e9e2;color:#b98f43;font-size:10px;font-weight:900">منتج رقمي</span>
+<span style="padding:4px 12px;border-radius:999px;background:#e4f4ec;color:#1e7355;font-size:10px;font-weight:900">متوافق مع منهج ‎١٤٤٧</span>
+<code dir="ltr" style="margin-inline-start:auto;font-size:9.5px;color:#5f7167;text-align:start">SKU: TH-M6-S1-142</code>
+</div>
+
+<h1 style="margin:0 0 10px;font:900 27px Tajawal;line-height:1.45">تحضير الرياضيات — الصف السادس · الفصل الأول</h1>
+
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:15px">
+<span dir="ltr" style="display:inline-flex;align-items:center;gap:3px;color:#d8b56a;font-size:15px;letter-spacing:1px;text-align:start">★★★★<span style="color:#e6e9e2">★</span></span>
+<b style="font-size:12.5px">‎4.2</b>
+<a href="#" style="font-size:11.5px;color:#5f7167">‎١٩ تقييمًا من مشترين</a>
+<span style="width:1px;height:13px;background:#e6e9e2"></span>
+<span style="font-size:11.5px;color:#5f7167">‎٢١٤ عملية شراء</span>
+</div>
+
+<p style="margin:0 0 18px;font-size:13.5px;line-height:2;color:#223129">تحضير كامل ومعتمد على أحدث توزيع للمنهج، جاهز للطباعة ومفتوح للتعديل. يشمل الأهداف السلوكية واستراتيجيات التدريس وأوراق العمل والتقويم — ملف واحد يغني عن إعداد أسبوعي متكرّر.</p>
+
+<div style="padding:17px 19px;border:1px solid #e6e9e2;border-radius:16px;background:linear-gradient(180deg,#f5f7f4,#f5f7f4)">
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:4px">
+<b dir="ltr" style="font:900 44px Tajawal;color:#185740;line-height:1;text-align:start">149 <span style="font-size:19px;font-weight:800">﷼</span></b>
+<span dir="ltr" style="font:700 20px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">249 ﷼</span>
+<span style="margin-inline-start:auto;padding:5px 13px;border-radius:999px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;white-space:nowrap">توفّر ‎١٠٠ ﷼</span>
+</div>
+<span style="display:block;margin-bottom:14px;font-size:11px;color:#5f7167">السعر يشمل ضريبة القيمة المضافة</span>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
+<span style="font-size:11.5px;font-weight:800;color:#5f7167">ينتهي العرض بعد</span>
+<span dir="ltr" style="font-size:10px;color:#5f7167;text-align:start">{{ endsAtLabel }}</span>
+</div>
+<div style="display:flex;gap:7px" dir="ltr">
+<sc-for list="{{ activeUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;min-width:0;text-align:center;padding:11px 4px;border-radius:10px;background:linear-gradient(180deg,#185740,#123d2f)">
+<b dir="ltr" style="display:block;font:900 24px Tajawal;line-height:1;color:#fff;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:4px;font-size:8.5px;font-weight:800;color:rgba(216,181,106,.92)">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ showProgress }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:12px;height:5px;border-radius:999px;background:#e6e9e2;overflow:hidden">
+<div style="height:100%;width:{{ activePct }};border-radius:999px;background:linear-gradient(90deg,#1e7355,#d8b56a)"></div>
+</div>
+</sc-if>
+</div>
+
+<div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap">
+<button type="button" style="flex:1;min-width:190px;min-height:56px;border:0;border-radius:999px;background:#1e7355;color:#fff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 14px 30px #b48c3c33" style-hover="background:#185740;transform:translateY(-1px)">اشتر الآن — تنزيل فوري</button>
+<button type="button" style="flex:0 0 auto;min-width:130px;min-height:56px;border:1.5px solid #1e7355;border-radius:999px;background:#fff;color:#1e7355;font-size:14px;font-weight:900;cursor:pointer" style-hover="background:#f4faf7">أضف للسلة</button>
+<button type="button" aria-label="أضف إلى المفضلة" style="flex:0 0 auto;width:56px;height:56px;border:1.5px solid #e6e9e2;border-radius:999px;background:#fff;color:#b98f43;font-size:19px;cursor:pointer" style-hover="border-color:#c9a35a;background:#fffdf6">♡</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:8px;margin-top:16px;padding-block-start:16px;border-block-start:1px solid #e6e9e2">
+<sc-for list="{{ trust }}" as="t" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:8px;font-size:11.5px;line-height:1.75;color:#5f7167"><span aria-hidden="true" style="color:#1e7355;font-weight:900;flex:0 0 auto">✓</span><span>{{ t }}</span></div>
+</sc-for>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:19px 22px">
+<b style="display:block;margin-bottom:13px;font-size:14px">بطاقة الحقائق</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="8">
+<div style="display:flex;align-items:baseline;gap:9px;padding:9px 0;border-block-start:1px dashed #e6e9e2">
+<span style="flex:0 0 96px;font-size:11px;font-weight:800;color:#5f7167">{{ f.k }}</span>
+<b dir="auto" style="flex:1;min-width:0;font-size:12px;line-height:1.65;text-align:start">{{ f.v }}</b>
+</div>
+</sc-for>
+</div>
+<p style="margin:13px 0 0;padding-block-start:12px;border-block-start:1px solid #e6e9e2;font-size:10.5px;line-height:1.85;color:#5f7167">كل قيمة هنا من حقل حقيقي على المنتج. الحقل الفارغ يُخفى ولا يُعرض بشرطة أو «غير متوفر».</p>
+</div>
+
+</section>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;overflow:hidden">
+<div style="display:flex;gap:7px;padding:13px 18px;border-block-end:1px solid #e6e9e2;background:#f5f7f4;flex-wrap:wrap">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{ t.on }}" style="padding:9px 20px;border:1px solid #e6e9e2;border-radius:999px;background:#fff;color:#5f7167;font-size:12.5px;font-weight:800;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">{{ t.t }}</button>
+</sc-for>
+</div>
+<div style="padding:20px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
+<div>
+<b style="display:block;margin-bottom:10px;font-size:13px">ماذا يشمل الملف</b>
+<sc-for list="{{ contents }}" as="c" hint-placeholder-count="5">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:7px 0;font-size:12.5px;line-height:1.85;color:#223129"><span aria-hidden="true" style="flex:0 0 auto;margin-top:6px;width:6px;height:6px;border-radius:999px;background:#d8b56a"></span><span>{{ c }}</span></div>
+</sc-for>
+</div>
+<div style="padding:16px 18px;border:1px dashed #d3d8cf;border-radius:16px;background:#f2f5f2">
+<b style="display:block;margin-bottom:7px;font-size:12.5px;color:#1e7355">لماذا يظهر المؤقّت هنا</b>
+<p style="margin:0;font-size:11.5px;line-height:1.95;color:#223129">لأن هناك تاريخ نهاية حقيقيًا مكتوبًا على المنتج في ووكومرس. لو لم يوجد تاريخ، لا يظهر مؤقّت ولا شارة خصم — ولا يُصنَّع إلحاح بلا سبب.</p>
+</div>
+</div>
+</div>
+
+<section style="border:{{ cxBorder }};border-radius:{{ cxRadius }};background:#fff;padding:{{ cxPad }};box-shadow:{{ cxShadow }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px">
+<h2 style="margin:0;font:900 16px Tajawal">يُنصح بها مع هذا الملف</h2>
+<span style="padding:3px 10px;border-radius:999px;background:{{ cxAccSoft }};color:{{ cxAcc }};font-size:9.5px;font-weight:900">تكمّل نفس المنهج</span>
+<span style="margin-inline-start:auto;font-size:10px;color:#5f7167">التخطيط المطبَّق: {{ cxVariantName }} — يُغيَّر من شاشة «التكميلية والمحرّر»</span>
+</div>
+<div style="display:flex;align-items:stretch;gap:{{ cxGap }};flex-wrap:wrap">
+<div style="flex:1;min-width:190px;padding:{{ cxPad }};border:1.5px solid {{ cxAcc }};border-radius:{{ cxInnerRadius }};background:{{ cxAccSoft }}">
+<span style="display:block;font-size:9.5px;font-weight:900;color:{{ cxAcc }}">المنتج الأساسي</span>
+<b style="display:block;margin-top:5px;font-size:12px;line-height:1.6">تحضير الرياضيات — السادس</b>
+<b dir="ltr" style="display:block;margin-top:7px;font:900 17px Tajawal;color:{{ cxAccDeep }};text-align:start">149 ﷼</b>
+</div>
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:{{ cxGap }};flex:1;min-width:200px">
+<span aria-hidden="true" style="flex:0 0 auto;font:900 17px Tajawal;color:#d3d8cf">＋</span>
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="flex:1;min-width:0;padding:{{ cxPad }};border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start">
+<span style="display:flex;align-items:center;gap:7px">
+<span aria-hidden="true" style="display:grid;place-items:center;width:17px;height:17px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:10px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<b style="flex:1;min-width:0;font-size:11.5px;line-height:1.55">{{ i.n }}</b>
+</span>
+<b dir="ltr" style="display:block;margin-top:7px;font:900 15px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+<sc-if value="{{ cxShowWhy }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:4px;font-size:10px;line-height:1.7;color:#5f7167">{{ i.why }}</span></sc-if>
+</button>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:15px;padding-block-start:15px;border-block-start:1px solid #e6e9e2">
+<div>
+<span style="display:block;font-size:10.5px;font-weight:800;color:#5f7167">الإجمالي لـ ‎{{ cxCount }} إضافة والمنتج الأساسي</span>
+<div style="display:flex;align-items:baseline;gap:10px;margin-top:4px;flex-wrap:wrap">
+<b dir="ltr" style="font:900 26px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ cxTotal }}</b>
+<sc-if value="{{ cxHasSaving }}" hint-placeholder-val="{{ true }}">
+<span dir="ltr" style="font:700 14px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">{{ cxRaw }}</span>
+<sc-if value="{{ cxShowSave }}" hint-placeholder-val="{{ true }}">
+<span style="padding:3px 11px;border-radius:999px;background:{{ cxAcc }};color:{{ cxAccOn }};font-size:10.5px;font-weight:900;white-space:nowrap">توفّر {{ cxSaved }}</span>
+</sc-if>
+</sc-if>
+</div>
+</div>
+<button type="button" style="margin-inline-start:auto;min-height:50px;padding:0 28px;border:0;border-radius:999px;background:{{ cxAcc }};color:{{ cxAccOn }};font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 14px #142d2112">أضف الحزمة للسلة</button>
+</div>
+<span style="display:block;margin-top:8px;font-size:10px;line-height:1.8;color:#5f7167">{{ cxSaveNote }}</span>
+</section>
+
+<nav aria-label="فهرس الصفحة" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 18px;border:1px solid #e6e9e2;border-radius:16px;background:#f5f7f4">
+<span style="font-size:11px;font-weight:900;color:#b98f43">في هذه الصفحة</span>
+<sc-for list="{{ pageIndex }}" as="p" hint-placeholder-count="6">
+<a href="{{ p.h }}" style="padding:5px 13px;border-radius:999px;background:#fff;border:1px solid #e6e9e2;color:#5f7167;font-size:11px;font-weight:800;text-decoration:none" style-hover="border-color:#1e7355;color:#1e7355">{{ p.t }}</a>
+</sc-for>
+</nav>
+
+<sc-if value="{{ showQuickAnswer }}" hint-placeholder-val="{{ true }}">
+<section id="tah-answer" style="border:1px solid #d3d8cf;border-radius:24px;background:linear-gradient(180deg,#f2f5f2,#e9eee9);padding:22px 24px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font:900 17px Tajawal">الإجابة السريعة</h2>
+<span style="padding:3px 11px;border-radius:999px;background:#fff;border:1px solid #d3d8cf;color:#1e7355;font-size:9.5px;font-weight:900">مهيّأة لمحرّكات الإجابة والنماذج اللغوية</span>
+</div>
+<p style="margin:0 0 16px;font-size:14.5px;line-height:2.05;color:#14261d;max-width:82ch;text-wrap:pretty">«تحضير الرياضيات — الصف السادس، الفصل الأول» ملف تحضير دراسي كامل من التحاضير الحديثة، مبنيّ على توزيع منهج ‎١٤٤٧، يتكوّن من ‎١٤٢ صفحة تشمل توزيع المنهج والأهداف السلوكية واستراتيجيات التدريس وأوراق العمل والتقويم الختامي. يُسلَّم بصيغتَي PDF للطباعة وWord للتعديل، بتنزيل فوري بعد الدفع، بترخيص استخدام فردي لمعلّم واحد، بسعر ‎١٤٩ ﷼ حاليًا بدلًا من ‎٢٤٩ ﷼.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:0 22px">
+<sc-for list="{{ answerPairs }}" as="a" hint-placeholder-count="6">
+<div style="display:flex;align-items:baseline;gap:10px;padding:9px 0;border-block-start:1px dashed #e6e9e2">
+<span style="flex:0 0 72px;font-size:11px;font-weight:900;color:#5f7167">{{ a.k }}</span>
+<span dir="auto" style="flex:1;min-width:0;font-size:12px;line-height:1.75;color:#14261d;text-align:start">{{ a.v }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:15px 0 0;padding-block-start:13px;border-block-start:1px solid #e6e9e2;font-size:10.5px;line-height:1.85;color:#5f7167">هذه الفقرة مكتفية بذاتها بقصد: محرّكات الإجابة والنماذج اللغوية تقتطع أول إجابة كاملة تجدها. الفقرة الغامضة تُترك، والفقرة الصريحة تُقتبس باسم المتجر.</p>
+</section>
+</sc-if>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;align-items:start">
+<section id="tah-audience" style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:19px 22px">
+<h2 style="margin:0 0 14px;font:900 16px Tajawal">لمن هذا الملف</h2>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ audience }}" as="a" hint-placeholder-count="3">
+<div style="padding:13px 15px;border:1px solid #e6e9e2;border-inline-start:3px solid #d8b56a;border-radius:10px;background:#f5f7f4">
+<b style="display:block;font-size:12.5px;line-height:1.5">{{ a.t }}</b>
+<span style="display:block;margin-top:4px;font-size:11.5px;line-height:1.85;color:#5f7167">{{ a.b }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<sc-if value="{{ showHowTo }}" hint-placeholder-val="{{ true }}">
+<section id="tah-howto" style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:19px 22px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px">
+<h2 style="margin:0;font:900 16px Tajawal">طريقة الاستخدام</h2>
+<span style="padding:3px 10px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:9px;font-weight:900">خطوات حقيقية ومرئية</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ howto }}" as="h" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-block-start:1px dashed #e6e9e2">
+<span style="flex:0 0 auto;display:grid;place-items:center;width:29px;height:29px;border-radius:999px;background:linear-gradient(135deg,#1e7355,#185740);color:#fff;font:900 12px Tajawal">{{ h.n }}</span>
+<div style="flex:1;min-width:0">
+<b style="display:block;font-size:12.5px;line-height:1.5">{{ h.t }}</b>
+<span style="display:block;margin-top:3px;font-size:11.5px;line-height:1.8;color:#5f7167">{{ h.b }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-if>
+</div>
+
+<sc-if value="{{ showCompare }}" hint-placeholder-val="{{ true }}">
+<section id="tah-compare" style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;overflow:hidden">
+<div style="padding:17px 22px;border-block-end:1px solid #e6e9e2;background:#f5f7f4;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<h2 style="margin:0;font:900 16px Tajawal">المقارنة مع الحزم الأخرى</h2>
+<span style="margin-inline-start:auto;font-size:10.5px;color:#5f7167">كل قيمة قابلة للتحقّق من صفحة الحزمة نفسها</span>
+</div>
+<div style="overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:620px">
+<thead><tr>
+<sc-for list="{{ compare.head }}" as="h" hint-placeholder-count="4">
+<th scope="col" style="padding:13px 18px;text-align:start;font-size:11.5px;font-weight:900;color:#5f7167;background:#f5f7f4;border-block-end:1px solid #e6e9e2">{{ h }}</th>
+</sc-for>
+</tr></thead>
+<tbody>
+<sc-for list="{{ compare.rows }}" as="r" hint-placeholder-count="6">
+<tr>
+<sc-for list="{{ r }}" as="c" hint-placeholder-count="4">
+<td dir="auto" style="padding:12px 18px;border-block-start:1px solid #f4f6f4;font-size:12px;line-height:1.7;color:#223129;text-align:start">{{ c }}</td>
+</sc-for>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ showFaq }}" hint-placeholder-val="{{ true }}">
+<section id="tah-faq" style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:15px">
+<h2 style="margin:0;font:900 16px Tajawal">الأسئلة الشائعة</h2>
+<span style="padding:3px 11px;border-radius:999px;background:#f5f7f4;border:1px solid #e6e9e2;color:#b98f43;font-size:9.5px;font-weight:900">مصدر وسم FAQPage</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:10px 22px">
+<sc-for list="{{ faq }}" as="f" hint-placeholder-count="6">
+<details style="border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4;padding:13px 16px">
+<summary style="cursor:pointer;font-size:12.5px;font-weight:800;line-height:1.6;color:#14261d;list-style:none">{{ f.q }}</summary>
+<p style="margin:9px 0 0;padding-block-start:9px;border-block-start:1px dashed #e6e9e2;font-size:11.5px;line-height:1.95;color:#5f7167">{{ f.a }}</p>
+</details>
+</sc-for>
+</div>
+<p style="margin:14px 0 0;padding-block-start:12px;border-block-start:1px solid #e6e9e2;font-size:10.5px;line-height:1.85;color:#5f7167">الأسئلة بصياغة يبحث بها معلّم فعلًا، والإجابة كاملة داخل الصفحة لا في رابط آخر — لأن الإجابة الناقصة لا تُقتبس.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{ showReviews }}" hint-placeholder-val="{{ true }}">
+<section id="tah-reviews" style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:22px;align-items:start">
+<div>
+<h2 style="margin:0 0 13px;font:900 16px Tajawal">التقييمات</h2>
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px">
+<b dir="ltr" style="font:900 42px Tajawal;color:#185740;line-height:1;text-align:start">4.2</b>
+<span dir="ltr" style="color:#d8b56a;font-size:14px;letter-spacing:1px;text-align:start">★★★★<span style="color:#e6e9e2">★</span></span>
+</div>
+<span style="display:block;margin-bottom:14px;font-size:11.5px;color:#5f7167">من ‎١٩ تقييمًا لمشترين مؤكَّدين</span>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ ratingBars }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="flex:0 0 auto;font-size:11px;font-weight:800;color:#5f7167">{{ r.s }} ★</span>
+<span style="flex:1;height:7px;border-radius:999px;background:#e6e9e2;overflow:hidden"><span style="display:block;height:100%;width:{{ r.pct }};border-radius:999px;background:#d8b56a"></span></span>
+<span dir="ltr" style="flex:0 0 22px;font-size:10.5px;color:#5f7167;text-align:start">{{ r.n }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:13px 0 0;font-size:10.5px;line-height:1.8;color:#5f7167">لا يظهر متوسط ولا وسم تقييم إلا بوجود تقييم حقيقي واحد على الأقل.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ reviews }}" as="v" hint-placeholder-count="3">
+<article style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px">
+<span style="display:grid;place-items:center;width:32px;height:32px;border-radius:999px;background:#f5f7f4;border:1px solid #e6e9e2;color:#b98f43;font:900 12px Tajawal">{{ v.n }}</span>
+<b style="font-size:12px">{{ v.n }}</b>
+<span style="padding:2px 8px;border-radius:999px;background:#e4f4ec;color:#1e7355;font-size:8.5px;font-weight:900">شراء مؤكَّد</span>
+<span dir="ltr" style="margin-inline-start:auto;font-size:10px;color:#5f7167;text-align:start">{{ v.d }}</span>
+</div>
+<p style="margin:0;font-size:12px;line-height:1.9;color:#223129">{{ v.b }}</p>
+</article>
+</sc-for>
+<button type="button" style="min-height:44px;border:1.5px solid #1e7355;border-radius:999px;background:#fff;color:#1e7355;font-size:12.5px;font-weight:900;cursor:pointer" style-hover="background:#f4faf7">اقرأ كل التقييمات — ‎١٩</button>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:15px">
+<h2 style="margin:0;font:900 16px Tajawal">تصفّح ذات صلة</h2>
+<span style="font-size:10.5px;color:#5f7167">عنقود موضوعي حول المنهج — لا روابط عشوائية</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px">
+<sc-for list="{{ clusters }}" as="c" hint-placeholder-count="3">
+<div>
+<b style="display:block;margin-bottom:9px;font-size:11.5px;color:#b98f43">{{ c.t }}</b>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ c.items }}" as="i" hint-placeholder-count="4">
+<a href="#" style="padding:7px 13px;border-radius:999px;background:#f5f7f4;border:1px solid #e6e9e2;color:#223129;font-size:11.5px;font-weight:700;text-decoration:none" style-hover="border-color:#1e7355;color:#1e7355">{{ i }}</a>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<sc-if value="{{ showSchemaPanel }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #123d2f;border-radius:16px;background:#123d2f;color:#e8f2ec;padding:21px 24px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px">
+<h2 style="margin:0;font:900 16px Tajawal;color:#fff">البيانات المنظّمة وجهوزية البحث الآلي</h2>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.18);border:1px solid rgba(216,181,106,.4);color:#e6cd93;font-size:9.5px;font-weight:900">للمسؤول — لا يراه الزائر</span>
+</div>
+<p style="margin:0 0 16px;font-size:11.5px;line-height:1.9;color:rgba(232,242,236,.7);max-width:86ch">قالبك يملك طبقة تحكيم ملكية لكل قدرة SEO تكبت المزوّد الثاني على حدة. لذلك القاعدة هنا: القالب يوفّر المحتوى، ومزوّد SEO يطبع الوسم — ولا نوع واحد يُطبع من موضعين، وإلا صار وسمًا مكرّرًا يُضعف الصفحة بدل أن يقوّيها.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:9px">
+<sc-for list="{{ schema }}" as="s" hint-placeholder-count="6">
+<div style="padding:13px 15px;border:1px solid rgba(255,255,255,.13);border-radius:10px;background:rgba(255,255,255,.05)">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<code dir="ltr" style="font-size:11px;font-weight:700;color:#d8b56a;text-align:start">{{ s.t }}</code>
+<span style="margin-inline-start:auto;padding:2px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:#e8f2ec;font-size:8.5px;font-weight:900;white-space:nowrap">{{ s.st }}</span>
+</div>
+<span style="display:block;margin-top:5px;font-size:10px;font-weight:800;color:rgba(232,242,236,.55)">المالك: {{ s.own }}</span>
+<span style="display:block;margin-top:5px;font-size:10.5px;line-height:1.8;color:rgba(232,242,236,.78)">{{ s.b }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:17px;padding-block-start:15px;border-block-start:1px solid rgba(255,255,255,.13)">
+<b style="display:block;margin-bottom:10px;font-size:12.5px;color:#fff">ما يجعل الصفحة قابلة للاقتباس آليًا</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:5px 20px">
+<sc-for list="{{ aiReady }}" as="a" hint-placeholder-count="7">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:11px;line-height:1.85;color:rgba(232,242,236,.82)"><span aria-hidden="true" style="color:#d8b56a;font-weight:900;flex:0 0 auto">·</span><span>{{ a }}</span></div>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-if>
+
+<div>
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+<b style="font-size:15px">منتجات ذات صلة</b>
+<span style="font-size:10.5px;color:#5f7167">من نفس الصف والفصل</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px">
+<sc-for list="{{ related }}" as="r" hint-placeholder-count="3">
+<article style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;overflow:hidden" style-hover="border-color:#c9a35a">
+<div style="position:relative;aspect-ratio:16/10;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 9px,#e9eee9 9px,#e9eee9 18px);display:grid;place-items:center">
+<span style="font:700 9.5px ui-monospace,monospace;color:#5f7167">غلاف المنتج</span>
+<sc-if value="{{ r.tag }}" hint-placeholder-val="{{ true }}">
+<span style="position:absolute;top:11px;inset-inline-start:11px;padding:3px 10px;border-radius:999px;background:#1e7355;color:#fff;font-size:9.5px;font-weight:900;white-space:nowrap">{{ r.tag }}</span>
+</sc-if>
+</div>
+<div style="padding:14px 16px">
+<b style="display:block;font-size:12.5px;line-height:1.6;min-height:40px">{{ r.n }}</b>
+<div style="display:flex;align-items:baseline;gap:9px;margin-top:9px">
+<b dir="ltr" style="font:900 19px Tajawal;color:#185740;text-align:start">{{ r.p }} ﷼</b>
+<sc-if value="{{ r.was }}" hint-placeholder-val="{{ true }}">
+<span dir="ltr" style="font:700 12px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">{{ r.was }} ﷼</span>
+</sc-if>
+</div>
+<button type="button" style="margin-top:12px;width:100%;min-height:44px;border:1.5px solid #1e7355;border-radius:999px;background:#fff;color:#1e7355;font-size:12.5px;font-weight:900;cursor:pointer" style-hover="background:#1e7355;color:#fff">أضف للسلة</button>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ is.cross }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="01 التكميلية والمحرّر" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">المنتجات التكميلية — ثمانية تخطيطات ومحرّر حيّ</h1>
+<span style="font-size:11px;color:#5f7167">كل تغيير في اللوحة ينعكس فورًا على المعاينة وعلى صفحة الشراء معًا</span>
+</div>
+
+<div style="display:grid;grid-template-columns:314px minmax(0,1fr);gap:14px;align-items:start">
+
+<aside style="border:1px solid #e6e9e2;border-radius:24px;background:#fff;padding:17px 18px;display:flex;flex-direction:column;gap:17px;position:sticky;top:76px;box-shadow:0 4px 14px #142d2112">
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">التخطيط</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+<sc-for list="{{ cxVariants }}" as="v" hint-placeholder-count="8">
+<button type="button" onClick="{{ v.pick }}" style="padding:9px 10px;border:1.5px solid {{ v.bd }};border-radius:10px;background:{{ v.bg }};color:{{ v.fg }};cursor:pointer;text-align:start">
+<b style="display:block;font-size:11px;line-height:1.4">{{ v.t }}</b>
+<span style="display:block;margin-top:2px;font-size:8.5px;opacity:.72">{{ v.d }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">نصف القطر</span>
+<div style="display:flex;gap:6px">
+<sc-for list="{{ cxRadiusOpts }}" as="r" hint-placeholder-count="4">
+<button type="button" onClick="{{ r.pick }}" style="flex:1;padding:8px 4px;border:1px solid #e6e9e2;border-radius:10px;background:{{ r.bg }};color:{{ r.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ r.t }}</button>
+</sc-for>
+</div>
+<span style="display:block;margin-top:5px;font-size:9.5px;color:#5f7167">سلّم القالب: ‎١٠ · ‎١٦ · ‎٢٤ · دائري</span>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">اللهجة</span>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ cxAccentOpts }}" as="a" hint-placeholder-count="3">
+<button type="button" onClick="{{ a.pick }}" aria-label="لهجة {{ a.t }}" style="flex:1;display:flex;align-items:center;gap:7px;padding:8px 10px;border:{{ a.bw }} solid {{ a.bd }};border-radius:10px;background:#fff;cursor:pointer">
+<span aria-hidden="true" style="width:15px;height:15px;border-radius:999px;background:{{ a.sw }};flex:0 0 auto"></span>
+<span style="font-size:10.5px;font-weight:800">{{ a.t }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">الكثافة</span>
+<div style="display:flex;gap:6px">
+<sc-for list="{{ cxDensityOpts }}" as="d" hint-placeholder-count="2">
+<button type="button" onClick="{{ d.pick }}" style="flex:1;padding:8px 4px;border:1px solid #e6e9e2;border-radius:10px;background:{{ d.bg }};color:{{ d.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ d.t }}</button>
+</sc-for>
+</div>
+</div>
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">الأعمدة</span>
+<div style="display:flex;gap:6px">
+<sc-for list="{{ cxColOpts }}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{ c.pick }}" style="flex:1;padding:8px 4px;border:1px solid #e6e9e2;border-radius:10px;background:{{ c.bg }};color:{{ c.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ c.v }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11px;font-weight:900;color:#b98f43">العناصر</span>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ cxToggles }}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{ t.flip }}" aria-pressed="{{ t.on }}" style="display:flex;align-items:center;gap:10px;padding:8px 4px;border:0;background:transparent;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="position:relative;flex:0 0 auto;width:36px;height:20px;border-radius:999px;background:{{ t.trackBg }};transition:background .18s">
+<span style="position:absolute;top:3px;inset-inline-start:{{ t.knobPos }};width:14px;height:14px;border-radius:999px;background:#fff;transition:inset-inline-start .18s"></span>
+</span>
+<span style="flex:1;font-size:11.5px;font-weight:700;color:#223129">{{ t.t }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<button type="button" onClick="{{ cxReset }}" style="padding:11px;border:1px dashed #d3d8cf;border-radius:10px;background:#f5f7f4;color:#5f7167;font-size:11.5px;font-weight:800;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">استعد الإعداد الافتراضي</button>
+</aside>
+
+<div style="display:flex;flex-direction:column;gap:13px;min-width:0">
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 17px;border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<span style="font-size:11px;font-weight:900;color:#5f7167">المعاينة</span>
+<b style="font-size:12.5px">{{ cxVariantName }}</b>
+<span style="margin-inline-start:auto;font-size:10.5px;color:#5f7167">‎{{ cxCount }} عنصرًا مختارًا</span>
+</div>
+
+<section style="border:{{ cxBorder }};border-radius:{{ cxRadius }};background:#fff;padding:{{ cxPad }};box-shadow:{{ cxShadow }};min-width:0">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px">
+<h2 style="margin:0;font:900 15px Tajawal">يُنصح بها مع هذا الملف</h2>
+<span style="padding:3px 10px;border-radius:999px;background:{{ cxAccSoft }};color:{{ cxAcc }};font-size:9.5px;font-weight:900">تكمّل نفس المنهج</span>
+</div>
+
+<sc-if value="{{ cxIs.bundle }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:stretch;gap:{{ cxGap }};flex-wrap:wrap">
+<div style="flex:1;min-width:190px;padding:{{ cxPad }};border:1.5px solid {{ cxAcc }};border-radius:{{ cxInnerRadius }};background:{{ cxAccSoft }}">
+<span style="display:block;font-size:9.5px;font-weight:900;color:{{ cxAcc }}">المنتج الأساسي</span>
+<b style="display:block;margin-top:5px;font-size:12px;line-height:1.6">تحضير الرياضيات — السادس</b>
+<b dir="ltr" style="display:block;margin-top:7px;font:900 17px Tajawal;color:{{ cxAccDeep }};text-align:start">149 ﷼</b>
+</div>
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:{{ cxGap }};flex:1;min-width:200px">
+<span aria-hidden="true" style="flex:0 0 auto;font:900 17px Tajawal;color:#d3d8cf">＋</span>
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="flex:1;min-width:0;padding:{{ cxPad }};border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start">
+<span style="display:flex;align-items:center;gap:7px">
+<span aria-hidden="true" style="display:grid;place-items:center;width:17px;height:17px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:10px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<b style="flex:1;min-width:0;font-size:11.5px;line-height:1.55">{{ i.n }}</b>
+</span>
+<b dir="ltr" style="display:block;margin-top:7px;font:900 15px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+<sc-if value="{{ cxShowWhy }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:4px;font-size:10px;line-height:1.7;color:#5f7167">{{ i.why }}</span></sc-if>
+</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.rail }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:{{ cxGap }};overflow-x:auto;padding-block-end:6px">
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="flex:0 0 216px;padding:0;border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start;overflow:hidden">
+<span style="display:grid;place-items:center;aspect-ratio:16/10;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 9px,#e9eee9 9px,#e9eee9 18px);font:700 9px ui-monospace,monospace;color:#5f7167">غلاف</span>
+<span style="display:block;padding:{{ cxPad }}">
+<b style="display:block;font-size:11.5px;line-height:1.55;min-height:36px">{{ i.n }}</b>
+<span style="display:flex;align-items:baseline;gap:7px;margin-top:7px">
+<b dir="ltr" style="font:900 15px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+<sc-if value="{{ i.hasWas }}" hint-placeholder-val="{{ false }}"><span dir="ltr" style="font:700 11px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">{{ i.wasLabel }}</span></sc-if>
+</span>
+<span style="display:block;margin-top:9px;padding:7px;border-radius:999px;background:{{ i.markBg }};color:{{ i.markFg }};border:1px solid {{ i.rowLine }};font-size:10.5px;font-weight:900;text-align:center">أضف للحزمة</span>
+</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.list }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="display:flex;align-items:center;gap:12px;padding:{{ cxPad }};border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start;flex-wrap:wrap">
+<span aria-hidden="true" style="display:grid;place-items:center;width:19px;height:19px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:11px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<span style="flex:1;min-width:180px">
+<b style="display:block;font-size:12px;line-height:1.55">{{ i.n }}</b>
+<sc-if value="{{ cxShowWhy }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.7;color:#5f7167">{{ i.why }}</span></sc-if>
+</span>
+<span dir="ltr" style="flex:0 0 auto;font-size:10px;color:#5f7167;text-align:start">{{ i.pages }}</span>
+<b dir="ltr" style="flex:0 0 auto;font:900 16px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.grid }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:{{ cxCols }};gap:{{ cxGap }}">
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="padding:{{ cxPad }};border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start">
+<span style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span aria-hidden="true" style="display:grid;place-items:center;width:19px;height:19px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:11px;font-weight:900">{{ i.mark }}</span>
+<b dir="ltr" style="font:900 15px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+</span>
+<b style="display:block;margin-top:9px;font-size:12px;line-height:1.6">{{ i.n }}</b>
+<sc-if value="{{ cxShowWhy }}" hint-placeholder-val="{{ true }}"><span style="display:block;margin-top:5px;font-size:10.5px;line-height:1.75;color:#5f7167">{{ i.why }}</span></sc-if>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.side }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:330px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid {{ i.rowLine }};border-radius:{{ cxInnerRadius }};background:{{ i.rowBg }};cursor:pointer;text-align:start">
+<span aria-hidden="true" style="display:grid;place-items:center;width:17px;height:17px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:10px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<b style="flex:1;min-width:0;font-size:11px;line-height:1.5">{{ i.n }}</b>
+<b dir="ltr" style="flex:0 0 auto;font:900 13px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.hero }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:stretch;gap:{{ cxGap }};flex-wrap:wrap;padding:{{ cxPad }};border:1.5px solid {{ cxAcc }};border-radius:{{ cxInnerRadius }};background:{{ cxAccSoft }}">
+<span style="flex:0 0 132px;display:grid;place-items:center;border-radius:{{ cxInnerRadius }};background:repeating-linear-gradient(45deg,#ffffff,#ffffff 9px,#f5f7f4 9px,#f5f7f4 18px);font:700 9px ui-monospace,monospace;color:#5f7167;min-height:104px">غلاف</span>
+<div style="flex:1;min-width:210px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:{{ cxAcc }}">التوصية الأقوى مع هذا الملف</span>
+<b style="display:block;margin-top:5px;font-size:15px;line-height:1.55">{{ cxHero.n }}</b>
+<sc-if value="{{ cxShowWhy }}" hint-placeholder-val="{{ true }}">
+<span style="display:block;margin-top:5px;font-size:11.5px;line-height:1.85;color:#223129">{{ cxHero.why }}</span>
+</sc-if>
+<div style="display:flex;align-items:center;gap:11px;margin-top:11px;flex-wrap:wrap">
+<b dir="ltr" style="font:900 21px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ cxHero.priceLabel }}</b>
+<sc-if value="{{ cxHero.hasWas }}" hint-placeholder-val="{{ true }}">
+<span dir="ltr" style="font:700 13px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">{{ cxHero.wasLabel }}</span>
+</sc-if>
+<span dir="ltr" style="font-size:10.5px;color:#5f7167;text-align:start">{{ cxHero.pages }}</span>
+<button type="button" onClick="{{ cxHero.toggle }}" aria-pressed="{{ cxHero.on }}" style="margin-inline-start:auto;min-height:44px;padding:0 22px;border:0;border-radius:999px;background:{{ cxHeroBg }};color:{{ cxAccOn }};font-size:12.5px;font-weight:900;cursor:pointer;white-space:nowrap">{{ cxHeroCta }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.table }}" hint-placeholder-val="{{ false }}">
+<div style="overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:520px">
+<thead><tr>
+<th scope="col" style="padding:10px 13px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167;background:#f5f7f4">الملف التكميلي</th>
+<th scope="col" style="padding:10px 13px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167;background:#f5f7f4">الحجم</th>
+<th scope="col" style="padding:10px 13px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167;background:#f5f7f4">لماذا</th>
+<th scope="col" style="padding:10px 13px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167;background:#f5f7f4">السعر</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<tr style="background:{{ i.rowBg }}">
+<th scope="row" style="padding:11px 13px;text-align:start;border-block-start:1px solid #e6e9e2">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="display:flex;align-items:center;gap:9px;border:0;background:transparent;cursor:pointer;text-align:start;padding:0">
+<span aria-hidden="true" style="display:grid;place-items:center;width:17px;height:17px;border-radius:5px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:10px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<b style="font-size:11.5px;line-height:1.5">{{ i.n }}</b>
+</button>
+</th>
+<td dir="auto" style="padding:11px 13px;border-block-start:1px solid #e6e9e2;font-size:11px;color:#5f7167;text-align:start">{{ i.pages }}</td>
+<td style="padding:11px 13px;border-block-start:1px solid #e6e9e2;font-size:11px;line-height:1.7;color:#223129">{{ i.why }}</td>
+<td style="padding:11px 13px;border-block-start:1px solid #e6e9e2"><b dir="ltr" style="font:900 14px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-if>
+
+<sc-if value="{{ cxIs.chips }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ cxItems }}" as="i" hint-placeholder-count="5">
+<button type="button" onClick="{{ i.toggle }}" aria-pressed="{{ i.on }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 15px;border:1.5px solid {{ i.rowLine }};border-radius:999px;background:{{ i.rowBg }};cursor:pointer">
+<span aria-hidden="true" style="display:grid;place-items:center;width:16px;height:16px;border-radius:999px;border:1.5px solid {{ i.rowLine }};background:{{ i.markBg }};color:{{ i.markFg }};font-size:9px;font-weight:900;flex:0 0 auto">{{ i.mark }}</span>
+<span style="font-size:11.5px;font-weight:700;color:#223129">{{ i.n }}</span>
+<b dir="ltr" style="font:900 12px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ i.priceLabel }}</b>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:15px;padding-block-start:15px;border-block-start:1px solid #e6e9e2">
+<div>
+<span style="display:block;font-size:10.5px;font-weight:800;color:#5f7167">الإجمالي لـ ‎{{ cxCount }} إضافة والمنتج الأساسي</span>
+<div style="display:flex;align-items:baseline;gap:10px;margin-top:4px;flex-wrap:wrap">
+<b dir="ltr" style="font:900 26px Tajawal;color:{{ cxAccDeep }};text-align:start">{{ cxTotal }}</b>
+<sc-if value="{{ cxHasSaving }}" hint-placeholder-val="{{ true }}">
+<span dir="ltr" style="font:700 14px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">{{ cxRaw }}</span>
+<sc-if value="{{ cxShowSave }}" hint-placeholder-val="{{ true }}">
+<span style="padding:3px 11px;border-radius:999px;background:{{ cxAcc }};color:{{ cxAccOn }};font-size:10.5px;font-weight:900;white-space:nowrap">توفّر {{ cxSaved }}</span>
+</sc-if>
+</sc-if>
+</div>
+</div>
+<button type="button" style="margin-inline-start:auto;min-height:50px;padding:0 28px;border:0;border-radius:999px;background:{{ cxAcc }};color:{{ cxAccOn }};font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 14px #142d2112">أضف الحزمة للسلة</button>
+</div>
+<span style="display:block;margin-top:8px;font-size:10px;line-height:1.8;color:#5f7167">{{ cxSaveNote }}</span>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#f5f7f4;padding:14px 18px">
+<b style="font-size:12px">من أين تأتي هذه التوصيات في الإنتاج</b>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.9;color:#223129">من حقلَي ووكومرس القائمَين: البيع المتقاطع (<code dir="ltr">cross-sells</code>) والبيع الأعلى (<code dir="ltr">upsells</code>) على المنتج نفسه. لا جدول توصيات موازٍ ولا خيار جديد في قاعدة البيانات — تُضاف من صفحة تعديل المنتج مباشرة، ويأخذ خصم الحزمة مساره عبر قسيمة أو قاعدة سعر على السيرفر لا في المتصفح.</p>
+</section>
+
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.states }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="01 حالات العرض" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">حالات العرض على صفحة المنتج</h1>
+<span style="font-size:11px;color:#5f7167">المؤقّت يعمل فعلًا — النهاية محسوبة من طابع زمني، والحالة تتغيّر وحدها عند الوصول إليه</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(392px,1fr));gap:14px">
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:20px 22px;box-shadow:0 4px 14px #142d2112">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+<span style="padding:4px 12px;border-radius:999px;background:#e4f4ec;color:#1e7355;font-size:9.5px;font-weight:900">نشط</span>
+<span style="font-size:10px;color:#5f7167">‎١ · الحالة الافتراضية للعرض الجاري</span>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<span style="position:relative;overflow:hidden;display:inline-flex;align-items:center;flex:0 0 auto;white-space:nowrap;padding:5px 14px;border-radius:999px;background:linear-gradient(135deg,#1e7355,#185740);color:#fff;font-size:11px;font-weight:900">خصم ٤٠٪
+<span aria-hidden="true" style="position:absolute;inset-block:0;inline-size:34px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);animation:pmShine 3.4s ease-in-out infinite"></span>
+</span>
+<span style="padding:5px 13px;border-radius:999px;background:#f5f7f4;border:1px solid #e6e9e2;color:#b98f43;font-size:10.5px;font-weight:900">عرض الفصل الأول</span>
+</div>
+
+<h2 style="margin:0 0 12px;font:800 19px Tajawal;line-height:1.5">تحضير الرياضيات — الصف السادس · الفصل الأول</h2>
+
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+<b dir="ltr" style="font:900 38px Tajawal;color:#185740;line-height:1;text-align:start">149 <span style="font-size:17px;font-weight:800">﷼</span></b>
+<span dir="ltr" style="font:700 19px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">249 ﷼</span>
+</div>
+<p style="margin:0 0 16px;font-size:12.5px;font-weight:800;color:#b98f43">توفّر ‎١٠٠ ﷼ من السعر الأصلي</p>
+
+<div style="padding:14px 16px;border:1px solid #e6e9e2;border-radius:16px;background:linear-gradient(180deg,#f5f7f4,#f5f7f4)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px">
+<span style="font-size:11px;font-weight:800;color:#5f7167">ينتهي العرض بعد</span>
+<span dir="ltr" style="font-size:10px;color:#5f7167;text-align:start">{{ endsAtLabel }}</span>
+</div>
+<div style="display:flex;gap:7px" dir="ltr">
+<sc-for list="{{ activeUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;min-width:0;text-align:center;padding:10px 4px;border:1px solid #e6e9e2;border-radius:10px;background:#fff">
+<b dir="ltr" style="display:block;font:900 23px Tajawal;line-height:1;color:#185740;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:4px;font-size:9px;font-weight:800;color:#5f7167">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ showProgress }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:11px;height:5px;border-radius:999px;background:#e6e9e2;overflow:hidden">
+<div style="height:100%;width:{{ activePct }};border-radius:999px;background:linear-gradient(90deg,#1e7355,#d8b56a)"></div>
+</div>
+<span style="display:block;margin-top:6px;font-size:9.5px;color:#5f7167">مضى {{ activePct }} من مدّة العرض</span>
+</sc-if>
+</div>
+
+<button type="button" style="margin-top:16px;width:100%;padding:15px;border:0;border-radius:999px;background:#1e7355;color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 14px #142d2112" style-hover="background:#185740;transform:translateY(-1px)">احصل على الخصم الآن</button>
+<p style="margin:9px 0 0;text-align:center;font-size:10.5px;color:#5f7167">تنزيل فوري بعد الشراء — لا شحن ولا عنوان</p>
+</section>
+
+<section style="border:1px solid #f0d3d3;border-radius:16px;background:#fff;padding:20px 22px;box-shadow:0 1px 2px rgba(180,35,24,.05),0 10px 30px rgba(180,35,24,.06);animation:pmGlow 3s ease-in-out infinite">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+<span style="padding:4px 12px;border-radius:999px;background:#fdecec;color:#8e2223;font-size:9.5px;font-weight:900">ينتهي قريبًا</span>
+<span style="font-size:10px;color:#5f7167">‎٢ · دخل عتبة الساعة الأخيرة</span>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<span style="padding:5px 14px;border-radius:999px;background:#b42318;color:#fff;font-size:11px;font-weight:900">الساعات الأخيرة</span>
+<span style="padding:5px 13px;border-radius:999px;background:#fdecec;border:1px solid #f4cfcf;color:#8e2223;font-size:10.5px;font-weight:900">خصم ٤٠٪</span>
+</div>
+
+<h2 style="margin:0 0 12px;font:800 19px Tajawal;line-height:1.5">تحضير العلوم — الصف الرابع · الفصل الأول</h2>
+
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+<b dir="ltr" style="font:900 38px Tajawal;color:#8e2223;line-height:1;text-align:start">119 <span style="font-size:17px;font-weight:800">﷼</span></b>
+<span dir="ltr" style="font:700 19px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">199 ﷼</span>
+</div>
+<p style="margin:0 0 16px;font-size:12.5px;font-weight:800;color:#8e2223">آخر فرصة — يعود السعر إلى ‎١٩٩ ﷼ تلقائيًا</p>
+
+<div style="padding:14px 16px;border:1px solid #f4cfcf;border-radius:16px;background:linear-gradient(180deg,#fffafa,#fdf2f2)">
+<span style="display:block;margin-bottom:10px;font-size:11px;font-weight:800;color:#8e2223">ينتهي بعد</span>
+<div style="display:flex;gap:7px;align-items:center;justify-content:center" dir="ltr">
+<sc-for list="{{ soonUnits }}" as="u" hint-placeholder-count="3">
+<div style="text-align:center;padding:11px 13px;border-radius:10px;background:#b42318;min-width:62px">
+<b dir="ltr" style="display:block;font:900 25px Tajawal;line-height:1;color:#fff;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:4px;font-size:8.5px;font-weight:800;color:rgba(255,255,255,.72)">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<button type="button" style="margin-top:16px;width:100%;padding:15px;border:0;border-radius:999px;background:#b42318;color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(180,35,24,.26)" style-hover="background:#8e2223;transform:translateY(-1px)">اشتر قبل انتهاء العرض</button>
+<p style="margin:9px 0 0;text-align:center;font-size:10.5px;color:#a08484">العتبة والرسالة واللون يضبطها المسؤول — لا تهديد مصطنع</p>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+<span style="padding:4px 12px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:9.5px;font-weight:900">قادم</span>
+<span style="font-size:10px;color:#5f7167">‎٣ · العرض مجدول ولم يبدأ</span>
+</div>
+
+<h2 style="margin:0 0 12px;font:800 19px Tajawal;line-height:1.5">حزمة الفصل الثاني الكاملة</h2>
+
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+<b dir="ltr" style="font:900 34px Tajawal;color:#14261d;line-height:1;text-align:start">399 <span style="font-size:16px;font-weight:800">﷼</span></b>
+<span style="padding:4px 11px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:10px;font-weight:900">السعر الحالي</span>
+</div>
+<p style="margin:0 0 16px;font-size:12.5px;font-weight:800;color:#1d5f9c">يبدأ العرض بخصم ‎٢٥٪ — السعر المعروض الآن هو السعر الفعلي</p>
+
+<div style="padding:14px 16px;border:1px dashed #c7d8e8;border-radius:16px;background:#f7fbff">
+<span style="display:block;margin-bottom:10px;font-size:11px;font-weight:800;color:#1d5f9c">يبدأ بعد</span>
+<div style="display:flex;gap:7px" dir="ltr">
+<sc-for list="{{ upcomingUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;min-width:0;text-align:center;padding:10px 4px;border:1px solid #dbe7f2;border-radius:10px;background:#fff">
+<b dir="ltr" style="display:block;font:900 21px Tajawal;line-height:1;color:#1d5f9c;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:4px;font-size:9px;font-weight:800;color:#9db3c6">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<button type="button" style="margin-top:16px;width:100%;padding:14px;border:1.5px solid #1e7355;border-radius:999px;background:#fff;color:#1e7355;font-size:14px;font-weight:900;cursor:pointer" style-hover="background:#f4faf7">أشعرني عند بدء العرض</button>
+<p style="margin:9px 0 0;text-align:center;font-size:10.5px;color:#5f7167">لا يُعرض هذا الزر إلا إذا كان نظام الإشعار موجودًا فعلًا</p>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#f5f7f4;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+<span style="padding:4px 12px;border-radius:999px;background:#e6e9e2;color:#5f7167;font-size:9.5px;font-weight:900">منتهٍ</span>
+<span style="font-size:10px;color:#5f7167">‎٤ · السعر عاد تلقائيًا · لا شارة خصم</span>
+</div>
+
+<h2 style="margin:0 0 12px;font:800 19px Tajawal;line-height:1.5">تحضير اللغة العربية — الصف الثالث</h2>
+
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+<b dir="ltr" style="font:900 34px Tajawal;color:#14261d;line-height:1;text-align:start">229 <span style="font-size:16px;font-weight:800">﷼</span></b>
+</div>
+
+<div style="padding:13px 16px;border:1px solid #e6e9e2;border-radius:10px;background:#fff">
+<p style="margin:0;font-size:12px;line-height:1.9;color:#5f7167">انتهى عرض الفصل الأول. لا شارة ولا مؤقّت ولا سعر مشطوب — لأن إبقاء أثر عرض منتهٍ بجانب السعر أسوأ من إخفائه.</p>
+</div>
+
+<button type="button" style="margin-top:16px;width:100%;padding:15px;border:0;border-radius:999px;background:#1e7355;color:#fff;font-size:15px;font-weight:900;cursor:pointer">أضف للسلة</button>
+<button type="button" style="margin-top:8px;width:100%;padding:12px;border:1px solid #e6e9e2;border-radius:999px;background:#fff;color:#5f7167;font-size:12.5px;font-weight:800;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">أشعرني بالعرض القادم</button>
+</section>
+
+<section style="border:1px solid #f2e2be;border-radius:16px;background:#fffdf6;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+<span style="padding:4px 12px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:9.5px;font-weight:900">غير مؤهَّل</span>
+<span style="font-size:10px;color:#5f7167">‎٥ · العرض قائم والزائر خارج شرطه</span>
+</div>
+
+<h2 style="margin:0 0 12px;font:800 19px Tajawal;line-height:1.5">عرض العميل الجديد — خصم ‎٣٠٪</h2>
+
+<div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+<b dir="ltr" style="font:900 34px Tajawal;color:#14261d;line-height:1;text-align:start">199 <span style="font-size:16px;font-weight:800">﷼</span></b>
+</div>
+
+<div style="padding:13px 16px;border:1px dashed #ecd9a8;border-radius:10px;background:#fff">
+<p style="margin:0;font-size:12px;line-height:1.9;color:#223129">العرض مخصّص لأول عملية شراء. لا يُعرض سعر مخفَّض لا يستطيع هذا الزائر الحصول عليه — إظهاره ثم منعه في السلة أسوأ من عدم إظهاره.</p>
+</div>
+
+<button type="button" style="margin-top:16px;width:100%;padding:15px;border:0;border-radius:999px;background:#1e7355;color:#fff;font-size:15px;font-weight:900;cursor:pointer">أضف للسلة</button>
+<p style="margin:9px 0 0;text-align:center;font-size:10.5px;color:#5f7167">قاعدة ثابتة: لا سعر معروض إلا وهو ما سيُحصَّل فعلًا</p>
+</section>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.timers }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 تخطيطات المؤقّت" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">تخطيطات المؤقّت</h1>
+<span style="font-size:11px;color:#5f7167">ثمانية تخطيطات مختلفة فعلًا — لا ثلاثين اسمًا لثلاثة تخطيطات</span>
+</div>
+
+<section style="border:1px solid #e6e9e2;border-radius:10px;background:#fff;padding:13px 17px">
+<p style="margin:0;font-size:11.5px;line-height:1.95;color:#5f7167">كلها تقرأ نفس الطابع الزمني وتُخرج نفس الأرقام. تغيير التخطيط تغيير عرض فقط، ولا يلمس بيانات الحملة ولا سعرها. عرض الخانة ثابت بـ tabular-nums فلا إزاحة تخطيط عند تغيّر الأرقام.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:13px">
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎١ · كتل فاخرة</span>
+<div style="display:flex;gap:8px" dir="ltr">
+<sc-for list="{{ activeUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;text-align:center;padding:13px 4px;border-radius:10px;background:linear-gradient(180deg,#185740,#123d2f)">
+<b dir="ltr" style="display:block;font:900 24px Tajawal;line-height:1;color:#fff;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:5px;font-size:8.5px;font-weight:800;color:rgba(216,181,106,.9)">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٢ · رقمي مدمج</span>
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<span style="font-size:12px;font-weight:800;color:#5f7167">ينتهي بعد</span>
+<b dir="ltr" style="font:900 27px Tajawal;color:#185740;font-variant-numeric:tabular-nums;letter-spacing:.02em;text-align:start">{{ digitalClock }}</b>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٣ · حلقة دائرية</span>
+<div style="display:flex;align-items:center;gap:15px">
+<div style="position:relative;width:82px;height:82px;flex:0 0 auto">
+<svg viewBox="0 0 100 100" style="width:82px;height:82px;transform:rotate(-90deg)">
+<circle cx="50" cy="50" r="43" fill="none" stroke="#e6e9e2" stroke-width="10"></circle>
+<circle cx="50" cy="50" r="43" fill="none" stroke="#1e7355" stroke-width="10" stroke-linecap="round" stroke-dasharray="270" stroke-dashoffset="{{ ringOffset }}"></circle>
+</svg>
+<span style="position:absolute;inset:0;display:grid;place-items:center;font:900 15px Tajawal;color:#185740">{{ activePct }}</span>
+</div>
+<div>
+<b dir="ltr" style="display:block;font:900 21px Tajawal;color:#185740;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+<span style="display:block;margin-top:3px;font-size:10.5px;color:#5f7167">حتى نهاية العرض</span>
+</div>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٤ · شريط تقدّم</span>
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:9px">
+<b dir="ltr" style="font:900 19px Tajawal;color:#185740;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+<span style="font-size:10.5px;font-weight:800;color:#5f7167">مضى {{ activePct }}</span>
+</div>
+<div style="height:9px;border-radius:999px;background:#e6e9e2;overflow:hidden">
+<div style="height:100%;width:{{ activePct }};border-radius:999px;background:linear-gradient(90deg,#1e7355,#d8b56a)"></div>
+</div>
+</div>
+
+<div style="border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:17px 19px;background:linear-gradient(135deg,rgba(30,115,85,.14),rgba(216,181,106,.16));backdrop-filter:blur(8px)">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#185740">‎٥ · زجاجي</span>
+<div style="display:flex;gap:7px" dir="ltr">
+<sc-for list="{{ activeUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;text-align:center;padding:11px 4px;border-radius:10px;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.85)">
+<b dir="ltr" style="display:block;font:900 21px Tajawal;line-height:1;color:#123d2f;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:4px;font-size:8.5px;font-weight:800;color:#5f7167">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#f5f7f4;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٦ · تذكرة</span>
+<div style="position:relative;display:flex;align-items:center;gap:0;border:1.5px dashed #c9a35a;border-radius:10px;background:#fff;overflow:hidden">
+<div style="flex:0 0 auto;padding:13px 15px;background:#f5f7f4;border-inline-end:1.5px dashed #c9a35a">
+<b style="display:block;font:900 15px Tajawal;color:#b98f43;line-height:1">٤٠٪</b>
+<span style="display:block;margin-top:2px;font-size:8.5px;font-weight:800;color:#c9a35a">خصم</span>
+</div>
+<div style="flex:1;min-width:0;padding:13px 15px">
+<b dir="ltr" style="display:block;font:900 18px Tajawal;color:#185740;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+<span style="display:block;margin-top:2px;font-size:9.5px;color:#5f7167">حتى انتهاء القسيمة</span>
+</div>
+</div>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٧ · نصّي فقط</span>
+<p style="margin:0;font-size:14px;line-height:1.85;font-weight:800;color:#185740">السعر الحالي متاح لمدة <span dir="ltr" style="font-variant-numeric:tabular-nums">{{ digitalClock }}</span> ثم يعود إلى ‎٢٤٩ ﷼.</p>
+<span style="display:block;margin-top:8px;font-size:10px;color:#5f7167">الأخفّ على الأداء، والأنسب لقارئ الشاشة</span>
+</div>
+
+<div style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:17px 19px">
+<span style="display:block;margin-bottom:12px;font-size:11px;font-weight:900;color:#b98f43">‎٨ · مدمج مع السعر</span>
+<div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap;padding:12px 15px;border:1px solid #e6e9e2;border-radius:10px;background:linear-gradient(180deg,#f5f7f4,#f5f7f4)">
+<div>
+<b dir="ltr" style="display:block;font:900 27px Tajawal;color:#185740;line-height:1;text-align:start">149 ﷼</b>
+<span dir="ltr" style="display:block;margin-top:3px;font:700 13px Tajawal;color:#5f7167;text-decoration:line-through;text-align:start">249 ﷼</span>
+</div>
+<span style="width:1px;align-self:stretch;background:#e6e9e2"></span>
+<div>
+<b dir="ltr" style="display:block;font:900 17px Tajawal;color:#b98f43;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+<span style="display:block;margin-top:2px;font-size:9.5px;color:#5f7167">حتى نهاية العرض</span>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.mobile }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 الجوال" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">الجوال — ‎٣٩٠ بكسل</h1>
+<span style="font-size:11px;color:#5f7167">هدف اللمس ‎٤٤ بكسل حدًّا أدنى · احترام safe-area · لا تغطية لزر الإضافة</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px">
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11.5px;font-weight:900;color:#5f7167">مطوي — الوضع الافتراضي عند ضيق المساحة</span>
+<div style="width:100%;max-width:390px;border:1px solid #e6e9e2;border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 16px 40px #142d211f">
+<div style="height:132px;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 9px,#f4efe3 9px,#f4efe3 18px);display:grid;place-items:center">
+<span style="font:700 10px ui-monospace,monospace;color:#5f7167;letter-spacing:.05em">صورة المنتج</span>
+</div>
+<div style="padding:14px 16px">
+<b style="display:block;font:800 14px Tajawal;line-height:1.6">تحضير الرياضيات — الصف السادس</b>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:11px 14px calc(11px + env(safe-area-inset-bottom));border-block-start:1px solid #e6e9e2;background:#123d2f">
+<div style="flex:1;min-width:0">
+<div style="display:flex;align-items:center;gap:7px">
+<span style="padding:2px 9px;border-radius:999px;background:#d8b56a;color:#123d2f;font-size:9.5px;font-weight:900">٤٠٪</span>
+<b dir="ltr" style="font:900 14px Tajawal;color:#fff;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+</div>
+</div>
+<button type="button" style="flex:0 0 auto;min-height:44px;padding:0 20px;border:0;border-radius:10px;background:#d8b56a;color:#123d2f;font-size:13.5px;font-weight:900;cursor:pointer">اشتر</button>
+<button type="button" aria-label="توسيع تفاصيل العرض" style="flex:0 0 auto;width:44px;height:44px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:15px;font-weight:900;cursor:pointer">⌃</button>
+</div>
+</div>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11.5px;font-weight:900;color:#5f7167">موسّع — بعد اللمس</span>
+<div style="width:100%;max-width:390px;border:1px solid #e6e9e2;border-radius:24px;background:#fff;overflow:hidden;box-shadow:0 16px 40px #142d211f">
+<div style="height:74px;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 9px,#f4efe3 9px,#f4efe3 18px)"></div>
+<div style="padding:12px 16px">
+<b style="display:block;font:800 13.5px Tajawal;line-height:1.6">تحضير الرياضيات — الصف السادس</b>
+</div>
+<div style="padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-block-start:1px solid #e6e9e2;background:#123d2f;color:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px">
+<span style="padding:3px 11px;border-radius:999px;background:#d8b56a;color:#123d2f;font-size:10px;font-weight:900">خصم ٤٠٪</span>
+<button type="button" aria-label="طيّ تفاصيل العرض" style="width:32px;height:32px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:14px;font-weight:900;cursor:pointer">⌄</button>
+</div>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-bottom:11px">
+<b dir="ltr" style="font:900 27px Tajawal;color:#fff;line-height:1;text-align:start">149 ﷼</b>
+<span dir="ltr" style="font:700 14px Tajawal;color:rgba(255,255,255,.5);text-decoration:line-through;text-align:start">249 ﷼</span>
+<span style="margin-inline-start:auto;white-space:nowrap;font-size:11px;font-weight:800;color:#d8b56a">توفّر ‎١٠٠ ﷼</span>
+</div>
+<div style="display:flex;gap:6px;margin-bottom:13px" dir="ltr">
+<sc-for list="{{ activeUnits }}" as="u" hint-placeholder-count="4">
+<div style="flex:1;text-align:center;padding:8px 3px;border-radius:10px;background:rgba(255,255,255,.1)">
+<b dir="ltr" style="display:block;font:900 16px Tajawal;line-height:1;color:#fff;font-variant-numeric:tabular-nums">{{ u.v }}</b>
+<span style="display:block;margin-top:3px;font-size:8px;font-weight:800;color:rgba(255,255,255,.6)">{{ u.l }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:8px">
+<button type="button" style="flex:1;min-height:48px;border:0;border-radius:10px;background:#d8b56a;color:#123d2f;font-size:14px;font-weight:900;cursor:pointer">اشتر الآن</button>
+<button type="button" aria-label="أضف للسلة" style="flex:0 0 auto;width:48px;height:48px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:17px;cursor:pointer">＋</button>
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:9px;font-size:11.5px;font-weight:900;color:#5f7167">ودجة عائمة — بديل لمن لا يريد شريطًا</span>
+<div style="position:relative;width:100%;max-width:390px;height:300px;border:1px solid #e6e9e2;border-radius:24px;background:repeating-linear-gradient(45deg,#f5f7f4,#f5f7f4 9px,#f5f7f5 9px,#f5f7f5 18px);overflow:hidden">
+<div style="position:absolute;inset-block-end:16px;inset-inline-start:16px;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:16px;background:#fff;border:1px solid #e6e9e2;box-shadow:0 16px 40px #142d211f">
+<span style="display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#1e7355,#185740);color:#d8b56a;font:900 12px Tajawal">٤٠٪</span>
+<div>
+<b dir="ltr" style="display:block;font:900 14px Tajawal;color:#185740;font-variant-numeric:tabular-nums;text-align:start">{{ digitalClock }}</b>
+<span style="display:block;font-size:9.5px;color:#5f7167">حتى نهاية العرض</span>
+</div>
+<button type="button" aria-label="إغلاق ودجة العرض" style="width:26px;height:26px;border:0;border-radius:10px;background:#f5f7f4;color:#5f7167;font-size:13px;font-weight:900;cursor:pointer">×</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<section style="border:1px solid #f2e2be;border-radius:10px;background:#fffdf6;padding:14px 18px">
+<b style="font-size:12.5px;color:#8a6500">قواعد الجوال غير القابلة للتفاوض</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:7px;margin-top:10px">
+<sc-for list="{{ mobileRules }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;gap:7px;align-items:flex-start;padding:9px 12px;border:1px solid #ecd9a8;border-radius:10px;background:#fff;font-size:10.5px;line-height:1.75;color:#223129"><span aria-hidden="true" style="font-weight:900;color:#b98f43">·</span><span>{{ r }}</span></div>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.admin }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 الإدارة" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:11px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">محرّر الحملة وباني القواعد والمحاكي</h1>
+<span style="font-size:11px;color:#5f7167">الوضع البسيط مفتوح · المتقدّم مطوي · لا زرّ بلا سلوك حقيقي عند التنفيذ</span>
+</div>
+
+<div style="display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start">
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;overflow:hidden">
+<div style="padding:14px 18px;background:#f5f7f4;border-block-end:1px solid #e6e9e2;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:13px">محرّر الحملة</b>
+<span style="padding:2px 10px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:9px;font-weight:900">مسوّدة</span>
+<span style="margin-inline-start:auto;font-size:10px;color:#5f7167">آخر حفظ تلقائي قبل ‎٢ دقيقة</span>
+</div>
+<div style="padding:17px 18px;display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{ fields }}" as="f" hint-placeholder-count="6">
+<div>
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+<span style="font-size:11.5px;font-weight:800;color:#223129">{{ f.label }}</span>
+<sc-if value="{{ f.req }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;font-weight:900;color:#b42318">إلزامي</span></sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:8px;padding:11px 13px;border:1.5px solid #e6e9e2;border-radius:10px;background:#f5f7f4">
+<span style="flex:1;min-width:0;font-size:12.5px;font-weight:700;color:#14261d">{{ f.value }}</span>
+<sc-if value="{{ f.badge }}" hint-placeholder-val="{{ false }}"><span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#1e7355;font-size:9px;font-weight:900">{{ f.badgeText }}</span></sc-if>
+</div>
+<sc-if value="{{ f.help }}" hint-placeholder-val="{{ false }}"><span style="display:block;margin-top:4px;font-size:10px;line-height:1.75;color:#5f7167">{{ f.helpText }}</span></sc-if>
+</div>
+</sc-for>
+
+<div style="padding:12px 14px;border:1px dashed #d3d8cf;border-radius:10px;background:#f2f5f2">
+<b style="font-size:11.5px;color:#1e7355">مرساة السعر</b>
+<p style="margin:5px 0 0;font-size:11px;line-height:1.85;color:#223129">تاريخا البداية والنهاية يُكتبان في حقلَي ووكومرس <code dir="ltr">_sale_price_dates_from/to</code>. المؤقّت يعرض ما في ووكومرس ولا يحدّده — فإن عُدِّل السعر من لوحة ووكومرس مباشرة بقي العرض متّسقًا.</p>
+</div>
+</div>
+</section>
+
+<div style="display:flex;flex-direction:column;gap:13px">
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:16px 18px">
+<b style="font-size:13px">باني القواعد</b>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #e6e9e2;border-radius:10px;background:{{ r.bg }};flex-wrap:wrap">
+<span style="flex:0 0 auto;padding:2px 10px;border-radius:10px;background:{{ r.opBg }};color:{{ r.opC }};font-size:9.5px;font-weight:900">{{ r.op }}</span>
+<span style="flex:1;min-width:130px;font-size:11.5px;font-weight:700;color:#14261d">{{ r.text }}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" style="margin-top:10px;width:100%;padding:10px;border:1px dashed #d3d8cf;border-radius:10px;background:#fff;color:#5f7167;font-size:11.5px;font-weight:800;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">＋ أضف شرطًا</button>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:13px">محاكي الحملة</b>
+<span style="margin-inline-start:auto;padding:2px 10px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:9px;font-weight:900">لا يمسّ الإنتاج</span>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ simInputs }}" as="s" hint-placeholder-count="4">
+<div style="padding:9px 11px;border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4">
+<span style="display:block;font-size:9.5px;font-weight:800;color:#5f7167">{{ s.k }}</span>
+<b style="display:block;margin-top:2px;font-size:11.5px">{{ s.v }}</b>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:12px;padding:13px 15px;border:1px solid #d3d8cf;border-radius:10px;background:#f2f5f2">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#1e7355">النتيجة المحسوبة</span>
+<b style="display:block;margin-top:4px;font-size:13px;line-height:1.6">تفوز حملة «عرض الفصل الأول» بخصم ‎٤٠٪</b>
+<span style="display:block;margin-top:5px;font-size:10.5px;line-height:1.8;color:#5f7167">سبب الفوز: أولوية ‎١٠ أعلى من «خصم التصنيف» (‎٥) · والحملتان غير قابلتَين للتراكم</span>
+<b dir="ltr" style="display:block;margin-top:7px;font:900 20px Tajawal;color:#185740;text-align:start">149 ﷼</b>
+</div>
+</section>
+
+<section style="border:1px solid #f4cfcf;border-radius:16px;background:#fdf7f7;padding:16px 18px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="display:grid;place-items:center;width:22px;height:22px;border-radius:999px;background:#b42318;color:#fff;font-size:12px;font-weight:900">!</span>
+<b style="font-size:12.5px;color:#8e2223">تعارض قبل النشر</b>
+</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ conflicts }}" as="c" hint-placeholder-count="3">
+<div style="padding:10px 12px;border:1px solid #f4cfcf;border-radius:10px;background:#fff">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="padding:2px 9px;border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:8.5px;font-weight:900">{{ c.lvl }}</span>
+<b style="font-size:11.5px">{{ c.n }}</b>
+</div>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.8;color:#5f4a4a">{{ c.b }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+<button type="button" style="flex:1;min-width:120px;padding:11px;border:0;border-radius:10px;background:#b42318;color:#fff;font-size:12px;font-weight:900;cursor:pointer">أصلح التعارض</button>
+<button type="button" disabled="disabled" title="النشر مقفل حتى حلّ التعارض الحاجز" style="flex:1;min-width:120px;padding:11px;border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4;color:#5f7167;font-size:12px;font-weight:900;cursor:not-allowed">انشر الحملة</button>
+</div>
+</section>
+
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.contract }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="05 العقد" style="display:flex;flex-direction:column;gap:14px;animation:pmFade .25s ease">
+<h1 style="margin:0;font:900 21px Tajawal">ما هو نموذج بصري وما يحتاج خلفية حقيقية</h1>
+
+<section style="border:1px solid #f0d3d3;border-inline-start:4px solid #b42318;border-radius:16px;background:#fdf7f7;padding:16px 19px">
+<b style="font-size:13.5px;color:#8e2223">القراءة المعمارية الحاسمة</b>
+<p style="margin:8px 0 0;font-size:12.5px;line-height:2.05;color:#5f4a4a">ووكومرس <span style="font-weight:900">يملك بالفعل</span> التخفيضات المجدولة عبر <code dir="ltr">_sale_price</code> و<code dir="ltr">_sale_price_dates_from/to</code>. وقالبك يقرأها في خمسة مواضع مؤكَّدة: حاسبة نسبة الخصم وشارتها في <code dir="ltr">helpers.php:30-63</code>، وحقل مدة سريان التخفيض في <code dir="ltr">product-seo-fields-extended.php:273</code>، وتغذية التجار في <code dir="ltr">seo-merchant-fields.php:113</code>، وأولوية المنتجات، وخدمة البحث. وفيه أيضًا مؤقّت عامل في قسم العروض (<code dir="ltr">inc/sections/render/offers.php:37</code>) مع إعدادَي <code dir="ltr">showCountdown</code> و<code dir="ltr">endDate</code>.</p>
+<p style="margin:9px 0 0;padding-top:9px;border-block-start:1px dashed #f2dede;font-size:12.5px;line-height:2;color:#14261d">لذلك: هذا المحرك <span style="font-weight:900">طبقة عرض وأهلية فوق تخفيضات ووكومرس، لا محرك تسعير موازٍ</span>. أي تسعير جديد يجب أن يُحسم عبر فلاتر سعر ووكومرس نفسها، وإلا صار سعرًا معروضًا لا يُحصَّل — وهو أخطر عيب ممكن في متجر.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:13px">
+<sc-for list="{{ contract }}" as="c" hint-placeholder-count="5">
+<section style="border:1px solid #e6e9e2;border-top:4px solid {{ c.c }};border-radius:16px;background:#fff;padding:15px 18px">
+<b style="display:block;font-size:13px;color:{{ c.c }}">{{ c.t }}</b>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.75;color:#5f7167">{{ c.sub }}</span>
+<div style="margin-top:11px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ c.items }}" as="x" hint-placeholder-count="5">
+<div style="display:flex;gap:8px;padding:6px 0;border-block-start:1px dashed #e6e9e2;font-size:11px;line-height:1.8;color:#223129"><span aria-hidden="true" style="color:{{ c.c }};font-weight:900">·</span><span>{{ x }}</span></div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #e6e9e2;border-radius:16px;background:#fff;padding:16px 19px">
+<b style="font-size:13px">ما لم أبنِه في هذا النموذج — بوعي</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:11px">
+<sc-for list="{{ notBuilt }}" as="n" hint-placeholder-count="5">
+<div style="padding:11px 13px;border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4">
+<b style="display:block;font-size:11.5px;line-height:1.5">{{ n.n }}</b>
+<span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.8;color:#5f7167">{{ n.b }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:12px 0 0;padding-block-start:11px;border-block-start:1px dashed #e6e9e2;font-size:11.5px;line-height:1.9;color:#8e2223">التعريف يطلب ‎٣٥ شاشة. بنيت ‎١٩ حالة حقيقية في أربع شاشات، وتركت الباقي لأن رسم لوحة تحليلات بأرقام مخترعة أو معرض ثلاثين مؤقّتًا متشابهًا يزيد حجم التسليم ولا يزيد قيمته.</p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1380,&quot;height&quot;:940},&quot;showQuickAnswer&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showHowTo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showCompare&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showFaq&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showReviews&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showSchemaPanel&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;أقسام صفحة الشراء&quot;},&quot;showProgress&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;العرض&quot;},&quot;endingSoonHours&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:1,&quot;max&quot;:48,&quot;step&quot;:1,&quot;default&quot;:6,&quot;unit&quot;:&quot;ساعة&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;السلوك&quot;}}">
+const PAD = (n) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
+
+/** تفكيك مدة بالمللي ثانية إلى وحدات. */
+function parts(ms) {
+  const t = Math.max(0, Math.floor(ms / 1000));
+  return {
+    d: Math.floor(t / 86400),
+    h: Math.floor((t % 86400) / 3600),
+    m: Math.floor((t % 3600) / 60),
+    s: t % 60,
+  };
+}
+
+class Component extends DCLogic {
+  state = {
+    s: 'pdp',
+    now: Date.now(),
+    cx: {
+      v: 'bundle',
+      radius: 16,
+      accent: 'green',
+      density: 'comfy',
+      cols: 3,
+      border: true,
+      shadow: true,
+      showSave: true,
+      showWhy: true,
+    },
+    sel: ['w1', 'w2'],
+  };
+
+  setCx(k, val) {
+    this.setState((s) => ({ cx: Object.assign({}, s.cx, { [k]: val }) }));
+  }
+
+  toggleSel(id) {
+    this.setState((s) => ({
+      sel: s.sel.indexOf(id) === -1 ? s.sel.concat(id) : s.sel.filter((x) => x !== id),
+    }));
+  }
+
+  componentDidMount() {
+    /*
+     * مرجع زمني ثابت يُلتقط مرة واحدة عند التركيب. في الإنتاج يأتي هذا الطابع
+     * من السيرفر (_sale_price_dates_to) لا من ساعة الجهاز — التعليق مقصود لأن
+     * الاعتماد على ساعة العميل يجعل العرض قابلًا للتمديد بتغيير وقت الجهاز.
+     */
+    this.base = Date.now();
+    this.activeEnd = this.base + 3 * 86400000 + 6 * 3600000 + 42 * 60000;
+    this.activeStart = this.base - 4 * 86400000;
+    this.soonEnd = this.base + 47 * 60000 + 18 * 1000;
+    this.upcomingStart = this.base + 2 * 86400000 + 9 * 3600000;
+
+    this.timer = window.setInterval(() => this.setState({ now: Date.now() }), 1000);
+  }
+
+  componentWillUnmount() {
+    if (this.timer) window.clearInterval(this.timer);
+  }
+
+  /** قيم كتلة المنتجات التكميلية ومحرّرها. */
+  crossVals() {
+    const cx = this.state.cx;
+    const sel = this.state.sel;
+
+    const ACC = {
+      green: { ink: '#1e7355', deep: '#185740', soft: '#f2f5f2', on: '#ffffff', line: '#d3d8cf' },
+      gold: { ink: '#b98f43', deep: '#c9a35a', soft: '#f0e2c4', on: '#3a2c0e', line: '#e6cd93' },
+      dark: { ink: '#123d2f', deep: '#14261d', soft: '#e9eee9', on: '#ffffff', line: '#d3d8cf' },
+    };
+    const acc = ACC[cx.accent] || ACC.green;
+    const pad = cx.density === 'compact' ? '11px 13px' : '15px 17px';
+    const gap = cx.density === 'compact' ? '8px' : '12px';
+
+    const CATALOG = [
+      { id: 'w1', n: 'أوراق عمل الرياضيات — السادس', p: 49, was: 69, why: 'تُطبَّق مباشرة بعد كل درس في نفس الملف', pages: '٣٨ صفحة' },
+      { id: 'w2', n: 'اختبارات قصيرة مع نماذج الإجابة', p: 39, was: 0, why: 'تقيس الأهداف نفسها المذكورة في التحضير', pages: '٢٤ صفحة' },
+      { id: 'w3', n: 'خطة علاجية للمتأخّرين دراسيًا', p: 59, was: 0, why: 'مبنيّة على نتائج الاختبارات القصيرة', pages: '٣١ صفحة' },
+      { id: 'w4', n: 'عرض بوربوينت للوحدات الأربع', p: 69, was: 99, why: 'يعرض نفس تسلسل الدروس على السبّورة', pages: '‎٨٦ شريحة' },
+      { id: 'w5', n: 'سجل متابعة الطلاب — Excel', p: 29, was: 0, why: 'يستقبل درجات الاختبارات القصيرة تلقائيًا', pages: 'ملف واحد' },
+    ];
+
+    const items = CATALOG.map((it) => {
+      const on = sel.indexOf(it.id) !== -1;
+      return Object.assign({}, it, {
+        on,
+        toggle: () => this.toggleSel(it.id),
+        priceLabel: it.p + ' ﷼',
+        wasLabel: it.was ? it.was + ' ﷼' : '',
+        hasWas: Boolean(it.was),
+        rowBg: on ? acc.soft : '#ffffff',
+        rowLine: on ? acc.ink : '#e6e9e2',
+        markBg: on ? acc.ink : '#ffffff',
+        markFg: on ? acc.on : '#5f7167',
+        mark: on ? '✓' : '',
+      });
+    });
+
+    const base = 149;
+    const addOns = items.filter((i) => i.on).reduce((t, i) => t + i.p, 0);
+    const raw = base + addOns;
+    const rate = items.filter((i) => i.on).length >= 2 ? 0.15 : 0;
+    const saved = Math.round(raw * rate);
+
+    const VARIANTS = [
+      { id: 'bundle', t: 'حزمة مجمّعة', d: 'الأشهر تحويلًا' },
+      { id: 'rail', t: 'شريط أفقي', d: 'يمرّر أفقيًا' },
+      { id: 'list', t: 'قائمة مدمجة', d: 'الأكثف معلومةً' },
+      { id: 'grid', t: 'شبكة بطاقات', d: 'للمساحات الواسعة' },
+      { id: 'side', t: 'عمود جانبي', d: 'يلازم السعر' },
+      { id: 'hero', t: 'توصية واحدة', d: 'الأقل تشتيتًا' },
+      { id: 'table', t: 'جدول مقارن', d: 'لنيّة المقارنة' },
+      { id: 'chips', t: 'رقائق سريعة', d: 'الأخفّ على الجوال' },
+    ];
+
+    return {
+      cxV: this.state.cx.v,
+      cxIs: VARIANTS.reduce((o, v) => { o[v.id] = cx.v === v.id; return o; }, {}),
+      cxVariants: VARIANTS.map((v) => ({
+        ...v,
+        pick: () => this.setCx('v', v.id),
+        bg: cx.v === v.id ? acc.ink : '#ffffff',
+        fg: cx.v === v.id ? acc.on : '#223129',
+        bd: cx.v === v.id ? acc.ink : '#e6e9e2',
+      })),
+      cxVariantName: (VARIANTS.find((v) => v.id === cx.v) || VARIANTS[0]).t,
+
+      cxItems: items,
+      cxHero: items[0],
+      cxHeroCta: items[0].on ? 'في الحزمة ✓' : 'أضف مع الأساسي',
+      cxHeroBg: items[0].on ? acc.deep : acc.ink,
+      cxRadius: cx.radius + 'px',
+      cxInnerRadius: Math.max(10, cx.radius - 6) + 'px',
+      cxAcc: acc.ink,
+      cxAccDeep: acc.deep,
+      cxAccSoft: acc.soft,
+      cxAccOn: acc.on,
+      cxAccLine: acc.line,
+      cxPad: pad,
+      cxGap: gap,
+      cxBorder: cx.border ? '1px solid #e6e9e2' : '1px solid transparent',
+      cxShadow: cx.shadow ? '0 4px 14px #142d2112' : 'none',
+      cxCols: 'repeat(auto-fit,minmax(' + (cx.cols === 2 ? '300' : cx.cols === 4 ? '196' : '240') + 'px,1fr))',
+      cxShowSave: cx.showSave,
+      cxShowWhy: cx.showWhy,
+
+      cxCount: items.filter((i) => i.on).length,
+      cxRaw: raw + ' ﷼',
+      cxSaved: saved + ' ﷼',
+      cxTotal: (raw - saved) + ' ﷼',
+      cxHasSaving: saved > 0,
+      cxSaveNote: rate ? 'خصم الحزمة ‎١٥٪ يُطبَّق تلقائيًا عند اختيار عنصرين أو أكثر' : 'اختر عنصرين أو أكثر ليُطبَّق خصم الحزمة ‎١٥٪',
+
+      cxRadiusOpts: [10, 16, 24, 999].map((r) => ({
+        v: r, t: r === 999 ? 'دائري' : r + 'px',
+        pick: () => this.setCx('radius', r),
+        bg: cx.radius === r ? '#14261d' : '#ffffff',
+        fg: cx.radius === r ? '#ffffff' : '#223129',
+      })),
+      cxAccentOpts: [
+        { k: 'green', t: 'أخضر', sw: '#1e7355' },
+        { k: 'gold', t: 'ذهبي', sw: '#c9a35a' },
+        { k: 'dark', t: 'داكن', sw: '#123d2f' },
+      ].map((o) => ({
+        ...o, pick: () => this.setCx('accent', o.k),
+        bd: cx.accent === o.k ? '#14261d' : '#e6e9e2',
+        bw: cx.accent === o.k ? '2.5px' : '1px',
+      })),
+      cxDensityOpts: [
+        { k: 'comfy', t: 'مريح' }, { k: 'compact', t: 'مضغوط' },
+      ].map((o) => ({
+        ...o, pick: () => this.setCx('density', o.k),
+        bg: cx.density === o.k ? '#14261d' : '#ffffff',
+        fg: cx.density === o.k ? '#ffffff' : '#223129',
+      })),
+      cxColOpts: [2, 3, 4].map((c) => ({
+        v: c, pick: () => this.setCx('cols', c),
+        bg: cx.cols === c ? '#14261d' : '#ffffff',
+        fg: cx.cols === c ? '#ffffff' : '#223129',
+      })),
+      cxToggles: [
+        { k: 'border', t: 'حدود البطاقة', on: cx.border },
+        { k: 'shadow', t: 'ظلّ خفيف', on: cx.shadow },
+        { k: 'showSave', t: 'إظهار التوفير', on: cx.showSave },
+        { k: 'showWhy', t: 'سبب التوصية', on: cx.showWhy },
+      ].map((o) => ({
+        ...o,
+        flip: () => this.setCx(o.k, !cx[o.k]),
+        trackBg: cx[o.k] ? acc.ink : '#e6e9e2',
+        knobPos: cx[o.k] ? '19px' : '3px',
+      })),
+
+      cxReset: () => this.setState({
+        cx: { v: 'bundle', radius: 16, accent: 'green', density: 'comfy', cols: 3, border: true, shadow: true, showSave: true, showWhy: true },
+        sel: ['w1', 'w2'],
+      }),
+    };
+  }
+
+  renderVals() {
+    const cur = this.state.s;
+    const now = this.state.now;
+
+    const screens = [
+      ['pdp', 'صفحة الشراء'], ['cross', 'التكميلية والمحرّر'], ['states', 'حالات العرض'],
+      ['timers', 'المؤقّتات'], ['mobile', 'الجوال'], ['admin', 'الإدارة'], ['contract', 'العقد'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.07)',
+      fg: cur === id ? '#123d2f' : '#c3d5cb',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.18)',
+    }));
+
+    const a = parts((this.activeEnd || now) - now);
+    const sn = parts((this.soonEnd || now) - now);
+    const up = parts((this.upcomingStart || now) - now);
+
+    const span = (this.activeEnd || now) - (this.activeStart || now);
+    const gone = Math.min(1, Math.max(0, (now - (this.activeStart || now)) / (span || 1)));
+    const pct = Math.round(gone * 100);
+
+    return {
+      screens,
+      is: {
+        pdp: cur === 'pdp', cross: cur === 'cross', states: cur === 'states',
+        timers: cur === 'timers', mobile: cur === 'mobile', admin: cur === 'admin',
+        contract: cur === 'contract',
+      },
+
+      ...this.crossVals(),
+
+      crumbs: ['الرئيسية', 'المرحلة الابتدائية', 'الصف السادس', 'الرياضيات'],
+
+      thumbs: ['الغلاف', 'صفحة ٤', 'صفحة ١٢', 'التوزيع'],
+
+      facts: [
+        { k: 'نوع الملف', v: 'PDF + Word قابل للتعديل' },
+        { k: 'عدد الصفحات', v: '١٤٢ صفحة' },
+        { k: 'حجم الملف', v: '18.4 ميجابايت' },
+        { k: 'المرحلة', v: 'ابتدائي — الصف السادس' },
+        { k: 'المادة', v: 'الرياضيات' },
+        { k: 'الفصل', v: 'الفصل الدراسي الأول' },
+        { k: 'الترخيص', v: 'استخدام فردي — معلّم واحد' },
+        { k: 'آخر تحديث', v: '٢٠٢٦-٠٨-١١' },
+      ],
+
+      trust: [
+        'تنزيل فوري بعد إتمام الدفع',
+        'دفع آمن عبر بوابة مرخّصة',
+        'إعادة التنزيل متاحة من حسابك دائمًا',
+        'دعم عبر واتساب خلال ساعات العمل',
+      ],
+
+      tabs: [
+        { t: 'الوصف', on: true },
+        { t: 'المحتويات', on: false },
+        { t: 'الأسئلة الشائعة', on: false },
+        { t: 'التقييمات', on: false },
+      ],
+
+      contents: [
+        'توزيع المنهج كاملًا على أسابيع الفصل',
+        'أهداف كل درس مصوغة صياغة سلوكية',
+        'استراتيجيات التدريس والوسائل لكل حصّة',
+        'أوراق عمل وتقويم ختامي جاهزة للطباعة',
+        'ملف Word مفتوح لتعديل الاسم والمدرسة',
+      ],
+
+      showQuickAnswer: this.props.showQuickAnswer ?? true,
+      showHowTo: this.props.showHowTo ?? true,
+      showCompare: this.props.showCompare ?? true,
+      showFaq: this.props.showFaq ?? true,
+      showReviews: this.props.showReviews ?? true,
+      showSchemaPanel: this.props.showSchemaPanel ?? true,
+
+      pageIndex: [
+        { t: 'الإجابة السريعة', h: '#tah-answer' },
+        { t: 'لمن هذا الملف', h: '#tah-audience' },
+        { t: 'طريقة الاستخدام', h: '#tah-howto' },
+        { t: 'المقارنة', h: '#tah-compare' },
+        { t: 'الأسئلة الشائعة', h: '#tah-faq' },
+        { t: 'التقييمات', h: '#tah-reviews' },
+      ],
+
+      answerPairs: [
+        { k: 'ما هو', v: 'تحضير كامل لمادة الرياضيات، الصف السادس الابتدائي، الفصل الدراسي الأول' },
+        { k: 'الصيغة', v: 'ملف PDF جاهز للطباعة + ملف Word قابل للتعديل' },
+        { k: 'الحجم', v: '‎١٤٢ صفحة · ‎18.4 ميجابايت' },
+        { k: 'التسليم', v: 'رابط تنزيل فوري بعد إتمام الدفع' },
+        { k: 'الترخيص', v: 'استخدام فردي لمعلّم واحد' },
+        { k: 'التحديث', v: 'مطابق لتوزيع ‎١٤٤٧ · آخر تحديث ‎٢٠٢٦-٠٨-١١' },
+      ],
+
+      audience: [
+        { t: 'معلّم الصف السادس', b: 'يحتاج تحضيرًا معتمدًا يوفّر عليه إعدادًا أسبوعيًا متكرّرًا، ويقبل التعديل باسمه ومدرسته.' },
+        { t: 'المعلّم المستجدّ', b: 'يبحث عن نموذج مكتمل يبني عليه فهمه لصياغة الأهداف واستراتيجيات التدريس.' },
+        { t: 'المشرف التربوي', b: 'يريد مرجعًا موحّدًا يوزّعه على معلّمي المرحلة بترخيص واضح.' },
+      ],
+
+      howto: [
+        { n: '١', t: 'أكمل الدفع', b: 'بوابة مرخّصة — لا يُطلب عنوان لأن المنتج رقمي.' },
+        { n: '٢', t: 'نزّل الملف فورًا', b: 'الرابط يظهر في صفحة التأكيد وفي حسابك معًا.' },
+        { n: '٣', t: 'عدّل بياناتك', b: 'افتح ملف Word وضع اسمك ومدرستك وفصلك.' },
+        { n: '٤', t: 'اطبع أو ارفع', b: 'اطبع الأسبوع المطلوب أو ارفعه على منصّة مدرستك.' },
+      ],
+
+      compare: {
+        head: ['البند', 'هذا الملف', 'حزمة الفصل', 'الحزمة السنوية'],
+        rows: [
+          ['المواد', 'الرياضيات فقط', 'كل مواد الفصل', 'كل مواد العام'],
+          ['عدد الصفحات', '١٤٢', '٦٨٠', '١٤٢٠'],
+          ['ملف قابل للتعديل', 'نعم', 'نعم', 'نعم'],
+          ['أوراق العمل', 'مضمّنة', 'مضمّنة', 'مضمّنة'],
+          ['التحديث المجاني', 'فصل واحد', 'فصل واحد', 'عام كامل'],
+          ['السعر', '149 ﷼', '399 ﷼', '699 ﷼'],
+        ],
+      },
+
+      faq: [
+        { q: 'هل الملف مطابق لآخر توزيع للمنهج؟', a: 'نعم، مبنيّ على توزيع ‎١٤٤٧، وتاريخ آخر تحديث معروض في بطاقة الحقائق أعلى الصفحة. أي تحديث خلال نفس الفصل يصل إليك مجانًا في نفس رابط التنزيل.' },
+        { q: 'هل أستطيع تعديل الملف بعد الشراء؟', a: 'نعم. تحصل على نسخة Word مفتوحة إلى جانب نسخة PDF، فتضع اسمك ومدرستك وتعدّل ما تحتاجه من الأهداف أو الأنشطة.' },
+        { q: 'كم يستغرق التسليم؟', a: 'لا يوجد انتظار. رابط التنزيل يظهر في صفحة التأكيد مباشرة بعد نجاح الدفع، ويبقى متاحًا في حسابك دائمًا.' },
+        { q: 'ماذا لو واجهت مشكلة في التنزيل؟', a: 'أعد التنزيل من حسابك أولًا. إن استمرّت المشكلة راسلنا عبر واتساب برقم الطلب، ويُعاد تفعيل الرابط خلال ساعات العمل.' },
+        { q: 'هل الترخيص يسمح بمشاركة الملف؟', a: 'الترخيص لاستخدام فردي لمعلّم واحد. لتوزيعه على أكثر من معلّم يوجد ترخيص المشرف في الحزمة السنوية.' },
+        { q: 'هل يشمل أوراق عمل وتقويمًا؟', a: 'نعم، أوراق عمل لكل وحدة وتقويم ختامي جاهز للطباعة، مضمّنة في نفس الملف بلا شراء إضافي.' },
+      ],
+
+      ratingBars: [
+        { s: '٥', pct: '68%', n: '13' },
+        { s: '٤', pct: '21%', n: '4' },
+        { s: '٣', pct: '11%', n: '2' },
+        { s: '٢', pct: '0%', n: '0' },
+        { s: '١', pct: '0%', n: '0' },
+      ],
+
+      reviews: [
+        { n: 'أ. منال ع.', d: '٢٠٢٦-٠٨-٠٤', s: 5, b: 'وفّر عليّ أسابيع من الإعداد. الأهداف مصوغة صياغة سليمة وأوراق العمل جاهزة للطباعة كما هي.' },
+        { n: 'أ. خالد م.', d: '٢٠٢٦-٠٧-٢٨', s: 5, b: 'ملف Word مفتوح فعلًا — عدّلت اسم المدرسة والفصل في دقيقتين. التنزيل كان فوريًا.' },
+        { n: 'أ. سارة ح.', d: '٢٠٢٦-٠٧-١٩', s: 4, b: 'محتوى ممتاز ومنظّم. كنت أتمنى أوراق عمل إضافية للوحدة الرابعة، والباقي فوق التوقّع.' },
+      ],
+
+      clusters: [
+        { t: 'نفس الصف', items: ['العلوم — السادس', 'اللغة العربية — السادس', 'الاجتماعيات — السادس', 'الإنجليزي — السادس'] },
+        { t: 'نفس المادة', items: ['الرياضيات — الرابع', 'الرياضيات — الخامس', 'الرياضيات — الأول متوسط', 'الرياضيات — الفصل الثاني'] },
+        { t: 'موارد مساندة', items: ['أوراق عمل الرياضيات', 'اختبارات قصيرة', 'توزيع المنهج', 'خطة علاجية'] },
+      ],
+
+      schema: [
+        { t: 'Product', own: 'Rank Math', st: 'يُخرجه المزوّد', c: '#1e7355', b: 'الاسم والوصف والصورة والمعرّف والسعر والتوفّر. القالب يوفّر الحقول ولا يطبع الوسم.' },
+        { t: 'Offer', own: 'Rank Math', st: 'يُخرجه المزوّد', c: '#1e7355', b: 'السعر وسعر التخفيض ومدّة سريانه من ووكومرس. لا سعر تخفيض منتهٍ يُنشر إطلاقًا.' },
+        { t: 'BreadcrumbList', own: 'Rank Math', st: 'يُخرجه المزوّد', c: '#1e7355', b: 'مسار التنقّل أعلى الصفحة هو مصدره المرئي.' },
+        { t: 'AggregateRating', own: 'ووكومرس', st: 'من تقييمات حقيقية', c: '#1e7355', b: 'لا يُخرَج إلا بوجود تقييم واحد فعلي على الأقل — ولا متوسط مخترع.' },
+        { t: 'FAQPage', own: 'القالب', st: 'يحتاج تنسيقًا', c: '#8a6500', b: 'الأسئلة أدناه مصدر محتواه. يُخرَج من موضع واحد فقط: إما القالب أو Rank Math، لا كلاهما.' },
+        { t: 'HowTo', own: 'القالب', st: 'اختياري', c: '#1d5f9c', b: 'خطوات الاستخدام مصدره. يُفعَّل فقط إن كانت الخطوات حقيقية ومرئية للزائر.' },
+      ],
+
+      aiReady: [
+        'إجابة قصيرة مكتفية بذاتها أعلى الصفحة — هي ما تقتطعه محرّكات الإجابة والنماذج اللغوية.',
+        'أزواج «مفتاح · قيمة» بنصّ صريح لا بصور، فتُقرأ بلا استنتاج.',
+        'كل رقم في الصفحة له مصدر واحد: ووكومرس أو حقل منتج — فلا تعارض بين ما يُقرأ وما يُخرَج في الوسم.',
+        'أسئلة بصياغة يبحث بها معلّم فعلًا، لا بصياغة تسويقية.',
+        'عناوين هرمية صحيحة: عنوان رئيسي واحد ثم عناوين أقسام — بلا قفز في المستويات.',
+        'روابط داخلية مجمَّعة بالصف والمادة والفصل تبني عنقودًا موضوعيًا حول المنهج.',
+        'لا إلحاح مصطنع ولا رقم مبيعات مخترع — الادعاء غير القابل للتحقّق يُضعف الثقة الآلية والبشرية معًا.',
+      ],
+
+      related: [
+        { n: 'تحضير العلوم — الصف السادس', p: '179', was: '', tag: '' },
+        { n: 'تحضير اللغة العربية — الصف السادس', p: '149', was: '229', tag: 'خصم ٣٥٪' },
+        { n: 'حزمة الفصل الأول كاملة', p: '399', was: '', tag: 'الأكثر طلبًا' },
+      ],
+
+      activeUnits: [
+        { v: PAD(a.d), l: 'يوم' }, { v: PAD(a.h), l: 'ساعة' },
+        { v: PAD(a.m), l: 'دقيقة' }, { v: PAD(a.s), l: 'ثانية' },
+      ],
+      soonUnits: [
+        { v: PAD(sn.h), l: 'ساعة' }, { v: PAD(sn.m), l: 'دقيقة' }, { v: PAD(sn.s), l: 'ثانية' },
+      ],
+      upcomingUnits: [
+        { v: PAD(up.d), l: 'يوم' }, { v: PAD(up.h), l: 'ساعة' },
+        { v: PAD(up.m), l: 'دقيقة' }, { v: PAD(up.s), l: 'ثانية' },
+      ],
+      digitalClock: `${PAD(a.d)}:${PAD(a.h)}:${PAD(a.m)}:${PAD(a.s)}`,
+      activePct: pct + '%',
+      showProgress: this.props.showProgress ?? true,
+      ringOffset: String(Math.round(270 - 270 * gone)),
+      endsAtLabel: new Date(this.activeEnd || now).toISOString().slice(0, 16).replace('T', ' ') + ' UTC',
+
+      mobileRules: [
+        'الشريط لا يغطّي زر «أضف للسلة» في الصفحة — يختفي عند ظهوره في مجال الرؤية.',
+        'حشوة سفلية بـ env(safe-area-inset-bottom) على أجهزة الشقّ.',
+        'كل هدف لمس ‎٤٤ بكسل حدًّا أدنى، بما فيها زرّا التوسيع والإغلاق.',
+        'عرض خانة الأرقام ثابت — لا اتساع ولا إزاحة عند انتقال ‎١٠ إلى ‎٩.',
+        'المطوي يعرض نسبة الخصم والوقت فقط: قرار واحد في سطر واحد.',
+      ],
+
+      fields: [
+        { label: 'اسم الحملة', value: 'عرض الفصل الأول ٢٠٢٦', req: true, badge: false, help: false },
+        { label: 'نوع التخفيض', value: 'نسبة مئوية — ‎٤٠٪', req: true, badge: false, help: true, helpText: 'النسبة تُترجم إلى سعر تخفيض في ووكومرس، ولا تُحسب في المتصفح.' },
+        { label: 'البداية', value: '٢٠٢٦-٠٨-٢٥ · ٠٠:٠٠ — Asia/Riyadh', req: true, badge: true, badgeText: 'مكتوب في ووكومرس', help: false },
+        { label: 'النهاية', value: '٢٠٢٦-٠٩-٠١ · ٢٣:٥٩ — Asia/Riyadh', req: true, badge: true, badgeText: 'مكتوب في ووكومرس', help: true, helpText: 'هذا الطابع هو مصدر المؤقّت وحده. لا يُقرأ وقت الجهاز إطلاقًا.' },
+        { label: 'الأولوية عند التزاحم', value: '‎١٠ — غير قابلة للتراكم', req: false, badge: false, help: true, helpText: 'الأعلى رقمًا يفوز. المحاكي يعرض الفائز قبل النشر.' },
+        { label: 'عتبة «ينتهي قريبًا»', value: `آخر ${this.props.endingSoonHours ?? 6} ساعات — رسالة ولون مختلفان`, req: false, badge: false, help: false },
+        { label: 'الحدّ الأدنى للسعر النهائي', value: '‎٤٩ ﷼ — يمنع أي تركيب ينزل تحته', req: false, badge: true, badgeText: 'حاجز سيرفر', help: true, helpText: 'يُفرض على السيرفر لا في الواجهة، فلا تركيب حملات ينتج سعرًا صفريًا.' },
+      ],
+
+      rules: [
+        { op: 'إذا', text: 'تصنيف المنتج = الرياضيات', bg: '#f5f7f4', opBg: '#e4f4ec', opC: '#1e7355' },
+        { op: 'و', text: 'حالة الزائر = مسجّل الدخول', bg: '#f5f7f4', opBg: '#e8f2fc', opC: '#1d5f9c' },
+        { op: 'و', text: 'عدد الطلبات السابقة ≥ ‎١', bg: '#f5f7f4', opBg: '#e8f2fc', opC: '#1d5f9c' },
+        { op: 'أو', text: 'utm_campaign = back_to_school', bg: '#fffdf6', opBg: '#fff4d6', opC: '#8a6500' },
+        { op: 'إذن', text: 'طبّق خصم ‎٤٠٪ — عبر فلتر سعر ووكومرس', bg: '#f2f5f2', opBg: '#1e7355', opC: '#fff' },
+      ],
+
+      simInputs: [
+        { k: 'الزائر', v: 'عائد · مسجّل' },
+        { k: 'الجهاز', v: 'جوال ‎٣٩٠' },
+        { k: 'المصدر', v: 'utm=back_to_school' },
+        { k: 'اللحظة', v: 'بعد ‎٣ أيام' },
+      ],
+
+      conflicts: [
+        { lvl: 'حاجز', bg: '#fdecec', fg: '#8e2223', n: 'حملتان نشطتان على نفس المنتج', b: '«عرض الفصل الأول» و«خصم التصنيف» تتقاطعان في ‎٦ منتجات، وكلتاهما غير قابلة للتراكم. النشر مقفل حتى تُحسم الأولوية أو يُضيَّق النطاق.' },
+        { lvl: 'تحذير', bg: '#fff4d6', fg: '#8a6500', n: 'مدّة الحملة ‎٤٢ يومًا', b: 'أطول من متوسط حملاتك بكثير. عرض دائم يفقد أثره ويصير سعرًا عاديًا في نظر العميل.' },
+        { lvl: 'تحذير', bg: '#fff4d6', fg: '#8a6500', n: 'شرط الأهلية بلا منتج مطابق', b: 'شرط «عدد الطلبات ≥ ‎١» مع «عميل جديد» لا يتحقّق معًا أبدًا — القاعدة ميتة.' },
+      ],
+
+      contract: [
+        { t: 'النموذج البصري', sub: 'ما تراه هنا فعلًا ويعمل', c: '#1e7355', items: [
+          'خمس حالات عميل: نشط · ينتهي قريبًا · قادم · منتهٍ · غير مؤهَّل',
+          'مؤقّت حقيقي يعمل بالثانية من طابع زمني واحد',
+          'ثمانية تخطيطات مؤقّت مختلفة فعلًا',
+          'شريط جوال مطوي وموسّع وودجة عائمة بأهداف لمس ‎٤٤ بكسل',
+          'محرّر حملة وباني قواعد ومحاكي وكشف تعارض بحالة نشر مقفلة',
+        ] },
+        { t: 'الخلفية المطلوبة', sub: 'ما يجب أن يُبنى في ووردبريس', c: '#b42318', items: [
+          'نوع محتوى للحملات مع حالة ومواعيد وأولوية ونطاق منتجات',
+          'محرك أهلية على السيرفر: تصنيف · دور · عدد طلبات · UTM · جهاز',
+          'حسم السعر عبر فلاتر سعر ووكومرس حصرًا، لا عبر أي طبقة عرض',
+          'فرض الحدّ الأدنى للسعر والحدّ الأقصى للخصم على السيرفر',
+          'تحقّق ثانٍ عند إنشاء الطلب: لا سعر يُقبل بلا إعادة حساب',
+        ] },
+        { t: 'البيانات', sub: 'ما يجب تخزينه وأين', c: '#1d5f9c', items: [
+          'مواعيد التخفيض في حقول ووكومرس القائمة لا في جدول موازٍ',
+          'تهيئة الحملة ومظهرها في تخزين مُسمّى بإصدار مخطط',
+          'فهارس على الحالة والبداية والنهاية والأولوية — لا مرور على كل حملة لكل طلب',
+          'عدّاد الاستهلاك وسقف الميزانية على السيرفر لا في المتصفح',
+          'سجل تغييرات: من ومتى وما القيمة السابقة',
+        ] },
+        { t: 'الواجهات والتكامل', sub: 'ما تحتاجه الأنظمة الخارجية', c: '#8a5a00', items: [
+          'أحداث قياس موحّدة: promotion_view · click · add_to_cart · purchase',
+          'خطّافات خروج للأتمتة عند بدء الحملة وانتهائها ووصولها للسقف',
+          'حماية كل نقطة بنونس وفحص قدرة وتحقّق مدخلات وحدّ معدّل',
+          'صفر بيانات عميل حسّاسة في أي حمولة خارجة',
+        ] },
+        { t: 'قبل الإطلاق', sub: 'ما يجب وصله والتحقّق منه', c: '#5b3ea8', items: [
+          'اتساق السعر: صفحة المنتج والسلة والدفع والطلب والبريد — رقم واحد',
+          'سلوك انتهاء الحملة والمنتج في السلة: سياسة معلنة لا مفاجأة',
+          'صحّة بيانات المخطط: لا سعر تخفيض منتهٍ في structured data',
+          'سلامة الكاش: لا تقديم سعر زائر مؤهَّل لزائر غير مؤهَّل',
+          'اختبار انقطاع الشبكة: السقوط إلى السعر العادي لا إلى خصم أكبر',
+        ] },
+      ],
+
+      notBuilt: [
+        { n: 'لوحة تحليلات الحملات', b: 'رسمها الآن يعني أرقامًا مخترعة. تُبنى بعد وجود أحداث قياس حقيقية.' },
+        { n: 'تقويم الحملات بالسحب والإفلات', b: 'يحتاج تخزين حملات فعليًا ليكون أكثر من صورة.' },
+        { n: 'ثلاثون تخطيط مؤقّت', b: 'ثمانية تخطيطات تغطّي كل الأنماط البصرية؛ الباقي تنويعات ألوان لا تخطيطات.' },
+        { n: 'تجارب A/B', b: 'حجم مرورك الحالي لا يكفي لنتيجة ذات معنى — تُبنى وتبقى مقفلة.' },
+        { n: 'مساعد ذكاء اصطناعي', b: 'يفترض بنية تكامل غير موجودة، ولا يجوز أن يكون شرطًا لعمل التسعير.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

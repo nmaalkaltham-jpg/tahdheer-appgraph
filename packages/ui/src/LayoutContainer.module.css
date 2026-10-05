@@ -1,0 +1,164 @@
+/*
+UNIT: LAYOUTCONTAINER
+COMPONENT: LayoutContainer.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * LayoutContainer — أنماط الحاوية الواحدة (STUDIO-PHASE2-CONTRACT §2.4).
+ *
+ * كل قيمة من متغيّر ‎--lc-*‎ يبثّه المكوّن مضمّنًا — لا قيم مركّبة هنا.
+ * الأشرطة الثلاث هي حدود المستودع القانونية حرفيًّا (ProductCollection
+ * وoverlay.module.css نفسها): الأساس خارج أي @media هو شريط سطح المكتب
+ * ‎≥1025‎، وشريطا 641-1024 و‎≤640‎ يعيدان إعلان الخصائص من النظيرين
+ * ‎--lc-*-tab / --lc-*-mob‎ (المبثوثين دائمًا — انظر LayoutContainer.tsx:
+ * البثّ الدائم يقطع توريث تجاوزات الأب إلى حاوية متداخلة).
+ * لا ‎@media‎ مولَّدًا من المستند (قرار C17)، ولا حركة في هذا الملف إطلاقًا
+ * (الحاويات entrance:'none') — خصائص منطقية ورموز فقط.
+ */
+
+.container {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: var(--lc-width);
+  margin-inline: auto;
+  padding-block: var(--lc-pad);
+  padding-inline: var(--lc-pad-inline);
+  min-block-size: var(--lc-min-h);
+}
+
+/* ── المحرّكات ─────────────────────────────────────────────────────── */
+
+/* قسم: عمود واحد بسيط — الأبناء يتدفّقون رأسيًّا بفراغ الضابط. */
+.engineSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--lc-gap);
+}
+
+/* مرنة + رصّ: محرّك flex واحد — الفرق افتراض الاتجاه (يحسمه المكوّن).
+   قيم flex منطقية أصلًا: row تتبع اتجاه الكتابة — RTL أصيل بلا تدخّل. */
+.engineFlex {
+  display: flex;
+  flex-direction: var(--lc-direction);
+  flex-wrap: var(--lc-wrap);
+  justify-content: var(--lc-justify);
+  align-items: var(--lc-align);
+  gap: var(--lc-gap);
+}
+
+/* شبكة: gap الضابط للفراغ العمودي بين الأعمدة، وrowGap لفراغ الصفوف. */
+.engineGrid {
+  display: grid;
+  column-gap: var(--lc-gap);
+  row-gap: var(--lc-row-gap);
+}
+
+.engineGrid.colsFixed {
+  grid-template-columns: repeat(var(--lc-cols), minmax(0, 1fr));
+}
+
+.engineGrid.colsAuto {
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--lc-min-col), 100%), 1fr));
+}
+
+/* ── الخلفيات — أصناف مدعومة بالرموز (تعداد غير قابل للتجاوز) ────────── */
+
+.bgSurface { background: var(--bg); }
+.bgPage { background: var(--bg); }
+.bgSoft { background: var(--bg-soft); }
+.bgMist { background: var(--bg-mist); }
+.bgGreenLight { background: var(--bg-green-light); }
+
+/* الداكنة تقلب ألوان النص للمقروئية — نفس زوج رموز الـchrome المعتمد. */
+.bgDeep {
+  background: var(--color-secondary);
+  color: var(--chrome-text);
+}
+
+/* ── الاستدارة ─────────────────────────────────────────────────────── */
+
+.rSm { border-radius: var(--radius-sm, 8px); }
+.rMd { border-radius: var(--radius-md, 10px); }
+.rCard { border-radius: var(--r-lg); } /* «card» على السلّم = ‎16px‎ (كان ‎14‎ خارجه) */
+.rLg { border-radius: var(--radius-lg, 16px); }
+.rHero { border-radius: var(--radius-hero, 24px); }
+
+/* ── الحدود ────────────────────────────────────────────────────────── */
+
+.bHairline { border: 1px solid var(--border-hairline); }
+.bThin { border: 1px solid var(--border); }
+.bStrong { border: 1.5px solid var(--border-strong); }
+
+/* ── شريط اللوحي 641-1024 — تجاوزات ‎--lc-*-tab‎ ──────────────────── */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    max-inline-size: var(--lc-width-tab, var(--lc-width));
+    padding-block: var(--lc-pad-tab, var(--lc-pad));
+    padding-inline: var(--lc-pad-inline-tab, var(--lc-pad-inline));
+    min-block-size: var(--lc-min-h-tab, var(--lc-min-h));
+  }
+
+  .engineSection {
+    gap: var(--lc-gap-tab, var(--lc-gap));
+  }
+
+  .engineFlex {
+    flex-direction: var(--lc-direction-tab, var(--lc-direction));
+    flex-wrap: var(--lc-wrap-tab, var(--lc-wrap));
+    justify-content: var(--lc-justify-tab, var(--lc-justify));
+    align-items: var(--lc-align-tab, var(--lc-align));
+    gap: var(--lc-gap-tab, var(--lc-gap));
+  }
+
+  .engineGrid {
+    column-gap: var(--lc-gap-tab, var(--lc-gap));
+    row-gap: var(--lc-row-gap-tab, var(--lc-row-gap));
+  }
+
+  .engineGrid.colsFixed {
+    grid-template-columns: repeat(var(--lc-cols-tab, var(--lc-cols)), minmax(0, 1fr));
+  }
+
+  .engineGrid.colsAuto {
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--lc-min-col-tab, var(--lc-min-col)), 100%), 1fr));
+  }
+}
+
+/* ── شريط الجوال ≤640 — تجاوزات ‎--lc-*-mob‎ ──────────────────────── */
+
+@media (max-width: 640px) {
+  .container {
+    max-inline-size: var(--lc-width-mob, var(--lc-width));
+    padding-block: var(--lc-pad-mob, var(--lc-pad));
+    padding-inline: var(--lc-pad-inline-mob, var(--lc-pad-inline));
+    min-block-size: var(--lc-min-h-mob, var(--lc-min-h));
+  }
+
+  .engineSection {
+    gap: var(--lc-gap-mob, var(--lc-gap));
+  }
+
+  .engineFlex {
+    flex-direction: var(--lc-direction-mob, var(--lc-direction));
+    flex-wrap: var(--lc-wrap-mob, var(--lc-wrap));
+    justify-content: var(--lc-justify-mob, var(--lc-justify));
+    align-items: var(--lc-align-mob, var(--lc-align));
+    gap: var(--lc-gap-mob, var(--lc-gap));
+  }
+
+  .engineGrid {
+    column-gap: var(--lc-gap-mob, var(--lc-gap));
+    row-gap: var(--lc-row-gap-mob, var(--lc-row-gap));
+  }
+
+  .engineGrid.colsFixed {
+    grid-template-columns: repeat(var(--lc-cols-mob, var(--lc-cols)), minmax(0, 1fr));
+  }
+
+  .engineGrid.colsAuto {
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--lc-min-col-mob, var(--lc-min-col)), 100%), 1fr));
+  }
+}

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<article style="direction:rtl;background:#fff;color:#223129;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif;padding-bottom:{{ pagePadBottom }}">
+
+<nav aria-label="مسار التنقّل" style="padding:{{ cx.wrapPad }};padding-block:14px 0">
+<ol style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;list-style:none;margin:0;padding:0;font-size:12.5px;color:#5f7167">
+<li><a href="#" style="color:#5f7167;text-decoration:none">الرئيسية</a></li>
+<li aria-hidden="true">›</li>
+<li><a href="#" style="color:#5f7167;text-decoration:none">المرحلة الثانوية</a></li>
+<li aria-hidden="true">›</li>
+<li><a href="#" style="color:#5f7167;text-decoration:none">الكيمياء</a></li>
+<li aria-hidden="true">›</li>
+<li aria-current="page" style="color:#14261d;font-weight:700">عرض بوربوينت — الكيمياء العضوية</li>
+</ol>
+</nav>
+
+<div style="padding:{{ cx.wrapPad }};padding-block:20px 0;display:grid;grid-template-columns:{{ cx.gridCols }};gap:{{ cx.gridGap }};align-items:start">
+
+<div style="position:relative;display:flex;flex-direction:column;gap:10px">
+<div style="position:relative;border:1px solid #e6e9e2;border-radius:{{ cx.galleryRadius }};background:#f2f5f2;aspect-ratio:{{ cx.galleryRatio }};overflow:hidden;display:grid;place-items:center;box-shadow:0 2px 10px rgba(20,45,33,.05)">
+<svg width="100%" height="100%" style="position:absolute;inset:0;opacity:.5" aria-hidden="true"><defs><pattern id="pdpph" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#dde3dc" stroke-width="2.5"></line></pattern></defs><rect width="100%" height="100%" fill="url(#pdpph)"></rect></svg>
+<span style="position:relative;font:600 11px ui-monospace,Menlo,monospace;color:#5f7167;background:rgba(255,255,255,.92);padding:5px 11px;border-radius:6px">صورة المنتج — 4:3</span>
+
+<sc-if value="{{ promo.onImage }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;z-index:3;inset-block-start:14px;inset-inline-start:{{ promo.imgStart }};inset-inline-end:{{ promo.imgEnd }};display:flex;flex-direction:column;gap:7px;align-items:flex-start;width:max-content">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:{{ promo.padA }};border-radius:{{ promo.radiusA }};background:{{ promo.bgA }};color:{{ promo.fgA }};font-size:{{ promo.fsA }};font-weight:900;white-space:nowrap;box-shadow:0 6px 18px rgba(20,45,33,.22);animation:{{ promo.animA }}">{{ promo.textA }}</span>
+<sc-if value="{{ promo.hasB }}" hint-placeholder-val="{{ false }}">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:{{ promo.padB }};border-radius:{{ promo.radiusB }};background:{{ promo.bgB }};color:{{ promo.fgB }};font-size:{{ promo.fsB }};font-weight:900;box-shadow:0 6px 18px rgba(20,45,33,.18)">{{ promo.textB }}</span>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ badges.hasCorner }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;z-index:3;inset-block-start:14px;inset-inline-end:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-end;width:max-content">
+<sc-for list="{{ badges.visible }}" as="b" hint-placeholder-count="2">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:8px;background:{{ b.bg }};color:{{ b.fg }};font-size:11.5px;font-weight:900;box-shadow:0 4px 12px rgba(20,45,33,.16)"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ b.iconRef }}"></use></svg>{{ b.label }}</span>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<div style="display:{{ th.display }};grid-template-columns:repeat(4,1fr);gap:{{ th.gap }};overflow-x:{{ th.overflow }};padding-bottom:{{ th.padB }};scrollbar-width:none">
+<sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="4">
+<button type="button" aria-label="{{ t.aria }}" aria-pressed="{{ t.pressed }}" style="position:relative;flex:{{ th.flex }};width:{{ th.w }};height:{{ th.h }};aspect-ratio:{{ th.ratio }};border:{{ t.borderW }} solid {{ t.border }};border-radius:10px;background:#f2f5f2;cursor:pointer;display:grid;place-items:center;padding:0;overflow:hidden;box-shadow:{{ t.shadow }};transition:.16s ease" style-hover="border-color:#1e7355">
+<span style="font:600 9.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ t.label }}</span>
+<span aria-hidden="true" style="position:absolute;inset:0;display:grid;place-items:center;background:rgba(20,38,29,.55);color:#fff;font-size:10.5px;font-weight:800;opacity:0;transition:opacity .16s ease" style-hover="opacity:1">معاينة</span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ cx.showPreviewBtn }}" hint-placeholder-val="{{ true }}">
+<button type="button" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font:800 14px Tajawal,sans-serif;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-play"></use></svg>معاينة المنتج قبل الشراء</button>
+</sc-if>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:0;min-width:0">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:12px">
+<a href="#" style="display:inline-flex;align-items:center;gap:6px;min-height:{{ cx.tapMin }};padding:5px 12px;border-radius:999px;background:rgba(37,155,111,.09);border:1px solid rgba(37,155,111,.22);color:#1e7355;font-size:12px;font-weight:800;text-decoration:none">المرحلة الثانوية</a>
+<a href="#" style="display:inline-flex;align-items:center;gap:6px;min-height:{{ cx.tapMin }};padding:5px 12px;border-radius:999px;background:#f2f5f2;color:#5f7167;font-size:12px;font-weight:700;text-decoration:none">الكيمياء</a>
+<sc-if value="{{ badges.hasInline }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ badges.visible }}" as="b" hint-placeholder-count="2">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:{{ b.bg }};color:{{ b.fg }};font-size:11.5px;font-weight:900"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ b.iconRef }}"></use></svg>{{ b.label }}</span>
+</sc-for>
+</sc-if>
+</div>
+
+<h1 style="margin:0 0 {{ cx.titleGap }};max-width:{{ cx.titleMax }};font-weight:900;color:#14261d;letter-spacing:-.015em;line-height:{{ cx.titleLh }};text-wrap:balance;animation:{{ motion.title }}">
+<span style="display:block;font-size:{{ cx.titleSize }}">عرض بوربوينت — <span style="color:#123d2f">الكيمياء العضوية</span></span>
+<span style="display:block;margin-top:5px;font-size:{{ cx.titleSubSize }};font-weight:800;color:#3b4d43">الأنواع والمبادئ</span>
+</h1>
+
+<sc-if value="{{ cx.showSubtitle }}" hint-placeholder-val="{{ true }}">
+<p style="margin:0 0 14px;font-size:{{ cx.subSize }};line-height:1.8;color:#5f7167;max-width:56ch;text-wrap:pretty">درس تعليمي متكامل وجاهز للشرح والتقديم، مبني على المنهج الحالي وقابل للتعديل بالكامل.</p>
+</sc-if>
+
+<sc-if value="{{ share.atTitle }}" hint-placeholder-val="{{ false }}">
+<div style="margin-bottom:14px"><dc-import name="TahShareActions" share-style="{{ share.style }}" compact="{{ share.compact }}" show-label="{{ share.showLabel }}" motion="{{ share.motion }}" icon-size="{{ share.iconSize }}" gap="{{ share.gap }}" order="{{ share.order }}" off="{{ share.off }}" hint-size="100%,44px"></dc-import></div>
+</sc-if>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:16px">
+<a href="#reviews" style="display:inline-flex;align-items:center;gap:7px;min-height:{{ cx.tapMin }};text-decoration:none">
+<span aria-hidden="true" style="color:#d8b56a;font-size:15px;letter-spacing:1.5px">★★★★★</span>
+<b style="font-size:14px;color:#14261d">4.9</b>
+<span style="font-size:13px;color:#5f7167">(212 تقييم)</span>
+</a>
+<sc-if value="{{ social.showSalesInline }}" hint-placeholder-val="{{ true }}">
+<span style="width:1px;height:16px;background:#e0e5dd"></span>
+<span style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#3b4d43">
+<svg aria-hidden="true" style="width:16px;height:16px;color:{{ social.salesIconColor }};fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ social.salesIconRef }}"></use></svg>
+<span title="{{ social.salesTrue }}" aria-label="{{ social.salesTrue }}" data-sales-count="{{ social.salesRaw }}">{{ social.salesText }}</span>
+</span>
+</sc-if>
+<sc-if value="{{ social.showBestseller }}" hint-placeholder-val="{{ false }}">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:rgba(216,181,106,.15);border:1px solid rgba(216,181,106,.4);color:#7a5d20;font-size:12px;font-weight:900"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-trophy"></use></svg>الأكثر مبيعًا في الكيمياء</span>
+</sc-if>
+</div>
+
+<div style="order:{{ meta.orderTop }};display:{{ meta.showTop }};margin-bottom:18px">
+<dc-import name="TahPdpMeta" facts="{{ meta.facts }}" variant="{{ meta.style }}" compact="{{ meta.compact }}" motion="{{ motion.metaOn }}" settings="{{ meta.settings }}" custom="{{ meta.custom }}" sales-count="{{ meta.salesCount }}" sales-hot="{{ meta.salesHot }}" hint-size="100%,60px"></dc-import>
+</div>
+
+<div data-tah-buy-anchor="1" style="padding:{{ cx.pricePad }};border-radius:{{ cx.priceRadius }};background:{{ cx.priceBg }};border:{{ cx.priceBorder }};box-shadow:{{ cx.priceShadow }};margin-bottom:16px">
+
+<sc-if value="{{ price.isA }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px">
+<del style="font-size:15px;color:#5f7167;font-weight:600">400 ريال</del>
+<div style="display:flex;align-items:baseline;gap:7px"><b style="font-size:{{ cx.priceSize }};font-weight:900;color:#14261d;line-height:1.15">300</b><span style="font-size:16px;font-weight:800;color:#5f7167">ريال</span></div>
+</div>
+</sc-if>
+<sc-if value="{{ price.isB }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><div style="display:flex;align-items:baseline;gap:7px"><b style="font-size:{{ cx.priceSize }};font-weight:900;color:#14261d;line-height:1.15">300</b><span style="font-size:16px;font-weight:800;color:#5f7167">ريال</span></div><del style="font-size:16px;color:#5f7167;font-weight:600">400 ريال</del></div>
+</sc-if>
+<sc-if value="{{ price.isC }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font-size:13.5px;color:#5f7167;font-weight:700">يبدأ من <del>400</del></span>
+<div style="display:flex;align-items:baseline;gap:7px"><b style="font-size:{{ cx.priceSize }};font-weight:900;color:#14261d;line-height:1.15">300</b><span style="font-size:16px;font-weight:800;color:#5f7167">ريال</span></div>
+</div>
+</sc-if>
+<sc-if value="{{ price.isD }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<div style="display:flex;flex-direction:column;gap:3px">
+<div style="display:flex;align-items:baseline;gap:9px"><b style="font-size:{{ cx.priceSize }};font-weight:900;color:#14261d;line-height:1.15">300</b><span style="font-size:16px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:15px;color:#5f7167;font-weight:600">400</del></div>
+<span style="font-size:12.5px;color:#5f7167">السعر يشمل ضريبة القيمة المضافة</span>
+</div>
+<sc-if value="{{ promo.inPrice }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:{{ promo.padA }};border-radius:{{ promo.radiusA }};background:{{ promo.bgA }};color:{{ promo.fgA }};font-size:{{ promo.fsA }};font-weight:900;white-space:nowrap;animation:{{ promo.animA }}">{{ promo.textA }}</span>
+<sc-if value="{{ promo.hasB }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:{{ promo.padB }};border-radius:{{ promo.radiusB }};background:{{ promo.bgB }};color:{{ promo.fgB }};font-size:{{ promo.fsB }};font-weight:900;white-space:nowrap">{{ promo.textB }}</span>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ price.isE }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="display:flex;align-items:baseline;gap:9px"><b style="font-size:{{ cx.priceSize }};font-weight:900;color:#14261d;line-height:1.15">300</b><span style="font-size:16px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:15px;color:#5f7167;font-weight:600">400</del></div>
+<span style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9px;background:rgba(37,155,111,.09);border:1px solid rgba(37,155,111,.24);color:#1e7355;font-size:13px;font-weight:900"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-percent"></use></svg>خصم 25% • وفّرت 100 ريال</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ promo.isCard }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:14px;padding:16px;border-radius:12px;background:linear-gradient(135deg,#123d2f,#1e7355);color:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><svg aria-hidden="true" style="width:15px;height:15px;color:#e6cd93;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-sparkle"></use></svg><span style="font-size:12px;font-weight:900;letter-spacing:.08em;color:#e6cd93">عرض خاص</span></div>
+<div style="font-size:22px;font-weight:900;line-height:1.35;margin-bottom:4px">خصم 25%</div>
+<div style="font-size:14.5px;color:rgba(255,255,255,.82)">وفّر <b style="color:#fff">100 ريال</b> على هذا الملف</div>
+<sc-if value="{{ promo.hasEndDate }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);font-size:12.5px;font-weight:700;color:#e6cd93"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-clock"></use></svg>ينتهي العرض في {{ promo.endDate }}</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ promo.isPremium }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:14px;display:flex;align-items:stretch;gap:0;border:1px solid rgba(37,155,111,.26);border-radius:12px;overflow:hidden;background:#fbfcfa">
+<div style="flex:0 0 auto;padding:12px 16px;background:#1e7355;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1px"><b style="font-size:21px;font-weight:900;line-height:1">25%</b><span style="font-size:10.5px;font-weight:800;opacity:.85">خصم</span></div>
+<div style="flex:1;padding:12px 16px;display:flex;flex-direction:column;justify-content:center;gap:3px"><b style="font-size:14.5px;font-weight:900;color:#14261d">وفّرت 100 ريال</b><span style="font-size:12.5px;color:#5f7167">‏400 ريال ← 300 ريال</span></div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ share.atPrice }}" hint-placeholder-val="{{ false }}">
+<div style="margin-bottom:16px"><dc-import name="TahShareActions" share-style="{{ share.style }}" compact="{{ share.compact }}" show-label="{{ share.showLabel }}" motion="{{ share.motion }}" icon-size="{{ share.iconSize }}" gap="{{ share.gap }}" order="{{ share.order }}" off="{{ share.off }}" hint-size="100%,44px"></dc-import></div>
+</sc-if>
+
+<div style="order:{{ meta.orderMid }};display:{{ meta.showMid }};margin-bottom:16px">
+<dc-import name="TahPdpMeta" facts="{{ meta.facts }}" variant="{{ meta.style }}" compact="{{ meta.compact }}" motion="{{ motion.metaOn }}" settings="{{ meta.settings }}" custom="{{ meta.custom }}" sales-count="{{ meta.salesCount }}" sales-hot="{{ meta.salesHot }}" hint-size="100%,60px"></dc-import>
+</div>
+
+<sc-if value="{{ cx.showTrustRow }}" hint-placeholder-val="{{ true }}">
+<ul style="list-style:none;margin:0 0 18px;padding:{{ sf.pad }};display:flex;flex-direction:column;gap:8px;background:{{ sf.bg }};border:{{ sf.border }};border-radius:{{ sf.radius }};box-shadow:{{ sf.shadow }}">
+<sc-for list="{{ trustRow }}" as="t" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;color:#3b4d43"><svg aria-hidden="true" style="width:17px;height:17px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto"><use href="#i-check"></use></svg>{{ t }}</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ trio.show }}" hint-placeholder-val="{{ false }}">
+<div data-tah-inline-cta="1" style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+<div style="flex:1;min-width:0"><dc-import name="TahPurchaseBar" inline="{{ true }}" cart-icon-only="{{ true }}" preset="{{ trio.preset }}" show-cart="{{ trio.showCart }}" show-buy="{{ trio.showBuy }}" show-apple-pay="{{ trio.showApple }}" simulate-apple="{{ trio.simulateApple }}" motion="{{ trio.motion }}" height="52px" hint-size="100%,52px"></dc-import></div>
+<button type="button" aria-label="أضف للمفضلة" title="أضف للمفضلة" style="flex:0 0 auto;width:52px;height:52px;border:1px solid #d3d8cf;border-radius:12px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355"><svg aria-hidden="true" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-heart"></use></svg></button>
+</div>
+</sc-if>
+
+<div data-tah-inline-cta="1" style="display:{{ cx.inlineCtaDisplay }};flex-wrap:wrap;gap:10px;margin-bottom:14px">
+<button type="button" style="flex:{{ cx.ctaFlex }};display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 28px;border:0;border-radius:12px;background:#1e7355;color:#fff;font:900 16px Tajawal,sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(30,115,85,.16)" style-hover="background:#123d2f;box-shadow:0 6px 16px rgba(30,115,85,.22)"><svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg>أضف للسلة</button>
+<sc-if value="{{ cx.showSecondaryCta }}" hint-placeholder-val="{{ true }}">
+<button type="button" style="flex:{{ cx.ctaFlex }};display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:0 26px;border:1.5px solid #14261d;border-radius:12px;background:#fff;color:#14261d;font:900 16px Tajawal,sans-serif;cursor:pointer" style-hover="background:#14261d;color:#fff"><svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-bolt"></use></svg>شراء الآن</button>
+</sc-if>
+<button type="button" aria-label="أضف للمفضلة" style="flex:0 0 auto;width:52px;height:52px;border:1px solid #d3d8cf;border-radius:12px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355"><svg aria-hidden="true" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-heart"></use></svg></button>
+</div>
+
+<div style="order:{{ meta.orderBottom }};display:{{ meta.showBottom }};margin-bottom:14px">
+<dc-import name="TahPdpMeta" facts="{{ meta.facts }}" variant="{{ meta.style }}" compact="{{ meta.compact }}" motion="{{ motion.metaOn }}" settings="{{ meta.settings }}" custom="{{ meta.custom }}" sales-count="{{ meta.salesCount }}" sales-hot="{{ meta.salesHot }}" hint-size="100%,60px"></dc-import>
+</div>
+
+<sc-if value="{{ share.atCta }}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom:14px"><dc-import name="TahShareActions" share-style="{{ share.style }}" compact="{{ share.compact }}" show-label="{{ share.showLabel }}" motion="{{ share.motion }}" icon-size="{{ share.iconSize }}" gap="{{ share.gap }}" order="{{ share.order }}" off="{{ share.off }}" hint-size="100%,44px"></dc-import></div>
+</sc-if>
+
+<dc-import name="TahTrustStrip" variant="{{ trust.variant }}" compact="{{ trust.compact }}" motion="{{ trust.motion }}" hint-size="100%,44px"></dc-import>
+
+</div>
+</div>
+
+<sc-if value="{{ visitors.show }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahVisitorPill" count="{{ visitors.count }}" min-count="{{ visitors.min }}" compact="{{ visitors.compact }}" motion="{{ visitors.motion }}" inline="{{ visitors.inline }}" hint-size="260px,40px"></dc-import>
+</sc-if>
+
+<sc-if value="{{ glance.show }}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="glance-h" style="padding:{{ cx.wrapPad }};padding-block:{{ cx.glanceTop }} 0">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="width:5px;height:20px;border-radius:3px;background:#1e7355"></span><h2 id="glance-h" style="margin:0;font-size:21px;font-weight:900;color:#14261d">نظرة سريعة على المنتج</h2></div>
+
+<sc-if value="{{ glance.isTable }}" hint-placeholder-val="{{ true }}">
+<table style="width:100%;border-collapse:collapse;font-size:14px;max-width:720px;background:{{ sf.bg }};border-radius:{{ sf.radius }};overflow:hidden;box-shadow:{{ sf.shadow }}">
+<caption style="text-align:start;font-size:12.5px;color:#5f7167;padding-bottom:8px">خصائص الملف كما وردت في بيانات المنتج</caption>
+<tbody>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43;width:38%">{{ glance.t1.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t1.value }}</td></tr>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43">{{ glance.t2.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t2.value }}</td></tr>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43">{{ glance.t3.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t3.value }}</td></tr>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43">{{ glance.t4.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t4.value }}</td></tr>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43">{{ glance.t5.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t5.value }}</td></tr>
+<tr><th scope="row" style="text-align:start;padding:11px 14px;border:1px solid #e6e9e2;background:#fbfcfa;font-weight:800;color:#3b4d43">{{ glance.t6.label }}</th><td style="padding:11px 14px;border:1px solid #e6e9e2;color:#14261d;font-weight:700">{{ glance.t6.value }}</td></tr>
+</tbody>
+</table>
+</sc-if>
+
+<sc-if value="{{ glance.isCards }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;max-width:900px">
+<sc-for list="{{ glance.rows }}" as="r" hint-placeholder-count="6">
+<div style="padding:16px;border:1px solid #e6e9e2;border-radius:12px;background:#fbfcfa"><div style="font-size:12px;font-weight:700;color:#5f7167;margin-bottom:5px">{{ r.label }}</div><div style="font-size:16px;font-weight:900;color:#14261d">{{ r.value }}</div></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ glance.isList }}" hint-placeholder-val="{{ false }}">
+<dl style="margin:0;max-width:640px;display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ glance.rows }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px solid #eef1ec"><dt style="flex:0 0 40%;font-size:13.5px;font-weight:700;color:#5f7167">{{ r.label }}</dt><dd style="flex:1;margin:0;font-size:14.5px;font-weight:800;color:#14261d">{{ r.value }}</dd></div>
+</sc-for>
+</dl>
+</sc-if>
+
+<sc-if value="{{ glance.isStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:900px">
+<sc-for list="{{ glance.rows }}" as="r" hint-placeholder-count="6">
+<div style="padding:20px 16px;border:1px solid #e6e9e2;border-radius:12px;background:#fff;text-align:center"><div style="font-size:26px;font-weight:900;color:#14261d;line-height:1.15;margin-bottom:4px">{{ r.value }}</div><div style="font-size:12px;font-weight:700;color:#5f7167">{{ r.label }}</div></div>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{ rv.show }}" hint-placeholder-val="{{ true }}">
+<div id="reviews" style="margin-top:36px;border-top:1px solid #e6e9e2">
+<sc-if value="{{ rv.isPremium }}" hint-placeholder-val="{{ true }}">
+<dc-import name="TahReviewsPremium" data="{{ rv.data }}" motion="{{ rv.motion }}" compact="{{ rv.compact }}" hint-size="100%,1300px"></dc-import>
+</sc-if>
+<sc-if value="{{ rv.isDashboard }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahReviewsDashboard" data="{{ rv.data }}" motion="{{ rv.motion }}" compact="{{ rv.compact }}" hint-size="100%,1400px"></dc-import>
+</sc-if>
+<sc-if value="{{ rv.isEditorial }}" hint-placeholder-val="{{ false }}">
+<dc-import name="TahReviewsEditorial" data="{{ rv.data }}" motion="{{ rv.motion }}" compact="{{ rv.compact }}" hint-size="100%,1400px"></dc-import>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ bar.sticky }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:24px"><dc-import name="TahPurchaseBar" preset="{{ bar.preset }}" icon-only="{{ bar.iconOnly }}" cart-icon-only="{{ bar.cartIconOnly }}" show-cart="{{ bar.showCart }}" show-buy="{{ bar.showBuy }}" show-apple-pay="{{ bar.showApple }}" simulate-apple="{{ bar.simulateApple }}" show-price="{{ bar.showPrice }}" motion="{{ bar.motion }}" trigger="{{ bar.trigger }}" hint-size="100%,74px"></dc-import></div>
+</sc-if>
+
+<sc-if value="{{ bar.original }}" hint-placeholder-val="{{ false }}">
+<div style="position:sticky;inset-block-end:0;z-index:20;display:flex;align-items:center;gap:10px;margin-top:24px;padding:10px 16px;background:rgba(255,255,255,.97);border-top:1px solid #e0e5dd;box-shadow:0 -6px 22px rgba(20,45,33,.08);backdrop-filter:blur(8px)">
+<div style="flex:0 0 auto;display:flex;flex-direction:column;gap:1px"><div style="display:flex;align-items:baseline;gap:6px"><b style="font-size:19px;font-weight:900;color:#14261d">300</b><span style="font-size:12px;font-weight:800;color:#5f7167">ريال</span><del style="font-size:12px;color:#5f7167">400</del></div><span style="font-size:10.5px;font-weight:800;color:#1e7355">وفّرت 100 ريال</span></div>
+<button type="button" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:12px;background:#1e7355;color:#fff;font:900 15px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg>أضف للسلة</button>
+</div>
+</sc-if>
+
+</article>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900},&quot;config&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,unknown&gt;&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const c = this.props.config || {};
+    const mobile = !!c.mobile;
+    const hero = c.heroPreset || 'b';
+    const reduce = !c.motionOn;
+
+    // ---- Sales count: real total_sales only, never fabricated ----
+    const salesTrue = typeof c.salesCount === 'number' ? c.salesCount : 350;
+    const threshold = typeof c.salesThreshold === 'number' ? c.salesThreshold : 10;
+    const hotAt = typeof c.salesHot === 'number' ? c.salesHot : 250;
+    /*
+     * The Original preset renders the theme's own sales pill, so the rating-row
+     * copy stands down — otherwise switching to Original would double it.
+     */
+    const legacyPreset = Number(c.metaStyle) === 0;
+    const showSales = c.showSales !== false && salesTrue >= threshold && !legacyPreset;
+    const round100 = Math.floor(salesTrue / 100) * 100;
+    const fmt = n => Number(n).toLocaleString('en-US');
+    const salesFormats = {
+      exact: fmt(salesTrue) + ' عملية شراء',
+      rounded: '+' + fmt(round100) + ' عملية شراء',
+      compact: fmt(salesTrue) + '+',
+      abbrev: (salesTrue >= 1000 ? (salesTrue / 1000).toFixed(1) + 'K' : String(salesTrue)) + ' عملية شراء',
+      marketing: 'اختاره أكثر من ' + fmt(round100) + ' معلّم'
+    };
+    const salesMode = c.salesDisplay || 'rounded';
+
+    /*
+     * Social proof is stated once above the fold. When the rating row carries the
+     * sales count, the sales fact is suppressed so the two paths cannot both fire
+     * (brief §23 consolidate, §35 cap above-the-fold).
+     */
+    const facts = (c.facts || []).filter(f => f.on && !(showSales && f.id === 'sales'));
+
+    // ---- Price maths: derived, never typed by hand ----
+    const regular = typeof c.regular === 'number' ? c.regular : 400;
+    const sale = typeof c.sale === 'number' ? c.sale : 300;
+    const savings = Math.max(0, regular - sale);
+    const pctRaw = regular > 0 ? (savings / regular) * 100 : 0;
+    const decimals = typeof c.pctDecimals === 'number' ? c.pctDecimals : 0;
+    const pct = pctRaw.toFixed(decimals).replace(/\.0+$/, '');
+    const savingsText = fmt(c.savingsRounded ? Math.round(savings / 5) * 5 : savings);
+
+    const mode = c.promoMode || 3;
+    const wording = c.promoWording || {};
+    const pctText = (wording.pct || 'خصم {p}%').replace('{p}', pct);
+    const saveText = (wording.save || 'وفّر {v} ريال').replace('{v}', savingsText);
+
+    const promoBase = {
+      padA: '7px 14px', padB: '7px 14px', radiusA: '9px', radiusB: '9px',
+      fsA: '13px', fsB: '13px',
+      bgA: '#1e7355', fgA: '#fff', bgB: 'rgba(216,181,106,.16)', fgB: '#7a5d20',
+      animA: reduce ? 'none' : (c.promoAnim === 'pulse' ? 'tahPulse 2.6s ease-in-out 3' : c.promoAnim === 'pop' ? 'tahPop .5s cubic-bezier(.34,1.56,.64,1) 1 both' : c.promoAnim === 'shimmer' ? 'tahShimmer 2.4s linear 2' : 'none'),
+      onImage: false, inPrice: false, isCard: false, isPremium: false, hasB: false,
+      imgStart: '14px', imgEnd: 'auto',
+      textA: pctText, textB: saveText,
+      hasEndDate: !!c.promoEndDate, endDate: c.promoEndDate || ''
+    };
+    const promo = { ...promoBase };
+    if (mode === 1) { promo.inPrice = true; promo.textA = pctText; }
+    if (mode === 2) { promo.inPrice = true; promo.textA = saveText; promo.bgA = 'rgba(37,155,111,.10)'; promo.fgA = '#1e7355'; }
+    if (mode === 3) { promo.inPrice = true; promo.textA = pctText + ' • ' + saveText; }
+    if (mode === 4) { promo.inPrice = true; promo.hasB = true; }
+    if (mode === 5) { promo.isCard = true; }
+    if (mode === 6) { promo.inPrice = true; promo.textA = pctText + ' • وفّرت ' + savingsText + ' ريال'; promo.bgA = 'rgba(37,155,111,.10)'; promo.fgA = '#1e7355'; }
+    if (mode === 7) { promo.onImage = true; promo.textA = '-' + pct + '%'; promo.padA = '5px 11px'; promo.radiusA = '7px'; promo.fsA = '12px'; promo.bgA = '#14261d'; }
+    if (mode === 8) { promo.isPremium = true; }
+    if (c.promoPlacement === 'image' && (mode < 5 || mode === 7)) { promo.onImage = true; promo.inPrice = false; }
+    if (c.promoOverride) { promo.textA = c.promoOverride; promo.hasB = false; }
+
+    // ---- Badge priority: cap what shows above the fold ----
+    const allBadges = [
+      { id: 'promo', label: pctText, iconRef: '#i-percent', bg: '#1e7355', fg: '#fff', on: savings > 0 && c.badgePromo !== false, src: 'real' },
+      { id: 'best', label: 'الأكثر مبيعًا', iconRef: '#i-trophy', bg: '#14261d', fg: '#fff', on: salesTrue >= hotAt && c.badgeBest !== false, src: 'real' },
+      { id: 'editable', label: 'قابل للتعديل', iconRef: '#i-pen', bg: 'rgba(216,181,106,.9)', fg: '#14261d', on: c.editable === 'yes' && c.badgeEditable !== false, src: 'real' },
+      { id: 'updated', label: 'حُدّث حديثًا', iconRef: '#i-refresh', bg: '#f2f5f2', fg: '#3b4d43', on: !!c.badgeUpdated, src: 'real' },
+      { id: 'new', label: 'جديد', iconRef: '#i-sparkle', bg: '#1e7355', fg: '#fff', on: !!c.badgeNew, src: 'real' }
+    ];
+    const cap = typeof c.badgeMax === 'number' ? c.badgeMax : 2;
+    const visible = allBadges.filter(b => b.on).slice(0, cap);
+    const badgePlace = c.badgePlacement || 'image';
+
+    // ---- Meta block placement, per device ----
+    const slot = mobile ? (c.metaSlotMobile || 'above-cta') : (c.metaSlot || 'under-title');
+    const none = 'none', blk = 'block';
+
+    // ---- Hero preset shape ----
+    const heroCx = {
+      a: { titleSize: mobile ? '23px' : '28px', priceSize: mobile ? '30px' : '34px', showSubtitle: false, showTrustRow: false, showSecondaryCta: false, priceBg: 'transparent', priceBorder: '0', priceShadow: 'none', pricePad: '0', priceRadius: '0', galleryRatio: '4/3', galleryRadius: '14px', showPreviewBtn: false, ctaFlex: '1 1 100%' },
+      b: { titleSize: mobile ? '24px' : '31px', priceSize: mobile ? '32px' : '40px', showSubtitle: true, showTrustRow: true, showSecondaryCta: !mobile, priceBg: '#fbfcfa', priceBorder: '1px solid #e6e9e2', priceShadow: '0 2px 8px rgba(20,45,33,.04)', pricePad: mobile ? '16px' : '20px', priceRadius: '14px', galleryRatio: '4/3', galleryRadius: '16px', showPreviewBtn: true, ctaFlex: '1 1 auto' },
+      c: { titleSize: mobile ? '25px' : '33px', priceSize: mobile ? '32px' : '42px', showSubtitle: true, showTrustRow: false, showSecondaryCta: !mobile, priceBg: 'transparent', priceBorder: '0', priceShadow: 'none', pricePad: '0', priceRadius: '0', galleryRatio: mobile ? '4/3' : '1/1', galleryRadius: '20px', showPreviewBtn: true, ctaFlex: '1 1 auto' }
+    }[hero];
+
+    const glanceStyle = c.glanceStyle || 'table';
+    const glanceRows = [
+      { label: 'عدد الشرائح', value: '22 شريحة' },
+      { label: 'قابل للتعديل', value: c.editable === 'yes' ? 'نعم — بالكامل' : c.editable === 'no' ? 'لا' : '—' },
+      { label: 'الصيغة', value: 'PowerPoint (PPTX)' },
+      { label: 'أوراق العمل', value: '7 أوراق متضمنة' },
+      { label: 'التسليم', value: 'تحميل فوري بعد الدفع' },
+      { label: 'المرحلة', value: 'المرحلة الثانوية' }
+    ];
+
+    /*
+     * Product-specific reviews. The rating row's #reviews anchor now resolves
+     * here, and the aggregate below is the SAME 4.9 / 212 shown in the hero —
+     * one figure per page, derived from one distribution.
+     */
+    const rvStyle = c.reviewsStyle || 'premium';
+    const reviewData = {
+      avg: 4.9, total: 212, recommend: 97,
+      dist: [
+        { stars: '5', starsNum: 5, count: 190, pct: '90%', barW: '90%' },
+        { stars: '4', starsNum: 4, count: 16, pct: '8%', barW: '8%' },
+        { stars: '3', starsNum: 3, count: 4, pct: '2%', barW: '2%' },
+        { stars: '2', starsNum: 2, count: 1, pct: '0%', barW: '1.5%' },
+        { stars: '1', starsNum: 1, count: 1, pct: '0%', barW: '1.5%' }
+      ],
+      cats: [
+        { label: 'جودة المحتوى', score: '4.9', pct: '98%' },
+        { label: 'سهولة التعديل', score: '4.9', pct: '98%' },
+        { label: 'جودة التصميم', score: '4.8', pct: '96%' },
+        { label: 'فائدة أوراق العمل', score: '4.9', pct: '98%' },
+        { label: 'مطابقة الوصف', score: '5.0', pct: '100%' },
+        { label: 'سهولة التحميل', score: '4.8', pct: '96%' }
+      ],
+      summary: 'يمدح المعلّمون تنظيم الشرائح وتسلسلها المنطقي، وسهولة التعديل الفعلية لأن النصوص حقيقية وليست صورًا، وفائدة أوراق العمل المرفقة. الملاحظة المتكرّرة الوحيدة هي الرغبة في أمثلة تفاعلات أكثر.',
+      keywords: [
+        { word: 'تنظيم الشرائح', n: 64 }, { word: 'سهولة التعديل', n: 51 },
+        { word: 'أوراق العمل', n: 43 }, { word: 'جودة المحتوى', n: 38 },
+        { word: 'الاستخدام في الصف', n: 22 }
+      ],
+      reviews: [
+        { id: 'p1', name: 'أ. نورة الحربي', role: 'معلّمة كيمياء — الرياض', rating: 5, title: 'تنظيم الشرائح وفّر عليّ أسبوعًا كاملًا', body: 'استخدمته في وحدة الكيمياء العضوية للثالث ثانوي. الشرائح مرتّبة بتسلسل منطقي يبدأ بالتمهيد ثم الأمثلة ثم التقويم، وهذا وفّر عليّ إعادة الترتيب من الصفر. أضفت شعار المدرسة وعدّلت ثلاث شرائح فقط لتناسب خطة الحصة. أوراق العمل المرفقة كانت الجزء الأكثر نفعًا — طبعتها مباشرة ووزّعتها.', iso: '2026-08-14', date: '14 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 31, media: [{ label: 'صورة من الطالبات', isVideo: false }, { label: 'مقطع للشرح', isVideo: true }] },
+        { id: 'p2', name: 'أ. خالد العتيبي', role: 'وكيل شؤون تعليمية — جدة', rating: 5, title: 'التعديل سهل فعلًا وليس مجرد وعد', body: 'جرّبت ملفات كثيرة يُقال عنها «قابلة للتعديل» ثم تكون صورًا داخل شرائح. هذا مختلف: كل عنصر نص حقيقي، والخطوط مضمّنة، والألوان في نمط رئيسي واحد. غيّرت هوية المدرسة على أربعين شريحة في أقل من ساعة.', iso: '2026-08-09', date: '9 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 24, reply: 'شكرًا أ. خالد. نصمّم كل ملف على نمط رئيسي واحد تحديدًا لهذا السبب — ولو احتجت نسخة بهوية مدرستك جاهزة، راسلنا على واتساب ونجهّزها لك.' },
+        { id: 'p3', name: 'أ. سارة القحطاني', role: 'معلّمة علوم — الدمام', rating: 5, title: 'أوراق العمل هي القيمة الحقيقية', body: 'العرض جيد، لكن أوراق العمل السبع هي ما جعلني أشتري. أسئلتها متدرّجة من التذكّر إلى التطبيق، ومناسبة للعمل الجماعي داخل الصف.', iso: '2026-08-03', date: '3 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 18 },
+        { id: 'p4', name: 'أ. عبدالله الشمري', role: 'معلّم كيمياء — بريدة', rating: 4, title: 'ممتاز للشرح، وأحتاج أمثلة أكثر', body: 'المحتوى دقيق والتصميم مريح للعين على شاشة العرض. ملاحظتي الوحيدة أن أمثلة التفاعلات كانت أقل مما توقعت لدرس بهذا الطول، فأضفت شريحتين من عندي. عدا ذلك جاهز للاستخدام مباشرة.', iso: '2026-07-28', date: '28 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 12 },
+        { id: 'p5', name: 'أ. هيفاء المطيري', role: 'معلّمة علوم — أبها', rating: 5, title: 'التحميل فوري والاستخدام في الصف بلا مشاكل', body: 'وصلني الرابط بعد الدفع مباشرة، وفتحته على حاسب المدرسة بلا أي مشكلة في الخطوط. استخدمته في حصتين متتاليتين.', iso: '2026-07-21', date: '21 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 9, media: [{ label: 'صورة العرض في الفصل', isVideo: false }] },
+        { id: 'p6', name: 'أ. ماجد الدوسري', role: 'معلّم كيمياء — الطائف', rating: 4, title: 'مطابق للوصف تمامًا', body: 'اثنتان وعشرون شريحة كما هو مكتوب، والصيغة PPTX كما هو مكتوب. أقدّر أن الوصف صادق — هذا ليس شائعًا.', iso: '2026-07-11', date: '11 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 7 }
+      ]
+    };
+
+    /*
+     * Purchase UI: 'original' keeps the existing markup untouched; 'sticky' hides
+     * the inline CTA row on mobile so exactly one Add-to-Cart exists on the page.
+     * Desktop always keeps the inline row — the bar is mobile-only by design.
+     */
+    const purchaseMode = c.purchaseMode || 'original';
+    // 'trio' replaces the page's own CTA row with the three-option group on every
+    // device; 'sticky' keeps that row and pins a bar on mobile instead.
+    const trioActive = purchaseMode === 'trio';
+    const stickyActive = purchaseMode === 'sticky' && mobile && c.stickyBar !== false;
+    const shareMode = c.shareMode || 'original';
+
+    /*
+     * Thumbnails: `refined` shortens them, widens the gaps, marks the active one
+     * with a green border + soft lift, and scrolls horizontally past four.
+     * `classic` is the original grid, kept as a setting.
+     */
+    const thumbRefined = (c.thumbStyle || 'refined') === 'refined';
+
+    /*
+     * Surface mode. `flat` is the current look, preserved as a setting; `cards`
+     * adds depth with an off-white tint, a hairline and a very soft shadow — no
+     * new hue, so the page stays white and gains structure only.
+     */
+    const cards = (c.surfaceMode || 'flat') === 'cards';
+    const visitorCount = c.visitorCount;
+
+    return {
+      sf: cards
+        ? { bg: '#fbfcfa', border: '1px solid #eef1ec', radius: '14px', pad: mobile ? '14px' : '16px', shadow: '0 1px 3px rgba(20,45,33,.04)' }
+        : { bg: 'transparent', border: '0', radius: '0', pad: '0', shadow: 'none' },
+      visitors: {
+        // Absent unless a real count is supplied — never a placeholder number.
+        show: c.showVisitors === true && visitorCount != null,
+        count: visitorCount,
+        min: c.visitorMin != null ? c.visitorMin : 3,
+        compact: mobile,
+        motion: !reduce,
+        inline: false
+      },
+      trust: {
+        variant: c.trustVariant || 'minimal',
+        compact: mobile,
+        motion: !reduce
+      },
+      th: thumbRefined
+        ? { display: 'flex', gap: '12px', overflow: 'auto', padB: '4px', flex: '0 0 auto', w: mobile ? '68px' : '76px', h: mobile ? '56px' : '62px', ratio: 'auto' }
+        : { display: 'grid', gap: '8px', overflow: 'visible', padB: '0', flex: '0 0 auto', w: 'auto', h: 'auto', ratio: '1/1' },
+      trio: {
+        show: trioActive,
+        preset: 'minimal',
+        showCart: c.barShowCart !== false,
+        showBuy: c.barShowBuy !== false,
+        showApple: c.barShowApple !== false,
+        simulateApple: !!c.simulateApple,
+        motion: !reduce
+      },
+      bar: {
+        original: mobile && c.stickyBar !== false && purchaseMode !== 'sticky',
+        sticky: stickyActive,
+        preset: c.barPreset || 'premium',
+        iconOnly: !!c.barIconOnly,
+        showCart: c.barShowCart !== false,
+        showBuy: c.barShowBuy !== false,
+        showApple: c.barShowApple !== false,
+        simulateApple: !!c.simulateApple,
+        /*
+         * Mobile bar carries the same trio: cart as an icon, Buy Now with its
+         * label, Apple Pay third. The price is off by default — at 390px three
+         * actions plus a price block leaves nothing a thumb can hit reliably.
+         */
+        cartIconOnly: c.barCartIconOnly !== false,
+        showPrice: c.barShowPrice === true,
+        trigger: c.barTrigger || 'always',
+        motion: !reduce
+      },
+      share: (() => {
+        const on = shareMode !== 'original';
+        // Placement is per device: desktop and mobile choose independently.
+        const slot = mobile ? (c.shareSlotMobile || 'below-cta') : (c.shareSlot || 'below-price');
+        return {
+          style: shareMode === 'original' ? 'row' : shareMode,
+          atTitle: on && slot === 'below-title',
+          atPrice: on && slot === 'below-price',
+          atCta: on && slot === 'below-cta',
+          compact: mobile,
+          showLabel: !mobile,
+          motion: !reduce,
+          iconSize: c.shareIconSize || null,
+          gap: c.shareGap || null,
+          order: c.shareOrder || ['general', 'whatsapp', 'telegram', 'x', 'instagram', 'tiktok'],
+          off: c.shareHidden || {}
+        };
+      })(),
+      rv: {
+        show: c.showReviews !== false,
+        isPremium: rvStyle === 'premium',
+        isDashboard: rvStyle === 'dashboard',
+        isEditorial: rvStyle === 'editorial',
+        data: reviewData,
+        motion: !reduce,
+        compact: mobile
+      },
+      cx: {
+        ...heroCx,
+        // Single source for minimum tap size; desktop keeps intrinsic heights.
+        tapMin: mobile ? '44px' : 'auto',
+        // Second line is deliberately smaller than the first, and the measure is
+        // tightened so the H1 stops eating the fold.
+        titleSubSize: mobile ? '15px' : '18px',
+        titleLh: 1.24,
+        titleMax: mobile ? '100%' : '22ch',
+        glanceTop: mobile ? '22px' : '24px',
+        inlineCtaDisplay: (stickyActive || trioActive) ? 'none' : 'flex',
+        wrapPad: mobile ? '0 16px' : '0 32px',
+        gridCols: mobile ? '1fr' : (hero === 'c' ? '1.05fr .95fr' : '.92fr 1.08fr'),
+        gridGap: mobile ? '22px' : (hero === 'c' ? '40px' : '34px'),
+        titleGap: heroCx.showSubtitle ? '10px' : '14px',
+        subSize: mobile ? '14.5px' : '16px',
+        showStickyBar: mobile && c.stickyBar !== false
+      },
+      pagePadBottom: mobile ? '0' : '40px',
+      motion: {
+        title: reduce ? 'none' : 'tahFadeUp .5s ease-out both',
+        metaOn: !reduce
+      },
+      thumbs: ['شريحة 1', 'شريحة 2', 'شريحة 3', 'محتويات', 'الغلاف'].map((label, i) => ({
+        label,
+        aria: 'اعرض ' + label,
+        pressed: i === 0 ? 'true' : 'false',
+        border: i === 0 ? '#1e7355' : '#e6e9e2',
+        borderW: i === 0 ? '2px' : '1.5px',
+        shadow: i === 0 ? '0 3px 10px rgba(30,115,85,.18)' : 'none'
+      })),
+      promo,
+      badges: {
+        visible,
+        hasCorner: visible.length > 0 && badgePlace === 'image',
+        hasInline: visible.length > 0 && badgePlace === 'inline'
+      },
+      social: {
+        showSalesInline: showSales,
+        salesText: salesFormats[salesMode] || salesFormats.rounded,
+        salesTrue: fmt(salesTrue) + ' عملية شراء',
+        salesRaw: salesTrue,
+        salesIconRef: salesTrue >= hotAt ? '#i-trophy' : '#i-cart-bag',
+        salesIconColor: salesTrue >= hotAt ? '#d8b56a' : '#5f7167',
+        showBestseller: salesTrue >= hotAt && c.showBestsellerChip !== false
+      },
+      meta: {
+        facts,
+        settings: c.metaSettings || {},
+        custom: c.metaCustom || {},
+        salesCount: salesTrue,
+        salesHot: hotAt,
+        style: c.metaStyle != null ? c.metaStyle : 1,
+        compact: mobile,
+        showTop: slot === 'under-title' ? blk : none,
+        showMid: slot === 'below-price' ? blk : none,
+        showBottom: slot === 'above-cta' || slot === 'below-cta' ? blk : none,
+        orderTop: 0, orderMid: 0, orderBottom: 0
+      },
+      price: {
+        isA: (c.pricePreset || 'd') === 'a', isB: (c.pricePreset || 'd') === 'b',
+        isC: (c.pricePreset || 'd') === 'c', isD: (c.pricePreset || 'd') === 'd',
+        isE: (c.pricePreset || 'd') === 'e'
+      },
+      trustRow: [
+        'تحميل فوري بعد الدفع مباشرة',
+        'ملف PowerPoint (PPTX) قابل للتعديل بالكامل',
+        '7 أوراق عمل متضمنة مع العرض'
+      ],
+      glance: {
+        show: c.showGlance !== false,
+        isTable: glanceStyle === 'table', isCards: glanceStyle === 'cards',
+        isList: glanceStyle === 'list', isStats: glanceStyle === 'stats',
+        rows: glanceStyle === 'stats'
+          ? [{ label: 'شريحة', value: '22' }, { label: 'أوراق عمل', value: '7' }, { label: 'قابل للتعديل', value: '100%' }, { label: 'عملية شراء', value: fmt(salesTrue) }]
+          : glanceRows,
+        t1: glanceRows[0], t2: glanceRows[1], t3: glanceRows[2],
+        t4: glanceRows[3], t5: glanceRows[4], t6: glanceRows[5]
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

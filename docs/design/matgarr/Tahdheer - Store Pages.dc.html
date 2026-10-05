@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+::selection{background:rgba(30,115,85,.18)}
+@keyframes spFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spBar{from{width:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<symbol id="s-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></symbol>
+<symbol id="s-cart" viewBox="0 0 24 24"><path d="M4 5h2l2.2 9.4a1.6 1.6 0 0 0 1.6 1.3h7a1.6 1.6 0 0 0 1.6-1.3L20 8H6.4"></path><circle cx="10" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></symbol>
+<symbol id="s-tag" viewBox="0 0 24 24"><path d="M11 4H5v6l9 9 6-6z"></path><circle cx="8.4" cy="7.4" r="1.15"></circle></symbol>
+<symbol id="s-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="s-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="s-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="s-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="s-box" viewBox="0 0 24 24"><path d="M12 3l8 4v10l-8 4-8-4V7z"></path><path d="M4 7l8 4 8-4M12 11v10"></path></symbol>
+<symbol id="s-truck" viewBox="0 0 24 24"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+<symbol id="s-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="s-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4"></path></symbol>
+<symbol id="s-bank" viewBox="0 0 24 24"><path d="M4 10l8-6 8 6"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 18h18M3 21h18"></path></symbol>
+<symbol id="s-cash" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.6"></circle><path d="M6 9h.1M18 15h.1"></path></symbol>
+<symbol id="s-apple" viewBox="0 0 24 24"><path d="M15.5 7c-2 0-2.7 1.2-3.5 1.2S10.2 7 8.7 7C6.6 7 4.5 8.8 4.5 12.2c0 3.6 2.6 7.3 4.2 7.3 1 0 1.5-.7 3-.7s1.9.7 3 .7c1.7 0 4.1-3.9 4.1-6.1-2-.8-2.6-3.7-.4-5.1C17.7 7.4 16.6 7 15.5 7z"></path><path d="M12 6.8c-.2-1.6.9-3.2 2.6-3.4.2 1.7-1.1 3.3-2.6 3.4z"></path></symbol>
+<symbol id="s-chat" viewBox="0 0 24 24"><path d="M4 6h16v11H9l-5 4z"></path><path d="M8 10h8M8 13h5"></path></symbol>
+<symbol id="s-whats" viewBox="0 0 24 24"><path d="M12 3.5A8.5 8.5 0 0 0 4.6 16.2L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"></path><path d="M9 8.8c-.3 2.2 2.9 6 6.2 6.2.8 0 1.4-.5 1.3-1.2l-.3-1.2-1.7-.4-.9.9a5.6 5.6 0 0 1-2.7-2.7l.9-.9-.4-1.7-1.2-.3c-.7-.1-1.2.5-1.2 1.3z"></path></symbol>
+<symbol id="s-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="12" cy="11" r="2.2"></circle></symbol>
+<symbol id="s-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"></path><path d="M6 10v9h12v-9"></path></symbol>
+<symbol id="s-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5.5l3.5 2"></path></symbol>
+<symbol id="s-gift" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"></rect><path d="M12 10v10M4 13h16M12 10c-4 0-5-2-5-3.5A2 2 0 0 1 10.5 5C12 5 12 7 12 10zm0 0c4 0 5-2 5-3.5A2 2 0 0 0 13.5 5C12 5 12 7 12 10z"></path></symbol>
+<symbol id="s-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></symbol>
+<symbol id="s-chev-d" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></symbol>
+<symbol id="s-chev-l" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="s-flag" viewBox="0 0 24 24"><path d="M6 21V4"></path><path d="M6 4h12l-3 4 3 4H6"></path></symbol>
+<symbol id="s-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13 4l-2 16"></path></symbol>
+<symbol id="s-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="s-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M19 19v2H6a2 2 0 0 1-2-2"></path><path d="M8 7h7"></path></symbol>
+</defs></svg>
+
+<div dir="{{ dir }}" style="min-height:100vh;color:#17251d">
+
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1080px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">صفحات المتجر الجديدة —</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 12px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:900;cursor:pointer"><sc-if value="{{ s.icon }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ s.icon }}"></use></svg></sc-if>{{ s.n }}</button>
+</sc-for>
+<span dir="ltr" style="margin-inline-start:auto;font:700 9.5px ui-monospace,monospace;color:rgba(234,242,238,.45)">{{ curPath }}</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 15px Tajawal">ت</span><span style="font:900 17px Tajawal;color:#14261d">تذكير</span></span>
+<nav aria-label="التنقل الرئيسي" style="display:flex;gap:2px;flex-wrap:wrap">
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">الرئيسية</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">المتجر</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:{{ navOffersC }};background:{{ navOffersBg }}">العروض</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">المناهج</a>
+</nav>
+<div style="flex:1"></div>
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:#f2f6f3;color:#3d4f45;display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-search"></use></svg></span>
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:#1e7355;color:#fff;display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-cart"></use></svg></span>
+</div>
+</header>
+
+<main id="main" style="max-width:1080px;margin:0 auto;padding:24px 20px 60px;display:flex;flex-direction:column;gap:16px">
+<sc-if value="{{ is.offers }}" hint-placeholder-val="{{ true }}">
+<section style="position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(140deg,#14261d,#1e5c42);color:#fff;padding:34px 30px;animation:spFade .4s ease">
+<div aria-hidden="true" style="position:absolute;inset-inline-end:-40px;top:-40px;width:230px;height:230px;border-radius:50%;background:rgba(216,181,106,.14)"></div>
+<div aria-hidden="true" style="position:absolute;inset-inline-end:60px;bottom:-70px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+<div style="position:relative;max-width:620px">
+<span style="display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;background:rgba(216,181,106,.18);border:1px solid rgba(216,181,106,.4);color:#e8d3a6;font-size:11px;font-weight:900"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-bolt"></use></svg>عروض العودة للمدارس</span>
+<h1 style="margin:12px 0 8px;font:900 30px/1.4 Tajawal,sans-serif">خصومات حتى ٢٩٪ على الحزم والملازم</h1>
+<p style="margin:0;font-size:13.5px;line-height:1.9;color:rgba(255,255,255,.82)">أسعار العروض حقيقية على السعر المعتاد، شاملة الضريبة، وتسري حتى <b style="color:#e8d3a6">١٥ سبتمبر</b> أو نفاد المطبوعات — بلا عدّادات مزيفة.</p>
+</div>
+</section>
+
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ off.cats }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border:1px solid {{ c.bd }};border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:12px;font-weight:900;cursor:pointer">{{ c.n }}<span style="opacity:.6;font-size:10px">{{ c.count }}</span></button>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px">
+<sc-for list="{{ off.rows }}" as="o" hint-placeholder-count="6">
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden;display:flex;flex-direction:column;animation:spFade .35s ease">
+<button type="button" onClick="{{ o.onView }}" aria-label="عرض {{ o.n }}" style="position:relative;display:block;height:120px;border:0;background:{{ o.img }};cursor:pointer">
+<span style="position:absolute;top:10px;inset-inline-start:10px;padding:3px 10px;border-radius:999px;background:#b32d2e;color:#fff;font:900 11px Tajawal">{{ o.off }}</span>
+<sc-if value="{{ o.hasTag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;inset-inline-end:10px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.92);color:#8a6500;font:900 10px Tajawal">{{ o.tag }}</span></sc-if>
+</button>
+<div style="padding:13px 15px;display:flex;flex-direction:column;gap:6px;flex:1">
+<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;color:#8a6500"><svg aria-hidden="true" style="width:11px;height:11px;color:#d8a723"><use href="#s-star"></use></svg>{{ o.rate }}</span>
+<span style="font-size:13.5px;font-weight:900;color:#14261d;line-height:1.5">{{ o.n }}</span>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font:900 17px Tajawal;color:#146c4c">{{ o.now }}</span>
+<span style="font-size:11.5px;color:#a9b4ad;text-decoration:line-through">{{ o.old }}</span>
+<span style="padding:2px 7px;border-radius:6px;background:#eaf3ee;color:#146c4c;font-size:9px;font-weight:900">{{ o.save }}</span>
+</div>
+<sc-if value="{{ o.hasStock }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:800;color:#b45309">{{ o.stock }}</span></sc-if>
+<button type="button" onClick="{{ o.onAdd }}" style="display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;margin-top:auto;border:0;border-radius:11px;background:#1e7355;color:#fff;font-size:12.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-cart"></use></svg>أضف للسلة</button>
+</div>
+</div>
+</sc-for>
+</div>
+
+<section style="border:1.5px dashed #c9a869;border-radius:16px;background:linear-gradient(150deg,#fffaf0,#fff);padding:15px 20px;display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-gift"></use></svg></span>
+<span style="flex:1;min-width:220px"><span style="display:block;font-size:14px;font-weight:900;color:#14261d">أول طلب؟ خصم ١٠٪ إضافي فوق أسعار العروض</span><span style="font-size:10.5px;color:#8a7040;font-weight:700">يُطبق تلقائيًا في السلة · لأول طلب لكل حساب</span></span>
+<span dir="ltr" style="padding:8px 15px;border-radius:10px;background:#fff;border:1.5px dashed #d8b56a;font:900 14px ui-monospace,monospace;letter-spacing:2px;color:#8a6500">WELCOME</span>
+<button type="button" onClick="{{ off.onCopy }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border:0;border-radius:10px;background:{{ off.couponBg }};color:#fff;font-size:12px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-copy"></use></svg>{{ off.couponLabel }}</button>
+</section>
+
+<details style="border:1px solid #e6ebe7;border-radius:13px;background:#fbfcfb">
+<summary style="padding:12px 16px;font-size:11.5px;font-weight:900;color:#5f7167;cursor:pointer">شروط العروض</summary>
+<ul style="margin:0;padding:2px 30px 12px;display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ off.terms }}" as="t" hint-placeholder-count="4"><li style="font-size:11px;line-height:1.7;color:#5f7167">{{ t }}</li></sc-for>
+</ul>
+</details>
+</sc-if>
+<sc-if value="{{ is.search }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px;animation:spFade .4s ease">
+<div style="display:flex;gap:8px;max-width:640px">
+<div style="position:relative;flex:1">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:13px;top:13px;color:#8b978f"><svg style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-search"></use></svg></span>
+<input type="search" value="{{ srch.q }}" onChange="{{ srch.onQ }}" aria-label="ابحث في المتجر" style="width:100%;box-sizing:border-box;min-height:44px;padding-inline:40px 14px;border:1.5px solid #d7ddd8;border-radius:12px;font:800 13.5px Tajawal;color:#14261d;outline:none">
+</div>
+<button type="button" onClick="{{ srch.onGo }}" style="min-height:44px;padding:0 20px;border:0;border-radius:12px;background:#1e7355;color:#fff;font-size:13px;font-weight:900;cursor:pointer">ابحث</button>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap">
+<h1 style="margin:0;font-size:13px;font-weight:900;color:#14261d">{{ srch.meta }}</h1>
+<div style="flex:1"></div>
+<sc-for list="{{ srch.types }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:32px;padding:0 12px;border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:11px;font-weight:800;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#5f7167">ترتيب
+<select value="{{ srch.sort }}" onChange="{{ srch.onSort }}" style="min-height:32px;padding:0 9px;border:1px solid #d7ddd8;border-radius:9px;background:#fff;font:800 11px Tajawal;outline:none">
+<option value="rel">الأكثر صلة</option><option value="price">السعر: الأقل أولًا</option><option value="new">الأحدث</option>
+</select></label>
+</div>
+</section>
+
+<sc-if value="{{ srch.hasProds }}" hint-placeholder-val="{{ true }}">
+<section aria-label="نتائج المنتجات">
+<h2 style="margin:0 0 9px;font-size:14px;font-weight:900;color:#14261d">المنتجات</h2>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px">
+<sc-for list="{{ srch.prods }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;gap:13px;border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:13px;animation:spFade .35s ease">
+<button type="button" onClick="{{ r.onView }}" aria-label="عرض {{ r.n }}" style="flex:0 0 84px;height:84px;border:0;border-radius:12px;background:{{ r.img }};cursor:pointer"></button>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+<span style="display:flex;align-items:center;gap:6px"><span style="padding:2px 8px;border-radius:6px;background:#f0f6f2;color:#146c4c;font-size:9px;font-weight:900">{{ r.lvl }}</span><span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;color:#8a6500"><svg aria-hidden="true" style="width:10px;height:10px;color:#d8a723"><use href="#s-star"></use></svg>{{ r.rate }}</span></span>
+<span style="font-size:13px;font-weight:900;color:#14261d;line-height:1.5">{{ r.n }}</span>
+<span style="font-size:10.5px;line-height:1.6;color:#7c8a82">{{ r.d }}</span>
+<div style="display:flex;align-items:center;gap:8px;margin-top:auto">
+<span style="flex:1;font:900 14px Tajawal;color:#146c4c">{{ r.p }}</span>
+<button type="button" onClick="{{ r.onAdd }}" style="min-height:34px;padding:0 13px;border:1px solid #cfe0d6;border-radius:10px;background:#f2f8f5;color:#146c4c;font-size:11px;font-weight:900;cursor:pointer">أضف للسلة</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ srch.hasArts }}" hint-placeholder-val="{{ true }}">
+<section aria-label="نتائج المقالات">
+<h2 style="margin:0 0 9px;font-size:14px;font-weight:900;color:#14261d">من المدونة</h2>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ srch.arts }}" as="a" hint-placeholder-count="3">
+<button type="button" onClick="{{ a.onView }}" style="display:flex;align-items:center;gap:12px;border:1px solid #e2e8e4;border-radius:13px;background:#fff;padding:12px 15px;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="flex:0 0 36px;height:36px;border-radius:10px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-doc"></use></svg></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:12.5px;font-weight:900;color:#14261d">{{ a.n }}</span><span style="display:block;margin-top:2px;font-size:11px;line-height:1.7;color:#7c8a82">{{ a.d }}</span></span>
+<svg aria-hidden="true" style="width:14px;height:14px;color:#a9b4ad;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#s-chev-l"></use></svg>
+</button>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900;color:#14261d">عمليات بحث ذات صلة</h2>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ srch.rel }}" as="r" hint-placeholder-count="4">
+<button type="button" onClick="{{ r.onGo }}" style="min-height:32px;padding:0 13px;border:1px solid #d7ddd8;border-radius:999px;background:#fbfcfb;font-size:11px;font-weight:800;color:#3d4f45;cursor:pointer">{{ r.q }}</button>
+</sc-for>
+</div>
+</section>
+<section style="border:1px solid #d8e2ec;border-radius:15px;background:linear-gradient(170deg,#f4f8fc,#fff);padding:15px 18px;display:flex;align-items:center;gap:12px">
+<span aria-hidden="true" style="width:38px;height:38px;flex:0 0 auto;border-radius:11px;background:#1d5f9c14;color:#1d5f9c;display:grid;place-items:center"><svg style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-whats"></use></svg></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:12.5px;font-weight:900;color:#14261d">لم تجد ملزمتك؟</span><span style="font-size:10.5px;color:#5f7167">أخبرنا بالمادة والصف — كثير من ملازمنا بدأت بطلب من معلم.</span></span>
+<button type="button" onClick="{{ srch.onAsk }}" style="min-height:36px;padding:0 14px;border:0;border-radius:10px;background:#1d5f9c;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer">اطلبها</button>
+</section>
+</div>
+</sc-if>
+<sc-if value="{{ is.notfound }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:18px;background:#fff;padding:44px 26px;text-align:center;animation:spFade .4s ease">
+<div aria-hidden="true" style="font:900 84px/1 Tajawal;letter-spacing:6px;background:linear-gradient(140deg,#2b9c72,#14603f);-webkit-background-clip:text;background-clip:text;color:transparent">٤٠٤</div>
+<h1 style="margin:12px 0 6px;font:900 24px/1.5 Tajawal;color:#14261d">هذه الصفحة غير موجودة — لكن المذاكرة مستمرة</h1>
+<p style="margin:0 auto;max-width:520px;font-size:13px;line-height:1.9;color:#5f7167">ربما تغيّر الرابط أو حُذفت الصفحة. جرّب البحث، أو انطلق من أحد الأقسام الأكثر زيارة.</p>
+<div style="display:flex;gap:8px;max-width:520px;margin:18px auto 0">
+<div style="position:relative;flex:1">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:13px;top:13px;color:#8b978f"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-search"></use></svg></span>
+<input type="search" value="{{ nf.q }}" onChange="{{ nf.onQ }}" placeholder="ابحث عن ملزمة، مادة، أو صف…" aria-label="ابحث في المتجر" style="width:100%;box-sizing:border-box;min-height:44px;padding-inline:38px 14px;border:1.5px solid #d7ddd8;border-radius:12px;font:800 13px Tajawal;outline:none">
+</div>
+<button type="button" onClick="{{ nf.onGo }}" style="min-height:44px;padding:0 18px;border:0;border-radius:12px;background:#1e7355;color:#fff;font-size:13px;font-weight:900;cursor:pointer">ابحث</button>
+</div>
+</section>
+
+<section aria-label="وجهات شائعة">
+<h2 style="margin:0 0 9px;font-size:14px;font-weight:900;color:#14261d">الوجهات الأكثر زيارة</h2>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<sc-for list="{{ nf.links }}" as="l" hint-placeholder-count="6">
+<button type="button" onClick="{{ l.onGo }}" style="display:flex;align-items:center;gap:11px;border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:14px 15px;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="width:38px;height:38px;flex:0 0 auto;border-radius:11px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><sc-if value="{{ l.icon }}" hint-placeholder-val="{{ false }}"><svg style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ l.icon }}"></use></svg></sc-if></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:12.5px;font-weight:900;color:#14261d">{{ l.n }}</span><span style="font-size:10px;color:#7c8a82">{{ l.d }}</span></span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#a9b4ad;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#s-chev-l"></use></svg>
+</button>
+</sc-for>
+</div>
+</section>
+
+<div style="display:flex;align-items:center;gap:10px;padding:13px 17px;border:1px dashed #d7ddd8;border-radius:14px;background:#fbfcfb;flex-wrap:wrap">
+<svg aria-hidden="true" style="width:16px;height:16px;color:#8a6500;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-flag"></use></svg>
+<span style="flex:1;min-width:220px;font-size:11.5px;color:#5f7167;font-weight:700">وصلت هنا من رابط داخل موقعنا؟ أبلغنا وسنصلحه — يُسجَّل تلقائيًا في مراقب SEO.</span>
+<button type="button" onClick="{{ nf.onReport }}" style="min-height:34px;padding:0 13px;border:1px solid #d7ddd8;border-radius:10px;background:#fff;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer">أبلغ عن الرابط المكسور</button>
+<button type="button" onClick="{{ nf.onSupport }}" style="min-height:34px;padding:0 13px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;cursor:pointer">مساعدة فورية</button>
+</div>
+</sc-if>
+<sc-if value="{{ is.payment }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:8px 0 4px;animation:spFade .4s ease">
+<h1 style="margin:0 0 6px;font:900 26px/1.4 Tajawal;color:#14261d">طرق الدفع في تذكير</h1>
+<p style="margin:0 auto;max-width:560px;font-size:13px;line-height:1.9;color:#5f7167">خمس طرق آمنة بلا رسوم خفية — اختر ما يناسبك، وكل التفاصيل هنا قبل أن تصل للسلة.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start">
+<section aria-label="طرق الدفع" style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ pay.rows }}" as="m" hint-placeholder-count="5">
+<div style="border:1px solid #e2e8e4;border-radius:15px;background:{{ m.bg }};overflow:hidden">
+<button type="button" onClick="{{ m.onToggle }}" aria-expanded="{{ m.open }}" style="display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:0 16px;border:0;background:none;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="width:42px;height:42px;flex:0 0 auto;border-radius:12px;background:{{ m.c }}14;color:{{ m.c }};display:grid;place-items:center"><sc-if value="{{ m.icon }}" hint-placeholder-val="{{ false }}"><svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="{{ m.icon }}"></use></svg></sc-if></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:900;color:#14261d">{{ m.n }}</span><span style="font-size:10.5px;color:#7c8a82">{{ m.d }}</span></span>
+<span style="flex:0 0 auto;padding:3px 10px;border-radius:999px;background:{{ m.feeBg }};color:{{ m.feeC }};font-size:10px;font-weight:900">{{ m.fee }}</span>
+<sc-if value="{{ m.caret }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:14px;height:14px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ m.caret }}"></use></svg></sc-if>
+</button>
+<sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+<ol style="list-style:none;margin:0;padding:2px 18px 15px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ m.steps }}" as="s" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:10px"><span aria-hidden="true" style="flex:0 0 24px;height:24px;border-radius:8px;background:#eef2ef;display:grid;place-items:center;font:900 11px Tajawal;color:#146c4c">{{ s.n }}</span><span style="font-size:12px;color:#3d4f45;font-weight:700;line-height:1.7">{{ s.t }}</span></li>
+</sc-for>
+</ol>
+</sc-if>
+</div>
+</sc-for>
+</section>
+
+<aside style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #d8e6dd;border-radius:15px;background:linear-gradient(170deg,#f4faf6,#fff 60%);padding:15px 17px">
+<h2 style="margin:0 0 9px;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:900;color:#14261d"><svg aria-hidden="true" style="width:16px;height:16px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-shield"></use></svg>أمان الدفع</h2>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ pay.sec }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;gap:9px"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;margin-top:2px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2.6"><use href="#s-check"></use></svg><span><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ s.t }}</span><span style="font-size:10px;line-height:1.6;color:#5f7167">{{ s.d }}</span></span></div>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<h2 style="margin:0;padding:13px 16px 9px;font-size:13px;font-weight:900;color:#14261d">مدة الاسترداد لكل طريقة</h2>
+<sc-for list="{{ pay.refund }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 16px;border-top:1px solid #f4f6f4"><span style="font-size:11.5px;font-weight:900;color:#3d4f45">{{ r.m }}</span><span style="font-size:11px;color:#7c8a82">{{ r.t }}</span></div>
+</sc-for>
+</section>
+
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 7px;font-size:13px;font-weight:900;color:#14261d">أسئلة سريعة</h2>
+<sc-for list="{{ pay.faq }}" as="f" hint-placeholder-count="3">
+<div style="padding:7px 0;border-top:1px dashed #eef1ef"><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ f.q }}</span><span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.8;color:#5f7167">{{ f.a }}</span></div>
+</sc-for>
+</section>
+
+<button type="button" onClick="{{ pay.onShop }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:13px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,100,73,.28)"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="#s-cart"></use></svg>تسوّق الآن بثقة</button>
+</aside>
+</div>
+</sc-if>
+<sc-if value="{{ is.plan }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #dcdcde;border-radius:16px;background:#14261d;color:#eaf2ee;padding:20px 22px;animation:spFade .4s ease">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:40px;height:40px;border-radius:11px;background:rgba(127,212,171,.16);color:#7fd4ab;display:grid;place-items:center"><svg style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#s-code"></use></svg></span>
+<div style="flex:1;min-width:220px"><h1 style="margin:0;font-size:17px;font-weight:900">خطة تنفيذ التطويرات على القالب</h1><span style="font-size:10.5px;color:rgba(234,242,238,.6)">١٢ بندًا · كل بند: الملف، التغيير، ومعيار قبول يُقاس — علّم ما أُنجز</span></div>
+<span style="padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px;font-weight:900">{{ plan.progress }}</span>
+</div>
+<span aria-hidden="true" style="display:block;height:8px;margin-top:12px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden"><span style="display:block;height:100%;width:{{ plan.w }};border-radius:6px;background:linear-gradient(90deg,#2b9c72,#7fd4ab);transition:width .3s"></span></span>
+</section>
+
+<sc-for list="{{ plan.groups }}" as="g" hint-placeholder-count="4">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<h2 style="margin:0;display:flex;align-items:center;gap:9px;padding:12px 17px;border-bottom:2px solid {{ g.c }};background:#fbfcfb;font-size:13.5px;font-weight:900;color:#14261d">{{ g.g }}</h2>
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;gap:12px;padding:13px 17px;border-top:1px solid #f4f6f4;opacity:{{ r.dim }}">
+<button type="button" onClick="{{ r.onToggle }}" role="checkbox" aria-checked="{{ r.done }}" aria-label="إنجاز: {{ r.t }}" style="flex:0 0 24px;height:24px;margin-top:2px;border:2px solid {{ r.boxBd }};border-radius:8px;background:{{ r.boxBg }};color:#fff;display:grid;place-items:center;cursor:pointer">
+<sc-if value="{{ r.done }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:3"><use href="#s-check"></use></svg></sc-if>
+</button>
+<div style="flex:1;min-width:0">
+<span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:13px;font-weight:900;color:#14261d;text-decoration:{{ r.strike }}">{{ r.t }}</span><code dir="ltr" style="padding:2px 8px;border-radius:6px;background:#f6f8f7;font-size:9px;color:#5f7167">{{ r.f }}</code><span style="padding:2px 8px;border-radius:999px;background:#eef2ef;font-size:9px;font-weight:900;color:#3d4f45">{{ r.e }}</span></span>
+<code dir="auto" style="display:block;margin-top:6px;padding:8px 11px;border-radius:9px;background:#14261d;color:#a8e2c5;font-size:10px;line-height:1.7;overflow-x:auto;white-space:pre-wrap;text-align:start">{{ r.s }}</code>
+<span style="display:block;margin-top:5px;font-size:10.5px;color:#5f7167"><b style="color:#146c4c">القبول:</b> {{ r.a }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+</sc-for>
+
+<div style="padding:12px 16px;border:1px dashed #d7ddd8;border-radius:13px;background:#fbfcfb;font-size:11px;line-height:1.8;color:#5f7167">{{ plan.note }}</div>
+</sc-if>
+</main>
+
+<footer style="background:#14261d;color:rgba(234,242,238,.75)">
+<div style="max-width:1080px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:11px">
+<span style="font-weight:900;color:#fff">تذكير</span>
+<a href="#" style="color:rgba(234,242,238,.75)">سياسة الاسترجاع</a>
+<a href="#" style="color:rgba(234,242,238,.75)">طرق الدفع</a>
+<a href="#" style="color:rgba(234,242,238,.75)">الأسئلة الشائعة</a>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9.5px ui-monospace,monospace;opacity:.55">{{ footNote }}</span>
+</div>
+</footer>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-start:18px;bottom:18px;z-index:100;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="display:flex;align-items:center;gap:9px;max-width:420px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);animation:spFade .2s ease">
+<svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:#7fd4ab;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#s-check"></use></svg>
+<span style="font-size:12px;font-weight:800;line-height:1.6">{{ t.m }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:940},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;offers&quot;,&quot;search&quot;,&quot;notfound&quot;,&quot;payment&quot;,&quot;plan&quot;],&quot;default&quot;:&quot;offers&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;},&quot;direction&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rtl&quot;,&quot;ltr&quot;],&quot;default&quot;:&quot;rtl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;التصميم&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+
+state={scr:null,offFilter:'all',sq:'ملزمة رياضيات',sType:'all',sSort:'rel',payOpen:0,copied:false,done:{},toasts:[],q404:''};
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+
+OFFERS=[
+ {n:'حزمة المراجعة الشاملة — ثالث ثانوي',old:149,now:119,off:'-٢٠٪',cat:'sec',rate:'٤٫٩',img:'linear-gradient(140deg,#d8b56a,#a5813a)',tag:'الأكثر طلبًا',stock:''},
+ {n:'حزمة أحياء — ثالث ثانوي',old:139,now:99,off:'-٢٩٪',cat:'sec',rate:'٤٫٨',img:'linear-gradient(140deg,#6b8f5a,#3f6132)',tag:'',stock:'باقٍ ٧ نسخ مطبوعة'},
+ {n:'ملزمة فيزياء — ثاني ثانوي',old:55,now:44,off:'-٢٠٪',cat:'sec',rate:'٤٫٧',img:'linear-gradient(140deg,#527a96,#2d5471)',tag:'',stock:''},
+ {n:'مذكرة رياضيات — أول ثانوي',old:45,now:38,off:'-١٦٪',cat:'sec',rate:'٤٫٨',img:'linear-gradient(140deg,#2b9c72,#14603f)',tag:'',stock:''},
+ {n:'أوراق عمل — لغتي الرابع',old:25,now:19,off:'-٢٤٪',cat:'pri',rate:'٤٫٦',img:'linear-gradient(140deg,#8f6b5a,#61403f)',tag:'',stock:''},
+ {n:'دفتر تمارين الرياضيات — متوسط',old:29,now:24,off:'-١٧٪',cat:'mid',rate:'٤٫٦',img:'linear-gradient(140deg,#2b9c72,#0f4d33)',tag:'',stock:''}
+];
+SRES=[
+ {n:'مذكرة رياضيات — أول ثانوي',d:'٨٤ صفحة · تمارين محلولة خطوة بخطوة وفق المنهج الحالي',p:'٤٥ ر.س',rate:'٤٫٨',lvl:'ثانوي',ty:'p',img:'linear-gradient(140deg,#2b9c72,#14603f)'},
+ {n:'دفتر تمارين الرياضيات — متوسط',d:'تدريبات يومية مدرّجة الصعوبة مع مفاتيح التصحيح',p:'٢٩ ر.س',rate:'٤٫٦',lvl:'متوسط',ty:'p',img:'linear-gradient(140deg,#527a96,#2d5471)'},
+ {n:'حزمة المراجعة الشاملة (تشمل الرياضيات)',d:'رياضيات + فيزياء + كيمياء لثالث ثانوي في حزمة واحدة',p:'١٤٩ ر.س',rate:'٤٫٩',lvl:'ثانوي',ty:'p',img:'linear-gradient(140deg,#d8b56a,#a5813a)'},
+ {n:'أوراق عمل رياضيات — رابع ابتدائي',d:'أنشطة الفصل الأول جاهزة للطباعة',p:'٢٥ ر.س',rate:'٤٫٥',lvl:'ابتدائي',ty:'p',img:'linear-gradient(140deg,#6b8f5a,#3f6132)'},
+ {n:'كيف تختار الملزمة المناسبة لابنك؟',d:'…الفرق بين ملزمة الرياضيات المكثفة والمبسطة، ومتى يناسب كلٌّ منهما مستوى الطالب…',p:'',rate:'',lvl:'مقال',ty:'a',img:''},
+ {n:'٧ عادات للمراجعة النهائية',d:'…خصص لملزمة الرياضيات جلستين أسبوعيًا وابدأ بالمسائل المحلولة قبل التمارين…',p:'',rate:'',lvl:'مقال',ty:'a',img:''},
+ {n:'جدول الاختبارات النهائية',d:'…مواعيد اختبارات الرياضيات لجميع المراحل محدثة للفصل الحالي…',p:'',rate:'',lvl:'مقال',ty:'a',img:''}
+];
+PAY=[
+ {n:'مدى',d:'الخصم المباشر من حسابك البنكي — الأسرع والأكثر استخدامًا',fee:'بلا رسوم',ic:'#s-card',c:'#1e7355',
+  steps:['اختر «مدى» عند الدفع','ادخل بيانات البطاقة في صفحة البوابة الآمنة','أكّد برمز OTP من بنكك','يتأكد طلبك فورًا']},
+ {n:'البطاقات الائتمانية',d:'Visa · Mastercard — محلية ودولية',fee:'بلا رسوم',ic:'#s-card',c:'#1d5f9c',
+  steps:['اختر «بطاقة ائتمانية»','تمر العملية عبر 3D Secure دائمًا','يتأكد طلبك فورًا']},
+ {n:'Apple Pay',d:'أسرع طريقة — بلا إدخال أي بيانات',fee:'بلا رسوم',ic:'#s-apple',c:'#14261d',
+  steps:['اختر Apple Pay من الجوال أو الماك','أكّد بالبصمة أو Face ID','يتأكد طلبك فورًا']},
+ {n:'تحويل بنكي',d:'مناسب للطلبات الكبيرة وطلبات المدارس',fee:'بلا رسوم',ic:'#s-bank',c:'#8a6500',
+  steps:['اختر «تحويل بنكي» وستصلك بيانات الحساب بالبريد','حوّل خلال ٤٨ ساعة وأرفق الإيصال','نطابق يدويًا خلال ساعات العمل ثم يتأكد الطلب']},
+ {n:'الدفع عند الاستلام',d:'للمطبوعات داخل المدن الرئيسية',fee:'+ ٥ ر.س رسوم خدمة',ic:'#s-cash',c:'#0f766e',
+  steps:['اختر «عند الاستلام» — متاح للمطبوعات فقط','جهّز المبلغ نقدًا أو بالشبكة للمندوب','افحص شحنتك قبل الدفع']}
+];
+REFUND=[['مدى','٣–٥ أيام عمل لنفس البطاقة'],['البطاقات الائتمانية','٥–١٠ أيام عمل حسب المُصدر'],['Apple Pay','حسب البطاقة المربوطة'],['تحويل بنكي','٢–٣ أيام عمل لحسابك'],['عند الاستلام','تحويل بنكي خلال ٣ أيام عمل']];
+PLAN=[
+ {g:'أ · تأكيد الطلب على القالب',c:'#1e7355',rows:[
+  {t:'قالب صفحة التأكيد وفق النموذج',f:'woocommerce/checkout/thankyou.php',s:"add_action( 'woocommerce_thankyou', 'tahdheer_thankyou_experience' );",a:'كل حالات الدفع الأربع تعرض واجهتها الصحيحة — لا واجهة نجاح لدفع فاشل',e:'يوم'},
+  {t:'تأمين الوصول للطلب',f:'inc/order-confirmation.php',s:"if ( ! $order->key_is_valid( $key ) && $order->get_customer_id() !== get_current_user_id() ) wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );",a:'تغيير رقم الطلب في الرابط لا يعرض طلب عميل آخر',e:'ساعتان'},
+  {t:'تفرّد حدث الشراء',f:'inc/order-confirmation.php',s:"if ( ! $order->get_meta( '_tah_purchase_fired' ) ) { /* fire GA4/pixel */ $order->update_meta_data( '_tah_purchase_fired', 1 ); $order->save(); }",a:'تحديث الصفحة ١٠ مرات + تبويب ثانٍ = حدث purchase واحد لكل order_id',e:'ساعتان'}]},
+ {g:'ب · مكاسب SEO السريعة',c:'#b45309',rows:[
+  {t:'إزالة noindex العرضي عن دليل المعلم',f:'إعدادات إضافة SEO ← الصفحة',s:'robots: noindex ← index,follow · وأعد الصفحة إلى sitemap-pages.xml',a:'فحص URL في Search Console يعيد «قابلة للفهرسة» خلال أيام',e:'١٠ دقائق'},
+  {t:'تصحيح عنصر القائمة «عروض ٢٠٢٣»',f:'المظهر ← القوائم (أو استوديو القوائم)',s:'/offers-2023 ← /offers · النص: «العروض»',a:'لا ٤٠٤ في الهيدر — القائمة تشير للصفحة الجديدة',e:'٥ دقائق'},
+  {t:'تحويل مباشر للعروض القديمة',f:'inc/redirects.php',s:"wp_safe_redirect( home_url( '/offers' ), 301 ); // بدل سلسلة الثلاث قفزات",a:'curl -I يعيد قفزة ٣٠١ واحدة فقط',e:'١٠ دقائق'},
+  {t:'عنوان تصنيف «الثانوية»',f:'وصف التصنيف + document_title_parts',s:'«ملازم المرحلة الثانوية (٩٨ ملزمة PDF وورقية) | تذكير»',a:'CTR يقاس بعد ٢٨ يومًا مقابل خط أساس ١٫١٪ (لغة ارتباط لا سببية)',e:'٣٠ دقيقة'}]},
+ {g:'ج · canonical لروابط الفلاتر',c:'#1d5f9c',rows:[
+  {t:'canonical موحّد لصفحات الفلترة',f:'inc/seo-canonical.php',s:"add_filter( 'get_canonical_url', fn( $url ) => is_product_category() && ! empty( $_GET ) ? get_term_link( get_queried_object() ) : $url );",a:'كل /shop?filter_* يعلن canonical للتصنيف الأم — ٢١٤ رابطًا تتوحد',e:'ساعة'},
+  {t:'مراجعة قبل أي حجب robots',f:'—',s:'لا تحجب المعلمات في robots.txt قبل أسبوعين من توحيد canonical',a:'هبوط زحف المعلمات في السجلات دون فقد إشارات',e:'مراقبة'}]},
+ {g:'د · صور المنتجات وCWV',c:'#6b3fa0',rows:[
+  {t:'ضغط صور LCP الست إلى WebP',f:'مكتبة الوسائط',s:'٣٤٠ ك.ب ← أقل من ٩٠ ك.ب لكل صورة · fetchpriority="high" لصورة البطل',a:'LCP أقل من ٢٫٥ ث على جوال متوسط (PageSpeed)',e:'ساعتان'},
+  {t:'نص بديل للصور الـ ٣٤',f:'المنتجات ← الصور',s:'alt = اسم المنتج + المرحلة — توليد مقترح ثم مراجعة بشرية، لا نشر تلقائي',a:'صفر صور منتجات بلا alt في فحص الوسائط',e:'ساعتان'},
+  {t:'srcset مقاسات متجاوبة',f:'functions.php',s:"add_image_size( 'product-card', 420, 420, true ); // مع srcset التلقائي",a:'الجوال يحمّل ≤ ٤٢٠px بدل الأصل الكامل',e:'ساعة'}]}
+];
+
+renderVals(){
+ const p=this.props||{};
+ const scr=this.state.scr||p.startScreen||'offers';
+ const st=this.state;
+ const SCR=[['offers','العروض','#s-tag'],['search','نتائج البحث','#s-search'],['notfound','صفحة ٤٠٤','#s-flag'],['payment','طرق الدفع','#s-shield'],['plan','خطة التنفيذ','#s-code']];
+ const PATHS={offers:'/offers',search:'/search?q=ملزمة+رياضيات',notfound:'/any-broken-link → 404',payment:'/payment-methods',plan:'handoff.dev'};
+ const out={
+  dir:p.direction==='ltr'?'ltr':'rtl',
+  screens:SCR.map(s=>({k:s[0],n:s[1],icon:s[2],on:scr===s[0],
+   bg:scr===s[0]?'#eaf2ee':'transparent',fg:scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  curPath:PATHS[scr],
+  navOffersC:scr==='offers'?'#146c4c':'#3d4f45',navOffersBg:scr==='offers'?'#eaf3ee':'transparent',
+  footNote:scr==='notfound'?'404 · صفحة مخصصة · تُسجَّل للمراقبة':(scr==='plan'?'developer handoff · v1':'index,follow · في Sitemap'),
+  is:{offers:scr==='offers',search:scr==='search',notfound:scr==='notfound',payment:scr==='payment',plan:scr==='plan',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ return Object.assign(out,this.rvOffers(),this.rvSearch(),this.rv404(),this.rvPay(),this.rvPlan());
+}
+rvOffers(){
+ const st=this.state;
+ const cats=[['all','كل العروض'],['sec','ثانوي'],['mid','متوسط'],['pri','ابتدائي']];
+ const list=this.OFFERS.filter(o=>st.offFilter==='all'||o.cat===st.offFilter);
+ return {off:{
+  cats:cats.map(c=>({k:c[0],n:c[1],count:this.ar(c[0]==='all'?this.OFFERS.length:this.OFFERS.filter(o=>o.cat===c[0]).length),
+   on:st.offFilter===c[0],bg:st.offFilter===c[0]?'#14261d':'#fff',fg:st.offFilter===c[0]?'#fff':'#3d4f45',bd:st.offFilter===c[0]?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({offFilter:c[0]})})),
+  rows:list.map(o=>({n:o.n,old:this.ar(o.old)+' ر.س',now:this.ar(o.now)+' ر.س',off:o.off,rate:o.rate,img:o.img,
+   tag:o.tag,hasTag:!!o.tag,stock:o.stock,hasStock:!!o.stock,
+   save:'وفّرت '+this.ar(o.old-o.now)+' ر.س',
+   onAdd:()=>this.toast('أُضيف «'+o.n+'» بسعر العرض'),
+   onView:()=>this.toast('فتح صفحة «'+o.n+'»')})),
+  couponLabel:st.copied?'نُسخ ✓':'نسخ الكود',
+  couponBg:st.copied?'#146c4c':'#14261d',
+  onCopy:()=>{ try{ navigator.clipboard&&navigator.clipboard.writeText('WELCOME').catch(()=>{}); }catch(e){}
+   this.setState({copied:true}); this.toast('نُسخ WELCOME — خصم ١٠٪ إضافي لأول طلب');
+   (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({copied:false}),2400)); },
+  terms:['الأسعار شاملة ضريبة القيمة المضافة ١٥٪','العرض ساري حتى ١٥ سبتمبر ٢٠٢٦ أو نفاد الكمية','كوبون WELCOME يُجمع مع أسعار العروض لأول طلب فقط','الاسترجاع وفق سياسة المتجر — ١٤ يومًا للمطبوعات']
+ }};
+}
+rvSearch(){
+ const st=this.state;
+ const types=[['all','الكل'],['p','منتجات'],['a','مقالات']];
+ const list=this.SRES.filter(r=>st.sType==='all'||r.ty===st.sType);
+ const pN=this.SRES.filter(r=>r.ty==='p').length, aN=this.SRES.filter(r=>r.ty==='a').length;
+ return {srch:{
+  q:st.sq,onQ:(e)=>this.setState({sq:e.target.value}),
+  onGo:()=>this.toast('بحث عن «'+st.sq+'» — النتائج من فهرس الموقع نفسه'),
+  meta:this.ar(this.SRES.length)+' نتائج («'+st.sq+'») — '+this.ar(pN)+' منتجات و'+this.ar(aN)+' مقالات',
+  types:types.map(t=>({k:t[0],n:t[1],on:st.sType===t[0],
+   bg:st.sType===t[0]?'#14261d':'#fff',fg:st.sType===t[0]?'#fff':'#3d4f45',bd:st.sType===t[0]?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({sType:t[0]})})),
+  sort:st.sSort,onSort:(e)=>{ this.setState({sSort:e.target.value}); this.toast('رُتّبت النتائج: '+({rel:'الأكثر صلة',price:'السعر',new:'الأحدث'}[e.target.value])); },
+  prods:list.filter(r=>r.ty==='p').map(r=>({n:r.n,d:r.d,p:r.p,rate:r.rate,lvl:r.lvl,img:r.img,
+   onAdd:()=>this.toast('أُضيف «'+r.n+'»'),onView:()=>this.toast('فتح «'+r.n+'»')})),
+  arts:list.filter(r=>r.ty==='a').map(r=>({n:r.n,d:r.d,onView:()=>this.toast('فتح مقال «'+r.n+'»')})),
+  hasProds:list.some(r=>r.ty==='p'),hasArts:list.some(r=>r.ty==='a'),
+  rel:['ملزمة رياضيات ثاني ثانوي','حلول تمارين الرياضيات','ملزمة فيزياء','حزمة ثالث ثانوي'].map(q=>({q:q,onGo:()=>{this.setState({sq:q});this.toast('بحث عن «'+q+'»');}})),
+  onAsk:()=>this.toast('فتح واتساب: «أبحث عن ملزمة غير متوفرة» — نجهزها لك إن أمكن')
+ }};
+}
+rv404(){
+ return {nf:{
+  q:this.state.q404,onQ:(e)=>this.setState({q404:e.target.value}),
+  onGo:()=>this.toast(this.state.q404?('بحث عن «'+this.state.q404+'»'):'اكتب ما تبحث عنه أولًا'),
+  links:[
+   ['المتجر','كل الملازم والمذكرات','#s-cart'],['المرحلة الابتدائية','٦٤ منتجًا','#s-book'],
+   ['المرحلة المتوسطة','٥٢ منتجًا','#s-book'],['المرحلة الثانوية','٩٨ منتجًا','#s-book'],
+   ['تتبع الطلب','أين وصلت شحنتك؟','#s-truck'],['المدونة','أدلة وإرشادات','#s-doc']
+  ].map(l=>({n:l[0],d:l[1],icon:l[2],onGo:()=>this.toast('الانتقال إلى '+l[0])})),
+  onReport:()=>this.toast('شكرًا! سُجّل الرابط المكسور لفريقنا — يظهر في مراقب SEO تلقائيًا'),
+  onSupport:()=>this.toast('فتح واتساب الدعم — نساعدك تصل لما تريده')
+ }};
+}
+rvPay(){
+ const st=this.state;
+ return {pay:{
+  rows:this.PAY.map((m,i)=>({n:m.n,d:m.d,fee:m.fee,icon:m.ic,c:m.c,
+   feeC:m.fee==='بلا رسوم'?'#146c4c':'#8a6500',feeBg:m.fee==='بلا رسوم'?'#eaf3ee':'#fff4d6',
+   open:st.payOpen===i,caret:st.payOpen===i?'#s-chev-d':'#s-chev-l',bg:st.payOpen===i?'#f8faf8':'#fff',
+   steps:m.steps.map((s,j)=>({n:this.ar(j+1),t:s})),
+   onToggle:()=>this.setState({payOpen:st.payOpen===i?-1:i})})),
+  sec:[['تشفير كامل','كل عملية عبر TLS وبوابة معتمدة'],['لا نخزن بطاقتك','الأرقام لدى البوابة المرخصة فقط — نحتفظ برمز مرجعي'],['3D Secure','تأكيد إضافي من بنكك لكل عملية بطاقة'],['فوترة معتمدة','فاتورة ضريبية مبسطة لكل طلب']].map(x=>({t:x[0],d:x[1]})),
+  refund:this.REFUND.map(r=>({m:r[0],t:r[1]})),
+  faq:[['هل الدفع عند الاستلام متاح للملفات الرقمية؟','لا — الرقمية تتطلب دفعًا مسبقًا لأن التسليم فوري. متاح للمطبوعات داخل المدن الرئيسية.'],['متى يتأكد طلب التحويل البنكي؟','خلال ساعات العمل بعد مطابقة الإيصال — عادة أقل من ٣ ساعات.'],['هل تظهر رسوم إضافية عند الدفع؟','لا رسوم خفية إطلاقًا — رسوم «عند الاستلام» (٥ ر.س) تظهر بوضوح قبل التأكيد.']].map(f=>({q:f[0],a:f[1]})),
+  onShop:()=>this.toast('الانتقال إلى المتجر')
+ }};
+}
+rvPlan(){
+ const st=this.state;
+ let total=0,doneN=0;
+ this.PLAN.forEach(g=>g.rows.forEach(r=>{ total++; if(st.done[r.t]) doneN++; }));
+ return {plan:{
+  progress:this.ar(doneN)+' من '+this.ar(total)+' منجزة',
+  w:Math.round(doneN/total*100)+'%',
+  groups:this.PLAN.map(g=>({g:g.g,c:g.c,
+   rows:g.rows.map(r=>({t:r.t,f:r.f,s:r.s,a:r.a,e:r.e,
+    done:!!st.done[r.t],
+    ic:st.done[r.t]?'#s-check':'',
+    boxBg:st.done[r.t]?'#1e7355':'#fff',boxBd:st.done[r.t]?'#1e7355':'#c9d2cc',
+    dim:st.done[r.t]?'.55':'1',strike:st.done[r.t]?'line-through':'none',
+    onToggle:()=>{ const d=Object.assign({},st.done); d[r.t]=!d[r.t]; this.setState({done:d}); }}))})),
+  note:'الخطة مرتبة بالاعتماد: أ يعتمد على نموذج صفحة التأكيد المُسلَّم · ب مستقل وينجز اليوم · ج قبل أي تعديل robots · د ميكانيكي بالكامل. كل بند يحمل معيار قبول يُقاس لا يُقدَّر.'
+ }};
+}
+/*@MORE*/
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/*
+UNIT: AI-REQUEST-LOG
+COMPONENT: ai-request-log.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * سطحُ الفعل على دفتر النداءات.
+ *
+ * خصائص منطقيّة فقط (`inline/block`) لا `left/right`: ما يُعرض هنا خليطٌ
+ * دائم — عربيّةٌ حول أرقامٍ لاتينيّة وبصمةِ مدخلٍ ونصّ خطأ من مزوّدٍ
+ * أجنبيّ، والخاصّيّة الفيزيائيّة تنكسر عند أوّل مقطعٍ منها.
+ */
+
+/*
+ * زرّ الكشف نصٌّ لا لوح.
+ *
+ * الصفّ يحمل تسعة أعمدةٍ أوّلها الحالة — وهي أوّل ما تقع عليه العين في
+ * دفترٍ يُقرأ بحثًا عن فشل. ولوحٌ ملوّن عاشرًا يسرق ذلك النظر إلى نفسه في
+ * كلّ سطر، فيصير العمود الذي لا يُقرأ إلّا أحيانًا أظهرَ من العمود الذي
+ * يُقرأ دائمًا.
+ *
+ * والارتفاع ٤٤ بكسلًا دائمًا لا عند المؤشّر الخشن وحده (كما ترفع
+ * `globals.css` أزرار الجداول): الصفّ هنا هو المقبض الوحيد إلى رسالة
+ * الخطأ، وثمنُه سطرٌ أطول قليلًا في جدولٍ يُقرأ فيه كلّ سطرٍ بتمهّل.
+ */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: start;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* صفّ التفصيل: خليّةٌ واحدة ممتدّة تحت الصفّ الذي تخصّه، بسطحٍ غائر يفصلها عنه. */
+.detailCell {
+  background: var(--canvas);
+  padding-block: 14px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* عنوان كتلة الخطأ: باهتٌ صغير — النصّ تحته هو المقصود لا تسميته. */
+.failureHead {
+  margin-block: 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+/*
+ * سببُ تعذّر الإعادة كما قاله الخادم، وتنبيهُ نقص الصلاحيّة.
+ *
+ * `60ch` لا عرض الخليّة: جدولٌ بعشرة أعمدةٍ يمدّ السطر إلى ما لا تتبعه
+ * العين، وسبب الرفض جملةٌ تُقرأ لا عمود.
+ */
+.blocker {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  max-inline-size: 60ch;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 6px;
+}
+
+/* ٤٤ بكسلًا: الزرّان يصرفان مالًا أو يقطعان عملًا، فلا يُضغطان بالخطأ ولا يُخطآن. */
+.actionButton {
+  min-block-size: 44px;
+}
+
+.actionError {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--state-danger);
+  max-inline-size: 60ch;
+}
+
+/* تأكيدُ وقوعٍ لا تهنئة: يُقرأ مرّةً ثمّ يختفي مع الصفّ عند إعادة التحميل. */
+.actionDone {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}

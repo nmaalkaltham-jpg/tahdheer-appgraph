@@ -1,0 +1,108 @@
+/*
+UNIT: TOAST
+COMPONENT: Toast.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * Toast — the dark card of Tahdheer - Account Portal.dc.html: fixed to the
+ * inline-end/block-end corner (18px), --ink surface, radius 12, 420px cap, the
+ * acFade 200ms entrance. Tokens only, logical properties only (RTL-first).
+ */
+
+.viewport {
+  position: fixed;
+  inset-inline-end: 18px;
+  inset-block-end: 18px;
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-inline-size: 420px;
+  margin-block-start: 7px;
+  padding-block: var(--space-3);
+  padding-inline: 15px;
+  border-radius: var(--radius-toast);
+  background: var(--color-inverse);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-toast);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.6;
+  pointer-events: auto;
+  animation: tahToastIn var(--toast-enter-duration) ease;
+}
+
+.error {
+  background: var(--danger-text);
+}
+
+.message {
+  flex: 1;
+  text-align: start;
+}
+
+.dismiss {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+}
+
+/* 24px visual affordance, ≥44px pointer target. */
+.dismiss::before {
+  content: '';
+  position: absolute;
+  inset-block: -10px;
+  inset-inline: -10px;
+}
+
+.dismiss:hover {
+  background: var(--chrome-12);
+}
+
+.dismiss:focus-visible {
+  outline: var(--focus-ring-width) solid var(--gold-400);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@keyframes tahToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Reduced motion REVEALS: the toast appears at full opacity with no travel —
+ * the message is never left behind an entrance that no longer runs.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

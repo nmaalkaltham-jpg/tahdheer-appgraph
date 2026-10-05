@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+code{font-family:ui-monospace,Menlo,monospace}
+h2{margin:0 0 10px;font-size:16px;font-weight:900;color:#14261d}
+.row{display:flex;gap:11px;padding:9px 11px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid}
+.mk{flex:0 0 auto;width:19px;height:19px;border-radius:6px;display:grid;place-items:center;font:900 9.5px ui-monospace,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div dir="rtl" style="display:flex;align-items:center;gap:12px;padding-bottom:13px;border-bottom:2px solid #14261d;margin-bottom:20px">
+<span style="width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:14px">ت</span>
+<div style="flex:1"><div style="font-size:14.5px;font-weight:900;color:#14261d">Analytics Pro — مواصفة التنفيذ</div><div style="font-size:11.5px;color:#5f7167">المعمار · النقاط النهائية · الهجرة · الرجوع · الصلاحيات</div></div>
+<div style="text-align:end;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167">v1<br>2026-08-27</div>
+</div>
+
+<div dir="rtl" style="padding:13px 15px;border:1px solid rgba(37,155,111,.3);background:rgba(37,155,111,.06);border-radius:10px;margin-bottom:20px">
+<div style="font-size:13px;font-weight:900;color:#1e7355;margin-bottom:6px">المبدأ الحاكم: طبقة فوق، لا نظام ثانٍ</div>
+<p style="margin:0;font-size:12.5px;line-height:1.85;color:#3b4d43">لا جدول جديد، ولا تغيير مخطَّط، ولا قائمة إدارة ثانية. الأقسام الخمسة تُصيَّر داخل <code dir="ltr">analytics_pro_render_tabbar()</code> القائم وتقرأ من <code dir="ltr">tahdheer_visitor_events</code> و<code dir="ltr">tahdheer_heatmap</code> كما هما. وعليه يكون الرجوع تعطيلًا لا هجرة عكسية.</p>
+</div>
+
+<h2 dir="rtl">1 · ما يُضاف وما لا يُمسّ</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">+</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">ملفات جديدة</span><code dir="ltr" style="flex:0 0 186px;font-size:9.5px;color:#3b4d43;text-align:start">inc/analytics/*.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">‏<code dir="ltr" style="font-size:9px">class-range.php</code> (المدى والمقارنة) · <code dir="ltr" style="font-size:9px">class-widgets.php</code> (التخطيط لكل مستخدم) · <code dir="ltr" style="font-size:9px">class-media-views.php</code> · <code dir="ltr" style="font-size:9px">class-dryrun.php</code> · <code dir="ltr" style="font-size:9px">class-seo-center.php</code></span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">~</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">تُعدَّل بحذر</span><code dir="ltr" style="flex:0 0 186px;font-size:9.5px;color:#3b4d43;text-align:start">analytics-pro.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">إضافة استدعاء شريط التحكّم ولوحة الودجات في «الرئيسية». التبويبات وأسماؤها وترتيبها لا تُغيَّر — ملفات أخرى تعتمد عليها.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">~</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">تُوسَّع</span><code dir="ltr" style="flex:0 0 186px;font-size:9.5px;color:#3b4d43;text-align:start">image-optimizer.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">‏<code dir="ltr" style="font-size:9px">Dry Run</code> وإيقاف/استئناف وسجلّ. الاسترجاع القائم <code dir="ltr" style="font-size:9px">tahdheer_imgopt_restore()</code> يبقى كما هو ولا يُعاد كتابته.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">لا تُمسّ</span><span dir="rtl" style="flex:0 0 186px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start">مخطَّط الجدولين</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا <code dir="ltr" style="font-size:9px">ALTER TABLE</code> ولا حذف صفوف. البيانات التاريخية لا تُستعاد إن فُقدت، فالقراءة فقط.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">لا تُمسّ</span><code dir="ltr" style="flex:0 0 186px;font-size:9.5px;color:#3b4d43;text-align:start">class-gsc-oauth.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">الربط والمزامنة يعملان. قسم SEO يستهلك <code dir="ltr" style="font-size:9px">connected()</code> و<code dir="ltr" style="font-size:9px">sync()</code> ولا يعيد بناء المصادقة.</span></div>
+</div>
+
+<h2 dir="rtl">2 · النقاط النهائية والصلاحيات</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">R</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">GET /ap/v1/overview</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start"><code dir="ltr" style="font-size:9px">view_woocommerce_reports</code></span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">مؤشّرات المدى والمقارنة. مُكيَّشة 5 دقائق بمفتاح يشمل المدى والتصنيف.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">R</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">GET /ap/v1/media</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start"><code dir="ltr" style="font-size:9px">upload_files</code></span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">ترقيم من الخادم لا من المتصفّح — مكتبة بعشرات الآلاف لا تُحمَّل كاملة.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">R</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">GET /ap/v1/heatmap</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start"><code dir="ltr" style="font-size:9px">manage_options</code></span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">مجمَّع على مستوى العنصر. لا صفوف خام ولا معرّفات زوّار في الاستجابة.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">W</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">POST /ap/v1/layout</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start"><code dir="ltr" style="font-size:9px">read</code> + nonce</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">يحفظ تخطيط الودجات في <code dir="ltr" style="font-size:9px">user_meta</code> — لا في إعداد عام، فلا يغيّر ما يراه غيرك.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">W</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">POST /ap/v1/optimize</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start"><code dir="ltr" style="font-size:9px">upload_files</code> + nonce</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">دفعة واحدة لكل نداء. <code dir="ltr" style="font-size:9px">dry=1</code> يحسب ولا يكتب — والافتراضي <code dir="ltr" style="font-size:9px">1</code> لا <code dir="ltr" style="font-size:9px">0</code>.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#3b4d43;text-align:start">POST /ap/v1/media/delete</code><span style="flex:0 0 104px;font-size:10px;font-weight:800;color:#5f7167;text-align:start">—</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">غير مُسجَّلة في هذه المرحلة. الحذف يبقى في مكتبة ووردبريس حيث يراه المستخدم مع تحذيراتها.</span></div>
+</div>
+
+<h2 dir="rtl">3 · الأداء — قواعد لا نصائح</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">1</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">أصول الصفحة</span><span dir="rtl" style="flex:0 0 92px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start"><bdi dir="ltr">≤ 22 KB</bdi> معًا</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا تُحمَّل إلا على صفحات Analytics Pro — النمط قائم في الملف أصلًا.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">2</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">الرسوم</span><span dir="rtl" style="flex:0 0 92px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start">بلا تبعية</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">SVG مولَّد من السلسلة نفسها. لا مكتبة رسوم — الموجز يمنع التبعيات غير الضرورية.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">3</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">المسح</span><span dir="rtl" style="flex:0 0 92px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start">تدريجي</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا مسح لكل الصور أو المنتجات عند أي تحميل. طابور بتقدّم محفوظ يستأنف بعد إغلاق الصفحة.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">4</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">زمن حفظ المنتج</span><span dir="rtl" style="flex:0 0 92px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start"><bdi dir="ltr">+0</bdi> استعلام</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا عمل متزامن جديد على <code dir="ltr" style="font-size:9px">save_post_product</code> — خمسة خطّافات عليه أصلًا.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">5</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">عزل الأعطال</span><span dir="rtl" style="flex:0 0 92px;font-size:10px;font-weight:800;color:#3b4d43;text-align:start">لكل وحدة</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">تعطّل Search Console لا يُسقط الودجات، وتعطّل الخريطة لا يُسقط SEO. كل قسم يعرض عطبه في مكانه.</span></div>
+</div>
+
+<h2 dir="rtl">4 · غير المنفَّذ — وسببه</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">Merchant Center</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">لا تكامل في القالب. بنوده تُعرَض معطّلة بقيمة شرطة لا بصفر — الصفر يُقرأ «لا أخطاء» والحقيقة «لا بيانات» — ولا تُحتسَب في درجة الصحة.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">حذف الوسائط</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">«اليتيم» ليس دليل عدم استخدام: قد يكون في قالب بريد أو ودجة أو CSS لا يفحصه المسح. الكشف يُعرَض، والحذف يبقى حيث تحذيراته.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">Core Web Vitals</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">يحتاج بيانات ميدانية من مصدر خارجي. لا يُقاس من داخل لوحة الإدارة، فلا يُعرَض رقمًا مُخترعًا.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 126px;font-size:11px;font-weight:900;color:#14261d;text-align:start">تمرير الفأرة</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">خريطة التمرير غير موثوقة على اللمس وتضخّم حجم الأحداث. النقر والتمرير الرأسي كافيان وأصدق.</span></div>
+</div>
+
+<h2 dir="rtl">5 · الرجوع</h2>
+<p dir="rtl" style="margin:0 0 12px;font-size:12.5px;line-height:1.85;color:#3b4d43">لا هجرة عكسية لأنه لا هجرة أصلًا. تعطيل الملفات الجديدة يعيد «الرئيسية» إلى بطاقاتها السابقة، والتبويبات والجدولان والربط بـ Search Console كما هي. تخطيط الودجات يبقى في <code dir="ltr">user_meta</code> كبيانات خاملة فيُستعاد بالتفعيل. الصور المحوَّلة تبقى محوَّلة — واسترجاعها بالدالة القائمة لا بالتعطيل.</p>
+
+<h2 dir="rtl">6 · قائمة التحقّق</h2>
+<div dir="rtl" style="columns:2;column-gap:24px;font-size:11.5px;line-height:1.95;color:#3b4d43">
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="18">
+<div style="break-inside:avoid;display:flex;gap:7px;align-items:flex-start"><span style="flex:0 0 auto;width:12px;height:12px;border:1.5px solid #c9d4cd;border-radius:3px;margin-top:4px"></span><span>{{ c }}</span></div>
+</sc-for>
+</div>
+
+<p dir="rtl" style="margin:18px 0 0;padding-top:11px;border-top:1px solid #e6e9e2;font-size:10.5px;line-height:1.75;color:#5f7167">التصاميم المرافقة: <b>Tahdheer - Analytics Pro</b> (الرئيسية) · <b>Tahdheer - SEO Center</b> · <b>Tahdheer - Media Library</b> · <b>Tahdheer - Image Ops</b> · <b>Tahdheer - Attention Map</b> · <b>Tahdheer - Analytics Pro Audit</b>.</p>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      checks: [
+        'التبويبات الخمسة بأسمائها لم تتغيّر',
+        'لا ALTER TABLE ولا حذف صفوف',
+        'البيانات التاريخية تُقرأ كما هي',
+        'الربط بـ Search Console يعمل بعد التحديث',
+        'حالة «غير مربوط» تُعرَض بصدق لا بأصفار',
+        'Merchant معطَّل ولا يُحتسَب في الدرجة',
+        'المدى والمقارنة يسريان على الأقسام كلها',
+        'تخطيط الودجات لكل مستخدم لا عام',
+        'الإخفاء والاستعادة يعملان ويُحفظان',
+        'الرسوم بلا مكتبة خارجية',
+        'Dry Run هو الافتراضي لا الاستثناء',
+        'المعاينة لا تكتب سجلًّا ولا ملفًا',
+        'الاسترجاع يعمل على كل ملف محوَّل',
+        'الملفات غير القابلة للتحويل تقول سببها',
+        'أنماط عرض الوسائط السبعة تعمل',
+        'التكرار يُكشَف بالحجم والأبعاد لا بالاسم',
+        'لا حذف جماعي للوسائط',
+        'خريطة الانتباه تعرض فراغًا لا محاكاة',
+        'المعاينة 10% معلَنة في الواجهة',
+        'لا كلمات مرور ولا بيانات دفع في التسجيل',
+        'صفحات الحساب والدفع مستبعَدة',
+        'الوضعان الفاتح والداكن يحقّقان AA',
+        'RTL سليم في الأقسام الخمسة',
+        'زمن حفظ المنتج لم يتراجع',
+        'أصول الصفحة تُحمَّل على صفحاتها فقط',
+        'لا أخطاء PHP ولا في وحدة التحكّم'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

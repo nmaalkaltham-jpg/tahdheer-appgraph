@@ -1,0 +1,251 @@
+/*
+UNIT: SEARCH-EXPLAIN-PANEL
+COMPONENT: explain-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * خصائص منطقيّة حصرًا (‎inline‎/‎block‎ لا ‎left‎/‎right‎): اللوحة عربيّةٌ من
+ * اليمين، و‎border-left‎ على بطاقةٍ كان سيرسم الشريط في الطرف البعيد عن بداية
+ * السطر. ولا رمزَ لونٍ خارج الرموز الدلاليّة المعرَّفة في ‎globals.css‎.
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.block {
+  border: 1px solid var(--border-subtle, var(--cc-edge));
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.heading {
+  font-size: 1rem;
+  margin-block: 0 0.5rem;
+}
+
+.summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding-block: 0.35rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 0.5rem;
+}
+
+.facts > div {
+  border-inline-start: 3px solid var(--state-info);
+  padding-inline-start: 0.6rem;
+}
+
+.facts dt {
+  font-size: 0.8rem;
+  color: var(--text-secondary, var(--cc-muted));
+  margin-block-end: 0.15rem;
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid var(--border-subtle, var(--cc-edge));
+  border-radius: 999px;
+  padding-block: 0.1rem;
+  padding-inline: 0.55rem;
+  font-size: 0.85rem;
+  margin-inline-end: 0.3rem;
+}
+
+.chipTag {
+  font-size: 0.72rem;
+  color: var(--state-info);
+}
+
+.none {
+  color: var(--text-secondary, var(--cc-muted));
+  font-size: 0.85rem;
+}
+
+.warn {
+  color: var(--state-warning);
+}
+
+.danger {
+  color: var(--state-danger);
+  border-inline-start: 3px solid var(--state-danger);
+  padding-inline-start: 0.6rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  border: 1px solid var(--border-subtle, var(--cc-edge));
+  border-radius: 10px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.rank {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--text-secondary, var(--cc-muted));
+  margin: 0;
+  min-inline-size: 2.2rem;
+}
+
+.cardTitle {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.cardTitle h3 {
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.sku {
+  font-size: 0.8rem;
+  color: var(--text-secondary, var(--cc-muted));
+  margin-block: 0.15rem 0;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  min-inline-size: 4rem;
+}
+
+.score strong {
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.score span {
+  font-size: 0.72rem;
+  color: var(--text-secondary, var(--cc-muted));
+}
+
+.tier,
+.tokens,
+.notReached {
+  margin: 0;
+}
+
+/* الصفّ الحاسم يُميَّز بالنجاح: هو الحقل الذي أنتج الطبقة فعلًا. */
+.decisiveRow {
+  background: color-mix(in srgb, var(--state-success) 10%, transparent);
+}
+
+.nested > th {
+  padding-inline-start: 1.2rem;
+  color: var(--text-secondary, var(--cc-muted));
+}
+
+.norm {
+  max-inline-size: 22rem;
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+}
+
+.badge,
+.badgeOk {
+  display: inline-block;
+  border-radius: 999px;
+  padding-block: 0.05rem;
+  padding-inline: 0.5rem;
+  font-size: 0.72rem;
+  margin-inline-start: 0.4rem;
+}
+
+.badgeOk {
+  background: var(--state-success-soft);
+  color: var(--state-success);
+}
+
+.badge {
+  border: 1px solid currentcolor;
+}
+
+.absent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.absent > li {
+  border-inline-start: 3px solid currentcolor;
+  padding-inline-start: 0.7rem;
+}
+
+.absentHead {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.absentBody {
+  margin-block: 0.2rem 0;
+  color: var(--text-primary, var(--cc-text));
+  font-size: 0.88rem;
+}
+
+.tone-info {
+  color: var(--state-info);
+}
+
+.tone-warning {
+  color: var(--state-warning);
+}
+
+.tone-success {
+  color: var(--state-success);
+}

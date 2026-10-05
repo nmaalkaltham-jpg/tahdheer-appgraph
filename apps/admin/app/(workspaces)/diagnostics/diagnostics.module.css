@@ -1,0 +1,365 @@
+/*
+UNIT: DIAGNOSTICS
+COMPONENT: alerts.tsx, diagnostics-panel.tsx, maps.tsx, reports.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الخرائط التشخيصية · التنبيهات · التقارير — لوحة Tahdheer - Diagnostic Maps.
+ * القيم الهندسية حرفية من اللوحة؛ الألوان عبر رموز اللوحة ومتغيّرات ‎--an-*‎.
+ */
+
+.root {
+  margin-block-end: 24px;
+}
+
+.frame {
+  border: 1px solid var(--an-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--an-page);
+  box-shadow: var(--e-2);
+}
+
+.chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-block: 9px;
+  padding-inline: 20px;
+  background: var(--chrome);
+  color: var(--chrome-text);
+}
+
+.chromeTitle {
+  margin-block: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--chrome-text);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pill {
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 13px;
+  border: 1px solid var(--cc-edge-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--chrome-muted);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pillOn {
+  border-color: var(--chrome-text);
+  background: var(--chrome-text);
+  /* السطح المُعتِم معكوسًا على تعبئة النصّ — ‎--chrome-deep‎ بئرٌ شفيف كان 1.0:1. */
+  color: var(--cc-bg1);
+}
+
+.pill:focus-visible {
+  outline: 2.5px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+.body {
+  padding-block: 16px 20px;
+  padding-inline: 20px;
+  background: var(--an-page);
+  min-block-size: 480px;
+}
+
+/* ───── لوح الخريطة العقدية ───── */
+.mapHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 12px;
+}
+
+.mapTitle {
+  margin-block: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.mapSub {
+  font-size: 9.5px;
+  color: var(--an-muted);
+}
+
+.mapCard {
+  border: 1px solid var(--an-border);
+  border-radius: 15px;
+  background: var(--an-surface);
+  overflow: hidden;
+}
+
+.canvasScroll {
+  overflow-x: auto;
+}
+
+.canvas {
+  position: relative;
+  block-size: 430px; /* حرفي من اللوحة */
+  background-color: var(--an-row);
+  background-image: radial-gradient(var(--an-hair) 1px, transparent 1px);
+  background-size: 22px 22px; /* حرفي من اللوحة */
+  overflow: hidden;
+}
+
+.edges {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-block-size: 44px;
+  padding-block: 4px;
+  padding-inline: 12px;
+  border: 2px solid var(--an-border);
+  border-radius: 999px;
+  /*
+   * سطحٌ مُعتِم تحت الزجاج: الحوافّ ترتسم إلى مركز العقدة، والزجاج الشفيف
+   * كان يُظهرها فوق الاسم. طبقتان لا اختصار — حين يُطفأ الزجاج يصير
+   * ‎--an-surface‎ لونًا فتسقط الصورة وحدها ويبقى اللون.
+   */
+  background-color: var(--cc-bg1);
+  background-image: var(--an-surface);
+  color: var(--an-text);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  max-inline-size: 168px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: var(--e-1);
+}
+
+.nodeOk {
+  border-color: var(--an-ok-fg);
+}
+
+.nodeWarn {
+  border-color: var(--an-warn-fg);
+}
+
+.nodeBad {
+  border-color: var(--an-bad-fg);
+  border-style: dashed;
+}
+
+.nodeOn {
+  background-image: linear-gradient(var(--an-ok-bg), var(--an-ok-bg));
+}
+
+.nodeCount {
+  margin-inline-start: 6px;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 9.5px;
+  font-weight: 800;
+  /* نحو حبر العقدة — الباهت كان 3.5:1 على تعبئة العقدة في الداكن. */
+  color: color-mix(in srgb, var(--an-muted) 55%, var(--an-text));
+}
+
+.legend {
+  position: absolute;
+  inset-inline-start: 12px;
+  inset-block-end: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.legendChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border: 1px solid var(--an-border);
+  border-radius: 999px;
+  background: var(--an-surface);
+  font-size: 8.5px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.mapFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-block: 11px;
+  padding-inline: 16px;
+  border-block-start: 1px solid var(--an-hair);
+  background: var(--an-row);
+}
+
+.mapFootName {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.mapFootBody {
+  flex: 1;
+  min-inline-size: 220px;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--an-muted);
+  text-align: start;
+}
+
+/* ───── صفوف قواعد التنبيه ───── */
+.rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--an-border);
+  border-inline-start: 4px solid var(--an-border);
+  border-radius: 13px;
+  background: var(--an-surface);
+  padding-block: 11px;
+  padding-inline: 15px;
+}
+
+.ruleCritical {
+  border-inline-start-color: var(--an-bad-fg);
+}
+
+.ruleWarn {
+  border-inline-start-color: var(--an-warn-fg);
+}
+
+.ruleInfo {
+  border-inline-start-color: var(--an-ok-fg);
+}
+
+.ruleMain {
+  flex: 1;
+  min-inline-size: 230px;
+}
+
+.ruleTitle {
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.ruleBody {
+  display: block;
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: var(--an-muted);
+}
+
+.ruleValue {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--an-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* مفتاح معطّل: يبقى ظاهرًا ليُقرأ سبب تعطيله، ولا يوهم بأنه يعمل. */
+.switch {
+  flex: 0 0 auto;
+  inline-size: 34px;
+  block-size: 18px;
+  padding-block: 0;
+  padding-inline: 0;
+  border: 1px solid var(--an-border);
+  border-radius: 999px;
+  background: var(--an-inset);
+  position: relative;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.switchKnob {
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--an-muted);
+}
+
+/* ───── بطاقات التقارير ───── */
+.reportGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid var(--an-border);
+  border-radius: 13px;
+  background: var(--an-surface);
+  padding-block: 13px;
+  padding-inline: 15px;
+}
+
+.reportTitle {
+  margin-block: 0;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--an-text);
+}
+
+.reportBody {
+  margin-block: 0;
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: var(--an-muted);
+}
+
+/* سبب التعطيل نصّ يلتفّ، لا شارة سطر واحد تُقصّ. */
+.reportBlocked {
+  padding-block: 6px;
+  padding-inline: 9px;
+  border-radius: 7px;
+  background: var(--an-warn-bg);
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 1.7;
+  color: var(--an-warn-fg);
+  text-align: start;
+}
+
+.reportActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-block-start: auto;
+  padding-block-start: 6px;
+}

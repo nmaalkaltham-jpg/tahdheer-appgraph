@@ -1,0 +1,179 @@
+/*
+UNIT: STATES
+COMPONENT: states.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * حالات الواجهة — هيكلٌ وفراغٌ وعطل.
+ */
+
+/* ───── الهيكل ───── */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.skeletonRow {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.skeletonCell {
+  flex: 1;
+  block-size: 14px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--border-hairline) 25%,
+    var(--border) 37%,
+    var(--border-hairline) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* ───── هيكلٌ بهندسة الجدول ───── */
+/*
+ * الأرقام هنا ليست تقديرًا: كلٌّ منها مأخوذٌ من `data-table.module.css`.
+ *
+ * الرأس ‎24px‎ سطرًا وحشوُه `--d-cell-y - 1`، والصفّ سطرُه ‎20px‎ (‎12.5px‎
+ * × ‎1.6‎) وحشوُه `--d-cell-y`، والخيط الفاصل `--cc-hair`. فلو تبدّلت
+ * الكثافة على الجسم تبدّل الاثنان معًا — ولهذا يُقرأ الرمز ولا يُنسخ رقمُه.
+ */
+.tableSkeleton {
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-md);
+  background: var(--cc-surface);
+  overflow: hidden;
+}
+
+.tableSkeletonHead {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  padding-block: calc(var(--d-cell-y, 10px) - 1px);
+  padding-inline: var(--sp-3);
+  background: linear-gradient(to bottom, var(--cc-well), transparent), var(--cc-bg1);
+  border-block-end: 1px solid var(--cc-edge);
+}
+
+.tableSkeletonHead .skeletonCell {
+  block-size: 24px;
+  /* الرأس أقصر عرضًا من الخليّة: عناوينُ الأعمدة كلماتٌ لا قيم. */
+  max-inline-size: 8ch;
+}
+
+.tableSkeletonRow {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  padding-block: var(--d-cell-y, 10px);
+  padding-inline: var(--sp-3);
+  border-block-end: 1px solid var(--cc-hair);
+}
+
+.tableSkeletonRow:last-child {
+  border-block-end: 0;
+}
+
+/* الرأس هو الـ`div` الأوّل، فصفّ الجدول الأوّل هو النوعُ الثاني — والتخطيط يُزاح معه. */
+.tableSkeletonRow:nth-of-type(odd) {
+  background: color-mix(in srgb, var(--cc-well) 40%, transparent);
+}
+
+.tableSkeletonRow .skeletonCell {
+  block-size: 20px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* الحركة تُطفأ لا تُخفَّف: وميضٌ متكرّر مصدرُ إزعاجٍ لمن طلب تقليلها. */
+@media (prefers-reduced-motion: reduce) {
+  .skeletonCell {
+    animation: none;
+    background: var(--border-hairline);
+  }
+}
+
+/* ───── الفراغ ───── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-block: var(--sp-8);
+  padding-inline: var(--sp-4);
+  text-align: center;
+}
+
+.emptyIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--radius-tile, 13px);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.emptyTitle {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.emptyBody {
+  margin: 0;
+  max-inline-size: 46ch;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ───── العطل ───── */
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid var(--state-danger);
+  border-radius: var(--radius-card);
+  background: var(--state-danger-soft);
+}
+
+.errorIcon {
+  flex: none;
+  color: var(--state-danger);
+}
+
+.errorText {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.errorText strong {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--state-danger);
+}
+
+.errorText p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}

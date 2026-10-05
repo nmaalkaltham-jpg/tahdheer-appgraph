@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes ccFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes ccMq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">إكمال تجربة العميل — التنزيلات · الإشعارات · التقييمات · أقسام الرئيسية</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">صلاحيات WooCommerce وحدها — لا روابط قابلة للتخمين</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.dl }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:ccFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مكتبة تنزيلاتك</h1>
+<input type="search" value="{{ dl.q }}" onChange="{{ dl.onQ }}" placeholder="ابحث في مشترياتك…" aria-label="بحث التنزيلات" style="min-width:220px;min-height:36px;padding:0 13px;border:1.5px solid #d5dbd6;border-radius:10px;font:800 11.5px Tajawal;outline:none">
+<sc-for list="{{ dl.subs }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ c.bd }};border-radius:999px;background:{{ c.bg }};color:{{ c.fg }};font-size:10px;font-weight:900;cursor:pointer">{{ c.n }}</button>
+</sc-for>
+<button type="button" onClick="{{ dl.onAll }}" style="margin-inline-start:auto;min-height:34px;padding:0 14px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;cursor:pointer">تنزيل الكل ZIP ({{ dl.okN }})</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ dl.rows }}" as="r" hint-placeholder-count="4">
+<section style="display:flex;align-items:center;gap:11px;border:1px solid {{ r.bd }};border-inline-start:4px solid {{ r.edge }};border-radius:13px;background:#fff;padding:11px 15px;flex-wrap:wrap;animation:ccFade .2s ease">
+<span aria-hidden="true" style="width:42px;height:42px;border-radius:11px;background:{{ r.img }}"></span>
+<span style="flex:1;min-width:230px"><b style="font-size:12px">{{ r.n }}</b>
+<span style="display:block;margin-top:2px;font-size:9.5px;color:#7c8a82">{{ r.meta }}</span></span>
+<span style="padding:2px 10px;border-radius:999px;background:{{ r.sBg }};color:{{ r.sC }};font-size:8.5px;font-weight:900">{{ r.st }}</span>
+<button type="button" onClick="{{ r.onAct }}" style="min-height:34px;padding:0 14px;border:0;border-radius:9px;background:{{ r.btnBg }};color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">{{ r.act }}</button>
+</section>
+</sc-for>
+</div>
+<div style="padding:9px 13px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;font-size:9.5px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">أمن التسليم:</b> كل رابط موقَّع ومؤقت من WooCommerce، الأهلية تُفحص لحظة الطلب لا لحظة العرض، والمسترجَع يُسحب وصوله فورًا مع بقاء السجل ظاهرًا بصدق.</div>
+</sc-if>
+
+<sc-if value="{{ is.notif }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:ccFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مركز الإشعارات <span style="font-size:11px;color:#8b978f">({{ nt.unread }} غير مقروء)</span></h1>
+<button type="button" onClick="{{ nt.onAllRead }}" style="margin-inline-start:auto;min-height:32px;padding:0 13px;border:1px solid #d5dbd6;border-radius:9px;background:#fff;font-size:10.5px;font-weight:900;color:#3d4f45;cursor:pointer">تعليم الكل مقروءًا</button>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ nt.rows }}" as="r" hint-placeholder-count="4">
+<section style="display:flex;align-items:center;gap:10px;border:1px solid #dce2dd;border-radius:12px;background:{{ r.bg }};padding:10px 14px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ r.dot }}"></span>
+<span style="flex:1;min-width:220px"><b style="font-size:11.5px">{{ r.t }}</b><span style="display:block;font-size:9.5px;line-height:1.7;color:#5f7167">{{ r.d }}</span></span>
+<span style="font-size:8.5px;color:#a9b4ad">{{ r.time }}</span>
+<sc-if value="{{ r.cta }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ r.onGo }}" style="min-height:30px;padding:0 12px;border:1px solid #cfe0d6;border-radius:8px;background:#f2f8f5;font-size:9.5px;font-weight:900;color:#146c4c;cursor:pointer">{{ r.cta }}</button>
+</sc-if>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:14px 16px">
+<b style="font-size:12px">قنوات الاستلام</b>
+<sc-for list="{{ nt.chans }}" as="c" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px dashed #f1f4f2">
+<span style="flex:1;font-size:11px;font-weight:800">{{ c.n }}</span>
+<button type="button" onClick="{{ c.onTog }}" role="switch" aria-checked="{{ c.on }}" aria-label="{{ c.n }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ c.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ c.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+</div>
+</sc-for>
+<div style="margin-top:10px;padding:9px 11px;border:1px dashed #e2e8e4;border-radius:10px;background:#fbfcfb;font-size:9px;line-height:1.7;color:#8b978f"><b style="color:#8a6500">الولاء خلف علم ميزة:</b> يبقى معطلًا حتى تُضبط قواعده — لا نقاط ولا مستويات مفبركة تظهر للعميل قبل ذلك.</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.rev }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:ccFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">نظام التقييمات V2 — خمسة أنماط عرض</h1>
+<sc-for list="{{ rv.modes }}" as="m" hint-placeholder-count="5">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.on }}" style="min-height:30px;padding:0 12px;border:1px solid {{ m.bd }};border-radius:999px;background:{{ m.bg }};color:{{ m.fg }};font-size:10px;font-weight:900;cursor:pointer">{{ m.n }}</button>
+</sc-for>
+</div>
+<sc-if value="{{ rv.isStrip }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:12px 0;overflow:hidden">
+<div style="display:flex;align-items:center;gap:9px;padding:0 16px 9px">
+<b style="font-size:11.5px">شريط التقييمات المتحرك — للرئيسية</b>
+<button type="button" onClick="{{ rv.onPause }}" style="margin-inline-start:auto;min-height:28px;padding:0 12px;border:1px solid #d5dbd6;border-radius:8px;background:#fff;font-size:9.5px;font-weight:900;color:#3d4f45;cursor:pointer">{{ rv.pauseTxt }}</button>
+</div>
+<div style="display:flex;gap:10px;width:max-content;animation:ccMq 22s linear infinite;animation-play-state:{{ rv.play }}" aria-hidden="{{ rv.mqHidden }}">
+<sc-for list="{{ rv.strip }}" as="r" hint-placeholder-count="6">
+<span style="display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #e2e8e4;border-radius:999px;background:#fbfcfb;font-size:10px"><b>{{ r.by }}</b><span style="color:#d8a723">{{ r.stars }}</span><span style="color:#5f7167">{{ r.short }}</span><span style="padding:1px 7px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8px;font-weight:900">موثق ✓</span></span>
+</sc-for>
+</div>
+<p style="margin:9px 16px 0;font-size:9px;color:#a9b4ad">قارئ الشاشة يتلقى قائمة ثابتة مكافئة — لا إعلانات مكررة من الحركة، والحركة تحترم prefers-reduced-motion.</p>
+</section>
+</sc-if>
+<sc-if value="{{ rv.notStrip }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:13px 15px">
+<b style="font:900 22px Tajawal;color:#8a6500">٤٫٨</b><span style="font-size:9.5px;color:#8b978f"> من ٥ · ٩٦ موثقًا</span>
+<sc-for list="{{ rv.dist }}" as="d" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:6px;padding:3px 0"><span style="flex:0 0 16px;font-size:9.5px;font-weight:900">{{ d.s }}★</span><span style="flex:1;height:6px;border-radius:4px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ d.w }};background:#d8a723"></span></span><span style="flex:0 0 26px;font-size:8.5px;color:#8b978f;text-align:end">{{ d.p }}</span></div>
+</sc-for>
+<span style="display:block;margin-top:8px;font-size:9px;color:#a9b4ad">التخزين يبقى في WooCommerce — العرض فقط يتبدل.</span>
+</section>
+<div style="display:grid;grid-template-columns:{{ rv.cols }};gap:9px">
+<sc-for list="{{ rv.cards }}" as="r" hint-placeholder-count="3">
+<article style="border:{{ rv.cardBd }};border-radius:{{ rv.cardR }};background:{{ rv.cardBg }};padding:{{ rv.cardPad }}">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><b style="font-size:11.5px">{{ r.by }}</b><span style="color:#d8a723;font-size:11px">{{ r.stars }}</span><span style="padding:1px 7px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8px;font-weight:900">شراء موثق ✓</span><span style="margin-inline-start:auto;font-size:8.5px;color:#a9b4ad">{{ r.d }}</span></div>
+<p style="margin:6px 0 0;font-size:{{ rv.txtSize }};line-height:1.9;color:#3d4f45;font-style:{{ rv.txtStyle }}">{{ r.t }}</p>
+</article>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ is.sections }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:ccFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مدير أقسام الرئيسية</h1>
+<span style="font-size:9px;color:#8b978f">الترتيب يُخزن في tahdheer_home_order — والواجهة تبقى مرسومة خادميًا</span>
+<div style="margin-inline-start:auto;display:flex;gap:6px">
+<span style="padding:4px 12px;border-radius:999px;background:{{ sm.wfBg }};color:{{ sm.wfC }};font-size:9.5px;font-weight:900">{{ sm.wfTxt }}</span>
+<button type="button" onClick="{{ sm.onPrev }}" style="min-height:32px;padding:0 13px;border:1px solid #d5dbd6;border-radius:9px;background:#fff;font-size:10.5px;font-weight:900;color:#3d4f45;cursor:pointer">معاينة</button>
+<button type="button" onClick="{{ sm.onPub }}" style="min-height:32px;padding:0 14px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">نشر</button>
+<button type="button" onClick="{{ sm.onReset }}" style="min-height:32px;padding:0 12px;border:1px solid #f0d3d3;border-radius:9px;background:#fdf6f6;font-size:10.5px;font-weight:900;color:#b32d2e;cursor:pointer">الافتراضي</button>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ sm.rows }}" as="r" hint-placeholder-count="6">
+<section style="display:flex;align-items:center;gap:9px;border:1px solid #dce2dd;border-radius:12px;background:{{ r.bg }};padding:9px 13px;flex-wrap:wrap;opacity:{{ r.op }}">
+<span style="flex:0 0 22px;font:900 11px Tajawal;color:#8b978f">{{ r.i }}</span>
+<b style="flex:1;min-width:160px;font-size:11.5px">{{ r.n }}</b>
+<button type="button" onClick="{{ r.onD }}" aria-pressed="{{ r.dOn }}" style="min-height:28px;padding:0 10px;border:1px solid {{ r.dBd }};border-radius:8px;background:{{ r.dBg }};color:{{ r.dC }};font-size:9px;font-weight:900;cursor:pointer">كمبيوتر</button>
+<button type="button" onClick="{{ r.onM }}" aria-pressed="{{ r.mOn }}" style="min-height:28px;padding:0 10px;border:1px solid {{ r.mBd }};border-radius:8px;background:{{ r.mBg }};color:{{ r.mC }};font-size:9px;font-weight:900;cursor:pointer">جوال</button>
+<button type="button" onClick="{{ r.onHide }}" style="min-height:28px;padding:0 11px;border:1px solid #d5dbd6;border-radius:8px;background:#fff;font-size:9px;font-weight:900;color:#3d4f45;cursor:pointer">{{ r.hideTxt }}</button>
+<button type="button" onClick="{{ r.onUp }}" aria-label="أعلى" style="width:26px;height:26px;border:1px solid #dce2dd;border-radius:7px;background:#fff;cursor:pointer;font-weight:900">↑</button>
+<button type="button" onClick="{{ r.onDn }}" aria-label="أسفل" style="width:26px;height:26px;border:1px solid #dce2dd;border-radius:7px;background:#fff;cursor:pointer;font-weight:900">↓</button>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:ccFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dl&quot;,&quot;notif&quot;,&quot;rev&quot;,&quot;sections&quot;],&quot;default&quot;:&quot;dl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+G=['linear-gradient(140deg,#2b9c72,#14603f)','linear-gradient(140deg,#d8b56a,#8a6a35)','linear-gradient(140deg,#527a96,#2d5471)','linear-gradient(140deg,#8f6b5a,#61403f)'];
+DL=[
+ {n:'مذكرة رياضيات — أول ثانوي (PDF)',sub:'رياضيات',st:'update',meta:'٤٫٢ م.ب · تنزيلات غير محدودة · لا انتهاء',act:'نزّل الإصدار 2.1'},
+ {n:'حزمة المراجعة الشاملة (٣ ملفات)',sub:'شامل',st:'ok',meta:'١٨ م.ب · اشتُريت قبل شهر · محدثة',act:'تنزيل'},
+ {n:'أوراق عمل لغتي — الرابع',sub:'لغتي',st:'expired',meta:'انتهت مدة الرابط وفق سياسة المتجر',act:'جدّد الرابط'},
+ {n:'ملزمة الفيزياء — ثاني ثانوي',sub:'فيزياء',st:'revoked',meta:'استُرجع الطلب — الوصول موقوف والسجل باقٍ',act:'تواصل مع الدعم'}
+];
+REV=[
+ {by:'أم فيصل',t:'تحسنت درجات ابني من ٧٨ إلى ٩٤ خلال شهرين — الشرح أوضح من الكتاب المدرسي والحلول المعلَّلة فرقت فعلًا.',s:5,d:'قبل أسبوع'},
+ {by:'أ. محمد الشهري',t:'أستخدمها مرجعًا إضافيًا داخل الفصل — تدرج المسائل ممتاز ويوفر وقت إعداد كبيرًا.',s:5,d:'قبل أسبوعين'},
+ {by:'نوف',t:'ممتازة والتنظيم مريح للمذاكرة، تمنيت فقط مسائل إضافية في الوحدة الأخيرة.',s:4,d:'قبل شهر'}
+];
+SEC=[['hero','البطل'],['trust','شريط الثقة'],['best','الأكثر مبيعًا'],['grade','تسوق حسب الصف'],['rev','تقييمات العملاء'],['offers','العروض'],['guides','الأدلة'],['faq','الأسئلة الشائعة']];
+state={scr:'dl',q:'',sub:'all',read:{},chan:{mail:1,push:1,inbox:1},mode:'premium',play:true,
+ order:this.SEC.map(s=>s[0]),vis:{},hid:{},wf:'published',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['dl','مكتبة التنزيلات'],['notif','الإشعارات'],['rev','التقييمات V2'],['sections','أقسام الرئيسية']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{dl:st.scr==='dl',notif:st.scr==='notif',rev:st.scr==='rev',sections:st.scr==='sections',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const q=st.q.trim();
+ const rows=this.DL.filter(r=>(st.sub==='all'||r.sub===st.sub)&&(!q||r.n.indexOf(q)>=0));
+ const SS={ok:['جاهزة','#e4f4ec','#146c4c','#1e7355','#1e7355'],update:['تحديث متاح','#fff4d6','#8a6500','#d8b56a','#8a6500'],expired:['منتهية','#f2f4f2','#5f7167','#a9b4ad','#527a96'],revoked:['موقوفة — استرجاع','#fce8e8','#b32d2e','#b32d2e','#8b978f']};
+ base.dl={q:st.q,onQ:(e)=>this.setState({q:e.target.value}),
+  okN:this.ar(this.DL.filter(r=>r.st==='ok'||r.st==='update').length),
+  subs:['all','رياضيات','فيزياء','لغتي','شامل'].map(c=>({n:c==='all'?'الكل':c,on:st.sub===c,
+   bd:st.sub===c?'#14261d':'#dfe4df',bg:st.sub===c?'#14261d':'#fff',fg:st.sub===c?'#fff':'#5f7167',
+   onClick:()=>this.setState({sub:c})})),
+  rows:rows.map((r,i)=>{const S=SS[r.st];return {n:r.n,meta:r.meta,img:this.G[i%4],
+   st:S[0],sBg:S[1],sC:S[2],edge:S[3],bd:'#dce2dd',btnBg:S[4],act:r.act,
+   onAct:()=>this.toast(r.st==='revoked'?'فتح محادثة الدعم برقم الطلب مرفقًا':(r.st==='expired'?'جُدد الرابط الموقَّع — بعد فحص أهلية لحظي من WooCommerce':'بدأ التنزيل برابط موقَّع مؤقت — '+r.n))};}),
+  onAll:()=>this.toast('يُجهز ZIP للملفات المؤهلة فقط ('+this.ar(this.DL.filter(r=>r.st!=='revoked'&&r.st!=='expired').length)+') — المسترجَع والمنتهي مستثنيان بصدق')};
+ const NT=[
+  {id:1,t:'تحديث ملف: مذكرة الرياضيات 2.1',d:'شرائح تقويم جديدة — نسختك أقدم، والتحديث مجاني لعامك الدراسي.',time:'قبل ٣ ساعات',cta:'نزّل التحديث',dot:'#1e7355'},
+  {id:2,t:'انخفض سعر منتج في مفضلتك',d:'ملزمة الفيزياء ٥٥ → ٤٤ ر.س — مقارنة بأدنى سعر ٣٠ يومًا.',time:'أمس',cta:'اذهب للمنتج',dot:'#8a6500'},
+  {id:3,t:'طلبك #TD-48311 سُلّم',d:'سلّمه الناقل واستلمتَ رمز التقييم — شاركنا رأيك إن أحببت.',time:'قبل يومين',cta:'',dot:'#527a96'},
+  {id:4,t:'تذكير موسمي: الفترة الأولى بعد ٣٧ يومًا',d:'من المحرك الموسمي — ضمن حد ٤ رسائل في الفصل.',time:'قبل ٣ أيام',cta:'',dot:'#a9b4ad'}
+ ];
+ base.nt={unread:this.ar(NT.filter(n=>!st.read[n.id]).length),
+  onAllRead:()=>{ const r={}; NT.forEach(n=>r[n.id]=1); this.setState({read:r}); this.toast('عُلّم الكل مقروءًا'); },
+  rows:NT.map(n=>({t:n.t,d:n.d,time:n.time,cta:n.cta,dot:st.read[n.id]?'#d5dbd6':n.dot,
+   bg:st.read[n.id]?'#fbfcfb':'#fff',
+   onGo:()=>{ const r=Object.assign({},st.read); r[n.id]=1; this.setState({read:r}); this.toast('فُتح: '+n.t); }})),
+  chans:[['mail','البريد'],['push','دفع الويب'],['inbox','داخل الحساب']].map(c=>({n:c[1],on:!!st.chan[c[0]],
+   swBg:st.chan[c[0]]?'#1e7355':'#cfd8d3',knob:st.chan[c[0]]?'17px':'2px',
+   onTog:()=>{ const ch=Object.assign({},st.chan); ch[c[0]]=ch[c[0]]?0:1; this.setState({chan:ch});
+    this.toast((ch[c[0]]?'فُعّلت':'أُوقفت')+' قناة '+c[1]+' — يُحترم فورًا في كل الحلقات'); }}))};
+ const MODES={simple:['بسيط','1fr','1px solid #eef1ef','10px','#fff','10px 13px','11px','normal'],
+  premium:['مميز','1fr 1fr','1px solid #dce2dd','14px','#fff','14px 17px','11.5px','normal'],
+  editorial:['تحريري','1fr','0','14px','#fffaf0','18px 22px','13px','italic'],
+  compact:['مضغوط','1fr','1px solid #eef1ef','8px','#fbfcfb','7px 11px','10px','normal'],
+  strip:['شريط متحرك','1fr','','','','','','']};
+ const M=MODES[st.mode];
+ base.rv={modes:Object.keys(MODES).map(k=>({n:MODES[k][0],on:st.mode===k,
+   bd:st.mode===k?'#14261d':'#dfe4df',bg:st.mode===k?'#14261d':'#fff',fg:st.mode===k?'#fff':'#5f7167',
+   onClick:()=>this.setState({mode:k})})),
+  isStrip:st.mode==='strip',notStrip:st.mode!=='strip',
+  cols:M[1],cardBd:M[2],cardR:M[3],cardBg:M[4],cardPad:M[5],txtSize:M[6],txtStyle:M[7],
+  cards:this.REV.map(r=>({by:r.by,t:r.t,d:r.d,stars:'★★★★★'.slice(0,r.s)})),
+  dist:[[5,81],[4,13],[3,4],[2,2],[1,0]].map(d=>({s:this.ar(d[0]),w:d[1]+'%',p:this.ar(d[1])+'٪'})),
+  strip:this.REV.concat(this.REV).map(r=>({by:r.by,stars:'★★★★★'.slice(0,r.s),short:r.t.slice(0,42)+'…'})),
+  play:st.play?'running':'paused',mqHidden:false,
+  pauseTxt:st.play?'⏸ إيقاف الحركة':'▶ تشغيل',
+  onPause:()=>this.setState({play:!st.play})};
+ const names={}; this.SEC.forEach(s=>names[s[0]]=s[1]);
+ base.sm={
+  wfTxt:st.wf==='published'?'منشور':(st.wf==='preview'?'معاينة مفتوحة':'مسودة غير منشورة'),
+  wfBg:st.wf==='published'?'#e4f4ec':'#fff4d6',wfC:st.wf==='published'?'#146c4c':'#8a6500',
+  onPrev:()=>{ this.setState({wf:'preview'}); this.toast('معاينة برابط موقَّع noindex — لا يمس المنشور'); },
+  onPub:()=>{ this.setState({wf:'published'}); this.toast('نُشر الترتيب في tahdheer_home_order — وأُبطل كاش الرئيسية وحده'); },
+  onReset:()=>{ this.setState({order:this.SEC.map(s=>s[0]),hid:{},vis:{},wf:'draft'}); this.toast('عاد الترتيب الافتراضي — كمسودة حتى تنشر'); },
+  rows:st.order.map((k,i)=>{
+   const v=st.vis[k]||{d:1,m:1}; const hidden=!!st.hid[k];
+   const move=(dir)=>()=>{ const o=st.order.slice(); const j=i+dir; if(j<0||j>=o.length) return;
+    o.splice(i,1); o.splice(j,0,k); this.setState({order:o,wf:'draft'}); };
+   const tv=(dev)=>()=>{ const vv=Object.assign({},st.vis); const cur=Object.assign({d:1,m:1},vv[k]);
+    cur[dev]=cur[dev]?0:1; vv[k]=cur; this.setState({vis:vv,wf:'draft'}); };
+   return {i:this.ar(i+1),n:names[k],op:hidden?'.5':'1',bg:hidden?'#fbfcfb':'#fff',
+    dOn:!!v.d,dBd:v.d?'#1e7355':'#dfe4df',dBg:v.d?'#f2f8f5':'#fff',dC:v.d?'#146c4c':'#8b978f',onD:tv('d'),
+    mOn:!!v.m,mBd:v.m?'#1e7355':'#dfe4df',mBg:v.m?'#f2f8f5':'#fff',mC:v.m?'#146c4c':'#8b978f',onM:tv('m'),
+    hideTxt:hidden?'أظهر':'أخفِ',
+    onHide:()=>{ const h=Object.assign({},st.hid); h[k]=!h[k]; this.setState({hid:h,wf:'draft'}); },
+    onUp:move(-1),onDn:move(1)};
+  })};
+ return base;
+}
+}
+</script>
+</body>
+</html>

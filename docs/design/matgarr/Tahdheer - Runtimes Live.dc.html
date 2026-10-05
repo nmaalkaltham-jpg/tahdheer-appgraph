@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tah-runtimes.css">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="./assets/js/tah-rt-gallery.js"></script>
+<script src="./assets/js/tah-rt-disclosure.js"></script>
+<script src="./assets/js/tah-rt-observer.js"></script>
+<script src="./assets/js/tah-rt-pointer.js"></script>
+</helmet>
+
+<div dir="rtl" style="width:100%;max-width:1180px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:13px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">RUNTIMES · حيّ</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">أزمنة التشغيل الأربعة — تعمل فعلًا في هذه الصفحة</span>
+</div>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">هذه الصفحة تُحمِّل ملفّات أزمنة التشغيل الحقيقية من <code style="font-size:10.5px">assets/js/</code> وتشغّلها على محتوى حقيقي. جرّبها: اسحب الكاروسيل، تنقّل بالأسهم، افتح الأسئلة بلوحة المفاتيح، حرّك مقارنة قبل/بعد بالسهمين. اللوحة أدناه تقرأ الحالة من المتصفّح لا من ادّعائي.</p>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-bottom:14px">
+<sc-for list="{{ probes }}" as="pb" hint-placeholder-count="4">
+<div style="padding:12px 13px;border-radius:11px;background:{{ pb.bg }};border:1px solid {{ pb.edge }}">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+<span aria-hidden="true" style="width:17px;height:17px;border-radius:5px;background:{{ pb.mBg }};color:#fff;display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ pb.mark }}</span>
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ pb.label }}</span>
+</div>
+<span style="display:block;font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.5);margin-bottom:2px">{{ pb.global }}</span>
+<span style="display:block;font:600 9.5px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ pb.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<nav data-tah-sectionnav data-watch="[data-tah-section]" data-offset="20" aria-label="أقسام العرض" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:9px 12px;border:1px solid #dcdcde;border-radius:11px;background:#fff;margin-bottom:13px;position:sticky;inset-block-start:8px;z-index:5" data-tah-sticky>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.45)">انتقل إلى</span>
+<a href="#rt-gallery" style="font:700 10.5px Tajawal,sans-serif;padding:6px 11px;border-radius:7px;background:#f6f7f7;border:1px solid #e4e4e7">المعرض</a>
+<a href="#rt-disclosure" style="font:700 10.5px Tajawal,sans-serif;padding:6px 11px;border-radius:7px;background:#f6f7f7;border:1px solid #e4e4e7">الكشف</a>
+<a href="#rt-observer" style="font:700 10.5px Tajawal,sans-serif;padding:6px 11px;border-radius:7px;background:#f6f7f7;border:1px solid #e4e4e7">المراقب</a>
+<a href="#rt-pointer" style="font:700 10.5px Tajawal,sans-serif;padding:6px 11px;border-radius:7px;background:#f6f7f7;border:1px solid #e4e4e7">المؤشّر</a>
+<span style="flex:1"></span>
+<div data-tah-progress data-label="تقدّم القراءة" style="width:88px;color:#1e7355;background:#ececef;border-radius:3px"></div>
+</nav>
+
+<section id="rt-gallery" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:13px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">١ · المعرض والكاروسيل</h2>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.42)">tah-rt-gallery.js</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">يفتح ٢١ اختيارًا</span>
+</div>
+<p style="margin:0 0 13px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">تمرير حقيقي بـ<code style="font-size:10px">scroll-snap</code> لا محاكاة بـ<code style="font-size:10px">transform</code>. وكل شيء يُقاس بدالّة واحدة: <code style="font-size:10px">startGap()</code> — المسافة بين طرف بداية الشريحة وطرف بداية المسار، مأخوذة من <code style="font-size:10px">getBoundingClientRect</code>. لا <code style="font-size:10px">offsetLeft</code> ولا قراءة مباشرة لـ<code style="font-size:10px">scrollLeft</code>: كلاهما فيزيائي، ونطاق <code style="font-size:10px">scrollLeft</code> سالب في RTL على Chromium وموجب في غيره — وهذا بالضبط الموضع الذي تكسر فيه أغلب الكاروسيلات. السهم <b>الأيسر</b> هو «التالي» هنا لأن الاتجاه منطقي.</p>
+
+<div data-tah-gallery data-loop="0" data-label="منتجات مقترحة" style="--tah-gap:10px;--tah-slide-w:70%;--tah-slide-w-md:38%;--tah-slide-w-lg:26%">
+<div data-tah-track style="padding-block-end:4px">
+<sc-for list="{{ slides }}" as="sl" hint-placeholder-count="6">
+<div data-tah-slide style="border:1px solid #ececef;border-radius:10px;background:#fcfcfd;padding:11px;box-sizing:border-box">
+<span style="display:block;height:74px;border-radius:8px;background:{{ sl.tint }};margin-bottom:9px"></span>
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:3px">{{ sl.title }}</span>
+<span style="display:block;font:700 10.5px ui-monospace,monospace;color:#1e7355">{{ sl.price }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:11px">
+<button type="button" data-tah-prev aria-label="السابق" style="width:32px;height:32px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;cursor:pointer;display:grid;place-items:center;padding:0">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:#1a1a1a;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transform:scaleX(-1)"><path d="M14 6l-6 6 6 6"></path></svg>
+</button>
+<button type="button" data-tah-next aria-label="التالي" style="width:32px;height:32px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;cursor:pointer;display:grid;place-items:center;padding:0">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:#1a1a1a;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><path d="M14 6l-6 6 6 6"></path></svg>
+</button>
+<div data-tah-dots data-dots-label="الانتقال بين الشرائح" style="flex:1;color:#1e7355"></div>
+</div>
+</div>
+</section>
+
+<section id="rt-disclosure" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:13px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">٢ · الكشف</h2>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.42)">tah-rt-disclosure.js</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">يفتح ١٤ اختيارًا</span>
+</div>
+<p style="margin:0 0 13px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">المحتوى كلّه في الشجرة دائمًا — لا حقن بعد النقر. فمحرّك البحث يقرأ كل الأسئلة، والطباعة تُخرج كل الأقسام، ولا قفزة تخطيط. نمط ARIA كامل: جرّب الأسهم و<code style="font-size:10px">Home</code> و<code style="font-size:10px">End</code>.</p>
+
+<div data-tah-tabs data-label="تفاصيل المنتج" style="margin-bottom:16px">
+<div data-tah-tablist style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:11px">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+<button type="button" data-tah-tab="{{ tb.key }}" style="min-height:32px;padding:0 13px;border:1px solid #dcdcde;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:rgba(0,0,0,.62);cursor:pointer" style-hover="border-color:#1e7355">{{ tb.label }}</button>
+</sc-for>
+</div>
+<sc-for list="{{ tabs }}" as="tp" hint-placeholder-count="3">
+<div data-tah-panel="{{ tp.key }}" style="padding:13px 14px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<p style="margin:0;font:500 11px/1.85 Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ tp.body }}</p>
+</div>
+</sc-for>
+</div>
+
+<div data-tah-accordion data-multi="0" data-open-first="1">
+<sc-for list="{{ faqs }}" as="fq" hint-placeholder-count="4">
+<div style="border:1px solid #ececef;border-radius:10px;background:#fcfcfd;margin-bottom:6px;overflow:hidden">
+<h3 style="margin:0">
+<button type="button" data-tah-summary="{{ fq.key }}" style="min-height:42px;padding:0 13px;border:0;background:transparent;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#1a1a1a;cursor:pointer">{{ fq.q }}</button>
+</h3>
+<div data-tah-details="{{ fq.key }}" style="padding:0 13px 13px">
+<p style="margin:0;font:500 11px/1.85 Tajawal,sans-serif;color:rgba(0,0,0,.65)">{{ fq.a }}</p>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="rt-observer" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:13px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">٣ · مراقب التقاطع</h2>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.42)">tah-rt-observer.js</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">يفتح ٩ اختيارات</span>
+</div>
+<p style="margin:0 0 13px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">شريط التنقّل أعلى الصفحة يُفعّل القسم الحالي بمراقب واحد لا بمستمع تمرير. والبطاقات أدناه تُكشَف بتتالٍ يقرأ <code style="font-size:10px">--tah-mo-*</code> من سلّم الحركة فلا يخترع أرقامه. ومع <code style="font-size:10px">prefers-reduced-motion</code> تظهر كلها فورًا — لأن محتوى مخفيًّا في انتظار حركة معطّلة هو أسوأ عطل وصولية ممكن.</p>
+
+<div data-tah-reveal-group style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:9px">
+<sc-for list="{{ cards }}" as="cd" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<span style="display:block;font:900 19px ui-monospace,monospace;color:#1e7355;margin-bottom:3px">{{ cd.n }}</span>
+<span style="display:block;font:800 10.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:2px">{{ cd.label }}</span>
+<span style="display:block;font:500 9.5px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ cd.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="rt-pointer" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:13px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">٤ · المؤشّر</h2>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.42)">tah-rt-pointer.js</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">يفتح ٤ اختيارات</span>
+</div>
+<p style="margin:0 0 13px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">القرار الأهم هنا وصولي: مقارنة «قبل/بعد» مبنيّة على <code style="font-size:10px">input[type=range]</code> حقيقي لا على مستمع <code style="font-size:10px">pointermove</code>. فتعمل بلوحة المفاتيح وقارئ الشاشة واللمس مجانًا — بدل تقليد شريط بعنصر <code style="font-size:10px">div</code> ثم تعويض ما فُقد. جرّب: انقر الشريط ثم استخدم السهمين.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px">
+<div>
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">قبل / بعد</span>
+<div data-tah-compare data-start="50" data-label="مقارنة الغلاف قبل وبعد" style="border-radius:10px;border:1px solid #ececef;height:172px">
+<div data-tah-before style="height:172px;background:repeating-linear-gradient(135deg,#e9e9ec 0 10px,#f4f4f6 10px 20px);display:grid;place-items:center">
+<span style="font:800 11px Tajawal,sans-serif;color:rgba(0,0,0,.45)">قبل</span>
+</div>
+<div data-tah-after style="background:repeating-linear-gradient(135deg,#cfe6dc 0 10px,#eaf5ef 10px 20px);display:grid;place-items:center">
+<span style="font:800 11px Tajawal,sans-serif;color:#123d2f">بعد</span>
+</div>
+</div>
+</div>
+
+<div>
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">نقاط ساخنة</span>
+<div data-tah-hotspots style="border-radius:10px;border:1px solid #ececef;background:#f6f7f7;height:172px">
+<sc-for list="{{ spots }}" as="sp" hint-placeholder-count="3">
+<button type="button" data-tah-hotspot data-x="{{ sp.x }}" data-y="{{ sp.y }}" aria-controls="{{ sp.tip }}" aria-label="{{ sp.label }}" style="width:24px;height:24px;border:2px solid #fff;border-radius:50%;background:#1e7355;color:#fff;font:900 10px ui-monospace,monospace;cursor:pointer;padding:0;box-shadow:0 2px 6px rgba(0,0,0,.25)">{{ sp.n }}</button>
+</sc-for>
+<sc-for list="{{ spots }}" as="tp2" hint-placeholder-count="3">
+<div id="{{ tp2.tip }}" data-tah-tip style="position:absolute;inset-block-end:10px;inset-inline:10px;padding:9px 11px;border-radius:8px;background:#1a1a1a">
+<span style="font:700 10px Tajawal,sans-serif;color:#fff">{{ tp2.label }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div>
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">معرض بالتمرير</span>
+<div data-tah-hovergallery data-label="زوايا المنتج" style="border-radius:10px;border:1px solid #ececef;height:172px;overflow:hidden">
+<sc-for list="{{ frames }}" as="fr" hint-placeholder-count="3">
+<div data-tah-frame style="height:172px;background:{{ fr.tint }};display:grid;place-items:center">
+<span style="font:800 11px Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ fr.label }}</span>
+</div>
+</sc-for>
+</div>
+<span style="display:block;margin-top:6px;font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.5)">على اللمس يتحوّل للنقر تلقائيًا — فلا تُفقد الصور على الجوال.</span>
+</div>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 11px;font:800 13px Tajawal,sans-serif;color:#1a1a1a">الفحوص والتركيب</h2>
+<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">
+<sc-for list="{{ checks }}" as="gd" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:minmax(0,168px) minmax(0,1fr);gap:10px;align-items:center;padding:8px 11px;border:1px solid #ececef;border-radius:8px;background:#fcfcfd">
+<span style="font:800 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ gd.k }}</span>
+<span style="font:600 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ gd.v }}</span>
+</div>
+</sc-for>
+</div>
+<div style="padding:11px 13px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.85 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ install }}</pre>
+</div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;probeDelayMs&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:700,&quot;min&quot;:200,&quot;max&quot;:3000,&quot;step&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;القياس&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+
+// الحقل الأخير هو محدِّد «مُهيَّأ» الخاصّ بكل زمن تشغيل — لا يُبنى بإلحاق سمة
+// واحدة على الجميع، لأن المراقب يستخدم فحصًا لكل سلوك (nav / sticky / progress).
+const RT = [
+  ['rt-gallery', 'المعرض والكاروسيل', 'window.TahGallery', '[data-tah-gallery]',
+    '[data-tah-gallery][data-tah-ready="1"]'],
+  ['rt-disclosure', 'الكشف', 'window.TahDisclosure', '[data-tah-tabs],[data-tah-accordion]',
+    '[data-tah-tabs][data-tah-ready="1"],[data-tah-accordion][data-tah-ready="1"]'],
+  ['rt-observer', 'مراقب التقاطع', 'window.TahObserver', '[data-tah-sectionnav],[data-tah-progress]',
+    '[data-tah-sectionnav][data-tah-ready-nav="1"],[data-tah-progress][data-tah-ready-progress="1"]'],
+  ['rt-pointer', 'المؤشّر', 'window.TahPointer', '[data-tah-compare],[data-tah-hotspots],[data-tah-hovergallery]',
+    '[data-tah-compare][data-tah-ready="1"],[data-tah-hotspots][data-tah-ready="1"],[data-tah-hovergallery][data-tah-ready="1"]'],
+];
+
+class Component extends DCLogic {
+  state = { probe: null };
+
+  componentDidMount() {
+    // نقرأ الحالة من المتصفّح بعد أن تستقرّ الشجرة — لا ندّعي التحميل.
+    const read = () => {
+      const out = RT.map((r) => {
+        const loaded = !!window[r[2].replace('window.', '')];
+        const nodes = document.querySelectorAll(r[3]).length;
+        const ready = document.querySelectorAll(r[4]).length;
+        return { id: r[0], loaded, nodes, ready };
+      });
+      this.setState({ probe: out });
+    };
+    window.setTimeout(read, 700);
+    window.setTimeout(read, 1800);
+  }
+
+  renderVals() {
+    const probe = this.state.probe;
+
+    return {
+      probes: RT.map((r, i) => {
+        const p = probe ? probe[i] : null;
+        const ok = p && p.loaded && p.ready > 0;
+        const partial = p && p.loaded && p.ready === 0;
+        const c = !p ? { bg: '#fff', edge: '#dcdcde', m: '#c9c9cd' }
+          : ok ? { bg: GBG, edge: '#cfe6dc', m: G }
+            : partial ? { bg: ABG, edge: '#f0dca0', m: A }
+              : { bg: RBG, edge: '#f5c9c4', m: R };
+        return {
+          label: r[1], global: r[2],
+          mark: !p ? '…' : ok ? '✓' : partial ? '!' : '×',
+          bg: c.bg, edge: c.edge, mBg: c.m,
+          note: !p ? 'جارٍ القياس…'
+            : ok ? 'مُحمَّل · ' + p.ready + ' من ' + p.nodes + ' عنصرًا مُهيَّأ'
+              : partial ? 'مُحمَّل لكن لم يُهيّئ شيئًا بعد (' + p.nodes + ' عنصرًا في الصفحة)'
+                : 'غير مُحمَّل — تحقّق من مسار الملف',
+        };
+      }),
+
+      slides: [
+        ['تحضير الرياضيات — سادس', '٣٥.٠٠ ر.س', '#e3ecf7'],
+        ['تحضير العلوم — سادس', '٣٥.٠٠ ر.س', '#e7f1ea'],
+        ['تحضير اللغة العربية', '٣٥.٠٠ ر.س', '#f7eee3'],
+        ['حزمة الفصل الأول', '١٤٠.٠٠ ر.س', '#eee7f5'],
+        ['أوراق عمل — سادس', '٢٠.٠٠ ر.س', '#f5e7ea'],
+        ['دليل المعلم', '٢٥.٠٠ ر.س', '#e7f0f5'],
+      ].map((s) => ({ title: s[0], price: s[1], tint: s[2] })),
+
+      tabs: [
+        ['desc', 'الوصف', 'ملف تحضير جاهز للطبع وفق توزيع الوزارة، يشمل أهداف كل درس ومهاراته وأساليب تقويمه. يُسلَّم بصيغتي PowerPoint قابلة للتعديل وPDF جاهز للطبع.'],
+        ['specs', 'المواصفات', 'الصيغ: PPTX و PDF · عدد الملفات: ٥ · الحجم: ٧٥ ميغابايت · اللغة: العربية · التوافق: PowerPoint 2016 وما بعده و Google Slides.'],
+        ['delivery', 'التسليم', 'تحميل فوري بعد إتمام الدفع، ورابط دائم في مكتبتك الرقمية داخل «حسابي». التحديثات المستقبلية للإصدار نفسه مجانية.'],
+      ].map((t) => ({ key: t[0], label: t[1], body: t[2] })),
+
+      faqs: [
+        ['q1', 'هل الملف قابل للتعديل؟', 'نعم — ملف PowerPoint مفتوح بلا حماية، يمكنك تعديل النصوص والصور والترتيب. وترفق معه نسخة PDF جاهزة للطبع مباشرة.'],
+        ['q2', 'كم مرّة يمكنني التحميل؟', 'غير محدود ومن أي جهاز، عبر مكتبتك الرقمية في «حسابي». الرابط المباشر في البريد صالح ٢٤ ساعة، أما المكتبة فدائمة.'],
+        ['q3', 'هل يُحدَّث مع تحديث التوزيع؟', 'نعم. عند صدور توزيع وزاري جديد يُنشَر إصدار محدَّث، ويظهر في مكتبتك بإشعار — بلا رسوم إضافية لنفس المستوى.'],
+        ['q4', 'ما سياسة الاسترجاع؟', 'المنتج رقمي يُسلَّم فورًا. إن لم يُفتَح الملف أو لم يُحمَّل، يمكن الاسترجاع خلال ٣ أيام. وبعد التحميل الفعلي يسقط حق الاسترجاع كما في سياسة المنتجات الرقمية.'],
+      ].map((f) => ({ key: f[0], q: f[1], a: f[2] })),
+
+      cards: [
+        ['٢١', 'المعرض', 'كاروسيلات وسلايدرات ومعارض'],
+        ['١٤', 'الكشف', 'تبويبات وأكورديون وأسئلة'],
+        ['٩', 'المراقب', 'كشف وتنقّل ولزوجة وتقدّم'],
+        ['٤', 'المؤشّر', 'نقاط وقبل/بعد وتمرير'],
+      ].map((c) => ({ n: c[0], label: c[1], note: c[2] })),
+
+      spots: [
+        ['1', 22, 30, 'tip-a', 'الغلاف والعنوان'],
+        ['2', 55, 62, 'tip-b', 'جدول الأهداف'],
+        ['3', 78, 38, 'tip-c', 'أدوات التقويم'],
+      ].map((s) => ({ n: s[0], x: s[1], y: s[2], tip: s[3], label: s[4] })),
+
+      frames: [
+        ['الغلاف', '#e7f1ea'],
+        ['الصفحة الداخلية', '#e3ecf7'],
+        ['جدول التقويم', '#f7eee3'],
+      ].map((f) => ({ label: f[0], tint: f[1] })),
+
+      checks: [
+        ['بلا تبعيات', 'JS عادي — لا استيراد ولا jQuery ولا مكتبة حركة. أربعة ملفات مجموعها ~٣٤ ك.ب قبل الضغط.'],
+        ['تقليل الحركة', 'الأربعة تفحص prefers-reduced-motion وتغيّر سلوكها فعلًا — لا تكتفي بإيقاف الانتقالات.'],
+        ['وعي RTL', 'الاتجاه مقروء من getComputedStyle، والأسهم منطقية: في RTL الأيسر هو التالي.'],
+        ['لوحة المفاتيح', 'كل تفاعل له مسار كامل. والمقارنة على input[type=range] فتُورَث وصوليتها.'],
+        ['ARIA للكشف', 'tablist و aria-selected و aria-controls و aria-expanded و aria-labelledby — لا واحدة ناقصة.'],
+        ['بلا scrollIntoView', 'التمرير محسوب مع مراعاة الرأس الملتصق — لأن scrollIntoView يكسر التطبيق المضيف.'],
+        ['تحميل شرطي', 'تسجيل عام وإدراج بالطلب: المكوّن يطلب زمنه عند تصييره فقط. لا حزمة تُحمَّل احتياطًا.'],
+        ['تهيئة مؤجّلة', 'المعرض لا يُهيّأ قبل أن يقترب من الشاشة، والمراقب يُلغي تتبّع العنصر بعد أول كشف.'],
+      ].map((g) => ({ k: g[0], v: g[1] })),
+
+      install: "// functions.php\nrequire_once get_template_directory() . '/inc/tahdheer-runtimes.php';\n\n// داخل مُصيِّر أي مكوّن — سطر واحد يجلب ما يحتاجه فقط:\ntahdheer_component_boot( 'collection' );   // يقرأ التبعيات من سجل المكوّنات\ntahdheer_runtime_require( 'rt-gallery' );  // أو طلب مباشر\n\n// الفحوص\nnode scripts/check-foundation.mjs\nnode scripts/check-runtimes.mjs",
+    };
+  }
+}
+
+</script>
+</body>
+</html>

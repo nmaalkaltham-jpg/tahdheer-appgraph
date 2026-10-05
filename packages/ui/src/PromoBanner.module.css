@@ -1,0 +1,143 @@
+/*
+UNIT: PROMOBANNER
+COMPONENT: PromoBanner.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لغة التصميم: شريط الدعوة في Storefront Home.dc.html — نصف قطر 20، عنوان
+ * أبيض 28/800، وصف أبيض 85%، وزرّ أبيض بنصّ كحلي (12px، ارتفاع 48).
+ * الصورة تبقى خلفيّةً، والتعتيم بحبر التصميم الكحلي.
+ */
+
+.promo {
+  position: relative;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--sf-gradient-upsell, var(--color-inverse));
+}
+
+.hSm { min-block-size: 200px; }
+.hMd { min-block-size: 320px; }
+.hLg { min-block-size: 460px; }
+
+.img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: var(--pb-focal, 50% 50%);
+}
+
+/* التعتيم فوق الصورة — للمقروئية؛ «بلا» خيار المشرف الصادق فلا يُرسم. */
+.scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.ovSoft .scrim {
+  background: color-mix(in srgb, var(--neutral-900) 38%, transparent);
+}
+
+.ovStrong .scrim {
+  background: color-mix(in srgb, var(--neutral-900) 62%, transparent);
+}
+
+.content {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding-block: 32px;
+  padding-inline: 32px;
+  max-inline-size: 60ch;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.alignCenter .content {
+  justify-items: center;
+  text-align: center;
+  justify-self: center;
+}
+
+.heading {
+  margin: 0;
+  font-family: inherit;
+  color: var(--on-accent);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  margin: 0;
+  color: var(--hm-white-85);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  padding-block: 0;
+  padding-inline: 26px;
+  border-radius: var(--r-md);
+  background: var(--color-surface);
+  color: var(--color-secondary-text);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.cta:hover {
+  background: var(--sf-cool);
+}
+
+.cta:focus-visible {
+  outline: 3px solid var(--on-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .content {
+    padding: 24px 20px;
+  }
+
+  .heading {
+    font-size: 24px;
+  }
+}
+
+/* ── العنصر النائب — المعاينة فقط (المسار المنشور لا يصيّره أصلًا) ──── */
+
+.empty {
+  align-items: center;
+  border: 1px dashed var(--sf-control);
+  background: var(--sf-cool);
+}
+
+.emptyLabel {
+  margin: 0;
+  padding-block: 16px;
+  padding-inline: 24px;
+  justify-self: center;
+  text-align: center;
+  color: var(--sf-muted);
+  font-size: 14px;
+}

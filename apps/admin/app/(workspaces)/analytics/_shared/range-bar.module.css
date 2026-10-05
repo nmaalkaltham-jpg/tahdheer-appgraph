@@ -1,0 +1,173 @@
+/*
+UNIT: RANGE-BAR
+COMPONENT: range-bar.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.bar {
+  position: sticky;
+
+  inset-block-start: 8px;
+
+  z-index: 20;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-block-end: 16px;
+
+  padding-block: 9px;
+
+  padding-inline: 10px;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--an-border) 82%,
+      var(--an-text)
+    );
+
+  border-radius: 14px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--an-bar) 88%,
+      transparent
+    );
+
+  box-shadow:
+    0 8px 28px
+      color-mix(
+        in srgb,
+        var(--an-text) 7%,
+        transparent
+      ),
+    inset 0 1px 0
+      var(--cc-glass-top);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(145%);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(145%);
+}
+
+.label {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-block-size: 32px;
+
+  padding-inline: 5px;
+
+  color:
+    var(--an-muted);
+
+  font-size: 11.5px;
+
+  font-weight: 850;
+
+  white-space: nowrap;
+}
+
+.divider {
+  inline-size: 1px;
+
+  block-size: 24px;
+
+  margin-inline: 2px;
+
+  background:
+    var(--an-border);
+}
+
+.spacer {
+  flex: 1 1 24px;
+}
+
+.scope {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-block-size: 32px;
+
+  gap: 6px;
+
+  box-sizing: border-box;
+
+  padding-inline: 10px;
+
+  border:
+    1px solid
+    var(--an-hair);
+
+  border-radius: 9px;
+
+  background:
+    var(--an-inset);
+
+  color:
+    var(--an-muted);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  font-variant-numeric:
+    tabular-nums;
+
+  white-space: nowrap;
+}
+
+.reason {
+  flex: 1 0 100%;
+
+  margin: 0;
+
+  padding-block-start: 8px;
+
+  border-block-start:
+    1px solid
+    var(--an-hair);
+
+  color:
+    var(--an-muted);
+
+  font-size: 11.25px;
+
+  line-height: 1.7;
+
+  text-align: start;
+}
+
+@media (max-width: 760px) {
+  .bar {
+    inset-block-start: 4px;
+
+    border-radius: 12px;
+
+    padding: 8px;
+  }
+
+  .divider,
+  .spacer {
+    display: none;
+  }
+
+  .scope {
+    flex: 1 0 100%;
+  }
+}

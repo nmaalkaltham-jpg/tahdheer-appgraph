@@ -1,0 +1,3963 @@
+/*
+ * Product page — Storefront Product.dc.html (desktop, 1440 frame, 40px
+ * gutters) and Storefront Product Mobile.dc.html (≤767px). Values are the
+ * design's own; text/background pairs under WCAG AA use the text-safe tokens
+ * (--teal-on under white text, --teal-text, --gold-ink, --sf-faint).
+ */
+
+/* ── page ────────────────────────────────────────────────────────── */
+/* The design's headings inherit the page's 1.6 leading and no tracking; the
+   store-wide :where(h2) typography would otherwise override both. Classes
+   below (same specificity, later) still set their own values. */
+.page :where(h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+/* Likewise the store-wide paragraph leading (1.8): the design's <p> inherit
+   the page's 1.6 unless a class says otherwise (.prose, .faqA…). */
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.page a:not([class]) {
+  color: inherit;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+/* ── mobile app bar (hidden on desktop) ──────────────────────────── */
+.appBar {
+  display: none;
+}
+
+/* ── breadcrumbs ─────────────────────────────────────────────────── */
+.crumbs {
+  line-height: inherit; /* 1.6 desktop, 1.55 mobile — the design's root leading */
+  font-weight: 400;
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 16px var(--sf-gutter) 0;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumb,
+.crumbLast {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.crumb a {
+  /* لوحة الشراء اللاصقة تعلو الفتات بهامشها السالب — فوقها كي لا يُقصّ الهدف (‎24px‎، 2.5.8). */
+  position: relative;
+  z-index: 1;
+  color: inherit;
+  text-decoration: none;
+  /* هدف لمسٍ ‎24px‎ (WCAG 2.5.8) بلا إزاحة: حشوٌ يقابله هامشٌ سالب. */
+  display: inline-block;
+  padding-block: 3px;
+  margin-block: -3px;
+}
+
+.crumb a:hover {
+  color: var(--teal-text);
+}
+
+/* Decorative separators live in CSS (`/ ''` = no accessible text), so
+   neither assistive tech nor the text-contrast sweep reads them as text. */
+.crumb + .crumb::before,
+.crumb + .crumbLast::before {
+  content: '›' / '';
+  color: var(--sf-sep);
+}
+
+.crumbLast b {
+  color: var(--sf-ink);
+  font-weight: 700;
+}
+
+/* ── product grid: gallery + tabs | sticky buy panel ─────────────── */
+.product {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 20px var(--sf-gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'gallery buy'
+    'tabs buy';
+  column-gap: 40px;
+  row-gap: 32px;
+  align-items: start;
+}
+
+.galleryArea {
+  grid-area: gallery;
+  min-inline-size: 0;
+}
+
+.tabsArea {
+  grid-area: tabs;
+  min-inline-size: 0;
+}
+
+/* ── gallery ─────────────────────────────────────────────────────── */
+.gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  gap: 14px;
+}
+
+.gallery:not(:has(.rail)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.stage {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--sf-line);
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:is(.stage, .thumb, .previewCard)[data-tint='navy'] {
+  background: var(--tint-navy);
+}
+:is(.stage, .thumb, .previewCard)[data-tint='teal'] {
+  background: var(--tint-teal);
+}
+:is(.stage, .thumb, .previewCard)[data-tint='sand'] {
+  background: var(--tint-sand);
+}
+:is(.stage, .thumb, .previewCard)[data-tint='butter'] {
+  background: var(--tint-butter);
+}
+:is(.stage, .thumb, .previewCard)[data-tint='lilac'] {
+  background: var(--tint-lilac);
+}
+:is(.stage, .thumb, .previewCard)[data-tint='steel'] {
+  background: var(--tint-steel);
+}
+
+.stageImage {
+  block-size: 82%;
+  inline-size: auto;
+  max-inline-size: 90%;
+  object-fit: contain;
+  background: var(--bg);
+  border-radius: 8px;
+  box-shadow: var(--sf-shadow-page);
+  display: block;
+}
+
+/* ورقة المسرح بلا وسائط: صندوق صورة الصفحة نفسه (82% · نسبة A4 · زاوية وظلّ الورقة)
+   وخطوطٌ زخرفيّة بلون خطوط بطاقة المنتج المشتركة. */
+.stagePaper {
+  block-size: 82%;
+  aspect-ratio: 1240 / 1754;
+  max-inline-size: 90%;
+  background: var(--bg);
+  border-radius: var(--r-xs);
+  box-shadow: var(--sf-shadow-page);
+  padding: 12% 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+}
+
+.stagePaper > span {
+  display: block;
+  block-size: 3%;
+  min-block-size: 6px;
+  border-radius: var(--r-xs);
+  background: var(--hm-paper-line);
+}
+
+.stagePaper > span:first-child {
+  inline-size: 60%;
+  block-size: 4%;
+}
+
+.stagePaper > span:nth-child(3) {
+  inline-size: 80%;
+}
+
+.stagePaper > span:nth-child(4) {
+  inline-size: 90%;
+}
+
+.stagePaper > span:nth-child(5) {
+  inline-size: 44%;
+}
+
+.stageBadges {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.badgeNavy {
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--color-secondary);
+  color: var(--on-accent);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.badgeLabel {
+  font-size: 12px;
+  font-weight: 800;
+  background: var(--bg);
+  color: var(--teal-text);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--tint-teal-line);
+}
+
+.previewPill {
+  position: absolute;
+  inset-block-end: 16px;
+  inset-inline-end: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* كحليٌّ معتم لا ‎92%‎: الشفافيّة فوق حافّة الصورة تُنتج كحليَّين متقاربين يقرؤهما
+     مسح التباين البكسليّ ‎1.17:1‎ — والفرق البصريّ عن القالب غير مُدرَك. */
+  background: var(--color-secondary);
+  color: var(--on-accent);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.previewPill {
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    translate var(--dur-press) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .previewPill:hover {
+    color: var(--color-secondary-fg);
+    background: var(--color-secondary-hover);
+  }
+}
+
+.previewPill:active {
+  translate: 0 1px;
+}
+
+.previewPillShort {
+  display: none;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* المصغّرة: حدٌّ شفّاف ‎2px‎ يصير تركوازًا مع حلقة داخليّة بيضاء حين تُختار،
+   وحدًّا أغمق عند التحويم؛ حلقة التركيز خارجها (‎.page :focus-visible‎). */
+.thumb {
+  inline-size: 88px;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  border: 2px solid var(--sf-line);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    translate var(--dur-press) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .thumb:not([aria-pressed='true']):hover {
+    border-color: var(--sf-sep);
+    box-shadow: var(--e-1);
+  }
+}
+
+.thumb:active {
+  translate: 0 1px;
+}
+
+.thumb[aria-pressed='true'] {
+  border-color: var(--teal-600);
+  box-shadow: inset 0 0 0 2px var(--bg);
+}
+
+.thumb img {
+  /* السمات width/height من next/image لا تحكم الحجم: النسبة من الصورة نفسها. */
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: 78%;
+  max-block-size: 78%;
+  object-fit: contain;
+  border-radius: var(--r-xs);
+  display: block;
+}
+
+/* الداكن: صفحات الملفّ بيضاء فتلمع على المسرح الداكن — تعتيمٌ خفيف لا قلب (النصّ داخلها يبقى مقروءًا). */
+:global(:root[data-theme='dark']) :is(.stageImage, .thumb img, .lightboxImage) {
+  filter: brightness(0.86);
+}
+
+/* ── zoom / lightbox ─────────────────────────────────────────────── */
+
+/* زرّ «تكبير» في أعلى نهاية المسرح (الشارات في بدايته)، والصفحة نفسها تُنقر. */
+.zoom {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 16px;
+  inset-inline-end: 16px;
+  gap: 6px;
+  padding-inline: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: var(--e-1);
+}
+
+.zoom::before {
+  inset-block: -5px;
+}
+
+.stageImage[data-zoomable] {
+  cursor: zoom-in;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* الحاوية تملأ الشاشة شفّافةً (كالمعاينة السريعة)، والستارة واللوحة بداخلها. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  inline-size: 100%;
+  max-inline-size: none;
+  block-size: 100%;
+  max-block-size: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  color: var(--color-text);
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+.lightboxScrim {
+  composes: scrim from '@tahdheer/ui/controls.module.css';
+}
+
+.lightboxPanel {
+  composes: dialog from '@tahdheer/ui/controls.module.css';
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  inline-size: min(960px, 100%);
+  block-size: min(100%, 1100px);
+  padding: 12px 16px 16px;
+  animation: lightboxIn var(--dur-slow) var(--ease-out);
+}
+
+@keyframes lightboxIn {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+.lightboxHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightboxTitle {
+  flex: 1;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-text);
+  text-align: start;
+}
+
+.lightboxCount {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.lightboxClose {
+  composes: btn btnGhost btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+}
+
+/* الصفحة كاملةً بنسبتها داخل لوحٍ خافت — `contain` لا قصّ، فالمعاينة صادقة. */
+.lightboxFigure {
+  display: grid;
+  place-items: center;
+  min-block-size: 0;
+  margin: 0;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  background: var(--color-surface-muted);
+  overflow: auto;
+}
+
+.lightboxImage {
+  display: block;
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+  border-radius: var(--r-xs);
+  background: var(--bg);
+  box-shadow: var(--sf-shadow-page);
+}
+
+.lightboxNav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lightboxStep {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightboxPanel {
+    animation: none;
+  }
+}
+
+/* ── buy panel ───────────────────────────────────────────────────── */
+.buy {
+  grid-area: buy;
+  position: sticky;
+  inset-block-start: 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--sf-shadow-rail);
+  background: var(--bg);
+}
+
+.chips {
+  display: flex;
+  gap: 12px 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 10px;
+  border-radius: var(--r-xs);
+  text-decoration: none;
+}
+
+.chip[data-tone='teal'] {
+  color: var(--teal-text);
+  background: var(--tint-teal);
+}
+.chip[data-tone='navy'] {
+  color: var(--color-secondary-text);
+  background: var(--tint-navy);
+}
+.chip[data-tone='neutral'] {
+  color: var(--sf-muted);
+  background: var(--sf-chip);
+}
+.chip[data-tone='gold'] {
+  color: var(--gold-ink);
+  background: var(--tint-sand);
+}
+
+a.chip:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+  color: var(--sf-ink);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--sf-muted);
+  flex-wrap: wrap;
+}
+
+.ratingStars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--gold-400);
+}
+
+.ratingAvg {
+  color: var(--sf-ink);
+}
+
+.ratingLink,
+.ratingCount {
+  color: var(--teal-text);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.ratingLink {
+  cursor: pointer;
+}
+
+.ratingLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ratingCountShort {
+  display: none;
+}
+
+.ratingSep::before {
+  content: '·' / '';
+  color: var(--sf-sep);
+}
+
+/* كتلة الثمن: الثمن هو الأعلى صوتًا، ثمّ المشطوب والتوفير في سطره، والضريبة
+   تحته مباشرةً بلا فراغٍ ميّت (الصفّ عمودان: المبلغ | القلب). */
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px 12px;
+  flex-wrap: wrap;
+  padding-block: 16px;
+  border-block: 1px solid var(--sf-hair);
+}
+
+.price {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--color-secondary-text);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.priceUnit {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.was {
+  font-size: 16px;
+  color: var(--sf-faint);
+  text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* «وفّر N٪» — ثلاثيّة النجاح (خلفيّة/حدّ/نصّ) بزاوية الشارة. */
+.save {
+  align-self: center;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+  border: 1px solid var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+  padding: 2px 8px;
+  border-radius: var(--r-xs);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tax {
+  order: 9;
+  flex-basis: 100%;
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.saveLine {
+  display: none;
+}
+
+.formats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formatsLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-ink);
+}
+
+.formatGroup {
+  display: flex;
+  gap: 8px;
+}
+
+/* خيار الصيغة = وصفة الرقاقة (تحويم/تركيز/مختار كحليّ) بمقاس خيار المقطّع:
+   سطران، ‎56px‎، زاوية ‎--r-md‎. الضغط إزاحة ‎1px‎ كالأزرار. */
+.format {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  line-height: normal; /* a <button> in the design — UA line-height */
+  position: relative;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  min-block-size: 56px;
+  padding: 6px 8px;
+  border-radius: var(--r-md);
+  flex-direction: column;
+  gap: 2px;
+  color: var(--sf-ink);
+  text-decoration: none;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .format:not([aria-checked='true'], [aria-disabled='true']):hover {
+    background: var(--sf-cool);
+  }
+}
+
+.format:not([aria-disabled='true']):active {
+  transform: translateY(1px);
+}
+
+.format b {
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.format span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sf-muted);
+  white-space: nowrap;
+}
+
+.format[aria-checked='true'] {
+  box-shadow: var(--btn-shadow-secondary);
+}
+
+.format[aria-checked='true'] span {
+  color: var(--hm-white-82);
+}
+
+/* غير المتاح: سطحٌ بارد ونصٌّ باهت وحدٌّ متقطّع — يُقرأ «لا يُختار» لا «مطفأ». */
+.format[aria-disabled='true'] {
+  border-style: dashed;
+  border-color: var(--sf-line);
+  background: var(--sf-cool);
+  color: var(--sf-faint);
+  cursor: not-allowed;
+}
+
+.format[aria-disabled='true'] span {
+  color: var(--sf-faint);
+}
+
+/*
+ * أزرار الشراء الثلاثة — صفٌّ واحد حين يتّسع (يمين←يسار: السلة · الآن ·
+ * Apple Pay)، بعرضٍ متساوٍ تمامًا وارتفاعٍ واحد 54px. الحاوية هي `.ctas` لا
+ * الشاشة: عمود اللوحة ثابتٌ 390px على كلّ شاشةٍ مكتبيّة.
+ *
+ * شبكةٌ لا flex: أعمدة `minmax(0, 1fr)` تتساوى مهما اختلفت الحشوات — وهو ما
+ * يعنيه `flex: 1 1 0; min-inline-size: 0` — بينما flex يضيف حشوة الزرّ فوق
+ * أساسه فيخرج «أضف» أعرض من أخويه.
+ *
+ *   الأساس (ضيّق): سطران — «أضف إلى السلة» كاملًا، ثمّ «اشترِ الآن» وApple Pay
+ *                  مناصفةً (أو «اشترِ الآن» كاملًا حين يغيب Apple Pay).
+ *   مع Apple Pay:  صفٌّ واحد من 380px؛ وتحت 490px تسقط أيقونة السلة أوّلًا
+ *                  ويصير وسمها 15px كأخيه «اشترِ الآن».
+ *   بلا Apple Pay: صفٌّ واحد من 270px؛ وتحت 330px تسقط الأيقونة.
+ * العتبات مقيسة (أضف إلى السلة = 111px بـ16px، و104px بـ15px؛ الأيقونة
+ * 20px + فجوة 10px؛ الحشوة 8px للجانب) لا مخمَّنة.
+ */
+.ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  container: pdp-ctas / inline-size;
+}
+
+.ctaRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.ctaRow > .addBtn,
+.ctaRow:not([data-apple]) > .buyNowForm {
+  grid-column: 1 / -1;
+}
+
+@container pdp-ctas (min-width: 270px) {
+  .ctaRow:not([data-apple]) {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+
+  .ctaRow:not([data-apple]) > .addBtn,
+  .ctaRow:not([data-apple]) > .buyNowForm {
+    grid-column: auto;
+  }
+}
+
+@container pdp-ctas (min-width: 270px) and (max-width: 329.98px) {
+  .ctaRow:not([data-apple]) .addIcon {
+    display: none;
+  }
+}
+
+@container pdp-ctas (min-width: 380px) {
+  .ctaRow[data-apple] {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+
+  .ctaRow[data-apple] > .addBtn {
+    grid-column: auto;
+  }
+}
+
+@container pdp-ctas (min-width: 380px) and (max-width: 489.98px) {
+  .ctaRow[data-apple] .addIcon {
+    display: none;
+  }
+
+  .ctaRow[data-apple] .addBtn {
+    font-size: 15px;
+  }
+}
+
+.ctaRow > .addBtn,
+.ctaRow > .buyNowForm,
+.ctaRow > .applePay {
+  min-inline-size: 0;
+}
+
+/* القلب — 44px عند نهاية سطر الثمن (انظر PdpPurchase)؛ وصفة الزرّ المحيطيّ
+   المربّع، ويحمرّ بثلاثيّة الخطر حين يُحفظ العنصر. */
+.wishBtn {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  inline-size: 44px;
+  min-block-size: 44px;
+  block-size: 44px;
+  margin-inline-start: auto;
+  align-self: center;
+  color: var(--sf-ink-2);
+  flex: none;
+}
+
+.stickyHeart {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+}
+
+.wishBtn[data-wished],
+.stickyHeart[data-wished] {
+  border-color: var(--st-danger-line);
+  background: var(--st-danger-bg);
+  color: var(--danger-500);
+}
+
+@media (hover: hover) {
+  .wishBtn[data-wished]:hover,
+  .stickyHeart[data-wished]:hover {
+    border-color: var(--danger-500);
+  }
+}
+
+/* لحظة التأكيد الوحيدة في الصفحة: نبضةُ القلب حين يُحفظ **بنقرة** (data-pop
+   يضعه النقر وحده — الحالة المستعادة من المخزن لا تتحرّك). */
+.wishBtn[data-pop] svg,
+.stickyHeart[data-pop] svg {
+  animation: tahHeartPop var(--dur-reveal) var(--ease-out);
+}
+
+@keyframes tahHeartPop {
+  0% {
+    scale: 0.7;
+  }
+  55% {
+    scale: 1.18;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+/*
+ * Apple Pay — زرٌّ حقيقيّ. البديل (أسود + الشعار + «Pay») هو الأساس، وحيث
+ * يرسم WebKit زرّ Apple الرسميّ يُترك له الرسم كلّه ويُخفى البديل.
+ */
+.applePay {
+  block-size: 54px;
+  border: 0;
+  border-radius: var(--r-md);
+  padding: 0 8px;
+  background: var(--ch-apple-bg);
+  color: var(--on-accent);
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: hover) {
+  .applePay:hover {
+    background: var(--ch-apple-hover);
+  }
+}
+
+.applePay:active:not(:disabled) {
+  translate: 0 1px;
+}
+
+.applePayFallback {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+}
+
+@supports (-webkit-appearance: -apple-pay-button) {
+  .applePay {
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-type: plain;
+    -apple-pay-button-style: black;
+  }
+
+  .applePayFallback {
+    display: none;
+  }
+}
+
+/* الانتظار والتعطيل كأخويه: خافتٌ، ومؤشّر «جارٍ» — والزرّ لا يُضغط مرّتين. */
+.applePay:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.applePay[data-loading] {
+  opacity: 0.6;
+}
+
+.applePayWord {
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--pdp-apple-font);
+}
+
+/* «أضف إلى السلة» و«اشترِ الآن» — وصفتا الزرّ الأساسيّ والثانويّ بالحجم الكبير
+   (54px)؛ الحالات كلّها (تحويم/ضغط/تركيز/معطّل/انتظار بدوّار) من الوصفة.
+   الحشوة ‎8px‎ هي ما قيست عليه عتبات استعلام الحاوية أعلاه. */
+.addBtn {
+  composes: btn btnPrimary btnLg from '@tahdheer/ui/controls.module.css';
+  line-height: normal; /* a <button> in the design — UA line-height */
+  block-size: 54px;
+  padding-inline: 8px;
+  gap: 10px;
+}
+
+.buyNowForm {
+  display: flex;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.buyNow {
+  composes: btn btnSecondary btnLg from '@tahdheer/ui/controls.module.css';
+  line-height: 1.6; /* an <a> in the design — inherits the page's 1.6 */
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 54px;
+  padding-inline: 8px;
+  font-size: 15px;
+}
+
+/* فشلُ الإضافة تحت الصفّ — ثلاثيّة الخطر بأيقونة الحقل. */
+.buyError {
+  composes: notice noticeDanger from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+  font-weight: 700;
+}
+
+.buyError::before {
+  content: '';
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  margin-block-start: 4px;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm-.75 3.5h1.5v5h-1.5v-5Zm0 6h1.5V12h-1.5v-1.5Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Block order follows the published layout (DOM order). */
+/* الضمانات: إيقاعٌ واحد — أيقونة في مربّعٍ مصبوغ ‎28px‎ ثمّ السطر، بفاصل ‎12px‎. */
+.trust {
+  list-style: none;
+  margin: 0;
+  padding: 16px 0 0;
+  border-block-start: 1px solid var(--sf-hair);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sf-ink-2);
+}
+
+.trust li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.trustIcon {
+  inline-size: 28px;
+  block-size: 28px;
+  flex: none;
+  border-radius: var(--r-xs);
+  background: var(--st-success-bg);
+  color: var(--teal-600);
+  display: grid;
+  place-items: center;
+}
+
+.trustIcon svg {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.trustShort {
+  display: none;
+}
+
+.marks {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--sf-muted);
+  flex-wrap: wrap;
+}
+
+.marks > span:first-child {
+  margin-inline-end: 4px;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 26px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xs);
+  background: var(--sf-cool);
+  padding: 0 8px;
+  color: var(--sf-ink-2);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.tilesBlock {
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.tilesTitle {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  margin-block-end: 12px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* بلاطة ساكنة: صبغة + حدٌّ شعريّ بلون الصبغة نفسها — لا ظلّ ولا تحويم. */
+.tile {
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: var(--r-md);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-inline-size: 0;
+}
+
+.tile span {
+  font-size: 11.5px;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.tile b {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile[data-tone='teal'] {
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+.tile[data-tone='navy'] {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+.tile[data-tone='sand'] {
+  background: var(--tint-sand);
+  color: var(--gold-ink);
+}
+.tile[data-tone='lilac'] {
+  background: var(--tint-lilac);
+  color: var(--tint-lilac-fg);
+}
+.tile[data-tone='clay'] {
+  background: var(--tint-clay);
+  color: var(--tint-clay-fg);
+}
+.tile[data-tone='steel'] {
+  background: var(--tint-steel);
+  color: var(--tint-steel-fg);
+}
+.tile[data-tone='steel'] b {
+  font-size: 14px;
+}
+
+/* شريط «آخر تحديث · الإصدار · الترخيص» — الفواصل زخرفة في ::before. */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-block-start: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sf-cool);
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.metaPair {
+  display: contents;
+}
+
+.metaPair b {
+  color: var(--sf-ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.metaPair + .metaPair::before {
+  content: '·' / '';
+}
+
+/* ── tabs ────────────────────────────────────────────────────────── */
+/* شريط التبويبات صفٌّ واحدٌ يتمرّر أفقيًّا على كلّ عرض (لا سطرٌ ثانٍ يتيم):
+   الحلقة تُرسم داخل التبويب فلا يقصّها صندوق التمرير (§2.4.7). */
+.tablist {
+  display: flex;
+  gap: 4px;
+  border-block-end: 1px solid var(--sf-line);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-padding-inline: 16px;
+  scrollbar-width: none;
+}
+
+.tablist::-webkit-scrollbar {
+  display: none;
+}
+
+/* وصفة التبويب (خطّ سفليّ تركوازيّ ‎3px‎)؛ المختار من الراديو المفحوص. */
+.tab {
+  composes: tab from '@tahdheer/ui/controls.module.css';
+  line-height: normal; /* a <button> in the design — UA line-height */
+  position: relative;
+  flex: none;
+  min-block-size: 48px;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.tab:has(.tabInput:checked) {
+  color: var(--sf-ink);
+  border-block-end-color: var(--teal-600);
+}
+
+.tabInput:focus-visible {
+  outline-offset: -3px;
+  border-radius: var(--r-xs);
+}
+
+.tabInput {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.tabText {
+  position: relative;
+  pointer-events: none;
+}
+
+.tabShort {
+  display: none;
+}
+
+.panel {
+  display: none;
+  padding: 24px 0 0;
+}
+
+/* انتقال اللوحة عند التبديل — مشروطٌ بتركيز راديو التبويب (فعلُ المستخدم)،
+   فلا تتحرّك اللوحة الأولى عند التحميل. */
+.tabs:has(.tabInput:focus) .panel {
+  animation: tahPanelIn var(--dur-reveal) var(--ease-out);
+}
+
+@keyframes tahPanelIn {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.tabs:has(.tab:nth-of-type(1) .tabInput:checked) .panel:nth-of-type(1),
+.tabs:has(.tab:nth-of-type(2) .tabInput:checked) .panel:nth-of-type(2),
+.tabs:has(.tab:nth-of-type(3) .tabInput:checked) .panel:nth-of-type(3),
+.tabs:has(.tab:nth-of-type(4) .tabInput:checked) .panel:nth-of-type(4),
+.tabs:has(.tab:nth-of-type(5) .tabInput:checked) .panel:nth-of-type(5),
+.tabs:has(.tab:nth-of-type(6) .tabInput:checked) .panel:nth-of-type(6),
+.tabs:has(.tab:nth-of-type(7) .tabInput:checked) .panel:nth-of-type(7) {
+  display: block;
+}
+
+@supports not selector(:has(*)) {
+  .panel {
+    display: block;
+  }
+  .tablist {
+    display: none;
+  }
+}
+
+/* tab: description */
+.descGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.prose {
+  margin: 0 0 12px;
+  color: var(--sf-body);
+  line-height: 1.85;
+}
+
+.prose:last-child {
+  margin-block-end: 0;
+}
+
+.specBox {
+  border: 1px solid var(--sf-line);
+  border-radius: 16px;
+  padding: 20px;
+  background: var(--sf-cool);
+  align-self: start;
+}
+
+.specBoxTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin-block-end: 12px;
+}
+
+.specGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 18px;
+  font-size: 14px;
+}
+
+.specLabel {
+  color: var(--sf-muted);
+}
+
+.specValue {
+  font-weight: 700;
+  text-align: start;
+}
+
+/* tab: contents */
+.h2Tight {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.unitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.unit {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+}
+
+.unitTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin-block-end: 8px;
+}
+
+.unitText {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--sf-body);
+}
+
+.unitText:last-child {
+  margin-block-end: 0;
+}
+
+.unitList,
+.goalList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--sf-body);
+}
+
+.unitList li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--teal-600);
+  flex: none;
+}
+
+/* tab: goals */
+.h2Goals {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.h2Goals:has(+ .h2Note) {
+  margin-block-end: 4px;
+}
+
+/* «مهارات مستهدفة» — الشرائح تحت شبكة الأهداف. */
+.skills {
+  margin-block-start: 16px;
+  padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+  border: 1px solid var(--sf-line);
+}
+
+.skillsTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  margin-block-end: 10px;
+}
+
+.skillsList {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.skill {
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg);
+  border: 1px solid var(--sf-control);
+  padding: 7px 14px;
+  border-radius: var(--r-xs);
+}
+
+.goalTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  margin-block-end: 10px;
+}
+
+.goalList {
+  gap: 8px;
+}
+
+.goalList li {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+
+.goalCheck {
+  inline-size: 18px;
+  block-size: 18px;
+  border-radius: var(--r-xs);
+  background: var(--tint-teal);
+  color: var(--teal-600);
+  display: grid;
+  place-items: center;
+  flex: none;
+  margin-block-start: 2px;
+}
+
+/* tab: compatibility + full specs */
+.compatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  align-items: start;
+}
+
+.h2Sub {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.h2Sub:has(+ .h2Note) {
+  margin-block-end: 4px;
+}
+
+.h2Note {
+  margin: 0 0 14px;
+  color: var(--sf-muted);
+  font-size: 14px;
+}
+
+.compatList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.compatRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+.compatRow[data-tone='navy'] {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+.compatRow[data-tone='clay'] {
+  background: var(--tint-clay);
+  color: var(--tint-clay-fg);
+}
+.compatRow[data-tone='teal'] {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+.compatRow[data-tone='lilac'] {
+  background: var(--tint-lilac);
+  color: var(--tint-lilac-fg);
+}
+.compatRow[data-tone='steel'] {
+  background: var(--tint-steel);
+  color: var(--tint-steel-fg);
+}
+.compatRow[data-tone='sand'] {
+  background: var(--tint-sand);
+  color: var(--gold-ink);
+}
+
+.compatCheck {
+  inline-size: 26px;
+  block-size: 26px;
+  border-radius: 8px;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.compatName {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.compatName b {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.compatName span {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.compatVer {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.compatVerShort {
+  display: none;
+}
+
+.specTable {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.specTableRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-block-end: 1px solid var(--sf-hair);
+  font-size: 14px;
+}
+
+.specTableRow:last-child {
+  border-block-end: 0;
+}
+
+.specTableRow span {
+  color: var(--sf-muted);
+}
+
+.specTableRow b {
+  font-weight: 700;
+  text-align: end;
+}
+
+/* tab: preview + faq */
+.previewCards {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  /* حلقة التركيز (‎3+2px‎) داخل صندوق التمرير. */
+  padding: 6px;
+  margin: -6px;
+  scroll-padding-inline: 6px;
+}
+
+.previewCard {
+  flex: none;
+  inline-size: 136px;
+  cursor: pointer;
+  border: 2px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+}
+
+@media (hover: hover) {
+  .previewCard:not([aria-pressed='true']):hover {
+    border-color: var(--sf-sep);
+    box-shadow: var(--e-2);
+  }
+}
+
+.previewCard[aria-pressed='true'] {
+  border-color: var(--teal-600);
+}
+
+.previewCardImg {
+  block-size: 96px;
+  display: grid;
+  place-items: center;
+}
+
+.previewCardImg img {
+  inline-size: auto;
+  block-size: auto;
+  max-inline-size: 70%;
+  max-block-size: 80%;
+  object-fit: contain;
+  display: block;
+}
+
+.previewCardLabel {
+  background: var(--bg);
+  padding: 8px 10px;
+  font-size: 12px;
+  color: var(--sf-ink-2);
+  border-block-start: 1px solid var(--sf-line);
+  text-align: start;
+}
+
+.sampleBtn {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  margin-block-start: 16px;
+  min-block-size: 48px;
+  padding-inline: 20px;
+}
+
+.sampleBtn:hover {
+  color: var(--on-accent);
+}
+
+.h2Faq {
+  margin: 28px 0 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.h2FaqFirst {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* FAQ — rows (inside the tab) and cards (the «قبل الشراء» band) */
+.faqRows {
+  display: flex;
+  flex-direction: column;
+  border-block-start: 1px solid var(--sf-line);
+  max-inline-size: 76ch;
+}
+
+.faqRows .faqItem {
+  border-block-end: 1px solid var(--sf-line);
+}
+
+.faqQ {
+  line-height: normal; /* a <button> in the design — UA line-height */
+  inline-size: 100%;
+  min-block-size: 54px;
+  padding: 13px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  text-align: start;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  list-style: none;
+}
+
+.faqQ::-webkit-details-marker {
+  display: none;
+}
+
+.faqQ {
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .faqQ:hover {
+    color: var(--teal-text);
+  }
+}
+
+.faqChevron {
+  flex: none;
+  color: var(--teal-600);
+  transition: rotate var(--dur-reveal) var(--ease-out);
+}
+
+.faqItem[open] .faqChevron {
+  rotate: 180deg;
+}
+
+/* فتحٌ وإغلاقٌ بارتفاعٍ متحرّك حيث يدعم المتصفّح ‎::details-content‎؛
+   وإلّا يفتح فورًا كما كان. */
+@supports selector(::details-content) {
+  .faqItem {
+    interpolate-size: allow-keywords;
+  }
+
+  .faqItem::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--dur-reveal) var(--ease-out),
+      content-visibility var(--dur-reveal) allow-discrete;
+  }
+
+  .faqItem[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faqItem::details-content {
+      transition: none;
+    }
+  }
+}
+
+.faqA {
+  margin: 0;
+  padding: 0 0 15px;
+  color: var(--sf-body);
+  line-height: 1.85;
+}
+
+.faqCards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faqCards .faqItem {
+  background: var(--bg);
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  padding: 0 18px;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+.faqCards .faqItem[open] {
+  border-color: var(--sf-control);
+}
+
+.faqCards .faqQ {
+  min-block-size: 56px;
+  padding: 15px 0;
+  font-size: 16px;
+}
+
+.faqCards .faqA {
+  padding: 0 0 16px;
+  max-inline-size: 70ch;
+}
+
+/* tab: reviews */
+.revGrid {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.revSummary {
+  border: 1px solid var(--sf-line);
+  border-radius: 16px;
+  padding: 20px;
+  background: var(--sf-cool);
+}
+
+.revAvg {
+  display: block;
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--color-secondary-text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: start;
+}
+
+.revStars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--gold-400);
+  margin: 8px 0 4px;
+}
+
+.revCount {
+  display: block;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.revBars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-block-start: 14px;
+}
+
+.revBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.revBar > span:first-child {
+  inline-size: 14px;
+  text-align: end;
+}
+
+.revBar > span:last-child {
+  inline-size: 32px;
+}
+
+.revTrack {
+  flex: 1;
+  block-size: 6px;
+  background: var(--sf-line);
+  border-radius: var(--r-xs);
+  overflow: hidden;
+}
+
+.revTrack > span {
+  display: block;
+  block-size: 100%;
+  background: var(--teal-600);
+}
+
+.revList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.revCard {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+}
+
+.revHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-block-end: 8px;
+}
+
+.revHead b {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.revHead b span {
+  font-weight: 500;
+  color: var(--sf-muted);
+}
+
+.revHead > span {
+  font-size: 12px;
+  color: var(--sf-faint);
+}
+
+.revCard p {
+  margin: 0;
+  color: var(--sf-ink-2);
+  line-height: 1.8;
+}
+
+/* tab: licence */
+.license {
+  max-inline-size: 72ch;
+  color: var(--sf-body);
+  line-height: 1.85;
+}
+
+.license p {
+  margin: 0 0 10px;
+}
+
+.license p:last-child {
+  margin-block-end: 0;
+}
+
+.license a {
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+/* ── reviews band ────────────────────────────────────────────────── */
+.band {
+  margin-block-start: 64px;
+  border-block: 1px solid var(--sf-line);
+  background: var(--sf-cool);
+}
+
+.bandInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 32px var(--sf-gutter);
+}
+
+.bandHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-block-end: 16px;
+}
+
+.bandTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bandTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* «مباشر» — شارة (لا كبسولة) بنقطة نابضة. */
+.live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--st-success-fg);
+  background: var(--st-success-bg);
+  border: 1px solid var(--st-success-line);
+  padding: 3px 10px;
+  border-radius: var(--r-xs);
+  white-space: nowrap;
+}
+
+.liveDot {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: var(--teal-600);
+  animation: tahPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes tahPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+.bandTitleShort {
+  display: none;
+}
+
+.bandStats {
+  font-size: 13px;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* «اكتب تقييمك» — وصفة الزرّ المحيطيّ بلون الهويّة التركوازيّ. */
+.writeBtn {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+.writeBtnMobile {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  display: none;
+}
+
+.writeBtn,
+.writeBtnMobile {
+  border-color: var(--teal-600);
+  color: var(--teal-text);
+  font-size: 14px;
+}
+
+.writeBtn:hover,
+.writeBtnMobile:hover {
+  border-color: var(--teal-600);
+  background: var(--st-success-bg);
+}
+
+.writeBtn[aria-expanded='true'],
+.writeBtnMobile[aria-expanded='true'] {
+  background: var(--st-success-bg);
+}
+
+.mqViewport {
+  position: relative;
+  margin: 0 calc(-1 * var(--sf-gutter));
+  padding: 2px 0;
+  /* القصّ أفقيّ فقط وعند الشريط نفسه (لا الحزمة): زرّ الإيقاف ومُمدِّده لا يُقصّان. */
+  overflow-x: clip;
+}
+
+.mqTrack {
+  display: flex;
+  gap: 14px;
+  inline-size: max-content;
+  animation: tahReviews 46s linear infinite;
+}
+
+.mqViewport:hover .mqTrack,
+.mqViewport:focus-within .mqTrack,
+.mqTrack[data-paused] {
+  animation-play-state: paused;
+}
+
+/* Marquee stop control — not in the design; required by WCAG 2.2.2. It is
+   overlaid on the strip's corner (absolute) so it takes no room in the
+   design's layout. */
+.mqPause {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 8px;
+  inset-inline-end: calc(var(--sf-gutter) + 8px);
+  inline-size: 24px;
+  block-size: 24px;
+  border: 1px solid var(--sf-line);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--sf-muted);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  flex: none;
+  box-shadow: var(--e-1);
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .mqPause:hover {
+    border-color: var(--sf-control);
+    color: var(--sf-ink);
+  }
+}
+
+.mqPause[aria-pressed='true'] {
+  border-color: var(--teal-600);
+  color: var(--teal-text);
+}
+
+.mqLoop {
+  display: contents;
+}
+
+/* خاصيّة `translate` لا `transform`: حركةٌ لا إزاحةٌ ثابتة (مسح RTL يقرأ `transform`). */
+@keyframes tahReviews {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 50% 0;
+  }
+}
+
+.mqCard {
+  flex: none;
+  inline-size: 320px;
+  background: var(--bg);
+  border: 1px solid var(--sf-line);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mqHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mqAvatar {
+  overflow: hidden;
+  inline-size: 34px;
+  block-size: 34px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--sf-gradient-avatar);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mqWho {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.mqWho b {
+  display: block; /* القصّ بعلامة الحذف يعمل على صندوقٍ كتليّ فقط */
+  display: block;
+  font-size: 13.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mqWho span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--sf-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mqStars {
+  display: inline-flex;
+  gap: 1px;
+  color: var(--gold-400);
+  flex: none;
+}
+
+.mqText {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--sf-ink-2);
+  line-height: 1.75;
+}
+
+.mqDate {
+  font-size: 11px;
+  color: var(--sf-faint);
+  font-variant-numeric: tabular-nums;
+  text-align: start;
+}
+
+.form {
+  margin-block-start: 16px;
+  background: var(--bg);
+  border: 1px solid var(--sf-line);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.formHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.formHead b {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.formHead span {
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.formStarsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-ink);
+}
+
+.starPicker {
+  display: flex;
+  gap: 4px;
+}
+
+/* النجوم: مختارٌ ذهبيّ، وتحت المؤشّر معاينةٌ للقيمة قبل النقر (ما قبل النجمة
+   المحوَّمة ذهبيّ، وما بعدها باهت)، وضغطٌ ‎1px‎، وحلقة تركيزٍ بزاوية الشارة. */
+.starPick {
+  inline-size: 44px;
+  block-size: 44px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--sf-sep-2);
+  padding: 0;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    translate var(--dur-press) var(--ease-out);
+}
+
+.starPick[data-on] {
+  color: var(--gold-400);
+}
+
+@media (hover: hover) {
+  .starPicker:hover .starPick {
+    color: var(--gold-400);
+  }
+
+  .starPicker:hover .starPick:hover ~ .starPick {
+    color: var(--sf-sep-2);
+  }
+
+  .starPick:hover {
+    background: var(--st-warning-bg);
+  }
+}
+
+.starPick:active {
+  translate: 0 1px;
+}
+
+.ratingWord {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.formFields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px 16px;
+}
+
+/* وصفات الحقل: تسمية ‎13/700‎ فوقه، تلميح تحته، هالة التركيز، وخطأ بأيقونة. */
+.fieldLabel {
+  composes: label from '@tahdheer/ui/controls.module.css';
+}
+
+.fieldHint {
+  composes: hint from '@tahdheer/ui/controls.module.css';
+}
+
+.fieldErr {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+}
+
+.field {
+  composes: field from '@tahdheer/ui/controls.module.css';
+}
+
+.textarea {
+  composes: field from '@tahdheer/ui/controls.module.css';
+  resize: vertical;
+}
+
+/* الحقل يُعلن تركيزه بالهالة (الوصفة) لا بحلقة الصفحة العامّة. */
+.field:focus-visible,
+.textarea:focus-visible {
+  outline: none;
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.submitBtn {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  min-block-size: 48px;
+  padding-inline: 24px;
+}
+
+.cancelBtn {
+  composes: btn btnGhost from '@tahdheer/ui/controls.module.css';
+  min-block-size: 48px;
+  font-size: 14px;
+}
+
+/* فشلٌ غير متعلّقٍ بحقل (رمز الطلب، الخادم) — ثلاثيّة الخطر. */
+.formError {
+  composes: notice noticeDanger from '@tahdheer/ui/controls.module.css';
+  font-weight: 700;
+}
+
+/* التأكيد بعد الإرسال — يبقى مكان النموذج حتّى يُغلق. */
+.formDone {
+  composes: notice noticeSuccess from '@tahdheer/ui/controls.module.css';
+  margin-block-start: 16px;
+  font-weight: 700;
+}
+
+/* ── bundle upsell «وفّر أكثر» ───────────────────────────────────── */
+.bundleWrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 64px var(--sf-gutter) 0;
+}
+
+.bundle {
+  border-radius: 20px;
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.bundleText {
+  flex: 1 1 320px;
+  min-inline-size: 0;
+}
+
+.bundleEyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--hm-white-75);
+}
+
+.bundleTitle {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--on-accent);
+}
+
+.bundleNote {
+  margin: 0;
+  font-size: 14px;
+  color: var(--hm-white-82);
+}
+
+.bundleSide {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.bundlePrice {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.bundleWas {
+  font-size: 13px;
+  color: var(--hm-white-70);
+  text-decoration: line-through var(--sf-on-dark-50);
+  font-variant-numeric: tabular-nums;
+}
+
+.bundleNow {
+  font-size: 28px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.bundleNow span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* زرّ أبيض على المتدرّج: وصفة الزرّ، وحلقة التركيز بيضاء لتُرى فوق الكحليّ. */
+.bundleBtn {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+  padding-inline: 26px;
+  background: var(--bg);
+  color: var(--color-secondary-text);
+  box-shadow: var(--btn-shadow-secondary);
+}
+
+.bundleBtn:hover {
+  background: var(--sf-cool);
+  color: var(--color-secondary-text);
+}
+
+.bundleBtn:focus-visible {
+  outline-color: var(--on-accent);
+}
+
+/* ── «تصفّح ذو صلة» internal links ───────────────────────────────── */
+.links {
+  /* The store-wide :where(nav) typography (13.5px / 700 / 1.5) would override the design's 15px/400/1.6 base. */
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: normal;
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 48px var(--sf-gutter) 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.linksTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  margin-block-end: 10px;
+  color: var(--sf-ink);
+}
+
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 14px;
+  color: var(--sf-ink-2);
+}
+
+.linksList a {
+  color: inherit;
+  text-decoration: none;
+  /* سطرٌ بارتفاع هدف اللمس ‎44px‎ — القائمة عمودٌ، فالإيقاع هو الهدف نفسه. */
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+
+.linksList a:hover {
+  color: var(--teal-text);
+}
+
+/* ── «قبل الشراء» FAQ band ───────────────────────────────────────── */
+.faqBand {
+  margin-block-start: 64px;
+  background: var(--sf-cool);
+  border-block: 1px solid var(--sf-line);
+}
+
+/* بلا حزمة بينهما يلتحم شريطا الآراء والأسئلة (اللون نفسه) بدل شريطٍ أبيض
+   يتيمٍ بعرض 64px؛ الحشوتان الداخليتان (32 + 48) تحفظان إيقاع المحتوى. */
+.band + .faqBand {
+  margin-block-start: 0;
+  border-block-start: 0;
+}
+
+.faqBandInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 48px var(--sf-gutter);
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.sectionTitle {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.faqBandNote {
+  margin: 0;
+  font-size: 14px;
+  color: var(--sf-muted);
+  line-height: 1.8;
+}
+
+.faqBandNote a {
+  color: var(--teal-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ── related rail ────────────────────────────────────────────────── */
+.related {
+  background: var(--sf-gradient-related);
+}
+
+.relatedInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 48px var(--sf-gutter) 8px;
+}
+
+.relatedHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-block-end: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.relatedHead .sectionTitle {
+  margin: 0;
+}
+
+.relatedMore {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-secondary-text);
+  text-decoration: none;
+  /* هدف لمسٍ ‎24px‎ بلا إزاحة (كما في الفتات). */
+  display: inline-block;
+  padding-block: 3px;
+  margin-block: -3px;
+}
+
+.relatedMore:hover {
+  color: var(--teal-text);
+}
+
+/*
+ * مُمدِّدات هدف اللمس (‎44px‎) — عنصرٌ زائفٌ شفّاف حول العنصر المرسوم، فلا
+ * يتغيّر الرسم ولا الكثافة (منهج sweep-targets: يُقاس بالنقر لا بالصندوق).
+ */
+.crumb a::before,
+.chip[href]::before,
+.previewPill::before,
+.relatedMore::before,
+.mqPause::before {
+  content: '';
+  position: absolute;
+  inset-block: -10px;
+  inset-inline: -6px;
+}
+
+.chip[href]::before {
+  inset-block: -6px;
+  inset-inline: -2px;
+}
+
+.previewPill::before {
+  inset-block: -4px;
+  inset-inline: 0;
+}
+
+.mqPause::before {
+  inset: -12px;
+}
+
+.relatedMore {
+  position: relative;
+  z-index: 1;
+}
+
+.relatedMore::before {
+  inset-inline: -10px;
+}
+
+.relatedMoreShort {
+  display: none;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* auto-fit: أربع بطاقات تملأ الصفّ بلا عمودٍ فارغ */
+  gap: 16px;
+}
+
+/* The card clips overflow (rounded corners), so the ring draws inside it (§2.4.7). */
+
+/* ── toast ───────────────────────────────────────────────────────── */
+.toastRegion,
+.toastRegionMobile {
+  position: fixed;
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  z-index: var(--z-toast);
+}
+
+.toastRegion {
+  inset-block-end: 24px;
+}
+
+.toastRegionMobile {
+  display: none;
+}
+
+/* الإشعار — ثلاثيّة الحالة (نجاح تركوازيّ · خطأ خطر) بظلّ الإشعار الكحليّ،
+   يدخل صاعدًا مرّةً واحدة؛ تحت تقليل الحركة يظهر في مكانه. */
+.toast {
+  composes: notice from '@tahdheer/ui/controls.module.css';
+  align-items: center;
+  gap: 12px;
+  padding-block: 12px;
+  padding-inline: 14px 18px;
+  box-shadow: var(--sf-shadow-toast);
+  font-weight: 700;
+  max-inline-size: min(560px, calc(100vw - 32px));
+  animation: tahToast var(--dur-reveal) var(--ease-out) both;
+}
+
+.toast[data-tone='success'] {
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.toast[data-tone='error'] {
+  border-color: var(--st-danger-line);
+  background: var(--st-danger-bg);
+  color: var(--st-danger-fg);
+}
+
+@keyframes tahToast {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.toastIcon {
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: 50%;
+  background: var(--teal-on);
+  display: grid;
+  place-items: center;
+  color: var(--on-accent);
+  flex: none;
+}
+
+.toast[data-tone='error'] .toastIcon {
+  background: var(--danger-text);
+}
+
+.toastLink {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  /* هدف ‎24px‎ بلا إزاحة. */
+  display: inline-block;
+  padding-block: 2px;
+  margin-block: -2px;
+  margin-inline-start: 4px;
+}
+
+.toastLink:hover {
+  color: var(--st-success-fg);
+  text-decoration-thickness: 2px;
+}
+
+/* ── mobile sticky buy bar (hidden on desktop) ───────────────────── */
+.stickyBar {
+  display: none;
+}
+
+.stickyAdd {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.stickyBuy {
+  composes: btn btnSecondary from '@tahdheer/ui/controls.module.css';
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Mobile — Storefront Product Mobile.dc.html
+   ════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .page {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .appBar {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 5;
+    background: var(--bg);
+    border-block-end: 1px solid var(--sf-hair-2);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .appBtn {
+    inline-size: 44px;
+    block-size: 44px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--r-md);
+    color: var(--color-secondary-text);
+  }
+
+  .appSpacer {
+    inline-size: 44px;
+    flex: none;
+  }
+
+  .appLogo {
+    flex: 1;
+    min-block-size: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: 0;
+  }
+
+  .appLogo img {
+    block-size: 38px;
+    inline-size: auto;
+    max-inline-size: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .crumbs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    /* 7px of bottom padding pulled back by margin: room for the focus ring
+       (3px + 2px offset, plus the inline box's overhang) inside the scroll
+       box (§2.4.7) with the design's metrics unchanged. */
+    /* ‎10px‎: صندوق الرابط المحشوّ (‎±3px‎) + الحلقة ‎3px‎ + إزاحتها ‎2px‎. */
+    /* قرص اللمس (‎44px‎) كاملٌ داخل صندوق التمرير: لا يدخل تحت شريط التطبيق
+       اللاصق فوقًا، ولا يقصّه التمرير تحتًا؛ الهامش السالب يُعيد الإيقاع. */
+    padding: 16px 14px 14px;
+    margin-block-end: -11px;
+    scroll-padding-inline: 14px;
+    font-size: 12px;
+    scrollbar-width: none;
+  }
+
+  .crumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .crumbLast {
+    display: none;
+  }
+
+  .crumb + .crumb::before {
+    color: var(--sf-sep-2);
+  }
+
+  .product {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* gallery */
+  .galleryArea {
+    padding: 12px 14px 0;
+  }
+
+  .gallery {
+    display: block;
+  }
+
+  .stage {
+    border-radius: var(--r-lg);
+  }
+
+  .stageImage,
+  .stagePaper {
+    block-size: 80%;
+    border-radius: var(--r-xs);
+    box-shadow: var(--sf-shadow-page-sm);
+  }
+
+  .stageBadges {
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+  }
+
+  /* الجوّال: أيقونةٌ وحدها بهدفٍ ‎44px‎ — التسمية تبقى لقارئ الشاشة. */
+  .zoom {
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+    inline-size: var(--ctl-sm);
+    padding-inline: 0;
+  }
+
+  .zoomLabel {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .lightbox {
+    padding: 8px;
+  }
+
+  .lightboxPanel {
+    padding: 8px 12px 12px;
+  }
+
+  .lightboxFigure {
+    padding: 8px;
+  }
+
+  .badgeNavy {
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: var(--r-xs);
+  }
+
+  .badgeLabel {
+    display: none;
+  }
+
+  .previewPill {
+    inset-block-end: 12px;
+    inset-inline-end: 12px;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: var(--r-md);
+    font-size: 12px;
+  }
+
+  .previewPill svg {
+    inline-size: 15px;
+    block-size: 15px;
+  }
+
+  .previewPillLong {
+    display: none;
+  }
+
+  .previewPillShort {
+    display: inline;
+  }
+
+  .rail {
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    /* ‎6px‎ فوق وتحت وعلى الطرفين تُقابلها هوامش سالبة: حلقة التركيز (‎3+2px‎) لا يقصّها المتصفّح الأفقيّ (‎§2.4.7‎). */
+    padding: 16px 6px 6px;
+    margin: -6px -6px -6px;
+    /* التمرير إلى آخر مصغّرةٍ يترك لحلقتها مكانًا — بلاه تلتصق بالحافّة فتُقصّ ‎5px‎. */
+    scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .thumb {
+    flex: none;
+    inline-size: 64px;
+    block-size: 52px;
+    aspect-ratio: auto;
+    border-radius: var(--r-md);
+  }
+
+  /* title + price + formats + tiles + trust */
+  .buy {
+    position: static;
+    border: 0;
+    border-radius: 0;
+    padding: 16px 14px 0;
+    box-shadow: none;
+    gap: 0;
+  }
+
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    /* Same trick on both axes: a chip's ring stays inside the scroller (§2.4.7). */
+    padding: 6px;
+    margin: -6px -6px 4px;
+    scroll-padding-inline: 6px;
+    scrollbar-width: none;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex: none;
+    font-size: 11.5px;
+  }
+
+  .title {
+    margin-block-end: 10px;
+    font-size: 22px;
+    line-height: 1.35;
+  }
+
+  .rating {
+    gap: 8px;
+    font-size: 12.5px;
+    margin-block-end: 12px;
+  }
+
+  .ratingStars {
+    gap: 1px;
+  }
+
+  .ratingStars svg {
+    inline-size: 13px;
+    block-size: 13px;
+  }
+
+  .ratingLink,
+  .ratingCount {
+    display: none;
+  }
+
+  .ratingCountShort {
+    display: inline;
+  }
+
+  .ratingSep::before {
+    color: var(--sf-sep-2);
+  }
+
+  .priceRow,
+  .ctas,
+  .marks {
+    display: none;
+  }
+
+  .saveLine {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-block: 1px solid var(--sf-hair);
+  }
+
+  .saveLine .save {
+    font-size: 11.5px;
+  }
+
+  .saveNote {
+    font-size: 11.5px;
+    color: var(--sf-muted);
+  }
+
+  .formats {
+    padding-block-start: 14px;
+    gap: 0;
+  }
+
+  .formatsLabel {
+    display: block;
+    font-size: 12.5px;
+    margin-block-end: 8px;
+  }
+
+  .formatGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .format {
+    padding: 8px 10px;
+    align-items: flex-start;
+  }
+
+  .format b {
+    font-size: 13.5px;
+  }
+
+  .format span {
+    font-size: 11px;
+    opacity: 0.85;
+  }
+
+  /* Default layout only: the mobile design puts the tiles before the trust box. */
+  .buy[data-default-order] .tilesBlock {
+    order: 1;
+  }
+
+  .buy[data-default-order] .trust {
+    order: 2;
+  }
+
+  .tilesBlock {
+    padding-block-start: 18px;
+    border-block-start: 0;
+  }
+
+  .tilesTitle {
+    font-size: 12.5px;
+    margin-block-end: 8px;
+  }
+
+  .tiles {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tile {
+    display: block;
+    padding: 11px 12px;
+  }
+
+  .tile:not([data-mobile]) {
+    display: none;
+  }
+
+  .tile span {
+    display: block;
+    font-size: 10.5px;
+  }
+
+  .tile b {
+    display: block;
+    font-size: 14px;
+  }
+
+  .tile[data-tone='steel'] b {
+    font-size: 13px;
+  }
+
+  .tile[data-tone='clay'] {
+    background: var(--tint-sand);
+    color: var(--gold-ink);
+  }
+
+  /* The mobile design has no meta strip under the tiles. */
+  .meta {
+    display: none;
+  }
+
+  .trust {
+    margin-block-start: 18px;
+    padding: 14px;
+    gap: 10px;
+    border: 1px solid var(--sf-line);
+    border-radius: var(--r-lg);
+    font-size: 13px;
+  }
+
+  .trustIcon {
+    inline-size: 26px;
+    block-size: 26px;
+  }
+
+  .trustIcon svg {
+    inline-size: 15px;
+    block-size: 15px;
+  }
+
+  .trustLong {
+    display: none;
+  }
+
+  .trustShort {
+    display: inline;
+  }
+
+  /* tabs */
+  .tabsArea {
+    padding-block-start: 22px;
+  }
+
+  .tablist {
+    padding: 0 14px;
+    scroll-padding-inline: 14px;
+  }
+
+  .tab {
+    flex: none;
+    min-block-size: 46px;
+    padding: 0 12px;
+    font-size: 13.5px;
+  }
+
+  .tab[data-desktop-only] {
+    display: none;
+  }
+
+  .tabLong {
+    display: none;
+  }
+
+  .tabShort {
+    display: inline;
+  }
+
+  .panel {
+    padding: 16px 14px 0;
+  }
+
+  .descGrid {
+    display: block;
+  }
+
+  .descGrid .h2,
+  .skills,
+  .specBox,
+  .h2Tight,
+  .h2Goals,
+  .h2Sub,
+  .h2Note,
+  .h2Faq,
+  .h2FaqFirst {
+    display: none;
+  }
+
+  .prose {
+    margin-block-end: 10px;
+  }
+
+  .unitGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .unit {
+    border-radius: 12px;
+    padding: 13px 15px;
+  }
+
+  .unitTitle {
+    font-size: 14px;
+    margin-block-end: 7px;
+  }
+
+  .unitList {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 12.5px;
+  }
+
+  .unitList li {
+    background: var(--sf-cool);
+    border: 1px solid var(--sf-hair-2);
+    padding: 4px 9px;
+    border-radius: var(--r-xs);
+  }
+
+  .dot {
+    display: none;
+  }
+
+  .goalTitle {
+    font-size: 13.5px;
+    margin-block-end: 8px;
+  }
+
+  .goalList {
+    gap: 7px;
+    font-size: 13px;
+  }
+
+  .goalList li {
+    gap: 8px;
+  }
+
+  .goalCheck {
+    inline-size: 16px;
+    block-size: 16px;
+  }
+
+  .goalCheck svg {
+    inline-size: 10px;
+    block-size: 10px;
+  }
+
+  .compatGrid {
+    display: block;
+  }
+
+  .compatList {
+    gap: 7px;
+  }
+
+  .compatRow {
+    gap: 10px;
+    padding: 11px 13px;
+  }
+
+  .compatCheck {
+    inline-size: 24px;
+    block-size: 24px;
+    border-radius: var(--r-xs);
+  }
+
+  .compatCheck svg {
+    inline-size: 13px;
+    block-size: 13px;
+  }
+
+  .compatName b {
+    font-size: 13px;
+  }
+
+  .compatName span {
+    font-size: 11.5px;
+  }
+
+  .compatVer {
+    font-size: 11px;
+  }
+
+  .compatVerLong {
+    display: none;
+  }
+
+  .compatVerShort {
+    display: inline;
+  }
+
+  .faqCards .faqItem {
+    border-radius: 12px;
+    padding: 0 14px;
+  }
+
+  .faqCards .faqQ {
+    min-block-size: 50px;
+    padding: 13px 0;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .faqCards .faqChevron {
+    inline-size: 16px;
+    block-size: 16px;
+  }
+
+  .faqCards .faqA {
+    padding: 0 0 14px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  /* reviews band */
+  .band {
+    margin-block-start: 32px;
+  }
+
+  .bandInner {
+    padding: 18px 0 20px;
+  }
+
+  .bandHead {
+    padding: 0 14px;
+    margin-block-end: 12px;
+    justify-content: flex-start;
+    gap: 9px;
+  }
+
+  .bandTitleRow {
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+
+  .bandTitle {
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+
+  .bandTitleLong,
+  .bandStatsWord,
+  .writeBtn {
+    display: none;
+  }
+
+  .bandTitleShort {
+    display: inline;
+  }
+
+  .bandStats {
+    font-size: 12px;
+  }
+
+  .live {
+    gap: 6px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .liveDot {
+    inline-size: 6px;
+    block-size: 6px;
+  }
+
+  .mqViewport {
+    margin: 0;
+    padding: 0;
+  }
+
+  .mqPause {
+    inset-inline-end: 8px;
+  }
+
+  .mqTrack {
+    gap: 10px;
+    animation-duration: 42s;
+  }
+
+  .mqCard {
+    inline-size: 250px;
+    border-radius: var(--r-lg);
+    padding: 13px 15px;
+    gap: 7px;
+  }
+
+  .mqHead {
+    gap: 9px;
+  }
+
+  .mqAvatar {
+    inline-size: 30px;
+    block-size: 30px;
+    font-size: 11px;
+  }
+
+  .mqWho b {
+    font-size: 12.5px;
+  }
+
+  .mqWho span {
+    font-size: 11px;
+  }
+
+  .mqStars svg {
+    inline-size: 10px;
+    block-size: 10px;
+  }
+
+  .mqText {
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  .mqDate {
+    display: none;
+  }
+
+  .writeBtnMobile {
+    display: flex;
+    justify-content: center;
+    margin: 14px 14px 0;
+    inline-size: calc(100% - 28px);
+    min-block-size: 46px;
+  }
+
+  .form {
+    margin: 10px 14px 0;
+    border-radius: var(--r-lg);
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .formHead {
+    display: none;
+  }
+
+  .formStarsRow {
+    gap: 8px;
+  }
+
+  .starPicker {
+    gap: 2px;
+  }
+
+  .starPick svg {
+    inline-size: 24px;
+    block-size: 24px;
+  }
+
+  .formLabel {
+    font-size: 12.5px;
+  }
+
+  .ratingWord {
+    font-size: 12.5px;
+  }
+
+  .formFields {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .formDone {
+    margin: 12px 14px 0;
+  }
+
+  .formActions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .formError {
+    font-size: 13px;
+  }
+
+  .cancelBtn {
+    display: none;
+  }
+
+  .submitBtn {
+    inline-size: 100%;
+  }
+
+  /* bundle card */
+  .bundleWrap {
+    padding: 32px 14px 0;
+  }
+
+  .bundle {
+    border-radius: 16px;
+    background: var(--sf-gradient-upsell-m);
+    padding: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .bundleText {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bundleEyebrow {
+    margin: 0;
+    font-size: 11.5px;
+  }
+
+  .bundleTitle {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  .bundleNote {
+    display: none;
+  }
+
+  .bundleSide {
+    gap: 12px;
+  }
+
+  .bundleWas {
+    font-size: 12px;
+  }
+
+  .bundleWasUnit {
+    display: none;
+  }
+
+  .bundleNow {
+    font-size: 22px;
+  }
+
+  .bundleNow span {
+    font-size: 11px;
+  }
+
+  .bundleBtn {
+    flex: 1;
+    min-inline-size: 120px;
+    min-block-size: 46px;
+    block-size: auto;
+    padding: 0;
+    justify-content: center;
+    font-size: 14.5px;
+  }
+
+  /* FAQ band: the mobile design carries FAQs in the «أسئلة شائعة» tab only. */
+  .faqBand {
+    display: none;
+  }
+
+  /* The mobile design has no «تصفّح ذو صلة» columns. */
+  .links {
+    display: none;
+  }
+
+  /* related rail */
+  .related {
+    background: none;
+  }
+
+  .relatedInner {
+    padding: 32px 0 0;
+  }
+
+  .relatedHead {
+    align-items: baseline;
+    padding: 0 14px;
+    margin-block-end: 10px;
+  }
+
+  .related .eyebrow {
+    display: none;
+  }
+
+  .relatedHead .sectionTitle {
+    font-size: 17px;
+    letter-spacing: 0;
+  }
+
+  .relatedMore {
+    font-size: 12.5px;
+    color: var(--teal-text);
+  }
+
+  .relatedMoreLong {
+    display: none;
+  }
+
+  .relatedMoreShort {
+    display: inline;
+  }
+
+  .cards {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    /* ‎6px‎ فوق وتحت تُقابلهما هوامش سالبة: حلقة تركيز «أضف» لا تُقصّ (‎§2.4.7‎)، والإيقاع لا يتغيّر. */
+    padding: 6px 14px 6px;
+    margin-block: -6px -2px;
+    /* كرفّ «الأكثر مبيعًا» في الرئيسة: التمرير إلى آخر بطاقةٍ يُبقي حلقة «أضف» كاملة. */
+    scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+
+  .cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* toast sits above the sticky bar */
+  /* ‎12px‎ فوق الأشرطة السفليّة المقيسة (الموافقة + الشريط اللاصق) — لا رقمٌ ثابت. */
+  .toastRegion {
+    inset-block-end: calc(var(--chrome-bottom-outflow, 118px) + 12px);
+  }
+
+  .toastRegionMobile {
+    display: block;
+    inset-block-end: calc(var(--chrome-bottom-outflow, 118px) + 12px);
+    z-index: var(--z-toast);
+  }
+
+  .toast {
+    padding-block: 10px;
+    padding-inline: 12px 16px;
+    border-radius: var(--r-md);
+    box-shadow: var(--sf-shadow-toast-sm);
+    gap: 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .toastIcon {
+    inline-size: 24px;
+    block-size: 24px;
+  }
+
+  .toastIcon svg {
+    inline-size: 13px;
+    block-size: 13px;
+  }
+
+  /* sticky buy bar */
+  .stickyBar {
+    display: block;
+    position: fixed;
+    inset-inline: 0;
+    /* يرتفع فوق الشريط العامّ (الموافقة) — عقد `data-bottom-chrome` في `globals.css`. */
+    inset-block-end: var(--chrome-bottom-base, 0px);
+    z-index: var(--z-sticky-bar);
+    background: var(--bg);
+    border-block-start: 1px solid var(--sf-line);
+    box-shadow: var(--sf-shadow-bar);
+    /* المنطقة الآمنة تُضاف فوق حشوة الصفّ الثاني، لا بدلها. */
+    padding-block-end: env(safe-area-inset-bottom, 0px);
+  }
+
+  .stickyRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px 8px;
+  }
+
+  .stickyPrice {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .stickyFormat {
+    font-size: 10.5px;
+    color: var(--sf-muted);
+  }
+
+  .stickyAmount {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--color-secondary-text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .stickyUnit {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--sf-muted);
+  }
+
+  .stickyHeart {
+    inline-size: 48px;
+    min-block-size: 48px;
+    block-size: 48px;
+    flex: none;
+    color: var(--sf-ink-2);
+  }
+
+  .stickyHeart svg {
+    inline-size: 20px;
+    block-size: 20px;
+  }
+
+  /* الصفّ الثاني داخل حشوة الشريط بزرّين مدوّرين متساويين — لا سطحٌ حادّ من
+     حافّةٍ إلى حافّة. */
+  .stickyRow2 {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    padding: 0 14px 10px;
+  }
+
+  /* الزرّ المشترك نفسه (.applePay) بارتفاع أخيه. */
+  .stickyApple {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    block-size: 48px;
+    padding: 0; /* كـ«اشترِ الآن» بجواره: flex 1 1 0 بلا حشوة = نصفان متساويان */
+  }
+
+  .stickyAdd {
+    flex: 1;
+    min-inline-size: 0;
+    block-size: 48px;
+    min-block-size: 48px;
+    padding-inline: 8px;
+    font-size: 14.5px;
+  }
+
+  .stickyBar .buyNowForm {
+    block-size: 48px;
+  }
+
+  .stickyBuy {
+    flex: 1;
+    min-inline-size: 0;
+    min-block-size: 48px;
+    padding-inline: 8px;
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mqTrack,
+  .liveDot {
+    animation: none;
+  }
+
+  .mqViewport {
+    overflow-x: auto;
+  }
+
+  .mqLoop,
+  .mqPause {
+    display: none;
+  }
+
+  .faqChevron,
+  .faqQ,
+  .faqCards .faqItem,
+  .format,
+  .thumb,
+  .previewCard,
+  .previewPill,
+  .starPick,
+  .mqPause {
+    transition: none;
+  }
+
+  .format:active,
+  .thumb:active,
+  .previewPill:active,
+  .applePay:active,
+  .starPick:active {
+    transform: none;
+    translate: none;
+  }
+
+  .toast,
+  .tabs:has(.tabInput:focus) .panel,
+  .wishBtn[data-pop] svg,
+  .stickyHeart[data-pop] svg {
+    animation: none;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   جولة ٢ — أدوات التصفّح (مشاركة · شريط الأقسام · شاهدتَ مؤخّرًا)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* العنوان وزرّ المشاركة سطرٌ واحد: الزرّ في الطرف المقابل، على خطّ السطر الأوّل. */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.titleRow .title {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.shareBtn {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+}
+
+/* شريط الأقسام — سطح المكتب وحده؛ يهبط من أعلى الشاشة حين يصير له قسمٌ حاضر. */
+.sectionNav {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .sectionNav {
+    display: block;
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-sticky-bar);
+    background: var(--bg);
+    border-block-end: 1px solid var(--sf-line);
+    box-shadow: var(--e-2);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition:
+      transform var(--dur-reveal) var(--ease-out),
+      visibility 0s linear var(--dur-reveal);
+  }
+
+  .sectionNav[data-shown] {
+    transform: none;
+    visibility: visible;
+    transition: transform var(--dur-reveal) var(--ease-out);
+  }
+
+  /* المراسي وما يُركَّز بلوحة المفاتيح يقفان تحت الشريط (‎56‎) لا خلفه (‎§2.4.11‎).
+     حشوة التمرير وحدها — لا scroll-margin فوقها، وإلّا اجتمعتا (‎128‎) فغاب الشريط. */
+  :global(html):has(.sectionNav) {
+    scroll-padding-block-start: 64px;
+  }
+}
+
+.sectionNavInner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+  block-size: 56px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.sectionNavTitle {
+  margin-inline-start: auto;
+  max-inline-size: 40ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.sectionLink {
+  composes: tab from '@tahdheer/ui/controls.module.css';
+  min-block-size: 56px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out);
+}
+
+.sectionLink[aria-current='location'] {
+  border-block-end-color: var(--teal-600);
+  color: var(--sf-ink);
+}
+
+/* «شاهدتَ مؤخّرًا» — شريط «يُشترى معه» نفسه بلا تدرّجه: قسمان متتاليان لا يلتحمان. */
+.recent {
+  background: none;
+}
+
+.recent .relatedInner {
+  padding-block-end: 16px;
+}
+
+/* أربعة مسارات ثابتة كشريط «يُشترى معه» فوقه: بطاقةٌ واحدة تبقى بعرض بطاقة،
+   لا تمتدّ على الصفّ كلّه (auto-fit كان يمدّها إلى ‎1360px‎). */
+@media (min-width: 1024px) {
+  .recent .cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.recentClear {
+  composes: btn btnGhost from '@tahdheer/ui/controls.module.css';
+  font-size: 14px;
+}
+
+/* السلة: الشريط نفسه داخل عمود السطور، بلا حشوة الشريط العريض. */
+.recentEmbedded {
+  min-inline-size: 0;
+}
+
+.recentEmbedded .relatedHead {
+  margin-block-end: 16px;
+}
+
+.recentTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.recentEmbedded .relatedInner {
+  max-inline-size: none;
+  padding: 0;
+}
+
+/* auto-fill: المسارات تبقى ولو قلّت البطاقات، فالبطاقة الوحيدة بعرض بطاقة. */
+.recentEmbedded .cards {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* عمود العنوان في شريط الأسئلة يلازم الشاشة ما طالت القائمة — لا عمودٌ فارغ تحته. */
+@media (min-width: 1024px) {
+  .faqBandInner > :first-child {
+    position: sticky;
+    inset-block-start: 80px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* في السلة: الرأس على حافّة المحتوى، والرفّ يمتدّ إلى حافّة الشاشة
+     (نصف ‎--container-inset‎) فيبقى أوّل بطاقةٍ على الحافّة نفسها. */
+  .recentEmbedded .relatedHead {
+    padding: 0;
+  }
+
+  .recentEmbedded .cards {
+    margin-inline: calc(var(--container-inset) / -2);
+    padding-inline: calc(var(--container-inset) / 2);
+    scroll-padding-inline: calc(var(--container-inset) / 2);
+  }
+
+  .titleRow {
+    margin-block-end: 10px;
+    gap: 8px;
+  }
+
+  .titleRow .title {
+    margin-block-end: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionNav,
+  .sectionNav[data-shown],
+  .sectionLink {
+    transition: none;
+  }
+}
+
+/* اللوحيّ (‎768–1023‎): العمودان يتركان للمعرض والتبويبات ‎~330px‎ — المسرح
+   يضيق تحت شاراته وصفّ التبويبات يُقصّ إلى اثنين. عمودٌ واحد بدلهما:
+   المعرض، ثمّ لوحة الشراء بعرضها (الصيغ الأربع في صفٍّ)، ثمّ التبويبات. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .product {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      'gallery'
+      'buy'
+      'tabs';
+  }
+
+  .buy {
+    position: static;
+  }
+
+  /* عمود العنوان (‎340‎) يضيّق الأسئلة إلى ‎~300px‎ — العنوان فوقها بدلًا من ذلك. */
+  .faqBandInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  /* ثلاث بطاقاتٍ في الصفّ؛ الرابعة كانت تبقى وحيدةً في صفٍّ ثانٍ. */
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards > :nth-child(n + 4) {
+    display: none;
+  }
+}

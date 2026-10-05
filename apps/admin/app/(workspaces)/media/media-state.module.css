@@ -1,0 +1,212 @@
+/*
+UNIT: MEDIA-STATE
+COMPONENT: media-state.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * حالات الوسائط الصريحة — خصائص منطقية فقط (MIP §2.4).
+ *
+ * الألوان كلها من tokens.css عبر المتغيّرات المحلية أدناه. تُعرَّف على
+ * الجذور الثلاثة (.panel و.tag و.locked) لأن الوسم وسطر السبب يُعرَضان
+ * مستقلَّين خارج اللوح، فلا تصلهما متغيّرات .panel وحدها.
+ */
+
+.panel,
+.tag,
+.locked {
+  --ml-inset: var(--bg-mist);
+  --ml-hair: var(--border-hairline);
+  --ml-gold-text: var(--gold-text);
+  --ml-warn-bg: var(--tint-gold-16);
+  --ml-bad-fg: var(--danger-strong); /* أحمر لوحة التصميم #a33a2d */
+  --ml-bad-bg: var(--tint-danger-08);
+  --ml-ok-bg: var(--state-success-soft);
+}
+
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface);
+  padding-block: 13px;
+  padding-inline: 15px;
+  margin-block: 12px;
+}
+
+.panel.NOT_CONFIGURED {
+  border-color: var(--ml-bad-fg);
+}
+
+.panel.INSUFFICIENT_DATA {
+  border-color: var(--ml-gold-text);
+}
+
+.panel.NO_DATA {
+  border-color: var(--border);
+  border-style: dashed;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 9px;
+  margin-block-end: 8px;
+}
+
+.token {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 5px;
+  padding-block: 2px;
+  padding-inline: 7px;
+}
+
+.NOT_CONFIGURED .token {
+  background: var(--ml-bad-bg);
+  color: var(--ml-bad-fg);
+}
+
+.INSUFFICIENT_DATA .token {
+  background: var(--ml-warn-bg);
+  color: var(--ml-gold-text);
+}
+
+.NO_DATA .token {
+  background: var(--ml-inset);
+  color: var(--muted);
+}
+
+.stateLabel {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.title {
+  flex: 1;
+  min-inline-size: 0;
+  margin-block: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.body {
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--body);
+  text-align: start;
+}
+
+.body p {
+  margin-block: 0 6px;
+}
+
+.body p:last-child {
+  margin-block-end: 0;
+}
+
+.body strong {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.missing {
+  list-style: none;
+  margin-block: 10px 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.missing li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  background: var(--ml-inset);
+  border: 1px solid var(--ml-hair);
+  border-radius: 8px;
+  padding-block: 7px;
+  padding-inline: 10px;
+}
+
+.missingLabel {
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--ml-bad-fg);
+  background: var(--ml-bad-bg);
+  border-radius: 5px;
+  padding-block: 2px;
+  padding-inline: 7px;
+}
+
+.missing code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ───── وسم مضغوط ───── */
+
+.tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding-block: 2px;
+  padding-inline: 7px;
+  white-space: nowrap;
+}
+
+.tag.NOT_CONFIGURED {
+  background: var(--ml-bad-bg);
+  color: var(--ml-bad-fg);
+}
+
+.tag.INSUFFICIENT_DATA {
+  background: var(--ml-warn-bg);
+  color: var(--ml-gold-text);
+}
+
+.tag.NO_DATA {
+  background: var(--ml-inset);
+  color: var(--muted);
+}
+
+.tag small {
+  font-family: 'Tajawal', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* ───── سبب التعطيل ───── */
+
+.locked {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-block: 8px 0;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: start;
+}
+
+.lockedDot {
+  flex: 0 0 auto;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--ml-bad-fg);
+  margin-block-start: 7px;
+}

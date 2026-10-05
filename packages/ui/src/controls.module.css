@@ -1,0 +1,563 @@
+/*
+ * وصفاتُ التحكّم المشتركة — نظام التصميم الموحّد
+ * (docs/architecture/DESIGN-SYSTEM-2026-09-25.md · §«الوصفات»).
+ *
+ * تُستهلك بالتركيب لا بالنسخ، من أيّ وحدة CSS في المتجر أو لوحة الإدارة:
+ *   .x { composes: btn btnPrimary btnLg from '@tahdheer/ui/controls.module.css'; }
+ * القيم كلّها رموزٌ من tokens.css (كتلة «DS — نظام موحّد») — لا ألوان خامّة.
+ * خصائص منطقيّة فقط (RTL). كلّ انتقالٍ له نظيرٌ في كتلة reduce آخر الملفّ.
+ */
+
+/* ================================================================ الزرّ */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: var(--ctl-md);
+  padding-block: 0;
+  padding-inline: 18px;
+  border: 1.5px solid transparent;
+  border-radius: var(--r-md);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.btn svg {
+  flex: 0 0 auto;
+}
+
+/* الضغط: إزاحة ‎1px‎ وظلٌّ أقلّ */
+.btn:active {
+  transform: translateY(1px);
+  transition-duration: var(--dur-press);
+}
+
+/* التركيز: حلقة ‎3px‎ تركواز بإزاحة ‎2px‎ */
+.btn:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* التعطيل: سطحٌ بارد ونصٌّ باهت بلا ظلّ — إلّا حال الانشغال فلها مظهرها */
+.btn:is(:disabled, [aria-disabled='true']):not([aria-busy='true']) {
+  border-color: var(--sf-line);
+  background: var(--color-disabled);
+  color: var(--color-disabled-fg);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* التحميل: الدوّار في المنتصف، والتسمية تُخفى لونًا فيبقى العرض ثابتًا.
+   تحت تقليل الحركة لا دوّار ولا إخفاء: التسمية («جارٍ…») تحمل المعنى. */
+.btn[aria-busy='true'] {
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn[aria-busy='true'] {
+    color: transparent;
+  }
+
+  .btn[aria-busy='true'] > * {
+    visibility: hidden;
+  }
+
+  .btn[aria-busy='true']::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: 18px;
+    block-size: 18px;
+    border: 2px solid var(--_spin, var(--on-accent));
+    border-block-start-color: transparent;
+    border-radius: var(--r-round);
+    animation: ctlSpin 0.7s linear infinite;
+  }
+}
+
+@keyframes ctlSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* الأحجام — ‎sm‎ يمدّ هدف اللمس إلى ‎44px‎ دون أن يكبر بصريًّا */
+.btnSm {
+  min-block-size: var(--ctl-sm);
+  padding-inline: 14px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+}
+
+.btnSm::before {
+  content: '';
+  position: absolute;
+  /* ‎36 + 2×5 = 46px‎: ‎44‎ بالضبط كان يضع نقطة القياس على الحافّة الحصريّة فتخطئها. */
+  inset-block: -5px;
+  inset-inline: 0;
+}
+
+.btnLg {
+  min-block-size: var(--ctl-lg);
+  padding-inline: 22px;
+  font-size: 16px;
+}
+
+/* مربّع الأيقونة — يُركَّب مع الحجم (‎btn btnIcon‎ أو ‎btn btnIcon btnSm‎) */
+.btnIcon {
+  inline-size: var(--ctl-md);
+  padding-inline: 0;
+}
+
+.btnIcon.btnSm {
+  inline-size: var(--ctl-sm);
+}
+
+.btnIcon.btnLg {
+  inline-size: var(--ctl-lg);
+}
+
+/* المتغيّرات */
+.btnPrimary {
+  background: var(--color-primary);
+  color: var(--color-primary-fg);
+  box-shadow: var(--btn-highlight), var(--btn-shadow-primary);
+}
+
+.btnPrimary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--btn-highlight), var(--btn-shadow-primary-hover);
+}
+
+.btnPrimary:active {
+  box-shadow: var(--btn-highlight), var(--e-1);
+}
+
+.btnSecondary {
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+  box-shadow: var(--btn-highlight), var(--btn-shadow-secondary);
+}
+
+.btnSecondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btnSecondary:active {
+  box-shadow: var(--btn-highlight), var(--e-1);
+}
+
+.btnOutline {
+  --_spin: var(--sf-ink);
+  border-color: var(--sf-control);
+  background: var(--bg);
+  color: var(--color-text);
+}
+
+.btnOutline:hover {
+  border-color: var(--color-secondary-text);
+  background: var(--sf-cool);
+}
+
+.btnGhost {
+  --_spin: var(--sf-ink);
+  background: transparent;
+  color: var(--sf-ink-2);
+}
+
+.btnGhost:hover {
+  background: var(--sf-cool);
+  color: var(--color-text);
+}
+
+.btnDanger {
+  background: var(--color-danger);
+  color: var(--color-danger-fg);
+  box-shadow: var(--btn-highlight), var(--e-1);
+}
+
+.btnDanger:hover {
+  background: var(--danger-strong);
+}
+
+/* ================================================================ الحقل */
+
+.label {
+  display: block;
+  margin-block-end: 6px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hint {
+  display: block;
+  margin-block-start: 6px;
+  color: var(--sf-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.field {
+  inline-size: 100%;
+  min-block-size: var(--field-h);
+  padding-block: 0;
+  padding-inline: 14px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 15px;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+/* متعدّد الأسطر يحتفظ بالحشوة الرأسيّة */
+textarea.field {
+  padding-block: 12px;
+  line-height: 1.7;
+}
+
+.field::placeholder {
+  color: var(--sf-faint);
+}
+
+.field:hover {
+  border-color: var(--sf-sep);
+}
+
+.field:focus,
+.field:focus-visible {
+  outline: none;
+  border-color: var(--teal-600);
+  box-shadow: var(--focus-halo);
+}
+
+.field[aria-invalid='true'] {
+  border-color: var(--st-danger-fg);
+}
+
+.field[aria-invalid='true']:focus,
+.field[aria-invalid='true']:focus-visible {
+  box-shadow: var(--focus-halo-danger);
+}
+
+.field:disabled {
+  border-color: var(--sf-line);
+  background: var(--sf-cool);
+  color: var(--sf-faint);
+  cursor: not-allowed;
+}
+
+/* رسالة الخطأ — تُربط بالحقل عبر aria-describedby؛ الأيقونة قناعٌ بلون النصّ */
+.fieldError {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-block-start: 6px;
+  color: var(--st-danger-fg);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.fieldError::before {
+  content: '';
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  margin-block-start: 2px;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm-.75 3.5h1.5v5h-1.5v-5Zm0 6h1.5V12h-1.5v-1.5Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ================================================================ الرقاقة والتبويب */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-block-size: var(--chip-h);
+  padding-block: 0;
+  padding-inline: 14px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--sf-ink-2);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+/* المؤشّر الدقيق على الشاشات العريضة: ‎36px‎ */
+@media (pointer: fine) and (min-width: 1200px) {
+  .chip {
+    min-block-size: var(--ctl-sm);
+  }
+}
+
+.chip:hover {
+  border-color: var(--color-secondary-text);
+}
+
+.chip:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.chip:is([aria-pressed='true'], [aria-checked='true'], [aria-selected='true']) {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+}
+
+.chip:disabled {
+  border-color: var(--sf-line);
+  background: var(--sf-cool);
+  color: var(--sf-faint);
+  cursor: not-allowed;
+}
+
+/* تبويبٌ بخطّ سفليّ تركوازيّ ‎3px‎ */
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: var(--chip-h);
+  padding-block: 0;
+  padding-inline: 4px;
+  border: 0;
+  border-block-end: 3px solid transparent;
+  background: transparent;
+  color: var(--sf-muted);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+
+.tab:hover {
+  color: var(--color-text);
+}
+
+.tab:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+.tab:is([aria-selected='true'], [aria-current='page']) {
+  border-block-end-color: var(--teal-600);
+  color: var(--color-text);
+}
+
+/* ================================================================ الأسطح */
+
+/* البطاقة الساكنة لا ترتفع عند التحويم */
+.card {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--color-surface);
+  box-shadow: var(--e-0);
+}
+
+.cardInteractive {
+  transition:
+    box-shadow var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+
+.cardInteractive:hover {
+  border-color: var(--sf-control);
+  box-shadow: var(--e-2);
+}
+
+.cardInteractive:focus-within {
+  border-color: var(--sf-control);
+}
+
+.panel {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xl);
+  background: var(--color-surface);
+  box-shadow: var(--e-1);
+}
+
+/* سطح الهيرو — يُركَّب مع panel أو وحده */
+.panelHero {
+  border-radius: var(--r-2xl);
+}
+
+.menu {
+  min-inline-size: 200px;
+  padding: 6px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--e-3);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 12px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.menuItem:hover,
+.menuItem[data-highlighted] {
+  background: var(--sf-cool);
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.dialog {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xl);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--e-4);
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--color-scrim);
+  transition: opacity var(--dur-reveal) var(--ease-out);
+}
+
+/* الدرج يخرج من الحافّة الختاميّة؛ الزاوية على الحافّة الداخليّة فقط */
+.drawer {
+  background: var(--color-surface-elevated);
+  box-shadow: var(--e-4);
+  border-start-start-radius: var(--r-xl);
+  border-end-start-radius: var(--r-xl);
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+/* ================================================================ التنبيهات */
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-block: 12px;
+  padding-inline: 14px;
+  border: 1px solid;
+  border-radius: var(--r-lg);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.noticeInfo {
+  border-color: var(--st-info-line);
+  background: var(--st-info-bg);
+  color: var(--st-info-fg);
+}
+
+.noticeSuccess {
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.noticeWarning {
+  border-color: var(--st-warning-line);
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+}
+
+.noticeDanger {
+  border-color: var(--st-danger-line);
+  background: var(--st-danger-bg);
+  color: var(--st-danger-fg);
+}
+
+/* ================================================================ متفرّقات */
+
+.skeleton {
+  border-radius: var(--r-xs);
+  background: linear-gradient(90deg, var(--sf-chip) 25%, var(--sf-cool) 50%, var(--sf-chip) 75%) 0 0 / 200% 100%;
+  animation: ctlShimmer 1.4s var(--ease-out) infinite;
+}
+
+@keyframes ctlShimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.divider {
+  block-size: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--sf-line);
+}
+
+/* ================================================================ تقليل الحركة */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .field,
+  .chip,
+  .tab,
+  .cardInteractive,
+  .menuItem,
+  .scrim,
+  .drawer {
+    transition: none;
+  }
+
+  .btn:active {
+    transform: none;
+  }
+
+  .skeleton {
+    animation: none;
+    background: var(--sf-chip);
+  }
+}

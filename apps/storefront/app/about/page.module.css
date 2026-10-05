@@ -1,0 +1,283 @@
+/*
+ * من نحن — لغة تصميم المتجر: رأس بسيط بلا شريطٍ داكن، بطاقات «جرّب عيّنة»
+ * من Storefront Home.dc.html (بيضاء، حدّ ‎--sf-line‎، نصف قطر 16، بلاطة أيقونة
+ * ملوّنة 44px)، وشريط دعوة متدرّج. Tokens only, logical properties only.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+/* رأس الصفحة: عنوان ووصف بلا شريطٍ داكن. */
+.head {
+  padding-block: 20px 8px;
+}
+
+.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+/* شريط الدعوة الختامي — «ابدأ فصلك وأنت مطمئن» في Storefront Home.dc.html. */
+.cta {
+  margin-block-start: 64px; /* فاصل قسم (عقد الإيقاع: ‎64‎ مكتب / ‎32‎ جوّال) */
+  padding: 32px;
+  border-radius: var(--r-xl);
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+}
+
+.ctaCopy {
+  max-inline-size: 52ch;
+}
+
+.ctaTitle {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: inherit;
+}
+
+.ctaLede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--hm-white-85);
+}
+
+.ctaBtns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary,
+.ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  padding: 0 24px;
+  border-radius: var(--r-md);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.ctaPrimary {
+  background: var(--bg);
+  color: var(--color-secondary-text);
+}
+
+.ctaPrimary:hover {
+  background: var(--sf-cool);
+}
+
+.ctaGhost {
+  border: 1.5px solid var(--hm-white-45);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+.ctaGhost:hover {
+  background: var(--ct-white-12);
+}
+
+.cta :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  .h2 {
+    font-size: 22px;
+  }
+
+  .cta {
+    margin-block-start: 32px;
+    padding: 24px 20px;
+    border-radius: var(--r-lg);
+  }
+
+  .ctaTitle {
+    font-size: 22px;
+  }
+
+  .ctaBtns,
+  .ctaPrimary,
+  .ctaGhost {
+    inline-size: 100%;
+  }
+}
+
+.section {
+  padding-block-start: 32px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--r-md);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.card:nth-child(2) .cardIcon {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.card:nth-child(3) .cardIcon {
+  background: var(--tint-sand);
+  color: var(--gold-text);
+}
+
+.cardTitle {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.cardBody {
+  display: block;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f4f6f3;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+input,select,textarea{font-family:Tajawal,sans-serif}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" lang="ar" style="min-height:100vh;background:#f4f6f3;padding-bottom:{{ pagePadBottom }}">
+
+<header style="background:#fff;border-bottom:1px solid #e6e9e2">
+<div style="max-width:{{ maxW }};margin-inline:auto;padding:{{ headPad }};display:flex;align-items:center;gap:12px">
+<a href="#" style="display:flex;align-items:center;gap:9px;text-decoration:none;flex:0 0 auto;min-height:{{ tap }}">
+<span style="width:{{ logoSize }};height:{{ logoSize }};display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg aria-hidden="true" style="width:60%;height:60%;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span>
+<b style="font-size:{{ brandSize }};font-weight:900;color:#14261d">التحاضير الحديثة</b>
+</a>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;background:#f7f9f6;border:1px solid #e6e9e2;font-size:{{ secureFs }};font-weight:800;color:#1e7355">
+<svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg>اتصال مُشفّر
+</span>
+<a href="#" style="display:{{ backLinkDisplay }};align-items:center;gap:5px;min-height:{{ tapLink }};font-size:12.5px;font-weight:800;color:#5f7167;text-decoration:none">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:scaleX(-1)"><use href="#i-chev"></use></svg>رجوع للسلة
+</a>
+</div>
+</header>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:520px;margin-inline:auto;padding:64px 20px;text-align:center">
+<span style="display:grid;place-items:center;width:64px;height:64px;margin-inline:auto;margin-bottom:18px;border-radius:18px;background:#fff;border:1px solid #e6e9e2;color:#5f7167"><svg aria-hidden="true" style="width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg></span>
+<h1 style="margin:0 0 8px;font-size:22px;font-weight:900;color:#14261d">لا يوجد ما يُدفع بعد</h1>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.8;color:#5f7167">سلّتك فارغة، فلا حاجة لإكمال الدفع. تصفّح المكتبة واختر ما يناسب صفّك.</p>
+<a href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;border-radius:12px;background:#1e7355;color:#fff;font-size:15px;font-weight:900;text-decoration:none">تصفّح المنتجات</a>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:640px;margin-inline:auto;padding:{{ successPad }}">
+<div style="background:#fff;border:1px solid #e6e9e2;border-radius:16px;overflow:hidden">
+<div style="padding:26px 22px;text-align:center;border-bottom:1px solid #f0f3ef">
+<span style="display:grid;place-items:center;width:56px;height:56px;margin-inline:auto;margin-bottom:14px;border-radius:50%;background:rgba(37,155,111,.12);color:#1e7355"><svg aria-hidden="true" style="width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg></span>
+<h1 style="margin:0 0 6px;font-size:22px;font-weight:900;color:#14261d">تم تأكيد طلبك ودفعه</h1>
+<p style="margin:0;font-size:13.5px;line-height:1.75;color:#5f7167">أرسلنا الفاتورة وروابط التحميل إلى <bdi dir="ltr" style="font-weight:800;color:#14261d">hesham@example.com</bdi></p>
+</div>
+<dl style="margin:0;padding:18px 22px;display:grid;grid-template-columns:auto 1fr;gap:10px 16px;border-bottom:1px solid #f0f3ef">
+<dt style="font-size:12.5px;font-weight:700;color:#5f7167">رقم الطلب</dt><dd style="margin:0;font-size:13px;font-weight:900;color:#14261d;text-align:start"><bdi dir="ltr">#10571</bdi></dd>
+<dt style="font-size:12.5px;font-weight:700;color:#5f7167">حالة الدفع</dt><dd style="margin:0;text-align:start"><span style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:rgba(37,155,111,.12);color:#1e7355;font-size:11.5px;font-weight:900"><svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.8"><use href="#i-check"></use></svg>مدفوع</span></dd>
+<dt style="font-size:12.5px;font-weight:700;color:#5f7167">وسيلة الدفع</dt><dd style="margin:0;font-size:13px;font-weight:800;color:#14261d;text-align:start">مدى — <bdi dir="ltr">•••• 4291</bdi></dd>
+<dt style="font-size:12.5px;font-weight:700;color:#5f7167">الإجمالي</dt><dd style="margin:0;font-size:14px;font-weight:900;color:#14261d;text-align:start"><bdi dir="ltr">{{ total }}</bdi> ر.س</dd>
+</dl>
+<div style="padding:18px 22px">
+<div style="font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:10px">ملفاتك جاهزة الآن</div>
+<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid #eef1ec;border-radius:10px;background:#fbfcfa">
+<span style="flex:1;min-width:0;font-size:12.5px;font-weight:800;color:#14261d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.title }}</span>
+<a href="#" aria-label="تحميل {{ it.title }}" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:{{ tap }};padding:0 13px;border-radius:9px;background:#1e7355;color:#fff;font-size:12px;font-weight:900;text-decoration:none"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="#i-download"></use></svg>تحميل</a>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<a href="#" style="flex:1;min-width:150px;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:46px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font-size:13.5px;font-weight:900;text-decoration:none"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-files"></use></svg>تحميل الفاتورة</a>
+<a href="#" style="flex:1;min-width:150px;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:46px;border:1px solid #d3d8cf;border-radius:11px;background:#fff;color:#14261d;font-size:13.5px;font-weight:900;text-decoration:none"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-user"></use></svg>حسابي وتنزيلاتي</a>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isForm }}" hint-placeholder-val="{{ true }}">
+<div style="max-width:{{ maxW }};margin-inline:auto;padding:{{ bodyPad }}">
+
+<nav aria-label="مراحل إتمام الطلب" style="margin-bottom:{{ stepGap }}">
+<ol style="display:flex;align-items:center;gap:{{ stepInnerGap }};list-style:none;margin:0;padding:0">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:{{ stepInnerGap }};flex:{{ s.flex }};min-width:0">
+<span style="display:flex;align-items:center;gap:7px;min-width:0">
+<span aria-hidden="true" style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:{{ s.dotBg }};color:{{ s.dotFg }};border:1.5px solid {{ s.dotBorder }};display:grid;place-items:center;font-size:10.5px;font-weight:900">{{ s.num }}</span>
+<span style="font-size:{{ stepFs }};font-weight:{{ s.weight }};color:{{ s.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.label }}<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ s.sr }}</span></span>
+</span>
+<span aria-hidden="true" style="display:{{ s.barDisplay }};flex:1;height:2px;border-radius:2px;background:{{ s.barBg }};min-width:12px"></span>
+</li>
+</sc-for>
+</ol>
+</nav>
+
+<div style="display:{{ summaryTopDisplay }};margin-bottom:14px">
+<div style="background:#fff;border:1px solid #e6e9e2;border-radius:14px;overflow:hidden">
+<button type="button" onClick="{{ onToggleSummary }}" aria-expanded="{{ summaryOpen }}" style="width:100%;display:flex;align-items:center;gap:10px;min-height:56px;padding:0 14px;border:0;background:#fff;cursor:pointer;text-align:start">
+<svg aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg>
+<span style="flex:1;min-width:0;font-size:13px;font-weight:900;color:#14261d">ملخّص الطلب <span style="font-weight:700;color:#5f7167">({{ itemCount }})</span></span>
+<b style="flex:0 0 auto;font-size:15px;font-weight:900;color:#14261d"><bdi dir="ltr">{{ total }}</bdi> <span style="font-size:11px;font-weight:800;color:#5f7167">ر.س</span></b>
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ summaryChevron }};transition:transform .18s"><use href="#i-chev"></use></svg>
+</button>
+<div style="display:{{ summaryBodyDisplay }};border-top:1px solid #f0f3ef">
+<dc-import name="TahCheckoutSummary" data="{{ summaryData }}" hint-size="100%,300px"></dc-import>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:{{ gridGap }};align-items:start">
+
+<main style="display:flex;flex-direction:column;gap:{{ sectionGap }};min-width:0">
+
+<sc-if value="{{ hasErrors }}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="padding:14px;border:1px solid rgba(163,58,45,.3);border-radius:12px;background:#fdf3f2">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<svg aria-hidden="true" style="width:16px;height:16px;color:#a33a2d;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<b style="font-size:13px;font-weight:900;color:#a33a2d">تحقّق من {{ errorCount }} حقل قبل المتابعة</b>
+</div>
+<ul style="margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ errorList }}" as="e" hint-placeholder-count="2">
+<li style="font-size:12.5px;line-height:1.7;color:#3b4d43"><a href="{{ e.href }}" style="color:#a33a2d;font-weight:800">{{ e.label }}</a> — {{ e.msg }}</li>
+</sc-for>
+</ul>
+</div>
+</sc-if>
+
+<section aria-labelledby="sec-contact" style="background:#fff;border:1px solid {{ contact.border }};border-radius:14px;padding:{{ cardPad }}">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:{{ contact.badgeBg }};color:{{ contact.badgeFg }};display:grid;place-items:center;font-size:11px;font-weight:900">{{ contact.badge }}</span>
+<h2 id="sec-contact" style="margin:0;flex:1;font-size:{{ h2Fs }};font-weight:900;color:#14261d">بياناتك</h2>
+<span style="display:{{ contact.doneDisplay }};align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:#1e7355"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.8"><use href="#i-check"></use></svg>مكتمل</span>
+</div>
+<p style="margin:0 0 14px;font-size:12.5px;line-height:1.7;color:#5f7167;padding-inline-start:35px">نحتاج بريدك لإرسال الملفات والفاتورة، ورقم جوالك لتحديثات الطلب. لا نطلب عنوانًا — المنتجات رقمية.</p>
+
+<div style="display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #e6e9e2;border-radius:11px;background:#fbfcfa;margin-bottom:14px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-user"></use></svg>
+<span style="flex:1;min-width:0;font-size:12.5px;font-weight:700;color:#3b4d43">لديك حساب؟ سجّل الدخول لتُملأ بياناتك تلقائيًا</span>
+<a href="#" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:{{ tap }};padding:0 13px;border:1px solid #d3d8cf;border-radius:9px;background:#fff;color:#14261d;font-size:12px;font-weight:900;text-decoration:none">تسجيل الدخول</a>
+</div>
+
+<div style="display:grid;grid-template-columns:{{ fieldCols }};gap:12px">
+<div>
+<label for="ck-name" style="display:block;font-size:12px;font-weight:800;color:#14261d;margin-bottom:5px">الاسم الكامل</label>
+<input id="ck-name" type="text" dir="auto" autocomplete="name" value="هشام العتيبي" onChange="{{ onNoop }}" style="width:100%;min-height:{{ field }};padding:0 13px;border:1px solid #d3d8cf;border-radius:10px;background:#fff;font-size:13.5px;font-weight:600;color:#14261d;outline:none;box-sizing:border-box">
+</div>
+<div>
+<label for="ck-phone" style="display:block;font-size:12px;font-weight:800;color:#14261d;margin-bottom:5px">رقم الجوال</label>
+<div style="display:flex;align-items:stretch;gap:0;border:1px solid {{ phone.border }};border-radius:10px;background:#fff;overflow:hidden">
+<span aria-hidden="true" style="flex:0 0 auto;display:flex;align-items:center;padding-inline:11px;background:#f7f9f6;border-inline-end:1px solid #e6e9e2;font-size:12.5px;font-weight:800;color:#5f7167"><bdi dir="ltr">+966</bdi></span>
+<input id="ck-phone" type="tel" inputmode="numeric" dir="ltr" autocomplete="tel-national" placeholder="5XXXXXXXX" value="{{ phone.value }}" aria-describedby="ck-phone-hint" aria-invalid="{{ phone.invalid }}" onChange="{{ onPhone }}" style="flex:1;min-width:0;min-height:{{ field }};padding:0 12px;border:0;background:transparent;font-size:13.5px;font-weight:600;color:#14261d;outline:none;text-align:start">
+</div>
+<div id="ck-phone-hint" style="margin-top:5px;font-size:11px;line-height:1.6;color:{{ phone.hintFg }};display:flex;align-items:flex-start;gap:5px">
+<svg aria-hidden="true" style="display:{{ phone.iconDisplay }};flex:0 0 auto;width:12px;height:12px;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-info"></use></svg>{{ phone.hint }}
+</div>
+</div>
+<div style="grid-column:{{ emailSpan }}">
+<label for="ck-email" style="display:block;font-size:12px;font-weight:800;color:#14261d;margin-bottom:5px">البريد الإلكتروني</label>
+<input id="ck-email" type="email" inputmode="email" dir="ltr" autocomplete="email" placeholder="name@example.com" value="{{ email.value }}" aria-describedby="ck-email-hint" aria-invalid="{{ email.invalid }}" onChange="{{ onEmail }}" style="width:100%;min-height:{{ field }};padding:0 13px;border:1px solid {{ email.border }};border-radius:10px;background:#fff;font-size:13.5px;font-weight:600;color:#14261d;outline:none;box-sizing:border-box;text-align:start">
+<div id="ck-email-hint" style="margin-top:5px;font-size:11px;line-height:1.6;color:{{ email.hintFg }};display:flex;align-items:flex-start;gap:5px">
+<svg aria-hidden="true" style="display:{{ email.iconDisplay }};flex:0 0 auto;width:12px;height:12px;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-info"></use></svg>{{ email.hint }}
+</div>
+</div>
+</div>
+
+<button type="button" onClick="{{ onToggleTax }}" aria-expanded="{{ taxOpen }}" style="margin-top:12px;display:inline-flex;align-items:center;gap:7px;min-height:{{ tap }};padding:0 11px;border:1px solid #eef1ec;border-radius:9px;background:#fbfcfa;font-size:12px;font-weight:800;color:#1e7355;cursor:pointer">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ taxChevron }};transition:transform .18s"><use href="#i-chev"></use></svg>أحتاج فاتورة ضريبية باسم منشأة
+</button>
+<div style="display:{{ taxBodyDisplay }};margin-top:11px;padding:13px;border:1px solid #eef1ec;border-radius:11px;background:#fbfcfa">
+<div style="display:grid;grid-template-columns:{{ fieldCols }};gap:11px">
+<div><label for="ck-org" style="display:block;font-size:11.5px;font-weight:800;color:#14261d;margin-bottom:5px">اسم المنشأة</label><input id="ck-org" type="text" dir="auto" autocomplete="organization" style="width:100%;min-height:{{ field }};padding:0 12px;border:1px solid #d3d8cf;border-radius:9px;background:#fff;font-size:13px;font-weight:600;color:#14261d;outline:none;box-sizing:border-box"></div>
+<div><label for="ck-vat" style="display:block;font-size:11.5px;font-weight:800;color:#14261d;margin-bottom:5px">الرقم الضريبي</label><input id="ck-vat" type="text" inputmode="numeric" dir="ltr" placeholder="3XXXXXXXXXXXXX3" style="width:100%;min-height:{{ field }};padding:0 12px;border:1px solid #d3d8cf;border-radius:9px;background:#fff;font-size:13px;font-weight:600;color:#14261d;outline:none;box-sizing:border-box;text-align:start"></div>
+</div>
+<p style="margin:9px 0 0;font-size:11px;line-height:1.65;color:#5f7167">يُضاف الرقم الضريبي إلى الفاتورة كما تُدخله. اتركه فارغًا إن كنت تشتري بصفة شخصية.</p>
+</div>
+</section>
+
+<section aria-labelledby="sec-delivery" style="background:#fff;border:1px solid #e6e9e2;border-radius:14px;padding:{{ cardPad }}">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center"><svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-download"></use></svg></span>
+<h2 id="sec-delivery" style="margin:0;flex:1;font-size:{{ h2Fs }};font-weight:900;color:#14261d">طريقة التسليم</h2>
+</div>
+<div style="padding-inline-start:35px">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+<b style="font-size:13.5px;font-weight:900;color:#14261d">تحميل فوري</b>
+<span style="padding:2px 8px;border-radius:6px;background:rgba(37,155,111,.12);color:#1e7355;font-size:10.5px;font-weight:900">الطريقة الوحيدة</span>
+</div>
+<p style="margin:0;font-size:12.5px;line-height:1.75;color:#5f7167">تظهر روابط التحميل في صفحة الطلب فور نجاح الدفع، وتصلك نسخة على بريدك، وتبقى في «حسابي ← تنزيلاتي» دائمًا. لا شحن ولا انتظار.</p>
+</div>
+</section>
+
+<section aria-labelledby="sec-pay" style="background:#fff;border:1px solid #e6e9e2;border-radius:14px;padding:{{ cardPad }}">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center;font-size:11px;font-weight:900">2</span>
+<h2 id="sec-pay" style="margin:0;flex:1;font-size:{{ h2Fs }};font-weight:900;color:#14261d">وسيلة الدفع</h2>
+</div>
+<p style="margin:0 0 14px;font-size:12.5px;line-height:1.7;color:#5f7167;padding-inline-start:35px">لا تُضاف أي رسوم على أي وسيلة. تُعالَج البيانات عند مزوّد الدفع، ولا يحتفظ المتجر ببيانات بطاقتك.</p>
+
+<div role="radiogroup" aria-labelledby="sec-pay" style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ methods }}" as="m" hint-placeholder-count="4">
+<div>
+<button type="button" role="radio" aria-checked="{{ m.checked }}" aria-disabled="{{ m.ariaDisabled }}" onClick="{{ m.onSelect }}" style="width:100%;display:flex;align-items:center;gap:11px;min-height:{{ methodMin }};padding:11px 12px;border:1.5px solid {{ m.border }};border-radius:12px;background:{{ m.bg }};cursor:{{ m.rowCursor }};text-align:start;opacity:{{ m.rowOpacity }}">
+<span aria-hidden="true" style="flex:0 0 auto;display:{{ m.radioDisplay }};width:19px;height:19px;border-radius:50%;border:2px solid {{ m.radioBorder }};background:{{ m.radioBg }};place-items:center"><span style="width:8px;height:8px;border-radius:50%;background:{{ m.radioDot }}"></span></span>
+<span aria-hidden="true" style="flex:0 0 auto;display:{{ m.lockDisplay }};width:19px;height:19px;color:#7a5d20;place-items:center"><svg style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg></span>
+<span style="flex:1;min-width:0">
+<b style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:13.5px;font-weight:900;color:#14261d;margin-bottom:2px">{{ m.label }}<span style="display:{{ m.chipDisplay }};padding:1px 7px;border-radius:5px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.4);font-size:9.5px;font-weight:800;color:#7a5d20">يحتاج ربطًا</span></b>
+<span style="font-size:11.5px;line-height:1.6;color:#5f7167">{{ m.desc }}</span>
+</span>
+<span aria-hidden="true" style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:{{ m.logoW }};height:26px;padding:0 8px;border-radius:6px;background:{{ m.logoBg }};border:1px solid {{ m.logoBorder }};font-size:{{ m.logoFs }};font-weight:900;color:{{ m.logoFg }};letter-spacing:{{ m.logoLs }}">{{ m.logo }}</span>
+</button>
+<div style="display:{{ m.panelDisplay }};margin-top:8px;padding:13px;border:1px solid #eef1ec;border-radius:11px;background:#fbfcfa">
+<sc-if value="{{ m.isCard }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:8px;padding:10px 11px;border:1px dashed #c9d4cd;border-radius:9px;background:#fff;margin-bottom:10px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg>
+<span style="font-size:11.5px;line-height:1.6;color:#5f7167">حقول البطاقة تُحمَّل من مزوّد الدفع داخل إطار آمن — <b style="color:#14261d">يحتاج ربطًا</b></span>
+</div>
+<p style="margin:0 0 10px;font-size:11.5px;line-height:1.7;color:#5f7167">لا تُدخل بيانات البطاقة في القالب نفسه. عند التنفيذ يُستبدل هذا المربّع بحقول المزوّد المُرمَّزة (tokenized fields).</p>
+<div style="padding-top:10px;border-top:1px solid #eef1ec">
+<span style="display:block;font-size:10.5px;font-weight:800;color:#5f7167;margin-bottom:7px">الشبكات المقبولة — بحسب ما هو مُفعَّل في حساب Tap</span>
+<span style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ schemes }}" as="sc" hint-placeholder-count="3">
+<span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:24px;padding:0 8px;border-radius:6px;background:#fff;border:1px solid #e6e9e2;font-size:10px;font-weight:900;color:#5f7167;letter-spacing:{{ sc.ls }}">{{ sc.label }}</span>
+</sc-for>
+</span>
+<span style="display:block;margin-top:7px;font-size:10.5px;line-height:1.65;color:#7a5d20">القالب لا يستطيع التحقّق من الشبكات المُفعَّلة — <code dir="ltr" style="font-size:10px">tap-health.php:142</code> يوصي بتفعيل mada و Apple Pay «إن كانا متاحين في حسابك». تُقرأ فعليًا من إعدادات حساب Tap.</span>
+</div>
+</sc-if>
+<sc-if value="{{ m.isWallet }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;font-size:11.5px;line-height:1.7;color:#5f7167">{{ m.panelText }}</p>
+</sc-if>
+<sc-if value="{{ m.unlinked }}" hint-placeholder-val="{{ false }}">
+<p style="margin:6px 0 0;font-size:11px;line-height:1.7;color:#7a5d20">{{ m.requirement }}</p>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:{{ applePayNoteDisplay }};margin-top:10px;padding:10px 12px;border:1px solid #eef1ec;border-radius:10px;background:#fbfcfa;font-size:11.5px;line-height:1.65;color:#5f7167">
+Apple Pay مخفي لأن الجهاز الحالي لا يدعمه. يظهر تلقائيًا عند توفّر <bdi dir="ltr">ApplePaySession</bdi> فقط — لا يُعرض كخيار معطَّل.
+</div>
+</section>
+
+<section aria-labelledby="sec-review" style="background:#fff;border:1px solid #e6e9e2;border-radius:14px;padding:{{ cardPad }}">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center;font-size:11px;font-weight:900">3</span>
+<h2 id="sec-review" style="margin:0;flex:1;font-size:{{ h2Fs }};font-weight:900;color:#14261d">المراجعة والتأكيد</h2>
+</div>
+
+<dl style="margin:0 0 14px;display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ review }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f3ef">
+<dt style="flex:0 0 {{ reviewLabelW }};font-size:12px;font-weight:700;color:#5f7167">{{ r.label }}</dt>
+<dd style="flex:1;margin:0;min-width:0;font-size:12.5px;font-weight:800;color:#14261d;text-align:start;overflow:hidden;text-overflow:ellipsis">{{ r.value }}</dd>
+<a href="{{ r.href }}" aria-label="تعديل {{ r.label }}" style="flex:0 0 auto;display:inline-flex;align-items:center;min-height:{{ tapLink }};padding:0 8px;font-size:11.5px;font-weight:800;color:#1e7355;text-decoration:none">تعديل</a>
+</div>
+</sc-for>
+</dl>
+
+<label style="display:flex;align-items:flex-start;gap:9px;margin-bottom:12px;cursor:pointer;min-height:{{ tap }};padding-block:{{ checkPad }}">
+<input type="checkbox" checked="{{ policyChecked }}" onChange="{{ onPolicy }}" style="flex:0 0 auto;width:{{ checkBox }};height:{{ checkBox }};margin-top:2px;accent-color:#1e7355">
+<span style="font-size:12px;line-height:1.7;color:#3b4d43">أوافق على <a href="#" style="font-weight:800">الشروط والأحكام</a> و<a href="#" style="font-weight:800">سياسة الاسترجاع</a> للمنتجات الرقمية.</span>
+</label>
+
+<label style="display:flex;align-items:flex-start;gap:9px;margin-bottom:16px;cursor:pointer;min-height:{{ tap }};padding-block:{{ checkPad }}">
+<input type="checkbox" onChange="{{ onNoop }}" style="flex:0 0 auto;width:{{ checkBox }};height:{{ checkBox }};margin-top:2px;accent-color:#1e7355">
+<span style="font-size:12px;line-height:1.7;color:#5f7167">أرغب باستلام العروض والملفات المجانية على بريدي. <span style="color:#5f7167;font-weight:700">(اختياري — تحديثات الطلب تصلك في كل الأحوال)</span></span>
+</label>
+
+<sc-if value="{{ isDeclined }}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="margin-bottom:14px;padding:13px;border:1px solid rgba(163,58,45,.3);border-radius:11px;background:#fdf3f2">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><svg aria-hidden="true" style="width:15px;height:15px;color:#a33a2d;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg><b style="font-size:13px;font-weight:900;color:#a33a2d">تعذّر إتمام الدفع — ولم يُخصم أي مبلغ</b></div>
+<p style="margin:0 0 10px;font-size:12px;line-height:1.7;color:#3b4d43">رفض البنك العملية دون توضيح السبب. بياناتك محفوظة كما هي. جرّب مرة أخرى، أو اختر وسيلة دفع أخرى.</p>
+<button type="button" onClick="{{ onRetry }}" style="display:inline-flex;align-items:center;gap:7px;min-height:{{ tap }};padding:0 15px;border:1px solid #a33a2d;border-radius:9px;background:#fff;color:#a33a2d;font-size:12.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-refresh"></use></svg>إعادة المحاولة</button>
+</div>
+</sc-if>
+
+<div style="display:{{ ctaInlineDisplay }}">
+<button type="button" disabled="{{ ctaDisabled }}" onClick="{{ onPay }}" aria-describedby="ck-cta-note" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:54px;border:0;border-radius:12px;background:{{ ctaBg }};color:#fff;font-size:15.5px;font-weight:900;cursor:{{ ctaCursor }};opacity:{{ ctaOpacity }}">
+<svg aria-hidden="true" style="display:{{ spinnerDisplay }};width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;animation:tahSpin .9s linear infinite;stroke-dasharray:44;stroke-dashoffset:14"><circle cx="12" cy="12" r="9"></circle></svg>
+<svg aria-hidden="true" style="display:{{ lockDisplay }};width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg>
+{{ ctaLabel }}
+</button>
+<p id="ck-cta-note" role="status" aria-live="polite" style="margin:9px 0 0;font-size:11.5px;line-height:1.65;color:{{ ctaNoteFg }};text-align:center">{{ ctaNote }}</p>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-top:16px;padding-top:14px;border-top:1px solid #f0f3ef">
+<sc-for list="{{ trust }}" as="t" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:#5f7167"><svg aria-hidden="true" style="width:13px;height:13px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ t.iconRef }}"></use></svg>{{ t.label }}</span>
+</sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin-top:10px">
+<sc-for list="{{ policies }}" as="p" hint-placeholder-count="4">
+<a href="#" style="display:inline-flex;align-items:center;min-height:{{ tapLink }};font-size:11px;font-weight:700;color:#5f7167;text-decoration:underline">{{ p }}</a>
+</sc-for>
+</div>
+</section>
+
+</main>
+
+<aside style="display:{{ summarySideDisplay }};position:sticky;inset-block-start:{{ stickyTop }};min-width:0">
+<div style="background:#fff;border:1px solid #e6e9e2;border-radius:14px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:9px;padding:14px 16px;border-bottom:1px solid #f0f3ef">
+<h2 style="margin:0;flex:1;font-size:14px;font-weight:900;color:#14261d">ملخّص الطلب</h2>
+<a href="#" style="display:inline-flex;align-items:center;min-height:{{ tapLink }};font-size:11.5px;font-weight:800;color:#1e7355;text-decoration:none">تعديل السلة</a>
+</div>
+<dc-import name="TahCheckoutSummary" data="{{ summaryData }}" hint-size="100%,340px"></dc-import>
+</div>
+</aside>
+
+</div>
+</div>
+
+<div style="display:{{ stickyBarDisplay }};position:sticky;inset-block-end:0;z-index:30;background:rgba(255,255,255,.97);border-top:1px solid #e0e5dd;box-shadow:0 -6px 22px rgba(20,45,33,.07);backdrop-filter:blur(8px);padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom))">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="flex:0 0 auto;display:flex;flex-direction:column;gap:1px">
+<span style="font-size:10px;font-weight:700;color:#5f7167">الإجمالي شامل الضريبة</span>
+<b style="font-size:17px;font-weight:900;color:#14261d;line-height:1.1"><bdi dir="ltr">{{ total }}</bdi> <span style="font-size:11px;font-weight:800;color:#5f7167">ر.س</span></b>
+</div>
+<button type="button" disabled="{{ ctaDisabled }}" onClick="{{ onPay }}" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border:0;border-radius:12px;background:{{ ctaBg }};color:#fff;font-size:14.5px;font-weight:900;cursor:{{ ctaCursor }};opacity:{{ ctaOpacity }}">
+<svg aria-hidden="true" style="display:{{ spinnerDisplay }};width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;animation:tahSpin .9s linear infinite;stroke-dasharray:44;stroke-dashoffset:14"><circle cx="12" cy="12" r="9"></circle></svg>
+<svg aria-hidden="true" style="display:{{ lockDisplay }};width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-lock"></use></svg>
+{{ ctaShort }}
+</button>
+</div>
+</div>
+
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:1300},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;scenario&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;coupon&quot;,&quot;badcoupon&quot;,&quot;invalid&quot;,&quot;processing&quot;,&quot;declined&quot;,&quot;success&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;applePayAvailable&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    method: 'tap',
+    methodTouched: false,
+    summaryOpen: false,
+    taxOpen: false,
+    policy: true,
+    email: 'hesham@example.com',
+    phone: '551234567',
+    touched: {},
+    submitState: null
+  };
+
+  componentDidUpdate(prev) {
+    if (prev.scenario !== this.props.scenario) this.setState({ submitState: null, touched: {} });
+  }
+
+  renderVals() {
+    const p = this.props;
+    const mobile = !!p.mobile;
+    const scenario = p.scenario || 'default';
+    const st = this.state;
+
+    const applePay = !!p.applePayAvailable;
+    const showUnlinked = p.showUnlinkedMethods !== false;
+
+    /* ---- money: one derivation, VAT-inclusive (KSA displayed prices contain it) ---- */
+    const f = n => n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const items = [
+      { title: 'عرض بوربوينت — التنظيم: الأنواع والمبادئ', qty: 1, unit: 300, was: 400, meta: 'PowerPoint · 22 شريحة' },
+      { title: 'أوراق عمل العلوم — الصف الثاني المتوسط', qty: 2, unit: 30, was: 0, meta: 'PDF · 12 ورقة' },
+      { title: 'حزمة تحاضير اللغة العربية — الفصل الأول', qty: 1, unit: 95, was: 0, meta: 'Word · 6 مواد' }
+    ];
+    const gross = items.reduce((s, i) => s + (i.was || i.unit) * i.qty, 0);
+    const sub = items.reduce((s, i) => s + i.unit * i.qty, 0);
+    const itemSaving = gross - sub;
+    const couponVal = scenario === 'coupon' ? Math.round(sub * 0.15 * 100) / 100 : 0;
+    const total = sub - couponVal;
+    const vat = Math.round((total - total / 1.15) * 100) / 100;
+    const saved = itemSaving + couponVal;
+
+    /* ---- validation: only after touch or submit attempt ---- */
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(st.email);
+    const phoneOk = /^5\d{8}$/.test(st.phone.replace(/\s/g, ''));
+    const forceErrors = scenario === 'invalid';
+    const showEmailErr = forceErrors || (st.touched.email && !emailOk);
+    const showPhoneErr = forceErrors || (st.touched.phone && !phoneOk);
+    const errorList = [];
+    if (showEmailErr) errorList.push({ label: 'البريد الإلكتروني', msg: 'أدخل بريدًا يحتوي @ ونطاقًا صحيحًا، مثل name@example.com', href: '#ck-email' });
+    if (showPhoneErr) errorList.push({ label: 'رقم الجوال', msg: 'رقم سعودي من 9 أرقام يبدأ بـ 5، بدون صفر ولا مفتاح الدولة', href: '#ck-phone' });
+
+    const errField = (bad, okHint, badHint) => ({
+      border: bad ? '#a33a2d' : '#d3d8cf',
+      invalid: bad ? 'true' : 'false',
+      hint: bad ? badHint : okHint,
+      hintFg: bad ? '#a33a2d' : '#5f7167',
+      iconDisplay: bad ? 'block' : 'none'
+    });
+
+    /*
+     * ---- payment methods: driven by the ONE gateway the theme actually configures ----
+     *
+     * Inspected: inc/payments/tap-health.php + tap-integration.php. The store runs a
+     * single WooCommerce gateway — Tap (plugin `Tap-WooCommerce-V2`, option
+     * `woocommerce_tap_settings`, gateway id `tap`). There is no STC Pay reference
+     * and no bacs/bank-transfer gateway anywhere in the theme, so an earlier draft
+     * that offered both was inventing gateways.
+     *
+     * mada / Visa / Mastercard are card SCHEMES that the single Tap gateway routes —
+     * one method, several accepted schemes — not separate gateways. And tap-health.php:142
+     * recommends enabling "Apple Pay و mada (إن كانا متاحين في حسابك)", i.e. the theme
+     * itself treats scheme availability as a property of the merchant's Tap account
+     * that it cannot verify. So schemes are shown as accepted-logos, never as promises,
+     * and anything unverifiable carries the "يحتاج ربطًا" label with its requirement.
+     */
+    const defs = [
+      { id: 'tap', label: 'بطاقة مدى أو ائتمانية', desc: 'تُعالَج عبر بوابة Tap — الشعارات أدناه هي الشبكات المقبولة', logo: 'Tap', logoW: '48px', isCard: true, real: true },
+      { id: 'applepay', label: 'Apple Pay', desc: 'دفع بلمسة واحدة عبر بصمتك', logo: 'logo', logoW: '54px', isWallet: true, panelText: 'يفتح Apple Pay نافذة النظام لتأكيد الدفع ببصمتك أو وجهك. لا تُشارك بيانات بطاقتك مع المتجر.', gated: true, real: true },
+      { id: 'stcpay', label: 'STC Pay', desc: 'محفظة STC Pay', logo: 'stc', logoW: '42px', isWallet: true, unlinked: true, requirement: 'لا توجد بوابة STC Pay مسجَّلة في القالب. يتطلّب تفعيلها في حساب Tap أو تثبيت بوابة مستقلّة، ثم قراءتها من woocommerce_available_payment_gateways.' },
+      { id: 'transfer', label: 'تحويل بنكي', desc: 'تحويل إلى حساب المتجر', logo: 'IBAN', logoW: '46px', isWallet: true, unlinked: true, requirement: 'لا توجد بوابة تحويل بنكي (bacs) مفعّلة. يتطلّب تفعيل «التحويل المصرفي المباشر» في WooCommerce وإضافة بيانات الحساب، مع تحديد متى تُتاح الملفات.' }
+    ];
+    const methods = defs
+      .filter(m => !(m.gated && !applePay))
+      .filter(m => !(m.unlinked && !showUnlinked))
+      .map(m => {
+        const on = st.method === m.id;
+        return {
+          label: m.label, desc: m.desc, logo: m.logo, logoW: m.logoW,
+          checked: on ? 'true' : 'false',
+          border: on ? '#1e7355' : '#e6e9e2',
+          bg: on ? 'rgba(37,155,111,.05)' : '#fff',
+          radioBorder: on ? '#1e7355' : '#c9d4cd',
+          radioBg: '#fff',
+          radioDot: on ? '#1e7355' : 'transparent',
+          logoBg: m.id === 'applepay' ? '#fbfcfa' : '#f7f9f6',
+          logoBorder: m.id === 'applepay' ? '#c9d4cd' : '#e6e9e2',
+          logoFg: '#5f7167',
+          logoFs: m.logo === 'logo' ? '9px' : '11px',
+          logoLs: m.logo === 'VISA' ? '.06em' : '0',
+          panelDisplay: on ? 'block' : 'none',
+          isCard: !!m.isCard, isWallet: !!m.isWallet && !m.unlinked, panelText: m.panelText || '',
+          unlinked: !!m.unlinked, requirement: m.requirement || '',
+          rowOpacity: m.unlinked ? '.72' : '1',
+          rowCursor: m.unlinked ? 'not-allowed' : 'pointer',
+          radioDisplay: m.unlinked ? 'none' : 'grid',
+          lockDisplay: m.unlinked ? 'grid' : 'none',
+          chipDisplay: m.unlinked ? 'inline-flex' : 'none',
+          ariaDisabled: m.unlinked ? 'true' : 'false',
+          onSelect: m.unlinked ? (() => {}) : (() => this.setState({ method: m.id, methodTouched: true, submitState: null }))
+        };
+      });
+
+    /* ---- CTA wording states the consequence, and adapts to method ---- */
+    const methodLabel = (defs.find(m => m.id === st.method) || {}).label || '';
+    const isTransfer = st.method === 'transfer';
+    const processing = st.submitState === 'processing' || scenario === 'processing';
+    const declined = st.submitState === 'declined' || scenario === 'declined';
+    const blocked = !st.policy || errorList.length > 0;
+
+    let ctaLabel, ctaShort, ctaNote, ctaNoteFg = '#5f7167';
+    if (processing) {
+      ctaLabel = 'جارٍ تأكيد طلبك بأمان…';
+      ctaShort = 'جارٍ التأكيد…';
+      ctaNote = 'لا تُحدّث الصفحة ولا تضغط مرة أخرى — قد يستغرق التأكيد حتى 30 ثانية.';
+    } else if (isTransfer) {
+      ctaLabel = 'تأكيد الطلب — الدفع بتحويل بنكي';
+      ctaShort = 'تأكيد الطلب';
+      ctaNote = 'لن يُخصم أي مبلغ الآن. ستظهر بيانات الحساب البنكي في الخطوة التالية.';
+    } else {
+      ctaLabel = 'ادفع ' + f(total) + ' ر.س وأكمل الطلب';
+      ctaShort = 'ادفع ' + f(total) + ' ر.س';
+      ctaNote = 'بالضغط يُنشأ الطلب ويُخصم المبلغ عبر ' + methodLabel + '. تُعرض روابط التحميل فورًا بعد نجاح الدفع.';
+    }
+    if (!processing && blocked) {
+      ctaNote = !st.policy ? 'وافق على الشروط وسياسة الاسترجاع لتتمكّن من إتمام الطلب.' : 'أصلح الحقول المميّزة أعلاه لتتمكّن من إتمام الطلب.';
+      ctaNoteFg = '#a33a2d';
+    }
+
+    /*
+     * A cost-free preselected default is good UX, but ticking the step before the
+     * shopper has seen the section overstates progress. `methodTouched` separates
+     * "a default is in place" from "the shopper chose".
+     */
+    const step2Done = !!st.method && !!st.methodTouched;
+    const contactDone = emailOk && phoneOk && !forceErrors;
+
+    return {
+      isForm: scenario !== 'empty' && scenario !== 'success',
+      isEmpty: scenario === 'empty',
+      isSuccess: scenario === 'success',
+      isDeclined: declined,
+
+      maxW: mobile ? '100%' : '1120px',
+      bodyPad: mobile ? '14px 14px 0' : '24px 24px 0',
+      headPad: mobile ? '10px 14px' : '14px 24px',
+      successPad: mobile ? '20px 14px' : '36px 20px',
+      cardPad: mobile ? '15px' : '20px',
+      gridCols: mobile ? '1fr' : 'minmax(0,1.55fr) minmax(280px,.85fr)',
+      gridGap: mobile ? '12px' : '20px',
+      sectionGap: mobile ? '12px' : '14px',
+      fieldCols: mobile ? '1fr' : '1fr 1fr',
+      emailSpan: mobile ? 'auto' : 'span 2',
+      h2Fs: mobile ? '15px' : '16.5px',
+      brandSize: mobile ? '14px' : '16px',
+      logoSize: mobile ? '32px' : '38px',
+      secureFs: mobile ? '10.5px' : '11.5px',
+      stepFs: mobile ? '11.5px' : '12.5px',
+      stepGap: mobile ? '14px' : '18px',
+      stepInnerGap: mobile ? '7px' : '10px',
+      reviewLabelW: mobile ? '86px' : '108px',
+      methodMin: mobile ? '58px' : '54px',
+      stickyTop: '16px',
+      pagePadBottom: mobile ? '0' : '32px',
+      tap: mobile ? '44px' : '34px',
+      tapLink: mobile ? '44px' : '24px',
+      field: mobile ? '46px' : '42px',
+      /* Native checkbox stays 18/20px; the label carries the 44px hit area. */
+      checkBox: mobile ? '20px' : '18px',
+      checkPad: mobile ? '10px' : '0',
+      backLinkDisplay: mobile ? 'none' : 'inline-flex',
+      summaryTopDisplay: mobile ? 'block' : 'none',
+      summarySideDisplay: mobile ? 'none' : 'block',
+      ctaInlineDisplay: mobile ? 'none' : 'block',
+      stickyBarDisplay: mobile ? 'block' : 'none',
+      applePayNoteDisplay: applePay ? 'none' : 'block',
+
+      schemes: [
+        { label: 'mada', ls: '0' },
+        { label: 'VISA', ls: '.06em' },
+        { label: 'Mastercard', ls: '0' }
+      ],
+      steps: [
+        { num: '1', label: 'بياناتك', sr: contactDone ? ' — مكتملة' : '', done: contactDone },
+        { num: '2', label: 'الدفع', sr: step2Done ? ' — مختارة' : '', done: step2Done },
+        { num: '3', label: 'التأكيد', sr: '', done: false }
+      ].map((s, i, arr) => ({
+        num: s.done ? '✓' : s.num,
+        label: s.label, sr: s.sr,
+        flex: i === arr.length - 1 ? '0 0 auto' : '1 1 auto',
+        weight: s.done ? '800' : '700',
+        fg: s.done ? '#1e7355' : '#5f7167',
+        dotBg: s.done ? '#1e7355' : '#fff',
+        dotFg: s.done ? '#fff' : '#5f7167',
+        dotBorder: s.done ? '#1e7355' : '#c9d4cd',
+        barDisplay: i === arr.length - 1 ? 'none' : 'block',
+        barBg: s.done ? '#1e7355' : '#e0e5dd'
+      })),
+
+      itemCount: items.reduce((s, i) => s + i.qty, 0),
+      total: f(total),
+      items,
+      summaryData: {
+        items: items.map(i => ({
+          title: i.title, meta: i.meta, qty: i.qty,
+          line: f(i.unit * i.qty),
+          was: i.was ? f(i.was * i.qty) : '',
+          hasWas: !!i.was
+        })),
+        rows: [
+          { label: 'المجموع الفرعي', value: f(sub), strong: false },
+          ...(couponVal > 0 ? [{ label: 'رمز الخصم (TEACHER15)', value: '−' + f(couponVal), strong: false, fg: '#1e7355' }] : []),
+          { label: 'ضريبة القيمة المضافة (مشمولة)', value: f(vat), strong: false },
+          ...(saved > 0 ? [{ label: 'إجمالي التوفير', value: f(saved), strong: true, fg: '#1e7355' }] : [])
+        ],
+        total: f(total),
+        couponState: scenario === 'coupon' ? 'applied' : scenario === 'badcoupon' ? 'rejected' : 'idle',
+        note: 'الأسعار شاملة ضريبة القيمة المضافة · كل المنتجات رقمية وتصلك فور الدفع'
+      },
+
+      contact: {
+        border: errorList.length ? 'rgba(163,58,45,.35)' : '#e6e9e2',
+        badge: contactDone ? '✓' : '1',
+        badgeBg: contactDone ? '#1e7355' : 'rgba(37,155,111,.12)',
+        badgeFg: contactDone ? '#fff' : '#1e7355',
+        doneDisplay: contactDone ? 'inline-flex' : 'none'
+      },
+      email: {
+        value: st.email,
+        ...errField(showEmailErr, 'تصلك الملفات والفاتورة على هذا البريد.', 'أدخل بريدًا يحتوي @ ونطاقًا صحيحًا، مثل name@example.com')
+      },
+      phone: {
+        value: st.phone,
+        ...errField(showPhoneErr, 'لتحديثات الطلب عبر الرسائل أو واتساب.', 'رقم سعودي من 9 أرقام يبدأ بـ 5، بدون صفر ولا مفتاح الدولة')
+      },
+      onEmail: e => { const v = e.target.value; this.setState(s => ({ email: v, touched: { ...s.touched, email: true } })); },
+      onPhone: e => { const v = e.target.value.replace(/[^\d]/g, '').slice(0, 9); this.setState(s => ({ phone: v, touched: { ...s.touched, phone: true } })); },
+      onNoop: () => {},
+
+      hasErrors: errorList.length > 0,
+      errorCount: errorList.length,
+      errorList,
+
+      methods,
+      review: [
+        { label: 'الاسم', value: 'هشام العتيبي', href: '#ck-name' },
+        { label: 'البريد', value: st.email, href: '#ck-email' },
+        { label: 'التسليم', value: 'تحميل فوري بعد الدفع', href: '#sec-delivery' },
+        { label: 'وسيلة الدفع', value: methodLabel, href: '#sec-pay' },
+        { label: 'الإجمالي', value: f(total) + ' ر.س (شامل الضريبة)', href: '#' }
+      ],
+
+      taxOpen: st.taxOpen ? 'true' : 'false',
+      taxBodyDisplay: st.taxOpen ? 'block' : 'none',
+      taxChevron: st.taxOpen ? 'rotate(-90deg)' : 'rotate(0deg)',
+      onToggleTax: () => this.setState(s => ({ taxOpen: !s.taxOpen })),
+
+      summaryOpen: st.summaryOpen ? 'true' : 'false',
+      summaryBodyDisplay: st.summaryOpen ? 'block' : 'none',
+      summaryChevron: st.summaryOpen ? 'rotate(-90deg)' : 'rotate(0deg)',
+      onToggleSummary: () => this.setState(s => ({ summaryOpen: !s.summaryOpen })),
+
+      policyChecked: st.policy,
+      onPolicy: () => this.setState(s => ({ policy: !s.policy })),
+
+      ctaLabel, ctaShort, ctaNote, ctaNoteFg,
+      ctaDisabled: processing || blocked,
+      /*
+       * Blocked CTA was #8b9a91 — white on it measures 2.95:1, so the most
+       * consequential button on the page became the least readable exactly when it
+       * was explaining why it can't be pressed. #5f7167 keeps "off" legible at 5.19:1.
+       */
+      ctaBg: processing ? '#123d2f' : blocked ? '#5f7167' : '#1e7355',
+      ctaCursor: processing || blocked ? 'not-allowed' : 'pointer',
+      ctaOpacity: blocked && !processing ? '.85' : '1',
+      spinnerDisplay: processing ? 'block' : 'none',
+      lockDisplay: processing ? 'none' : 'block',
+      onPay: () => { if (processing || blocked) return; this.setState({ submitState: 'processing' }); },
+      onRetry: () => this.setState({ submitState: null }),
+
+      trust: [
+        { label: 'دفع آمن عبر مزوّد مُرخَّص', iconRef: '#i-lock' },
+        { label: 'لا رسوم مخفية', iconRef: '#i-check' },
+        { label: 'دعم واتساب', iconRef: '#i-headset' }
+      ],
+      policies: ['سياسة الاسترجاع', 'سياسة الخصوصية', 'الشروط والأحكام', 'تواصل معنا']
+    };
+  }
+}
+</script>
+</body>
+</html>

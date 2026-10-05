@@ -1,0 +1,847 @@
+/*
+UNIT: COMPOSER
+COMPONENT: composer-client.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * منشئ صفحة المنتج — هندسة «Tahdheer - Product Builder»: شريط أدوات لاصق،
+ * شبكة 300px | 1fr بفجوة 14px، لوح بنصف قطر 13px، مسرحٌ أعمق من الإطار،
+ * بطاقة ودجة بنصف قطر 14px. الألوان كلّها رموزٌ تتبع السمة: الشريط سطحُ
+ * `--chrome` وحبرُه `--chrome-text`/`--cc-muted` (كانت ألوانه بيضاء حرفيّة
+ * فتختفي على الشريط الفاتح)، والظلال من سلّم `--e-*`.
+ *
+ * فرق مقصود: الأهداف اللمسية هنا 44px (اللوحة ترسم 15–32px)، والأرقام
+ * غربية موحّدة مع بقية اللوحة لا هندية كما في اللوحة الأصلية.
+ */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 10px;
+  padding-inline: 14px;
+  border-radius: var(--radius-card);
+  /* سطح الشريط مُعتِمًا: لاصقٌ فوق محتوى يمرّ تحته، والشفيف كان يُظهر النصّ من خلفه. */
+  background: linear-gradient(var(--chrome), var(--chrome)), var(--cc-bg1);
+  color: var(--chrome-text);
+  box-shadow: var(--e-2);
+  margin-block-start: 16px;
+  /* الشريط يحمل الحفظ والنشر: انزلاقه بعيدًا يخفي الفعل عن الشاشة الطويلة. */
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 60;
+}
+
+.barBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+}
+
+.barCount {
+  padding-block: 2px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--gold-500) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold-500) 36%, transparent);
+  color: var(--gold-text);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.divider {
+  inline-size: 1px;
+  block-size: 22px;
+  background: var(--cc-edge-strong);
+}
+
+.types {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.typeWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.type {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 32px;
+  padding-inline: 13px;
+  border: 1px solid var(--cc-edge-strong);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--text-secondary);
+}
+
+.typeOn {
+  background: var(--chrome-text);
+  border-color: var(--chrome-text);
+  color: var(--surface);
+}
+
+.typeWhy {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--cc-muted);
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+.control select {
+  min-block-size: 44px;
+  padding-inline: 9px;
+  border: 1px solid var(--adm-field-line);
+  border-radius: 9px;
+  background: var(--cc-well);
+  color: var(--chrome-text);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.control select option {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.devices {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--cc-well);
+}
+
+.device {
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 10.5px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.deviceOn {
+  background: var(--chrome-text);
+  color: var(--surface);
+}
+
+.tally {
+  margin-inline-start: auto;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 999px;
+  background: var(--cc-kbd);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* ───── الإعلانات الصادقة ───── */
+
+.previewNote,
+.typeNote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-block: 12px 0;
+  padding-block: 11px;
+  padding-inline: 13px;
+  border-radius: var(--radius-md);
+  font-size: 11.5px;
+  line-height: 1.75;
+  text-align: start;
+}
+
+.previewNote {
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--muted);
+}
+
+.previewTag {
+  flex: 0 0 auto;
+  padding-block: 3px;
+  padding-inline: 9px;
+  border-radius: 6px;
+  background: var(--bg-mist);
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--text-secondary);
+}
+
+.previewNote > span:last-child {
+  flex: 1;
+  min-inline-size: 240px;
+}
+
+.typeNote {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.previewNote code,
+.typeNote code {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 10.5px;
+  overflow-wrap: anywhere;
+}
+
+/* ───── التخطيط المحفوظ ───── */
+
+.saved {
+  margin-block-start: 12px;
+  padding-block: 13px;
+  padding-inline: 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.savedHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+.savedTitle {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 13.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.savedMeta {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.savedSave,
+.savedPublish {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.savedSave {
+  border: 0;
+  background: var(--primary);
+  color: var(--adm-on-accent);
+}
+
+.savedPublish {
+  border: 1px solid var(--border-field);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.savedSave:disabled,
+.savedPublish:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.savedNote {
+  margin-block: 8px 0;
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.zone {
+  margin-block-start: 12px;
+}
+
+.zoneTitle {
+  margin-block: 0 6px;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.zoneRows {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zoneRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 6px;
+  padding-inline: 10px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 9px;
+  background: var(--bg-soft);
+}
+
+.zoneCheck {
+  flex: 1;
+  min-inline-size: 140px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.zoneCheck input {
+  inline-size: 18px;
+  block-size: 18px;
+  accent-color: var(--primary);
+}
+
+.zoneCheck input:disabled {
+  cursor: not-allowed;
+}
+
+.zoneRequired {
+  flex: 0 0 auto;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+/* ───── الإشعار المرئي ───── */
+
+.toastViewport {
+  position: fixed;
+  inset-inline-end: 18px;
+  inset-block-end: 18px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  max-inline-size: 420px;
+  padding-block: 12px;
+  padding-inline: 15px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 12px;
+  /* سطح التلميح المُعتِم لا الشريط الشفيف — الأبيض على الشريط الفاتح لا يُقرأ. */
+  background: var(--cc-tip);
+  color: var(--cc-text);
+  box-shadow: var(--e-3);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.7;
+  text-align: start;
+  animation: composerToastIn 0.2s ease;
+}
+
+.toastError {
+  /* تعبئة الخطر المحسوبة: الأبيض عليها ≥5.9:1 في السمتين. */
+  border-color: transparent;
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+}
+
+@keyframes composerToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ───── الشبكة ───── */
+
+.grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-block-start: 14px;
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ───── مدير الودجات ───── */
+
+.manager {
+  position: sticky;
+  /* يخلي مكان الشريط اللاصق أعلاه بدل أن يمرّ تحته. */
+  inset-block-start: 66px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface);
+  overflow: hidden;
+  max-block-size: calc(100dvh - 90px);
+  display: flex;
+  flex-direction: column;
+}
+
+.managerHead {
+  padding-block: 11px;
+  padding-inline: 14px;
+  border-block-end: 1px solid var(--border-hairline);
+  background: var(--bg-soft);
+}
+
+.managerTitle {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.managerNote {
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.managerBody {
+  flex: 1;
+  overflow: auto;
+  padding-block: 8px;
+  padding-inline: 10px;
+}
+
+.group {
+  margin-block-end: 8px;
+}
+
+.groupHead {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-block: 5px;
+  padding-inline: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.groupDot {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 2px;
+}
+
+.groupCount {
+  /* الباهت نفسه لا شفافيّةٌ فوقه — 0.6 كانت 1.8:1. */
+  color: var(--muted);
+}
+
+.rows {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding-inline: 4px;
+  border-radius: 8px;
+}
+
+.row:hover {
+  background: var(--bg-mist);
+}
+
+.rowOff {
+  opacity: 0.55;
+}
+
+.switch {
+  flex: 0 0 auto;
+  /* هدفٌ 44×44 (كان 32 عرضًا)؛ المسار المرئيّ 28px في وسطه. */
+  inline-size: 44px;
+  block-size: 44px;
+  border: 0;
+  background: none;
+  padding-block: 0;
+  padding-inline: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.switch::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-start: 8px;
+  inline-size: 28px;
+  block-size: 15px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  /* «معطّل» مسارٌ مفرَّغ بحدٍّ ≥3:1 ومقبضٌ باهت؛ «مفعّل» تعبئةٌ ومقبضٌ بلون السطح —
+   * حالتان تتمايزان بالشكل لا باللون وحده (الرماديّ الفاتح كان 1.4:1 على الأبيض). */
+  border: 1.5px solid var(--adm-field-line);
+  background: transparent;
+}
+
+.switchOn::before {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+}
+
+.knob {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-start: 10px;
+  inline-size: 11px;
+  block-size: 11px;
+  border-radius: 50%;
+  background: var(--cc-muted);
+  box-shadow: var(--e-1);
+  transition: inset-inline-start 0.12s;
+}
+
+.switchOn .knob {
+  inset-inline-start: 22px;
+  background: var(--surface);
+}
+
+.rowName {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowWhy {
+  flex: 0 0 auto;
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: 5px;
+  background: var(--cc-well);
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.moveBtn {
+  flex: 0 0 auto;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  inline-size: 12px;
+  block-size: 12px;
+}
+
+/* ───── المسرح ───── */
+
+.stage {
+  display: flex;
+  justify-content: center;
+  /* المسرح أعمق من الإطار بدرجة، في السمتين — كان رماديًّا فاتحًا ثابتًا تحت إطارٍ داكن. */
+  background: color-mix(in srgb, var(--cc-text) 8%, var(--cc-bg0));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 16px);
+  padding: 14px;
+  min-inline-size: 0;
+}
+
+.frame {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  transition: inline-size 0.25s ease;
+  background: var(--cc-bg0);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--e-2);
+}
+
+.frameMobile {
+  inline-size: 400px;
+}
+
+.frameHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding-block: 12px;
+  padding-inline: 16px;
+  background: var(--surface);
+  border-block-end: 1px solid var(--border-hairline);
+}
+
+.crumb {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.crumb b {
+  color: var(--ink);
+}
+
+.crumbSku {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.canvas {
+  display: flex;
+  flex-direction: column;
+  padding-block: 20px;
+  padding-inline: 24px;
+}
+
+.gap_compact {
+  gap: 10px;
+}
+
+.gap_balanced {
+  gap: 14px;
+}
+
+.gap_rich {
+  gap: 18px;
+}
+
+.emptyStage {
+  margin-block: 0;
+  padding-block: 32px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ───── بطاقة الودجة ───── */
+
+.widget {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.widgetHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 9px;
+  padding-inline: 14px;
+  border-block-end: 1px solid var(--border-hairline);
+  background: var(--bg-soft);
+}
+
+.widgetNum {
+  padding-block: 1px;
+  padding-inline: 7px;
+  border-radius: 6px;
+  background: var(--cc-well);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.widgetName {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.widgetState {
+  padding-block: 2px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.st_data {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  /* نصٌّ على صبغة: حبرُ الرابط — ‎--primary‎ كان 4.48:1 في الفاتح. */
+  color: var(--primary-strong);
+}
+
+.st_empty {
+  background: color-mix(in srgb, var(--gold-500) 20%, transparent);
+  color: var(--gold-text);
+}
+
+.st_behaviour {
+  background: var(--cc-well);
+  color: var(--muted);
+}
+
+.st_unwired {
+  background: color-mix(in srgb, var(--cc-red) 10%, transparent);
+  color: var(--danger-text);
+}
+
+.widgetBody {
+  padding-block: 13px;
+  padding-inline: 14px;
+}
+
+.kv {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.kv th,
+.kv td {
+  text-align: start;
+  padding-block: 7px;
+  padding-inline: 10px;
+  border-block-start: 1px solid var(--border-hairline);
+  line-height: 1.7;
+  vertical-align: top;
+}
+
+.kv tr:first-child th,
+.kv tr:first-child td {
+  border-block-start: 0;
+}
+
+.kv th {
+  inline-size: 40%;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--bg-soft);
+}
+
+.kv td {
+  font-weight: 800;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.more,
+.behaviour {
+  margin-block: 8px 0;
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.behaviour {
+  margin-block: 0;
+}
+
+.missing {
+  display: block;
+  margin-block: 0;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--cc-red) 6%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--cc-red) 24%, transparent);
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--danger-text);
+}
+
+.missingEmpty {
+  background: color-mix(in srgb, var(--gold-500) 8%, transparent);
+  border-color: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  color: var(--gold-text);
+}
+
+/* اسم النقطة الناقصة في سطر LTR مستقل — لا خلط اتجاهين في جملة واحدة. */
+.missing code {
+  display: block;
+  margin-block-start: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+/*
+ * لا حركة دخول في هذه الشاشة سوى انزلاق مفتاح التبديل، ويُلغى تحت
+ * تقليل الحركة مع بقاء المفتاح ظاهرًا في موضعه النهائي.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .knob {
+    transition: none;
+  }
+
+  /* الإطار يقف عند عرضه النهائي فورًا — يُعرض ولا يُخفى. */
+  .frame {
+    transition: none;
+  }
+
+  .toast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

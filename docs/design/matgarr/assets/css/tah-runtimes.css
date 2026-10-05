@@ -1,0 +1,338 @@
+/**
+ * Tahdheer — أنماط أزمنة التشغيل.
+ *
+ * كل قاعدة محصورة تحت سمة data-tah-* الخاصة بها، فلا تتسرّب إلى أي قسم آخر
+ * ولا تتعارض مع بادئات المنظومات القائمة (ts- · tm- · thseo-). هذا هو شرط
+ * الدمج الذي رصدناه: أنماط مربوطة بجذرها لا قواعد عامة على الوسوم.
+ *
+ * الخصائص منطقية (inline-start / inline-end) لا فيزيائية، فتعمل في RTL و LTR
+ * بلا نسخة ثانية.
+ */
+
+/* ───────── المعرض والكاروسيل ───────── */
+
+[data-tah-gallery] {
+  position: relative;
+}
+
+[data-tah-gallery] [data-tah-track] {
+  display: flex;
+  gap: var(--tah-gap, 12px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+[data-tah-gallery] [data-tah-track]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-tah-gallery] [data-tah-slide] {
+  flex: 0 0 var(--tah-slide-w, 68%);
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  [data-tah-gallery] [data-tah-slide] {
+    flex-basis: var(--tah-slide-w-md, 34%);
+  }
+}
+
+@media (min-width: 1200px) {
+  [data-tah-gallery] [data-tah-slide] {
+    flex-basis: var(--tah-slide-w-lg, 25%);
+  }
+}
+
+[data-tah-gallery] [data-tah-prev],
+[data-tah-gallery] [data-tah-next] {
+  cursor: pointer;
+}
+
+[data-tah-gallery] [data-tah-prev][disabled],
+[data-tah-gallery] [data-tah-next][disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+[data-tah-dots] {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+[data-tah-dots] > button {
+  inline-size: 8px;
+  block-size: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.28;
+  cursor: pointer;
+  transition: opacity 0.18s ease, inline-size 0.18s ease;
+}
+
+[data-tah-dots] > button[data-tah-on='1'] {
+  opacity: 1;
+  inline-size: 20px;
+  border-radius: 20px;
+}
+
+/* ───────── الكشف ───────── */
+
+[data-tah-tabs] [data-tah-tab] {
+  cursor: pointer;
+}
+
+[data-tah-accordion] [data-tah-summary] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  inline-size: 100%;
+  text-align: start;
+  cursor: pointer;
+}
+
+[data-tah-accordion] [data-tah-summary]::after {
+  content: '';
+  margin-inline-start: auto;
+  inline-size: 8px;
+  block-size: 8px;
+  border-inline-end: 2px solid currentColor;
+  border-block-end: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex: 0 0 auto;
+}
+
+[data-tah-accordion] [data-tah-summary][aria-expanded='true']::after {
+  transform: rotate(-135deg);
+}
+
+/* ───────── الكشف عند التمرير ───────── */
+
+[data-tah-reveal][data-tah-shown='1'],
+[data-tah-reveal-group][data-tah-shown='1'] {
+  opacity: 1;
+}
+
+[data-tah-progress] {
+  position: relative;
+  block-size: 3px;
+  overflow: hidden;
+}
+
+[data-tah-progress]::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--tah-progress, 0%);
+  background: currentColor;
+}
+
+/* ───────── قبل / بعد ───────── */
+
+[data-tah-compare] {
+  position: relative;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+[data-tah-compare] [data-tah-before],
+[data-tah-compare] [data-tah-after] {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+[data-tah-compare] [data-tah-after] {
+  position: absolute;
+  inset: 0;
+  block-size: 100%;
+  object-fit: cover;
+  /* القصّ من الجهة المنطقية — يعمل في الاتجاهين بلا نسخة ثانية. */
+  clip-path: inset(0 0 0 var(--tah-compare, 50%));
+}
+
+[dir='rtl'] [data-tah-compare] [data-tah-after] {
+  clip-path: inset(0 var(--tah-compare, 50%) 0 0);
+}
+
+[data-tah-compare] [data-tah-compare-input] {
+  position: absolute;
+  inset-block-end: 12px;
+  inset-inline: 12px;
+  inline-size: calc(100% - 24px);
+  margin: 0;
+  cursor: ew-resize;
+}
+
+/* ───────── النقاط الساخنة ───────── */
+
+/**
+ * الإطار وحده هو مرجع الإحداثيات — لا الجذر.
+ *
+ * لأن الجذر قد يكون عنصر grid/flex يمتدّ مع أطول شقيق له، فتصير نسبة 60%
+ * أبعد من أسفل الصورة وتسقط النقطة في فراغ. وإضافة وصف أو عنوان لاحقًا
+ * تحدِث الأثر نفسه. الإطار يلفُّ الصورة وما يُعلّق عليها فقط.
+ */
+[data-tah-hotspot-frame] {
+  position: relative;
+  display: block;
+  margin: 0;
+  line-height: 0;
+}
+
+[data-tah-hotspots] [data-tah-hotspot] {
+  position: absolute;
+  inset-inline-start: var(--tah-x, 50%);
+  inset-block-start: var(--tah-y, 50%);
+  transform: translate(50%, -50%);
+  cursor: pointer;
+}
+
+[dir='ltr'] [data-tah-hotspots] [data-tah-hotspot] {
+  transform: translate(-50%, -50%);
+}
+
+/* ───────── معرض بالتمرير ───────── */
+
+[data-tah-hovergallery] {
+  position: relative;
+  cursor: crosshair;
+}
+
+[data-tah-hovergallery] [data-tah-frame] {
+  display: block;
+  inline-size: 100%;
+  opacity: 0;
+  transition: opacity 0.14s ease;
+}
+
+[data-tah-hovergallery] [data-tah-frame]:first-child {
+  position: relative;
+}
+
+[data-tah-hovergallery] [data-tah-frame]:not(:first-child) {
+  position: absolute;
+  inset: 0;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+[data-tah-hovergallery] [data-tah-frame][data-tah-on='1'] {
+  opacity: 1;
+}
+
+/* ───────── الحوار ───────── */
+
+[data-tah-dialog] {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 4vw, 40px);
+}
+
+[data-tah-dialog-backdrop] {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.55);
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+[data-tah-dialog][data-tah-on='1'] [data-tah-dialog-backdrop] {
+  opacity: 1;
+}
+
+[data-tah-dialog-panel] {
+  position: relative;
+  z-index: 1;
+  inline-size: min(100%, 620px);
+  max-block-size: min(86vh, 780px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(16px, 3vw, 28px);
+  border-radius: 14px;
+  background: var(--t-color-surface, #fff);
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+[data-tah-dialog][data-tah-on='1'] [data-tah-dialog-panel] {
+  opacity: 1;
+  transform: none;
+}
+
+[data-tah-dialog-close] {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+  inline-size: 34px;
+  block-size: 34px;
+  padding: 0;
+  border: 1px solid var(--t-color-border, #e4e4e7);
+  border-radius: 9px;
+  background: var(--t-color-surface, #fff);
+  cursor: pointer;
+}
+
+[data-tah-dialog-close]::before,
+[data-tah-dialog-close]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 13px;
+  block-size: 2px;
+  background: currentColor;
+}
+
+[data-tah-dialog-close]::before {
+  transform: rotate(45deg);
+}
+
+[data-tah-dialog-close]::after {
+  transform: rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tah-dialog-backdrop],
+  [data-tah-dialog-panel] {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ───────── احترام تقليل الحركة ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tah-gallery] [data-tah-track] {
+    scroll-behavior: auto;
+  }
+
+  [data-tah-reveal],
+  [data-tah-reveal-group],
+  [data-tah-reveal] > *,
+  [data-tah-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+
+  [data-tah-accordion] [data-tah-summary]::after,
+  [data-tah-dots] > button,
+  [data-tah-hovergallery] [data-tah-frame] {
+    transition: none;
+  }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<article style="display:flex;flex-direction:column;background:#fff;border:1px solid #e6e9e2;border-radius:16px;padding:12px;overflow:hidden;transition:.18s ease;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif" style-hover="border-color:#c9d4cd;box-shadow:0 12px 28px rgba(20,45,33,.09);transform:translateY(-2px)">
+<div style="position:relative;margin:-4px -4px 12px;border-radius:12px;aspect-ratio:4/3;background:#f2f5f2;overflow:hidden;display:grid;place-items:center">
+<svg width="100%" height="100%" style="position:absolute;inset:0;opacity:.55" aria-hidden="true"><defs><pattern id="tahph" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#dde3dc" stroke-width="2.5"></line></pattern></defs><rect width="100%" height="100%" fill="url(#tahph)"></rect></svg>
+<span style="position:relative;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167;background:rgba(255,255,255,.92);padding:4px 9px;border-radius:6px">صورة المنتج 4:3</span>
+<sc-if value="{{ hasBadge }}" hint-placeholder-val="{{ true }}">
+<span style="position:absolute;z-index:2;inset-block-start:10px;inset-inline-start:10px;padding:4px 11px;border-radius:999px;font-size:11px;font-weight:900;background:{{ badgeBg }};color:{{ badgeFg }}">{{ badge }}</span>
+</sc-if>
+<sc-if value="{{ hasRank }}" hint-placeholder-val="{{ false }}">
+<span style="position:absolute;z-index:2;inset-block-start:10px;inset-inline-start:10px;width:28px;height:28px;border-radius:9px;background:#14261d;color:#d8b56a;display:grid;place-items:center;font:900 14px ui-monospace,Menlo,monospace">{{ rank }}</span>
+</sc-if>
+<button type="button" aria-label="أضف للمفضلة" style="position:absolute;z-index:2;inset-block-start:8px;inset-inline-end:8px;width:32px;height:32px;border-radius:10px;border:1px solid #e6e9e2;background:rgba(255,255,255,.94);color:#5f7167;display:grid;place-items:center;cursor:pointer;font-size:14px">♡</button>
+</div>
+<div style="font-size:11.5px;font-weight:700;color:#5f7167;margin-bottom:5px">{{ cat }}</div>
+<h3 style="margin:0 0 10px;font-size:14.5px;line-height:1.55;font-weight:800;color:#14261d;min-height:2.9em">{{ title }}</h3>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+<span style="padding:2px 9px;border:1px solid rgba(37,155,111,.4);border-radius:999px;font-size:11px;font-weight:700;color:#1e7355;background:rgba(37,155,111,.08)">منتج رقمي</span>
+<span style="padding:2px 9px;border:1px solid rgba(216,181,106,.5);border-radius:999px;font-size:11px;font-weight:700;color:#7a5d20;background:rgba(216,181,106,.12)">{{ format }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:12px"><span aria-hidden="true" style="color:#d8b56a;font-size:12px;letter-spacing:1px">★★★★★</span><small style="font-size:11.5px;font-weight:800;color:#14261d">{{ rating }}</small><small style="font-size:11.5px;color:#5f7167">({{ reviews }})</small></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid #f0f3ef">
+<div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:18px;font-weight:900;color:#14261d">{{ price }}</span><span style="font-size:12px;font-weight:800;color:#5f7167">ر.س</span><sc-if value="{{ hasWas }}" hint-placeholder-val="{{ false }}"><del style="font-size:12.5px;color:#5f7167">{{ was }}</del></sc-if></div>
+<button type="button" style="padding:9px 15px;font-size:12.5px;font-weight:800;border-radius:10px;white-space:nowrap;border:0;background:#1e7355;color:#fff;cursor:pointer;min-height:38px" style-hover="background:#123d2f">أضف للسلة</button>
+</div>
+</article>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:300,&quot;height&quot;:400},&quot;p&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{cat:string;title:string;format:string;rating:string;reviews:string;price:string;was?:string;badge?:string;badgeBg?:string;badgeFg?:string;rank?:string}&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props.p || {};
+    return {
+      cat: p.cat || '',
+      title: p.title || '',
+      format: p.format || 'PDF',
+      rating: p.rating || '',
+      reviews: p.reviews || '',
+      price: p.price || '',
+      was: p.was || '',
+      hasWas: !!p.was,
+      badge: p.badge || '',
+      hasBadge: !!p.badge,
+      badgeBg: p.badgeBg || '#1e7355',
+      badgeFg: p.badgeFg || '#fff',
+      rank: p.rank || '',
+      hasRank: !!p.rank
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+# =============================================================================
+# Tahdheer — Garage 2.x single-node configuration (MIP §2.1, §4.3)
+# Mounted read-only at /etc/garage.toml by docker-compose.
+# Secrets come from env (GARAGE_RPC_SECRET, GARAGE_ADMIN_TOKEN,
+# GARAGE_METRICS_TOKEN) — never written into this file.
+# =============================================================================
+
+metadata_dir = "/var/lib/garage/meta"
+data_dir = "/var/lib/garage/data"
+db_engine = "lmdb"
+
+# Single-node initial deployment: replication factor 1 (one strong VPS).
+# Raise to 3 only when a real multi-node layout exists.
+replication_factor = 1
+
+rpc_bind_addr = "[::]:3901"
+# Single node talks to itself over the compose network.
+rpc_public_addr = "garage:3901"
+# rpc_secret is injected via GARAGE_RPC_SECRET env var (64 hex chars).
+
+[s3_api]
+s3_region = "garage"
+api_bind_addr = "[::]:3900"
+root_domain = ".s3.garage.internal"
+
+[s3_web]
+bind_addr = "[::]:3902"
+root_domain = ".web.garage.internal"
+
+[admin]
+api_bind_addr = "[::]:3903"
+# admin_token / metrics_token injected via GARAGE_ADMIN_TOKEN /
+# GARAGE_METRICS_TOKEN env vars. Prometheus scrapes /metrics on :3903
+# with the metrics token.
+
+# =============================================================================
+# First bring-up (one-time layout — single node):
+#   docker compose exec garage /garage status                  # note node ID
+#   docker compose exec garage /garage layout assign -z dc1 -c 100G <NODE_ID>
+#   docker compose exec garage /garage layout apply --version 1
+#
+# Buckets plan (MIP §4.3 Assets domain):
+#   tahdheer-paid-private   — paid product originals. PRIVATE. No anonymous
+#                             read ever. Access ONLY via short-lived
+#                             pre-signed URLs brokered by the Laravel
+#                             Downloads domain after an entitlement check
+#                             (server-side brokering only — MIP §11.1 IDOR).
+#   tahdheer-public-media   — public product/media imagery. Read via signed
+#                             URLs or website access; writes API-only.
+#   tahdheer-sitemaps       — generated sitemap shards; served by Caddy/API,
+#                             writes from the SEO sitemap jobs only.
+#
+#   docker compose exec garage /garage bucket create tahdheer-paid-private
+#   docker compose exec garage /garage bucket create tahdheer-public-media
+#   docker compose exec garage /garage bucket create tahdheer-sitemaps
+#   docker compose exec garage /garage key create tahdheer-api-key
+#   docker compose exec garage /garage bucket allow --read --write tahdheer-paid-private --key tahdheer-api-key
+#   docker compose exec garage /garage bucket allow --read --write tahdheer-public-media --key tahdheer-api-key
+#   docker compose exec garage /garage bucket allow --read --write tahdheer-sitemaps    --key tahdheer-api-key
+#   → put the generated key pair into .env as GARAGE_S3_ACCESS_KEY / _SECRET_KEY.
+#
+# Signed-URL policy (binding):
+#   - paid-private: pre-signed GET, short TTL (minutes), single-file scope,
+#     issued per entitled download request; token reuse feeds the download
+#     abuse risk scoring (MIP §11.1) — never a long-lived public URL.
+#   - public-media: cacheable; long-lived URLs acceptable.
+#   - Signed-URL expiry is a named release-gated security test.
+# =============================================================================

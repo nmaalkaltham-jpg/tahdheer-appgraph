@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes ppFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes ppUp{from{transform:translateY(110%)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<symbol id="p-cart" viewBox="0 0 24 24"><path d="M4 5h2l2.2 9.4a1.6 1.6 0 0 0 1.6 1.3h7a1.6 1.6 0 0 0 1.6-1.3L20 8H6.4"></path><circle cx="10" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></symbol>
+<symbol id="p-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="p-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="p-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="p-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></symbol>
+<symbol id="p-minus" viewBox="0 0 24 24"><path d="M5 12h14"></path></symbol>
+<symbol id="p-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.6-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.4-9 9-9 9z"></path></symbol>
+<symbol id="p-truck" viewBox="0 0 24 24"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+<symbol id="p-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="p-download" viewBox="0 0 24 24"><path d="M12 4v10M8 11l4 4 4-4M5 19h14"></path></symbol>
+<symbol id="p-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="p-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M19 19v2H6a2 2 0 0 1-2-2"></path><path d="M8 7h7"></path></symbol>
+<symbol id="p-chev-d" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></symbol>
+<symbol id="p-chev-l" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="p-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor" stroke="none"></path></symbol>
+<symbol id="p-zoom" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2M11 8v6M8 11h6"></path></symbol>
+<symbol id="p-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"></circle><circle cx="17" cy="6" r="2.5"></circle><circle cx="17" cy="18" r="2.5"></circle><path d="M8.3 10.8l6.4-3.6M8.3 13.2l6.4 3.6"></path></symbol>
+<symbol id="p-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.6v.1"></path></symbol>
+<symbol id="p-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="p-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="12" cy="11" r="2.2"></circle></symbol>
+<symbol id="p-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"></path></symbol>
+<symbol id="p-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="p-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></symbol>
+<symbol id="p-grad" viewBox="0 0 24 24"><path d="M12 4L2 9l10 5 10-5z"></path><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"></path></symbol>
+<symbol id="p-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5.5l3.5 2"></path></symbol>
+</defs></svg>
+
+<div dir="{{ dir }}" style="min-height:100vh">
+
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1140px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">صفحة المنتج الاحترافية — محرك SEO وتحويل</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onSeoPanel }}" style="display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 11px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.07);color:#eaf2ee;font-size:10.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-code"></use></svg>لوحة SEO للمنتج · {{ seoScore }}</button>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">index · Product+Offer JSON-LD · canonical ذاتي</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1140px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:13px">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><span style="font:900 16px Tajawal;color:#14261d">تذكير</span></span>
+<div style="flex:1"></div>
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:#1e7355;color:#fff;display:grid;place-items:center;position:relative"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-cart"></use></svg>
+<sc-if value="{{ cartN }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-6px;inset-inline-end:-6px;min-width:18px;height:18px;border-radius:999px;background:#d8b56a;color:#2a1f08;display:grid;place-items:center;font:900 10px Tajawal;border:2px solid #fff">{{ cartN }}</span></sc-if>
+</span>
+</div>
+</header>
+
+<main id="main" style="max-width:1140px;margin:0 auto;padding:16px 20px 70px;display:flex;flex-direction:column;gap:14px">
+
+<nav aria-label="مسار التنقل" style="display:flex;align-items:center;gap:6px;font-size:11px;flex-wrap:wrap">
+<sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="4">
+<a href="#" style="font-weight:800;color:{{ c.c }}">{{ c.n }}</a>
+<sc-if value="{{ c.sep }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:10px;height:10px;color:#b9c4bd;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#p-chev-l"></use></svg></sc-if>
+</sc-for>
+</nav>
+
+<section style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:22px;border:1px solid #e2e8e4;border-radius:18px;background:#fff;padding:20px;animation:ppFade .35s ease">
+<div>
+<div style="position:relative">
+<figure style="margin:0;height:340px;border-radius:14px;overflow:hidden;background:{{ hero.main }};display:grid;place-items:center;color:rgba(255,255,255,.85)">
+<svg aria-hidden="true" style="width:56px;height:56px;fill:none;stroke:currentColor;stroke-width:1.4"><use href="#p-book"></use></svg>
+<figcaption style="position:absolute;bottom:9px;inset-inline-start:9px;padding:4px 10px;border-radius:8px;background:rgba(10,20,15,.55);color:#fff;font-size:9.5px;font-weight:800">{{ hero.mainAlt }}</figcaption>
+</figure>
+<button type="button" onClick="{{ hero.onZoom }}" aria-label="تكبير الصورة" style="position:absolute;top:10px;inset-inline-end:10px;width:36px;height:36px;border:0;border-radius:10px;background:rgba(255,255,255,.92);color:#14261d;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-zoom"></use></svg></button>
+<button type="button" onClick="{{ hero.onVideo }}" style="position:absolute;bottom:10px;inset-inline-end:10px;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 12px;border:0;border-radius:10px;background:rgba(255,255,255,.92);color:#14261d;font-size:11px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-play"></use></svg>فيديو ٩٠ث</button>
+</div>
+<div style="display:flex;gap:7px;margin-top:9px">
+<sc-for list="{{ hero.imgs }}" as="g" hint-placeholder-count="5">
+<button type="button" onClick="{{ g.onGo }}" aria-label="{{ g.alt }}" aria-pressed="{{ g.on }}" style="flex:1;height:54px;border:2px solid {{ g.bd }};border-radius:10px;background:{{ g.img }};cursor:pointer"></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<span style="display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;color:#5f7167"><a href="#" style="font-weight:900">{{ hero.brand }}</a> · {{ hero.cat }} · <span>الحالة: {{ hero.cond }}</span></span>
+<h1 style="margin:0;font:900 21px/1.5 Tajawal;color:#14261d">{{ hero.name }}</h1>
+<p style="margin:0;font-size:12px;line-height:1.8;color:#5f7167">{{ hero.sub }}</p>
+<span style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:900;color:#8a6500"><svg aria-hidden="true" style="width:13px;height:13px;color:#d8a723"><use href="#p-star"></use></svg>{{ hero.rate }}</span>
+<a href="#reviews" style="font-size:11px;font-weight:800">{{ hero.rn }}</a>
+<a href="#qa" style="font-size:11px;font-weight:800">{{ hero.qn }}</a>
+<code dir="ltr" style="font-size:9px;color:#a9b4ad">SKU {{ hero.sku }} · GTIN {{ hero.gtin }}</code>
+</span>
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+<span style="font:900 26px Tajawal;color:#146c4c">{{ hero.price }}</span>
+<sc-if value="{{ hero.hasOld }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#a9b4ad;text-decoration:line-through">{{ hero.old }}</span><span style="padding:2px 8px;border-radius:6px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900">{{ hero.save }}</span></sc-if>
+<span style="font-size:9.5px;color:#a9b4ad">{{ hero.vat }}</span>
+</div>
+<span style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:900;color:{{ hero.stockC }}"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:currentColor"></span>{{ hero.stock }} · <span style="font-weight:700;color:#5f7167">{{ hero.ship }}</span></span>
+<fieldset style="margin:0;padding:0;border:0">
+<legend style="font-size:11px;font-weight:900;color:#5f7167;margin-bottom:5px">اختر النسخة</legend>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ hero.vars }}" as="v" hint-placeholder-count="3">
+<button type="button" onClick="{{ v.onClick }}" aria-pressed="{{ v.on }}" style="display:flex;align-items:center;gap:9px;min-height:42px;padding:0 13px;border:1.5px solid {{ v.bd }};border-radius:11px;background:{{ v.bg }};cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12px;font-weight:900;color:#14261d">{{ v.n }}</span>
+<span style="font:900 12.5px Tajawal;color:#146c4c">{{ v.p }}</span>
+</button>
+</sc-for>
+</div>
+</fieldset>
+<div style="display:flex;gap:8px;align-items:stretch;flex-wrap:wrap">
+<div style="display:inline-flex;align-items:center;border:1.5px solid #d7ddd8;border-radius:12px;overflow:hidden">
+<button type="button" onClick="{{ hero.onDn }}" aria-label="إنقاص الكمية" style="width:38px;height:46px;border:0;background:#fbfcfb;cursor:pointer;display:grid;place-items:center;color:#3d4f45"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#p-minus"></use></svg></button>
+<span style="min-width:38px;text-align:center;font:900 14px Tajawal">{{ hero.qty }}</span>
+<button type="button" onClick="{{ hero.onUp }}" aria-label="زيادة الكمية" style="width:38px;height:46px;border:0;background:#fbfcfb;cursor:pointer;display:grid;place-items:center;color:#3d4f45"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#p-plus"></use></svg></button>
+</div>
+<button type="button" onClick="{{ hero.onAdd }}" style="flex:1;min-width:150px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:12px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,100,73,.28)"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-cart"></use></svg>أضف للسلة</button>
+<button type="button" onClick="{{ hero.onBuy }}" style="min-height:46px;padding:0 16px;border:0;border-radius:12px;background:#14261d;color:#fff;font-size:12.5px;font-weight:900;cursor:pointer">اشترِ الآن</button>
+<button type="button" onClick="{{ hero.onWish }}" aria-label="المفضلة" style="width:46px;min-height:46px;border:1.5px solid #d7ddd8;border-radius:12px;background:{{ hero.wishBg }};color:{{ hero.wishC }};display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-heart"></use></svg></button>
+<button type="button" onClick="{{ hero.onShare }}" aria-label="مشاركة" style="width:46px;min-height:46px;border:1.5px solid #d7ddd8;border-radius:12px;background:#fff;color:#3d4f45;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-share"></use></svg></button>
+</div>
+<sc-if value="{{ hero.totalTxt }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:900;color:#146c4c">{{ hero.totalTxt }}</span></sc-if>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid #e2e8e4;border-radius:12px;background:#fbfcfb;flex-wrap:wrap">
+<svg aria-hidden="true" style="width:15px;height:15px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-truck"></use></svg>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:#5f7167">التوصيل إلى
+<select value="{{ hero.city }}" onChange="{{ hero.onCity }}" style="min-height:32px;padding:0 9px;border:1px solid #d7ddd8;border-radius:9px;background:#fff;font:800 11px Tajawal;outline:none">
+<sc-for list="{{ hero.cities }}" as="c" hint-placeholder-count="5"><option value="{{ c.v }}">{{ c.l }}</option></sc-for>
+</select></label>
+<span style="font-size:11px;font-weight:900;color:#14261d">يصل: {{ hero.eta }}</span>
+<span style="font-size:10.5px;color:#5f7167">الشحن: {{ hero.shipCost }} · التجهيز: {{ hero.dispatch }}</span>
+<span style="flex-basis:100%;font-size:9.5px;color:#8b978f">{{ hero.freeNote }}</span>
+</div>
+</div>
+</section>
+
+<section aria-label="لماذا ستحبها" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ hero.benefits }}" as="b" hint-placeholder-count="4">
+<div style="display:flex;gap:9px;padding:12px 13px;border:1px solid #e2e8e4;border-radius:13px;background:#fff">
+<svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;margin-top:2px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#p-check"></use></svg>
+<span><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ b.t }}</span><span style="font-size:10px;line-height:1.6;color:#7c8a82">{{ b.d }}</span></span>
+</div>
+</sc-for>
+</section>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ hero.trust }}" as="t" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid #e6ebe7;font-size:10.5px"><svg aria-hidden="true" style="width:13px;height:13px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-shield"></use></svg><b>{{ t.t }}</b><span style="color:#8b978f">{{ t.d }}</span></span>
+</sc-for>
+</div>
+<nav aria-label="فهرس الصفحة" style="position:sticky;top:0;z-index:40;display:flex;gap:5px;padding:9px 12px;border:1px solid #e2e8e4;border-radius:13px;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);overflow-x:auto">
+<sc-for list="{{ know.toc }}" as="t" hint-placeholder-count="8">
+<a href="{{ t.href }}" style="flex:0 0 auto;min-height:32px;display:inline-flex;align-items:center;padding:0 13px;border:1px solid #e2e8e4;border-radius:999px;background:#fbfcfb;font-size:11px;font-weight:800;color:#3d4f45">{{ t.n }}</a>
+</sc-for>
+</nav>
+
+<section id="overview" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900">نظرة عامة — ماذا ولمن ولماذا؟</h2>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<div style="padding:13px 15px;border-radius:13px;background:#f8faf8;border:1px solid #eef1ef"><span style="display:block;font-size:11px;font-weight:900;color:#146c4c;margin-bottom:4px">ما هذا المنتج؟</span><p style="margin:0;font-size:12px;line-height:1.9;color:#3d4f45">{{ know.intro.what }}</p></div>
+<div style="padding:13px 15px;border-radius:13px;background:#f8faf8;border:1px solid #eef1ef"><span style="display:block;font-size:11px;font-weight:900;color:#146c4c;margin-bottom:4px">لمن صُمم؟</span><p style="margin:0;font-size:12px;line-height:1.9;color:#3d4f45">{{ know.intro.who }}</p></div>
+<div style="padding:13px 15px;border-radius:13px;background:#f8faf8;border:1px solid #eef1ef"><span style="display:block;font-size:11px;font-weight:900;color:#146c4c;margin-bottom:4px">ما الذي يميزه؟</span><p style="margin:0;font-size:12px;line-height:1.9;color:#3d4f45">{{ know.intro.why }}</p></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:11px">
+<div><h3 style="margin:0 0 6px;font-size:12.5px;font-weight:900">أفضل الاستخدامات</h3><sc-for list="{{ know.uses }}" as="u" hint-placeholder-count="4"><span style="display:block;padding:3px 0;font-size:11px;color:#3d4f45">• {{ u }}</span></sc-for></div>
+<div><h3 style="margin:0 0 6px;font-size:12.5px;font-weight:900">مناسبة لـ</h3><sc-for list="{{ know.forWho }}" as="u" hint-placeholder-count="3"><span style="display:block;padding:3px 0;font-size:11px;color:#3d4f45">✓ {{ u }}</span></sc-for></div>
+<div><h3 style="margin:0 0 6px;font-size:12.5px;font-weight:900">ليست مناسبة لـ</h3><sc-for list="{{ know.notFor }}" as="u" hint-placeholder-count="2"><span style="display:block;padding:3px 0;font-size:11px;color:#8e5b22">✕ {{ u }}</span></sc-for></div>
+</div>
+</section>
+
+<section id="features" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<h2 style="margin:0 0 4px;font-size:17px;font-weight:900">المميزات الرئيسية</h2>
+<span style="font-size:10.5px;color:#8b978f">الميزة ← معناها ← فائدتها لك</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px">
+<sc-for list="{{ know.features }}" as="f" hint-placeholder-count="4">
+<div style="padding:14px 16px;border:1px solid #eef1ef;border-radius:14px;background:#fbfcfb">
+<h3 style="margin:0 0 4px;font-size:13.5px;font-weight:900;color:#14261d">{{ f.t }}</h3>
+<p style="margin:0 0 6px;font-size:11.5px;line-height:1.8;color:#5f7167">{{ f.m }}</p>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:8px;background:#e4f4ec;color:#146c4c;font-size:10.5px;font-weight:900">← {{ f.b }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section id="specs" style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start">
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden">
+<h2 style="margin:0;padding:15px 20px 10px;font-size:16px;font-weight:900">المواصفات الكاملة</h2>
+<table style="width:100%;border-collapse:collapse">
+<tbody>
+<sc-for list="{{ know.specs }}" as="s" hint-placeholder-count="12">
+<tr><th scope="row" style="width:42%;padding:8px 20px;text-align:start;font-size:11px;font-weight:800;color:#5f7167;border-top:1px solid #f4f6f4;background:#fbfcfb">{{ s.l }}</th>
+<td style="padding:8px 14px;font-size:11.5px;font-weight:800;color:#14261d;border-top:1px solid #f4f6f4">{{ s.v }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 8px;font-size:14px;font-weight:900">ماذا يوجد في الصندوق؟</h2>
+<sc-for list="{{ know.included }}" as="i" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-top:1px dashed #f1f4f2"><span style="flex:1;font-size:11.5px;font-weight:800;color:#3d4f45">{{ i.n }}</span><span style="padding:1px 8px;border-radius:6px;background:#eef2ef;font:900 10px Tajawal;color:#3d4f45">×{{ i.q }}</span></div>
+</sc-for>
+</div>
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 8px;font-size:14px;font-weight:900">التوافق</h2>
+<sc-for list="{{ know.compat }}" as="c" hint-placeholder-count="4"><span style="display:block;padding:3px 0;font-size:11px;line-height:1.7;color:#3d4f45">• {{ c }}</span></sc-for>
+</div>
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 8px;font-size:14px;font-weight:900">تنزيلات وموارد</h2>
+<sc-for list="{{ know.downloads }}" as="d" hint-placeholder-count="3">
+<button type="button" onClick="{{ d.onDl }}" style="display:flex;align-items:center;gap:9px;width:100%;padding:8px 0;border:0;border-top:1px dashed #f1f4f2;background:none;cursor:pointer;text-align:start">
+<svg aria-hidden="true" style="width:14px;height:14px;flex:0 0 auto;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-download"></use></svg>
+<span style="flex:1;font-size:11.5px;font-weight:900;color:#1e7355">{{ d.n }}</span>
+<span style="font-size:9.5px;color:#8b978f">{{ d.meta }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="howto" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<h2 style="margin:0 0 12px;font-size:17px;font-weight:900">كيف تستخدمها للحصول على أفضل نتيجة؟</h2>
+<ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px">
+<sc-for list="{{ know.howto }}" as="h" hint-placeholder-count="5">
+<li style="padding:12px 13px;border:1px solid #eef1ef;border-radius:13px;background:#fbfcfb">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:26px;height:26px;border-radius:9px;background:#1e7355;color:#fff;font:900 12px Tajawal">{{ h.n }}</span>
+<span style="display:block;margin-top:7px;font-size:11.5px;font-weight:900;color:#14261d;line-height:1.5">{{ h.t }}</span>
+<span style="display:block;margin-top:3px;font-size:10px;line-height:1.7;color:#7c8a82">{{ h.d }}</span>
+</li>
+</sc-for>
+</ol>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;margin-top:14px;align-items:start">
+<button type="button" onClick="{{ know.video.onPlay }}" style="position:relative;display:block;height:150px;border:0;border-radius:13px;background:linear-gradient(140deg,#14261d,#1e5c42);cursor:pointer">
+<span aria-hidden="true" style="position:absolute;inset:0;display:grid;place-items:center;color:#fff"><svg style="width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:1.6"><use href="#p-play"></use></svg></span>
+<span style="position:absolute;bottom:9px;inset-inline-start:11px;color:#fff;font-size:11px;font-weight:900;text-align:start">{{ know.video.t }}<br><span style="font-size:9px;font-weight:700;opacity:.75">{{ know.video.dur }} · {{ know.video.up }}</span></span>
+</button>
+<div style="padding:12px 14px;border:1px solid #eef1ef;border-radius:13px;background:#fbfcfb">
+<h3 style="margin:0 0 5px;font-size:12px;font-weight:900">النص المفرّغ للفيديو <span style="font-size:9px;font-weight:700;color:#8b978f">— HTML قابل للزحف، يخدم الوصولية والبحث الصوتي</span></h3>
+<p style="margin:0;font-size:11px;line-height:1.9;color:#5f7167">{{ know.transcript }}</p>
+</div>
+</div>
+</section>
+<section id="compare" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden">
+<h2 style="margin:0;padding:15px 20px 8px;font-size:16px;font-weight:900">قارنها مع البدائل <span style="font-size:10px;font-weight:700;color:#8b978f">— روابط داخلية حقيقية، لا صفحات مدخل</span></h2>
+<table style="width:100%;border-collapse:collapse">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:8px 20px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">المنتج</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">السعر</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الصفحات</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">مسائل محلولة</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">اختبارات</th>
+<th style="padding:8px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الأفضل في</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ soc.compare }}" as="c" hint-placeholder-count="3">
+<tr style="background:{{ c.bg }}">
+<td style="padding:9px 20px;border-top:1px solid #f4f6f4"><a href="#" style="font-size:12px;font-weight:900;color:{{ c.nc }}">{{ c.n }}</a><sc-if value="{{ c.cur }}" hint-placeholder-val="{{ false }}"><span style="margin-inline-start:7px;padding:1px 8px;border-radius:999px;background:#1e7355;color:#fff;font-size:8.5px;font-weight:900">أنت هنا</span></sc-if></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-weight:900;font-size:11.5px">{{ c.price }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px">{{ c.pages }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px">{{ c.solved }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px">{{ c.tests }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:11px;font-weight:800;color:#146c4c">{{ c.best }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px;align-items:start">
+<section aria-label="يُشترى معًا" style="border:1px solid #cfe0d6;border-radius:16px;background:linear-gradient(170deg,#f4faf6,#fff 60%);padding:16px 19px">
+<h2 style="margin:0 0 10px;font-size:15px;font-weight:900">يُشترى معًا عادة</h2>
+<div style="display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:12px;background:#fff;border:1px solid #e2e8e4">
+<span aria-hidden="true" style="width:22px;height:22px;border-radius:7px;background:#1e7355;color:#fff;display:grid;place-items:center"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:3"><use href="#p-check"></use></svg></span>
+<span style="flex:1;font-size:11.5px;font-weight:900">هذه المذكرة</span><span style="font:900 12px Tajawal;color:#146c4c">{{ hero.price }}</span>
+</div>
+<sc-for list="{{ soc.fbt }}" as="f" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:12px;background:#fff;border:1px solid #e2e8e4">
+<button type="button" onClick="{{ f.onToggle }}" role="checkbox" aria-checked="{{ f.on }}" aria-label="ضمّ {{ f.n }}" style="width:22px;height:22px;border:2px solid {{ f.boxBd }};border-radius:7px;background:{{ f.boxBg }};color:#fff;display:grid;place-items:center;cursor:pointer">
+<sc-if value="{{ f.on }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:3"><use href="#p-check"></use></svg></sc-if>
+</button>
+<span aria-hidden="true" style="width:34px;height:34px;border-radius:9px;background:{{ f.img }}"></span>
+<span style="flex:1;font-size:11.5px;font-weight:800;color:#14261d">{{ f.n }}</span>
+<span style="font:900 12px Tajawal;color:#146c4c">{{ f.p }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:11px;flex-wrap:wrap">
+<span style="font-size:12px;font-weight:900">{{ soc.fbtN }} منتجات = <span style="font:900 16px Tajawal;color:#146c4c">{{ soc.fbtSum }}</span> <b style="font-size:10.5px;color:#8a6500">{{ soc.fbtSave }}</b></span>
+<button type="button" onClick="{{ soc.onFbtAdd }}" style="margin-inline-start:auto;min-height:40px;padding:0 18px;border:0;border-radius:11px;background:#1e7355;color:#fff;font-size:12px;font-weight:900;cursor:pointer">أضف المحدد معًا</button>
+</div>
+</section>
+
+<section aria-label="بدائل" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 19px">
+<h2 style="margin:0 0 9px;font-size:15px;font-weight:900">قد تفكر أيضًا في</h2>
+<sc-for list="{{ soc.alts }}" as="a" hint-placeholder-count="3">
+<button type="button" onClick="{{ a.onGo }}" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 0;border:0;border-top:1px dashed #f1f4f2;background:none;cursor:pointer;text-align:start">
+<span style="flex:1;min-width:0"><span style="display:block;font-size:12px;font-weight:900;color:#1e7355">{{ a.n }}</span><span style="font-size:10px;color:#7c8a82">{{ a.why }}</span></span>
+<span style="font:900 12px Tajawal;color:#14261d">{{ a.p }}</span>
+</button>
+</sc-for>
+</section>
+</div>
+
+<section id="reviews" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font-size:17px;font-weight:900">تقييمات العملاء</h2>
+<span style="display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:900;color:#8a6500"><svg aria-hidden="true" style="width:16px;height:16px;color:#d8a723"><use href="#p-star"></use></svg>{{ hero.rate }} من ٥</span>
+<span style="font-size:11px;color:#8b978f">{{ hero.rn }} · يعرض {{ soc.revN }}</span>
+<div style="flex:1"></div>
+<sc-for list="{{ soc.revFs }}" as="f" hint-placeholder-count="5">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ f.bd }};border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start">
+<div style="padding:13px 15px;border:1px solid #eef1ef;border-radius:13px;background:#fbfcfb">
+<sc-for list="{{ soc.hist }}" as="h" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:7px;padding:3px 0">
+<span style="flex:0 0 22px;font-size:10.5px;font-weight:900">{{ h.s }}★</span>
+<span style="flex:1;height:7px;border-radius:5px;background:#e8ede9;overflow:hidden"><span style="display:block;height:100%;width:{{ h.w }};background:#d8a723;border-radius:5px"></span></span>
+<span style="flex:0 0 30px;text-align:end;font-size:9.5px;color:#8b978f">{{ h.n }}</span>
+</div>
+</sc-for>
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px dashed #e8ede9;font-size:10px;line-height:1.8;color:#5f7167"><b style="color:#146c4c">ملخص آلي:</b> {{ soc.summary }}</p>
+<div style="margin-top:9px"><span style="font-size:10px;font-weight:900;color:#146c4c">إيجابيات</span><sc-for list="{{ soc.pros }}" as="pp" hint-placeholder-count="3"><span style="display:block;font-size:10px;color:#3d4f45">+ {{ pp }}</span></sc-for>
+<span style="display:block;margin-top:5px;font-size:10px;font-weight:900;color:#8e5b22">اعتبارات</span><sc-for list="{{ soc.cons }}" as="cc" hint-placeholder-count="2"><span style="display:block;font-size:10px;color:#5f7167">− {{ cc }}</span></sc-for></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ soc.revs }}" as="r" hint-placeholder-count="4">
+<article style="padding:12px 15px;border:1px solid #eef1ef;border-radius:13px;background:#fbfcfb">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:12px">{{ r.by }}</b>
+<sc-if value="{{ r.v }}" hint-placeholder-val="{{ true }}"><span style="padding:1px 8px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8.5px;font-weight:900">شراء موثق ✓</span></sc-if>
+<span style="color:#d8a723;font-size:12px;letter-spacing:1px">{{ r.stars }}</span>
+<span style="font-size:9.5px;color:#a9b4ad">{{ r.d }} · {{ r.variant }}</span>
+<sc-if value="{{ r.ph }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="margin-inline-start:auto;width:30px;height:30px;border-radius:8px;background:linear-gradient(140deg,#2b9c72,#14603f)"></span></sc-if>
+</div>
+<p style="margin:6px 0;font-size:12px;line-height:1.9;color:#3d4f45">{{ r.t }}</p>
+<button type="button" onClick="{{ r.onHelp }}" style="min-height:28px;padding:0 11px;border:1px solid #e2e8e4;border-radius:8px;background:#fff;font-size:10px;font-weight:800;color:#5f7167;cursor:pointer">{{ r.help }}</button>
+</article>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="qa" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font-size:16px;font-weight:900">أسئلة وأجوبة العملاء <span style="font-size:10.5px;font-weight:700;color:#8b978f">({{ soc.qaN }})</span></h2>
+<div style="flex:1"></div>
+<div style="position:relative;min-width:240px">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:10px;top:9px;color:#8b978f"><svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#p-search"></use></svg></span>
+<input type="search" value="{{ soc.qaQ }}" onChange="{{ soc.onQaQ }}" placeholder="ابحث في الأسئلة…" aria-label="بحث الأسئلة" style="width:100%;box-sizing:border-box;min-height:34px;padding-inline:32px 12px;border:1px solid #d7ddd8;border-radius:10px;font:800 11px Tajawal;outline:none">
+</div>
+<button type="button" onClick="{{ soc.onAsk }}" style="min-height:34px;padding:0 14px;border:0;border-radius:10px;background:#14261d;color:#fff;font-size:11px;font-weight:900;cursor:pointer">اسأل سؤالًا</button>
+</div>
+<sc-for list="{{ soc.qa }}" as="q" hint-placeholder-count="3">
+<div style="padding:11px 0;border-top:1px solid #f1f4f2">
+<h3 style="margin:0 0 4px;font-size:12.5px;font-weight:900;color:#14261d">س: {{ q.q }}</h3>
+<p style="margin:0 0 5px;font-size:12px;line-height:1.9;color:#3d4f45">ج: {{ q.a }}</p>
+<span style="font-size:9.5px;color:#8b978f">{{ q.by }} · {{ q.d }} · <b>{{ q.help }}</b></span>
+</div>
+</sc-for>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px;align-items:start">
+<section aria-label="الأسئلة الشائعة" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 19px">
+<h2 style="margin:0 0 9px;font-size:15px;font-weight:900">أسئلة شائعة عن هذا المنتج</h2>
+<sc-for list="{{ soc.faq }}" as="f" hint-placeholder-count="4">
+<div style="border:1px solid #eef1ef;border-radius:12px;overflow:hidden;margin-bottom:6px">
+<button type="button" onClick="{{ f.onToggle }}" aria-expanded="{{ f.open }}" style="display:flex;align-items:center;gap:9px;width:100%;min-height:42px;padding:0 13px;border:0;background:#fbfcfb;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12px;font-weight:900;color:#14261d">{{ f.q }}</span>
+<sc-if value="{{ f.caret }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ f.caret }}"></use></svg></sc-if>
+</button>
+<sc-if value="{{ f.open }}" hint-placeholder-val="{{ true }}"><p style="margin:0;padding:10px 13px;font-size:11.5px;line-height:1.9;color:#4a5b51">{{ f.a }}</p></sc-if>
+</div>
+</sc-for>
+</section>
+<section id="shipping" style="display:flex;flex-direction:column;gap:12px">
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 6px;font-size:14px;font-weight:900">الشحن والإرجاع والضمان</h2>
+<span style="display:block;font-size:11px;line-height:1.9;color:#3d4f45">• التجهيز: يوم عمل · الرئيسية ١–٣ أيام · بقية المناطق ٣–٥<br>• مجاني فوق ٢٠٠ ر.س · تتبع برسالة فور التسليم للناقل<br>• {{ soc.warranty }}</span>
+<a href="#" style="display:inline-block;margin-top:7px;font-size:11px;font-weight:900">سياسة الاسترجاع الكاملة ←</a>
+</div>
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 5px;font-size:14px;font-weight:900">عن {{ soc.brand.n }}</h2>
+<p style="margin:0 0 8px;font-size:11.5px;line-height:1.9;color:#5f7167">{{ soc.brand.d }}</p>
+<button type="button" onClick="{{ soc.brand.onGo }}" style="min-height:32px;padding:0 13px;border:1px solid #d7ddd8;border-radius:9px;background:#fbfcfb;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer">كل منتجات تذكير ←</button>
+</div>
+<div style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 7px;font-size:13px;font-weight:900">منتجات ذات صلة</h2>
+<sc-for list="{{ soc.related }}" as="r" hint-placeholder-count="3">
+<button type="button" onClick="{{ r.onGo }}" style="display:flex;justify-content:space-between;gap:8px;width:100%;padding:6px 0;border:0;border-top:1px dashed #f1f4f2;background:none;cursor:pointer"><span style="font-size:11.5px;font-weight:800;color:#1e7355;text-align:start">{{ r.n }}</span><span style="font:900 11.5px Tajawal">{{ r.p }}</span></button>
+</sc-for>
+<h2 style="margin:10px 0 5px;font-size:12px;font-weight:900;color:#8b978f">شاهدتها مؤخرًا</h2>
+<sc-for list="{{ soc.recent }}" as="r" hint-placeholder-count="2">
+<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0"><span style="font-size:11px;color:#5f7167">{{ r.n }}</span><span style="font:800 11px Tajawal;color:#5f7167">{{ r.p }}</span></div>
+</sc-for>
+</div>
+</section>
+</div>
+
+</main>
+
+<sc-if value="{{ is.sticky }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset-inline:0;bottom:0;z-index:90;background:#fff;border-top:1px solid #e2e8e4;box-shadow:0 -8px 30px rgba(10,25,18,.12);animation:ppUp .25s ease">
+<div style="max-width:1140px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:11px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:40px;height:40px;border-radius:10px;background:{{ hero.main }};flex:0 0 auto"></span>
+<span style="min-width:0;flex:1"><span style="display:block;font-size:12px;font-weight:900;color:#14261d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ hero.name }}</span><span style="font-size:10px;color:#7c8a82">{{ hero.stock }}</span></span>
+<span style="font:900 16px Tajawal;color:#146c4c">{{ hero.price }}</span>
+<div style="display:inline-flex;align-items:center;border:1.5px solid #d7ddd8;border-radius:10px;overflow:hidden">
+<button type="button" onClick="{{ hero.onDn }}" aria-label="إنقاص" style="width:32px;height:38px;border:0;background:#fbfcfb;cursor:pointer;display:grid;place-items:center;color:#3d4f45"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#p-minus"></use></svg></button>
+<span style="min-width:32px;text-align:center;font:900 12.5px Tajawal">{{ hero.qty }}</span>
+<button type="button" onClick="{{ hero.onUp }}" aria-label="زيادة" style="width:32px;height:38px;border:0;background:#fbfcfb;cursor:pointer;display:grid;place-items:center;color:#3d4f45"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#p-plus"></use></svg></button>
+</div>
+<button type="button" onClick="{{ hero.onAdd }}" style="display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 22px;border:0;border-radius:11px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-cart"></use></svg>أضف للسلة</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ is.seo }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ seo.onClose }}" style="position:fixed;inset:0;z-index:110;background:rgba(10,20,15,.45)">
+<aside role="dialog" aria-modal="true" aria-label="لوحة SEO للمنتج" onClick="{{ stopSeo }}" style="position:absolute;top:0;bottom:0;inset-inline-end:0;width:430px;max-width:94vw;background:#fff;box-shadow:0 0 60px rgba(6,16,11,.3);display:flex;flex-direction:column;overflow:auto">
+<div style="display:flex;align-items:center;gap:9px;padding:14px 17px;border-bottom:1px solid #eef1ef;background:#14261d;color:#fff;position:sticky;top:0">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2"><use href="#p-code"></use></svg>
+<h2 style="margin:0;flex:1;font-size:13.5px;font-weight:900">لوحة SEO للمنتج <span style="font-size:10px;color:rgba(255,255,255,.6)">— {{ seoScore }}</span></h2>
+<button type="button" onClick="{{ seo.onClose }}" aria-label="إغلاق" style="width:30px;height:30px;border:0;border-radius:8px;background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#p-x"></use></svg></button>
+</div>
+<div style="padding:14px 17px;display:flex;flex-direction:column;gap:13px">
+<div>
+<h3 style="margin:0 0 7px;font-size:12px;font-weight:900">درجة جودة المنتج <span style="font-size:9px;font-weight:700;color:#8b978f">— توصيات، لا ضمانات ترتيب</span></h3>
+<sc-for list="{{ seo.score }}" as="s" hint-placeholder-count="8">
+<div style="display:flex;align-items:center;gap:8px;padding:3px 0">
+<span style="flex:0 0 150px;font-size:10px;font-weight:800;color:#5f7167">{{ s.l }}</span>
+<span style="flex:1;height:6px;border-radius:4px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ s.w }};background:{{ s.c }};border-radius:4px"></span></span>
+<span style="flex:0 0 26px;text-align:end;font:900 10px Tajawal">{{ s.v }}</span>
+</div>
+</sc-for>
+</div>
+<div>
+<h3 style="margin:0 0 6px;font-size:12px;font-weight:900">معاينة SERP <span style="font-size:9px;font-weight:700;color:#8b978f">— Google قد يعيد الكتابة</span></h3>
+<div style="padding:11px 13px;border:1px solid #e6e9e6;border-radius:11px;background:#fbfcfb">
+<span dir="ltr" style="display:block;font-size:9.5px;color:#147d45;text-align:start">{{ seo.url }}</span>
+<span style="display:block;margin-top:2px;font-size:13.5px;font-weight:800;color:#1a0dab;line-height:1.5">{{ seo.title }}</span>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.7;color:#4d5156">{{ seo.metaDesc }}</span>
+</div>
+</div>
+<div>
+<h3 style="margin:0 0 6px;font-size:12px;font-weight:900">Product Schema — قيم حية من بيانات النسخة المختارة</h3>
+<div style="border:1px solid #eef1ef;border-radius:11px;overflow:hidden">
+<sc-for list="{{ seo.schema }}" as="s" hint-placeholder-count="10">
+<div style="display:flex;gap:8px;padding:5px 12px;border-top:1px dashed #f4f6f4"><code dir="ltr" style="flex:0 0 150px;font-size:9px;color:#6b3fa0">{{ s.k }}</code><span dir="auto" style="font-size:9.5px;font-weight:800;color:#14261d">{{ s.v }}</span></div>
+</sc-for>
+</div>
+</div>
+<div>
+<h3 style="margin:0 0 6px;font-size:12px;font-weight:900">فحوص القبول</h3>
+<sc-for list="{{ seo.checks }}" as="c" hint-placeholder-count="8">
+<span style="display:flex;align-items:center;gap:7px;padding:3px 0;font-size:10.5px;font-weight:700;color:#3d4f45"><svg aria-hidden="true" style="width:12px;height:12px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2.6"><use href="#p-check"></use></svg>{{ c.n }}</span>
+</sc-for>
+</div>
+<div>
+<h3 style="margin:0 0 6px;font-size:12px;font-weight:900">جاهزية Merchant Feed</h3>
+<sc-for list="{{ seo.feed }}" as="f" hint-placeholder-count="5">
+<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px dashed #f4f6f4"><span style="font-size:10.5px;color:#5f7167">{{ f.l }}</span><span style="font-size:10.5px;font-weight:900;color:#146c4c">{{ f.v }} ✓</span></div>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;line-height:1.7;color:#a9b4ad">القاعدة الثابتة: المرئي = Schema = Feed. أي تغيير في السعر أو التوفر يتزامن للثلاثة، ولا قيم مفبركة أبدًا.</p>
+</div>
+</div>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-start:18px;bottom:76px;z-index:120;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:ppFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:940},&quot;direction&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rtl&quot;,&quot;ltr&quot;],&quot;default&quot;:&quot;rtl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;التصميم&quot;},&quot;showSeoRibbon&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الإدارة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+sr(n){ return this.ar(n)+' ر.س'; }
+
+VARS=[
+ {k:'pdf',n:'PDF رقمية — تنزيل فوري',price:45,old:0,sku:'MA-101-D',gtin:'6287011234567',stock:'متوفر دائمًا',stockC:'#146c4c',ship:'تسليم فوري بعد الدفع'},
+ {k:'print',n:'مطبوعة A4 ملونة',price:60,old:68,sku:'MA-101-P',gtin:'6287011234574',stock:'متوفر — باقٍ ١٨ نسخة',stockC:'#146c4c',ship:'تصلك خلال ١–٣ أيام عمل'},
+ {k:'bundle',n:'رقمية + مطبوعة',price:85,old:105,sku:'MA-101-B',gtin:'6287011234581',stock:'متوفر',stockC:'#146c4c',ship:'الرقمية فورًا والمطبوعة ١–٣ أيام'}
+];
+CITIES=[['riyadh','الرياض','غدًا – بعد غد','١٥ ر.س'],['jeddah','جدة','٢–٣ أيام عمل','١٥ ر.س'],['dammam','الدمام','٢–٣ أيام عمل','١٥ ر.س'],['abha','أبها','٣–٤ أيام عمل','١٩ ر.س'],['other','مدينة أخرى','٣–٥ أيام عمل','١٩ ر.س']];
+GALLERY=[
+ ['linear-gradient(140deg,#2b9c72,#14603f)','الغلاف الأمامي للمذكرة'],
+ ['linear-gradient(140deg,#3d8f6d,#1b5c41)','نموذج شرح درس بخريطة مفاهيم'],
+ ['linear-gradient(140deg,#d8b56a,#8a6a35)','صفحة مسائل محلولة بالخطوات'],
+ ['linear-gradient(140deg,#527a96,#2d5471)','جدول الاختبارات القصيرة'],
+ ['linear-gradient(140deg,#8f6b5a,#61403f)','المذكرة مطبوعة — لقطة واقعية']
+];
+FBT=[
+ {id:'f1',n:'اختبارات رياضيات محلولة',p:35,on:true,img:'linear-gradient(140deg,#2b9c72,#0f4d33)'},
+ {id:'f2',n:'دفتر متابعة الحل اليومي',p:19,on:true,img:'linear-gradient(140deg,#527a96,#2d5471)'},
+ {id:'f3',n:'ملزمة فيزياء أول ثانوي',p:55,on:false,img:'linear-gradient(140deg,#8f6b5a,#61403f)'}
+];
+REVIEWS=[
+ {by:'أم فيصل',v:true,rate:5,d:'قبل أسبوع',variant:'PDF',t:'ابني تحسّن من ٧٨ إلى ٩٤ خلال شهرين. الشرح أوضح من الكتاب المدرسي، والمسائل المحلولة بالخطوات فرقت معه فعلًا.',help:41,ph:true},
+ {by:'أ. محمد الشهري',v:true,rate:5,d:'قبل أسبوعين',variant:'مطبوعة',t:'معلم رياضيات — أستخدمها مرجعًا إضافيًا في الفصل. تدرّج المسائل ممتاز ويوفر عليّ وقت إعداد.',help:28,ph:false},
+ {by:'نوف',v:true,rate:4,d:'قبل شهر',variant:'PDF',t:'ممتازة والتنظيم مريح للمذاكرة. أتمنى فقط مسائل إضافية في الوحدة الأخيرة.',help:12,ph:false},
+ {by:'خالد',v:false,rate:5,d:'قبل شهر',variant:'حزمة',t:'الطباعة عالية الجودة والألوان مريحة. وصلت قبل الموعد.',help:7,ph:true}
+];
+QA=[
+ {q:'هل تكفي وحدها للاختبار النهائي؟',a:'تغطي المقرر كاملًا بشرح وتمارين. للتدريب بنمط الأسئلة الوزارية ننصح بإضافة «الاختبارات المحلولة».',by:'فريق تذكير',d:'قبل ٥ أيام',help:19},
+ {q:'الفرق بين النسخة الرقمية والمطبوعة؟',a:'المحتوى واحد ١٠٠٪. الرقمية PDF فوري قابل للطباعة المنزلية (نسختان)، والمطبوعة A4 ملونة بتجليد حلزوني.',by:'فريق تذكير',d:'قبل أسبوع',help:14},
+ {q:'هل تناسب طالب مستواه ضعيف؟',a:'نعم — كل درس يبدأ من الأساسيات بخريطة مفاهيم ثم يتدرج. راجع النموذج المجاني لتتأكد من ملاءمة الأسلوب.',by:'أ. سارة (معلمة)',d:'قبل أسبوعين',help:9}
+];
+state={v:'pdf',qty:1,g:0,city:'riyadh',sticky:false,revF:'all',qaQ:'',faqOpen:0,accOpen:'desc',
+ fbt:{f1:true,f2:true,f3:false},cart:0,wish:false,seo:false,toasts:[]};
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentDidMount(){
+ this._sc=()=>{ const on=window.scrollY>560; if(on!==this.state.sticky) this.setState({sticky:on}); };
+ window.addEventListener('scroll',this._sc,{passive:true});
+}
+componentWillUnmount(){ window.removeEventListener('scroll',this._sc); (this._tm||[]).forEach(clearTimeout); }
+vr(){ return this.VARS.filter(v=>v.k===this.state.v)[0]; }
+add(n){ this.setState({cart:this.state.cart+n}); this.toast('أُضيفت '+this.ar(n)+' × «مذكرة الرياضيات ('+this.vr().n.split(' ')[0]+')» للسلة'); }
+
+renderVals(){
+ const p=this.props||{};
+ const st=this.state, v=this.vr();
+ const total=v.price*st.qty;
+ const fbtSel=this.FBT.filter(f=>st.fbt[f.id]);
+ const fbtSum=v.price+fbtSel.reduce((a,f)=>a+f.p,0);
+ const city=this.CITIES.filter(c=>c[0]===st.city)[0];
+ const base={
+  dir:p.direction==='ltr'?'ltr':'rtl',
+  crumbs:[['الرئيسية',1],['المتجر',1],['أول ثانوي',1],['رياضيات',1],['مذكرة رياضيات — أول ثانوي',0]].map((c,i,arr)=>({n:c[0],sep:i<arr.length-1,c:i===arr.length-1?'#14261d':'#1e7355'})),
+  cartN:st.cart?this.ar(st.cart):'',
+  onSeoPanel:()=>this.setState({seo:!st.seo}),
+  seoScore:'٨٧/١٠٠',
+  is:{sticky:st.sticky,seo:st.seo,toasts:st.toasts.length>0,wish:st.wish},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ return Object.assign(base,this.rvHero(v,total,city),this.rvKnow(),this.rvSocial(v,fbtSel,fbtSum),this.rvSeo(v));
+}
+rvHero(v,total,city){
+ const st=this.state;
+ return {hero:{
+  imgs:this.GALLERY.map((g,i)=>({img:g[0],alt:g[1],on:st.g===i,bd:st.g===i?'#1e7355':'#e2e8e4',
+   onGo:()=>this.setState({g:i})})),
+  main:this.GALLERY[st.g][0],mainAlt:this.GALLERY[st.g][1],
+  onZoom:()=>this.toast('فتح المعرض الكامل — تكبير وتقليب بإيماءات اللمس'),
+  onVideo:()=>this.toast('تشغيل فيديو تعريفي ٩٠ ثانية — بنصّ مفرّغ قابل للزحف أسفل الصفحة'),
+  brand:'تذكير',cat:'رياضيات — أول ثانوي',
+  name:'مذكرة رياضيات — أول ثانوي (الفصل الأول)',
+  sub:'شرح مبسط بخرائط مفاهيم + ١٤٦ مسألة محلولة بالخطوات — إعداد معلمين يدرّسون المقرر',
+  rate:'٤٫٨',rn:'٩٦ تقييمًا موثقًا',qn:'٣ أسئلة مُجابة',
+  sku:v.sku,gtin:v.gtin,cond:'جديد',
+  price:this.sr(v.price),hasOld:!!v.old,old:v.old?this.sr(v.old):'',
+  save:v.old?'وفّرت '+this.sr(v.old-v.price)+' ('+this.ar(Math.round((v.old-v.price)/v.old*100))+'٪)':'',
+  vat:'شامل ضريبة القيمة المضافة ١٥٪',
+  stock:v.stock,stockC:v.stockC,ship:v.ship,
+  vars:this.VARS.map(x=>({n:x.n,p:this.sr(x.price),on:st.v===x.k,
+   bd:st.v===x.k?'#1e7355':'#d7ddd8',bg:st.v===x.k?'#f2f8f5':'#fff',
+   onClick:()=>{this.setState({v:x.k});this.toast('النسخة: '+x.n+' — تحدّث السعر وSKU وGTIN وبيانات Schema معًا');}})),
+  qty:this.ar(st.qty),
+  onUp:()=>this.setState({qty:st.qty+1}),
+  onDn:()=>this.setState({qty:Math.max(1,st.qty-1)}),
+  totalTxt:st.qty>1?'الإجمالي: '+this.sr(total):'',
+  onAdd:()=>this.add(st.qty),
+  onBuy:()=>{this.add(st.qty);this.toast('الانتقال المباشر للدفع');},
+  wishBg:st.wish?'#fdecec':'#fff',wishC:st.wish?'#b32d2e':'#3d4f45',
+  onWish:()=>{this.setState({wish:!st.wish});this.toast(st.wish?'أُزيلت من المفضلة':'أُضيفت للمفضلة');},
+  onShare:()=>this.toast('نسخ رابط المنتج القانوني (canonical) للمشاركة'),
+  benefits:[['شرح يبدأ من الصفر','خريطة مفاهيم تفتتح كل درس'],['١٤٦ مسألة بالخطوات','لا إجابات نهائية صمّاء'],['بنمط الاختبارات الفعلية','اختباران قصيران لكل وحدة'],['محدثة للمنهج الحالي','مراجعة أغسطس ٢٠٢٦']].map(b=>({t:b[0],d:b[1]})),
+  trust:[['دفع آمن','مدى · Apple Pay'],['أصلية ١٠٠٪','من إعداد فريقنا'],['استرجاع ١٤ يومًا','للمطبوعات'],['دعم واتساب','٩ص–١١م']].map(t=>({t:t[0],d:t[1]})),
+  cities:this.CITIES.map(c=>({v:c[0],l:c[1]})),
+  city:st.city,onCity:(e)=>this.setState({city:e.target.value}),
+  eta:city[2],shipCost:st.v==='pdf'?'— رقمي بلا شحن':city[3],
+  freeNote:st.v==='pdf'?'التسليم فوري عبر رابط تنزيل موقَّع + نسخة للبريد':'شحن مجاني للطلبات فوق ٢٠٠ ر.س',
+  dispatch:st.v==='pdf'?'فوري':'يُجهز خلال يوم عمل'
+ }};
+}
+rvKnow(){
+ const st=this.state;
+ const acc=(k)=>({on:st.accOpen===k,caret:st.accOpen===k?'#p-chev-d':'#p-chev-l',
+  onToggle:()=>this.setState({accOpen:st.accOpen===k?'':k})});
+ return {know:{
+  toc:[['#overview','نظرة عامة'],['#features','المميزات'],['#specs','المواصفات'],['#howto','طريقة الاستخدام'],['#compare','المقارنة'],['#reviews','التقييمات'],['#qa','أسئلة وأجوبة'],['#shipping','الشحن والإرجاع']].map(t=>({href:t[0],n:t[1]})),
+  intro:{what:'مذكرة شاملة لمقرر رياضيات أول ثانوي (الفصل الأول) تشرح كل درس من أساسياته وتتدرج حتى مسائل التميز.',
+   who:'للطالب الذي يريد فهمًا لا حفظًا، ولوليّ الأمر الباحث عن مرجع منظم، وللمعلم كمصدر تمارين جاهز.',
+   why:'كتبها معلمون يدرّسون المقرر فعليًا داخل الفصول — ليست تجميعًا آليًا ولا إعادة تدوير لملازم قديمة.'},
+  features:[
+   ['خرائط مفاهيم افتتاحية','كل درس يبدأ بخريطة تربط الجديد بما سبق','ترى الصورة الكاملة قبل التفاصيل'],
+   ['حل بالخطوات المعلَّلة','١٤٦ مسألة بخطوات مشروحة لا أرقام صمّاء','تتعلم «لماذا» لا «ماذا» فقط'],
+   ['تدرّج ثلاثي الصعوبة','أساسي → متوسط → تميز في كل تمرين','يناسب كل مستويات الفصل'],
+   ['اختبارات قصيرة','اختباران لكل وحدة بنمط الأسئلة الفعلية','تقيس نفسك قبل أن يقيسك غيرك']
+  ].map(f=>({t:f[0],m:f[1],b:f[2]})),
+  uses:['المذاكرة اليومية بعد الحصة','المراجعة قبل الاختبارات القصيرة','تأسيس طالب انتقل من مدرسة أخرى','مرجع تمارين للمعلم داخل الفصل'],
+  forWho:['طالب أول ثانوي (المسارات — السنة المشتركة)','وليّ أمر يتابع المذاكرة منزليًا','معلم يبحث عن بنك تمارين مرتب'],
+  notFor:['طلاب المناهج الدولية (IB/أمريكي) — التسلسل مختلف','من يريد ملخصًا سريعًا ليلة الاختبار — هذه مذكرة فهم لا قصاصة حفظ'],
+  specs:[['الصف','أول ثانوي — السنة المشتركة'],['المادة','رياضيات'],['الفصل الدراسي','الأول'],['عدد الصفحات','٨٤ صفحة'],['عدد المسائل المحلولة','١٤٦'],['المقاس','A4'],['الصيغة الرقمية','PDF عالي الدقة قابل للبحث'],['الطباعة','ملونة بتجليد حلزوني'],['الوزن (مطبوعة)','٣٢٠ غرامًا'],['التوافق','آيباد · حاسوب · طباعة منزلية'],['بلد الإعداد','السعودية'],['آخر تحديث','أغسطس ٢٠٢٦']].map(s=>({l:s[0],v:s[1]})),
+  included:[['ملف المذكرة PDF (أو النسخة المطبوعة)','١'],['ملف الإجابات النهائية منفصلًا','١'],['جدول توزيع مذاكرة ٤ أسابيع','١'],['قسيمة خصم ١٠٪ للملزمة التالية','١']].map(x=>({n:x[0],q:x[1]})),
+  howto:[['حمّل الملف أو استلم المطبوعة','رابط التنزيل يصلك فورًا في الصفحة والبريد'],['ابدأ بخريطة مفاهيم الدرس','٥ دقائق تعطيك الصورة الكاملة'],['ادرس المسائل المحلولة أولًا','غطِّ الحل وحاول ثم قارن خطوتك بخطوتنا'],['حل التمرين المتدرج','لا تقفز للتميز قبل إتقان الأساسي'],['اختبر نفسك نهاية كل وحدة','صحّح من ملف الإجابات وسجّل درجتك في الجدول']].map((h,i)=>({n:this.ar(i+1),t:h[0],d:h[1]})),
+  video:{t:'جولة داخل المذكرة (٩٠ ثانية)',d:'تصفح حقيقي للصفحات: الخرائط، الحلول المعلَّلة، والاختبارات',dur:'١:٣٠',up:'أغسطس ٢٠٢٦',
+   onPlay:()=>this.toast('تشغيل الفيديو — VideoObject schema مطابق للمحتوى المرئي')},
+  transcript:'يبدأ الفيديو بعرض الغلاف وفهرس الوحدات الخمس، ثم يقلّب في درس «العلاقات والدوال»: خريطة المفاهيم الافتتاحية، مثال محلول بأربع خطوات معلَّلة، فالتمرين المتدرج بمستوياته الثلاثة، وينتهي بالاختبار القصير وملف الإجابات.',
+  downloads:[['نموذج مجاني — ٨ صفحات','PDF · ٢٫١ م.ب'],['فهرس الوحدات والدروس','PDF · ٠٫٤ م.ب'],['جدول مذاكرة ٤ أسابيع','PDF · ٠٫٣ م.ب']].map(d=>({n:d[0],meta:d[1],onDl:()=>this.toast('تنزيل «'+d[0]+'» — رابط مباشر قابل للزحف')})),
+  compat:['آيباد وأجهزة اللوحيات (عرض وتظليل)','الحاسوب — أي قارئ PDF','الطباعة المنزلية: ترخيص نسختين للأسرة','غير متوافق مع: القراءة على شاشة الجوال الصغيرة (الجداول تصغر)'],
+  acc:{desc:acc('desc'),ship:acc('ship')}
+ }};
+}
+rvSocial(v,fbtSel,fbtSum){
+ const st=this.state;
+ const list=this.REVIEWS.filter(r=>st.revF==='all'||(st.revF==='ph'?r.ph:(st.revF==='v'?r.v:String(r.rate)===st.revF)));
+ const qa=this.QA.filter(q=>!st.qaQ.trim()||(q.q+q.a).includes(st.qaQ.trim()));
+ return {soc:{
+  compare:[
+   {n:'هذه المذكرة',price:this.sr(45),pages:'٨٤',solved:'١٤٦ بالخطوات',tests:'٢/وحدة',best:'الفهم المتدرج',cur:true},
+   {n:'اختبارات محلولة',price:this.sr(35),pages:'٥٢',solved:'٩٨ مختصرة',tests:'٦/وحدة',best:'التدريب المكثف',cur:false},
+   {n:'حزمة المراجعة الشاملة',price:this.sr(149),pages:'٢٤٠',solved:'٣٨٠',tests:'شامل ٣ مواد',best:'ثالث ثانوي',cur:false}
+  ].map(c=>Object.assign(c,{bg:c.cur?'#f2f8f5':'#fff',nc:c.cur?'#14261d':'#1e7355'})),
+  alts:[
+   {n:'اختبارات رياضيات محلولة',why:'أرخص — للتدريب فقط دون شرح',p:this.sr(35)},
+   {n:'حزمة الرياضيات (مذكرة + اختبارات)',why:'أوفر ٢١ ر.س من الشراء المتفرق',p:this.sr(59)},
+   {n:'مذكرة الفصل الثاني',why:'الاستمرار لنفس الأسلوب',p:this.sr(45)}
+  ].map(a=>Object.assign(a,{onGo:()=>this.toast('فتح «'+a.n+'» — رابط داخلي حقيقي بنص وصفي')})),
+  fbt:this.FBT.map(f=>({n:f.n,p:this.sr(f.p),img:f.img,on:st.fbt[f.id],
+   boxBg:st.fbt[f.id]?'#1e7355':'#fff',boxBd:st.fbt[f.id]?'#1e7355':'#c9d2cc',
+   onToggle:()=>{const x=Object.assign({},st.fbt);x[f.id]=!x[f.id];this.setState({fbt:x});}})),
+  fbtN:this.ar(1+fbtSel.length),fbtSum:this.sr(fbtSum),
+  fbtSave:fbtSel.length>=2?'وتوفر '+this.sr(12):'',
+  onFbtAdd:()=>{this.setState({cart:st.cart+1+fbtSel.length});this.toast('أُضيفت '+this.ar(1+fbtSel.length)+' منتجات معًا للسلة');},
+  hist:[[5,78],[4,14],[3,3],[2,1],[1,0]].map(h=>({s:this.ar(h[0]),w:h[1]+'%',n:this.ar(h[1])+'٪'})),
+  revFs:[['all','الكل'],['5','٥★'],['4','٤★'],['v','شراء موثق'],['ph','بصور']].map(f=>({n:f[1],on:st.revF===f[0],
+   bg:st.revF===f[0]?'#14261d':'#fff',fg:st.revF===f[0]?'#fff':'#3d4f45',bd:st.revF===f[0]?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({revF:f[0]})})),
+  revs:list.map(r=>({by:r.by,d:r.d,variant:'النسخة: '+r.variant,t:r.t,help:'مفيد ('+this.ar(r.help)+')',
+   stars:'★★★★★'.slice(0,r.rate),v:r.v,ph:r.ph,
+   onHelp:()=>this.toast('شكرًا — سُجّل تصويتك')})),
+  revN:this.ar(list.length)+' من '+this.ar(this.REVIEWS.length),
+  summary:'يتكرر في التقييمات الحقيقية: وضوح الشرح والتدرج (٣ من ٤)، وجودة الطباعة، وملاحظة وحيدة عن قلة مسائل الوحدة الأخيرة — هذا تلخيص آلي لتقييمات موثقة، ليس رأيًا تحريريًا.',
+  pros:['شرح معلَّل خطوة بخطوة','تدرّج يناسب كل المستويات','اختبارات بنمط الأسئلة الفعلية'],
+  cons:['الوحدة الأخيرة أقل تمارين','غير مناسبة للمناهج الدولية'],
+  qaQ:st.qaQ,onQaQ:(e)=>this.setState({qaQ:e.target.value}),
+  qa:qa.map(q=>({q:q.q,a:q.a,by:q.by,d:q.d,help:'مفيد ('+this.ar(q.help)+')'})),
+  qaN:this.ar(qa.length),
+  onAsk:()=>this.toast('نموذج سؤال جديد — يُجيب فريقنا خلال يوم عمل ويظهر هنا للجميع'),
+  faq:[
+   ['كم يستغرق التوصيل؟','الرقمية فورًا. المطبوعة ١–٣ أيام عمل للمدن الرئيسية و٣–٥ لبقية المناطق.'],
+   ['هل يوجد ضمان؟','استرجاع كامل خلال ١٤ يومًا للمطبوعات بحالتها، وللرقمية قبل التنزيل الأول.'],
+   ['أي نسخة أختار؟','للمذاكرة على آيباد: الرقمية. للحل بالقلم: المطبوعة. الحزمة توفر ٢٠ ر.س عن شرائهما منفصلتين.'],
+   ['هل تُحدَّث عند تغيّر المنهج؟','نعم — مشترو الرقمية يستلمون التحديثات مجانًا لنفس العام الدراسي.']
+  ].map((f,i)=>({q:f[0],a:f[1],open:st.faqOpen===i,caret:st.faqOpen===i?'#p-chev-d':'#p-chev-l',
+   onToggle:()=>this.setState({faqOpen:st.faqOpen===i?-1:i})})),
+  warranty:'استرجاع ١٤ يومًا للمطبوعات · تحديثات مجانية للرقمية طوال العام الدراسي · دعم واتساب ٩ص–١١م',
+  brand:{n:'تذكير',d:'دار نشر تعليمية سعودية منذ ٢٠١٩ — ٢١٤ ملزمة من إعداد ٤٠+ معلمًا ممارسًا، تعتمدنا +١٢ ألف أسرة.',onGo:()=>this.toast('فتح صفحة العلامة — أرشيف كل منتجات تذكير')},
+  related:[['ملزمة فيزياء — أول ثانوي',this.sr(55)],['أوراق عمل رياضيات — رابع',this.sr(25)],['حزمة المراجعة الشاملة',this.sr(149)]].map(r=>({n:r[0],p:r[1],onGo:()=>this.toast('فتح «'+r[0]+'»')})),
+  recent:[['حزمة أحياء — ثالث ثانوي',this.sr(99)],['دفتر تمارين المتوسط',this.sr(24)]].map(r=>({n:r[0],p:r[1]}))
+ }};
+}
+rvSeo(v){
+ const st=this.state;
+ return {stopSeo:(e)=>e.stopPropagation(),seo:{
+  score:[['العنوان والوصف',95],['المعرّفات (SKU/GTIN/Brand)',100],['اكتمال الوصف والمواصفات',92],['الصور وalt',88],['Schema مطابق للمرئي',96],['روابط داخلية',80],['Feed التاجر',85],['أسئلة وتقييمات',90]].map(s=>({l:s[0],v:this.ar(s[1]),w:s[1]+'%',c:s[1]>=90?'#1e7355':(s[1]>=75?'#c9a227':'#b32d2e')})),
+  title:'مذكرة رياضيات أول ثانوي — ١٤٦ مسألة محلولة بالخطوات | تذكير',
+  metaDesc:'شرح مبسط بخرائط مفاهيم و١٤٦ مسألة محلولة بالخطوات لمقرر أول ثانوي الفصل الأول. PDF فوري أو مطبوعة — مع نموذج مجاني ٨ صفحات.',
+  url:'tahdheer.sa › product › math-101',
+  schema:[['@type','Product'],['name','مذكرة رياضيات — أول ثانوي'],['sku',v.sku],['gtin13',v.gtin],['brand','تذكير'],['offers.price',String(v.price)+'.00 SAR'],['offers.availability','InStock'],['aggregateRating','4.8 (96)'],['shippingDetails','1–3 أيام (SA)'],['hasMerchantReturnPolicy','14 يومًا']].map(s=>({k:s[0],v:s[1]})),
+  checks:[['H1 واحدة مطابقة لاسم المنتج',1],['canonical ذاتي · المتغيرات عبر ProductGroup',1],['السعر والتوفر مرئيان = Schema = Feed',1],['صور بأبعاد محجوزة — لا CLS',1],['alt وصفي لكل صور المعرض',1],['محتوى المطويات يبقى قابلًا للزحف',1],['روابط داخلية: التصنيف، الدليل، البدائل',1],['فيديو بنص مفرّغ HTML',1]].map(c=>({n:c[0],ok:!!c[1]})),
+  feed:[['السعر','متطابق',1],['التوفر','متطابق',1],['GTIN','موجود',1],['صور عالية الدقة','٥/٥',1],['وصف Feed','٤٨٧ حرفًا',1]].map(f=>({l:f[0],v:f[1],ok:!!f[2]})),
+  onClose:()=>this.setState({seo:false})
+ }};
+}
+/*@MORE*/
+}
+</script>
+</body>
+</html>

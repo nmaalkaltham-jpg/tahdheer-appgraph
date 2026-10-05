@@ -1,0 +1,549 @@
+/*
+UNIT: INTERNATIONAL
+COMPONENT: _i18n-kit.tsx, hreflang-panel.tsx, registry-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * استوديو SEO الدولي — سجل المواقع المحلية ومدقّق hreflang.
+ *
+ * القيم الحرفية من لوح «Tahdheer - International SEO Studio.dc.html»؛ ما وافق
+ * رموز النظام (#14261d = --ink · #1e7355 = --green-700 · #5f7167 = --text-muted
+ * · #e4f4ec/#146c4c = رقاقة النجاح · #fff4d6/#8a6500 = رقاقة التحذير ·
+ * #e8f2fc/#1d5f9c = المعلومة · #d3d8cf = --border-strong · #fbfcfa = --bg-soft)
+ * يُستدعى بالرمز، والباقي خارج السلّم فيُثبَّت محليًا هنا — ومُسجَّل في
+ * .design-sync/tokens-3p/agent-A-registry-auditor.css كي يُدمج في سلّم الرموز.
+ *
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة).
+ */
+
+.wrap {
+  /* أسماءٌ مستعارة لرموز السمة العامّة — لا لوحةَ خاصّة بهذا الاستوديو. */
+  --intl-edge: var(--cc-edge);
+  --intl-green-edge: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --intl-row-active: color-mix(in srgb, var(--cc-emerald) 8%, transparent);
+  --intl-gate-tint: var(--cc-well);
+  --intl-rule: var(--cc-hair);
+  --intl-dim: var(--cc-muted);
+  --intl-body-2: var(--text-secondary);
+  --intl-chrome-light: var(--cc-text);
+  --intl-tab-ink: var(--cc-text);
+  --intl-tab-idle: var(--cc-muted);
+  --intl-tab-edge: transparent;
+  --intl-code-mint: var(--cc-link);
+  /* ‎--gold-text‎ يتبع السمة؛ ‎--gold-light‎ كان 1.4:1 على الفاتح. */
+  --intl-gold-text: var(--gold-text);
+  --intl-gold-bg: color-mix(in srgb, var(--gold-500) 16%, transparent);
+  --intl-gold-edge: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  --intl-danger-text: var(--cc-danger);
+  --intl-danger-chip: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --intl-neutral-chip: var(--cc-well);
+  /* أسماءٌ تستعملها الأنماط المضمَّنة في المعاينة والفرص ولم تكن معرَّفة قطّ. */
+  --intl-border-soft: var(--cc-edge);
+  --intl-border-row: var(--cc-hair);
+  --intl-muted: var(--cc-muted);
+  --intl-body: var(--cc-text);
+  --intl-bg-head: var(--cc-well);
+  --intl-bg-row: var(--cc-well);
+
+  display: block;
+}
+
+/* ───── رأس الاستوديو الداكن ───── */
+
+.band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-block: 8px;
+  padding-inline: 16px;
+  border-radius: 18px;
+  background: var(--cc-glass);
+  border: 1px solid var(--cc-edge);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  color: var(--cc-text);
+  margin-block-end: 12px;
+}
+
+.bandTitle {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gatePill {
+  padding-block: 2px;
+  padding-inline: 10px;
+  border-radius: 999px;
+  background: var(--intl-gold-bg);
+  border: 1px solid var(--intl-gold-edge);
+  color: var(--intl-gold-text);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 36px;
+  padding-inline: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--cc-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tab:hover {
+  color: var(--intl-chrome-light);
+}
+
+.tab[aria-current='page'] {
+  background: var(--cc-well);
+  border-color: var(--cc-edge);
+  color: var(--cc-text);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+}
+
+/* ───── الألواح ───── */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  background: var(--cc-glass);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  padding-block: 14px;
+  padding-inline: 17px;
+  animation: intlFade 0.25s ease;
+}
+
+.card + .card {
+  margin-block-start: 12px;
+}
+
+.cardTitle {
+  margin-block: 0 8px;
+  margin-inline: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.cardSub {
+  margin-block: 0 8px;
+  margin-inline: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.metaLine {
+  margin-block: 0 10px;
+  margin-inline: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ───── عدّادات السجل ───── */
+
+.tallies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 7px;
+  margin-block-end: 12px;
+}
+
+.tally {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-block: 9px;
+  padding-inline: 10px;
+  border: 1px solid var(--intl-rule);
+  border-radius: 9px;
+  background: var(--bg-soft);
+}
+
+.tallyValue {
+  flex: 0 0 auto;
+  min-inline-size: 26px;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: center;
+}
+
+.tallyLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: start;
+}
+
+/* ───── صفوف اللغات ───── */
+
+.rows {
+  list-style: none;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  margin-block-end: 7px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 12px;
+  background: var(--cc-well);
+  flex-wrap: wrap;
+  animation: intlFade 0.25s ease;
+}
+
+.rowActive {
+  border-color: var(--intl-green-edge);
+  background: var(--intl-row-active);
+}
+
+.code {
+  flex: 0 0 auto;
+  padding-block: 3px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  background: var(--cc-well);
+  border: 1px solid var(--cc-edge);
+  color: var(--cc-link);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.scope {
+  flex: 1;
+  min-inline-size: 220px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--intl-body-2);
+  text-align: start;
+}
+
+.pill {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.pillOn {
+  background: var(--success-chip-bg);
+  /* نحو حبر النصّ — كان 4.49:1 على تعبئته في الداكن. */
+  color: color-mix(in srgb, var(--success-chip-fg) 85%, var(--cc-text));
+}
+
+.pillGate {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.pillInfo {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.pillOff {
+  background: var(--intl-neutral-chip);
+  color: var(--text-secondary);
+}
+
+/* ───── ضوابط الصفّ: المبدّل والترتيب ───── */
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--intl-green-edge);
+  border-radius: 11px;
+  background: var(--bg-soft);
+  cursor: pointer;
+  font: inherit;
+}
+
+.switch:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.track {
+  flex: 0 0 auto;
+  inline-size: 38px;
+  block-size: 22px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  position: relative;
+  transition: background 0.16s ease;
+}
+
+.switch[aria-checked='true'] .track {
+  background: var(--green-700);
+}
+
+.knob {
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  inline-size: 16px;
+  block-size: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: var(--e-1);
+  transition: inset-inline-start 0.16s ease;
+}
+
+.switch[aria-checked='true'] .knob {
+  inset-inline-start: 19px;
+}
+
+.switchLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.moveBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  border: 1px solid var(--intl-edge);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.moveBtn:hover:not(:disabled) {
+  color: var(--green-700);
+  border-color: var(--intl-green-edge);
+}
+
+.moveBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.reason {
+  flex-basis: 100%;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  text-align: start;
+}
+
+/* ───── قاعدة التفعيل والملاحظات المتقطّعة ───── */
+
+.gateNote {
+  padding-block: 9px;
+  padding-inline: 12px;
+  border: 1px dashed var(--intl-green-edge);
+  border-radius: 11px;
+  background: var(--intl-gate-tint);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.gateNote + .gateNote {
+  margin-block-start: 7px;
+}
+
+.gateNote b {
+  color: var(--success-chip-fg);
+}
+
+.absentNote {
+  padding-block: 9px;
+  padding-inline: 12px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 11px;
+  background: var(--bg-soft);
+}
+
+.absentNote + .absentNote {
+  margin-block-start: 7px;
+}
+
+.absentTitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--text-muted);
+  margin-block-end: 4px;
+}
+
+.absentBody {
+  margin-block: 0;
+  margin-inline: 0;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--intl-dim);
+}
+
+/* ───── قائمة فحوص المدقّق ───── */
+
+.checks {
+  list-style: none;
+  margin-block: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.checkRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding-block: 6px;
+  border-block-end: 1px dashed var(--intl-rule);
+}
+
+.checkRow:last-child {
+  border-block-end: 0;
+}
+
+.mark {
+  flex: 0 0 auto;
+  color: var(--success-chip-fg);
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.markFail {
+  flex: 0 0 auto;
+  color: var(--intl-danger-text);
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.checkBody {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.checkLabel {
+  display: block;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--intl-body-2);
+  text-align: start;
+}
+
+.checkOk {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--success-chip-fg);
+}
+
+.offenders {
+  margin-block-start: 4px;
+}
+
+.offenders summary {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--intl-danger-chip);
+  border-radius: 9px;
+  background: var(--intl-danger-chip);
+  color: var(--intl-danger-text);
+  font-size: 11.5px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.offenders ul {
+  list-style: none;
+  margin-block: 6px 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.offenders li {
+  padding-block: 5px;
+  border-block-start: 1px dashed var(--intl-rule);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--intl-body-2);
+}
+
+.offenders a {
+  color: var(--green-700);
+  font-weight: 800;
+}
+
+.capNote {
+  margin-block: 6px 0;
+  margin-inline: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--warning-text);
+}
+
+/* ───── الحركة: دخول خفيف يُكشف صراحةً عند تقليل الحركة ───── */
+
+@keyframes intlFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .row {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

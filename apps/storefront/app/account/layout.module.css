@@ -1,0 +1,70 @@
+/*
+ * Account body grid — the design's three real breakpoints, not one scaled copy:
+ * 390 (single column, 16px gutter), 834 (min(834px,100% - 32px), still single
+ * column because a 256px rail starves the library grid) and 1280+
+ * (min(1280px,100% - 48px) with the sticky rail).
+ * Tokens only, logical properties only.
+ */
+
+.shell {
+  inline-size: 100%;
+  padding-block-end: env(safe-area-inset-bottom);
+}
+
+.grid {
+  inline-size: 100%;
+  margin-inline: auto;
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+  align-items: start;
+}
+
+.main {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (min-width: 834px) {
+  .grid {
+    inline-size: min(var(--container-content), 100% - var(--container-inset));
+    padding: 18px 0 32px;
+    gap: 16px;
+  }
+
+  .main {
+    gap: 15px;
+  }
+}
+
+@media (min-width: 1280px) {
+  /*
+   * الحساب سطحٌ جدوليّ (طلبات · تنزيلات · مكتبة) فهو من صنف WIDE.
+   *
+   * وكان يحمل ‎1280px‎ مكتوبًا بيده — رقمًا لا يعرفه نظام الحاويات ولا
+   * يتحرّك معه، فيفترق عن بقيّة المتجر عند أوّل تعديل للسياسة.
+   */
+  .grid {
+    inline-size: min(var(--container-wide), 100% - var(--container-inset));
+    padding: 22px 0 40px;
+    grid-template-columns: 256px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .main {
+    gap: 16px;
+  }
+}
+
+/* أساس 15/1.6/400 وحبر --sf-ink يأتي من body (globals.css)؛ هنا يُلغى ضبط :where(h2,h3)/p العامّ محليًّا فقط. */
+.shell :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+.shell :where(p) {
+  line-height: inherit;
+}

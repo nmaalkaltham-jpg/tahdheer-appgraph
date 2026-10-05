@@ -1,0 +1,666 @@
+/*
+UNIT: PAGE-HEAD
+COMPONENT: page-head.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الرأس الموحّد — ٥٦px لا ٦٨px لبطاقةٍ بزرّ واحد.
+ *
+ * لاصق أعلى العمود: العمود هو ما يمرّر، ورأسٌ مثبَّت بالنافذة يحتاج حشوًا
+ * يدويًّا يتقادم مع كل تغيير ارتفاع.
+ */
+.bar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-block-size: 56px;
+  /*
+   * سقف صريح: إجراءات الصفحة تختلف من شاشة لأخرى، وبلا سقف يتمدّد الرأس
+   * بحسب أطولها — قِسته 69px على 390. والإجراءات تمرّر أفقيًّا داخل فتحتها
+   * بدل أن تدفع الرأس، فيبقى ارتفاعه ثابتًا لا يقفز بين الصفحات.
+   */
+  max-block-size: 64px;
+  padding-inline: 20px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(calc(8px * var(--fx-k, 1)));
+  border-block-end: 1px solid var(--border);
+}
+
+/* زرّ القائمة: مخفيّ فوق 900px — الشريط ظاهر هناك أصلًا. */
+.menu {
+  display: none;
+  flex: none;
+  inline-size: 44px;
+  block-size: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .menu {
+    display: flex;
+  }
+}
+
+.text {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.crumbs {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* الإجراءات تدفع الأدوات إلى الحافّة، وتتمرّر وحدها إن ضاقت. */
+.actions {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+}
+
+/* عناصر الإجراءات لا تلتفّ — الالتفاف هو ما كان يمدّد الرأس. */
+.actions > * {
+  flex: none;
+}
+
+.tools {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* تحت 900px: العنوان وحده يبقى — الإجراءات تنزل مع المحتوى بدل أن تزاحمه. */
+@media (max-width: 640px) {
+  .crumbs {
+    display: none;
+  }
+
+  .bar {
+    padding-inline: 12px;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+}
+
+/* ───── المسار ───── */
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.crumbs a {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.crumbs a:hover {
+  color: var(--primary-strong);
+  text-decoration: underline;
+}
+
+/* ───── أدوات الرأس ───── */
+.tool {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--control-h);
+  block-size: var(--control-h);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tool:hover {
+  border-color: var(--border-strong);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+/* عدّاد الإنذار: رقمٌ لا نقطةٌ لونيّة — اللون وحده لا يقول «كم». */
+.dot {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: -6px;
+  min-inline-size: 18px;
+  padding-inline: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--control-h);
+  block-size: var(--control-h);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--cc-primary);
+  color: var(--adm-on-accent);
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.avatar:hover {
+  background: var(--primary-strong);
+}
+
+/* ───── اللوحات المنسدلة ───── */
+.pop {
+  position: relative;
+  flex: none;
+}
+
+.panel {
+  position: absolute;
+  inset-block-start: calc(100% + 6px);
+  inset-inline-end: 0;
+  z-index: 40;
+  inline-size: min(300px, 90vw);
+  padding: var(--sp-2);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-pop);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.panelTitle {
+  margin: 0;
+  padding-block: var(--sp-1);
+  padding-inline: var(--sp-2);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.panelEmpty {
+  margin: 0;
+  padding: var(--sp-2);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.panelList {
+  list-style: none;
+  margin: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.panelItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: 36px;
+  padding-inline: var(--sp-2);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  text-align: start;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.panelItem:hover {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.panelCount {
+  margin-inline-start: auto;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--sp-2);
+  border-block-end: 1px solid var(--border-hairline);
+  margin-block-end: var(--sp-1);
+}
+
+.identity strong {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.identityMail {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.identityRole {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-strong);
+}
+
+/* تحت 640px: المسار يُطوى والأدوات تبقى — الوصول أولى من الزينة. */
+@media (max-width: 640px) {
+  .tool,
+  .avatar {
+    inline-size: 36px;
+    block-size: 36px;
+  }
+}
+
+/* ───── اختيار تصميم اللوحة ───── */
+.layoutGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-block: var(--sp-1);
+  border-block-end: 1px solid var(--border-hairline);
+  margin-block-end: var(--sp-1);
+}
+
+.layoutItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  inline-size: 100%;
+  padding-block: 6px;
+  padding-inline: var(--sp-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.layoutItem:hover {
+  background: var(--canvas);
+}
+
+/* المختار يُقال بالخلفيّة والحدّ والوزن — ثلاث إشارات لا لونٌ وحده. */
+.layoutItem[aria-pressed='true'] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+.layoutName {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.layoutItem[aria-pressed='true'] .layoutName {
+  font-weight: 800;
+  color: var(--primary-strong);
+}
+
+.layoutHint {
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ═══ طبقة مركز القيادة — الرأس الزجاجيّ ═══ */
+
+/*
+ * الرأس يجيب عن ثلاثة أسئلة بترتيبٍ ثابت: **أين أنا** (المسار والعنوان)،
+ * **ماذا أفعل هنا** (إجراءات الصفحة)، **وأدوات اللوحة** (بحث · تنبيهات ·
+ * لغة · متجر · حساب). وكانت الثلاثة تتلاصق في صفٍّ واحد بلا فصل، فتبدو
+ * «حذف المنتج» و«تسجيل الخروج» من طبقةٍ واحدة. الفاصل أدناه يفصل السلطتين.
+ */
+.bar {
+  gap: 10px;
+  min-block-size: var(--d-bar-h, 60px);
+  max-block-size: var(--d-bar-h, 60px);
+  padding-inline: var(--d-page-x, 20px);
+  background: var(--cc-bar);
+  backdrop-filter: blur(calc(16px * var(--fx-k, 1))) saturate(140%);
+  border-block-end: 1px solid var(--cc-edge);
+}
+
+/* ───── هويّة الصفحة ───── */
+.text {
+  gap: 0;
+  /* الهويّة تنكمش قبل الأدوات: أدواتٌ نصف ظاهرة عطلٌ، وعنوانٌ مقصوص ليس كذلك. */
+  flex: 0 1 auto;
+}
+
+.crumbs {
+  font-size: var(--d-font-crumb, 10.5px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--cc-muted);
+  gap: 4px;
+}
+
+.crumbs a {
+  color: var(--cc-muted);
+  padding-inline: 2px;
+}
+
+.crumbs a:hover {
+  color: var(--cc-link);
+  text-decoration: none;
+}
+
+.title {
+  font-size: var(--d-font-title, 17px);
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: var(--cc-text);
+}
+
+/*
+ * الفاصل بين إجراءات الصفحة وأدوات اللوحة.
+ *
+ * `:empty` تُخفيه حين لا إجراء: خطٌّ يفصل شيئًا عن لا شيء ضجيجٌ. والفتحة
+ * تُملأ ببوّابة DOM، فحالة الفراغ حقيقة DOM لا حالة React — و`:empty` هي
+ * الأداة التي تقرؤها بلا سطر ترميزٍ واحد.
+ */
+.split {
+  flex: none;
+  inline-size: 1px;
+  block-size: 20px;
+  background: var(--cc-edge);
+  border-radius: var(--radius-pill, 999px);
+}
+
+.actions:empty + .split {
+  display: none;
+}
+
+/* ───── الأدوات ───── */
+.tools {
+  gap: 6px;
+}
+
+.tool,
+.menu {
+  inline-size: var(--d-tool, 36px);
+  block-size: var(--d-tool, 36px);
+  border: 1px solid var(--cc-edge);
+  border-radius: 10px;
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+
+.tool:hover,
+.menu:hover {
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  color: var(--cc-link);
+}
+
+.dot {
+  /* تعبئةٌ عميقة بلا توهّج دائم — الأبيض على تدرّج الورديّ كان 2.7:1. */
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+  /* حلقةٌ بلون الرأس تفصل الرقم عن حافّة الزرّ تحته. */
+  outline: 2px solid var(--cc-bg1);
+}
+
+.avatar {
+  inline-size: var(--d-tool, 36px);
+  block-size: var(--d-tool, 36px);
+  font-size: 14px;
+  background: var(--cc-grad);
+  color: var(--adm-on-accent);
+  box-shadow: var(--e-1);
+  transition: filter var(--dur-hover, 180ms) var(--ease-out, ease);
+}
+
+.avatar:hover {
+  background: var(--cc-grad);
+  filter: brightness(1.08);
+}
+
+/* ───── اللوحات المنسدلة ───── */
+.panel {
+  inline-size: min(320px, 92vw);
+  padding: 6px;
+  background: var(--cc-tip);
+  border: 1px solid var(--cc-edge);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px -20px var(--cc-shadow), inset 0 1px 0 var(--cc-glass-top);
+  backdrop-filter: blur(calc(14px * var(--fx-k, 1)));
+}
+
+.panelTitle,
+.panelEmpty,
+.identityMail,
+.identityRole,
+.layoutHint {
+  color: var(--cc-muted);
+}
+
+.panelTitle {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.panelItem {
+  min-block-size: 36px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cc-muted);
+}
+
+.panelItem:hover {
+  background: var(--cc-well);
+  color: var(--cc-text);
+}
+
+.panelCount {
+  color: var(--cc-text);
+}
+
+.identity {
+  gap: 2px;
+  padding: 10px;
+  border-block-end: 1px solid var(--cc-hair);
+}
+
+.identityRole {
+  /* الصلاحية رقاقةٌ لا سطرُ نصّ: هي **حالة** الحساب لا وصفه. */
+  align-self: flex-start;
+  margin-block-start: 4px;
+  padding-block: 1px;
+  padding-inline: 7px;
+  border-radius: var(--radius-pill, 999px);
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  color: var(--cc-link);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+/* ───── تفضيلات العرض داخل اللوح ───── */
+.layoutGroup {
+  border-block-end: 1px solid var(--cc-hair);
+  padding-block: 4px 6px;
+}
+
+.layoutItem {
+  border-radius: 9px;
+  color: var(--cc-muted);
+}
+
+.layoutItem:hover {
+  background: var(--cc-well);
+  color: var(--cc-text);
+}
+
+.layoutItem[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+}
+
+.layoutItem[aria-pressed='true'] .layoutName {
+  color: var(--cc-link);
+}
+
+/*
+ * السمة والكثافة: صفٌّ مقسَّم لا قائمة.
+ *
+ * ثلاثة خياراتٍ واثنان — والمقارنة بينها بصريّةٌ فوريّة في صفّ واحد. ولو
+ * كُتبت قوائم كالتخطيط لأخذت من ارتفاع اللوح بقدر ما تأخذه خياراته الخمسة
+ * بشروحها، وهي لا تستحقّه.
+ */
+.prefRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 6px;
+  padding-inline: 8px;
+  border-block-end: 1px solid var(--cc-hair);
+}
+
+.prefLabel {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--cc-muted);
+}
+
+.seg {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 9px;
+  background: var(--cc-well);
+}
+
+.segItem {
+  flex: 1;
+  min-block-size: 26px;
+  padding-inline: 6px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--cc-muted);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.segItem:hover {
+  color: var(--cc-text);
+}
+
+/* المختار يُقال بالخلفيّة والحدّ والوزن — ثلاث إشارات لا لونٌ وحده. */
+.segItem[aria-pressed='true'] {
+  background: var(--cc-glass);
+  border-color: var(--cc-edge);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  color: var(--cc-text);
+  font-weight: 900;
+}
+
+/*
+ * أهداف اللمس: 44px تحت الإصبع في كلّ كثافة.
+ *
+ * الكثافة مكسبُ فأرةٍ لا مكسبُ إصبع — والقصّ تحت إصبعٍ عرضُه ٩مم عطلٌ لا
+ * تصميم. (ورموز `--d-*` تفعل الشيء نفسه للارتفاعات في `globals.css`.)
+ */
+@media (pointer: coarse) {
+  .segItem,
+  .panelItem,
+  .layoutItem {
+    min-block-size: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool,
+  .menu,
+  .avatar,
+  .segItem {
+    transition: none;
+  }
+}
+
+/* تحت 640px: الحشو يضيق كما كان — رمز الكثافة يُعطى قيمةً أضيق لا يُتجاوَز. */
+@media (max-width: 640px) {
+  .bar {
+    padding-inline: 12px;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  /*
+   * المسار يُطوى على الجوّال — والعنوان وحده يبقى.
+   *
+   * كان `display: none` مكتوبًا في مَحرفٍ أعلى الملفّ ثمّ تنقضه `‎.crumbs {
+   * display: flex }‎` بعده بأسطر (تساوٍ في الأولويّة، والمتأخّر يفوز)، فبقي
+   * المسار ظاهرًا على 390px يزاحم العنوان في رأسٍ عرضُه ثلاث أدوات.
+   */
+  .crumbs {
+    display: none;
+  }
+}

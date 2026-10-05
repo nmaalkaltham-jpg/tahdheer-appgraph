@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — أهم الصفحات التي تُنشأ الآن</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f5f7f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#223129;-webkit-font-smoothing:antialiased}
+a{color:#1e7355;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#185740}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #c9a35a;outline-offset:2px;border-radius:10px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes pgFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#f5f7f4">
+
+<div style="background:#123d2f;color:#e8f2ec;position:sticky;top:0;z-index:9">
+<div style="max-width:1240px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 14px Tajawal;color:#fff">التحاضير الحديثة — أهم الصفحات التي يجب إنشاؤها الآن</h1>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(201,163,90,.18);border:1px solid rgba(201,163,90,.42);color:#e6cd93;font-size:10.5px;font-weight:900">‎٩ منتجات · ‎١٦ صفحة منشورة — العدد يحكم القرار</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.go }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ f.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:20px 22px 64px;display:flex;flex-direction:column;gap:14px">
+
+<section style="border:1px solid #d3d8cf;border-inline-start:4px solid #a33a2b;border-radius:24px;background:#fff;padding:19px 22px;box-shadow:0 4px 14px #142d2112">
+<b style="font-size:14px;color:#a33a2b">القاعدة قبل القائمة</b>
+<p style="margin:8px 0 0;font-size:13px;line-height:2.05;color:#223129">بـ‎٩ منتجات منشورة، <span style="font-weight:900">إنشاء أربعين صفحة يضرّك ولا ينفعك</span>. الكتالوجات التعليمية تسقط دائمًا في الفخّ نفسه: صفحات كثيرة بنصّ متشابه لا يقابلها محتوى فعلي — وذلك أسرع طريق إلى تصنيف الموقع كلّه محتوى ضعيفًا.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:9px;margin-top:13px">
+<sc-for list="{{ rule }}" as="r" hint-placeholder-count="3">
+<div style="padding:12px 14px;border:1px solid #e6e9e2;border-radius:10px;background:#f5f7f4">
+<b style="display:block;font-size:11.5px;line-height:1.5;color:#185740">{{ r.t }}</b>
+<span style="display:block;margin-top:4px;font-size:11px;line-height:1.8;color:#223129">{{ r.b }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:12px 0 0;padding-block-start:11px;border-block-start:1px dashed #e6e9e2;font-size:12px;line-height:1.95;color:#223129">فالجواب ليس «صفحات محتوى أكثر». الناقص عندك نوعان فقط: <span style="font-weight:900">صفحات تحجب الثقة والدفع بغيابها</span>، و<span style="font-weight:900">صفحات محورية تُولَّد من تصنيفك القائم بلا كتابة</span>.</p>
+</section>
+
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="4">
+<sc-if value="{{ t.show }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:9px;animation:pgFade .25s ease">
+<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:6px">
+<h2 style="margin:0;font:900 16px Tajawal;color:{{ t.c }}">{{ t.t }}</h2>
+<span style="flex:1;height:1px;background:#e6e9e2;min-width:20px"></span>
+<span style="font-size:10.5px;color:#5f7167">{{ t.sub }}</span>
+</div>
+
+<sc-for list="{{ t.items }}" as="p" hint-placeholder-count="5">
+<section style="border:1px solid #e6e9e2;border-inline-start:4px solid {{ t.c }};border-radius:16px;background:#fff;padding:15px 18px;box-shadow:0 4px 14px #142d2112">
+<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+<span style="flex:0 0 28px;height:28px;border-radius:999px;background:#123d2f;color:#e8f2ec;font-size:11.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<div style="flex:1;min-width:250px">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<b style="font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.eBg }};color:{{ p.eC }};font-size:10.5px;font-weight:900;white-space:nowrap">{{ p.eff }}</span>
+<code dir="ltr" style="margin-inline-start:auto;font-size:10px;color:#5f7167;text-align:start">{{ p.url }}</code>
+</div>
+
+<p style="margin:9px 0 0;font-size:12.5px;line-height:1.95;color:#223129">{{ p.why }}</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(256px,1fr));gap:9px;margin-top:11px">
+<div style="border:1px dashed #e6e9e2;border-radius:10px;background:#f5f7f4;padding:10px 12px">
+<span style="display:block;font-size:10.5px;font-weight:900;color:#3f4c45">المحتوى من</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.8;color:#223129">{{ p.from }}</span>
+</div>
+<div style="border:1px dashed #d3d8cf;border-radius:10px;background:#f2f5f2;padding:10px 12px">
+<span style="display:block;font-size:10.5px;font-weight:900;color:#185740">ما ينكسر بغيابها</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.8;color:#223129">{{ p.miss }}</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+</sc-for>
+
+<section style="border:1px solid #123d2f;border-radius:24px;background:#123d2f;color:#e8f2ec;padding:21px 24px">
+<b style="font-size:13.5px;color:#fff">لا تُنشأ الآن — وسبب كل واحدة</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:9px;margin-top:12px">
+<sc-for list="{{ dont }}" as="d" hint-placeholder-count="5">
+<div style="padding:13px 15px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.05)">
+<b style="display:block;font-size:12px;line-height:1.5;color:#fff">{{ d.t }}</b>
+<span style="display:block;margin-top:5px;font-size:11px;line-height:1.85;color:rgba(232,242,236,.78)">{{ d.b }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:24px;background:#fff;padding:19px 22px">
+<b style="font-size:13.5px">لو أنشأت خمسًا فقط هذا الأسبوع</b>
+<div style="display:flex;flex-direction:column;gap:0;margin-top:12px">
+<sc-for list="{{ five }}" as="o" hint-placeholder-count="5">
+<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-block-start:1px dashed #e6e9e2">
+<span style="flex:0 0 26px;height:26px;border-radius:999px;background:#f0e2c4;color:#7a5d20;font:900 11px Tajawal;display:flex;align-items:center;justify-content:center">{{ o.i }}</span>
+<div style="flex:1;min-width:0">
+<b style="display:block;font-size:12.5px;line-height:1.5">{{ o.t }}</b>
+<span style="display:block;margin-top:3px;font-size:11.5px;line-height:1.85;color:#3f4c45">{{ o.b }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:13px 0 0;padding-block-start:12px;border-block-start:1px solid #e6e9e2;font-size:11.5px;line-height:1.9;color:#3f4c45">ثلاث منها نصّ قانوني وتشغيلي تكتبه مرة ولا يتغيّر، وواحدة تُولَّد من تصنيفك بلا كتابة، وواحدة صفحة نموذج تجمع طلبًا لا تحتاج محتوى إطلاقًا. أي منها أرخص من إضافة منتج واحد، وأثر غيابها أكبر.</p>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:920}}">
+const EFF = {
+  s: { eff: 'مرة واحدة · لا يتغيّر', eBg: '#e9eee9', eC: '#185740' },
+  gen: { eff: 'تُولَّد آليًا', eBg: '#f0e2c4', eC: '#7a5d20' },
+  m: { eff: 'يحتاج كتابة', eBg: '#f5f7f4', eC: '#3f4c45' },
+};
+
+const TIERS = [
+  { id: 'block', t: '١ · تحجب الثقة والدفع بغيابها — تُنشأ هذا الأسبوع', c: '#a33a2b', sub: 'ليست تحسينًا؛ غيابها خطر تشغيلي قائم', items: [
+    { i: '١', k: 's', n: 'سياسة الاسترجاع للمنتجات الرقمية', url: '/refund-policy/',
+      why: 'أنت تبيع ملفًا يُنزَّل فورًا، ولا صفحة تقول ما يحدث إذا طلب العميل استرجاعًا بعد التنزيل. هذا أوّل ما يسأل عنه العميل المتردّد، وأوّل ما تطلبه بوابة الدفع عند أي نزاع. الغياب هنا ليس نقص محتوى — بل خطر مالي مباشر ومفتوح.',
+      from: 'قرارك التجاري: هل الاسترجاع متاح قبل التنزيل فقط؟ بعد التنزيل؟ خلال مدّة؟ وسياسة استثناء العيب التقني.',
+      miss: 'نزاعات بلا مرجع، وشكوى بوابة دفع، وتردّد عند الشراء لا يظهر في أي مقياس عندك.' },
+
+    { i: '٢', k: 's', n: 'سياسة الخصوصية وسياسة الكوكيز', url: '/privacy-policy/ · /cookie-policy/',
+      why: 'محرك الموافقة في قالبك سليم ومتقدّم — ولا يوجد رابط سياسة مرتبط به، ولا صفحة تشرح ما يُجمع. وتدقيق الخصوصية أثبت أن كوكي الموافقة لا يكتبه أحد، أي أن اللافتة قد تعرض وعدًا بلا أثر. الصفحة نصف الحلّ، والكاتب نصفه الآخر.',
+      from: 'الحقائق موجودة عندك فعلًا: القياس محلّي في جداولك، صفر وسم طرف ثالث، احتفاظ ‎٩٠ يومًا، تجزئة بعد الموافقة فقط. تُكتب من الواقع لا من قالب جاهز.',
+      miss: 'وعد شفافية بلا مسار، ولا مرجع للعميل الذي يسأل ماذا تعرفون عنّي.' },
+
+    { i: '٣', k: 's', n: 'الشروط والترخيص — ماذا يعني «استخدام فردي»', url: '/terms/ · /license/',
+      why: 'صفحة المنتج تقول «ترخيص استخدام فردي لمعلّم واحد» — ولا صفحة تفسّر ذلك. هل يجوز الطبع لفصلين؟ لمعلّم آخر؟ للمدرسة؟ الرفع على منصّة؟ الغموض هنا يمنع بيع تراخيص أعلى، ويجعل المخالفة غير قابلة للاحتجاج.',
+      from: 'قرارك: حدود الاستخدام الفردي، وما يقابله في ترخيص المشرف أو المدرسة — وهو ما يفتح شريحة سعر أعلى.',
+      miss: 'لا سند لأي مطالبة، ولا مسار ترقية لترخيص أوسع بسعر أعلى.' },
+
+    { i: '٤', k: 'm', n: 'من نحن — من يُعِدّ هذه الملفات', url: '/about/',
+      why: 'ملفّ تحضير تعليمي قرار مهنيّ يتّخذه معلّم باسمه. ومن يقف خلف الملف سؤال أساسي عنده، وإشارة جودة تنظر إليها محرّكات البحث في المحتوى الذي يمسّ التعليم. صفحة تعريف بلا مؤهّل ولا منهجية إعداد لا تُجيب السؤال.',
+      from: 'الخبرة والمنهجية: على أي توزيع تُبنى الملفات، ومن يراجعها، وكيف تُحدَّث عند تغيّر المنهج.',
+      miss: 'لا سبب لتفضيلك على ملفّ مجاني منسوخ في مجموعة واتساب.' },
+
+    { i: '٥', k: 's', n: 'التسليم والتنزيل والدعم', url: '/how-it-works/',
+      why: 'مسار ما بعد الدفع كله غير مكتوب في مكان واحد: متى يصل الرابط، وأين يُعاد التنزيل، وكم مرة، وما العمل إذا فشل. صفحة واحدة تسبق نصف رسائل الدعم وتُطمئن قبل الشراء لا بعده.',
+      from: 'سلوك ووكومرس الفعلي عندك: رابط في صفحة التأكيد وفي الحساب، وحدود التنزيل والصلاحية كما هي مُعدّة.',
+      miss: 'رسائل دعم متكرّرة على سؤال واحد، وقلق قبل الشراء لا مبرّر له.' },
+  ] },
+
+  { id: 'hub', t: '٢ · صفحات محورية تُولَّد من تصنيفك — بلا كتابة', c: '#185740', sub: 'أعلى عائد بحثي متاح لك اليوم', items: [
+    { i: '٦', k: 'gen', n: 'صفحة «المادة × الصف» — شكل الاستعلام الحقيقي', url: '/الرياضيات/الصف-السادس/',
+      why: 'المعلّم لا يبحث عن «تحاضير»، بل عن «تحضير رياضيات سادس». هذا التقاطع هو صياغة الطلب نفسها، وهو موجود عندك كبيانات جاهزة على كل منتج. الصفحة تجمع منتجات التقاطع، وتُجيب سؤاله في أعلى الصفحة، وتربط ما جاوره.',
+      from: 'حقول المنهج على المنتجات وأنواع المحتوى tahdheer_stage و tahdheer_subject — لا كتابة، فقط توليد وترتيب.',
+      miss: 'تنافس صفحات المنتجات على استعلام عامّ لا يخدمه أيّها، ويبقى الاستعلام بلا هدف واضح.' },
+
+    { i: '٧', k: 'gen', n: 'صفحة الصف — مدخل واحد لكل مواد الصف', url: '/الصف-السادس/',
+      why: 'الصف هو الكيان الذي يعرّف المعلّم نفسه به. صفحة واحدة تجمع كل مواد الصف تخدم استعلامًا واسعًا، وتوزّع الروابط الداخلية على منتجاتها، وتصير الوجهة الطبيعية لرابط خارجي إن جاء.',
+      from: 'نفس البيانات، تجميعًا أعلى مستوى. وشرط واحد: لا تُنشأ صفحة صف فيه أقلّ من ثلاثة منتجات.',
+      miss: 'لا صفحة تستحقّ أن يُشار إليها، وكل منتج جزيرة منفصلة.' },
+
+    { i: '٨', k: 'gen', n: 'صفحة الفصل الدراسي — موسمية بطبيعتها', url: '/الفصل-الأول/',
+      why: 'الطلب على محتواك موسميّ حاسم: يرتفع قبل بداية الفصل بأسابيع ويهبط بعده. صفحة الفصل تُجمّع ما يخصّه، وتُرفع أولويتها آليًا عند اقتراب موعده — وهي المكان الطبيعي لعرض الحزم.',
+      from: 'حقل الفصل على المنتجات + تقويم الفصول. التوليد آلي والترتيب موسمي.',
+      miss: 'تفويت أعلى ذروة طلب في السنة، لأن الاستعداد بعد بداية الفصل متأخّر دائمًا.' },
+
+    { i: '٩', k: 'm', n: 'صفحة «كل التحاضير» بفلاتر حقيقية', url: '/shop/',
+      why: 'مدخل واحد يستوعب الزائر الذي لا يعرف ما يريد بالضبط، بفلاتر المرحلة والمادة والفصل. عندك محرك بحث ممتاز وفهرس عامل — والفلاتر هنا واجهة له لا نظام جديد.',
+      from: 'محرك البحث والفهرس القائمَين، مع حارس الصفحات المفلترة الموجود لمنع مصائد الزحف.',
+      miss: 'الزائر المتصفّح يخرج بلا مسار، والفلاتر إن أُضيفت بلا حارس تولّد آلاف روابط رقيقة.' },
+  ] },
+
+  { id: 'grow', t: '٣ · صفحات تجمع طلبًا أو تفتح شريحة', c: '#7a5d20', sub: 'رخيصة، وتُغذّي قرار ما تنتجه لاحقًا', items: [
+    { i: '١٠', k: 's', n: 'اطلب ملفًا غير متوفّر', url: '/request/',
+      why: 'صفحة نموذج بلا محتوى تقريبًا، وأثرها مزدوج: تُبقي الزائر الذي لم يجد طلبه، وتحوّل كل طلب فائت إلى بيانات تقول لك ما تنتجه بعد ذلك. هذه أرخص صفحة في القائمة وأكثرها إفادة استراتيجيًا.',
+      from: 'نموذج: المرحلة والصف والمادة والفصل ووسيلة تواصل. تُجمَع نتائجه مع استعلامات البحث صفرية النتائج.',
+      miss: 'كل زائر لم يجد طلبه يخرج نهائيًا، ويخرج معه سبب خروجه.' },
+
+    { i: '١١', k: 'm', n: 'ترخيص المدرسة والمشرف', url: '/school-license/',
+      why: 'الترخيص الفردي يحدّ سعرك سلفًا. صفحة تعرض ترخيصًا أوسع للمدرسة أو المشرف تفتح شريحة أعلى قيمة بنفس الملفات تمامًا — بلا إنتاج محتوى جديد، وبتغيير حدود الاستخدام وحدها.',
+      from: 'قرار تسعير وحدود استخدام، مبنيّ على صفحة الترخيص في الطبقة الأولى.',
+      miss: 'بيع ملفّ بسعر معلّم واحد لجهة تستخدمه لعشرين — خسارة صامتة ومتكرّرة.' },
+
+    { i: '١٢', k: 'm', n: 'الأسئلة الشائعة العامّة', url: '/faq/',
+      why: 'أسئلة لا تخصّ منتجًا بعينه: الدفع، الفاتورة، الأجهزة المدعومة، التعديل، إعادة التنزيل. تُجمَع في صفحة واحدة وتُغذّى تلقائيًا من استعلامات بحثك الداخلي بصياغة الباحثين أنفسهم.',
+      from: 'رسائل الدعم المتكرّرة + الاستعلامات الداخلية. لا تُخترَع أسئلة لم يسألها أحد.',
+      miss: 'تكرار الإجابة يدويًا، وفقد أسئلة يبحث عنها الناس فعلًا ولا تجيب عنها صفحة واحدة.' },
+  ] },
+];
+
+class Component extends DCLogic {
+  state = { f: 'all' };
+
+  renderVals() {
+    const cur = this.state.f;
+
+    const filters = [
+      ['all', 'الكل'], ['block', 'الحاجب فقط'], ['gen', 'ما يُولَّد آليًا'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ f: id }),
+      bg: cur === id ? '#c9a35a' : 'rgba(255,255,255,.07)',
+      fg: cur === id ? '#123d2f' : '#c3d5cb',
+      bd: cur === id ? '#c9a35a' : 'rgba(255,255,255,.2)',
+    }));
+
+    const tiers = TIERS.map((t) => {
+      const items = t.items
+        .filter((p) => cur === 'all' || (cur === 'block' ? t.id === 'block' : p.k === 'gen'))
+        .map((p) => ({ ...p, ...EFF[p.k] }));
+      return { ...t, items, show: items.length > 0 };
+    });
+
+    return {
+      filters,
+      tiers,
+
+      rule: [
+        { t: 'استعلام مختلف', b: 'لا تُنشأ صفحة إلا لطلب يُصاغ بكلمات مختلفة فعلًا عن صفحة قائمة.' },
+        { t: 'محتوى مختلف', b: 'إن كان نصّها هو نصّ صفحة أخرى بتغيير الصف والمادة، فهي نسخة لا صفحة.' },
+        { t: 'ثلاثة منتجات على الأقل', b: 'صفحة محورية تشير إلى منتج واحد أو اثنين صفحة فارغة بمظهر ممتلئ.' },
+      ],
+
+      dont: [
+        { t: 'صفحة لكل درس أو وحدة', b: 'عشرات الصفحات بنصّ متشابه ومنتج واحد. هذا تحديدًا ما يُصنَّف محتوى ضعيفًا، وأثره على الموقع كله لا على تلك الصفحات وحدها.' },
+        { t: 'مدوّنة عامّة عن التعليم', b: 'عندك مقال واحد منشور. مقالات عامّة لا تخدم نيّة شراء ولا تُغذّي منتجًا، وتستهلك الوقت الذي تحتاجه الصفحات المحورية.' },
+        { t: 'صفحة لكل صيغة كتابة', b: '«سادس» و«السادس» و«٦» ليست ثلاث صفحات — بل صفحة واحدة يصل إليها الثلاثة. المطبّع العربي عندك يتولّى ذلك داخل البحث.' },
+        { t: 'صفحات مقارنة مع منافسين بالاسم', b: 'تجلب استعلامات باسم غيرك وتُعطيه ظهورًا مجانيًا، وتفتح خلافًا لا داعي له بلا عائد يُقاس.' },
+        { t: 'صفحات هبوط للحملات قبل وجود حملة', b: 'صفحة حملة بلا حملة صفحة يتيمة. تُنشأ مع الحملة وتُؤرشَف بعدها لا قبلها.' },
+      ],
+
+      five: [
+        { i: '١', t: 'سياسة الاسترجاع الرقمية', b: 'الوحيدة التي غيابها خطر مالي مفتوح اليوم، وكتابتها ساعة واحدة.' },
+        { i: '٢', t: 'الخصوصية والكوكيز', b: 'تُغلق نصف فجوة الخصوصية؛ ونصفها الآخر كاتب كوكي الموافقة الذي ما زال مجهولًا.' },
+        { i: '٣', t: 'الشروط والترخيص', b: 'تحمي ملفاتك وتفتح ترخيص المدرسة بسعر أعلى بنفس المحتوى.' },
+        { i: '٤', t: 'صفحة «المادة × الصف»', b: 'شكل الاستعلام الحقيقي، وتُولَّد من بياناتك بلا كتابة سطر.' },
+        { i: '٥', t: 'اطلب ملفًا غير متوفّر', b: 'أرخص صفحة في القائمة، وتحوّل كل طلب فائت إلى قرار إنتاج.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

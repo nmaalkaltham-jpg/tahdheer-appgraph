@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes pfFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="p7-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="p7-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="p7-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></symbol>
+<symbol id="p7-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4M11 3v6l-5 9a2 2 0 0 0 1.8 3h8.4a2 2 0 0 0 1.8-3l-5-9V3"></path><path d="M8.5 15h7"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:13.5px">إصلاحات الإنتاج — من مُنقِص انتشار إلى رافع انتشار</b>
+<span style="padding:2px 9px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">بنود قبول ملزمة للتنفيذ</span>
+<div style="flex:1"></div>
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:28px;padding:0 12px;border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#fff;border-bottom:1px solid #dce2dd">
+<div style="max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:17px;height:17px;color:#146c4c"><use href="#p7-up"></use></svg><b style="font-size:12.5px">مقياس التحول: {{ meter.done }} من {{ meter.total }} بطاقة أُغلقت وتحققت</b></span>
+<span aria-hidden="true" style="flex:1;min-width:200px;height:9px;border-radius:6px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ meter.w }};background:linear-gradient(90deg,#2b9c72,#14603f);border-radius:6px;transition:width .3s"></span></span>
+<span style="font-size:10px;font-weight:900;color:#146c4c">{{ meter.gain }}</span>
+</div>
+</div>
+
+<main id="main" style="max-width:1180px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ c.edge }};border-radius:15px;background:#fff;padding:14px 18px;animation:pfFade .25s ease">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:3px 10px;border-radius:999px;background:{{ c.sbg }};color:{{ c.sc }};font-size:9px;font-weight:900">{{ c.sev }}</span>
+<h2 style="margin:0;font-size:13.5px;font-weight:900">{{ c.t }}</h2>
+<span style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:900;color:#146c4c"><svg aria-hidden="true" style="width:11px;height:11px"><use href="#p7-up"></use></svg>{{ c.gain }}</span>
+</div>
+<p style="margin:7px 0;font-size:11px;line-height:1.9;color:#8e2223"><b>لماذا يُنقص الانتشار:</b> {{ c.why }}</p>
+<div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:11px;align-items:start">
+<div>
+<span style="font-size:10.5px;font-weight:900;color:#146c4c">الحل المفصل — يقلبه رافعًا:</span>
+<sc-for list="{{ c.steps }}" as="s" hint-placeholder-count="3">
+<span style="display:flex;gap:7px;padding:3px 0;font-size:11px;line-height:1.8;color:#3d4f45"><svg aria-hidden="true" style="width:12px;height:12px;flex:0 0 auto;margin-top:4px;color:#146c4c"><use href="#p7-check"></use></svg><span>{{ s }}</span></span>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-if value="{{ c.code }}" hint-placeholder-val="{{ true }}">
+<code dir="ltr" style="display:block;padding:10px 13px;border-radius:11px;background:#14261d;color:#a8e2c5;font-size:9.5px;line-height:1.8;white-space:pre-wrap;text-align:start">{{ c.code }}</code>
+</sc-if>
+<div style="padding:9px 12px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9">
+<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:900;color:#146c4c"><svg aria-hidden="true" style="width:12px;height:12px"><use href="#p7-flask"></use></svg>اختبار القبول:</span>
+<span style="display:block;margin-top:3px;font-size:10px;line-height:1.8;color:#5f7167">{{ c.test }}</span>
+</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:9px;border-top:1px dashed #eef1ef;flex-wrap:wrap">
+<span style="font-size:9.5px;color:#8b978f">{{ c.where }}</span>
+<span style="flex:1"></span>
+<sc-if value="{{ c.canApply }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ c.onApply }}" style="min-height:32px;padding:0 14px;border:0;border-radius:9px;background:#14261d;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">اعتمد الحل في بنود التسليم</button>
+</sc-if>
+<sc-if value="{{ c.applied }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ c.onVerify }}" disabled="{{ c.verified }}" style="min-height:32px;padding:0 14px;border:0;border-radius:9px;background:{{ c.vBg }};color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">{{ c.vBtn }}</button>
+</sc-if>
+</div>
+</section>
+</sc-for>
+
+<section style="border:1px solid #1e7355;border-radius:16px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:16px 20px">
+<h2 style="margin:0 0 9px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:16px;height:16px;color:#146c4c"><use href="#p7-shield"></use></svg>تعريف الاكتمال — لا يُستلم التنفيذ قبل اجتياز الاثني عشر</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+<sc-for list="{{ dod }}" as="d" hint-placeholder-count="12">
+<span style="display:flex;align-items:center;gap:7px;padding:4px 0;font-size:10.5px;font-weight:700;color:#3d4f45"><svg aria-hidden="true" style="width:12px;height:12px;flex:0 0 auto;color:#146c4c"><use href="#p7-check"></use></svg>{{ d }}</span>
+</sc-for>
+</div>
+</section>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:pfFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900},&quot;startFilter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;crit&quot;,&quot;high&quot;,&quot;mid&quot;,&quot;boost&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+FIX=[
+{id:1,sev:'crit',t:'روابط href="#" في كل النماذج',gain:'اكتشاف كامل للموقع',
+ why:'الزاحف لا يعبر «#» — كل قائمة وبطاقة وفتات تسير إلى لا شيء، فلا شجرة روابط ولا توزيع قوة.',
+ steps:['خريطة مسارات قانونية واحدة (routes.php) لكل شاشة صُممت: /shop، /grade/{slug}، /subject/{slug}، /product/{slug}، /bundles…','استبدال جماعي مراجَع: كل «#» في القوالب يُربط بدالة url() من الخريطة — لا نص حر','الفتات تُولَّد من نفس الخريطة فتطابق BreadcrumbList schema حرفيًا','روابط «عرض الكل» تشير للتصنيف الأم الصحيح لا للرئيسية'],
+ code:'href="<?php echo tah_url(\'grade\', $g->slug); ?>"\n// bad: href="#"',
+ test:'زحف Screaming Frog كامل: صفر روابط «#»، وكل صفحة مصممة قابلة للوصول بعمق ≤ ٣ نقرات من الرئيسية.',
+ where:'كل الملفات — رُصدت في الهيدر والسلة والتصنيف والحساب والتأكيد وغيرها'},
+{id:2,sev:'crit',t:'الصور خلفيات CSS بدل <img>',gain:'قناة بحث الصور وLens كاملة',
+ why:'التدرجات النائبة لا يراها بحث الصور، ولا alt يُفهرس — قناة زيارات شبه خالية من المنافسة تُهدر.',
+ steps:['كل صورة منتج/مقال عنصر <img> حقيقي بـ src وsrcset (٤ مقاسات) وsizes','alt وصفي يُولَّد من اسم المنتج + الزاوية ويُراجع بشريًا','width/height محجوزان دائمًا (صفر CLS) + loading="lazy" لما تحت الطية فقط','أسماء ملفات وصفية بالحروف اللاتينية المفهومة + Image sitemap (المبني في عدة النتائج الغنية)'],
+ code:'<img src="math-101-cover-800.webp"\n srcset="…-400.webp 400w, …-800.webp 800w"\n sizes="(max-width:600px) 100vw, 33vw"\n alt="غلاف مذكرة الرياضيات لأول ثانوي"\n width="800" height="600" loading="lazy">',
+ test:'فحص آلي: صفر صور محتوى كخلفية CSS، وكل <img> لها alt غير فارغ وأبعاد — يفشل البناء إن خالف.',
+ where:'بطاقات المنتجات، المعارض، المقالات — التدرجات كانت عناصر نائبة تصميمية فقط'},
+{id:3,sev:'crit',t:'المحتوى مرسوم بجافاسكربت (نمط النماذج)',gain:'فهرسة فورية + LCP أسرع',
+ why:'نقل النماذج كما هي يعني الاسم والسعر والتوفر خارج HTML الأولي — فهرسة مؤجلة وناقصة.',
+ steps:['التنفيذ قوالب PHP/ووردبريس خادمية — الاسم والسعر والتوفر والوصف والروابط وProduct schema كلها في أول استجابة','جافاسكربت للتحسين فقط (سلة حية، معارض) — الصفحة تعمل كاملة بدونه','فحص «HTML الأولي» لكل قالب: curl بلا JS يجب أن يُظهر H1 والسعر والروابط','JSON-LD يُطبع خادميًا في <head> لا يُحقن لاحقًا'],
+ code:'curl -s https://tahdheer.sa/product/math-101 |\n grep -c "٤٥" # السعر موجود بلا JS ✓',
+ test:'تعطيل JS في المتصفح: كل صفحة تعرض محتواها الجوهري وروابطها كاملة.',
+ where:'قاعدة معمارية — منصوص عليها أصلًا في خطة التنفيذ (§74 JavaScript SEO)'},
+{id:4,sev:'crit',t:'شاشات متعددة خلف مبدّل واحد',gain:'كل شاشة = صفحة تُرتَّب باسمها',
+ why:'لو نُفذ المبدّل كما هو صارت ٧ صفحات على رابط واحد — لا يمكن ترتيب ما لا رابط له.',
+ steps:['كل شاشة في النماذج تتحول لقالب ووردبريس مستقل بمساره (حاشية كل شاشة توثق قالبها)','مبدّلات الشاشات في النماذج أدوات معاينة تصميمية فقط — لا تُنقل','الحالات الخاصة (٤٠٤، صيانة) قوالب نظام برموز HTTP الصحيحة (404، 503+Retry-After)','لوحات الإدارة (المنشئ، الودجات، Analytics) خلف تسجيل الدخول + noindex'],
+ code:'',
+ test:'خريطة XML النهائية: كل قالب جماهيري له URL واحد قانوني، ولا لوحة إدارة فيها.',
+ where:'كل ملفات النماذج متعددة الشاشات'},
+{id:5,sev:'high',t:'لا <title> ولا meta في النماذج',gain:'+٣٠–٧٠٪ CTR من الصياغة وحدها',
+ why:'تركها للإضافة الافتراضية يعطي «أرشيف — ثانوي» المقولب الذي قِيس فشله (CTR ٠٫٩٪).',
+ steps:['قوالب عناوين لكل نوع صفحة من صيَغ الفائز A/B المبني: منتج = الاسم + أبرز رقم + العلامة','وصف meta بعرض البيع الحقيقي: نموذج مجاني، تحديث المنهج، تسليم فوري','فحص تفرد: لا عنوانان متطابقان موقعًا كاملًا (تقرير أسبوعي آلي)','og:title/description/image لكل قالب — المشاركة الاجتماعية تجلب زيارات وذكرًا'],
+ code:'add_filter(\'document_title_parts\', fn($t) =>\n tah_title_template($t) /* من صيغ الفائز */);',
+ test:'عيّنة ٥٠ صفحة: صفر عناوين مقولبة/مكررة، وكل وصف ≤ ١٥٥ حرفًا بعرض بيع.',
+ where:'يتكامل مع شاشة اختبار العناوين A/B المبنية'},
+{id:6,sev:'high',t:'بيانات العرض الثابتة (تقييمات/مبيعات)',gain:'ثقة + نتائج غنية شرعية دائمة',
+ why:'«٩٦ تقييمًا» ثابتة في الإنتاج = schema مزيف = مخاطرة عقوبة تمحو النتائج الغنية كلها.',
+ steps:['كل رقم في القوالب يُستبدل باستدعاء WooCommerce حي: get_average_rating()، get_review_count()، المخزون، السعر','قاعدة «أقل من الحد = إخفاء»: لا شريط «اشتُريت X مرة» تحت ٥ طلبات فعلية (مبنية في الإثبات المحلي)','فحص تطابق ثلاثي آلي يومي: المرئي = Schema = Merchant Feed (مبني في لوحة SEO للمنتج)','التقييمات من مشتريات موثقة فقط — الشارة مشروطة بسجل طلب'],
+ code:'$rating = $product->get_average_rating();\nif ($product->get_review_count() < 3)\n  return; // لا aggregateRating مبكرًا',
+ test:'مطابقة عشوائية ٢٠ منتجًا: رقم الصفحة = رقم Schema = رقم الـ Feed، والتاريخ حي.',
+ where:'كل النماذج التي عرضت أرقامًا توضيحية'},
+{id:7,sev:'high',t:'فوتر مختصر بلا NAP وسياسات',gain:'ثقة موحدة + روابط زحف ثابتة',
+ why:'الفوتر أثبت كتلة روابط داخلية في الموقع — اختصاره يفقد الزاحف مسارات ثابتة ويضعف إشارات الثقة.',
+ steps:['فوتر موحد: NAP الكامل (مطابق لـ GBP حرفيًا) + السياسات الأربع + التصنيفات الرئيسية + التواصل','روابط نصية حقيقية لا أيقونات فقط — وبلا حشو كلمات مفتاحية (ليس مقلب روابط)','Organization schema في الفوتر يربط الكيان بحساباته الاجتماعية (sameAs)'],
+ code:'',
+ test:'كل صفحة جماهيرية تحمل الفوتر الكامل، وNAP يطابق GBP وصفحة التواصل حرفيًا.',
+ where:'فوترات النماذج كانت مختصرة عمدًا للتركيز'},
+{id:8,sev:'high',t:'Tajawal بخمسة أوزان من Google Fonts',gain:'LCP جوال −٠٫٤ث موقعًا كاملًا',
+ why:'كل وزن طلب شبكي يحجب النص — والجوال هو جمهورك الأول وCWV إشارة ترتيب.',
+ steps:['وزنان فقط (700، 900) مستضافان ذاتيًا WOFF2 على نطاقك','font-display:swap + preload للوزن الأساسي','subset عربي يقص الحجم ~٦٠٪','fallback مضبوط (size-adjust) يمنع قفزة التبديل — CLS صفر'],
+ code:'<link rel="preload" href="/fonts/tajawal-700-ar.woff2"\n as="font" type="font/woff2" crossorigin>\n@font-face{font-family:Tajawal;font-display:swap;…}',
+ test:'PageSpeed جوال: لا «حجب عرض» من الخطوط، وLCP ≤ ٢٫٥ث على القوالب الخمسة الرئيسية.',
+ where:'helmet كل النماذج — سليم للمعاينة، يُستبدل في الإنتاج'},
+{id:9,sev:'mid',t:'لوحات الإدارة قابلة للفهرسة نظريًا',gain:'ميزانية زحف نظيفة',
+ why:'فهرسة لوحة الودجات أو Analytics تبدد الزحف وقد تكشف بنية داخلية.',
+ steps:['كل ما تحت /wp-admin و/studio خلف صلاحيات + X-Robots-Tag: noindex','منع في robots.txt كطبقة ثانية','لا روابط جماهيرية تشير إليها إطلاقًا'],code:'',
+ test:'فحص GSC: صفر صفحات إدارة في تقرير الفهرسة.',
+ where:'المنشئ، الودجات، Analytics Pro، استوديو القوائم'},
+{id:10,sev:'mid',t:'شرائح تمرير أفقي بمحتوى فريد',gain:'كل معاينة تُفهرس',
+ why:'ما يظهر بالتمرير فقط قد لا يُكتشف إن حُقن كسولًا.',
+ steps:['شرائح المعاينة في HTML الأولي كاملة (التمرير عرضٌ لا تحميل)','نص بديل وصفي لكل شريحة','إن تجاوزت ١٢ شريحة: صفحة «كل المعاينات» بروابط ترقيم حقيقية'],code:'',
+ test:'curl بلا JS يُظهر نصوص كل الشرائح.',
+ where:'معاينة المنتج الرقمي، القصص'},
+{id:11,sev:'mid',t:'lang/hreflang للحزم ثنائية اللغة',gain:'النسخة الصحيحة للجمهور الصحيح',
+ why:'dir=rtl ثابت سليم، لكن نسخ الحزم الإنجليزية بلا lang وhreflang متبادل تتنافس مع العربية.',
+ steps:['lang ديناميكي لكل قالب من لغة المحتوى','hreflang متبادل + ذاتي + x-default لصفحتي الحزم فقط (المبني في عدة النتائج)','canonical لا يتقاطع مع hreflang أبدًا'],code:'',
+ test:'مدقق hreflang: صفر أخطاء تبادلية على الصفحات الأربع.',
+ where:'صفحات الحزم — البقية عربية فقط عمدًا'},
+{id:12,sev:'boost',t:'داعم: حارس ما قبل النشر يمنع الارتداد',gain:'العيوب لا تعود أبدًا',
+ why:'حل العيوب مرة لا يمنع مطورًا لاحقًا من إعادتها.',
+ steps:['فحص CI مع كل نشر: صفر href="#"، صفر <img> بلا alt، تفرد العناوين، صحة JSON-LD، ميزانية JS','staging دائمًا خلف noindex + Basic Auth — ويُرفض النشر إن تسرب noindex للإنتاج (فحص الحارس المبني)','مقارنة قبل/بعد آلية لعينة ٤٠ صفحة (مبنية في Analytics Pro OS)'],
+ code:'ci: seo-lint --fail-on "#", missing-alt,\n dup-title, invalid-jsonld, noindex-leak',
+ test:'نشر تجريبي بعيب متعمد → البناء يفشل برسالة واضحة.',
+ where:'يتكامل مع «حارس ما بعد النشر» المبني'},
+{id:13,sev:'boost',t:'داعم: خط أنابيب صور آلي',gain:'كل صورة مرفوعة تخرج مثالية',
+ why:'الاعتماد على الانضباط اليدوي في alt والضغط ينهار مع الوقت.',
+ steps:['كل رفع: توليد WebP/AVIF + ٤ مقاسات + اسم ملف وصفي تلقائيًا','alt مقترح من اسم المنتج والزاوية — بمراجعة بشرية إلزامية قبل النشر','رفض الرفع فوق ٣٠٠ ك.ب بعد الضغط'],code:'',
+ test:'رفع صورة خام ٤ م.ب → تخرج ٤ مقاسات WebP بأسماء وصفية وalt مسودة.',
+ where:'مكتبة الوسائط — يغذي مركز صور SEO المبني'},
+{id:14,sev:'boost',t:'داعم: مدقق سلامة الروابط الأسبوعي',gain:'صفر 404 داخلي دائمًا',
+ why:'المنتجات تُحذف والمقالات تتغير — الروابط الميتة تتراكم صامتة.',
+ steps:['زحف داخلي أسبوعي مجدول: 404، سلاسل تحويل، مراسٍ فارغة','إصلاحات آمنة تلقائية عبر مستوى «أتمتة منضبطة» المبني','تقرير في الموجز اليومي لـ Analytics Pro OS'],code:'',
+ test:'كسر رابط متعمد → يظهر في تقرير الاثنين مع اقتراح إصلاح.',
+ where:'Workflow «إصلاح الروابط المكسورة» المبني — يُفعَّل جدولته'},
+{id:15,sev:'boost',t:'داعم: llms.txt + صفحة «عن هذا الموقع» للكيان',gain:'اكتشاف AI واستشهاد أدق',
+ why:'محركات الإجابة تبحث عن تعريف كيان صريح ومصادر يستشهد بها.',
+ steps:['llms.txt يعرّف الكيان والمحتوى المسموح اقتباسه ويشير للتقرير السنوي والقاموس','Organization schema موحد بمعرّف @id ثابت عبر الموقع كله','كتل الإجابة المباشرة (المبنية) هي وحدات الاقتباس'],code:'',
+ test:'استعلام تجريبي في محركات الإجابة يستشهد بالقاموس/التقرير باسم تذكير.',
+ where:'يتوج أصول GEO/AEO المبنية'}
+];
+state={f:'all',st:{},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SEV={crit:['حرجة','#fce8e8','#b32d2e','#b32d2e'],high:['عالية','#fff4d6','#8a6500','#d8b56a'],mid:['متوسطة','#e8f2fc','#1d5f9c','#527a96'],boost:['تطور داعم','#e4f4ec','#146c4c','#1e7355']};
+ const TABS=[['all','الكل ١٥'],['crit','حرجة ٤'],['high','عالية ٤'],['mid','متوسطة ٣'],['boost','داعمة ٤']];
+ const list=this.FIX.filter(f=>st.f==='all'||f.sev===st.f);
+ const doneN=this.FIX.filter(f=>st.st[f.id]==='v').length;
+ return {
+  tabs:TABS.map(t=>({n:t[1],on:st.f===t[0],
+   bg:st.f===t[0]?'#eaf2ee':'transparent',fg:st.f===t[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.f===t[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({f:t[0]})})),
+  meter:{done:this.ar(doneN),total:this.ar(this.FIX.length),w:Math.round(doneN/this.FIX.length*100)+'%',
+   gain:doneN===this.FIX.length?'المتجر انقلب رافعًا بالكامل':'كل بطاقة تُغلق = رافعة انتشار جديدة'},
+  cards:list.map(f=>{
+   const s=st.st[f.id]||'';
+   const S=SEV[f.sev];
+   return {t:f.t,why:f.why,steps:f.steps,code:f.code,test:f.test,where:f.where,gain:f.gain,
+    sev:S[0],sbg:S[1],sc:S[2],edge:S[3],
+    canApply:!s,applied:!!s,verified:s==='v',
+    vBtn:s==='v'?'اجتاز اختبار القبول ✓':'شغّل اختبار القبول',vBg:s==='v'?'#8fae9e':'#1e7355',
+    onApply:()=>{ const o=Object.assign({},st.st); o[f.id]='a'; this.setState({st:o});
+     this.toast('اعتُمد «'+f.t+'» بندًا ملزمًا في عقد التسليم'); },
+    onVerify:()=>{ const o=Object.assign({},st.st); o[f.id]='v'; this.setState({st:o});
+     this.toast('اجتاز: '+f.test.slice(0,60)+'…'); }};
+  }),
+  dod:['صفر روابط href="#" في الزحف الكامل','كل صورة محتوى <img> بـ alt وأبعاد','المحتوى الجوهري يعمل بلا JS','كل شاشة جماهيرية على URL مستقل','صفر عناوين مكررة أو مقولبة','كل الأرقام حية من WooCommerce','الفوتر الكامل بـ NAP مطابق لـ GBP','LCP جوال ≤ ٢٫٥ث للقوالب الخمسة','لوحات الإدارة noindex ومحمية','شرائح المعاينة في HTML الأولي','hreflang سليم على صفحات الحزم','حارس CI يرفض أي ارتداد'],
+  is:{toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+}
+}
+</script>
+</body>
+</html>

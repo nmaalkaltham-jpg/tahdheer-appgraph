@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+.row{display:flex;gap:11px;padding:10px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid}
+.mk{flex:0 0 auto;width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font:900 10px ui-monospace,monospace}
+h2{margin:0 0 10px;font-size:16.5px;font-weight:900;color:#14261d}
+h3{margin:0 0 8px;font-size:13.5px;font-weight:900;color:#14261d}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div dir="rtl" style="display:flex;align-items:center;gap:12px;padding-bottom:13px;border-bottom:2px solid #14261d;margin-bottom:22px">
+<span style="width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:14px">ت</span>
+<div style="flex:1"><div style="font-size:14.5px;font-weight:900;color:#14261d">Tahdheer Autonomous New Product Search Studio</div><div style="font-size:11.5px;color:#5f7167">المرحلة الأولى — تفقّد للقراءة فقط · لم يُكتب أي كود ولم يُعدَّل أي ملف</div></div>
+<div style="text-align:end;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167">Phase 1<br>2026-08-27</div>
+</div>
+
+<div dir="rtl" style="padding:13px 15px;border:1px solid rgba(163,58,45,.28);background:#fdf3f2;border-radius:10px;margin-bottom:22px">
+<div style="font-size:13px;font-weight:900;color:#a33a2d;margin-bottom:6px">أهمّ ما وجدته — يغيّر الخطة قبل أن تبدأ</div>
+<p style="margin:0;font-size:12.5px;line-height:1.85;color:#3b4d43">شاشة «منتج جديد» في هذا القالب <b>ليست شاشة WooCommerce الافتراضية</b>. عليها الآن ثلاث لوحات مخصّصة، وطبقة تحكيم لملكية مخرجات SEO، وتصنيف مناهج يعمل تلقائيًا عند الحفظ، وخمسة خطّافات على <code dir="ltr">save_post_product</code>. الموجز يفترض شاشة فارغة تُبنى فوقها — والواقع أن الاستوديو يجب أن <b>يستوعب</b> ما هو قائم لا أن يضيف لوحة رابعة تنافسه.</p>
+</div>
+
+<h2 dir="rtl">1 · ما هو قائم فعلًا على شاشة المنتج</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">1</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">لوحة بيانات المنتج التعليمية</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">product-education-meta.php:81</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">تحمل حقول الشرائح والصفحات والقابلية للتعديل والمرحلة والمادة والصيغة. هذه <b>مصدر الحقائق</b> الذي طلبه §21 — موجود بالفعل.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">2</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">لوحة حقول SEO للمنتج</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">product-seo-fields.php:553</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">لوحة كاملة بحفظ خاص على <code dir="ltr">save_post_product</code>. §11 يطلب إدارة عنوان ووصف ورابط — <b>وهذه اللوحة تفعله الآن</b>.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">3</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">تصنيف المناهج التلقائي</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">curriculum/classify.php:166</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">يصنّف المنتج تلقائيًا عند الحفظ، وتصنيف المناهج مسجَّل في <code dir="ltr">curriculum/register.php</code>. §8 موجود جزئيًا.</span></div>
+<div class="row"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">4</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">مدير ملكية مخرجات SEO</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">seo-ownership-manager.php</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">يكتشف Rank Math و Yoast و AIOSEO ويكتم مخرجاتها انتقائيًا (canonical، OG، Twitter، Schema). <b>الملكية محكَّمة أصلًا</b> — وكاتب رابع يكسر التحكيم.</span></div>
+<div class="row"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">5</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">مالك Product Schema</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">product-education-schema.php</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">يرشّح <code dir="ltr">rank_math/snippet/rich_snippet_product_entity</code> و<code dir="ltr">rank_math/json_ld</code>. §12 له مالك — الاستوديو يغذّيه لا يستبدله.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">6</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">خطّافات الحفظ</span><code dir="ltr" style="flex:0 0 200px;font-size:10px;color:#5f7167">save_post_product ×5</code><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">أولويات 20، 20، 30، 40 + حفظ اللوحة التعليمية. أي خطّاف جديد يجب أن يعرف موضعه في هذا الترتيب لا أن يُضاف عشوائيًا.</span></div>
+</div>
+
+<h2 dir="rtl">2 · مصفوفة التعارض</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">✕</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">لا نظام تعدّد لغات</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">لا WPML ولا Polylang ولا TranslatePress ولا WCML — بحثت في <code dir="ltr">inc/</code> كلها. الإشارات الموجودة كلها لملفات SEO لا لإضافات ترجمة. <b>أثره:</b> §19 غير قابل للتنفيذ الآن — لا يمكن إخراج hreflang لأنه لا توجد روابط إقليمية منشورة تُشير إليها. ملفّات اللغات تبقى كائنات تخطيط لا صفحات.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">✕</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">لا إضافة عملات أو أسواق</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">لا مبدّل عملة ولا طبقة أسواق. <b>أثره:</b> عمود العملة في §16 اقتراحي كما نصّ الموجز، لكن الأهم أن تجاوزات السعر الإقليمية في §2 و§18 <b>لا آلية لها</b> — فتبقى ملاحظات لا قيمًا قابلة للنشر.</span></div>
+<div class="row" style="background:rgba(216,181,106,.09);border-color:rgba(216,181,106,.35)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">!</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">ثلاث إضافات SEO محتملة</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43">القالب مهيّأ للتعامل مع Rank Math و Yoast و AIOSEO عبر ثوابتها. أيّها مثبَّت فعلًا لا يُعرَف من الملفات — يحتاج فحصًا على الموقع. <b>قرار مطلوب:</b> مالك واحد لكل مخرَج، ويُسجَّل في المدير القائم لا في طبقة جديدة.</span></div>
+<div class="row" style="background:rgba(216,181,106,.09);border-color:rgba(216,181,106,.35)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">!</span><span style="flex:0 0 150px;font-size:12.5px;font-weight:900;color:#14261d">لا تكامل ذكاء اصطناعي</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><code dir="ltr">wp_remote_post</code> مستخدم في مكانين فقط: مصادقة Search Console والفهرسة الفورية. طبقة Qwen جديدة بالكامل — ولا مولّد نصوص منافس في القالب، فلا تعارض.</span></div>
+</div>
+
+<h2 dir="rtl">3 · ما يمكن تنفيذه الآن وما لا يمكن</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:1;font-size:11.5px;line-height:1.75;color:#3b4d43"><b>قابل للتنفيذ كاملًا:</b> واجهة الاستوديو وأنماط التفاعل (§5–§6) · أساس WooCommerce والتحقّقات (§7) · التصنيف التعليمي فوق التصنيف القائم (§8) · باني المحتوى الدلالي (§9) · حقول نيّة البحث والتطبيع العربي (§10) · معاينات الظهور (§11 عرضًا) · تغذية Schema القائم (§12) · الصور والفيديو (§13) · العلاقات الدلالية (§14) · محرّك أهلية اللغات <b>كتحليل</b> (§15–§18) · بوابة الجاهزية (§25) · الأمان والوصول والأداء (§26).</span></div>
+<div class="row" style="background:rgba(216,181,106,.09);border-color:rgba(216,181,106,.35)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">!</span><span style="flex:1;font-size:11.5px;line-height:1.75;color:#3b4d43"><b>مشروط:</b> §20–§23 (Qwen) يحتاج VPS قائمًا ونقطة نهاية ومفتاحًا — التصميم والعقد جاهزان، والتشغيل ينتظر البنية. §11 كتابةً يحتاج قرار المالك أولًا. §12 حقول التجارة تحتاج معرفة أي إضافة SEO مثبَّتة.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">✕</span><span style="flex:1;font-size:11.5px;line-height:1.75;color:#3b4d43"><b>محجوب حتى قرار بنيوي:</b> §19 كاملًا (hreflang، روابط إقليمية، x-default) و«إنشاء مسودة منتج إقليمي» في §24 و«نشر نسخة إقليمية» — الثلاثة تتطلّب معمار روابط لكل لغة، ولا وجود له. بناء واجهتها الآن يعني أزرارًا تَعِد بما لا يمكن تنفيذه، وهو ما يمنعه الموجز نفسه.</span></div>
+</div>
+
+<h2 dir="rtl">4 · القرار الذي يحجب المرحلة الثالثة</h2>
+<p dir="rtl" style="margin:0 0 12px;font-size:12.5px;line-height:1.85;color:#3b4d43">الموجز يطلب 25 ملفّ لغة و hreflang متبادلًا، ويمنع في الوقت نفسه إخراج hreflang زائف أو صفحات إقليمية متطابقة. مع غياب نظام الترجمة، الطلبان لا يتعارضان — بل <b>يتحدّد أحدهما بالآخر</b>: تحليل اللغات يعمل، والنشر لا. لذلك أقترح تثبيت هذا التمييز في المعمار لا تجاوزه:</p>
+<div dir="rtl" style="padding:13px 15px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:12px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;gap:10px"><code dir="ltr" style="flex:0 0 132px;font:700 10.5px ui-monospace,Menlo,monospace;color:#1e7355;text-align:start">Locale Profile</code><span dir="rtl" style="flex:1;font-size:11.5px;line-height:1.75;color:#3b4d43">كائن تخطيط — يُحلَّل ويُعتمد. لا رابط ولا <bdi dir="ltr">hreflang</bdi> ولا خريطة موقع.</span></div>
+<div style="display:flex;align-items:baseline;gap:10px"><code dir="ltr" style="flex:0 0 132px;font:700 10.5px ui-monospace,Menlo,monospace;color:#a33a2d;text-align:start">Regional Product</code><span dir="rtl" style="flex:1;font-size:11.5px;line-height:1.75;color:#3b4d43">صفحة منشورة — تحتاج إضافة ترجمة، ورابطًا مستقلًّا، وأمرًا صريحًا من المسؤول.</span></div>
+</div>
+</div>
+<p dir="rtl" style="margin:0 0 20px;font-size:12.5px;line-height:1.85;color:#3b4d43">الاستوديو يبني الأول كاملًا، ويعرض الثاني معطّلًا مع سبب التعطيل باسم الإضافة الناقصة. <b>القرار المطلوب منك:</b> تثبيت إضافة ترجمة (WPML/Polylang) لتفعيل مسار النشر، أم الاكتفاء بلغة أساسية واحدة وملفّات تخطيط؟ الإجابة تحدّد ثلاث وحدات من أصل أربعة عشر.</p>
+
+<h2 dir="rtl">5 · ثلاثة اتجاهات تصميم — للاختيار قبل البناء</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+<div style="padding:13px 15px;border:1px solid #e6e9e2;border-radius:10px;background:#fff;break-inside:avoid">
+<h3>A — الاستوديو الموجَّه <span style="font-weight:700;color:#5f7167;font-size:11.5px">Guided Studio</span></h3>
+<p style="margin:0;font-size:11.5px;line-height:1.75;color:#3b4d43">مرحلة واحدة في كل شاشة، بطاقات شارحة كبيرة، والمتقدّم مخفي حتى يُطلب. <b>يناسب</b> من يضيف منتجًا كل أسبوعين. <b>ثمنه</b> عدد نقرات أعلى ومساحة رأسية أكبر — وهو ما اعترضتَ عليه سابقًا في صفحات أخرى.</p>
+</div>
+<div style="padding:13px 15px;border:1.5px solid #1e7355;border-radius:10px;background:rgba(37,155,111,.05);break-inside:avoid">
+<h3>B — مساحة العمل المهنية <span style="font-weight:700;color:#1e7355;font-size:11.5px">Professional Workspace — الموصى به</span></h3>
+<p style="margin:0 0 7px;font-size:11.5px;line-height:1.75;color:#3b4d43">تنقّل مُدمج، لوحة تحرير مركزية، ولوحة جاهزية ملتصقة. تعرض الأخطاء الحرجة والتحذيرات وحالة اللغات والاتصال بـ Qwen دائمًا.</p>
+<p style="margin:0;font-size:11.5px;line-height:1.75;color:#7a5d20"><b>سبب الترشيح:</b> شاشة المنتج عندك تحمل ثلاث لوحات قائمة أصلًا — والتصميم الذي يستوعبها هو الذي يعطي كل لوحة موضعًا في التنقّل بدل أن يكدّسها عموديًا. والاتجاهان الآخران يزيدان التمرير أو الكثافة على شاشة مثقلة سلفًا.</p>
+</div>
+<div style="padding:13px 15px;border:1px solid #e6e9e2;border-radius:10px;background:#fff;break-inside:avoid">
+<h3>C — وضع الخبير المدمج <span style="font-weight:700;color:#5f7167;font-size:11.5px">Compact Expert</span></h3>
+<p style="margin:0;font-size:11.5px;line-height:1.75;color:#3b4d43">كثافة عالية واختصارات لوحة مفاتيح وحقول أكثر ظاهرة. <b>يناسب</b> إدخال عشرات المنتجات. <b>ثمنه</b> منحدر تعلّم أحدّ، وخطر أعلى في التحقّق البصري على شاشة فيها لوحتان لا يملكهما الاستوديو.</p>
+</div>
+</div>
+<p dir="rtl" style="margin:0 0 20px;font-size:12px;line-height:1.8;color:#5f7167">الاتجاهان <b>B</b> و<b>C</b> يتشاركان نموذج البيانات والتحقّق نفسه، فالتبديل بينهما إعداد لا إعادة بناء (§5). أُرشّح بناء <b>B</b> أولًا و<b>C</b> كوضع داخله.</p>
+
+<h2 dir="rtl">6 · المخاطر</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">1</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>ازدواج ملكية المخرجات.</b> أخطر خطر: كاتب رابع لـ canonical أو OG أو Schema يكسر تحكيمًا قائمًا ويُنتج وسمين. <b>التخفيف:</b> الاستوديو يقرأ ويقترح ويغذّي المالك القائم، ولا يطبع وسمًا بنفسه أبدًا.</span></div>
+<div class="row"><span class="mk" style="background:rgba(163,58,45,.14);color:#a33a2d">2</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>وعود واجهة لا سند لها.</b> أزرار «أنشئ نسخة إقليمية» بلا إضافة ترجمة. <b>التخفيف:</b> تُعرض معطّلة مع اسم الإضافة الناقصة — كما في زر المزوّدين في تصميم الدخول.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">3</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>تضخّم زمن الحفظ.</b> خمسة خطّافات قائمة + تحليل 25 لغة. <b>التخفيف:</b> التحليل في طابور خلفي بمفتاح تجزئة لحقول المصدر، ولا يُشغَّل عند كل حفظ (§26).</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">4</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>Qwen3.5-0.8B نموذج صغير.</b> يصلح للصياغة لا للحكم. <b>التخفيف:</b> الأهلية والعملة والقانون بقواعد حتمية، وQwen للاقتراح اللغوي فقط، ورجوعه «غير معروف» مسار صالح لا خطأ (§20).</span></div>
+</div>
+
+<h2 dir="rtl">7 · ما أحتاجه منك للانتقال إلى المرحلة الثانية</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:6px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">١</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>أي إضافة SEO مثبَّتة فعلًا؟</b> Rank Math أم Yoast أم AIOSEO أم لا شيء. يحدّد مالك العنوان والوصف والـ canonical.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٢</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>إضافة ترجمة: تُثبَّت أم لا؟</b> يحدّد إن كان مسار النشر الإقليمي يُبنى أم يُعرض معطّلًا.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٣</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>هل VPS الخاص بـ Qwen قائم؟</b> عنوان النقطة وطريقة المصادقة. إن لم يكن، أبني الواجهة وعقد JSON وتبقى الطبقة معطّلة بهدوء.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٤</span><span style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43"><b>الاتجاه: B كما أرشّح، أم A أو C؟</b></span></div>
+</div>
+
+<p dir="rtl" style="margin:20px 0 0;padding-top:12px;border-top:1px solid #e6e9e2;font-size:10.5px;line-height:1.75;color:#5f7167">قُرئ في هذا التفقّد: <code dir="ltr">inc/product-education-meta.php</code> · <code dir="ltr">inc/product-seo-fields.php</code> · <code dir="ltr">inc/seo-ownership-manager.php</code> · <code dir="ltr">inc/product-education-schema.php</code> · <code dir="ltr">inc/curriculum/{register,classify}.php</code> · <code dir="ltr">inc/schema.php</code> · <code dir="ltr">inc/seo-orchestrator.php</code> · <code dir="ltr">inc/seo-sitemaps.php</code> · <code dir="ltr">inc/product-seo-{auto,visibility}.php</code> · <code dir="ltr">inc/education-boxes.php</code> — بلا أي تعديل.</p>
+
+</doc-page>
+</x-dc>
+</body>
+</html>

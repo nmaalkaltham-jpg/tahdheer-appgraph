@@ -1,0 +1,300 @@
+/*
+UNIT: APPEARANCE-PANEL
+COMPONENT: appearance-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الإعدادات › المظهر — عمود اختيارات ومعاينةٌ لاصقة إلى جواره.
+ * كلّ قيمةٍ من رموز اللوحة (`--cc-*` · `--adm-r-*` · `--e-*` · `--sp-*`):
+ * المعاينة تتبدّل بما يتبدّل به كلّ شيء، ولا لون حرفيّ هنا.
+ */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: var(--sp-6);
+  align-items: start;
+  margin-block-start: var(--sp-4);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-inline-size: 0;
+}
+
+.section {
+  background: var(--cc-glass);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--adm-r-card);
+  padding-block: var(--sp-4);
+  padding-inline: var(--sp-5);
+}
+
+.sectionTitle {
+  margin-block: 0 var(--sp-1);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--cc-text);
+}
+
+.sectionNote {
+  margin-block: 0 var(--sp-2);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--cc-muted);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-4);
+  padding-block: var(--sp-3);
+  border-block-start: 1px solid var(--cc-hair);
+}
+
+.rows > .row:first-child {
+  border-block-start: 0;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 160px;
+  flex: 1 1 200px;
+}
+
+.rowLabel {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--cc-text);
+}
+
+.rowHint {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--cc-muted);
+}
+
+/* مقطّعٌ واحد لكلّ خيار — الاختيار بتعبئةٍ **و**وزنٍ أثقل **و**حدّ، لا بلونٍ وحده. */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--adm-r-md);
+  background: var(--cc-well);
+  max-inline-size: 100%;
+}
+
+.segItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 36px;
+  padding-block: 4px;
+  padding-inline: var(--sp-3);
+  border: 1px solid transparent;
+  border-radius: max(var(--adm-r-md) - 3px, 8px);
+  background: transparent;
+  color: var(--cc-muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover, 180ms) var(--ease-out, ease),
+    color var(--dur-hover, 180ms) var(--ease-out, ease);
+}
+
+@media (hover: hover) {
+  .segItem:hover:not([aria-pressed='true']) {
+    background: var(--cc-hair);
+    color: var(--cc-text);
+  }
+}
+
+.segItem:active {
+  transform: translateY(1px);
+}
+
+.segItem:focus-visible {
+  outline: 2.5px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.segItem[aria-pressed='true'] {
+  background: var(--cc-bg1);
+  border-color: var(--cc-edge-strong);
+  color: var(--cc-text);
+  font-weight: 800;
+  box-shadow: var(--e-1);
+}
+
+@media (pointer: coarse) {
+  .segItem {
+    min-block-size: 44px;
+  }
+}
+
+/* عيّنة اللون — تعبئة الهويّة نفسها لا الرمز المشتقّ للسمة. */
+.swatch {
+  inline-size: 14px;
+  block-size: 14px;
+  border-radius: var(--r-round, 999px);
+  border: 1px solid var(--cc-edge-strong);
+}
+
+.swatch[data-swatch='teal'] {
+  background: var(--teal-600);
+}
+
+.swatch[data-swatch='navy'] {
+  background: var(--navy-700);
+}
+
+.swatch[data-swatch='gold'] {
+  background: var(--gold-500);
+}
+
+.notice {
+  margin-block: var(--sp-2) 0;
+  padding-block: var(--sp-2);
+  padding-inline: var(--sp-3);
+  border: 1px solid color-mix(in srgb, var(--cc-info) 38%, transparent);
+  border-radius: var(--adm-r-md);
+  background: color-mix(in srgb, var(--cc-blue) 10%, transparent);
+  color: var(--cc-text);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-inline: var(--sp-1);
+}
+
+.sync {
+  margin-block: 0;
+  font-size: 12.5px;
+  color: var(--cc-muted);
+}
+
+/* ── المعاينة ── */
+.preview {
+  position: sticky;
+  inset-block-start: calc(var(--d-bar-h, 60px) + var(--sp-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px dashed var(--cc-edge-strong);
+  border-radius: var(--adm-r-card);
+  background: color-mix(in srgb, var(--cc-bg0) 60%, transparent);
+}
+
+.previewTitle {
+  margin-block: 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--cc-muted);
+}
+
+.previewBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.previewBody :global(.state-ok) {
+  margin-block: 0;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+.previewText {
+  margin-block-start: var(--sp-1);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--cc-text);
+}
+
+.previewActions {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  inline-size: min(240px, 100%);
+  padding: var(--sp-1);
+  background: var(--cc-bg1);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--adm-r-md);
+  box-shadow: var(--shadow-pop);
+}
+
+.menuItem {
+  padding-block: var(--sp-2);
+  padding-inline: var(--sp-3);
+  border-radius: max(var(--adm-r-md) - 4px, 8px);
+  font-size: 12.5px;
+  color: var(--cc-text);
+}
+
+.menuItem:first-child {
+  background: var(--cc-well);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preview {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segItem {
+    transition: none;
+  }
+
+  .segItem:active {
+    transform: none;
+  }
+}

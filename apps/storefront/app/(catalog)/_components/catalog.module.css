@@ -1,0 +1,1245 @@
+/*
+ * سطح الكتالوج المشترك — /shop · /stages · /grades · /subjects · /semesters ·
+ * /kinds · /best-sellers · /new · /offers · /curriculum — بلغة القالب
+ * («Storefront Home.dc.html» و«Storefront Product.dc.html»): هيروٌ متدرّج
+ * كحليّ→تركوازيّ، بطاقاتُ «ابدأ من مرحلتك»، شرائحُ الترشيح، شريطُ التبويب
+ * ذو الخطّ التركوازيّ، والحالةُ الفارغة ببلاطةٍ مصبوغة.
+ *
+ * رموزٌ فقط (‎--sf-*‎ / ‎--teal-*‎ / ‎--navy-700‎ / ‎--tint-*‎)، خصائص منطقيّة
+ * فقط، الجوّال أوّلًا (‎390‎ → ‎1440‎). أهداف اللمس ‎44px‎ على الجوّال.
+ */
+
+/* ---------------------------------------------------------------- الصفحة */
+
+/*
+ * أساسُ السطح (‎15px/1.6/400‎ على أبيض) يأتي من body في globals.css؛
+ * هنا يُعاد ضبط `:where(h2)` العامّ محلّيًّا فقط.
+ */
+.page {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 16px 16px 56px;
+  display: grid;
+  /* مسارٌ لا ينمو بمحتواه: شريط الترتيب القابل للتمرير لا يمدّ الصفحة أفقيًّا. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-content: start;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+/* صفر خصوصيّة: الروابط ترث اللون، ووصفات الأزرار والرقائق المركّبة تغلبه. */
+:where(.page) a {
+  color: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------- breadcrumb */
+
+.breadcrumbNav {
+  min-inline-size: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sf-muted);
+}
+
+.crumbItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* الفاصل زخرفيّ في CSS (‎/ ''‎ = بلا نصٍّ مُتاح) فلا يقرؤه قارئ الشاشة ولا مسح التباين. */
+.crumbItem + .crumbItem::before {
+  content: '›' / '';
+  color: var(--sf-sep);
+}
+
+.crumbLink {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* سطر الفتات ‎20px‎ بصريًّا؛ هدف اللمس يمتدّ رأسيًّا إلى ‎44px‎ بلا تغيير في التخطيط. */
+.crumbLink::before {
+  content: '';
+  position: absolute;
+  inset-block: -13px;
+  inset-inline: 0;
+}
+
+.crumbLink:hover {
+  color: var(--teal-text);
+}
+
+.crumbCurrent {
+  color: var(--sf-ink);
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------- hero */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 28px 24px;
+  border-radius: var(--r-2xl);
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+}
+
+/* العروض: قرصان ناعمان خلف النصّ. */
+.heroOrnate {
+  background: var(--sf-gradient-hero);
+}
+
+.orb {
+  position: absolute;
+  border-radius: var(--r-round);
+  pointer-events: none;
+}
+
+.orbGold {
+  inset-inline-end: -40px;
+  inset-block-start: -40px;
+  inline-size: 230px;
+  block-size: 230px;
+  background: var(--hm-gold-blob);
+}
+
+.orbPale {
+  inset-inline-end: 60px;
+  inset-block-end: -70px;
+  inline-size: 160px;
+  block-size: 160px;
+  background: var(--hm-white-06);
+}
+
+/*
+ * رزمة الأوراق في الطرف الختاميّ: ورقةٌ خلفيّة مائلة وأخرى أماميّة بأسطرٍ
+ * وزاويةٍ ذهبيّة مطويّة (غلاف البطاقة). شفافةٌ على التدرّج فلا تنافس العنوان.
+ * ساكنة — لا حركة بلا فعل.
+ */
+.heroArt {
+  display: none;
+  position: relative;
+  inline-size: 180px;
+  block-size: 150px;
+  pointer-events: none;
+}
+
+.sheetBack,
+.sheetFront {
+  position: absolute;
+  inline-size: 118px;
+  block-size: 144px;
+  border: 1px solid var(--ct-on-dark-28);
+  border-radius: var(--r-lg);
+}
+
+.sheetBack {
+  inset-block-start: 4px;
+  inset-inline-start: 8px;
+  background: var(--hm-white-06);
+  transform: rotate(8deg);
+}
+
+.sheetFront {
+  inset-block-start: 2px;
+  inset-inline-end: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 18px 18px;
+  background: var(--hm-white-16);
+  transform: rotate(-4deg);
+}
+
+/* الزاوية المطويّة: مثلّثٌ ذهبيّ في الزاوية الأولى، كما في أغلفة المنتجات. */
+.sheetFront::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline-start: -1px;
+  inline-size: 26px;
+  block-size: 26px;
+  border-start-start-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--gold-400) 50%, transparent 50%);
+}
+
+.sheetFront > span {
+  display: block;
+  block-size: 8px;
+  border-radius: var(--r-xs);
+  background: var(--hm-white-16);
+}
+
+.sheetFront > span:first-child {
+  inline-size: 62%;
+  background: var(--hm-white-75);
+}
+
+.sheetFront > span:nth-child(3) {
+  inline-size: 84%;
+}
+
+.sheetFront > span:nth-child(4) {
+  inline-size: 48%;
+}
+
+.heroBody {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.heroNarrow {
+  max-inline-size: 62ch;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--hm-white-75);
+}
+
+.eyebrowIcon {
+  inline-size: 14px;
+  block-size: 14px;
+  flex: 0 0 auto;
+}
+
+.h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: inherit;
+  text-wrap: balance;
+}
+
+.intro {
+  margin: 0 0 16px;
+  max-inline-size: 62ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--hm-white-82);
+  text-wrap: pretty;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* رقائق الإحصاء: ‎--r-sm‎ لا كبسولة، أبيض ‎16٪‎ على التدرّج بحدّ ‎28٪‎. */
+.fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 32px;
+  padding-inline: 12px;
+  border: 1px solid var(--ct-on-dark-28);
+  border-radius: var(--r-sm);
+  background: var(--hm-white-16);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--on-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.factIcon {
+  inline-size: 16px;
+  block-size: 16px;
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.sidebar {
+  display: none;
+}
+
+.main {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-content: start;
+}
+
+/* ------------------------------------------------------------- facet panel */
+
+/* لوحة الترشيح: سطحٌ ساكن (حدّ + أبيض، بلا ظلّ) — لا ترتفع لأنّها لا تُنقر. */
+.panel {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding: 16px;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block-end: 12px;
+  margin-block-end: 4px;
+  border-block-end: 1px solid var(--sf-line);
+}
+
+.panelTitle {
+  flex: 1;
+  min-inline-size: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+.clearBtn {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  padding-inline: 10px;
+  color: var(--teal-text);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.facetGroups {
+  display: flex;
+  flex-direction: column;
+}
+
+/* مجموعةٌ قابلة للطيّ؛ فاصلٌ شعريّ بين المجموعات لا صناديق متداخلة. */
+.facetGroup {
+  min-inline-size: 0;
+  padding-block: 4px 8px;
+}
+
+.facetGroup + .facetGroup {
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.facetSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-inline: 4px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.facetSummary::-webkit-details-marker {
+  display: none;
+}
+
+.facetSummary:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: -3px;
+}
+
+.facetTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+/* المختار يُقرأ من العنوان حتّى والمجموعة مطويّة. */
+.facetPicked {
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal-text);
+}
+
+/* السهم: يشير نحو الأسفل مفتوحًا، ونحو اتّجاه القراءة مطويًّا. */
+.facetChev {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--sf-icon);
+  transform: rotate(-90deg);
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+
+.facetGroup:not([open]) > .facetSummary > .facetChev {
+  transform: none;
+}
+
+.facetList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* صفّ الخيار: وصفة عنصر القائمة (‎44px‎ · ‎--r-sm‎ · تحويمٌ بارد · تركيزٌ داخليّ). */
+.facetLink {
+  composes: menuItem from '@tahdheer/ui/controls.module.css';
+  gap: 10px;
+  padding-inline: 8px;
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+.facetLink[aria-current='true'] {
+  background: var(--st-info-bg);
+  color: var(--st-info-fg);
+}
+
+/* مؤشّر الاختيار المفرد — دائرة (مفتاح تبديل، ‎--r-round‎ مشروعة). */
+.facetMark {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 18px;
+  block-size: 18px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-round);
+  background: var(--bg);
+  color: var(--on-accent);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .facetLink:hover .facetMark {
+    border-color: var(--color-secondary-text);
+  }
+}
+
+.facetLink[aria-current='true'] .facetMark {
+  border-color: var(--color-secondary-text);
+  background: var(--color-secondary);
+}
+
+.tick {
+  inline-size: 11px;
+  block-size: 11px;
+  flex: 0 0 auto;
+}
+
+.facetLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* عدّاد الخيار — شارة عدّ (‎--r-round‎ مشروعة)، رقم الخادم وحده. */
+.facetCount {
+  flex: 0 0 auto;
+  min-inline-size: 24px;
+  padding-inline: 8px;
+  border-radius: var(--r-round);
+  background: var(--sf-chip);
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.facetLink[aria-current='true'] .facetCount {
+  background: var(--bg);
+  color: var(--color-secondary-text);
+}
+
+/* «عرض المزيد (N)» — زرّ شبحٍ صغير تحت أوّل خمسة خيارات؛ الفراغ فوقه يفصل هدفه الممدود عن آخر صفّ. */
+.facetMore {
+  margin-block-start: 6px;
+}
+
+.facetMoreBtn {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  justify-content: flex-start;
+  padding-inline: 8px;
+  color: var(--teal-text);
+  font-size: 13px;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ‎36 + 2×5 = 46px‎ — هامش بكسلٍ فوق حدّ الـ44 (كلّ زرٍّ صغير في السطح). */
+.clearBtn::before,
+.clearAll::before,
+.facetMoreBtn::before {
+  inset-block: -5px;
+}
+
+.facetMoreBtn::-webkit-details-marker {
+  display: none;
+}
+
+.moreHide,
+.facetMore[open] > .facetMoreBtn > .moreShow {
+  display: none;
+}
+
+.facetMore[open] > .facetMoreBtn > .moreHide {
+  display: inline;
+}
+
+/* ----------------------------------------------------------------- toolbar */
+
+/*
+ * شريط الأدوات: [تصفية] [عدد النتائج] ثمّ تبويبات الترتيب — سطرٌ واحد على
+ * العريض بمحاذاة الخطّ الفاصل، وعلى الجوّال سطران: الزرّ والعدد، ثمّ شريط
+ * الترتيب قابلًا للتمرير أفقيًّا بدل أن يلتفّ.
+ */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  border-block-end: 1px solid var(--sf-line);
+  /*
+   * ملتصقٌ تحت الترويسة (StickyToolbar.tsx يقيسها وينشر ‎--catalog-stick-top‎؛
+   * صفرٌ على العريض حيث الترويسة في التدفّق). الخلفيّة تغطّي البطاقات المارّة
+   * تحته، والطبقة تحت الأشرطة السفليّة والترويسة وفوق البطاقات.
+   */
+  position: sticky;
+  inset-block-start: var(--catalog-stick-top, 0px);
+  z-index: calc(var(--z-sticky-bar) - 1);
+  background: var(--bg);
+  transition: box-shadow var(--dur-hover) var(--ease-out);
+}
+
+/* ملتصقٌ فعلًا: ظلٌّ شعريّ يفصله عمّا يمرّ تحته — لا حدّ ثقيل ولا حركة. */
+.toolbar[data-stuck] {
+  box-shadow: var(--e-1);
+}
+
+/*
+ * دون ‎1200px‎ الشريط بعرض الشاشة (يلغي حشوة الصفحة ويستعيدها داخله): البطاقات
+ * المارّة تحته لا تطلّ من جانبيه. على العريض يبقى بعرض عمود الشبكة.
+ */
+@media (max-width: 767.98px) {
+  .toolbar {
+    margin-inline: -16px;
+    padding-inline: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .toolbar {
+    margin-inline: calc(-1 * var(--sf-gutter));
+    padding-inline: var(--sf-gutter);
+  }
+}
+
+/* العنصر المركَّز لا يختبئ تحت الترويسة + الشريط (‎WCAG 2.4.11‎). */
+:global(html):has(.toolbar) {
+  scroll-padding-block-start: max(120px, calc(var(--catalog-stick-block, 0px) + 12px));
+}
+
+.sheet {
+  flex: 0 0 auto;
+}
+
+/* زرّ فتح الدرج: وصفة الزرّ المحيطيّ. */
+.sheetBtn {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  gap: 8px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.btnIcon {
+  inline-size: 16px;
+  block-size: 16px;
+  flex: 0 0 auto;
+}
+
+/* شارة عدد المرشّحات على الزرّ — عدّاد (‎--r-round‎ مشروعة). */
+.countBadge {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 22px;
+  block-size: 22px;
+  padding-inline: 6px;
+  border-radius: var(--r-round);
+  background: var(--color-secondary);
+  color: var(--on-accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.resultLabel {
+  flex: 1;
+  min-inline-size: 120px;
+  margin: 0;
+  padding-block: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-ink-2);
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * حاوية التمرير: الحشوة والهامش السالب يُبقيان حلقة التركيز داخل الحاوية
+ * (لا قصّ)، و`scroll-padding-inline` يوقف التبويب المركَّز بعيدًا عن الحافّة.
+ */
+.sortScroller {
+  flex: 1 1 100%;
+  min-inline-size: 0;
+  margin-block-end: -1px;
+  margin-inline: -8px;
+  padding-inline: 8px;
+  padding-block-start: 4px;
+  overflow-x: auto;
+  scroll-padding-inline: 8px;
+  scrollbar-width: none;
+}
+
+.sortScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.sortTabs {
+  display: flex;
+  gap: 16px;
+  inline-size: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* وصفة التبويب: خطٌّ تركوازيّ ‎3px‎ تحت المختار (‎aria-current=page‎). */
+.sortTab {
+  composes: tab from '@tahdheer/ui/controls.module.css';
+  min-block-size: 48px;
+  font-size: 14px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* داخل حاوية تمريرٍ أفقيّ يُقصّ ما يتجاوزها رأسيًّا — فالحلقة داخليّة (‎-3px‎) لا تُقصّ. */
+.sortTab:focus-visible {
+  outline-offset: -3px;
+}
+
+/* ------------------------------------------------------------ active chips */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* رقاقة المرشّح المفعّل: وصفة الرقاقة بصبغة المعلومات، والإزالة بـ× داخلها. */
+.chip {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  gap: 8px;
+  padding-inline: 12px 10px;
+  border-color: var(--st-info-line);
+  background: var(--st-info-bg);
+  color: var(--st-info-fg);
+  font-size: 13px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.chip:hover {
+  border-color: var(--color-secondary-text);
+  background: var(--color-secondary);
+  color: var(--on-accent);
+}
+
+.chipIcon {
+  inline-size: 12px;
+  block-size: 12px;
+  flex: 0 0 auto;
+}
+
+.clearAll {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+/* ------------------------------------------------------------ mobile drawer */
+
+/*
+ * الحاوية `<dialog>` تملأ الشاشة شفّافةً، وبداخلها الستارة (وصفة `scrim`)
+ * والدرج (وصفة `drawer` — يخرج من الحافّة الختاميّة، والزاوية على الداخليّة).
+ * المتصفّح يرسم `::backdrop` أصلًا فيُصفَّر: ستارةٌ واحدة لا اثنتان.
+ */
+.drawerHost {
+  inline-size: 100%;
+  max-inline-size: none;
+  block-size: 100%;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.drawerHost::backdrop {
+  background: transparent;
+}
+
+.drawerScrim {
+  composes: scrim from '@tahdheer/ui/controls.module.css';
+}
+
+.drawerPanel {
+  composes: drawer from '@tahdheer/ui/controls.module.css';
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(360px, 88vw);
+  outline: none;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 12px;
+  padding-inline: 16px 8px;
+  border-block-end: 1px solid var(--sf-line);
+}
+
+.drawerTitle {
+  flex: 1;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.drawerClose {
+  composes: btn btnGhost btnIcon from '@tahdheer/ui/controls.module.css';
+}
+
+.drawerBody {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 16px 16px;
+}
+
+/* داخل الدرج اللوحةُ بلا إطار: الدرج نفسه هو السطح. */
+.drawerBody .panel {
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.drawerBody .panelHead {
+  display: none;
+}
+
+.drawerFoot {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid var(--sf-line);
+  background: var(--bg);
+}
+
+.drawerClear {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+.drawerApply {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* الفتح بطلب المستخدم وحده ينزلق؛ إعادة الفتح بعد التنقّل فوريّة. */
+@media (prefers-reduced-motion: no-preference) {
+  .drawerHost[open]:not([data-instant]) .drawerPanel {
+    animation: drawerIn var(--dur-reveal) var(--ease-out);
+  }
+
+  .drawerHost[open]:not([data-instant]) .drawerScrim {
+    animation: scrimIn var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes drawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scrimIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------- grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid > li {
+  display: flex;
+  min-inline-size: 0;
+}
+
+.grid > li > * {
+  flex: 1;
+}
+
+/* شريطٌ أفقيّ دون ‎641px‎ — عرض بطاقة رفّ القالب الجوّال ‎200px‎. */
+.rail {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline proximity;
+  scroll-padding-inline: 5px;
+  scroll-padding-block: 5px;
+  padding-block: 5px;
+  padding-inline: 5px;
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.rail > li {
+  flex: none;
+  inline-size: 200px;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 641px) {
+  .rail {
+    display: grid;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+  .rail > li {
+    inline-size: auto;
+  }
+}
+
+/* سطر النتائج للمجموعات بلا شريط أدوات. */
+.resultLine {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sf-muted);
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+.pager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-block-start: 16px;
+}
+
+.pagerCount {
+  font-size: 13px;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* شريط التقدّم: ما حُمّل من الكلّ — زخرفيّ، والنصّ فوقه يحمل المعنى. */
+.pagerTrack {
+  display: block;
+  inline-size: min(240px, 60%);
+  block-size: 4px;
+  border-radius: var(--r-round);
+  background: var(--sf-chip);
+  overflow: hidden;
+}
+
+.pagerFill {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--teal-600);
+}
+
+/* «حمّل المزيد»: وصفة الزرّ الثانويّ الكحليّ؛ الانشغال (‎aria-busy‎) من PendingLink. */
+.pagerLink {
+  composes: btn btnSecondary from '@tahdheer/ui/controls.module.css';
+  min-inline-size: 220px;
+  padding-inline: 24px;
+}
+
+/* ------------------------------------------------------------- empty state */
+
+/* الحالة الفارغة: سطحٌ مصبوغ ساكن، أيقونةٌ في بلاطة، وسطرٌ يوجّه إلى فعلٍ تالٍ. */
+.empty {
+  padding: 40px 24px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+  text-align: center;
+}
+
+.emptyBadge {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: var(--r-lg);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  margin-block-end: 16px;
+}
+
+.emptyIcon {
+  inline-size: 26px;
+  block-size: 26px;
+}
+
+.emptyTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.emptyText {
+  margin: 0 auto 24px;
+  max-inline-size: 52ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  text-wrap: pretty;
+}
+
+.emptyStrong {
+  color: var(--sf-ink);
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.emptyPrimary {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.emptySecondary {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+/* ------------------------------------------------------- stage / term cards */
+
+.stageGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageGrid li {
+  display: flex;
+}
+
+/* بطاقات «ابدأ من مرحلتك»: وصفة البطاقة التفاعليّة — ترتفع ظلًّا (‎--e-2‎) ولا تتحرّك. */
+.stageCard {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* اسم البطاقة يأخذ لون الرابط مع التحويم — لونٌ لا إزاحة. */
+@media (hover: hover) {
+  .stageCard:hover .stageName {
+    color: var(--teal-text);
+  }
+}
+
+.stageIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 48px;
+  block-size: 48px;
+  border-radius: var(--r-md);
+}
+
+.stageIcon > svg {
+  inline-size: 23px;
+  block-size: 23px;
+}
+
+.stageName {
+  display: block;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+.stageFoot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-start: auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.stageGo {
+  margin-inline-start: auto;
+  inline-size: 16px;
+  block-size: 16px;
+  flex: 0 0 auto;
+  color: var(--teal-600);
+}
+
+.tintTeal {
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.tintNavy {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.tintSand {
+  background: var(--tint-sand);
+  color: var(--gold-ink);
+}
+
+.tintLilac {
+  background: var(--tint-lilac);
+  color: var(--tint-lilac-fg);
+}
+
+/* ------------------------------------------------------------- seo / related */
+
+.seo,
+.related {
+  margin-block-start: 8px;
+  padding: 24px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+}
+
+.seoTitle,
+.relatedTitle {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+.seoText {
+  margin: 0;
+  max-inline-size: 78ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  text-align: start;
+}
+
+.relatedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.relatedLink {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------- motion/a11y */
+
+@media (prefers-reduced-motion: reduce) {
+  .toolbar,
+  .stageName,
+  .facetChev,
+  .facetMark {
+    transition: none;
+  }
+
+  /* الدرج والستارة يظهران في مكانهما فورًا — لا انزلاق ولا تلاشٍ. */
+  .drawerPanel,
+  .drawerScrim {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------- breakpoints */
+
+@media (min-width: 600px) {
+  .stageGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sf-gutter);
+    padding-block: 16px 72px;
+    gap: 24px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 32px 40px;
+  }
+
+  .heroArt {
+    display: block;
+  }
+
+  .h1 {
+    font-size: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 20px;
+  }
+
+  .stageGrid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .layout {
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .layoutFull {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    display: block;
+    position: sticky;
+    inset-block-start: 16px;
+    max-block-size: calc(100dvh - 32px - var(--chrome-bottom-outflow, 0px));
+    overflow-y: auto;
+    padding: 5px;
+    scroll-padding: 5px;
+    overscroll-behavior: contain;
+  }
+
+  .sheet {
+    display: none;
+  }
+
+  /* ملتصقًا عند حافّة الشاشة لا تلامس التبويباتُ الحافّة: ‎8px‎ فوقها دائمًا (لا قفزة). */
+  .toolbar {
+    padding-block-start: 8px;
+  }
+
+  /* الترتيب في سطر العدد نفسه على العريض. */
+  .sortScroller {
+    flex: 0 1 auto;
+  }
+}
+
+/* الشرائح ‎36px‎ للمؤشّر الدقيق وحده (WCAG 2.5.8 ≥ 24px)؛ اللمس يبقى ‎44px‎ في كلّ عرض. */
+@media (min-width: 1200px) and (pointer: fine) {
+  .facetLink,
+  .facetSummary {
+    min-block-size: 36px;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes sgFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1220px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">النمو الذاتي — ظهور وزيارات وشراء بلا تدخل</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">يرث حدود احترام الطيار الآلي تلقائيًا — مصدر واحد</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1220px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.expand }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:sgFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">ظهور يتوسع وحده — الفهرس ينمو من عملك اليومي</h1>
+<span style="margin-inline-start:auto;padding:3px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9.5px;font-weight:900">سقف النمو: {{ ex.cap }} صفحات/أسبوع — لا قفزات تريب المحرك</span>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 17px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:12.5px">فتح صفحات الوحدات ذاتيًا — بوابة الجودة تقرر</b>
+<button type="button" onClick="{{ ex.gateTog }}" role="switch" aria-checked="{{ ex.gateOn }}" aria-label="الفتح الذاتي" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ ex.gateBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ ex.gateKnob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+<span style="font-size:9.5px;color:#8b978f">الشرط: ٣ أسئلة مجانية + منتج متوفر + طلب بحث مُتحقق — فيتحول index ويُرسل IndexNow</span>
+</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ ex.queue }}" as="q" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 11px;border:1px solid {{ q.bd }};border-radius:11px;background:{{ q.bg }};flex-wrap:wrap">
+<b style="flex:0 0 210px;font-size:11px">{{ q.n }}</b>
+<span aria-hidden="true" style="flex:1;min-width:140px;height:7px;border-radius:5px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ q.w }};background:{{ q.fill }};border-radius:5px"></span></span>
+<span style="font-size:9px;color:#5f7167">{{ q.need }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ q.sBg }};color:{{ q.sC }};font-size:8.5px;font-weight:900">{{ q.st }}</span>
+</div>
+</sc-for>
+</div>
+<span style="display:block;margin-top:8px;font-size:9px;color:#a9b4ad">كل صفحة تُفتح تدخل قياس ٢٨ يومًا تلقائيًا — إن لم تجلب انطباعات تعود noindex بقرار موثق (النمو الصادق ذهابًا وإيابًا).</span>
+</section>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<sc-for list="{{ ex.loops }}" as="l" hint-placeholder-count="4">
+<section style="border:1px solid {{ l.bd }};border-radius:13px;background:#fff;padding:12px 15px">
+<div style="display:flex;align-items:center;gap:8px">
+<button type="button" onClick="{{ l.onTog }}" role="switch" aria-checked="{{ l.on }}" aria-label="{{ l.n }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ l.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ l.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+<b style="flex:1;font-size:12px">{{ l.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ l.sBg }};color:{{ l.sC }};font-size:8.5px;font-weight:900">{{ l.st }}</span>
+</div>
+<p style="margin:6px 0;font-size:10px;line-height:1.8;color:#5f7167">{{ l.d }}</p>
+<div style="display:flex;align-items:center;gap:9px;padding-top:7px;border-top:1px dashed #f1f4f2"><span style="font-size:9px;color:#8b978f">{{ l.meta }}</span><span style="margin-inline-start:auto;font-size:9.5px;font-weight:900;color:#146c4c">{{ l.impact }}</span></div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.ret }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:sgFade .25s ease">زيارات تعود وحدها — ثلاث قنوات مغلقة الحلقة</h1>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ rt.chans }}" as="c" hint-placeholder-count="3">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+<div style="display:flex;align-items:center;gap:8px">
+<b style="flex:1;font-size:12.5px">{{ c.n }}</b>
+<button type="button" onClick="{{ c.onTog }}" role="switch" aria-checked="{{ c.on }}" aria-label="{{ c.n }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ c.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ c.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+</div>
+<p style="margin:0;font-size:10px;line-height:1.8;color:#5f7167">{{ c.d }}</p>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ c.stats }}" as="st2" hint-placeholder-count="3">
+<span style="padding:6px 11px;border-radius:10px;background:#f6fbf8;border:1px solid #e2ece5;text-align:center"><b style="display:block;font:900 13px Tajawal;color:#146c4c">{{ st2.v }}</b><span style="font-size:8px;color:#7c8a82">{{ st2.l }}</span></span>
+</sc-for>
+</div>
+<span style="margin-top:auto;padding:7px 10px;border-radius:9px;background:#fbfcfb;border:1px dashed #e2e8e4;font-size:9px;line-height:1.7;color:#8b978f">{{ c.check }}</span>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 17px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:11.5px">دمج الرسائل المزدوجة</b>
+<span style="flex:1;min-width:240px;font-size:10px;line-height:1.7;color:#5f7167">عميل مؤهل لحلقتين في نفس اليوم (انخفاض سعر + تصفح) ← رسالة واحدة مدمجة لا اثنتان — والعدّ من حد الطيار المشترك نفسه.</span>
+<span style="padding:3px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">مفعل دائمًا — غير قابل للإيقاف</span>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.buy }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:sgFade .25s ease">شراء يرتفع وحده</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;font-size:12.5px">عروض Merchant الترويجية — دفع ذاتي</b>
+<button type="button" onClick="{{ by.promoTog }}" role="switch" aria-checked="{{ by.promoOn }}" aria-label="عروض Merchant" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ by.promoBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ by.promoKnob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button></div>
+<span style="font-size:9.5px;color:#8b978f">أي عرض فعلي يصبح promotion في الـ Feed — شارة «عرض خاص» في Shopping بلا خطوة يدوية</span>
+<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ by.promos }}" as="p" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:10px;background:#fbfcfb;flex-wrap:wrap">
+<b style="flex:1;min-width:170px;font-size:10.5px">{{ p.n }}</b>
+<span style="font-size:9px;color:#5f7167">{{ p.d }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ p.sBg }};color:{{ p.sC }};font-size:8.5px;font-weight:900">{{ p.st }}</span>
+</div>
+</sc-for>
+</div>
+<span style="display:block;margin-top:8px;font-size:9px;color:#a9b4ad">قاعدة الصدق موروثة: العرض ينتهي في Woo ← يُسحب من الـ Feed في نفس الدقيقة.</span>
+</section>
+<div style="display:flex;flex-direction:column;gap:11px">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;font-size:12.5px">دورة A/B للأوصاف meta</b>
+<button type="button" onClick="{{ by.metaTog }}" role="switch" aria-checked="{{ by.metaOn }}" aria-label="A/B الأوصاف" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ by.metaBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ by.metaKnob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button></div>
+<span style="font-size:10px;line-height:1.8;color:#5f7167">نفس سياسة العناوين المعتمدة تمتد للأوصاف: صيغة «عرض البيع» ضد «السؤال المباشر» — ٢٨ يومًا، دلالة، تعميم، وقياس بعدي. {{ by.metaSt }}</span>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">هدنة ما بعد الشراء</b>
+<span style="display:block;margin-top:5px;font-size:10px;line-height:1.8;color:#5f7167">من أكمل شراءً يُستثنى من كل حلقات النمو ٧ أيام كاملة — لا «انخفض السعر» على ما اشتراه للتو أبدًا. سوء التوقيت هذا يحرق الثقة، والهدنة تمنعه نظاميًا.</span>
+<span style="display:inline-block;margin-top:7px;padding:3px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">مفعلة دائمًا — غير قابلة للإيقاف</span>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.impact }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:sgFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">أثر النمو الذاتي — مقاس لا مُفترض</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">كل صفحة فُتحت وكل حلقة أرسلت — بنتيجتها بعد ٢٨ يومًا</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ im }}" as="e" hint-placeholder-count="6">
+<section style="display:flex;align-items:center;gap:10px;border:1px solid #dce2dd;border-inline-start:4px solid {{ e.c }};border-radius:12px;background:#fff;padding:10px 14px;flex-wrap:wrap">
+<span style="flex:0 0 92px;font-size:9px;color:#8b978f">{{ e.t }}</span>
+<span style="flex:1;min-width:240px"><b style="font-size:11px">{{ e.a }}</b><span style="display:block;font-size:9.5px;line-height:1.7;color:#5f7167">{{ e.d }}</span></span>
+<span style="padding:2px 10px;border-radius:999px;background:{{ e.rBg }};color:{{ e.rC }};font-size:9px;font-weight:900">{{ e.r }}</span>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #1e7355;border-radius:14px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:13px 17px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<b style="font-size:12px">خلاصة الشهر:</b>
+<sc-for list="{{ imSum }}" as="s" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:10px;color:#3d4f45"><b style="font:900 14px Tajawal;color:#146c4c">{{ s.v }}</b>{{ s.l }}</span>
+</sc-for>
+</section>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:sgFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;expand&quot;,&quot;ret&quot;,&quot;buy&quot;,&quot;impact&quot;],&quot;default&quot;:&quot;expand&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+state={scr:'expand',gate:true,on:{qa:1,ans:1,links:1,rev:1,push:1,drop:1,browse:1},promo:true,meta:false,toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3200));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+sw(on){ return {swBg:on?'#1e7355':'#cfd8d3',knob:on?'17px':'2px'}; }
+renderVals(){
+ const st=this.state;
+ const SC=[['expand','ظهور يتوسع'],['ret','زيارات تعود'],['buy','شراء يرتفع'],['impact','الأثر المقاس']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{expand:st.scr==='expand',ret:st.scr==='ret',buy:st.scr==='buy',impact:st.scr==='impact',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const tog=(key,name)=>()=>{ const o=Object.assign({},st.on); o[key]=o[key]?0:1; this.setState({on:o});
+  this.toast((o[key]?'فُعّلت':'أُوقفت')+' حلقة «'+name+'» — في سجل التدقيق الموحد'); };
+ base.ex={cap:'٥',gateOn:st.gate,gateBg:this.sw(st.gate).swBg,gateKnob:this.sw(st.gate).knob,
+  gateTog:()=>{ this.setState({gate:!st.gate}); this.toast(st.gate?'أُوقف الفتح الذاتي — الطابور يتجمد':'الفتح الذاتي يعمل — بسقف ٥ صفحات/أسبوع'); },
+  queue:[
+   {n:'وحدة المتباينات — ثاني ثانوي',w:'100%',need:'اكتملت الشروط الثلاثة',st:st.gate?'تُفتح الليلة ٣ص':'جاهزة — معلقة',fill:'linear-gradient(90deg,#2b9c72,#14603f)',bd:'#cfe0d6',bg:'#f6fbf8',sBg:st.gate?'#e4f4ec':'#fff4d6',sC:st.gate?'#146c4c':'#8a6500'},
+   {n:'وحدة الأحماض — كيمياء ثالث',w:'66%',need:'ينقصها سؤال مجاني واحد',st:'تتراكم',fill:'#c9a227',bd:'#dce2dd',bg:'#fff',sBg:'#fff4d6',sC:'#8a6500'},
+   {n:'وحدة الحركة — فيزياء أول',w:'33%',need:'ينقصها سؤالان + تحقق الطلب',st:'تتراكم',fill:'#c9a227',bd:'#dce2dd',bg:'#fff',sBg:'#fff4d6',sC:'#8a6500'},
+   {n:'وحدة النصوص — لغتي خامس',w:'15%',need:'طلب البحث دون الحد — تبقى noindex',st:'لن تُفتح',fill:'#b32d2e',bd:'#dce2dd',bg:'#fff',sBg:'#f2f4f2',sC:'#5f7167'}
+  ],
+  loops:[
+   {k:'qa',n:'سؤال معتمد ← صفحة مفهرسة',d:'كل إجابة تحريرية في «اسأل تذكير» تنشر مقطعها وتُخطر IndexNow وحدها — ذيلك الطويل ينمو من دعمك اليومي.',meta:'هذا الشهر: ٩ أسئلة نُشرت',impact:'+٩ صفحات ذيل'},
+   {k:'ans',n:'كتلة إجابة تلقائية للمنتج الجديد',d:'تُولَّد من بيانات المنتج الفعلية (الصف/الصفحات/التسليم) وتُنشر معه — كل صفحة تولد جاهزة للمقتطف.',meta:'آخر منتج: ولد بكتلته ✓',impact:'تغطية AEO ١٠٠٪ للجديد'},
+   {k:'links',n:'روابط داخلية ذاتية للجديد',d:'المنشور الجديد يُربط من ٣ صفحات ذات صلة ضمن حدود الأمان (٣/مصدر، مرساة غير مكررة) — لا يتيم يولد.',meta:'٦ روابط أُضيفت هذا الأسبوع',impact:'صفر صفحات يتيمة جديدة'},
+   {k:'rev',n:'طزاجة حية بالتقييمات',d:'أحدث تقييم موثق يُحقن في صفحة منتجه وschema يتحدث معه — صفحاتك تتجدد من نشاط عملائك.',meta:'٣٨ صفحة تحدثت هذا الأسبوع',impact:'lastmod صادق دائم'}
+  ].map(l=>Object.assign({n:l.n,d:l.d,meta:l.meta,impact:l.impact,
+   on:!!st.on[l.k],bd:st.on[l.k]?'#cfe0d6':'#dce2dd',
+   st:st.on[l.k]?'يعمل':'معطل',sBg:st.on[l.k]?'#e4f4ec':'#f2f4f2',sC:st.on[l.k]?'#146c4c':'#5f7167',
+   onTog:tog(l.k,l.n)},this.sw(!!st.on[l.k])))};
+ base.rt={chans:[
+  {k:'push',n:'إشعارات دفع الويب الموسمية',d:'زائر وافق مرة ← ٤ رسائل موسمية من المحرك الموسمي نفسه — قناة عودة بلا بريد ولا رقم. تتطلب تفعيل PWA.',
+   stats:[['١٬٨٤٠','موافق نشط'],['٤/فصل','حد الرسائل'],['٣١٪','معدل العودة']],
+   check:'الموافقة صريحة بنقرة، الإلغاء من الإشعار نفسه، ولا إرسال في ساعات الهدوء الموروثة.'},
+  {k:'drop',n:'انخفاض السعر للمفضلة — حلقة مغلقة',d:'السعر ينخفض ← رسالة واحدة لمن حفظه ← تُحذف المهمة. الزر موجود في واجهة المفضلة؛ هذا محركه.',
+   stats:[['٣١٢','مراقبة نشطة'],['١','رسالة/انخفاض'],['٤٤٪','تحويل المستلمين']],
+   check:'انخفاض حقيقي فقط (لا رفع-ثم-خفض) — يُقارن بأدنى سعر ٣٠ يومًا قبل الإرسال.'},
+  {k:'browse',n:'تصفح بلا شراء (Browse Abandonment)',d:'زار منتجًا مرتين خلال ٤٨ ساعة بلا إضافة ← رسالة واحدة مهذبة بنموذجه المجاني — يلتقط من لم يبلغ السلة.',
+   stats:[['مرتان/٤٨س','شرط التأهل'],['١','رسالة ثم صمت'],['١٢٪','عودة للشراء']],
+   check:'مستثنى: من اشترى (هدنة ٧ أيام)، من في سلة متروكة نشطة (لا ازدواج)، ومن ألغى أي اشتراك.'}
+ ].map(c=>Object.assign({n:c.n,d:c.d,stats:c.stats.map(s=>({v:s[0],l:s[1]})),check:c.check,
+  on:!!st.on[c.k],onTog:tog(c.k,c.n)},this.sw(!!st.on[c.k])))};
+ base.by={promoOn:st.promo,promoBg:this.sw(st.promo).swBg,promoKnob:this.sw(st.promo).knob,
+  promoTog:()=>{ this.setState({promo:!st.promo}); this.toast(st.promo?'أُوقف دفع العروض للـ Feed':'عروضك الفعلية تُدفع promotions ذاتيًا — والسحب فوري عند الانتهاء'); },
+  promos:[
+   {n:'حزمة رياضيات — وفّر ٢١ ر.س',d:'ينتهي ١٥ سبتمبر',st:'مدفوع للـ Feed ✓',sBg:'#e4f4ec',sC:'#146c4c'},
+   {n:'حزمة العام الكامل — وفّر ٤١',d:'دائم الموسم',st:'مدفوع ✓',sBg:'#e4f4ec',sC:'#146c4c'},
+   {n:'عرض العودة للمدارس',d:'انتهى أمس',st:'سُحب تلقائيًا',sBg:'#f2f4f2',sC:'#5f7167'}
+  ],
+  metaOn:st.meta,metaBg:this.sw(st.meta).swBg,metaKnob:this.sw(st.meta).knob,
+  metaSt:st.meta?'السياسة معتمدة — أول دورة أوصاف تبدأ الأحد.':'بانتظار اعتمادك الواحد.',
+  metaTog:()=>{ this.setState({meta:!st.meta}); this.toast(st.meta?'أُلغي اعتماد دورة الأوصاف':'اعتُمدت — تمتد سياسة العناوين نفسها للأوصاف بدلالة إلزامية'); }};
+ base.im=[
+  ['قبل ٣ أيام','فُتحت: وحدة الدوال — أول ثانوي','اجتازت البوابة ← index ← IndexNow — دخلت قياس ٢٨ يومًا','قيد القياس','#527a96','#e8f2fc','#1d5f9c'],
+  ['قبل أسبوعين','فُتحت: وحدة المعادلات','٦٤٠ انطباعًا و١٨ نقرة في أسبوعين — فوق العتبة','نجحت — تبقى','#1e7355','#e4f4ec','#146c4c'],
+  ['قبل شهر','فُتحت: وحدة الإحصاء','٤٠ انطباعًا فقط في ٢٨ يومًا — دون العتبة','أُعيدت noindex','#8a6500','#fff4d6','#8a6500'],
+  ['هذا الشهر','انخفاض السعر: ٤٤ رسالة','١٩ عادوا واشتروا — ولا شكوى إزعاج واحدة','+١٬٦٤٠ ر.س','#1e7355','#e4f4ec','#146c4c'],
+  ['هذا الشهر','تصفح بلا شراء: ٧١ رسالة','٩ تحويلات — والهدنة استثنت ٢٣ مشتريًا حديثًا','+٥٢٠ ر.س','#1e7355','#e4f4ec','#146c4c'],
+  ['هذا الفصل','دفع الويب: رسالة الفترة الأولى','١٬٨٤٠ مستلمًا ← ٥٧٠ زيارة عائدة في ٤٨ ساعة','٣١٪ عودة','#1e7355','#e4f4ec','#146c4c']
+ ].map(e=>({t:e[0],a:e[1],d:e[2],r:e[3],c:e[4],rBg:e[5],rC:e[6]}));
+ base.imSum=[['+٩','صفحات ذيل جديدة'],['+٢٬١٦٠ ر.س','إيراد الحلقات'],['١','صفحة أُعيدت noindex بصدق'],['٠','شكاوى إزعاج']].map(s=>({v:s[0],l:s[1]}));
+ return base;
+}
+}
+</script>
+</body>
+</html>

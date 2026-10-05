@@ -1,0 +1,366 @@
+/*
+ * بطاقة الدخول — سطح لوحةٍ (panel) بشريط العلامة ‎3px‎.
+ * التسلسل: الزائر (أساسيّ) ← فتح طلبٍ سابق (حقل ووصفة) ← كشفٌ هادئ واحد لما لم يُربط.
+ * الأزرار والحقول والتنبيهات وصفاتٌ مركّبة من ‎@tahdheer/ui/controls.module.css‎.
+ * خصائص منطقيّة فقط؛ كلّ حركة لها نظير reduce.
+ */
+
+.card {
+  composes: panel from "@tahdheer/ui/controls.module.css";
+  position: relative;
+  inline-size: 100%;
+  max-inline-size: 400px;
+  padding: 24px;
+  overflow: hidden;
+  text-align: start;
+}
+
+/* شريط العلامة على الحافّة العليا. */
+.topBar {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 3px;
+  background: var(--sf-gradient-bar);
+}
+
+/* ✕ رابطٌ حقيقيّ للعودة إلى التصفّح — ‎36px‎ مرئيّة وهدفٌ ‎44px‎ من الوصفة. */
+.close {
+  composes: btn btnGhost btnIcon btnSm from "@tahdheer/ui/controls.module.css";
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 12px;
+  inset-inline-end: 12px;
+  color: var(--sf-muted);
+}
+
+.close::before {
+  inset: -5px;
+}
+
+.closeGlyph {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────── الرأس ── */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block-end: 24px;
+  padding-inline-end: 44px;
+}
+
+.logoTile {
+  flex: 0 0 auto;
+  inline-size: 44px;
+  block-size: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-md);
+  background: var(--sf-gradient-avatar);
+  color: var(--on-accent);
+}
+
+.headText {
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--sf-ink);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--sf-muted);
+}
+
+/* ─────────────────────────────────────────────────────────── التنبيه ── */
+
+.notice {
+  composes: notice from "@tahdheer/ui/controls.module.css";
+  margin-block-end: 16px;
+}
+
+.noticeInfo {
+  composes: noticeInfo from "@tahdheer/ui/controls.module.css";
+}
+
+.noticeSuccess {
+  composes: noticeSuccess from "@tahdheer/ui/controls.module.css";
+}
+
+.noticeWarning {
+  composes: noticeWarning from "@tahdheer/ui/controls.module.css";
+}
+
+.noticeDanger {
+  composes: noticeDanger from "@tahdheer/ui/controls.module.css";
+}
+
+.noticeIcon {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+  margin-block-start: 3px;
+}
+
+.noticeText {
+  min-inline-size: 0;
+}
+
+.noticeTitle {
+  display: block;
+  margin-block-end: 2px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.noticeBody {
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+/* ──────────────────────────────────────────────────────── الزائر ── */
+
+.guest {
+  composes: btn btnPrimary btnLg from "@tahdheer/ui/controls.module.css";
+  inline-size: 100%;
+}
+
+.guestGlyph {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.guestNote {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--sf-muted);
+  text-align: center;
+}
+
+/* ──────────────────────────────────────────────────────────── الفاصل ── */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block: 24px 16px;
+}
+
+.dividerRule {
+  flex: 1;
+  block-size: 1px;
+  background: var(--sf-line);
+}
+
+.dividerLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sf-muted);
+  white-space: nowrap;
+}
+
+/* ──────────────────────────────────── الكشف: طرق دخول لم تُربط بعد ── */
+
+.more {
+  margin-block-start: 24px;
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.moreSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 48px;
+  margin-block-start: 8px;
+  padding-inline: 8px;
+  border-radius: var(--r-md);
+  color: var(--sf-ink-2);
+  font-size: 14px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.moreSummary::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) {
+  .moreSummary:hover {
+    background: var(--sf-cool);
+    color: var(--sf-ink);
+  }
+}
+
+.moreSummary:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.moreTitle {
+  flex: 1;
+}
+
+/* شارة حالةٍ هادئة — ثلاثيّة التحذير، لا حبرٌ بنّيّ على كلّ سطر. */
+.soon {
+  padding-block: 2px;
+  padding-inline: 8px;
+  border: 1px solid var(--st-warning-line);
+  border-radius: var(--r-xs);
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.chevron {
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--sf-muted);
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.more[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.moreBody {
+  padding-block: 8px 4px;
+  padding-inline: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .more[open] .moreBody {
+    animation: moreIn var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes moreIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.moreLead {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+.methods {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* صفٌّ ساكن لا زرّ: لا شيء فيه يُضغط. */
+.method {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-block-size: 48px;
+  padding-inline: 12px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+  color: var(--sf-ink-2);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.brandMark {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.methodState {
+  margin-inline-start: auto;
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ───────────────────────────────────────────────────────────── السطر القانونيّ ── */
+
+.legal {
+  margin: 16px 0 0;
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--sf-muted);
+  text-align: center;
+}
+
+.legal a {
+  color: var(--teal-text);
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: var(--r-xs);
+}
+
+@media (hover: hover) {
+  .legal a:hover {
+    text-decoration: underline;
+  }
+}
+
+.legal a:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moreSummary,
+  .chevron {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────── الجوّال (عرض الورقة السفليّة) ── */
+
+@media (max-width: 480px) {
+  .card {
+    max-inline-size: none;
+    padding: 20px 16px 16px;
+  }
+
+  .head {
+    margin-block-end: 20px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+}
+
+/* تحت تقليل الحركة: لا انزلاق، والمحتوى ظاهرٌ فورًا. */
+@media (prefers-reduced-motion: reduce) {
+  .more[open] .moreBody {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

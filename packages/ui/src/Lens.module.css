@@ -1,0 +1,68 @@
+/*
+UNIT: LENS
+COMPONENT: Lens.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * المكبِّرة خلفيّة ثانية من الصورة نفسها — لا مورد إضافيّ. موضعها نسبة مئويّة
+ * فلا تنقلب مع الاتجاه.
+ */
+
+.root {
+  --lens-x: 50%;
+  --lens-y: 50%;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  line-height: 0;
+}
+
+.image {
+  inline-size: 100%;
+  block-size: auto;
+  display: block;
+}
+
+.lens {
+  position: absolute;
+  inline-size: var(--lens-size);
+  block-size: var(--lens-size);
+  /* يُوسَّط على المؤشّر: نصف القطر يُطرَح من كلّ محور. */
+  inset-block-start: calc(var(--lens-y) - var(--lens-size) / 2);
+  inset-inline-start: calc(var(--lens-x) - var(--lens-size) / 2);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+  background-image: var(--lens-image);
+  background-repeat: no-repeat;
+  background-size: calc(100% * var(--lens-zoom) * 100 / 100) auto;
+  background-position: var(--lens-x) var(--lens-y);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease;
+}
+
+.lens[data-active] { opacity: 1; }
+
+/* لا مكبِّرة بلا مؤشّر: على اللمس تبقى الصورة كاملة. */
+@media (pointer: coarse) {
+  .lens { display: none; }
+}
+
+/*
+ * تقليل الحركة: المكبِّرة تظهر **فورًا** عند التحويم بلا تلاشٍ، ولا تختفي.
+ *
+ * إسقاط ‎transition‎ وحده كان يترك ‎opacity: 0‎ بلا قاعدة كشف صريحة، وهو ما
+ * أمسكه حارس تقليل الحركة بحقّ: «أوقفتَ الحركة» و«أخفيتَ المحتوى» ليسا شيئًا
+ * واحدًا. الكشف هنا مكتوب لا مستنتَج.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .lens {
+    transition: none;
+  }
+
+  .lens[data-active] {
+    opacity: 1;
+  }
+}

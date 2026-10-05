@@ -1,0 +1,4 @@
+{
+  "_doc": "استثناءات حارس الأمانة. المفتاح مسار نسبي من جذر المستودع، والقيمة مصفوفة قواعد مسموحة: rating-literal | review-count | visitor-count | math-random | fake-countdown | * — أضف سببًا في _reasons عند الإضافة.",
+  "_reasons": {}
+}

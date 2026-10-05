@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:2px solid #14261d;margin-bottom:22px">
+<span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:15px">ت</span>
+<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#14261d">Tahdheer — International Arabic SEO Engine V2</div><div style="font-size:11.5px;color:#5f7167">Implementation spec · 23 locales · hreflang · duplicate protection</div></div>
+<div style="text-align:end;font:600 10.5px ui-monospace,Menlo,monospace;color:#5f7167">v1 · draft<br>2026-08-27</div>
+</div>
+
+<div style="padding:14px 16px;border:1px solid rgba(180,35,24,.28);background:#fdf3f2;border-radius:10px;margin-bottom:22px">
+<div style="font-size:13px;font-weight:900;color:#b42318;margin-bottom:6px">Blocking dependency — read before scheduling any of this</div>
+<p style="margin:0;font-size:12.5px;line-height:1.8;color:#3b4d43">§273 instructs an inspection first. It returned: <b>no multilingual plugin</b> (no WPML / Polylang / TranslatePress), <b>no locale routing</b>, and <b>no language switcher</b> anywhere in the theme. <code style="font-size:11.5px">inc/setup.php:16</code> loads a textdomain and <code style="font-size:11.5px">inc/woocommerce.php:63</code> filters account-menu labels — that is the whole of the current localisation. §21–§24 forbid inventing URL architecture and require crawlable locale URLs, so <b>hreflang cannot legitimately be emitted at all yet</b>: there is nothing to point it at. Every locale-URL-dependent item below is therefore gated on one decision — install a multilingual plugin, or build in-theme locale routing. Nothing in §25–§35 can ship before it.</p>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">1 · What is designed, and what it depends on</h2>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:20px">
+<thead><tr style="background:#f4f7f3"><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:30%">Surface</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800;width:22%">Status</th><th style="text-align:start;padding:7px 9px;border:1px solid #e6e9e2;font-weight:800">Depends on</th></tr></thead>
+<tbody>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Product Studio panel + 23-locale matrix</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Designed</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Product meta only — works today.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Eligibility engine</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Designed</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Curriculum / grade / subject meta — present.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Regional preview + duplicate check</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#1e7355;font-weight:700">Designed</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Deterministic — Jaccard on shingles, no external service.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Opportunity observatory</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#7a5d20;font-weight:700">Designed, data-blocked</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Search Console for demand/impressions; locale URLs for per-market conversions.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Locale URL resolver · hreflang engine · validator</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#b42318;font-weight:700">Blocked</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Multilingual routing decision.</td></tr>
+<tr><td style="padding:6px 9px;border:1px solid #e6e9e2;font-weight:700">Job queue · regional dictionary · Qwen workflow · sitemap</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167;font-weight:700">Backend, not a design surface</td><td style="padding:6px 9px;border:1px solid #e6e9e2;color:#5f7167">Locale URLs + VPS. Specified below, not mocked.</td></tr>
+</tbody>
+</table>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">2 · Modules</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<sc-for list="{{ modules }}" as="m" hint-placeholder-count="9">
+<div dir="rtl" style="display:flex;gap:11px;padding:9px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;padding:2px 8px;border-radius:5px;background:{{ m.tagBg }};color:{{ m.tagFg }};font:800 9px ui-monospace,monospace">{{ m.tag }}</span>
+<code dir="ltr" style="flex:0 0 auto;font-size:10.5px;color:#14261d;text-align:start">{{ m.file }}</code>
+<span dir="rtl" style="flex:1;min-width:0;font-size:11px;line-height:1.6;color:#5f7167;text-align:start">{{ m.role }}</span>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d;break-before:page">3 · Non-negotiables</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="9">
+<div dir="rtl" style="display:flex;gap:10px;padding:10px 12px;border:1px solid {{ r.border }};border-radius:9px;background:{{ r.bg }};break-inside:avoid">
+<span style="flex:0 0 auto;font-size:13px;color:{{ r.fg }};font-weight:900">{{ r.mark }}</span>
+<div style="min-width:0"><b dir="rtl" style="display:block;text-align:start;font-size:12.5px;font-weight:900;color:#14261d;margin-bottom:2px">{{ r.title }}</b><span dir="rtl" style="display:block;text-align:start;font-size:11.5px;line-height:1.7;color:#5f7167">{{ r.body }}</span></div>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">4 · Ship order</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
+<sc-for list="{{ phases }}" as="p" hint-placeholder-count="6">
+<div dir="rtl" style="display:flex;gap:11px;padding:10px 12px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid">
+<span style="flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:{{ p.tint }};color:{{ p.fg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ p.n }}</span>
+<b dir="rtl" style="flex:0 0 150px;text-align:start;font-size:12px;font-weight:900;color:#14261d">{{ p.title }}</b>
+<span dir="rtl" style="flex:1;min-width:0;text-align:start;font-size:11px;line-height:1.65;color:#5f7167">{{ p.body }}</span>
+<span dir="rtl" style="flex:0 0 auto;font:800 9.5px ui-monospace,monospace;color:{{ p.gateFg }}">{{ p.gate }}</span>
+</div>
+</sc-for>
+</div>
+
+<h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#14261d">5 · Verification checklist</h2>
+<div dir="rtl" style="columns:2;column-gap:24px;font-size:11.5px;line-height:1.9;color:#3b4d43;margin-bottom:18px">
+<sc-for list="{{ checks }}" as="c" hint-placeholder-count="18">
+<div dir="rtl" style="break-inside:avoid;display:flex;gap:7px;align-items:flex-start"><span style="flex:0 0 auto;width:12px;height:12px;border:1.5px solid #c9d4cd;border-radius:3px;margin-top:4px"></span><span dir="rtl" style="flex:1;min-width:0;text-align:start">{{ c }}</span></div>
+</sc-for>
+</div>
+
+<p dir="rtl" style="margin:0;padding-top:12px;border-top:1px solid #e6e9e2;font-size:11px;line-height:1.7;color:#5f7167;text-align:start">Design reference: <b>Tahdheer - International SEO</b> (لوحة المنتج والمصفوفة) · <b>Tahdheer - Regional Preview</b> (المقارنة وحاجب التكرار) · <b>Tahdheer - Regional Opportunity</b> (الفرص والشواذّ والميزانية). Audited: <code dir="ltr" style="font-size:10.5px">inc/setup.php</code>, <code dir="ltr" style="font-size:10.5px">inc/woocommerce.php</code>, <code dir="ltr" style="font-size:10.5px">inc/product-education-meta.php</code>, <code dir="ltr" style="font-size:10.5px">inc/schema.php</code>, <code dir="ltr" style="font-size:10.5px">languages/</code>.</p>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const ok = { mark: '✓', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', fg: '#1e7355' };
+    const no = { mark: '✕', bg: '#fdf3f2', border: 'rgba(180,35,24,.2)', fg: '#b42318' };
+    const iso = s => '\u2066' + s + '\u2069';
+    const NEW = ['rgba(37,155,111,.12)', '#1e7355', 'جديد'];
+    const BLK = ['rgba(180,35,24,.12)', '#b42318', 'محجوب'];
+    const EXT = ['rgba(216,181,106,.18)', '#7a5d20', 'تكامل'];
+
+    return {
+      modules: [
+        [NEW, 'inc/intl/class-locale-registry.php', 'سجل الـ23 لغة — مصدر واحد، لا مصفوفات متفرّقة في الملفات.'],
+        [NEW, 'inc/intl/class-eligibility.php', 'يحسب الأهلية من تصنيف المنتج والمنهج، ويعيد ELIGIBLE / POSSIBLY / NOT / UNKNOWN.'],
+        [NEW, 'inc/intl/class-duplicate-check.php', 'جاكار على مقاطع ثلاثية. يمنع رابطًا إقليميًا حين لا فرق حقيقي.'],
+        [BLK, 'inc/intl/class-locale-urls.php', 'حلّال الروابط — لا يمكن كتابته قبل قرار بنية اللغات.'],
+        [BLK, 'inc/intl/class-hreflang.php', 'يصدر مجموعة متبادلة مع مرجع ذاتي. محجوب على الروابط.'],
+        [BLK, 'inc/intl/class-hreflang-validator.php', 'يتحقّق من التبادل و200 والقنونة قبل النشر.'],
+        [EXT, 'inc/intl/class-canonical-bridge.php', 'يمنع تعارض canonical مع hreflang. يكتشف مالك الوسوم أولًا.'],
+        [NEW, 'inc/intl/jobs.php', 'طابور خلفي — لا توليد 23 لغة تزامنيًا عند الحفظ.'],
+        [NEW, 'assets/js/intl-studio.js', 'واجهة اللوحة، تحميل متأخّر لمحرّر اللغة المختارة فقط.']
+      ].map(m => ({ tagBg: m[0][0], tagFg: m[0][1], tag: m[0][2], file: m[1], role: m[2] })),
+
+      rules: [
+        { ...no, title: 'لا 23 منتجًا في ووكومرس', body: 'كيان منتج واحد، تمثيلات إقليمية متعدّدة. السعر والملفات والمخزون والصلاحيات تبقى في ووكومرس مصدرًا وحيدًا للحقيقة.' },
+        { ...no, title: 'لا اختراع ملاءمة منهج', body: 'مورد سعودي لا يصير مصريًا أو مغربيًا. تعارض المنهج يُخرج اللغة من الأهلية، ولا يُلطَّف بصياغة عامة.' },
+        { ...no, title: 'لا حشو أسماء دول', body: iso('تحضير السعودية الإمارات الكويت قطر…') + ' ممنوع مطلقًا. اسم الدولة يُذكر حين يصف ملاءمة حقيقية فقط.' },
+        { ...no, title: 'لا طلب بحث مُختلق', body: 'غياب البيانات = UNKNOWN، ولا نسخة تُنشأ تلقائيًا. ووزن الطلب يُستبعد من الحساب بدل تقديره صفرًا.' },
+        { ...no, title: 'لا عملة إقليمية وهمية', body: 'العملة من إعداد ووكومرس فقط. ولا يحسب أي نموذج لغوي سعر صرف.' },
+        { ...no, title: 'لا نسخ مُدوَّرة بالمرادفات', body: 'الفرق يكون في المنهج والعملة والتوفّر، لا في إعادة صياغة تُنتج 23 صفحة «مختلفة».' },
+        { ...ok, title: 'العربية العامة هي الافتراضي القويّ', body: iso('ar') + ' تمثيل عربي عام كافٍ حين لا تخصيص جغرافي مطلوب. التوسّع استثناء يُبرَّر، لا قاعدة.' },
+        { ...ok, title: 'الحفظ يبقى سريعًا', body: 'يُحفظ المنتج أولًا ثم تُصفّ الأعمال الإقليمية. فشل لغة لا يمنع النشر ولا يمسّ لغة أخرى.' },
+        { ...ok, title: 'إصلاح ذاتي للتقني فقط', body: 'المرجع الذاتي المفقود وخريطة hreflang القديمة تُصلَح آليًا. تعارض القنونة والتشابه المرتفع ينتظران قرارًا بشريًا.' }
+      ],
+
+      phases: [
+        { n: '0', title: 'قرار بنية اللغات', body: 'إضافة تعدّد لغات أم توجيه داخلي. كل ما بعده معلَّق عليه.', gate: 'يحتاج قرارك', gateFg: '#b42318', tint: 'rgba(180,35,24,.12)', fg: '#b42318' },
+        { n: '1', title: 'السجل والأهلية', body: 'سجل الـ23 + محرّك الأهلية + لوحة المنتج. تعمل بلا روابط لغات.', gate: 'جاهز', gateFg: '#1e7355', tint: 'rgba(37,155,111,.12)', fg: '#1e7355' },
+        { n: '2', title: 'حاجب التكرار', body: 'جاكار + بوّابة القيمة الإقليمية. يمنع الصفحات الرقيقة قبل وجودها.', gate: 'جاهز', gateFg: '#1e7355', tint: 'rgba(37,155,111,.12)', fg: '#1e7355' },
+        { n: '3', title: 'الروابط وhreflang', body: 'الحلّال ثم المحرّك ثم المدقّق. لا تُصدر وسمًا قبل نجاح المدقّق.', gate: 'بعد 0', gateFg: '#7a5d20', tint: 'rgba(216,181,106,.18)', fg: '#7a5d20' },
+        { n: '4', title: 'الطابور والذاكرة', body: 'توليد خلفي بتجزئة تعتمد الحقائق ونسخة القاموس. لا إعادة توليد بلا تغيّر.', gate: 'بعد 3', gateFg: '#7a5d20', tint: 'rgba(216,181,106,.18)', fg: '#7a5d20' },
+        { n: '5', title: 'القياس والرصد', body: 'ربط Search Console ثم تفعيل أعمدة الطلب والظهور ووزنها في الفرصة.', gate: 'بعد ربط GSC', gateFg: '#7a5d20', tint: 'rgba(216,181,106,.18)', fg: '#7a5d20' }
+      ],
+
+      checks: [
+        'الـ23 رمزًا مسجَّلة ويُقرأ كل منها',
+        iso('ar') + ' يعمل كتمثيل عربي عام',
+        iso('x-default') + ' يشير إلى صفحة ذات معنى',
+        'الأهلية تتغيّر بتغيّر تصنيف المنتج',
+        'مورد سعودي لا يُصنَّف مصريًا',
+        'اللغة المستبعدة لا تُحتسب خطأً',
+        'مرجع ذاتي في كل نسخة',
+        'تبادل الروابط بين كل زوج',
+        'روابط hreflang مطلقة لا نسبية',
+        'مالك واحد لوسوم اللغات',
+        'لا تعارض بين canonical وhreflang',
+        'حاجب التكرار يمنع النسخة الرقيقة',
+        'العملة من ووكومرس فقط',
+        'المخزون والملفات غير مكرّرة',
+        'الحفظ لا يتجمّد عند 23 لغة',
+        'فشل لغة لا يؤثّر على غيرها',
+        'الأقفال اليدوية لا يكتبها التوليد',
+        'خريطة الموقع تستبعد noindex و404',
+        'لا انفجار روابط: 840 لا 9,660',
+        'البيانات المجهولة تُعرض «غير متاح»'
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

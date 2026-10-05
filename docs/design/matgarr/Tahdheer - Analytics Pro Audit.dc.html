@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+h2{margin:0 0 10px;font-size:16px;font-weight:900;color:#14261d}
+.row{display:flex;gap:11px;padding:9px 11px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid}
+.mk{flex:0 0 auto;width:19px;height:19px;border-radius:6px;display:grid;place-items:center;font:900 9.5px ui-monospace,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div dir="rtl" style="display:flex;align-items:center;gap:12px;padding-bottom:13px;border-bottom:2px solid #14261d;margin-bottom:20px">
+<span style="width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:14px">ت</span>
+<div style="flex:1"><div style="font-size:14.5px;font-weight:900;color:#14261d">Analytics Pro — إعادة البناء</div><div style="font-size:11.5px;color:#5f7167">المرحلة الأولى · تفقّد للقراءة فقط — لم يُكتب كود ولم يُعدَّل ملف</div></div>
+<div style="text-align:end;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167">Phase 1<br>2026-08-27</div>
+</div>
+
+<div dir="rtl" style="padding:13px 15px;border:1px solid rgba(163,58,45,.28);background:#fdf3f2;border-radius:10px;margin-bottom:20px">
+<div style="font-size:13px;font-weight:900;color:#a33a2d;margin-bottom:6px">الخلاصة التي تغيّر الخطة</div>
+<p style="margin:0;font-size:12.5px;line-height:1.85;color:#3b4d43">الموجز يصف Analytics Pro كنظام يحتاج «إعادة بناء كاملة». التفقّد يقول غير ذلك: النظام <b>قائم وحقيقي</b> — قائمة إدارة، وخمسة أقسام، وجدولان في قاعدة البيانات، وربط OAuth عامل مع Search Console، ومحسِّن صور بالجملة له استرجاع فعلي. الأقسام الخمسة التي طلبتها موجودة أربعة منها بالاسم نفسه. فالعمل المطلوب <b>ليس بناءً من الصفر ولا نسخة ثانية</b>، بل طبقة عرض وتفاعل فوق بيانات موجودة — وهذا ما يحمي البيانات التاريخية التي يشترط الموجز الحفاظ عليها.</p>
+</div>
+
+<h2 dir="rtl">1 · جرد النظام القائم</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">القائمة والتنقّل</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">analytics-pro.php:36</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">قائمة عليا + شريط تبويبات مشترك: الرئيسية · SEO والتحليلات · خريطة الانتباه · مكتبة الوسائط · تكبير صورة. الملفات الأخرى تستدعي <code dir="ltr" style="font-size:9px">analytics_pro_render_tabbar()</code> فالشريط موحَّد أصلًا.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">بيانات الزيارات</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">tahdheer_visitor_events</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">جدول حقيقي، والقراءة منه مُكيَّشة خمس دقائق. حدود اليوم تُحسَب بوقت ووردبريس لا بساعة قاعدة البيانات — تفصيل معلَّق بتعليق يشرح خللًا سابقًا.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">خريطة الانتباه</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">attention-heatmap.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">جدول <code dir="ltr" style="font-size:9px">tahdheer_heatmap</code> مع <code dir="ltr" style="font-size:9px">CREATE TABLE</code>، ومعالجة موافقة، و<b>معاينة 10% معلَنة صراحة</b> لا مُضمَرة. أي أن شرط «لا بيانات وهمية» مُحترَم في الأصل.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">تحسين الصور</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">image-optimizer.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">تحويل بالجملة إلى WebP مع <b>الإبقاء على الأصل</b> و<code dir="ltr" style="font-size:9px">tahdheer_imgopt_restore()</code> عاملة، وستّ حالات لكل ملف. الاسترجاع مبني على أن الأصل لم يُمسّ.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">Search Console</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">class-gsc-oauth.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">OAuth كامل: ربط وفصل وتجديد رمز و<code dir="ltr" style="font-size:9px">searchAnalytics/query</code> ومزامنة مجدولة، و<code dir="ltr" style="font-size:9px">connected()</code> تُقاس بوجود refresh token فعلي.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">تدقيق الصور</span><code dir="ltr" style="flex:0 0 168px;font-size:9.5px;color:#3b4d43;text-align:start">smart-image-seo.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">يدقّق النصّ البديل والأبعاد والحجم وWebP <b>بلا تعديل</b>، و<code dir="ltr" style="font-size:9px">performance-images.php</code> يولّد WebP/AVIF للمرفوعات الجديدة.</span></div>
+</div>
+
+<h2 dir="rtl">2 · الفجوات الحقيقية</h2>
+<p dir="rtl" style="margin:0 0 10px;font-size:12px;line-height:1.8;color:#3b4d43">ما يلي ناقص فعلًا — لا ما هو موجود بمسمّى مختلف.</p>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">1</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">لوحة قابلة للتخصيص</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">«الرئيسية» الآن بطاقات ثابتة وروابط أقسام. المطلوب: ودجات تُعاد ترتيبها وتُخفى وتُحفَظ بتخطيطات متعدّدة لكل دور — وهذا خزن جديد لا عرض جديد.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">2</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">شريط تحكّم عام</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا مدى تاريخي موحَّد ولا مقارنة بالفترة السابقة ولا عروض محفوظة. هذه أكبر فجوة وظيفية: كل مؤشّر بلا مدى ولا مقارنة يبقى رقمًا معلَّقًا.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">3</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">أنماط العرض</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">جداول وبطاقات فقط. لا رسوم خطية ولا أعمدة ولا مساحات ولا قِمَع ولا تعمّق. تحتاج قرارًا: مكتبة رسوم أم SVG بلا تبعية.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">4</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">مكتبة الوسائط</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">التبويب موجود، لكن أنماط العرض السبعة والتكرار والملفات اليتيمة وعرض الاستخدام بالمنتج غير مبنية.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">5</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">معاينة قبل التنفيذ</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">المحسِّن له استرجاع لكن لا <code dir="ltr" style="font-size:9px">Dry Run</code> ولا إيقاف/استئناف ولا سجلّ تغييرات ظاهر. الاسترجاع موجود، والوقاية قبله ناقصة.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">6</span><span style="flex:0 0 128px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">الوضع الداكن</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">لا وجود له. يحتاج رموز أسطح ونصوص لا قلبًا للألوان — وإلا انكسر تباين الشارات الملوّنة.</span></div>
+</div>
+
+<h2 dir="rtl">3 · المخاطر</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">1</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>إعادة بناء تُفقد بيانات.</b> الجدولان يحملان تاريخًا لا يُستعاد. <b>التخفيف:</b> لا تعديل على المخطَّط في هذه المرحلة — طبقة عرض تقرأ فقط، والهجرة إن لزمت تكون بجدول جديد لا بتغيير القائم.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">2</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>ادّعاء اتصال غير قائم.</b> الموجز يمنعه صريحًا. <b>التخفيف:</b> كل بطاقة تعرض مصدرها وآخر مزامنة وحالة الاتصال من <code dir="ltr" style="font-size:9px">connected()</code> الفعلية — لا من وجود إعدادات.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">3</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>تضخّم زمن لوحة الإدارة.</b> فحص كل الصور والمنتجات عند كل تحميل. <b>التخفيف:</b> مسح تدريجي بطابور وتقدّم محفوظ، والأصول لا تُحمَّل إلا على صفحات Analytics Pro — وهو نمط قائم في الملف أصلًا.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">4</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>حذف وسائط بلا رجعة.</b> الموجز يشترط عرض الاستخدام قبل أي حذف. <b>التخفيف:</b> لا إجراء هدّام في المرحلة الأولى إطلاقًا — العرض والتشخيص فقط.</span></div>
+</div>
+
+<h2 dir="rtl">4 · خطة التنفيذ — أربع مراحل قابلة للتحقّق</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">١</span><span style="flex:0 0 116px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">شريط التحكّم</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">مدى تاريخي ومقارنة وعروض محفوظة — يخدم الأقسام الخمسة معًا، فيسبقها. بلا مسّ للبيانات.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٢</span><span style="flex:0 0 116px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">لوحة الودجات</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">ترتيب وإخفاء وحفظ لكل مستخدم، وكل مؤشّر بمصدره ومداه ووقت تحديثه.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٣</span><span style="flex:0 0 116px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">مكتبة الوسائط</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">أنماط العرض والتكرار واليتيم والاستخدام — قراءة فقط، ثم الإجراءات الهدّامة بمعاينة في مرحلة تالية.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٤</span><span style="flex:0 0 116px;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">الرسوم والوضع الداكن</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">أنماط العرض البصرية ورموز الأسطح. آخرًا لأنها الأقل خطرًا والأكثر اعتمادًا على ما قبلها.</span></div>
+</div>
+
+<h2 dir="rtl">5 · ما أحتاجه للانتقال إلى التنفيذ</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">١</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start"><b>الرسوم: مكتبة أم SVG داخلي؟</b> مكتبة أسرع بناءً وأثقل حملًا، والداخلي أخفّ وأطول. الموجز يمنع التبعيات غير الضرورية — أرشّح SVG داخليًا للأنماط الأربعة الأساسية.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٢</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start"><b>Search Console مربوط فعلًا على موقعك؟</b> إن لا، فقسم SEO يُبنى بحالة «غير مربوط» صادقة لا ببيانات محاكاة.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٣</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start"><b>Merchant Center: مربوط؟</b> لم أجد أي تكامل معه في القالب — فبنود «أخطاء Merchant» تُعرَض معطّلة حتى يوجد مصدر.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">٤</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start"><b>أبدأ بالمرحلة الأولى أم بقسم بعينه؟</b></span></div>
+</div>
+
+<p dir="rtl" style="margin:18px 0 0;padding-top:11px;border-top:1px solid #e6e9e2;font-size:10.5px;line-height:1.75;color:#5f7167">قُرئ: <code dir="ltr">inc/analytics-pro.php</code> · <code dir="ltr">inc/attention-heatmap.php</code> · <code dir="ltr">inc/image-optimizer.php</code> · <code dir="ltr">inc/performance-images.php</code> · <code dir="ltr">inc/smart-image-seo.php</code> · <code dir="ltr">inc/seo/integrations/class-gsc-oauth.php</code> · <code dir="ltr">inc/seo-dashboard-core.php</code> — بلا أي تعديل.</p>
+
+</doc-page>
+</x-dc>
+</body>
+</html>

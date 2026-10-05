@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — الفحص العميق للقالب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes dFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1300px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — الفحص العميق: المصادقة · SQL · الملفات · الهروب</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">‎٧ أنظمة فرعية قُرئت سطرًا سطرًا</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1300px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.verdict }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 الحكم" style="display:flex;flex-direction:column;gap:13px;animation:dFade .25s ease">
+
+<h1 style="margin:0;font:900 21px Tajawal">الحكم بعد الفحص العميق</h1>
+
+<section style="border:1px solid #cfe0d6;border-inline-start:4px solid #146c4c;border-radius:14px;background:#f8fbf9;padding:16px 19px">
+<b style="font-size:13.5px;color:#146c4c">النتيجة الصريحة: لم أجد ثغرة أمنية واحدة قابلة للاستغلال</b>
+<p style="margin:8px 0 0;font-size:12.5px;line-height:2.05;color:#3d4f45">فحصت أخطر سبعة أسطح في القالب — المصادقة ورموز التحقق، طبقة SQL على سبعة جداول، عمليات الملفات، العمليات المدمّرة، حدود المعدّل، بوابة الموافقة، ومسار عرض نتائج البحث. كلها سليمة، وبعضها أدقّ من المتوسط في هذا النوع من المشاريع: رمز التحقق مُخزَّن مجزَّأً لا بنصّ صريح، ومهلته محفوظة في الحمولة لا في مهلة الـtransient حتى لا تُجدّدها المحاولات الفاشلة، وعنوان الـIP يُقرأ من REMOTE_ADDR وحده فلا يُزيَّف بترويسة.</p>
+<p style="margin:9px 0 0;padding-top:9px;border-top:1px dashed #d8e6dd;font-size:12.5px;line-height:2;color:#17251d">العيب الجديد الوحيد الذي كشفه هذا الفحص ليس برمجيًا بل تشغيليًا، ونتيجته قفل جماعي لعملائك لا اختراق. تفصيله في الشاشة التالية.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px">
+<sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-top:4px solid {{ c.c }};border-radius:13px;background:#fff;padding:13px 16px">
+<b dir="ltr" style="display:block;font-size:25px;line-height:1;color:{{ c.c }};text-align:start">{{ c.n }}</b>
+<span style="display:block;margin-top:5px;font-size:11.5px;font-weight:800;line-height:1.5">{{ c.t }}</span>
+<span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.7;color:#5f7167">{{ c.d }}</span>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<div style="padding:12px 18px;border-bottom:1px solid #eef1ef;background:#f6f8f7">
+<b style="font-size:12.5px">تغطية الفحص التراكمية — ما قُرئ فعلًا في أربع جلسات</b>
+</div>
+<table style="width:100%;border-collapse:collapse;min-width:860px">
+<thead><tr style="background:#fbfcfb">
+<th style="padding:9px 18px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">النظام الفرعي</th>
+<th style="padding:9px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">ما فُحص فيه</th>
+<th style="padding:9px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">النتيجة</th>
+<th style="padding:9px 18px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الدليل</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ cover }}" as="r" hint-placeholder-count="9">
+<tr>
+<th scope="row" style="padding:9px 18px;text-align:start;font-size:11.5px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">{{ r.n }}</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#3d4f45;vertical-align:top">{{ r.what }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 10px;border-radius:999px;background:{{ r.bg }};color:{{ r.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.v }}</span></td>
+<td style="padding:9px 18px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="auto" style="font-size:9.5px;line-height:1.8;color:#5f7167;display:block;text-align:start;word-break:break-word">{{ r.src }}</code></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.found }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 النتائج" style="display:flex;flex-direction:column;gap:11px;animation:dFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 20px Tajawal">النتائج الحقيقية — {{ findCount }} بندًا</h1>
+<span style="font-size:11px;color:#7d8a83">لا بند هنا بلا ملف وسطر · ولا بند مُعلن بلا قراءة</span>
+</div>
+<sc-for list="{{ found }}" as="f" hint-placeholder-count="6">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ f.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:2px 10px;border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ f.lvl }}</span>
+<b style="flex:1;min-width:200px;font-size:13.5px;line-height:1.45">{{ f.n }}</b>
+<code dir="auto" style="font-size:9.5px;color:#8b978f;text-align:start">{{ f.src }}</code>
+</div>
+<p style="margin:8px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">{{ f.b }}</p>
+<div style="margin-top:9px;padding:10px 13px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#146c4c">الإصلاح</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#3d4f45">{{ f.fix }}</span>
+</div>
+<sc-if value="{{ f.hasNote }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:8px;padding:9px 13px;border:1px solid #f2e2be;border-radius:11px;background:#fffdf6">
+<span style="font-size:10.5px;line-height:1.85;color:#5f4f2f">{{ f.note }}</span>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.clean }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 ما وُجد سليمًا" style="display:flex;flex-direction:column;gap:13px;animation:dFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 20px Tajawal">ما فُحص ووُجد سليمًا — وثيقة تمنع إصلاح ما لا يحتاج إصلاحًا</h1>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 18px">
+<p style="margin:0;font-size:12px;line-height:2;color:#3d4f45">هذه الشاشة ليست مجاملة. في هذا المشروع ثبت ثماني مرات أن جهدًا كان سيُصرف على إصلاح شيء سليم. تسجيل ما فُحص ووُجد سليمًا — بملفه وسطره — هو ما يمنع تكرار ذلك، وهو نصف قيمة أي تدقيق.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:11px">
+<sc-for list="{{ clean }}" as="c" hint-placeholder-count="11">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:13px 16px">
+<div style="display:flex;align-items:flex-start;gap:9px">
+<span aria-hidden="true" style="flex:0 0 20px;height:20px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center">✓</span>
+<div style="flex:1;min-width:0">
+<b style="display:block;font-size:12px;line-height:1.55">{{ c.n }}</b>
+<span style="display:block;margin-top:4px;font-size:11px;line-height:1.85;color:#5f7167">{{ c.b }}</span>
+<code dir="auto" style="display:block;margin-top:5px;font-size:9.5px;line-height:1.7;color:#a9b4ad;text-align:start;word-break:break-word">{{ c.src }}</code>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.patch }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 الرقع والحدود" style="display:flex;flex-direction:column;gap:13px;animation:dFade .25s ease">
+<h1 style="margin:0;font:900 20px Tajawal">الرقع الجاهزة وحدود هذا الفحص</h1>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:0;overflow:hidden">
+<div style="padding:12px 17px;background:#f6f8f7;border-bottom:1px solid #eef1ef;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<code dir="ltr" style="font-size:11px;font-weight:700">inc/language.php:207</code>
+<span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">حتمي · جاهز · قابل للعكس</span>
+</div>
+<pre dir="ltr" style="margin:0;padding:13px 17px;font-size:11.5px;line-height:2;overflow:auto;text-align:start;background:#fff"><span style="display:block;background:#fdecec;color:#8e2223;margin-inline:-17px;padding-inline:17px">-  'httponly' =&gt; false,</span><span style="display:block;background:#e9f7ef;color:#146c4c;margin-inline:-17px;padding-inline:17px">+  'httponly' =&gt; true,</span></pre>
+</section>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fff;padding:0;overflow:hidden">
+<div style="padding:12px 17px;background:#fdf7f7;border-bottom:1px solid #f2dede;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<code dir="ltr" style="font-size:11px;font-weight:700">inc/login/otp.php:207 — tahdheer_client_ip()</code>
+<span style="padding:2px 9px;border-radius:999px;background:#fdecec;color:#8e2223;font-size:9px;font-weight:900">يحتاج جوابك عن البنية التحتية أولًا</span>
+</div>
+<div style="padding:14px 17px">
+<p style="margin:0;font-size:11.5px;line-height:1.95;color:#3d4f45">الشكل الصحيح ليس الثقة بترويسة <code dir="ltr">X-Forwarded-For</code> — ذلك يفتح تزييف حدّ المعدّل. الشكل الصحيح: قائمة بيضاء لعناوين وسطائك الموثوقين، ولا تُقرأ الترويسة إلا إذا كان <code dir="ltr">REMOTE_ADDR</code> واحدًا منها، ثم يُؤخذ آخر عنوان غير موثوق في السلسلة.</p>
+<pre dir="ltr" style="margin:11px 0 0;padding:12px 14px;background:#fbfcfb;border:1px solid #eef1ef;border-radius:10px;font-size:11px;line-height:1.95;overflow:auto;text-align:start">function tahdheer_client_ip() {
+  $remote = filter_var( $_SERVER['REMOTE_ADDR'] ?? '', FILTER_VALIDATE_IP );
+  if ( ! $remote ) { return 'unknown'; }
+
+  /** قائمة بيضاء لوسطاء موثوقين — فارغة افتراضيًا = السلوك الحالي بالحرف. */
+  $trusted = (array) apply_filters( 'tahdheer_trusted_proxies', array() );
+  if ( ! in_array( $remote, $trusted, true ) ) { return $remote; }
+
+  $chain = explode( ',', (string) ( $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '' ) );
+  foreach ( array_reverse( $chain ) as $hop ) {
+    $ip = filter_var( trim( $hop ), FILTER_VALIDATE_IP );
+    if ( $ip &amp;&amp; ! in_array( $ip, $trusted, true ) ) { return $ip; }
+  }
+  return $remote;
+}</pre>
+<p style="margin:10px 0 0;font-size:11px;line-height:1.9;color:#8e2223">الفلتر فارغ افتراضيًا، أي أن تطبيق الرقعة وحدها لا يغيّر شيئًا — السلوك يتغيّر فقط عند تعبئة القائمة بعنوان وسيطك. هذا يجعلها آمنة للنشر قبل معرفة بنيتك.</p>
+</div>
+</section>
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:15px 18px">
+<b style="font-size:12.5px;color:#8a6500">سؤال واحد يحسم الرقعة الثانية</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#5f4f2f">هل الموقع خلف Cloudflare أو موازن حِمل أو أي بروكسي؟ إن كان الجواب نعم، فحدّ المعدّل على الدخول والـOTP اليوم يعمل على عدّاد واحد لكل زوّار الموقع — ‎١٢ محاولة دخول كل ‎١٥ دقيقة للجميع مجتمعين، و‎OTP واحد لكل ساعة للجميع. وهذا يقفل عملاء شرعيين في أوقات الذروة. إن كان الجواب لا، فالشيفرة الحالية صحيحة تمامًا ولا تُلمس.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:12.5px">حدود هذا الفحص — ما لم يُقرأ بعد</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:7px;margin-top:10px">
+<sc-for list="{{ limits }}" as="l" hint-placeholder-count="7">
+<div style="display:flex;gap:7px;align-items:flex-start;padding:8px 11px;border:1px solid #eef1ef;border-radius:10px;background:#fbfcfb;font-size:10.5px;line-height:1.75;color:#5f7167"><span aria-hidden="true" style="font-weight:900;color:#8a6500">؟</span><span>{{ l }}</span></div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11px;line-height:1.9;color:#8e2223">وحدّ منهجي فوق ذلك: فحص القراءة يكشف أخطاء المنطق والبنية، ولا يكشف أخطاء التفاعل بين الإضافات ولا سلوك الإنتاج تحت حِمل. لا بديل عن تشغيل الاختبارات وجلسة فحص حيّة — وكلاهما لم يحدث بعد.</p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1340,&quot;height&quot;:900},&quot;severityFilter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;high&quot;,&quot;medium&quot;,&quot;low&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'high' | 'medium' | 'low'&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const LVL = {
+  op: { lvl: 'حرج تشغيليًا', bg: '#fdecec', fg: '#8e2223', c: '#b42318' },
+  med: { lvl: 'متوسط', bg: '#fff4d6', fg: '#8a6500', c: '#d99a00' },
+  low: { lvl: 'منخفض', bg: '#e8f2fc', fg: '#1d5f9c', c: '#1d5f9c' },
+};
+
+const FOUND = [
+  { k: 'op', n: 'حدّ المعدّل ينهار إلى عدّاد واحد للموقع كله خلف بروكسي', src: 'login/otp.php:207 · login/ajax.php:183',
+    b: 'الدالة تقرأ REMOTE_ADDR وحده — وهذا اختيار صحيح أمنيًا لأنه يمنع تزييف حدّ المعدّل بترويسة. لكن خلف Cloudflare أو موازن حِمل يصبح REMOTE_ADDR هو عنوان الوسيط نفسه لكل الزوّار، فيتقاسم الجميع عدّادًا واحدًا: ‎١٢ محاولة دخول كل ‎١٥ دقيقة للموقع بأكمله، ومحاولات OTP في الساعة للموقع بأكمله. الأثر ليس اختراقًا بل منع دخول عملاء شرعيين في الذروة، وهو عيب يظهر عند النجاح لا عند الهجوم.',
+    fix: 'قائمة بيضاء لوسطاء موثوقين عبر فلتر، فارغة افتراضيًا: لا تُقرأ الترويسة إلا إذا كان REMOTE_ADDR وسيطًا موثوقًا معروفًا. الرقعة الكاملة في شاشة الرقع، وهي بلا أثر حتى تُعبّأ القائمة.',
+    note: 'هذا البند يعتمد على بنيتك التحتية لا على الشيفرة. إن كان الموقع بلا بروكسي فالشيفرة الحالية صحيحة تمامًا ولا تُلمس.', hasNote: true },
+
+  { k: 'med', n: 'حدود المعدّل تكتب في قاعدة البيانات لكل محاولة', src: 'login/otp.php:221 — tahdheer_rate_bump()',
+    b: 'كل زيادة عدّاد تمرّ بـ set_transient. بلا object cache دائم يعني ذلك كتابة صف في wp_options لكل محاولة دخول أو طلب رمز، وهو نفس نمط الخريطة الحرارية الذي رصدته سابقًا. وعلى بنية متعدّدة الخوادم بلا كاش مشترك، لا تتشارك الخوادم العدّاد أصلًا فيتضاعف الحدّ الفعلي بعدد الخوادم.',
+    fix: 'الحدود قصيرة العمر تسكن كاش الكائنات لا wp_options. توثيق أن هذه الميزة تفترض object cache دائمًا، وإسقاط الحدّ إلى قيمة أكثر تحفّظًا إن لم يوجد.', hasNote: false },
+
+  { k: 'med', n: 'كوكي اللغة مكشوف لـ JavaScript بلا قارئ واحد', src: 'inc/language.php:207',
+    b: 'httponly => false مع صفر document.cookie في كل assets/. سطح هجوم بلا مقابل وظيفي، وهو البند الحتمي الوحيد المتبقّي من كل جلسات الفحص.',
+    fix: 'httponly => true. سطر واحد، جاهز في شاشة الرقع.', hasNote: false },
+
+  { k: 'med', n: 'فشل كتابة خرائط XML صامت تمامًا', src: 'sitemaps/class-tahdheer-sitemap-store.php:244,278 · writer:142',
+    b: 'الكتابة والحذف تمرّ بـ @file_put_contents و@unlink و@fopen بإسكات الأخطاء. القيمة المرجعة تُفحص فعلًا في بعض المواضع — وهذا جيد — لكن سبب الفشل يُفقد: صلاحيات، قرص ممتلئ، مسار غير قابل للكتابة. مع صفر اختبارات وصفر مراقبة، توقّف الخرائط قد يمرّ أسابيع بلا أن يعرف أحد.',
+    fix: 'إبقاء الإسكات ومعالجة القيمة المرجعة كما هي، مع تسجيل سبب الفشل مرة واحدة لكل نوع وإظهاره في مركز الصحّة. لا حاجة لتغيير منطق الكتابة نفسه.', hasNote: false },
+
+  { k: 'low', n: 'فكّ تسلسل بيانات من صفّ قاعدة بيانات', src: 'sitemaps/class-tahdheer-sitemap-sources.php:1232',
+    b: 'maybe_unserialize على قيمة مقروءة من قاعدة البيانات. المصدر داخلي ولا يبدو أنه مدخل مستخدم، فالخطر منخفض عمليًا — لكنه النمط الذي يصبح خطيرًا لو تغيّر مصدر الصف لاحقًا.',
+    fix: 'تفضيل json_decode مع تحقّق من الشكل، أو توثيق مصدر الصف صراحةً بتعليق يمنع تغييره بلا مراجعة.', hasNote: false },
+
+  { k: 'low', n: 'الخريطة الحرارية تلتقط كل زيارة افتراضيًا', src: 'inc/attention-heatmap.php:82',
+    b: "sample => 1. مربوط بالموافقة فلا خطر امتثال، ويبقى بندَ ميزانية أداء ينتظر قرارك من الوثيقة السابقة.",
+    fix: 'معدّل عيّنة أقل افتراضيًا — والمقايضة أنك تفقد دقّة الخرائط على الصفحات قليلة الزيارات.', hasNote: false },
+];
+
+const CLEAN = [
+  { n: 'رمز التحقق مُخزَّن مجزَّأً لا بنصّ صريح', b: 'يُخزَّن بتجزئة كلمة مرور ويُتحقَّق بـ wp_check_password — أي أن اختراق قاعدة البيانات لا يكشف رموزًا صالحة. أفضل من المعتاد في هذا النوع من التنفيذ.', src: 'login/otp.php:274,352' },
+  { n: 'المحاولات الفاشلة لا تُجدّد صلاحية الرمز', b: 'وقت الانتهاء محفوظ داخل الحمولة، والمهلة تُحسب منه عند كل إعادة كتابة — فلا يستطيع مهاجم تمديد عمر الرمز بمحاولات متتالية. وفي الشيفرة تعليق يوثّق هذه النية بالضبط.', src: 'login/otp.php:281,356-360' },
+  { n: 'استخدام واحد وحدّ محاولات صارم', b: 'خمس محاولات كحدّ أقصى، والـtransient يُحذف عند تجاوزها وعند النجاح معًا — فلا إعادة استخدام ولا تخمين مفتوح.', src: 'login/otp.php:23,341-346,369' },
+  { n: 'مفتاح الرمز مُلَّح ولا يحمل رقم الجوال', b: 'المفتاح تجزئة sha256 للرقم مع wp_salt، فلا يُستنتج رقم عميل من قائمة مفاتيح الـtransients.', src: 'login/otp.php:198' },
+  { n: 'مناعة من تزييف عنوان الـIP', b: 'REMOTE_ADDR فقط، بلا أي قراءة لـ X-Forwarded-For — فلا يستطيع مهاجم تجاوز حدّ المعدّل بترويسة مزيّفة. هذا اختيار صحيح، وأثره الجانبي هو البند الأول في شاشة النتائج.', src: 'login/otp.php:208-212' },
+  { n: 'كلمة المرور تُمرَّر كما هي إلى wp_signon', b: 'بلا تنقية تُفسد المحارف الخاصة، مع تعليق يوثّق السبب، وحدّ ‎١٢ محاولة لكل ‎١٥ دقيقة قبل الوصول إلى wp_signon.', src: 'login/ajax.php:174,183-189' },
+  { n: 'نونس على كل مسارات الدخول', b: 'دالة تحقّق واحدة تُستدعى في مقدّمة كل معالج، ومسار إعادة توجيه آمن مخصّص بدل تمرير الرابط كما ورد.', src: 'login/ajax.php:23-26,37' },
+  { n: 'لا حقن SQL في أي موضع فُحص', b: 'كل استيفاء داخل استعلام هو اسم جدول من مساعد موثوق. والاستعلام الوحيد الذي يبدو خطيرًا يبني شرطه كله بـ prepare ويقصّ limit بين ‎١ و‎٥٠٠ ويحوّل offset إلى عدد صحيح.', src: 'seo/storage/class-tahdheer-seo-store.php:131-146' },
+  { n: 'العمليات المدمّرة خلف حاجز واحد', b: 'كل TRUNCATE يسبقه حاجز قدرة ونونس في مقدّمة المعالج، ولا يوجد مسار يصل إليه بلا مروره.', src: 'seo-404-redirections.php:367-371' },
+  { n: 'تعديل المخطط مُبرَّر ومحصور', b: 'إسقاط الفهرس القديم داخل مُثبِّت المخطط فقط، بعد فحص وجود الجدول باستعلام مُعَدّ وفحص أعمدته، مع تعليق يشرح لماذا لا يكفي dbDelta.', src: 'attention-heatmap.php:100-108' },
+  { n: 'لا eval ولا extract ولا رفع ملفات', b: 'صفر نتائج لـ eval و extract و move_uploaded_file في كل inc/. عمليات الملفات كلها على مسارات مؤقتة داخلية يبنيها القالب نفسه.', src: 'grep على inc/ — صفر نتائج' },
+];
+
+class Component extends DCLogic {
+  state = { s: 'verdict' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const only = this.props.severityFilter ?? 'all';
+
+    const screens = [
+      ['verdict', 'الحكم'], ['found', 'النتائج'], ['clean', 'ما وُجد سليمًا'], ['patch', 'الرقع والحدود'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const found = FOUND
+      .filter(f => only === 'all' || (only === 'high' ? f.k === 'op' : only === 'medium' ? f.k === 'med' : f.k === 'low'))
+      .map(f => ({ ...f, ...LVL[f.k] }));
+
+    return {
+      screens,
+      is: { verdict: cur === 'verdict', found: cur === 'found', clean: cur === 'clean', patch: cur === 'patch' },
+      found, findCount: found.length,
+      clean: CLEAN,
+
+      cards: [
+        { n: '0', t: 'ثغرة قابلة للاستغلال', d: 'في سبعة أسطح فُحصت سطرًا سطرًا', c: '#146c4c' },
+        { n: '1', t: 'عيب تشغيلي جديد', d: 'قفل جماعي خلف بروكسي — لا اختراق', c: '#b42318' },
+        { n: '11', t: 'ضمانة مُثبَتة', d: 'مسجَّلة بملفها وسطرها لتمنع إصلاحًا عبثيًا', c: '#1d5f9c' },
+        { n: '2', t: 'رقعة جاهزة', d: 'واحدة حتمية، وواحدة تنتظر جوابك', c: '#8a6500' },
+      ],
+
+      cover: [
+        { n: 'المصادقة ورموز التحقق', what: 'إصدار الرمز وتجزئته، مهلته، حدّ المحاولات، الاستخدام الواحد، مفتاح التخزين، مسار كلمة المرور، النونس، إعادة التوجيه', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'login/{ajax,otp}.php — قراءة كاملة للمسارات الحرجة' },
+        { n: 'حدود المعدّل', what: 'مصدر عنوان الـIP، آلية العدّاد، النوافذ الزمنية، مكان التخزين', v: 'بند تشغيلي', bg: '#fdecec', fg: '#8e2223', src: 'login/otp.php:207,221 · ajax.php:183' },
+        { n: 'طبقة SQL', what: 'كل استيفاء متغيّر داخل استعلام على سبعة جداول، وبناء شروط WHERE، وقصّ LIMIT/OFFSET', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'grep على inc/ + قراءة seo-store.php' },
+        { n: 'العمليات المدمّرة', what: 'كل TRUNCATE و DELETE و ALTER TABLE وحواجزها', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'seo-404-redirections.php:367 · attention-heatmap.php:100' },
+        { n: 'عمليات الملفات', what: 'كتابة وحذف وفتح، ومصادر المسارات، ومعالجة الفشل', v: 'ملاحظة رصد', bg: '#fff4d6', fg: '#8a6500', src: 'sitemaps/class-tahdheer-sitemap-{store,writer}.php' },
+        { n: 'أنماط التنفيذ الخطرة', what: 'eval · extract · unserialize · move_uploaded_file', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'grep على inc/ — نتيجة واحدة منخفضة الخطر' },
+        { n: 'بوابة الموافقة والخصوصية', what: 'سلسلة الأولوية، إشارات المتصفح، الكوكيز، تنقية الروابط، أدوات التصدير والمسح', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'privacy-consent.php — قراءة كاملة (جلسة سابقة)' },
+        { n: 'محرك البحث', what: 'الفهرس والأجيال، المطبّع، الخدمة وحدّ المعدّل، مسارات REST، تكامل الاستعلام الرئيسي', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'search/* · ajax-search.php (جلسة سابقة)' },
+        { n: 'عرض نتائج البحث في الواجهة', what: 'بناء الـDOM، الهروب، التطبيع العربي', v: 'سليم', bg: '#e4f4ec', fg: '#146c4c', src: 'assets/js/theme.js:31-440 (جلسة سابقة)' },
+      ],
+
+      limits: [
+        'inc/blocks و inc/sections و inc/hero — بناء الأقسام والهيرو',
+        'inc/motion/ — نظام الحركة واحترام تقليل الحركة',
+        'inc/curriculum/ و inc/demo-content/ — وبيانات العرض التوضيحية تحديدًا',
+        'قوالب ووكومرس المستبدَلة في woocommerce/',
+        'template-parts/ — الهروب في القوالب الفعلية',
+        'inc/image-optimizer.php و image-upscaler.php — مسارات الملفات',
+        'inc/security.php — لم يُقرأ بعد رغم اسمه',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

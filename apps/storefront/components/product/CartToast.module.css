@@ -1,0 +1,86 @@
+/*
+ * تنبيه السلّة — ثابتٌ أسفل الشاشة، بخصائص منطقيّة ورموز نظام التصميم.
+ */
+
+.region {
+  position: fixed;
+  /*
+   * التوسيط في RTL: `inset-inline-start:50%` ثمّ إزاحةٌ **موجبة** نصفَ
+   * العرض. السالبة (نمط LTR المعتاد) تدفع التنبيه خارج الشاشة هنا.
+   */
+  inset-inline-start: 50%;
+  transform: translateX(50%);
+  /* فوق الشريط اللاصق أسفل الشاشة لا تحته. */
+  inset-block-end: calc(var(--tah-purchase-bar-h, 0px) + var(--space-4) + env(safe-area-inset-bottom));
+  z-index: var(--z-toast);
+  pointer-events: none;
+}
+
+.region:not([data-open]) {
+  /* لا صندوق ولا ظلّ حين لا رسالة — ويبقى العنصر في الشجرة للقراءة الحيّة. */
+  display: contents;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-inline-size: min(92vw, 44ch);
+  padding-inline: var(--space-4);
+  padding-block: var(--space-3);
+  border-radius: var(--r-lg);
+  /* جزيرةٌ داكنة في المظهرين (‎--ink‎ ينقلب فاتحًا في الداكن فيختفي النصّ الأبيض). */
+  background: var(--color-inverse);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--ink) 30%, transparent);
+  pointer-events: auto;
+  animation: tahToastIn 300ms ease-out both;
+}
+
+[data-tone='error'] .toast {
+  background: var(--danger-text, var(--ink));
+}
+
+.icon {
+  inline-size: 18px;
+  block-size: 18px;
+  flex: none;
+}
+
+.text {
+  /* النصّ يلتفّ ولا يُقصّ: رسالة الخادم تُقرأ كاملةً أو لا تُعرض. */
+  min-inline-size: 0;
+}
+
+.link {
+  flex: none;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+}
+
+@keyframes tahToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * تقليل الحركة يكشف ولا يجمّد: التنبيه يظهر فورًا بلا انزلاق، ولا يبقى
+ * عند `opacity:0` بانتظار حركةٍ مُعطَّلة.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

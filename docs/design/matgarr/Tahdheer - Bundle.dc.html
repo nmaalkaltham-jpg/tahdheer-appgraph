@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:{{ pageW }};background:#fff;color:#223129;box-sizing:border-box">
+
+<dc-import name="TahHeader" hint-size="100%,132px"></dc-import>
+
+<div style="padding:{{ pad }}">
+
+<nav aria-label="مسار التنقّل" style="margin-bottom:12px">
+<ol style="display:flex;flex-wrap:wrap;align-items:center;gap:7px;list-style:none;margin:0;padding:0;font-size:12px;color:#5f7167">
+<li><a href="#" style="color:#5f7167">الرئيسية</a></li>
+<li aria-hidden="true">›</li>
+<li><a href="#" style="color:#5f7167">الحزم</a></li>
+<li aria-hidden="true">›</li>
+<li aria-current="page" style="color:#14261d;font-weight:800">حزمة المرحلة الابتدائية</li>
+</ol>
+</nav>
+
+<div style="display:grid;grid-template-columns:{{ gridCols }};gap:16px;align-items:start">
+
+<div style="min-width:0;display:flex;flex-direction:column;gap:14px">
+
+<header style="padding:{{ heroPad }};border-radius:16px;background:linear-gradient(135deg,#123d2f,#1e7355);color:#fff">
+<span style="display:inline-flex;align-items:center;gap:7px;box-sizing:border-box;padding:4px 12px;border-radius:999px;background:rgba(216,181,106,.2);font-size:11.5px;font-weight:900;color:#e6cd93;margin-bottom:11px">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-layers"></use></svg>حزمة — 6 مواد
+</span>
+<h1 style="margin:0 0 9px;font-size:{{ h1 }};font-weight:900;line-height:1.26;text-wrap:balance">حزمة المرحلة الابتدائية — الفصل الأول كاملًا</h1>
+<p style="margin:0 0 14px;font-size:{{ intro }};line-height:1.85;color:rgba(255,255,255,.8);max-width:58ch">كل مواد الصفوف 1 — 6 للفصل الأول في حزمة واحدة: تحاضير وعروض وأوراق عمل واختبارات. محدَّثة على المنهج الحالي وقابلة للتعديل بالكامل.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px 18px">
+<sc-for list="{{ heroFacts }}" as="hf" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#fff"><svg aria-hidden="true" style="width:15px;height:15px;color:#e6cd93;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ hf.icon }}"></use></svg>{{ hf.text }}</span>
+</sc-for>
+</div>
+</header>
+
+<section style="padding:16px 18px;border:1px solid #e6e9e2;border-radius:14px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:6px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:15px;font-weight:900;color:#14261d;text-align:start">ماذا تتضمّن الحزمة؟</h2>
+<span style="box-sizing:border-box;padding:4px 11px;border-radius:7px;background:rgba(37,155,111,.10);font-size:10.5px;font-weight:900;color:#1e7355;white-space:nowrap">{{ ownedLabel }}</span>
+</div>
+<p style="margin:0 0 13px;font-size:12px;line-height:1.8;color:#5f7167;text-align:start">{{ contentsNote }}</p>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ contents }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px 12px;border:1px solid {{ c.border }};border-radius:11px;background:{{ c.bg }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:32px;height:32px;border-radius:9px;background:{{ c.iconBg }};color:{{ c.iconFg }};display:grid;place-items:center"><svg style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ c.icon }}"></use></svg></span>
+<span style="flex:1;min-width:130px">
+<b dir="auto" style="display:block;font-size:13px;font-weight:800;color:#14261d;line-height:1.5;text-align:start">{{ c.title }}</b>
+<span dir="rtl" style="display:block;margin-top:2px;font-size:10.5px;color:#5f7167;text-align:start">{{ c.meta }}</span>
+</span>
+<span dir="ltr" style="flex:0 0 62px;font:800 11.5px ui-monospace,Menlo,monospace;color:#5f7167;text-align:start">{{ c.price }}</span>
+<span style="flex:0 0 {{ ownedW }};box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:3px 8px;border-radius:6px;background:{{ c.tagBg }};font-size:9.5px;font-weight:900;color:{{ c.tagFg }};white-space:nowrap">{{ c.tag }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa">
+<h2 style="margin:0 0 12px;font-size:14px;font-weight:900;color:#14261d;text-align:start">لماذا الحزمة لا الملفات منفردة؟</h2>
+<div style="display:grid;grid-template-columns:{{ whyCols }};gap:11px">
+<sc-for list="{{ why }}" as="w" hint-placeholder-count="3">
+<div>
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+<span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:rgba(37,155,111,.10);color:#1e7355;display:grid;place-items:center"><svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ w.icon }}"></use></svg></span>
+<b style="flex:1;min-width:0;font-size:12.5px;font-weight:900;color:#14261d;text-align:start">{{ w.title }}</b>
+</div>
+<span style="display:block;font-size:11.5px;line-height:1.8;color:#5f7167;text-align:start">{{ w.body }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<aside style="min-width:0;position:sticky;inset-block-start:14px;display:flex;flex-direction:column;gap:12px">
+
+<section style="padding:16px;border:1px solid rgba(37,155,111,.3);border-radius:14px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:4px">
+<b dir="ltr" style="font-size:30px;font-weight:900;color:#14261d;line-height:1.1">{{ price.now }}</b>
+<span style="font-size:13px;font-weight:800;color:#5f7167">ر.س</span>
+<del dir="ltr" style="font-size:14px;color:#5f7167">{{ price.was }}</del>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+<span style="box-sizing:border-box;padding:4px 11px;border-radius:8px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;white-space:nowrap">{{ price.pctLabel }}</span>
+<span dir="rtl" style="box-sizing:border-box;padding:4px 11px;border-radius:8px;background:rgba(216,181,106,.18);color:#7a5d20;font-size:11.5px;font-weight:900;white-space:nowrap">توفير <bdi dir="ltr">{{ price.saving }}</bdi> ر.س</span>
+</div>
+
+<div style="padding:11px 12px;border-radius:11px;background:#fbfcfa;border:1px solid #eef1ec;margin-bottom:12px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ math }}" as="m" hint-placeholder-count="3">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:11px;font-weight:{{ m.weight }};color:{{ m.fg }};text-align:start">{{ m.label }}</span>
+<span dir="ltr" style="flex:0 0 auto;font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:{{ m.weight }};color:{{ m.fg }}">{{ m.value }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<button type="button" onClick="{{ onOwned }}" style="width:100%;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:{{ tap }};border:0;border-radius:12px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(30,115,85,.18)">
+<svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg>{{ ctaLabel }}
+</button>
+<p style="margin:9px 0 0;font-size:10.5px;line-height:1.7;color:#5f7167;text-align:center">{{ ctaNote }}</p>
+
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #eef1ec;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ trust }}" as="tr" hint-placeholder-count="4">
+<span style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:#3b4d43;text-align:start"><svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>{{ tr }}</span>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ partialDisplay }};padding:14px 15px;border:1px solid rgba(216,181,106,.45);border-radius:14px;background:rgba(216,181,106,.08)">
+<div style="display:flex;align-items:flex-start;gap:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:2px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<div style="min-width:0;text-align:start">
+<b style="display:block;font-size:12px;font-weight:900;color:#7a5d20;margin-bottom:4px">{{ partial.title }}</b>
+<span style="font-size:11px;line-height:1.8;color:#3b4d43">{{ partial.body }}</span>
+</div>
+</div>
+</section>
+
+</aside>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:980},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { owns: false };
+
+  renderVals() {
+    const mobile = !!this.props.mobile;
+    const pick = (m, d) => (mobile ? m : d);
+    const owns = this.state.owns;
+
+    /*
+     * The honest hard case for a bundle: the shopper already owns part of it.
+     * Charging full price for files they hold is the trap most stores fall into.
+     * Owned items are marked, excluded from the maths, and the price drops — so
+     * the discount shown is the discount actually charged.
+     */
+    const itemDefs = [
+      ['الرياضيات — الصف الأول والثاني', '68 ملفًا · تحاضير وعروض وأوراق عمل', 58, false],
+      ['اللغة العربية — الصف الأول والثاني', '74 ملفًا · تحاضير وقراءة وإملاء', 62, false],
+      ['العلوم — الصفوف 1 — 3', '52 ملفًا · عروض وأنشطة صفّية', 48, true],
+      ['الدراسات الإسلامية — الصفوف 1 — 3', '44 ملفًا · تحاضير وأوراق عمل', 40, false],
+      ['اللغة الإنجليزية — الصفوف 4 — 6', '58 ملفًا · عروض ومفردات', 52, true],
+      ['الاجتماعيات — الصفوف 4 — 6', '44 ملفًا · تحاضير وخرائط', 40, false]
+    ];
+
+    const ownedCount = owns ? itemDefs.filter(i => i[3]).length : 0;
+    const payable = itemDefs.filter(i => !(owns && i[3]));
+    const listTotal = payable.reduce((a, i) => a + i[2], 0);
+    const bundlePct = 40;
+    const now = Math.round(listTotal * (1 - bundlePct / 100));
+    const saving = listTotal - now;
+
+    const contents = itemDefs.map(i => {
+      const isOwned = owns && i[3];
+      return {
+        title: i[0], meta: i[1],
+        price: isOwned ? '—' : i[2] + '.00',
+        icon: isOwned ? '#i-check' : '#i-files',
+        iconBg: isOwned ? 'rgba(37,155,111,.14)' : '#f2f5f2',
+        iconFg: isOwned ? '#1e7355' : '#5f7167',
+        border: isOwned ? 'rgba(37,155,111,.28)' : '#eef1ec',
+        bg: isOwned ? 'rgba(37,155,111,.05)' : '#fbfcfa',
+        tag: isOwned ? 'تملكه' : 'مضمَّن',
+        tagBg: isOwned ? 'rgba(37,155,111,.14)' : '#f2f5f2',
+        tagFg: isOwned ? '#1e7355' : '#5f7167'
+      };
+    });
+
+    return {
+      pageW: pick('390px', '1180px'),
+      pad: pick('16px 16px 28px', '20px 26px 34px'),
+      heroPad: pick('18px 16px', '24px 26px'),
+      h1: pick('22px', '29px'),
+      intro: pick('13px', '14.5px'),
+      gridCols: pick('1fr', 'minmax(0,1fr) 316px'),
+      whyCols: pick('1fr', 'repeat(3,minmax(0,1fr))'),
+      ownedW: pick('62px', '68px'),
+      tap: pick('52px', '50px'),
+
+      heroFacts: [
+        { icon: '#i-files', text: '340 ملفًا' },
+        { icon: '#i-download', text: 'تحميل فوري' },
+        { icon: '#i-pen', text: 'قابلة للتعديل' },
+        { icon: '#i-refresh', text: 'تحديث مجاني' }
+      ],
+
+      onOwned: () => this.setState(s => ({ owns: !s.owns })),
+      ownedLabel: owns ? ownedCount + ' مواد تملكها — مستثناة' : '6 مواد · 340 ملفًا',
+      contentsNote: owns
+        ? 'ما تملكه مستثنى من السعر ولن تُشترى نسخة ثانية منه. تبقى في مكتبتك كما هي.'
+        : 'كل مادة تُشترى منفردة أيضًا — والسعر أدناه محسوب على المواد التي لا تملكها.',
+      contents,
+
+      price: {
+        now: String(now),
+        was: String(listTotal),
+        pctLabel: 'خصم ' + bundlePct + '%',
+        saving: String(saving)
+      },
+      math: [
+        { label: owns ? 'مجموع المواد غير المملوكة' : 'مجموع المواد منفردة', value: listTotal + '.00', weight: '600', fg: '#5f7167' },
+        { label: 'خصم الحزمة ' + bundlePct + '%', value: '−' + saving + '.00', weight: '700', fg: '#1e7355' },
+        { label: 'الإجمالي', value: now + '.00', weight: '900', fg: '#14261d' }
+      ],
+
+      ctaLabel: owns ? 'أضف المواد الأربعة للسلة' : 'أضف الحزمة للسلة',
+      ctaNote: owns
+        ? 'محاكاة: اضغط لتبديل حالة «أملك بعض المواد»'
+        : 'محاكاة: اضغط لترى الحساب عندما تملك مادتين',
+
+      trust: [
+        'الأسعار شاملة ضريبة القيمة المضافة',
+        'الملفات تصلك فور إتمام الدفع',
+        'تحديث المنهج مجاني مدى العام',
+        'استرجاع خلال 7 أيام وفق السياسة'
+      ],
+
+      partialDisplay: owns ? 'block' : 'none',
+      partial: {
+        title: 'لماذا انخفض السعر؟',
+        body: 'استثنينا العلوم والإنجليزية لأنك تملكهما. لا نبيعك ملفًا تملكه — والخصم ' + bundlePct + '% يُطبَّق على الباقي، فالسعر المعروض هو المدفوع فعلًا.'
+      },
+
+      why: [
+        { title: 'أرخص من المفرَّق', icon: '#i-coins', body: 'شراء المواد منفردة يبلغ ' + listTotal + ' ر.س. الحزمة تخصم ' + bundlePct + '% دفعة واحدة.' },
+        { title: 'اتساق بين المواد', icon: '#i-layers', body: 'كل المواد بالقالب نفسه، فالتحاضير تبدو من إعداد واحد لا من مصادر متفرّقة.' },
+        { title: 'تحديث واحد للكل', icon: '#i-refresh', body: 'مع كل تحديث للمنهج تصلك النسخ الجديدة لكل المواد معًا مجانًا.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#e9ebe9;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes wsFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes wsSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#0c1411;color:#eaf2ee;position:sticky;top:0;z-index:80;box-shadow:0 6px 18px rgba(8,20,15,.2)">
+<div style="max-width:1560px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13.5px">نظام الودجات — ١٦ فئة × ٥٠ = ٨٠٠ ودجة</b>
+<span style="padding:2px 9px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">تحقق حي: {{ qa.total }} ودجة · {{ qa.cats }} فئة · لا مكررات</span>
+<div style="position:relative;flex:1;min-width:230px;max-width:420px">
+<input type="search" value="{{ q }}" onChange="{{ onQ }}" placeholder="ابحث في ٨٠٠ ودجة: اسم، غرض، فئة…" aria-label="بحث الودجات" style="width:100%;box-sizing:border-box;min-height:36px;padding:0 13px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:800 11.5px Tajawal;outline:none">
+</div>
+<span style="font-size:10px;font-weight:900;color:rgba(234,242,238,.7)">♥ {{ favN }} مفضلة · {{ colN }} في المجموعة</span>
+</div>
+</div>
+
+<div style="max-width:1560px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:240px minmax(0,1fr) 330px;gap:13px;align-items:start">
+
+<aside style="position:sticky;top:62px;border:1px solid #d5dbd6;border-radius:14px;background:#fff;overflow:hidden;max-height:calc(100vh - 82px);overflow-y:auto">
+<div style="padding:10px 12px;border-bottom:1px solid #f1f4f2"><b style="font-size:11.5px">الفئات الست عشرة</b></div>
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="17">
+<button type="button" onClick="{{ c.onClick }}" aria-current="{{ c.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:37px;padding:0 12px;border:0;border-inline-start:3px solid {{ c.edge }};background:{{ c.bg }};color:{{ c.fg }};font-size:11px;font-weight:900;cursor:pointer;text-align:start">
+{{ c.n }}<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">{{ c.count }}</span>
+</button>
+</sc-for>
+</aside>
+
+<main style="min-width:0">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 16px Tajawal">{{ head }}</h1>
+<span style="font-size:10px;color:#5f7167">{{ sub }}</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onFavF }}" aria-pressed="{{ favOnly }}" style="min-height:30px;padding:0 12px;border:1px solid {{ favBd }};border-radius:999px;background:{{ favBg }};color:{{ favFg }};font-size:10px;font-weight:900;cursor:pointer">♥ المفضلة فقط</button>
+</div>
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;padding:9px 12px;border:1px solid #d5dbd6;border-radius:12px;background:#fff;flex-wrap:wrap">
+<span style="font-size:9.5px;font-weight:900;color:#5f7167">توصيات ذكية لـ:</span>
+<sc-for list="{{ pages }}" as="p" hint-placeholder-count="4">
+<button type="button" onClick="{{ p.onClick }}" aria-pressed="{{ p.on }}" style="min-height:27px;padding:0 10px;border:1px solid {{ p.bd }};border-radius:8px;background:{{ p.bg }};color:{{ p.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ p.n }}</button>
+</sc-for>
+<span aria-hidden="true" style="width:1px;height:18px;background:#e2e8e4"></span>
+<sc-for list="{{ recs }}" as="r" hint-placeholder-count="5">
+<button type="button" onClick="{{ r.onGo }}" style="display:inline-flex;align-items:center;gap:5px;min-height:27px;padding:0 10px;border:1px dashed #cfe0d6;border-radius:8px;background:#f8fbf9;font-size:9px;font-weight:800;color:#146c4c;cursor:pointer"><span aria-hidden="true" style="width:6px;height:6px;border-radius:2px;background:{{ r.c }}"></span>{{ r.n }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:9px">
+<sc-for list="{{ rows }}" as="w" hint-placeholder-count="24">
+<button type="button" onClick="{{ w.onSel }}" aria-pressed="{{ w.on }}" style="display:flex;flex-direction:column;gap:5px;padding:11px 13px;border:1.5px solid {{ w.bd }};border-radius:12px;background:{{ w.bg }};cursor:pointer;text-align:start;animation:wsFade .2s ease">
+<span style="display:flex;align-items:center;gap:6px;width:100%"><span aria-hidden="true" style="width:8px;height:8px;border-radius:3px;background:{{ w.c }}"></span><b style="flex:1;font-size:11px;color:#14261d;line-height:1.5">{{ w.n }}</b><span style="color:{{ w.favC }};font-size:12px">♥</span></span>
+<span style="font-size:9px;line-height:1.6;color:#7c8a82">{{ w.p }}</span>
+<span style="font-size:8px;font-weight:900;color:{{ w.c }}">{{ w.cat }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:40px;text-align:center;border:1.5px dashed #c9d2cc;border-radius:14px;background:#fff"><b style="font-size:13px">لا نتائج</b><span style="display:block;margin-top:4px;font-size:11px;color:#8b978f">جرّب كلمة أعم — البحث يغطي الاسم والغرض والفئة لكل الـ ٨٠٠</span></div>
+</sc-if>
+</main>
+
+<aside style="position:sticky;top:62px;border:1px solid #d5dbd6;border-radius:14px;background:#fff;overflow:hidden">
+<div style="padding:11px 14px;border-bottom:1px solid #f1f4f2">
+<b style="display:block;font-size:12.5px">{{ pv.n }}</b>
+<span style="font-size:9.5px;line-height:1.6;color:#7c8a82">{{ pv.p }}</span>
+</div>
+<div style="display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #f6f8f6;flex-wrap:wrap">
+<sc-for list="{{ pv.devs }}" as="d" hint-placeholder-count="3">
+<button type="button" onClick="{{ d.onClick }}" aria-pressed="{{ d.on }}" style="min-height:26px;padding:0 9px;border:1px solid {{ d.bd }};border-radius:7px;background:{{ d.bg }};color:{{ d.fg }};font-size:9px;font-weight:900;cursor:pointer">{{ d.n }}</button>
+</sc-for>
+<button type="button" onClick="{{ pv.onDark }}" aria-pressed="{{ pv.dark }}" style="min-height:26px;padding:0 9px;border:1px solid {{ pv.dkBd }};border-radius:7px;background:{{ pv.dkBg }};color:{{ pv.dkFg }};font-size:9px;font-weight:900;cursor:pointer">داكن</button>
+</div>
+<div style="display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #f6f8f6;flex-wrap:wrap">
+<sc-for list="{{ pv.states }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:26px;padding:0 9px;border:1px solid {{ s.bd }};border-radius:7px;background:{{ s.bg }};color:{{ s.fg }};font-size:9px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+<div style="padding:14px;background:{{ pv.stage }}">
+<div style="width:{{ pv.w }};max-width:100%;margin:0 auto;border-radius:13px;background:{{ pv.cardBg }};border:1px solid {{ pv.cardBd }};box-shadow:{{ pv.ring }},0 8px 22px rgba(10,20,15,.14);padding:14px;transition:width .2s;color:{{ pv.fg }}">
+
+<sc-if value="{{ pv.isLoad }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px" aria-label="جارٍ التحميل">
+<span aria-hidden="true" style="width:26px;height:26px;border:3px solid {{ pv.skel }};border-top-color:#1e7355;border-radius:50%;animation:wsSpin .9s linear infinite"></span>
+<span aria-hidden="true" style="height:11px;border-radius:6px;background:{{ pv.skel }};width:70%"></span>
+<span aria-hidden="true" style="height:11px;border-radius:6px;background:{{ pv.skel }};width:45%"></span>
+</div>
+</sc-if>
+<sc-if value="{{ pv.isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:8px 0"><b style="font-size:11.5px">لا بيانات بعد</b><span style="display:block;margin-top:3px;font-size:9.5px;color:{{ pv.mut }}">حالة فارغة مصممة — بإرشاد وخطوة تالية لا فراغ</span><button type="button" style="min-height:30px;margin-top:8px;padding:0 13px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-size:10px;font-weight:900;cursor:pointer">ابدأ الآن</button></div>
+</sc-if>
+<sc-if value="{{ pv.isErr }}" hint-placeholder-val="{{ false }}">
+<div style="text-align:center;padding:8px 0"><b style="font-size:11.5px;color:#b32d2e">تعذر التحميل</b><span style="display:block;margin-top:3px;font-size:9.5px;color:{{ pv.mut }}">رسالة بشرية + إعادة محاولة — لا شيفرة خطأ خام</span><button type="button" style="min-height:30px;margin-top:8px;padding:0 13px;border:1px solid #f0d3d3;border-radius:8px;background:#fdf6f6;color:#b32d2e;font-size:10px;font-weight:900;cursor:pointer">إعادة المحاولة</button></div>
+</sc-if>
+
+<sc-if value="{{ pv.isBody }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ pv.kNav }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:5px;flex-wrap:wrap"><span style="padding:6px 12px;border-radius:999px;background:#1e7355;color:#fff;font-size:10px;font-weight:900">الرئيسية</span><span style="padding:6px 12px;border-radius:999px;background:{{ pv.chip }};font-size:10px;font-weight:800">المتجر</span><span style="padding:6px 12px;border-radius:999px;background:{{ pv.chip }};font-size:10px;font-weight:800">المدونة</span><span style="padding:6px 12px;border-radius:999px;background:{{ pv.chip }};font-size:10px;font-weight:800">حسابي</span></div></sc-if>
+<sc-if value="{{ pv.kCommerce }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:10px"><span aria-hidden="true" style="width:52px;height:52px;border-radius:10px;background:linear-gradient(140deg,#2b9c72,#14603f)"></span><span style="flex:1"><b style="font-size:11px;line-height:1.5">مذكرة الرياضيات — أول ثانوي</b><span style="display:block;font-size:9px;color:{{ pv.mut }}">★ ٤٫٨ (٩٦) · متوفر</span><span style="display:flex;align-items:center;gap:6px;margin-top:5px"><b style="font-size:12px;color:#1e9d6f">٤٥ ر.س</b><button type="button" style="margin-inline-start:auto;min-height:28px;padding:0 11px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">أضف للسلة</button></span></span></div></sc-if>
+<sc-if value="{{ pv.kSearch }}" hint-placeholder-val="{{ false }}"><div><span style="display:flex;align-items:center;gap:7px;min-height:34px;padding:0 11px;border:1.5px solid {{ pv.cardBd }};border-radius:9px;background:{{ pv.chip }}"><span style="color:{{ pv.mut }}">⌕</span><span style="font-size:10px;color:{{ pv.mut }}">ملزمة رياض…</span></span><div style="margin-top:6px;display:flex;flex-direction:column;gap:3px"><span style="padding:5px 9px;border-radius:7px;background:{{ pv.chip }};font-size:9.5px;font-weight:800">ملزمة رياضيات أول ثانوي</span><span style="padding:5px 9px;border-radius:7px;font-size:9.5px;color:{{ pv.mut }}">ملزمة رياضيات ثالث متوسط</span></div></div></sc-if>
+<sc-if value="{{ pv.kConv }}" hint-placeholder-val="{{ false }}"><div style="text-align:center"><span style="font-size:9px;font-weight:900;color:#8a6500">عرض العودة — ينتهي فعليًا</span><div style="display:flex;gap:5px;justify-content:center;margin:7px 0"><span style="padding:7px 9px;border-radius:8px;background:#14261d;color:#fff;font:900 13px Tajawal">١٤</span><span style="padding:7px 9px;border-radius:8px;background:#14261d;color:#fff;font:900 13px Tajawal">٠٧</span><span style="padding:7px 9px;border-radius:8px;background:#14261d;color:#fff;font:900 13px Tajawal">٣٢</span></div><button type="button" style="min-height:32px;padding:0 16px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">احصل على الخصم</button></div></sc-if>
+<sc-if value="{{ pv.kChart }}" hint-placeholder-val="{{ false }}"><div><span style="display:flex;justify-content:space-between;font-size:9.5px"><b>الإيراد العضوي</b><b style="color:#1e9d6f">+٨٫٧٪</b></span><div style="display:flex;align-items:flex-end;gap:4px;height:56px;margin-top:7px"><span aria-hidden="true" style="flex:1;height:40%;border-radius:4px 4px 0 0;background:{{ pv.chip }}"></span><span aria-hidden="true" style="flex:1;height:55%;border-radius:4px 4px 0 0;background:{{ pv.chip }}"></span><span aria-hidden="true" style="flex:1;height:48%;border-radius:4px 4px 0 0;background:{{ pv.chip }}"></span><span aria-hidden="true" style="flex:1;height:70%;border-radius:4px 4px 0 0;background:#2b9c72"></span><span aria-hidden="true" style="flex:1;height:85%;border-radius:4px 4px 0 0;background:#1e7355"></span></div></div></sc-if>
+<sc-if value="{{ pv.kTrust }}" hint-placeholder-val="{{ false }}"><div><span style="color:#d8a723;font-size:13px;letter-spacing:2px">★★★★★</span><p style="margin:5px 0;font-size:10px;line-height:1.8">«تحسّن ابني من ٧٨ إلى ٩٤ — الشرح أوضح من الكتاب»</p><span style="display:flex;align-items:center;gap:6px;font-size:9px;color:{{ pv.mut }}"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a)"></span>أم فيصل · <b style="color:#1e9d6f">شراء موثق ✓</b></span></div></sc-if>
+<sc-if value="{{ pv.kForm }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:6px"><label style="font-size:9px;font-weight:900;color:{{ pv.mut }}">البريد الإلكتروني</label><span style="min-height:32px;display:flex;align-items:center;padding:0 10px;border:1.5px solid #1e7355;border-radius:8px;background:{{ pv.chip }};font-size:10px" dir="ltr">n.alsalem@gmail…</span><span style="font-size:8.5px;color:#1e9d6f">✓ صيغة صحيحة — تحقق لحظي لا عند الإرسال</span></div></sc-if>
+<sc-if value="{{ pv.kFlow }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="padding:5px 9px;border-radius:8px;background:rgba(216,181,106,.2);color:#8a6500;font:900 8.5px Tajawal">IF CTR&lt;١٪</span><span style="color:{{ pv.mut }}">←</span><span style="padding:5px 9px;border-radius:8px;background:{{ pv.chip }};font:900 8.5px Tajawal">حلّل النية</span><span style="color:{{ pv.mut }}">←</span><span style="padding:5px 9px;border-radius:8px;background:rgba(43,156,114,.2);color:#1e9d6f;font:900 8.5px Tajawal">موافقة ثم نفّذ</span></div></sc-if>
+<sc-if value="{{ pv.kChat }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:5px"><span style="align-self:flex-start;max-width:85%;padding:7px 10px;border-radius:10px 10px 10px 3px;background:{{ pv.chip }};font-size:9.5px;line-height:1.6">وين وصل طلبي #TD-48213؟</span><span style="align-self:flex-end;max-width:85%;padding:7px 10px;border-radius:10px 10px 3px 10px;background:#1e7355;color:#fff;font-size:9.5px;line-height:1.6">قيد التجهيز — يُشحن غدًا وسيصلك رقم التتبع برسالة</span></div></sc-if>
+<sc-if value="{{ pv.kAI }}" hint-placeholder-val="{{ false }}"><div><span style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;background:rgba(43,156,114,.15);color:#1e9d6f;font-size:8.5px;font-weight:900">ذكاء — بمصدر وثقة</span><p style="margin:6px 0;font-size:10px;line-height:1.8">أعلى فرصة الآن: «حزمة المراجعة» بمركز ٦ — تقدمها ٣ مراكز ≈ +٢٬٩٠٠ ر.س/شهر.</p><span style="font-size:8px;color:{{ pv.mut }}">المصدر: GSC ٢٨ يومًا · ثقة ٧٦٪ · <u>لماذا؟</u></span></div></sc-if>
+<sc-if value="{{ pv.kUtil }}" hint-placeholder-val="{{ false }}"><div><span style="display:flex;justify-content:space-between;font-size:9.5px"><b>تصدير الطلبات</b><span style="color:{{ pv.mut }}">CSV · XLSX</span></span><span aria-hidden="true" style="display:block;height:8px;margin:8px 0 4px;border-radius:6px;background:{{ pv.chip }};overflow:hidden"><span style="display:block;height:100%;width:64%;background:linear-gradient(90deg,#2b9c72,#14603f)"></span></span><span style="font-size:8.5px;color:{{ pv.mut }}">٦٤٪ — ١٬٢٨٠ من ٢٬٠٠٠ سجل · قابل للإلغاء</span></div></sc-if>
+<sc-if value="{{ pv.kContent }}" hint-placeholder-val="{{ false }}"><div><span aria-hidden="true" style="display:block;height:54px;border-radius:9px;background:linear-gradient(140deg,#527a96,#2d5471)"></span><b style="display:block;margin-top:6px;font-size:10.5px;line-height:1.5">كيف تختار الملزمة المناسبة؟</b><span style="font-size:8.5px;color:{{ pv.mut }}">أ. سارة · ٦ دقائق · دليل اختيار</span></div></sc-if>
+<sc-if value="{{ pv.kAccount }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff;font:900 13px Tajawal">ن</span><span style="flex:1"><b style="font-size:10.5px">نورة السالم</b><span style="display:block;font-size:8.5px;color:{{ pv.mut }}">فضي · ٤٨٠ نقطة · ٤ طلبات</span></span><span style="padding:3px 8px;border-radius:999px;background:{{ pv.chip }};font-size:8px;font-weight:900">إدارة</span></div></sc-if>
+<sc-if value="{{ pv.kSeo }}" hint-placeholder-val="{{ false }}"><div style="padding:9px 11px;border:1px solid {{ pv.cardBd }};border-radius:9px;background:{{ pv.chip }}"><span dir="ltr" style="display:block;font-size:8px;color:#1e9d6f;text-align:start">tahdheer.sa › grade › 10</span><b style="display:block;font-size:11px;color:#7ab5f5">ملازم أول ثانوي (١٨ ملزمة) | تذكير</b><span style="display:block;font-size:8.5px;color:{{ pv.mut }};line-height:1.6">★ ٤٫٨ · محدثة للمنهج · نموذج مجاني قبل الشراء</span></div></sc-if>
+<sc-if value="{{ pv.kMark }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:9px;padding:9px 11px;border:1.5px dashed #c9a869;border-radius:10px;background:rgba(216,181,106,.08)"><span style="flex:1"><b style="font-size:10px;color:#8a6500">WELCOME — خصم ١٠٪</b><span style="display:block;font-size:8.5px;color:{{ pv.mut }}">ينتهي فعليًا ١٥ سبتمبر — لا عدادات مزيفة</span></span><button type="button" style="min-height:28px;padding:0 10px;border:0;border-radius:7px;background:#8a6500;color:#fff;font-size:9px;font-weight:900;cursor:pointer">نسخ</button></div></sc-if>
+<sc-if value="{{ pv.kInter }}" hint-placeholder-val="{{ false }}"><div><span style="display:flex;justify-content:space-between;font-size:9.5px"><b>حاسبة المعدل</b><b style="color:#1e9d6f">٨٦٪ — جيد جدًا</b></span><span aria-hidden="true" style="display:block;height:9px;margin-top:7px;border-radius:6px;background:{{ pv.chip }};position:relative"><span style="position:absolute;inset-inline-start:0;top:0;height:100%;width:86%;border-radius:6px;background:linear-gradient(90deg,#2b9c72,#14603f)"></span><span aria-hidden="true" style="position:absolute;inset-inline-start:calc(86% - 8px);top:-3px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid #1e7355"></span></span></div></sc-if>
+</sc-if>
+
+</div>
+<div style="display:flex;gap:6px;margin-top:11px">
+<button type="button" onClick="{{ pv.onFav }}" style="min-height:34px;padding:0 12px;border:1.5px solid {{ pv.favBd }};border-radius:9px;background:{{ pv.favBg }};color:{{ pv.favC2 }};font-size:11px;font-weight:900;cursor:pointer">♥ {{ pv.favT }}</button>
+<button type="button" onClick="{{ pv.onCol }}" style="min-height:34px;padding:0 12px;border:1px solid #d5dbd6;border-radius:9px;background:#fff;color:#3d4f45;font-size:10.5px;font-weight:900;cursor:pointer">+ مجموعة</button>
+<button type="button" onClick="{{ pv.onIns }}" style="flex:1;min-height:34px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;cursor:pointer">أدرج في الصفحة</button>
+</div>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">
+<sc-for list="{{ pv.caps }}" as="c" hint-placeholder-count="5">
+<span style="padding:2px 8px;border-radius:999px;background:#f2f6f3;font-size:8px;font-weight:900;color:#5f7167">{{ c }}</span>
+</sc-for>
+</div>
+<div style="margin-top:11px;padding-top:10px;border-top:1px solid #f1f4f2">
+<div style="display:flex;align-items:center;gap:7px">
+<b style="font-size:11px">كانفس الصفحة ({{ cv.n }})</b>
+<span style="flex:1"></span>
+<sc-if value="{{ cv.canUndo }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ cv.onUndo }}" style="min-height:26px;padding:0 9px;border:1px solid #d5dbd6;border-radius:7px;background:#fff;font-size:9px;font-weight:900;color:#3d4f45;cursor:pointer">↶ تراجع</button>
+</sc-if>
+<button type="button" onClick="{{ cv.onClear }}" style="min-height:26px;padding:0 9px;border:1px solid #f0d3d3;border-radius:7px;background:#fdf6f6;font-size:9px;font-weight:900;color:#b32d2e;cursor:pointer">تفريغ</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:7px;max-height:170px;overflow:auto">
+<sc-for list="{{ cv.rows }}" as="r" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid #e6ebe7;border-radius:9px;background:#fbfcfb">
+<span style="flex:0 0 auto;width:18px;height:18px;display:grid;place-items:center;border-radius:6px;background:#14261d;color:#fff;font:900 9px Tajawal">{{ r.num }}</span>
+<span style="flex:1;min-width:0;font-size:9.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.n }}</span>
+<button type="button" onClick="{{ r.onUp }}" aria-label="أعلى" style="width:20px;height:20px;border:1px solid #e2e8e4;border-radius:6px;background:#fff;color:#5f7167;cursor:pointer;font-size:9px">↑</button>
+<button type="button" onClick="{{ r.onDn }}" aria-label="أسفل" style="width:20px;height:20px;border:1px solid #e2e8e4;border-radius:6px;background:#fff;color:#5f7167;cursor:pointer;font-size:9px">↓</button>
+<button type="button" onClick="{{ r.onDel }}" aria-label="حذف" style="width:20px;height:20px;border:1px solid #f0d3d3;border-radius:6px;background:#fdf6f6;color:#b32d2e;cursor:pointer;font-size:9px">✕</button>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</aside>
+</div>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-start:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:wsFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1560,&quot;height&quot;:940},&quot;startCategory&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;nav&quot;,&quot;commerce&quot;,&quot;search&quot;,&quot;conv&quot;,&quot;content&quot;,&quot;analytics&quot;,&quot;trust&quot;,&quot;inter&quot;,&quot;account&quot;,&quot;seo&quot;,&quot;forms&quot;,&quot;marketing&quot;,&quot;auto&quot;,&quot;comm&quot;,&quot;util&quot;,&quot;ai&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+CATS=[
+['nav','التنقل','#1d5f9c','nav','شريط علوي بميجا منيو,شريط جانبي قابل للطي,فتات تنقل بschema,تبويبات أفقية,تبويبات متداخلة,تنقل عمودي أيقوني,قائمة جوال سفلية,درج تنقل جوال,تنقل عائم ذكي,تنقل لاصق يتقلص,تنقل أقسام المتجر,لوحة أوامر ⌘K,تنقل سياقي للصفحة,ترقيم صفحات كامل,ترقيم لانهائي بروابط,مؤشر خطوات معالج,متتبع أقسام Scroll Spy,روابط سريعة مثبتة,زرتها مؤخرًا,رجوع ذكي بمسار,قائمة متعددة المستويات,Dock سفلي لتطبيق,تنقل بالأيقونات فقط,شجرة تصنيفات قابلة للبحث,قافز الحروف الأبجدي,تنقل بالتاريخ أرشيفي,مبدّل مساحات العمل,تنقل نتائج سابق/تالٍ,قائمة سياق يمين-نقرة,شريط أدوات لاصق سفلي,تنقل بإيماءات السحب,فهرس محتويات لاصق,قفز للأعلى ذكي,تنقل بين الفروع,مبدّل لغة بالأعلام,مبدّل عملة,قائمة حساب منسدلة,تنقل ثنائي اللوحة,شريط تقدم القراءة,تنقل معرض الصور,أسهم تنقل المنتج سابق/تالٍ,تنقل مقارنة الأعمدة,شريط تصفية أفقي قابل للسحب,قائمة هامبرغر ممتلئة الشاشة,تنقل صوتي,اختصارات لوحة مفاتيح معلنة,خريطة موقع مصغرة تفاعلية,تنقل نطاق زمني,مسار عودة للسلة,تنقل الوحدات التعليمية'],
+['commerce','التجارة والمنتج','#1e7355','commerce','بطاقة منتج قياسية,بطاقة منتج أفقية,شبكة منتجات كثيفة,قائمة منتجات تفصيلية,معرض صور بمصغرات,معاينة سريعة Quick View,عارض شرائح الملف الرقمي,سعر بخصم محسوب,شارة توفير صادقة,محدد نسخ رقمي/مطبوع,محدد مقاس ولون,محدد ترخيص متدرج,مؤشر مخزون صادق,عدّاد كمية ±,زر أضف للسلة بحالات,زر اشترِ الآن,شريط شراء لاصق,حزمة يُشترى معًا,مقترح Upsell أرقى,مقترح Cross-sell مكمل,جدول مقارنة منتجات,جدول مواصفات دلالي,بطاقة تنزيل رقمي فوري,بطاقة اشتراك متجدد,ما في الصندوق,شارات المنتج (جديد/الأكثر),مقدّر شحن بالمدينة,شريط شحن مجاني تصاعدي,توافق البرمجيات,متطلبات التشغيل,سجل إصدارات المنتج,خارطة تحديثات قادمة,ملخص ترخيص مسموح/ممنوع,بطاقة عينة مجانية,منتجات شوهدت مؤخرًا,بدائل مقترحة مسبَّبة,منتج بديل للنافد,تنبيه عودة التوفر,أسعار الجملة المتدرجة,حاسبة سعر بالخيارات,بطاقة بطل المنتج,شريط USP الثلاثي,مصغر السلة المنسدل,ملخص طلب جانبي,بطاقة هدية وتغليف,محدد تاريخ توصيل,حجز مسبق Pre-order,بطاقة منتج خدمي بمواعيد,مجمع تقييم النسخ,مؤشر رقمي/مادي/هجين'],
+['search','البحث والتصفية','#527a96','search','بحث عام فوري,بحث تنبؤي مقترح,إكمال تلقائي بالمنتجات,اقتراحات وأنت تكتب,سجل بحثك الأخير,عمليات بحث محفوظة,بحث صوتي,بحث بالصورة,فلاتر متعددة الأوجه,فلتر نطاق سعري بمقبضين,فلتر تصنيفات شجري,فلتر تقييم بالنجوم,فلتر توفر فوري,فلتر تاريخ الإضافة,فلتر وسوم Chips,فلتر الصف الدراسي,فلتر المادة,فلتر الفصل الدراسي,فلتر صيغة الملف,شرائح فلاتر نشطة قابلة للإزالة,مسح كل الفلاتر,فرز متعدد المعايير,نتائج فورية بلا إعادة تحميل,عدّاد نتائج حي,تمييز كلمة البحث,لا نتائج + بدائل,تصحيح إملائي «هل تقصد»,مرادفات تلقائية,بحث داخل التقييمات,بحث داخل الأسئلة,بحث الأسعار بالنطق,نتائج مجمعة بالنوع,بحث المساعدة الفوري,بحث القاموس,بحث الوحدات الدراسية,اقتراح حسب سجلك,رائج الآن صادق,فلتر المُعِدّ/المعلم,فلتر اللغة,فلتر التخفيضات فقط,حفظ الفلتر كعرض,مشاركة نتائج مفلترة برابط,فلاتر درج جوال,شريط فلاتر أفقي لاصق,فلتر بمدخل رقمي دقيق,بحث ضبابي يتحمل الأخطاء,نتائج لوحة أوامر,بحث الملفات المشتراة,فلتر حالة الطلب,مصفوفة صف×مادة'],
+['conv','التحويل','#8a6500','conv','كتلة CTA رئيسية,CTA لاصق سفلي,CTA عائم مصغر,شريط شراء المنتج,شريط إضافة سريع للقوائم,عدّاد عرض ينتهي فعليًا,لافتة عرض موسمية,كشف كوبون بنقرة,شريط إعلان علوي,تقدم الشحن المجاني,إثبات اجتماعي صادق بالمدينة,مؤشر مشتريات حقيقية,تذكير سلة متروكة,استرداد سلة بريدي,عرض حزمة وفّر,مقارنة خطط تسعير,جدول أسعار بمميز,CTA تجربة مجانية,CTA نموذج مجاني,التقاط بريد بميزة حقيقية,اشتراك نشرة بتعهد صدق,CTA واتساب مباشر,دعوة حجز موعد,شريط خصم أول طلب,شارة ضمان استرجاع,عداد مخزون منخفض صادق,زر تثبيت عودة التوفر,CTA ترقية الحزمة,عرض ما بعد الإضافة للسلة,اقتراح إتمام الطلب,شريط قيمة الطلب للهدية,CTA مخصص بالصف الدراسي,دعوة إنشاء حساب بعد شراء,صندوق نية مغادرة محترم,شريط تخفيضات نهاية الفصل,CTA تنزيل التطبيق,زر مشاركة تكسب نقاطًا,دعوة إحالة صديق,CTA تقرير مجاني,لافتة عودة المدارس,شريط ولاء تصاعدي,CTA حاسبة المعدل,دعوة ويبينار تعليمي,بطاقة عرض محدود الكمية بصدق,زر قفل السعر الحالي,CTA أسئلة قبل الشراء,شريط ثقة قبل الدفع,مطالبة إكمال الملف التعليمي,CTA متجدد حسب الموسم,زر جرّب قبل أن تدفع'],
+['content','المحتوى','#6b3fa0','content','قسم بطل بصورة,بطل بفيديو خلفي,نص غني منسق,صورة بتعليق,فيديو بغلاف ونص مفرّغ,مقطع صوتي بمواضع,معرض شبكي,كاروسيل محكوم,سلايدر شهادات,أسئلة شائعة أكورديون,أكورديون محتوى,خط زمني أحداث,اقتباس بارز,بطاقة مقال,بطاقة مقال مميز,شبكة مقالات,محتوى ذو صلة,فهرس محتويات تلقائي,شبكة مميزات بأيقونات,قسم مقارنة تحريري,أرقام وإحصاءات حية,أبرز النقاط,قبل/بعد بسحب,خطوات مرقمة,قصة متدرجة بالتمرير,فصل بعنوان جانبي,بطاقة تعريف المؤلف,صندوق تنبيه/ملاحظة,جدول بيانات تحريري,شيفرة منسقة بنسخ,ملخص تنفيذي مقدَّم,إجابة مباشرة AEO,تعريف مصطلح Entity,بطاقة تنزيل مورد,وحدة اشتراك داخل مقال,فاصل قسم مزخرف,شبكة شعارات شركاء,خريطة تفاعلية مضمنة,جدول زمني للمنهج,بطاقة درس بوحدته,عرض شرائح مضمن,اقتباس تغريدة,تضمين قصة ويب,وحدة بودكاست بحلقات,مسرد مصغر داخل الصفحة,هوامش وحواشٍ مرقمة,نص ثنائي العمود,غلاف تقرير سنوي,مقتطف إحصائية للاقتباس,سؤال وجواب تحريري'],
+['analytics','التحليلات والبيانات','#0f766e','chart','بطاقة KPI بشرارة,بطاقة مقارنة فترتين,خط زمني تفاعلي,أعمدة مقارنة,مساحي متراكم,دائري بنِسب,دونات بمركز رقمي,قمع تحويل,عدّاد Gauge,خريطة حرارية أسبوعية,أفواج احتفاظ Cohort,إيراد عضوي حي,مقاييس تحويل,مقاييس زيارات,مؤشرات SEO,مبيعات بالفئة,عملاء جدد/عائدون,معدل احتفاظ,نمو شهري,تنبؤ بنطاقات,بيانات لحظية تتحدث,مقارنة قنوات,اتجاهات الكلمات,تقدم الأهداف,كشف شذوذ موسوم,توزيع المراكز 1-3/4-10,جدول استعلامات GSC,أعلى الصفحات هبوطًا,فجوة الجوال/الحاسوب,مصفوفة جهد/أثر,مخطط Sankey للرحلة,سحابة نقاط سعر/تحويل,مؤشر صحة الموقع دائري,عدّادات متحركة بإحترام الحركة,جدول افتراضي Virtualized,مرشح نطاق زمني موحد,تعليقات على الرسم (نشرات),تصدير الرسم صورة/CSV,مقياس ثقة البيانات,وسم مصدر كل رقم,مقارنة قبل/بعد إصلاح,تفكيك درجة الفرصة,رادار جودة المنتج,توزيع التقييمات,زمن التحميل بالقوالب,هدر الزحف بالأنماط,مساهمة المحتوى بالإيراد,LTV بالأفواج,خريطة نقرات مبسطة,لوحة KPI قابلة للترتيب'],
+['trust','الثقة والإثبات','#b45309','trust','نجوم بمتوسط دقيق,مدرّج توزيع التقييمات,بطاقة تقييم موثق,شبكة تقييمات بصور,شهادة عميل مميزة,سلايدر شهادات رصين,صور عملاء حقيقية,شارة شراء موثق,شارات دفع آمن,شارة استرجاع 14 يومًا,شعارات عملاء/شركاء,شارة اعتماد تعليمي,ذكر إعلامي بمصدر,جوائز بحقيقتها,عدّاد عملاء صادق,مشتريات المدينة الصادقة,أحدث الطلبات مجهولة,الأكثر شيوعًا هذا الأسبوع,دراسة حالة مصغرة,قصة نجاح برقم,محتوى مستخدمين مراجَع,مراجعة خبير معلن,تقييم مجتمعي,أسئلة أجاب عنها مشترون,ضمان أصالة المحتوى,سياسة صدق الأرقام معلنة,فريق حقيقي بصور,سيرة المُعِدّ بخبرته,تحقق طرف ثالث,شهادة قائدة مدرسة,وسم «يجرَّب على فصل حقيقي»,تاريخ آخر مراجعة,مصادر المقال المعلنة,رد المتجر على تقييم سلبي,نسبة الرضا مع العينة,وسم بيانات: موثق/محسوب,شريط NAP متطابق,رقم سجل تجاري ظاهر,بريد دعم بشري معلن,زمن رد فعلي معلن,شارة أعضاء منذ سنة,عدد تنزيلات صادق,تفاصيل الضريبة شفافة,مؤشر أمان الدفع PCI,سياسة خصوصية مختصرة ظاهرة,التزام عدم بيع البيانات,صفحة عن المنهجية,شارة تحديث للمنهج الحالي,اعتماد أولياء الأمور,ميثاق المراجعة التحريرية'],
+['inter','التفاعل','#c2410c','inter','سلايدر قيمة بمقبض,حاسبة معدل فورية,اختبار قصير مصحح,استفتاء بنتيجة حية,استبيان متدرج,مكوّن تكوين المنتج,منشئ الحزم بالاختيار,أداة مقارنة تفاعلية,سحب وإفلات ترتيب,خط زمني قابل للسحب,خريطة نقاط ساخنة,قبل/بعد بمقبض,إدخال تقييم نجوم,تصويت مفيد/غير مفيد,تفاعلات إيموجي محسوبة,بطاقات تتوسع,بطاقات تنقلب,رسم تفاعلي Hover,جدول قابل للفرز بالنقر,اختيار موجَّه بأسئلة,معالج توصية متدرج,محدد متعدد الخطوات,لوح رسم توقيع,قلّاب صفحات معاينة,عجلة اختيار عادلة معلنة,مطابقة سحب للتمرين,بطاقات ذاكرة تعليمية,محاكاة ماذا-لو بمزلاج,ضبط ميزانية بتوزيع,مصفوفة اختيار ثنائية,مقارنة تمرير متزامن,عدسة تكبير صورة,دوران منتج 360,مجسم ثلاثي الأبعاد خفيف,لوحة ألوان تجريب,مبدل كثافة العرض,محرر نص مباشر,قصاصة قابلة للسحب للصفحة,اختبار تحديد المستوى,خريطة اختيار المنطقة,منزلق مقارنة الخطط,آلة حاسبة تقسيط,منشئ جدول المذاكرة,محدد مقاعد/مواعيد,لغز تحقق بشري لطيف,تتبع تقدم القراءة,علامات تفاعلية على PDF,أسئلة سريعة داخل فيديو,فرز بطاقات حسب الأولوية,تحدي أسبوعي بنقاط'],
+['account','الحساب والمستخدم','#7c3aed','account','بطاقة ملف شخصي,صورة رمزية بحروف,مبدّل الحسابات المتعددة,نموذج دخول آمن,تسجيل بخطوتين,استعادة كلمة مرور,قائمة الطلبات بفلاتر,تفاصيل طلب بخط زمني,تتبع شحنة حي,مكتبة التنزيلات بعدّاد,مفضلة بتنبيه سعر,عناصر محفوظة لاحقًا,تنبيهات بحثي المحفوظ,دفتر عناوين ببطاقات,طرق دفع مقنعة,إدارة الاشتراك,بطاقة عضوية بمزايا,نقاط ولاء بشريط مستوى,مكافآت قابلة للصرف,مركز إشعارات مصنف,تفضيلات الإشعارات بمفاتيح,إعدادات الأمان,جلسات الأجهزة بإنهاء,سجل نشاط الحساب,تنزيل بياناتي,حذف الحساب بمهلة,تبديل اللغة للحساب,ربط حسابات اجتماعية,توثيق بخطوتين 2FA,أسئلة أمان,بريد موثق بشارة,جوال موثق برمز,صلاحيات العائلة/الأبناء,ملف الطالب بصفّه,اهتمامات المواد,سجل المشاهدة,قسائمي وكوبوناتي,رصيد المحفظة,طلب فاتورة ضريبية,مراسلات الدعم السابقة,تقييماتي المنشورة,أسئلتي وإجاباتها,إحالاتي وأرباحها,شهاداتي التعليمية,تقدمي في الوحدات,إنجازات وشارات,وضع الخصوصية,تصدير مشترياتي,دمج حساب ضيف,ترقية الباقة'],
+['seo','SEO والاكتشاف','#14603f','seo','محتوى ذو صلة داخلي,منتجات ذات صلة بمرساة وصفية,كتلة روابط سياقية,فتات بschema,الأكثر قراءة أسبوعيًا,رائج في الصف العاشر,عنقود موضوعي Hub,روابط الفئات الشقيقة,سحابة وسوم منتقاة,بطاقة مؤلف بسيرة,فهرس محتويات بمراسٍ,معاينة FAQ schema,معاينة Product schema,معاينة Article schema,معاينة Review schema,معاينة Organization,معاينة LocalBusiness,معاينة Breadcrumb,بطاقة Open Graph,بطاقة X/تويتر,محرر canonical,حالة الفهرسة لصفحة,حالة الزحف الأخيرة,مقترحات روابط داخلية,فاحص alt للصور,درجة قابلية القراءة,كثافة العناوين H2/H3,عمق النقرات للصفحة,مخطط الروابط الواردة,صفحات يتيمة مكتشفة,تحقق hreflang,حالة Sitemap للصفحة,زر IndexNow للتغيير,معاينة SERP بجوال,مقارنة عنوانين A/B,كتلة إجابة مباشرة,مقتطف إحصائية قابل للاقتباس,llms.txt الحالة,وسم آخر تحديث حقيقي,اقتراح كلمات المسافة القريبة,تحذير تنافس ذاتي,فاحص التكرار,روابط خارجية nofollow ذكي,مرجع المصادر,مؤشر E-E-A-T للصفحة,خريطة الكيانات المذكورة,مطابقة النية للاستعلام,فرص Discover للصفحة,جاهزية القصص Web Story,تدقيق سرعة القالب'],
+['forms','النماذج والإدخال','#1d4ed8','form','حقل نص بتحقق لحظي,مساحة نص بعدّاد,قائمة اختيار ببحث,اختيار متعدد بشرائح,أزرار راديو ببطاقات,مربعات اختيار مجمعة,مفتاح تبديل بحالة,منزلق قيمة,نطاق مزدوج,منتقي تاريخ هجري/ميلادي,منتقي وقت,نطاق تواريخ,رفع ملف بسحب,رفع صور بمعاينة,قصّ صورة قبل الرفع,إدخال OTP بخانات,حقل بحث بفلاتر,هاتف سعودي بتحقق,عنوان وطني مركب,إدخال وسوم,منتقي لون بلوحات,محرر نص غني خفيف,نموذج متعدد الخطوات,أسئلة شرطية تظهر,ملخص أخطاء يقفز للحقل,حفظ تلقائي للمسودة,استئناف نموذج لاحقًا,إدخال IBAN بتنسيق,رقم بطاقة مقنّع,تأكيد بكتابة الاسم,توقيع رقمي,اختيار صف/مادة متسلسل,كمية بحدود المخزون,سعر مخصص بحد أدنى,تقييم بالنجوم كإدخال,اختيار من صور,شبكة اختيار مقاسات,سؤال تحقق بشري لطيف,موافقة سياسات صريحة,تفضيل تواصل قنوات,جدول توفر أسبوعي,مدخل عنوان URL بتحقق,بريد بمنع الأخطاء الشائعة,كلمة مرور بمقياس قوة,توليد كلمة مرور,إظهار/إخفاء كلمة المرور,نموذج داخل درج جانبي,حقول عناوين مزدوجة شحن/فوترة,استكمال تلقائي للعنوان,زر إرسال بحالات كاملة'],
+['marketing','التسويق والحملات','#a21caf','conv','لافتة حملة موسمية,لافتة ترويج علوية,بطاقة كوبون بشروطه,خصم شرائح الكمية,برنامج إحالة برابط,لوحة شريك تسويق,ولاء بمستويات,متجر استبدال النقاط,سحب وجائزة بشروط معلنة,مسابقة بمعايير تحكيم,اشتراك بريد بميزة,اشتراك SMS برضا,مغناطيس تقرير مجاني,دعوة ويبينار بتقويم,ترويج فعالية,إطلاق منتج بعدّ حقيقي,قريبًا بتنبيه,إعلان داخل الموقع,عرض مخصص بالشريحة,عرض للطلاب المعلمين,عدّ تنازلي للحملة صادق,أداء الحملة المصغر,CTA حملة متعدد الصيغ,قصة نجاح الحملة,بانر تجديد الاشتراك,عرض استرجاع العملاء,باقة أول طلب,هدية عتبة السلة,شارة شريك موثق,تقويم الحملات الموسمية,رمز QR للحملة,رابط قصير متتبع,شريط مشاركة اجتماعي,بطاقة قناة واتساب,دعوة متابعة GBP,تنبيه انخفاض سعر للمفضلة,حملة استرداد السلة,عرض تخريج الدفعات,رعاية محتوى معلن,تعاون مُعِدّين,برنامج سفراء المعلمين,عمولات الشركاء بشفافية,صفحة هبوط حملة مصغرة,اختبار A/B للافتة,تدوير عروض عادل,حد استخدام الكوبون,شروط الحملة المختصرة,أرشيف الحملات المنتهية,قياس أثر الحملة بالمصدر,إيقاف تلقائي عند النفاد'],
+['auto','الأتمتة وسير العمل','#0e7490','flow','منشئ قواعد IF/THEN,بطاقة مشغّل Trigger,بطاقة فعل Action,شرط متعدد الفروع,تفريع مسارين,تأخير مجدول,جدولة زمنية,بوابة موافقة,رفض مسبب,حالة سير مباشرة,متتبع خطوات التنفيذ,خط زمني للتشغيلات,سجل الأتمتة,سجل المشغلات,سجل الأفعال,إعادة محاولة بذكاء,معالجة أخطاء بمسار بديل,Webhook مضمون التسليم,فعل استدعاء API,فعل بريد قالبي,فعل إشعار داخلي,إنشاء مهمة تلقائي,إسناد للمسؤول,تصعيد عند التأخر,منشئ قواعد متداخل,نسخ سير عمل,قوالب سير جاهزة,تفعيل/إيقاف بمفتاح,وضع تجربة Dry Run,محاكاة قبل التفعيل,حدود معدل التنفيذ,كشف تعارض القواعد,تبعيات بين السير,إيقاف طوارئ شامل,صلاحيات من يعدّل,نسخة سابقة واستعادة,ملاحظات على الخطوات,وسوم تنظيم السير,مقياس ROI لكل سير,عدّاد نجاح/فشل,تنبيه فشل فوري,ربط بمستويات الأمان,سير تحسين CTR,سير إصلاح الروابط,سير تحديث المخزون,سير رسائل ما بعد الشراء,سير استرداد السلة,سير مراجعة المحتوى,سير ترحيب عميل جديد,أرشفة سير منتهٍ'],
+['comm','التواصل','#be123c','chat','دردشة دعم حية,مراسلة داخلية,صندوق وارد موحد,خلاصة الإشعارات الزمنية,تنبيهات نظام مهمة,توست خفيف مؤقت,إعلانات المنتج الجديدة,دردشة واتساب بزر,مكتب مساعدة بتذاكر,بطاقة تذكرة بحالتها,نموذج تواصل ذكي,صندوق ملاحظات مصنف,تعليقات بمراجعة,منشن @ للفريق,ردود متداخلة,خيوط نقاش,رسائل مباشرة,قناة فريق,بث لكل العملاء,معاينة بريد قبل الإرسال,معاينة SMS بطول,معاينة إشعار جوال,رسالة حالة النظام,مؤشر حضور متصل,بطاقة جهة اتصال,ساعات الدعم بحالة الآن,زمن الرد المتوقع صادق,تقييم المحادثة بعد الحل,تحويل المحادثة لتذكرة,ردود جاهزة للفريق,ملاحظات داخلية على العميل,مرفقات آمنة بالمحادثة,ترجمة فورية للرسائل,أرشيف المحادثات يبحث,إشعار طلب شُحن,إشعار انخفاض سعر,إشعار عودة التوفر,تهنئة إنجاز الطالب,رسالة ترحيب أول طلب,تذكير سلة مهذب,رسالة تحديث المنهج,طلب تقييم بعد التسليم,رد آلي خارج الدوام,تصعيد بشري بنقرة,حالة كتابة الآن…,إيصال قراءة محترم للخصوصية,وضع عدم الإزعاج,تجميع إشعارات يومي,أفضلية قنوات العميل,سجل إشعارات مرسلة'],
+['util','الأدوات والنظام','#4b5563','util','مدير ملفات مصغر,استيراد CSV بمطابقة أعمدة,تصدير بصيغ متعددة,زر تنزيل بحجم معلن,رفع بسحب وإفلات,طباعة نسخة نظيفة,نسخ للحافظة بتأكيد,مشاركة بروابط قنوات,مولّد QR,باركود للطلب,شارة حالة النظام,صحة الخدمات مباشرة,مقياس التخزين المستخدم,استهلاك الباقة,شريط تقدم قابل للإلغاء,مؤشر تحميل خفيف,هيكل عظمي Skeleton,حالة فارغة مصممة,حالة خطأ بشرية,صفحة صيانة 503,نسخ احتياطي بجدولة,استعادة بنقطة زمنية,سجل النشاط بفلاتر,تاريخ النسخ للملف,تراجع/إعادة عام,لصق ذكي منسق,اختصارات معلنة بلوحة,ملء الشاشة للمعاينة,مبدل سمة فاتح/داكن,مبدل لغة فوري,منظف الكاش بزر,فاحص الروابط الميتة,مزامنة المخزون يدوية,قفل تحرير تعاوني,مؤقت جلسة بتحذير,وضع القراءة,مكبّر خط للوصولية,تباين عالٍ بمفتاح,اختزال الحركة بمفتاح,مؤشر اتصال بالشبكة,وضع عدم الاتصال للملفات,ضغط الصور عند الرفع,تحويل صيغ المستندات,معاينة قبل الحذف,سلة محذوفات باسترجاع,تفريغ آمن نهائي بتأكيد,تصدير سجل التدقيق,مراقب أداء الصفحة,كاشف إضافات متعارضة,مثبّت أعمدة الجدول'],
+['ai','الذكاء والودجات الذكية','#0f766e','ai','مساعد أسئلة بمصادر,دردشة ذكية بحدود معلنة,بحث دلالي بالنية,توصيات منتجات مفسَّرة,تلخيص تقييمات موسوم,رؤى أسبوعية بثقة,مولّد وصف منتج للمراجعة,إعادة صياغة بحفظ الحقائق,ترجمة بمراجعة بشرية,تصنيف استفسارات تلقائي,وسم صور مقترح,استخراج بيانات فاتورة,تنبؤ نفاد المخزون,توقع مبيعات بنطاقات,كشف شذوذ بأدلة,مشاعر التقييمات بمقياس,ترتيب أولويات مفسَّر,فلاتر ذكية بالنية,فرز ذكي بالسياق,توصية الملزمة بالمستوى,اقتراح عناوين SEO,تحليلات تسأل بالسؤال,منشئ سير عمل بالوصف,مساعد تعبئة النماذج,رد دعم مقترح للمراجعة,كشف تكرار المحتوى,اقتراح روابط داخلية,تجميع استعلامات بالنية,شرح الرسم البياني نصًا,وصف بديل للصور مقترح,أسئلة متوقعة للمنتج,إجابة مباشرة مولدة للمراجعة,كشف فجوات المحتوى,تنبيه تدهور صفحة,مساعد جدولة المذاكرة,مصحح إملاء تربوي,مستوى صعوبة النص,توليد اختبار من الدرس للمراجعة,كشف نية المغادرة باحترام,تخصيص الرئيسية بالسجل,مزيل خلفية صور المنتج,اقتراح سعر بنطاق السوق,ملخص المقارنة بين نسختين,محاكاة أثر التعديل,أسئلة متابعة ذكية,كشف الصور المولدة للإشراف,مطابقة سؤال العميل بالمساعدة,ثقة كل إجابة معلنة,زر لماذا؟ لكل توصية,حوكمة: لا تنفيذ ذاتي بلا إذن']
+];
+state={cat:'all',q:'',sel:'commerce-0',dev:'d',dark:false,st:'def',fav:{'commerce-0':1,'ai-0':1,'conv-9':1},col:{},favOnly:false,page:'product',canvas:[{id:'commerce-0',n:'بطاقة منتج قياسية'},{id:'trust-0',n:'نجوم بمتوسط دقيق'}],hist:[],toasts:[]};
+PAGES={product:['صفحة منتج',['commerce','conv','trust','search','seo']],home:['الرئيسية',['content','commerce','conv','trust','nav']],dash:['لوحة تحكم',['analytics','ai','util','auto','comm']],article:['مقال',['content','seo','forms','trust','marketing']]};
+cvPush(){ this.setState({hist:this.state.hist.concat([JSON.stringify(this.state.canvas)]).slice(-20)}); }
+cvUndo(){ const h=this.state.hist.slice(); const last=h.pop(); if(!last) return this.toast('لا شيء للتراجع');
+ this.setState({canvas:JSON.parse(last),hist:h}); this.toast('تراجع عن آخر تغيير في الكانفس'); }
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+all(){
+ if(this._all) return this._all;
+ const out=[];
+ this.CATS.forEach(c=>{ c[4].split(',').forEach((n,i)=>out.push({id:c[0]+'-'+i,cat:c[1],ck:c[0],c:c[2],kind:c[3],n:n,
+  p:'ودجة '+c[1]+' — '+n+': غرض وسلوك مستقلان بحالات كاملة وتخصيص.'})); });
+ this._all=out; return out;
+}
+renderVals(){
+ const st=this.state;
+ const all=this.all();
+ const q=st.q.trim();
+ let list=all.filter(w=>(st.cat==='all'||w.ck===st.cat)&&(!st.favOnly||st.fav[w.id])&&(!q||(w.n+w.cat+w.p).indexOf(q)>=0));
+ const shown=list.slice(0,60);
+ const sel=all.filter(w=>w.id===st.sel)[0]||all[50];
+ const dark=st.dark;
+ const K=sel.kind;
+ const catRow=[{k:'all',n:'كل الفئات',c:'#14261d',count:this.ar(800)}].concat(this.CATS.map(c=>({k:c[0],n:c[1],c:c[2],count:'٥٠'})));
+ return {
+  q:st.q,onQ:(e)=>this.setState({q:e.target.value}),
+  qa:{total:this.ar(all.length),cats:this.ar(this.CATS.length)},
+  favN:this.ar(Object.keys(st.fav).length),colN:this.ar(Object.keys(st.col).length),
+  favOnly:st.favOnly,favBd:st.favOnly?'#b32d2e':'#d5dbd6',favBg:st.favOnly?'#fdecec':'#fff',favFg:st.favOnly?'#b32d2e':'#5f7167',
+  onFavF:()=>this.setState({favOnly:!st.favOnly}),
+  cats:catRow.map(c=>({n:c.n,count:c.count,on:st.cat===c.k,edge:st.cat===c.k?c.c:'transparent',
+   bg:st.cat===c.k?'#f2f7f4':'transparent',fg:st.cat===c.k?'#14261d':'#5f7167',
+   onClick:()=>this.setState({cat:c.k})})),
+  head:st.cat==='all'?'كل الودجات':('فئة '+(this.CATS.filter(c=>c[0]===st.cat)[0]||['',''])[1]),
+  sub:q?('نتائج «'+q+'»: '+this.ar(list.length)+' ودجة'):(this.ar(list.length)+' ودجة — يُعرض أول '+this.ar(shown.length)+' (تركيب كسول)'),
+  empty:list.length===0,
+  rows:shown.map(w=>({n:w.n,p:w.p.slice(0,54)+'…',cat:w.cat,c:w.c,on:st.sel===w.id,
+   bd:st.sel===w.id?'#1e7355':'#dfe4df',bg:st.sel===w.id?'#f2f8f5':'#fff',
+   favC:st.fav[w.id]?'#b32d2e':'#d5dbd6',
+   onSel:()=>this.setState({sel:w.id,st:'def'})})),
+  pv:this.rvPreview(sel,dark,K),
+  pages:Object.keys(this.PAGES).map(k=>({n:this.PAGES[k][0],on:st.page===k,
+   bd:st.page===k?'#14261d':'#dfe4df',bg:st.page===k?'#14261d':'#fff',fg:st.page===k?'#fff':'#5f7167',
+   onClick:()=>this.setState({page:k})})),
+  recs:this.PAGES[st.page][1].map(ck=>{
+   const w=all.filter(x=>x.ck===ck)[0]; const c=this.CATS.filter(x=>x[0]===ck)[0];
+   return {n:w.n,cat:c[1],c:c[2],onGo:()=>this.setState({sel:w.id,cat:ck,st:'def'})};
+  }),
+  cv:{rows:st.canvas.map((it,i)=>({n:it.n,num:this.ar(i+1),
+    onUp:()=>{ if(i===0)return; this.cvPush(); const c=st.canvas.slice(); c.splice(i-1,0,c.splice(i,1)[0]); this.setState({canvas:c}); },
+    onDn:()=>{ if(i===st.canvas.length-1)return; this.cvPush(); const c=st.canvas.slice(); c.splice(i+1,0,c.splice(i,1)[0]); this.setState({canvas:c}); },
+    onDel:()=>{ this.cvPush(); this.setState({canvas:st.canvas.filter((_,j)=>j!==i)}); }})),
+   n:this.ar(st.canvas.length),canUndo:st.hist.length>0,
+   onUndo:()=>this.cvUndo(),
+   onClear:()=>{ this.cvPush(); this.setState({canvas:[]}); this.toast('فُرّغ الكانفس — تراجع متاح'); }},
+  is:{toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+}
+rvPreview(sel,dark,K){
+ const st=this.state;
+ return {
+  n:sel.n,p:sel.p,
+  devs:[['d','حاسوب','340px'],['t','لوحي','280px'],['m','جوال','220px']].map(d=>({n:d[1],on:st.dev===d[0],
+   bd:st.dev===d[0]?'#14261d':'#dfe4df',bg:st.dev===d[0]?'#14261d':'#fff',fg:st.dev===d[0]?'#fff':'#5f7167',
+   onClick:()=>this.setState({dev:d[0]})})),
+  w:st.dev==='d'?'100%':(st.dev==='t'?'280px':'218px'),
+  dark:dark,dkBd:dark?'#14261d':'#dfe4df',dkBg:dark?'#14261d':'#fff',dkFg:dark?'#fff':'#5f7167',
+  onDark:()=>this.setState({dark:!dark}),
+  states:[['def','افتراضي'],['hov','تحويم'],['load','تحميل'],['empty','فارغ'],['err','خطأ']].map(s=>({n:s[1],on:st.st===s[0],
+   bd:st.st===s[0]?'#1e7355':'#dfe4df',bg:st.st===s[0]?'#f2f8f5':'#fff',fg:st.st===s[0]?'#146c4c':'#5f7167',
+   onClick:()=>this.setState({st:s[0]})})),
+  stage:dark?'#0f1713':'#eef1ee',
+  cardBg:dark?'#16241c':'#fff',cardBd:dark?'#26382e':'#e2e8e4',
+  fg:dark?'#e8f1ec':'#17251d',mut:dark?'#8fa89a':'#7c8a82',
+  chip:dark?'#1f2f26':'#f0f4f1',skel:dark?'#26382e':'#e8ede9',
+  ring:st.st==='hov'?'0 0 0 3px rgba(30,115,85,.35)':'0 0 0 0 rgba(0,0,0,0)',
+  isLoad:st.st==='load',isEmpty:st.st==='empty',isErr:st.st==='err',
+  isBody:['def','hov'].indexOf(st.st)>=0,
+  kNav:K==='nav',kCommerce:K==='commerce',kSearch:K==='search',kConv:K==='conv',
+  kChart:K==='chart',kTrust:K==='trust',kForm:K==='form',kFlow:K==='flow',
+  kChat:K==='chat',kAI:K==='ai',kUtil:K==='util',kContent:K==='content',
+  kAccount:K==='account',kSeo:K==='seo',kInter:K==='inter',kMark:false,
+  favBd:st.fav[sel.id]?'#b32d2e':'#d5dbd6',favBg:st.fav[sel.id]?'#fdecec':'#fff',favC2:st.fav[sel.id]?'#b32d2e':'#5f7167',
+  favT:st.fav[sel.id]?'في المفضلة':'أضف للمفضلة',
+  onFav:()=>{ const f=Object.assign({},st.fav); if(f[sel.id]) delete f[sel.id]; else f[sel.id]=1; this.setState({fav:f}); },
+  onCol:()=>{ const c=Object.assign({},st.col); c[sel.id]=1; this.setState({col:c}); this.toast('أُضيفت «'+sel.n+'» لمجموعتك — تُدرج دفعة واحدة لاحقًا'); },
+  onIns:()=>{ this.cvPush(); this.setState({canvas:this.state.canvas.concat([{id:sel.id,n:sel.n}])});
+   this.toast('أُدرجت «'+sel.n+'» في كانفس الصفحة — رتّبها أو تراجع من اللوحة'); },
+  caps:['متجاوبة','وصولية AA','فاتح/داكن','حالات كاملة','تخصيص رموز','تحميل كسول']
+ };
+}
+}
+</script>
+</body>
+</html>

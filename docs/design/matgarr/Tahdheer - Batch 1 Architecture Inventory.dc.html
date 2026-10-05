@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — الدفعة ١: جرد المعمارية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes bFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1300px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — الدفعة ١: جرد المعمارية وخريطة الملكية</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">القالب المرفق قُرئ ملفًا ملفًا — لا اعتماد على تدقيق سابق</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1300px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.stale }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 الحكم" style="display:flex;flex-direction:column;gap:13px;animation:bFade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">الحكم: التدقيق المُحال إليه قديم — والبناء عليه يُسبّب انحدارًا</h1>
+</div>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:15px 18px">
+<b style="font-size:13.5px;color:#8e2223">أهم مخرج في هذه الدفعة</b>
+<p style="margin:7px 0 0;font-size:12.5px;line-height:2;color:#5f4a4a">التعريف يطلب عدم إعادة اكتشاف «العيوب المؤكَّدة» والاكتفاء بمعالجتها. قراءة الشيفرة الفعلية تُظهر أن <b>خمسة من أبرز تلك العيوب مُصلَحة أصلًا</b> — بعضها بتعليق صريح في الشيفرة يشرح كيف ولماذا. أي دفعة تبدأ بمعالجتها ستعيد كتابة شيفرة سليمة، وتُخاطر بإعادة العيب الذي أُزيل. لذلك: <b>الجرد يسبق العلاج، ولا يُجدول أي بند من تدقيق سابق قبل التحقق منه في الشيفرة الحالية.</b></p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:11px">
+<sc-for list="{{ stale }}" as="s" hint-placeholder-count="6">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ s.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+<span style="padding:2px 10px;border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:9px;font-weight:900">{{ s.tag }}</span>
+<code dir="ltr" style="margin-inline-start:auto;font-size:9.5px;color:#8b978f;text-align:start">{{ s.src }}</code>
+</div>
+<b style="display:block;font-size:13px;line-height:1.55">{{ s.h }}</b>
+<span style="display:block;margin-top:5px;font-size:11.5px;line-height:1.9;color:#5f7167"><b style="color:#8e2223">الادعاء:</b> {{ s.claim }}</span>
+<span style="display:block;margin-top:5px;font-size:11.5px;line-height:1.9;color:#3d4f45"><b style="color:#146c4c">الواقع:</b> {{ s.real }}</span>
+<span style="display:block;margin-top:6px;padding-top:6px;border-top:1px dashed #f1f4f2;font-size:11px;line-height:1.85;color:#17251d"><b>الأثر على التنفيذ:</b> {{ s.impact }}</span>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px dashed #cfe0d6;border-radius:13px;background:#f8fbf9;padding:14px 18px">
+<b style="font-size:12.5px;color:#146c4c">ما يترتّب على ذلك — قواعد تشغيل هذه الدفعة</b>
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;gap:9px;padding:6px 0;font-size:11.5px;line-height:1.9;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">←</span><span>{{ r }}</span></div>
+</sc-for>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.inv }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 جرد المعمارية" style="display:flex;flex-direction:column;gap:13px;animation:bFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">جرد المعمارية — مالك واحد لكل قدرة</h1>
+<span style="font-size:11px;color:#7d8a83">{{ invCount }} قدرة · القرار من الشيفرة لا من الرغبة</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:1180px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">القدرة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المالك الحالي</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الملف / الوحدة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الخطّاف / القالب</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">مصدر البيانات</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الحالة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الخطر</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الإجراء</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ inv }}" as="r" hint-placeholder-count="18">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">
+<b style="font-size:11.5px;line-height:1.5">{{ r.cap }}</b>
+<span style="display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;background:{{ r.eBg }};color:{{ r.eC }};font-size:8.5px;font-weight:900">{{ r.ev }}</span>
+</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;font-weight:800;line-height:1.6;color:{{ r.oC }};vertical-align:top">{{ r.owner }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9px;line-height:1.8;color:#5f7167;display:block;text-align:start;word-break:break-all">{{ r.file }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9px;line-height:1.8;color:#5f7167;display:block;text-align:start;word-break:break-all">{{ r.hook }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10px;line-height:1.7;color:#3d4f45;vertical-align:top">{{ r.data }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10px;line-height:1.7;color:#3d4f45;vertical-align:top">{{ r.st }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 9px;border-radius:999px;background:{{ r.rBg }};color:{{ r.rC }};font-size:9px;font-weight:900">{{ r.risk }}</span></td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 9px;border-radius:999px;background:{{ r.aBg }};color:{{ r.aC }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.act }}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<section style="border:1px solid #f2e2be;border-radius:13px;background:#fffdf6;padding:13px 17px">
+<b style="font-size:12.5px;color:#8a6500">أكبر خطر معماري في الجرد: تشتّت الإدارة</b>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#5f4f2f">‎45 ملفًا باسم <code dir="ltr">seo-*.php</code> في <code dir="ltr">inc/</code>، منها ‎11 ملفًا للوحات ومراكز قيادة (<code dir="ltr">seo-dashboard-core · seo-dashboard-ui · seo-command-center · seo-modules-center · seo-indexing-center</code>)، إضافة إلى ‎45 إجراء AJAX و‎9 مسارات REST. هذا هو المرشّح الأول لـ MERGE في التعريف — لكن الدمج قبل إثبات أن كل إجراء ما زال مستدعى فعلًا يحذف عقودًا عاملة. ترتيب آمن: جرد استدعاءات → توسيم المهجور → دمج الواجهة أولًا مع إبقاء الإجراءات → حذف المهجور أخيرًا بعد دورة تحقق.</p>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.map }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 النماذج إلى الإنتاج" style="display:flex;flex-direction:column;gap:13px;animation:bFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">خريطة النماذج ← الإنتاج</h1>
+<span style="font-size:11px;color:#7d8a83">رحلة P0 فقط — النموذج مرجع بصري، والمالك يبقى ووكومرس</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">تصحيح لازم قبل الخريطة: ملفات <code dir="ltr">.dc.html</code> ليست شيفرة معطوبة</b>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#5f7167">الأقواس <code dir="ltr">{{ }}</code> ووسم <code dir="ltr">dc-import</code> هما لغة قوالب مكوّنات التصميم نفسها، تُحلّ في زمن العرض. عدّها «متغيّرات غير محلولة» و«اعتماديات مفقودة» خطأ في القراءة، وبوابة بناء تفشل عند وجود <code dir="ltr">{{</code> ستفشل على كل ملف مرجعي إلى الأبد بلا أن تكشف عيبًا واحدًا. البوابة الصحيحة تفحص <b>مخرجات الإنتاج</b> (HTML الذي يخدمه ووردبريس) لا الملفات المرجعية. أما <code dir="ltr">href="#"</code> والبيانات التجريبية فهي عيوب حقيقية <b>عند نقلها إلى الإنتاج</b> — وهي في النماذج مقبولة لأن النماذج لا تُنشر.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:1120px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">النموذج المرجعي</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المسار الحقيقي</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">قالب ووردبريس</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">خطّاف ووكومرس</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">مالك البيانات</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">ما يُستخرج من النموذج</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ map }}" as="m" hint-placeholder-count="10">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">{{ m.mock }}</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9.5px;color:#3d4f45;display:block;text-align:start;word-break:break-all">{{ m.url }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9px;color:#5f7167;display:block;text-align:start;word-break:break-all">{{ m.tpl }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9px;color:#5f7167;display:block;text-align:start;word-break:break-all">{{ m.hook }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10px;font-weight:800;line-height:1.6;color:#3d4f45;vertical-align:top">{{ m.owner }}</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#5f7167;vertical-align:top">{{ m.take }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.p0 }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 حواجز P0" style="display:flex;flex-direction:column;gap:13px;animation:bFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">حواجز P0 — بحالة تحقّق معلنة لكل بند</h1>
+<span style="font-size:11px;color:#7d8a83">{{ p0Count }} بندًا · لا بند يُجدول قبل تحقّق مباشر</span>
+</div>
+
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<span style="padding:5px 13px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10.5px;font-weight:900">✓ مُصلَح — تحقّقت في هذه الجلسة</span>
+<span style="padding:5px 13px;border-radius:999px;background:#fdecec;color:#8e2223;font-size:10.5px;font-weight:900">● قائم — تحقّقت في هذه الجلسة</span>
+<span style="padding:5px 13px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:10.5px;font-weight:900">؟ غير متحقَّق — يُعاد فحصه قبل الجدولة</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ p0 }}" as="p" hint-placeholder-count="12">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:13px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.bg }};color:{{ p.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.state }}</span>
+<b style="flex:1;min-width:200px;font-size:12.5px;line-height:1.5">{{ p.n }}</b>
+<code dir="ltr" style="font-size:9.5px;color:#8b978f;text-align:start">{{ p.src }}</code>
+</div>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.9;color:#5f7167">{{ p.b }}</p>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.next }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="05 الدفعة التالية" style="display:flex;flex-direction:column;gap:13px;animation:bFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">الدفعة ٢ — أصغر تغيير بأعلى قيمة إنتاجية</h1>
+</div>
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #146c4c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13.5px">التوصية: إعادة تحقّق مُشفَّرة، لا شيفرة ميزات</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">خمسة عيوب مُصلَحة بلا أي بوابة تمنع رجوعها، وتدقيق مرجعي صار مضلّلًا بعد أربعة أشهر. أعلى قيمة إنتاجية الآن ليست ميزة جديدة، بل <b>تحويل كل إصلاح مُثبَت إلى اختبار يفشل إن رجع العيب</b>، وتحديث وثيقة خط الأساس لتصير مرجعًا صادقًا. هذا يحمي عملًا منجزًا بالفعل، ويكلّف أقل من أي دفعة أخرى، ويجعل كل دفعة تالية قابلة للقياس.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:940px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الخطوة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">يُنشأ / يُعدَّل</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">بوابة القبول</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">التراجع</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ next }}" as="n" hint-placeholder-count="5">
+<tr>
+<th scope="row" style="padding:10px 16px;text-align:start;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">
+<b style="display:block;font-size:12px">{{ n.id }}</b>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.6;color:#5f7167;font-weight:500">{{ n.t }}</span>
+</th>
+<td style="padding:10px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9.5px;line-height:1.95;color:#3d4f45;display:block;text-align:start;white-space:pre-wrap">{{ n.files }}</code></td>
+<td style="padding:10px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.85;color:#3d4f45;vertical-align:top">{{ n.gate }}</td>
+<td style="padding:10px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.85;color:#5f7167;vertical-align:top">{{ n.rb }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">ما لا تفعله الدفعة ٢ — بوعي</b>
+<sc-for list="{{ notdoing }}" as="d" hint-placeholder-count="5">
+<div style="display:flex;gap:8px;padding:7px 0;border-top:1px dashed #f1f4f2;font-size:11.5px;line-height:1.85;color:#3d4f45"><span aria-hidden="true" style="color:#8e2223;font-weight:900">×</span><span>{{ d }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px dashed #cfe0d6;border-radius:14px;background:#f8fbf9;padding:14px 17px">
+<b style="font-size:12.5px;color:#146c4c">عقد التسليم بعد كل دفعة</b>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.9;color:#3d4f45">الحالة قبل · الدليل بالملف والسطر · السبب الجذري · قرار المعمارية · الملفات المتغيّرة · ما نُفِّذ فعلًا · الاختبارات بأوامرها ومقاساتها · النتيجة نجاح/فشل لكل اختبار · ما تحقَّق أنه لم يُكسر · المخاطر المتبقية · خطوات التراجع · الخطوة التالية الأعلى قيمة.</p>
+<p style="margin:8px 0 0;padding-top:8px;border-top:1px dashed #d8e6dd;font-size:11px;line-height:1.9;color:#8e2223"><b>وقاعدة واحدة تعلو الكل:</b> ما لم يُشغَّل لا يُعلن ناجحًا، وما لم يُقَس لا يُعلن محسَّنًا، وما لم يُفحَص يُكتب <span dir="ltr">UNVERIFIED</span> بصراحة.</p>
+</section>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1340,&quot;height&quot;:900},&quot;evidence&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;verified&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'verified'&quot;,&quot;section&quot;:&quot;التدقيق&quot;},&quot;p0Filter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;open&quot;,&quot;fixed&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'open' | 'fixed'&quot;,&quot;section&quot;:&quot;التدقيق&quot;}}">
+const EV = {
+  v: { ev: '✓ فُحص', eBg: '#e4f4ec', eC: '#146c4c' },
+  d: { ev: '◆ مُعلن', eBg: '#e8f2fc', eC: '#1d5f9c' },
+  q: { ev: '؟ غير متحقَّق', eBg: '#fff4d6', eC: '#8a6500' },
+};
+const RISK = {
+  'مرتفع': { rBg: '#fdecec', rC: '#8e2223' },
+  'متوسط': { rBg: '#fff4d6', rC: '#8a6500' },
+  'منخفض': { rBg: '#e4f4ec', rC: '#146c4c' },
+};
+const ACT = {
+  KEEP: { aBg: '#e4f4ec', aC: '#146c4c' },
+  IMPROVE: { aBg: '#e8f2fc', aC: '#1d5f9c' },
+  REFACTOR: { aBg: '#f0ecfb', aC: '#5b3ea8' },
+  MERGE: { aBg: '#fff4d6', aC: '#8a6500' },
+  CREATE: { aBg: '#fdf3e0', aC: '#8a5a00' },
+  REMOVE: { aBg: '#fdf0f0', aC: '#8e2223' },
+};
+
+const INV = [
+  { cap: 'المنتجات · الأسعار · الضرائب · المخزون', owner: 'WooCommerce', file: '—', hook: 'قوالب ووكومرس', data: 'ووكومرس', st: 'سليم', risk: 'منخفض', act: 'KEEP', ev: 'd' },
+  { cap: 'السلة · الطلبات · استحقاق التنزيل', owner: 'WooCommerce', file: '—', hook: 'قوالب ووكومرس', data: 'ووكومرس', st: 'سليم', risk: 'منخفض', act: 'KEEP', ev: 'd' },
+  { cap: 'معالجة الدفع Tap', owner: 'إضافة Tap — خارج القالب', file: '—', hook: 'خطّافات الإضافة', data: 'Tap + طلب ووكومرس', st: 'خارج نطاق القالب', risk: 'مرتفع لو بُني داخل القالب', act: 'KEEP', ev: 'd' },
+  { cap: 'مراقبة صحة الدفع والتسويات', owner: 'القالب — مراقبة فقط', file: 'inc/payments/tap-integration.php\ninc/payments/tap-health.php\ninc/payments/tap-analytics.php', hook: 'tahdheer_seo_analytics_sections\nwp_ajax_tahdheer_tap_refresh', data: 'ووكومرس + حالة Tap', st: 'لوحة حالة تعرض جهوزية Webhook ولا تعالج دفعًا', risk: 'منخفض', act: 'IMPROVE', ev: 'v' },
+  { cap: 'تحكيم ملكية SEO لكل قدرة', owner: 'القالب — منسّق لا مالك', file: 'inc/seo-ownership-manager.php', hook: 'wpseo_frontend_presenters\nrank_math/frontend/disable_integration\nrank_math/opengraph/*', data: 'كتالوج مزوّدين + خيار tahdheer_seo_preferred_provider', st: 'يكتشف Rank Math / Yoast / AIOSEO ويكبت المزوّد الثاني لكل قدرة على حدة', risk: 'منخفض', act: 'KEEP', ev: 'v' },
+  { cap: 'العنوان · الوصف · كانونيكال · روبوتس', owner: 'Rank Math عند وجوده — القالب احتياطًا', file: 'inc/seo.php', hook: 'wp_head', data: 'Rank Math', st: 'القالب يفحص الملكية الخارجية قبل الإخراج (seo.php:50,89)', risk: 'متوسط', act: 'KEEP', ev: 'v' },
+  { cap: 'خرائط XML', owner: 'يُسلَّم للمزوّد عند ملكيته', file: 'inc/seo-sitemaps.php\ninc/sitemaps/', hook: 'rewrite rules', data: 'القالب أو Rank Math', st: 'سليم منطقيًا — يبني الخريطة داخل طلب الزائر عند أول زيارة', risk: 'متوسط', act: 'IMPROVE', ev: 'd' },
+  { cap: 'محرك البحث العربي', owner: 'القالب — محرك كامل', file: 'inc/search/class-tahdheer-search-index.php\n…-normalizer.php · …-service.php · …-cli.php', hook: 'pre_get_posts\nrest_api_init\nsave_post · woocommerce_update_product', data: 'جدول فهرس مخصّص بترقيم أجيال', st: 'سليم: تطبيع عربي · فهرسة تدريجية بـ cron · حدّ معدّل · REST · أمر WP-CLI', risk: 'منخفض', act: 'IMPROVE', ev: 'v' },
+  { cap: 'نقطة البحث AJAX', owner: 'القالب — تفويض', file: 'inc/ajax-search.php', hook: 'wp_ajax_tahdheer_product_search', data: 'Tahdheer_Search_Service', st: 'يفوّض للخدمة (:47) بعد حدّ المعدّل (:31) وله مسار احتياطي', risk: 'منخفض', act: 'KEEP', ev: 'v' },
+  { cap: 'البحث الحي في الواجهة', owner: 'القالب', file: 'assets/js/theme.js:171-440', hook: 'REST + فهرس محمول', data: 'الفهرس + REST', st: 'يبني DOM بـ createElement/textContent حصرًا — صفر innerHTML', risk: 'منخفض', act: 'IMPROVE', ev: 'v' },
+  { cap: 'حقول الدفع للسلة الرقمية', owner: 'القالب', file: 'inc/checkout-virtual.php', hook: 'woocommerce_checkout_fields\nwoocommerce_get_country_locale(_default)', data: 'تركيب سلة ووكومرس', st: 'جزئي: يرخّي الحقول للسلة الافتراضية الكاملة فقط', risk: 'متوسط', act: 'REFACTOR', ev: 'v' },
+  { cap: 'نظام التصميم والرموز', owner: 'القالب', file: 'inc/design-system/registry.php\n…/presets.php · css.php · customizer.php · frontend.php', hook: 'customizer + wp_head', data: 'خيارات القالب', st: 'طبقة قائمة: سجل + جاهزات + توليد CSS', risk: 'متوسط', act: 'IMPROVE', ev: 'v' },
+  { cap: 'الموافقة والخصوصية', owner: 'القالب', file: 'inc/privacy-consent.php', hook: 'فلاتر + أدوات ووردبريس للتصدير والمسح', data: 'كوكي + WP Consent API', st: 'محرك سليم بلا كاتب حالة معروف — مفصَّل في وثيقة تدقيق الخصوصية P0', risk: 'مرتفع', act: 'MERGE', ev: 'v' },
+  { cap: 'القياس والتحليلات', owner: 'القالب — محلي بالكامل', file: 'inc/seo-analytics/* (7 جداول)', hook: 'wp (99) · shutdown', data: 'جداول القالب', st: 'سليم ومربوط بالموافقة — يكتب صفًا داخل طلب الزائر', risk: 'متوسط', act: 'IMPROVE', ev: 'v' },
+  { cap: 'الخريطة الحرارية', owner: 'القالب', file: 'inc/attention-heatmap.php', hook: 'beacon AJAX', data: 'جدول مخصّص · شبكة 50×50', st: 'مربوط بالموافقة — عيّنة 100% افتراضيًا', risk: 'متوسط', act: 'IMPROVE', ev: 'v' },
+  { cap: 'اللغة وتبديلها', owner: 'القالب', file: 'inc/language.php', hook: 'template_redirect (1)', data: 'كوكي tahdheer_lang', st: 'سليم مع nonce — HttpOnly=false بلا مبرّر', risk: 'منخفض', act: 'IMPROVE', ev: 'v' },
+  { cap: 'واجهة الإدارة', owner: 'القالب — مبعثرة', file: '45 ملف inc/seo-*.php\nمنها 11 لوحة ومركز قيادة', hook: 'admin_menu · admin_enqueue_scripts', data: 'wp_options', st: 'قدرات قوية موزّعة على مراكز متعدّدة بلا مدخل واحد', risk: 'مرتفع', act: 'MERGE', ev: 'v' },
+  { cap: 'العقود العامة', owner: 'القالب', file: '45 إجراء AJAX · 9 مسارات REST · 9 مهام cron · CPT + shortcode', hook: 'wp_ajax_* · rest_api_init · cron', data: '—', st: 'عقد قائم يجب حفظه حرفيًا في أي دمج', risk: 'مرتفع', act: 'KEEP', ev: 'd' },
+  { cap: 'نماذج .dc.html', owner: 'مراجع تصميم', file: '90+ ملف في مشروع التصميم', hook: '—', data: 'لا مصدر — بيانات توضيحية', st: 'مراجع بصرية لا شيفرة إنتاج', risk: 'متوسط — خطر النسخ إلى الإنتاج', act: 'KEEP', ev: 'v' },
+];
+
+const P0 = [
+  { state: '✓ مُصلَح', n: 'سقوط فاتل على PHP 7.4 بسبب نوع mixed', src: 'helpers.php:257', b: 'المعامل الآن $fallback = null بلا أي إعلان نوع، ويشرح تعليق فوقه المشكلة الأصلية بالحرف: mixed لا يوجد قبل PHP 8.0 وكان يُقرأ كاسم صنف فيصير الافتراضي غير الفارغ خطأ ترجمة. البند مغلق.', s: 0 },
+  { state: '✓ مُصلَح', n: 'حقن HTML في نتائج البحث الحي', src: 'theme.js:171', b: 'صفر innerHTML في الملف كله. البناء بـ createElement مع textContent للعنوان والسعر، وتعليق صريح: «بناء DOM بلا innerHTML — العنوان والسعر والرابط بيانات لا وسوم». أخطر بند في التدقيق السابق، ومغلق فعلًا.', s: 0 },
+  { state: '✓ مُصلَح', n: 'تعطيل شامل لكل مخرجات Yoast بسبب تعارض واحد', src: 'seo-ownership-manager.php:549', b: 'الكبت صار لكل قدرة على حدة عبر تصنيف صنف الـ presenter، وما لا يُصنَّف يُترك كما هو. والتعليق يوثّق العيب القديم ويشرح الإصلاح. كذلك مفتاح إيقاف Rank Math صار يشترط ملكية خارجية لكل قدرات الرأس لا واحدة.', s: 0 },
+  { state: '✓ مُصلَح', n: 'بحث AJAX ساذج بلا تطبيع ولا حدّ معدّل', src: 'ajax-search.php:31,47', b: 'النقطة تفوّض إلى Tahdheer_Search_Service بعد allow_request، والمحرك يملك مطبّعًا عربيًا وفهرسًا بترقيم أجيال وفهرسة تدريجية وأمر WP-CLI. البند الموصوف لم يبق منه شيء.', s: 0 },
+  { state: '✓ مُصلَح', n: 'تطبيع عربي غائب في الواجهة', src: 'theme.js:31-73', b: 'جدول طيّ كامل: بدائل الألف والهمزة والياء والتاء المربوطة والكاف والهاء الفارسية، والأرقام العربية والفارسية إلى لاتينية، وإزالة التشكيل والتطويل والمحارف الصفرية.', s: 0 },
+  { state: '● قائم', n: 'كوكي اللغة مكشوف لـ JavaScript بلا قارئ', src: 'language.php:207', b: 'httponly => false ولا موضع واحد يقرأ الكوكي من JS. إصلاح بسطر واحد، وهو أرخص بند في القائمة.', s: 1 },
+  { state: '● قائم', n: 'الخريطة الحرارية تلتقط كل زيارة افتراضيًا', src: 'attention-heatmap.php:82', b: "sample => 1 يعني عيّنة 100%. مربوط بالموافقة فلا خطر امتثال، لكنه بند ميزانية أداء صريح.", s: 1 },
+  { state: '● قائم', n: 'لا كاتب معروف لكوكي الموافقة', src: 'privacy-consent.php:24', b: 'القالب يقرأ tahdheer_consent ولا يكتبه، وWP Consent API غير مثبّتة (◆). تفصيله الكامل في وثيقة تدقيق الخصوصية P0 — وهو حاجز هناك لا هنا.', s: 1 },
+  { state: '؟ غير متحقَّق', n: 'إجراء AJAX واحد مسجَّل بمعالجَين', src: 'seo-dashboard-core.php:766 + seo-dashboard-ui.php:503', b: 'مُعلن في خط الأساس ولم أُعِد فحصه في هذه الجلسة. بعد ثبوت قِدَم خمسة بنود، لا يُجدول قبل قراءة الملفَين.', s: 2 },
+  { state: '؟ غير متحقَّق', n: 'بناء خريطة XML وقراءة critical.css داخل طلب الزائر', src: 'seo-sitemaps.php:324 · enqueue.php:113', b: 'بندا أداء من خط الأساس. يحتاجان قراءة مباشرة ثم قياسًا قبل/بعد — لا يُعلن أي تحسّن بلا رقم.', s: 2 },
+  { state: '؟ غير متحقَّق', n: 'async شامل على أنماط الواجهة البنيوية', src: 'enqueue.php:138', b: 'لو ما زال قائمًا فهو مرشّح CLS مباشر. يُفحص مع ميزانية الأصول لا منفردًا.', s: 2 },
+  { state: '؟ غير متحقَّق', n: 'IndexNow و llms.txt في تركيب فرعي', src: 'seo-instant-indexing.php:109 · seo-llms-txt.php:219', b: 'يظهر أثره فقط على تركيب في مجلد فرعي. إن كان الإنتاج على الجذر فأثره صفر اليوم — يُصنَّف بعد تأكيد شكل التركيب.', s: 2 },
+  { state: '؟ غير متحقَّق', n: 'لا مربع بحث في الهيدر', src: 'header.php', b: 'مُعلن في خط الأساس. محرك البحث سليم ومتاح، فالفجوة واجهة لا محرك — وهي فرصة تحويل رخيصة إن ثبتت.', s: 2 },
+];
+
+class Component extends DCLogic {
+  state = { s: 'stale' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const onlyV = (this.props.evidence ?? 'all') === 'verified';
+    const p0Filter = this.props.p0Filter ?? 'all';
+
+    const screens = [
+      ['stale', 'الحكم'], ['inv', 'الجرد'], ['map', 'النماذج ← الإنتاج'],
+      ['p0', 'حواجز P0'], ['next', 'الدفعة ٢'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const inv = INV.filter(r => !onlyV || r.ev === 'v').map(r => ({
+      ...r, ...EV[r.ev], ...RISK[r.risk], ...ACT[r.act],
+      oC: r.owner.indexOf('Woo') > -1 || r.owner.indexOf('Tap') > -1 || r.owner.indexOf('Rank') > -1 ? '#8e2223' : '#17251d',
+    }));
+
+    const P0STYLE = [
+      { c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c' },
+      { c: '#b42318', bg: '#fdecec', fg: '#8e2223' },
+      { c: '#d99a00', bg: '#fff4d6', fg: '#8a6500' },
+    ];
+    const p0 = P0
+      .filter(p => p0Filter === 'all' || (p0Filter === 'open' ? p.s !== 0 : p.s === 0))
+      .map(p => ({ ...p, ...P0STYLE[p.s] }));
+
+    return {
+      screens,
+      is: { stale: cur === 'stale', inv: cur === 'inv', map: cur === 'map', p0: cur === 'p0', next: cur === 'next' },
+      inv, invCount: inv.length,
+      p0, p0Count: p0.length,
+
+      stale: [
+        { tag: 'مُصلَح أصلًا', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', src: 'helpers.php:257', h: 'سقوط PHP 7.4 الفاتل', claim: 'القالب يسقط فاتلًا على أدنى إصدار PHP يعلنه، بسبب نوع mixed وقيمة افتراضية غير فارغة.', real: 'المعامل بلا إعلان نوع، وفوقه تعليق يشرح العيب القديم وسبب إزالته. لا أثر للنوع في الملف.', impact: 'أي «إصلاح توافق» هنا تعديل على شيفرة سليمة، وإعادة النوع تعيد العيب حرفيًا.' },
+        { tag: 'مُصلَح أصلًا', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', src: 'theme.js:171-440', h: 'حقن HTML في البحث الحي', claim: 'بناء HTML بـ innerHTML من عنوان المنتج ورابطه وسعره بلا هروب — أخطر بند في التدقيق.', real: 'صفر innerHTML في الملف كله؛ createElement وtextContent فقط، مع تعليق صريح بأن هذه بيانات لا وسوم.', impact: 'كان سيُصرَف عليه وقت كبير كحاجز إصدار، ويكفي عنه اختبار يمنع رجوعه.' },
+        { tag: 'مُصلَح أصلًا', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', src: 'seo-ownership-manager.php:549,650', h: 'مسح شامل لمخرجات Yoast', claim: 'return array() يمسح كل presenters عند تعارض في قدرة واحدة، فتضيع العناوين والروبوتس.', real: 'الكبت لكل قدرة على حدة، وما لا يُصنَّف يُترك. ومفتاح إيقاف Rank Math يشترط ملكية خارجية لكل قدرات الرأس.', impact: 'التعريف يطلب بناء طبقة تحكيم ملكية — وهي مبنيّة فعلًا وبمستوى أدق من المطلوب.' },
+        { tag: 'مُصلَح أصلًا', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', src: 'ajax-search.php:31,47', h: 'بحث AJAX ساذج', claim: 'WP_Query بسيط على product بلا تطبيع عربي ولا SKU ولا أوزان ولا حدّ معدّل ولا فهرس.', real: 'النقطة تفوّض إلى Tahdheer_Search_Service بعد allow_request؛ والمحرك يملك مطبّعًا وفهرسًا بأجيال وفهرسة تدريجية وأمر CLI.', impact: 'استبدال البحث «من الصفر» كان سيحذف محرّكًا عاملًا. القرار الصحيح: IMPROVE لا REPLACE.' },
+        { tag: 'مُصلَح أصلًا', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', src: 'theme.js:31-73', h: 'تطبيع عربي غائب في الواجهة', claim: 'ضمنيًا في وصف البحث: لا معالجة لبدائل الألف والهمزة ولا للأرقام العربية.', real: 'جدول طيّ كامل: الألف والهمزة والياء والتاء المربوطة والكاف والهاء الفارسية، والأرقام العربية والفارسية، وإزالة التشكيل.', impact: 'بند «ذكاء البحث العربي» يبدأ من أساس قائم لا من صفر.' },
+        { tag: 'قراءة خاطئة', c: '#8a6500', bg: '#fff4d6', fg: '#8a6500', src: '‎90+ ملف .dc.html', h: 'متغيّرات غير محلولة واعتماديات مفقودة', claim: '‎100+ ملف بـ {{...}} غير محلولة و‎40+ ملفًا يعتمد على dc-import، ويجب أن تفشل البناء.', real: 'هذه لغة قوالب مكوّنات التصميم نفسها، تُحلّ في زمن العرض. والملفات مراجع بصرية لا تُنشر أصلًا.', impact: 'بوابة تفشل عند {{ ستفشل على كل ملف مرجعي دائمًا بلا كشف عيب. البوابة الصحيحة على مخرجات الإنتاج فقط.' },
+      ],
+
+      rules: [
+        'لا يُجدول أي بند من تدقيق سابق قبل قراءة الشيفرة الحالية — خمسة بنود سقطت في هذه الجلسة وحدها.',
+        'كل إصلاح ثابت يُحوَّل إلى اختبار يفشل عند رجوعه، وإلا فقد الفريق العمل مرتين: مرة بالإصلاح ومرة بضياع دليله.',
+        'الإجراء الافتراضي على قدرة عاملة هو IMPROVE، وREPLACE يحتاج إثبات أن القائم غير قابل للإنقاذ.',
+        'ما يملكه ووكومرس أو Rank Math أو إضافة Tap لا يُبنى في القالب — والقالب يبقى منسّقًا ومراقبًا.',
+        'وثيقة خط الأساس تُحدَّث بتاريخ ونتيجة كل إعادة تحقّق، وإلا صارت مصدر أخطاء لا مصدر حقيقة.',
+      ],
+
+      map: [
+        { mock: 'الرئيسية · Homepage Redesign', url: '/', tpl: 'front-page.php\ntemplate-parts/home/*', hook: 'tahdheer_hero · widget_areas', owner: 'ووكومرس للمنتجات · خيارات القالب للأقسام', take: 'ترتيب الأقسام وإيقاعها البصري وسلّم العناوين — لا الأرقام ولا الأسماء التوضيحية' },
+        { mock: 'التصنيف · Category', url: '/product-category/{slug}/', tpl: 'woocommerce/archive-product.php\ninc/category-archive.php', hook: 'woocommerce_before_shop_loop\nwoocommerce_product_loop', owner: 'ووكومرس', take: 'شبكة البطاقات وسلوك الأعمدة بالعرض المتاح، والفلاتر على الجوال' },
+        { mock: 'نتائج البحث · Search Results', url: '/?s={q}', tpl: 'search.php', hook: 'pre_get_posts → Tahdheer_Search_Service', owner: 'فهرس القالب + ووكومرس', take: 'حالة صفر نتائج والتعافي منها، وشكل الاقتراحات — المحرك قائم' },
+        { mock: 'صفحة المنتج · PDP Engine · Product Page Pro', url: '/product/{slug}/', tpl: 'woocommerce/single-product.php + أجزاء', hook: 'woocommerce_single_product_summary\nwoocommerce_after_single_product_summary', owner: 'ووكومرس + حقول تعليمية في post meta', take: 'ترتيب الملخّص وبطاقة الحقائق والمعاينة والتقييمات — القيم كلها من ووكومرس' },
+        { mock: 'شريط الشراء · Purchase Bar', url: 'PDP على الجوال', tpl: 'template-parts/components/', hook: 'wp_footer شرطيًا', owner: 'ووكومرس للسعر والتوفّر', take: 'الوضع المثبَّت واحترام safe-area وعدم تغطية زر الإضافة — مع 44px حدًا أدنى للمس' },
+        { mock: 'السلة · Cart · Cart Responsive', url: '/cart/', tpl: 'woocommerce/cart/*', hook: 'woocommerce_cart_collaterals', owner: 'ووكومرس', take: 'شكل السطر والمجاميع وكتم واجهة الشحن للسلة الرقمية بالكامل' },
+        { mock: 'الدفع · Checkout · Checkout Responsive', url: '/checkout/', tpl: 'woocommerce/checkout/*', hook: 'woocommerce_checkout_fields\ninc/checkout-virtual.php', owner: 'ووكومرس + محرك نوع المنتج', take: 'تقليل الحقول وترتيبها ورسائل الخطأ — والحقول من قرار السيرفر لا من النموذج' },
+        { mock: 'التأكيد · Thank You · Order Confirmation', url: '/checkout/order-received/{id}/', tpl: 'woocommerce/checkout/thankyou.php\ninc/order-thank-you.php', hook: 'woocommerce_thankyou', owner: 'حالة الطلب في ووكومرس', take: 'وصول فوري للتنزيل ورسائل الحالة — ولا تأكيد نجاح إلا من حالة الطلب' },
+        { mock: 'الحساب · My Account · Account Portal', url: '/my-account/**', tpl: 'woocommerce/myaccount/*', hook: 'woocommerce_account_menu_items', owner: 'ووكومرس + مستخدم ووردبريس', take: 'تحوّل التنقّل الجانبي إلى تبويبات أو درج على الجوال مع بقاء الحالة في الرابط' },
+        { mock: 'الدخول · Login · Auth Overlay', url: '/my-account/ · تدفّق OTP', tpl: 'inc/login/', hook: 'wp_ajax_tahdheer_login_{email,otp,verify}', owner: 'مصادقة ووردبريس', take: 'شكل الخطوات ورسائل الخطأ — ولا مزوّد دخول يُعرض قبل تهيئته واختباره فعلًا' },
+      ],
+
+      next: [
+        { id: '٢أ', t: 'تثبيت الإصلاحات الخمسة', files: 'CREATE tests/regression/php74-signature.test\nCREATE tests/regression/no-inner-html.test\nCREATE tests/regression/seo-ownership-granular.test\nCREATE tests/regression/search-delegation.test\nCREATE tests/regression/arabic-fold.test', gate: 'كل اختبار يفشل إذا أُعيد العيب الأصلي · ويمرّ على الشيفرة الحالية بلا تعديل سطر إنتاجي واحد', rb: 'ملفات اختبار فقط — لا تُنشر إلى الإنتاج ولا تلمس شيفرة عاملة. التراجع حذف مجلد.' },
+        { id: '٢ب', t: 'تصحيح خط الأساس', files: 'EDIT docs/audit-phase-0-baseline.md\n  (وسم كل بند: قائم · مُصلَح · غير متحقَّق + تاريخ)', gate: 'صفر بند بلا حالة تحقّق وتاريخ · وكل بند مُصلَح يشير إلى اختباره في ٢أ', rb: 'تعديل وثيقة قابل للعكس بالكامل.' },
+        { id: '٢ج', t: 'إغلاق البنود الرخيصة المؤكَّدة', files: 'EDIT inc/language.php:207 (httponly => true)\nEDIT inc/attention-heatmap.php:82 (معدّل عيّنة)', gate: 'تبديل اللغة يعمل بعد التغيير · لا JS يقرأ الكوكي (مُثبَت) · الخريطة الحرارية تسجّل بمعدّل أقل بلا فقد بنية', rb: 'سطر واحد لكل ملف، يُعكس فورًا. لا هجرة بيانات.' },
+        { id: '٢د', t: 'إعادة تحقّق البنود المعلّقة', files: 'READ  seo-dashboard-core.php:766 · seo-dashboard-ui.php:503\nREAD  seo-sitemaps.php:324 · enqueue.php:113,138\nREAD  header.php · seo-instant-indexing.php:109', gate: 'كل بند يخرج بحالة: قائم بدليل · مُصلَح بدليل · غير قابل للفحص وسببه — ولا جدولة قبل ذلك', rb: 'قراءة فقط. لا أثر.' },
+        { id: '٢هـ', t: 'قياس ما لم يُقَس', files: 'EDIT inc/server-timing.php (استعلامات + ذاكرة لكل طلب)\nCREATE docs/perf-baseline-v2.md', gate: 'رقم قبل موجود لكل ميزانية يُخطَّط لها · وصفر ادعاء تحسّن بلا قياس قبل/بعد', rb: 'وحدة تشخيص قابلة للإيقاف بمفتاح واحد.' },
+      ],
+
+      notdoing: [
+        'لا مركز تحكّم جديد ولا صفحة إدارة واحدة — الدمج قبل جرد الاستدعاءات يحذف عقودًا عاملة.',
+        'لا محرك دفع ولا معالجة Webhook داخل القالب — إضافة Tap تملكها، وبناء نظير لها أخطر بند ممكن.',
+        'لا استبدال للبحث ولا لطبقة SEO — كلاهما عامل ومُثبَت في هذه الجلسة.',
+        'لا إعادة كتابة للنماذج ولا نقل لوسومها إلى الإنتاج — تُقرأ كمرجع بصري فقط.',
+        'لا بوابة بناء تفشل على {{ أو dc-import — بوابة بلا معنى تُنتج تجاهلًا للبوابات كلها.',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+# بيئة التطوير المحلّية الكاملة — معزولة عن أي مشروع آخر على الجهاز.
+#
+# لماذا ملفّ مستقلّ لا profile داخل docker-compose.yml: ملفّ الإنتاج عقدٌ مع
+# خادم حيّ (Traefik وprofiles وشبكة خارجية)، وأي تعديل فيه يخاطر بنشرٍ قائم.
+# هذا الملفّ مستقلّ تمامًا: `docker compose -f docker-compose.local.yml up -d`.
+#
+# ── عزل المنافذ (سبب وجود هذا الملفّ أصلًا) ───────────────────────────────
+# 5432 و6379 محجوزان على هذا الجهاز لمشروع آخر (dropcatcher-postgres على
+# postgres:16 وdropcatcher-redis). ملفّ backend/laravel/.env كان يشير إلى
+# 127.0.0.1:5432 — أي إلى قاعدة مشروعٍ آخر بإصدار مختلف. المنافذ هنا مُزاحة
+# ومملوكة لهذا المشروع وحده، والأسماء والمجلّدات مسبوقة بـtahdheer_local.
+#
+# ── تكافؤ الإصدارات ──────────────────────────────────────────────────────
+# نسخ الخدمات مطابقة للإنتاج حرفيًّا (postgres:18 · valkey:9 · meili v1.15 ·
+# garage v2.0.0). الاختلاف عن الإنتاج مقصور على: لا Traefik، ولا TLS، ومنافذ
+# مكشوفة على 127.0.0.1 فقط، وبيانات اعتماد تطوير.
+
+name: tahdheer-local
+
+x-local-laravel-env: &local-laravel-env
+  APP_ENV: local
+  APP_DEBUG: "true"
+  APP_KEY: ${APP_KEY:-base64:bG9jYWxkZXZrZXlsb2NhbGRldmtleWxvY2FsZGV2MDA=}
+  APP_URL: http://127.0.0.1:${API_PORT:-58080}
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_DATABASE: tahdheer
+  DB_USERNAME: ${POSTGRES_USER:-tahdheer}
+  DB_PASSWORD: ${POSTGRES_PASSWORD:-tahdheer_local_dev}
+  REDIS_HOST: valkey
+  REDIS_PASSWORD: ${VALKEY_PASSWORD:-tahdheer_local_dev}
+  REDIS_PORT: "6379"
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  SESSION_DRIVER: redis
+  MEILISEARCH_HOST: http://meilisearch:7700
+  MEILISEARCH_KEY: ${MEILI_MASTER_KEY:-tahdheer_local_dev_master_key}
+  # pg هو الافتراضي الآمن محلّيًّا أيضًا — لا يحتاج فهرسًا مبنيًّا ليعمل البحث.
+  SEARCH_PROVIDER: ${SEARCH_PROVIDER:-pg}
+  # التخزين محلّيًّا على القرص لا Garage: تهيئة Garage تحتاج layout وnode-id
+  # ومفاتيح، وهي خطوات إنتاج لا قيمة لها في حلقة التطوير. من أراد تكافؤ S3
+  # كاملًا يرفع خدمة garage أدناه (profile: s3) ويضبط FILESYSTEM_DISK=garage.
+  FILESYSTEM_DISK: ${FILESYSTEM_DISK:-local}
+  ASSETS_STORAGE_PROVIDER: ${ASSETS_STORAGE_PROVIDER:-local}
+  # ─── المنافذ هنا هي منافذ `npm run dev` لا منافذ compose ───
+  #
+  # الواجهتان لا تعملان داخل compose محلّيًّا: `apps/storefront` على 3000
+  # و`apps/admin` على 3001 (والثاني مثبَّت بقاعدةٍ في المستودع لأنّ الوسيط
+  # و`.env.local` مبنيّان عليه). وكان الافتراض هنا 53000/53001 — منفذَين لا
+  # يستمع عليهما شيء.
+  #
+  # والأثر لم يكن تجميليًّا: `FRONTEND_URL` هو الأصل **الوحيد** المسموح له في
+  # `config/cors.php`. فكلّ نداءٍ من المتصفّح إلى الـAPI — السلّة والدفع
+  # والموافقة والقياس — كان يُردّ بـCORS محلّيًّا، والخطأ يظهر في طرفيّة
+  # المتصفّح وحدها فلا يراه من يشغّل الخادم.
+  FRONTEND_URL: http://127.0.0.1:${STOREFRONT_PORT:-3000}
+  STOREFRONT_URL: http://127.0.0.1:${STOREFRONT_PORT:-3000}
+  ADMIN_URL: http://127.0.0.1:${ADMIN_PORT:-3001}
+  # لا قيمة افتراضيّة: كلمة مرور المشغّل تأتي من البيئة (‏`.env.example` في الجذر)،
+  # و`scripts/dev.sh` يرفض البذر الأوّل بدونها — مطابقٌ لما يقوله apps/admin/.env.example.
+  ADMIN_SEED_PASSWORD: ${ADMIN_SEED_PASSWORD:-}
+  # ─── الذكاء في المرساة لا في خدمةٍ واحدة ───
+  #
+  # الخادم يجدول والعامل ينفّذ. ولو حمل أحدهما الراية دون الآخر لقبِل الخادم
+  # الطلب وردّه العامل «مطفأ» — انقسامٌ صامت: ٢٠٢ للمشغّل ثمّ لا نتيجة أبدًا.
+  # والمرساة تضمن أنّهما يقرآن القيمة نفسها.
+  AI_ENABLED: ${AI_ENABLED:-false}
+  AI_PRODUCT_ENRICHMENT: ${AI_PRODUCT_ENRICHMENT:-false}
+  AI_SEARCH_ASSIST: ${AI_SEARCH_ASSIST:-false}
+  AI_SEO: ${AI_SEO:-false}
+  AI_ADMIN_COPILOT: ${AI_ADMIN_COPILOT:-false}
+  AI_CUSTOMER_ASSISTANT: ${AI_CUSTOMER_ASSISTANT:-false}
+  AI_BASE_URL: ${AI_BASE_URL:-http://ai-llm:8081}
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: tahdheer-local-postgres
+    environment:
+      POSTGRES_DB: tahdheer
+      POSTGRES_USER: ${POSTGRES_USER:-tahdheer}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tahdheer_local_dev}
+    ports:
+      # 127.0.0.1 صراحةً: لا تُنشر القاعدة على الشبكة المحلّية للمقهى.
+      - "127.0.0.1:${POSTGRES_PORT:-55433}:5432"
+    volumes:
+      # لا /var/lib/postgresql/data — صور 18+ تخزّن في مجلّد فرعي باسم
+      # الإصدار الرئيسي، والوصل على data يجعلها ترى مجلّدًا "مأهولًا بلا
+      # PG_VERSION" فتدخل حلقة إعادة تشغيل. ملفّ الإنتاج يوثّق الفخّ نفسه.
+      - tahdheer_local_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tahdheer} -d tahdheer"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey:9
+    container_name: tahdheer-local-valkey
+    command:
+      - sh
+      - -c
+      - exec valkey-server --requirepass "$$VALKEY_PASSWORD" --appendonly no --maxmemory-policy noeviction
+    environment:
+      VALKEY_PASSWORD: ${VALKEY_PASSWORD:-tahdheer_local_dev}
+    ports:
+      - "127.0.0.1:${VALKEY_PORT:-56379}:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli --no-auth-warning -a \"$$VALKEY_PASSWORD\" ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    container_name: tahdheer-local-meili
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-tahdheer_local_dev_master_key}
+      # development لا production: يفتح لوحة Meili على المتصفّح للتشخيص.
+      MEILI_ENV: development
+      MEILI_NO_ANALYTICS: "true"
+    ports:
+      - "127.0.0.1:${MEILI_PORT:-57700}:7700"
+    volumes:
+      - tahdheer_local_meili:/meili_data
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --spider http://127.0.0.1:7700/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../..
+      dockerfile: backend/laravel/Dockerfile
+    image: tahdheer/api:local
+    container_name: tahdheer-local-api
+    environment: *local-laravel-env
+    volumes:
+      # الشيفرة موصولة حيًّا: تعديل PHP يظهر فورًا بلا إعادة بناء الصورة.
+      # vendor/ يخرج من الوصل ليبقى داخل الحاوية (اختلاف المعمارية arm64
+      # محلّيًّا يجعل vendor المضيف غير صالح أحيانًا) — وهو مبرّر ثنائيّات
+      # لا ينطبق على البيانات.
+      - ../../backend/laravel:/var/www/html
+      - tahdheer_local_api_vendor:/var/www/html/vendor
+      # storage/ يبقى وحدة مُسمّاة: framework/ وlogs/ حالة تشغيل خاصّة بكل
+      # بيئة، ومشاركتها تُنتج تصادم ملكية بين php المضيف (uid 501) والحاوية.
+      - tahdheer_local_api_storage:/var/www/html/storage
+      # لكن storage/app **بيانات**، ويجب أن تكون واحدة: البذر يعمل بـphp
+      # المضيف (`npm run local:seed`) بينما التقديم يعمل في الحاوية. مع
+      # فصلهما تُكتب الأغلفة على المضيف ولا تراها الحاوية إطلاقًا، فتُعيد
+      # كل صور المنتجات 404 — عطلٌ صامت لا رسالة له. (وصل أعمق مسارًا
+      # يُطبَّق بعد الوحدة المُسمّاة، فيغلبها على app/ وحدها.)
+      - ../../backend/laravel/storage/app:/var/www/html/storage/app
+      # bootstrap/cache أيضًا: packages.php المولَّد على المضيف يسرد حزم
+      # التطوير (Pail وغيرها) التي لا توجد في vendor الحاوية (--no-dev)،
+      # فيسقط الإقلاع بـ"Class not found". لكل بيئة ذاكرتها المولَّدة.
+      - tahdheer_local_api_cache:/var/www/html/bootstrap/cache
+      # يفتح إعادة فحص الطوابع الزمنية — بدونه لا يظهر أي تعديل PHP.
+      - ./local-php-dev.ini:/usr/local/etc/php/conf.d/zzz-local-dev.ini:ro
+    depends_on:
+      postgres: { condition: service_healthy }
+      valkey: { condition: service_healthy }
+    restart: unless-stopped
+
+  api-web:
+    image: nginx:1.27-alpine
+    container_name: tahdheer-local-api-web
+    ports:
+      - "127.0.0.1:${API_PORT:-58080}:8080"
+    volumes:
+      - ./local-nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../../backend/laravel/public:/var/www/html/public:ro
+      # public/storage وصلة نسبيّة إلى ../storage/app/public، فيلزم أن يكون
+      # الهدف موجودًا هنا أيضًا وإلّا بقيت مكسورة داخل nginx وحده.
+      - ../../backend/laravel/storage/app/public:/var/www/html/storage/app/public:ro
+    depends_on:
+      api: { condition: service_started }
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --spider http://127.0.0.1:8080/up || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # اختياري — تكافؤ S3 الكامل. لا يعمل إلا بـ`--profile s3`، ويحتاج تهيئة
+  # layout بعد أوّل تشغيل (انظر LOCAL-DEV.md). التطوير العادي لا يحتاجه.
+  garage:
+    image: dxflrs/garage:v2.0.0
+    container_name: tahdheer-local-garage
+    profiles: ["s3"]
+    environment:
+      GARAGE_RPC_SECRET: ${GARAGE_RPC_SECRET:-0000000000000000000000000000000000000000000000000000000000000000}
+      GARAGE_ADMIN_TOKEN: ${GARAGE_ADMIN_TOKEN:-local_admin_token}
+      GARAGE_METRICS_TOKEN: ${GARAGE_METRICS_TOKEN:-local_metrics_token}
+    ports:
+      - "127.0.0.1:${GARAGE_PORT:-53900}:3900"
+    volumes:
+      - ../garage/garage.toml:/etc/garage.toml:ro
+      - tahdheer_local_garage_meta:/var/lib/garage/meta
+      - tahdheer_local_garage_data:/var/lib/garage/data
+    restart: unless-stopped
+
+  # محرّك الاستدلال المحلّيّ — الصورة والحدود نفسها التي في ملفّ الإنتاج.
+  #
+  # لا منفذ منشور هنا أيضًا، ولو كان الربط على 127.0.0.1: التطوير يجب أن يسلك
+  # مسار الإنتاج نفسه — من البوّابة عبر شبكة Docker — وإلّا اختُبر مسارٌ لا
+  # يُنشر. والأوزان مُثبَّتة للقراءة فقط.
+  ai-llm:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    container_name: tahdheer-local-ai
+    # خلف ملفّ تعريف: النموذج (‏`*.gguf`) غير متعقَّب وstart_period ١٨٠ ثانية
+    # تتجاوز مهلة `scripts/dev.sh`؛ يُرفع بـ`--profile ai` بعد `infrastructure/ai/download-model.sh`.
+    profiles: ["ai"]
+    volumes:
+      - ../ai/models:/models:ro
+    command:
+      - --model
+      - /models/${AI_MODEL_FILE:-Qwen3.5-2B-Q4_K_M.gguf}
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8081"
+      - --n-gpu-layers
+      - "0"
+      - --threads
+      - "${AI_CPU_THREADS:-3}"
+      - --ctx-size
+      - "${AI_CONTEXT:-4096}"
+      - --parallel
+      - "${AI_PARALLEL_REQUESTS:-1}"
+      - --batch-size
+      - "256"
+      - --ubatch-size
+      - "128"
+      - --threads-http
+      - "2"
+      - --no-webui
+      - --metrics
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8081/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 180s
+    stop_grace_period: 30s
+    mem_limit: ${AI_MEMORY_LIMIT:-3g}
+    mem_reservation: 1g
+    cpus: "${AI_CPU_LIMIT:-3.0}"
+    cpu_shares: 512
+    restart: unless-stopped
+
+  # ─── عامل الطابور — كان غائبًا تمامًا عن التطوير ───
+  #
+  # ملفّ الإنتاج يشغّل عاملًا، وهذا الملفّ لم يكن يشغّل شيئًا. فكلّ مهمّة
+  # تُرسَل محلّيًّا — زحفٌ أو فهرسةٌ أو إثراءٌ بالذكاء — تبقى في الطابور إلى
+  # الأبد، والواجهة تقول «بدأ في الخلفيّة» ولا شيء يبدأ.
+  #
+  # وأسوأ أثره أنّه يُخفي الأعطال: مسارٌ يعتمد على مهمّةٍ يبدو عاملًا في
+  # التطوير لأنّ أحدًا لم ينتظر نتيجته قطّ.
+  #
+  # البيئة من المرساة نفسها التي تستعملها `api` — نسخةٌ ثانية منها تتباعد عند
+  # أوّل تعديل، ويصير العامل يقرأ قاعدةً غير التي يكتب فيها الخادم.
+  #
+  # والطوابير هي قائمة الإنتاج حرفيًّا: قائمتان تختلفان تعنيان طابورًا يعمل
+  # هنا ولا يُستهلك هناك.
+  worker:
+    image: tahdheer/api:local
+    container_name: tahdheer-local-worker
+    environment: *local-laravel-env
+    volumes:
+      - ../../backend/laravel:/var/www/html
+      - tahdheer_local_api_vendor:/var/www/html/vendor
+      - tahdheer_local_api_storage:/var/www/html/storage
+      - ../../backend/laravel/storage/app:/var/www/html/storage/app
+      # ─── ذاكرة إقلاعٍ خاصّة بالعامل ───
+      #
+      # مشاركتها مع `api` كسرت الحزمة كلّها: إقلاع العامل يكتب إعدادًا مخبّأً
+      # في المجلّد المشترك، فيتجمّد `DB_DATABASE=tahdheer` ويتوقّف احترام
+      # متغيّر البيئة. فرفض حارسُ الاختبارات التشغيل — وهو محقّ — على ١٢٨١
+      # اختبارًا، لأنّ الحزمة كانت ستمسح قاعدة التطوير.
+      #
+      # وتعليق `api` أعلاه يقول القاعدة نفسها: «لكلّ بيئة ذاكرتها المولَّدة».
+      - tahdheer_local_worker_cache:/var/www/html/bootstrap/cache
+    depends_on:
+      postgres: { condition: service_healthy }
+      valkey: { condition: service_healthy }
+      api: { condition: service_started }
+    command:
+      - sh
+      - -c
+      - "while :; do php artisan outbox:process --limit=100 || true; sleep 5; done & exec php artisan queue:work --queue=default,search-index,crawler,ai --tries=3 --backoff=10 --max-time=3600"
+    # ─── لا فحص صحّة هنا: لا php-fpm في هذه الحاوية ───
+    #
+    # الصورة تحمل `HEALTHCHECK` يكلّم مجمّع php-fpm على 127.0.0.1:9000
+    # (backend/laravel/Dockerfile)، وهذه الحاوية تشغّل `queue:work` لا fpm —
+    # فالفحص يفشل أبدًا مهما كان العامل سليمًا. وليس الأثر تجميليًّا:
+    # `scripts/dev.sh` ينتظر «كلّ الخدمات صحّية» قبل أن يرفع الواجهتين،
+    # فحاويةٌ لا تصحّ أبدًا تجعل `npm run dev` ينتظر إلى أن تنقضي مهلته في
+    # كلّ تشغيل. حيويّة العامل تكفلها `restart: unless-stopped` مع
+    # `--max-time` — وهو النمط نفسه المعلَّل في مِلَفّ الإنتاج.
+    healthcheck:
+      disable: true
+    restart: unless-stopped
+
+  # ─── المجدوِل: الأوامر الثمانية المجدولة لا تعمل بلا نبضٍ يدفعها ───
+  #
+  # `routes/console.php` يجدول `outbox:process` كلّ دقيقة و`operations:recover`
+  # كلّ دقيقة و`cases:scan`/`cases:escalate` و`sitemap:build`/`sitemap:audit`
+  # و`analytics:prune` و`catalog:mine-co-purchase`. وبلا عمليّةٍ تشغّل
+  # `schedule:work` لا يُنفَّذ منها واحد محلّيًّا: العمليّات المجهولة لا
+  # تُوفَّق، والقضايا لا تُصعَّد — فيبدو النطاق سليمًا في الاختبارات ومعطوبًا
+  # في التطوير، وهو أسوأ من عطلٍ ظاهر. الإنتاج يرفع الخدمة نفسها.
+  #
+  # نسخةٌ واحدة حصرًا: مجدوِلان يشغّلان كلّ مهمّة مرّتين.
+  scheduler:
+    image: tahdheer/api:local
+    container_name: tahdheer-local-scheduler
+    environment: *local-laravel-env
+    volumes:
+      - ../../backend/laravel:/var/www/html
+      - tahdheer_local_api_vendor:/var/www/html/vendor
+      - tahdheer_local_api_storage:/var/www/html/storage
+      - ../../backend/laravel/storage/app:/var/www/html/storage/app
+      # ذاكرة إقلاعٍ خاصّة، للسبب المشروح على `worker` أعلاه.
+      - tahdheer_local_scheduler_cache:/var/www/html/bootstrap/cache
+    depends_on:
+      postgres: { condition: service_healthy }
+      valkey: { condition: service_healthy }
+      api: { condition: service_started }
+    command:
+      - sh
+      - -c
+      - "exec php artisan schedule:work"
+    # لا php-fpm هنا أيضًا — انظر التعليل على `worker`.
+    healthcheck:
+      disable: true
+    restart: unless-stopped
+
+volumes:
+  tahdheer_local_scheduler_cache:
+  tahdheer_local_worker_cache:
+  tahdheer_local_pgdata:
+  tahdheer_local_meili:
+  tahdheer_local_api_vendor:
+  tahdheer_local_api_storage:
+  tahdheer_local_api_cache:
+  tahdheer_local_garage_meta:
+  tahdheer_local_garage_data:

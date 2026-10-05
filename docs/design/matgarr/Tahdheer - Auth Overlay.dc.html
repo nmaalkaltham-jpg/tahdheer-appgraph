@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+.tt{padding:36px 40px 30px;border-bottom:1px solid rgba(0,0,0,.08)}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 20px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:84ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:46ch}
+.opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.stage{position:relative;overflow:hidden;border:1px solid rgba(0,0,0,.1);border-radius:12px;box-shadow:0 3px 16px rgba(0,0,0,.09);background:#fff}
+.row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="brand-google" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-2.7-.4-4H24v7.3h12.1c-.2 2-1.6 5-4.5 7l-.1.3 6.5 5 .5.1c4.1-3.8 6.6-9.4 6.6-15.7z"></path><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-6.9-5.4c-1.8 1.3-4.3 2.2-7.6 2.2-5.8 0-10.7-3.8-12.5-9.1l-.3 0-6.7 5.2-.1.3C7.9 41 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.5 28.4c-.5-1.4-.7-2.9-.7-4.4s.3-3 .7-4.4l0-.3-6.8-5.3-.2.1A22 22 0 0 0 2 24c0 3.5.9 6.9 2.5 9.9l7-5.5z"></path><path fill="#EA4335" d="M24 10.4c4.1 0 6.9 1.8 8.5 3.3l6.2-6C34.9 4.2 29.9 2 24 2 15.4 2 7.9 7 4.5 14.1l7 5.5c1.8-5.3 6.7-9.2 12.5-9.2z"></path></symbol>
+<symbol id="brand-apple" viewBox="0 0 48 48"><path fill="#000" d="M33.6 25.5c0-4.2 3.4-6.2 3.6-6.3-2-2.9-5-3.3-6.1-3.3-2.6-.3-5 1.5-6.3 1.5-1.3 0-3.3-1.5-5.4-1.4-2.8 0-5.3 1.6-6.7 4.1-2.9 5-.7 12.4 2.1 16.4 1.4 2 3 4.2 5.1 4.1 2-.1 2.8-1.3 5.2-1.3s3.1 1.3 5.3 1.3c2.2 0 3.6-2 4.9-4 1.5-2.3 2.2-4.5 2.2-4.6-.1 0-4.2-1.6-4.2-6.5z"></path><path fill="#000" d="M29.6 13.1c1.1-1.4 1.9-3.3 1.7-5.2-1.6.1-3.6 1.1-4.8 2.5-1 1.2-2 3.2-1.7 5 1.8.1 3.6-.9 4.8-2.3z"></path></symbol>
+</svg>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section dir="rtl" class="tt" id="t1">
+<div class="tthd"><a class="ttid" href="#t1">1</a><span class="ttname">طبقة الدخول فوق الصفحة الرئيسية — الرئيسية تبقى مرئية</span></div>
+<p class="ttsub">الشفافية موضوعها الطبقة المحيطة لا سطح النص. الحاجب فوق الرئيسية شفّاف ومضبَّب فتُقرأ المنتجات والعروض من حوله وخلف حواف البطاقة؛ أمّا البطاقة نفسها فسطح شبه معتم (‎.965‎) لأن نصًّا فوق صورة متغيّرة لا يمكن ضمان تباينه — فيبقى AA محفوظًا بلا حجب الرئيسية. الترتيب كما في الموجز: زائر، ثم Google، ثم Apple، ثم رابط بريد. لا هاتف، ولا OTP، ولا Facebook.</p>
+
+<div class="row">
+
+<div class="opt" id="1a">
+<div class="olab"><a class="oid" href="#1a">1a</a><span><b>سطح المكتب — الحالة الافتراضية.</b> «المتابعة كزائر» هو الأبرز: أخضر ممتلئ بعرض كامل، وما تحته أهدأ منه بدرجة.</span></div>
+<div class="stage" style="width:1180px;height:720px">
+<div dir="ltr" style="position:absolute;inset:0;overflow:hidden"><div style="width:1440px;transform:scale(.82);transform-origin:0 0"><dc-import name="TahHomeBody" hint-size="1440px,900px"></dc-import></div></div>
+<div style="position:absolute;inset:0;background:rgba(18,61,47,.34);backdrop-filter:blur(7px) saturate(.92);-webkit-backdrop-filter:blur(7px) saturate(.92)"></div>
+<div style="position:absolute;inset:0;display:grid;place-items:center;padding:20px"><dc-import name="TahAuthCard" notice="checkout" hint-size="392px,560px"></dc-import></div>
+</div>
+</div>
+
+<div class="opt" id="1b">
+<div class="olab"><a class="oid" href="#1b">1b</a><span><b>جوال 390 — نفس الطبقة.</b> البطاقة تلتصق بالأسفل حيث يصل الإبهام، والرئيسية مرئية من فوقها. كل هدف 44px+.</span></div>
+<div class="stage" style="width:390px;height:720px;border-radius:22px">
+<div style="position:absolute;inset:0;overflow:hidden"><div style="width:390px"><dc-import name="TahHomeMobile" hint-size="390px,900px"></dc-import></div></div>
+<div style="position:absolute;inset:0;background:rgba(18,61,47,.38);backdrop-filter:blur(7px) saturate(.92);-webkit-backdrop-filter:blur(7px) saturate(.92)"></div>
+<div style="position:absolute;inset-block-end:0;inset-inline:0;padding:12px"><dc-import name="TahAuthCard" mobile="{{ true }}" notice="checkout" hint-size="366px,600px"></dc-import></div>
+</div>
+</div>
+
+<div class="opt" id="1c">
+<div class="olab"><a class="oid" href="#1c">1c</a><span><b>الحالة المربوطة.</b> بعد ربط المزوّدين ورابط البريد: تختفي الأوسمة والملاحظات وتُفعَّل الأزرار — لا تصميم منفصل.</span></div>
+<div class="stage" style="width:1180px;height:720px">
+<div dir="ltr" style="position:absolute;inset:0;overflow:hidden"><div style="width:1440px;transform:scale(.82);transform-origin:0 0"><dc-import name="TahHomeBody" hint-size="1440px,900px"></dc-import></div></div>
+<div style="position:absolute;inset:0;background:rgba(18,61,47,.34);backdrop-filter:blur(7px) saturate(.92);-webkit-backdrop-filter:blur(7px) saturate(.92)"></div>
+<div style="position:absolute;inset:0;display:grid;place-items:center;padding:20px"><dc-import name="TahAuthCard" google-linked="{{ true }}" apple-linked="{{ true }}" magic-linked="{{ true }}" notice="checkout" hint-size="392px,560px"></dc-import></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section dir="rtl" class="tt" id="t2">
+<div class="tthd"><a class="ttid" href="#t2">2</a><span class="ttname">الحالات — كل واحدة تقول ما حدث لسلّتك</span></div>
+<p class="ttsub">لا حالة تقول «حدث خطأ» وتسكت. الإلغاء والفشل يبدآن بما لم يتغيّر (السلة، الحساب)، ورسالة رابط البريد محيّدة لا تكشف إن كان العنوان مسجَّلًا أصلًا، وحدّ الإرسال يشرح أنه يحمي البريد لا أنه عقوبة.</p>
+<div class="row">
+<sc-for list="{{ states }}" as="s" hint-placeholder-count="6">
+<div class="opt" id="{{ s.anchor }}">
+<div class="olab"><a class="oid" href="{{ s.href }}">{{ s.id }}</a><span>{{ s.note }}</span></div>
+<div class="stage" style="width:392px;padding:18px;background:linear-gradient(160deg,#f7f9f6,#eceae5)">
+<dc-import name="TahAuthCard" notice="{{ s.notice }}" force-state="{{ s.force }}" google-linked="{{ s.google }}" magic-linked="{{ s.magic }}" title="{{ s.title }}" subtitle="{{ s.subtitle }}" hint-size="356px,560px"></dc-import>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section dir="rtl" class="tt" id="t3">
+<div class="tthd"><a class="ttid" href="#t3">3</a><span class="ttname">ما هو حقيقي في القالب الآن — وما يحتاج ربطًا</span></div>
+<p class="ttsub">قرأت <code>inc/login/</code> بالكامل. الجدول أدناه هو سبب وسم بعض الأزرار «يحتاج ربطًا»: الشعارات والتعريفات موجودة فعلًا، لكن التوفّر شيء آخر. الموجز يطلب إزالة الهاتف و Facebook — وكلاهما موجود في القالب الآن، فالإزالة عمل حقيقي لا تنظيف صوري.</p>
+<div style="display:flex;flex-direction:column;gap:6px;max-width:1180px">
+<sc-for list="{{ audit }}" as="a" hint-placeholder-count="7">
+<div style="display:flex;gap:12px;padding:11px 13px;border:1px solid {{ a.border }};border-radius:10px;background:{{ a.bg }}">
+<span style="flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:{{ a.badgeBg }};color:{{ a.badgeFg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ a.mark }}</span>
+<span style="flex:0 0 168px;font-size:12.5px;font-weight:900;color:#14261d">{{ a.item }}</span>
+<code dir="{{ a.fileDir }}" style="flex:0 0 210px;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167;text-align:start">{{ a.file }}</code>
+<span dir="rtl" style="flex:1;font-size:11.5px;line-height:1.7;color:#3b4d43;text-align:start">{{ a.detail }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    /*
+     * Direction is DERIVED, not declared. The file column was pinned dir="ltr"
+     * for path values, which gave the two "— لا وجود له" rows an LTR base.
+     */
+    const dirOf = s => (/[\u0600-\u06FF]/.test(String(s)) ? 'rtl' : 'ltr');
+    const S = (id, note, o) => Object.assign({
+      id, anchor: id, href: '#' + id, note,
+      notice: '', force: '', google: false, magic: false,
+      title: 'أكمل شراءك', subtitle: 'بلا كلمة مرور وبلا رقم جوال — اختر ما يناسبك.'
+    }, o);
+
+    return {
+      states: [
+        S('2a', 'إلغاء من نافذة المزوّد — يبدأ بما لم يتغيّر: لا حساب أُنشئ ولا سلّة تأثّرت.', { notice: 'cancelled', google: true }),
+        S('2b', 'فشل المزوّد — يفصل بين تعذّر الخدمة وخطأ المستخدم، ويشير إلى مسارين بديلين.', { notice: 'failed', google: true }),
+        S('2c', 'جلسة منتهية — تُطمئن على السلة والموضع قبل أن تطلب الدخول مرة أخرى.', { notice: 'expired', google: true, magic: true }),
+        S('2d', 'أُرسل الرابط — رسالة محيّدة: «إن كان مرتبطًا بحساب…» فلا تكشف إن كان البريد مسجَّلًا.', { force: 'sent', magic: true, google: true }),
+        S('2e', 'حدّ الإرسال — يشرح أنه حماية للبريد من التكرار، لا عقوبة.', { notice: 'limited', magic: true, google: true }),
+        S('2f', 'جارٍ التحويل عبر Google — الأزرار الأخرى تُقفل لمنع إرسال مزدوج.', { force: 'busy-google', google: true, magic: true }),
+        S('2g', 'بعد الشراء كزائر — دعوة هادئة اختيارية، بلا نافذة تعترض الطريق.', { google: true, magic: true, title: 'تم طلبك — أنشئ حسابًا لحفظ ملفاتك؟', subtitle: 'اختياري تمامًا. سنربط طلبك بحسابك بعد تأكيد ملكية البريد.' })
+      ],
+      audit: [
+        { mark: '✓', item: 'شعار Google الرسمي', file: 'inc/login/providers.php:178', detail: 'موجود في القالب كـ SVG رسمي بأربعة مسارات ملوّنة. استخدمته حرفيًا — لا رسم تقريبي ولا مربّع نائب.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', badgeBg: 'rgba(37,155,111,.14)', badgeFg: '#1e7355' },
+        { mark: '✓', item: 'شعار Apple الرسمي', file: 'inc/login/providers.php:194', detail: 'موجود أيضًا. هذا يحسم ما كنت أوسمه «مكانًا نائبًا» في شريط الشراء — الأصل كان في القالب.', bg: '#f3faf6', border: 'rgba(37,155,111,.22)', badgeBg: 'rgba(37,155,111,.14)', badgeFg: '#1e7355' },
+        { mark: '!', item: 'توفّر Google و Apple', file: 'tahdheer_login_providers()', detail: 'المزوّد لا يُعاد إلا بعد وصول `url` عبر الفلتر الموثَّق في الملف. لا عنوان بدء OAuth مهيّأ الآن — لذلك الوسم.', bg: 'rgba(216,181,106,.09)', border: 'rgba(216,181,106,.35)', badgeBg: 'rgba(216,181,106,.2)', badgeFg: '#7a5d20' },
+        { mark: '✕', item: 'رابط الدخول بالبريد', file: '— لا وجود له', detail: 'لا رمز ولا جدول ولا قالب بريد في القالب. الزر مصمَّم وموسوم، ويحتاج: توليد رمز آمن، تخزين تجزئته فقط، استخدام واحد، صلاحية 15 دقيقة، وحدّ إرسال.', bg: '#fdf3f2', border: 'rgba(163,58,45,.2)', badgeBg: 'rgba(163,58,45,.12)', badgeFg: '#a33a2d' },
+        { mark: '✕', item: 'الدخول كزائر', file: '— لا وجود له', detail: 'لم أجد مسار ضيف في القالب. يحتاج تفعيل ضيف WooCommerce، ورابط تتبّع مؤقّت آمن، وربط الطلب بالحساب بعد تأكيد ملكية البريد.', bg: '#fdf3f2', border: 'rgba(163,58,45,.2)', badgeBg: 'rgba(163,58,45,.12)', badgeFg: '#a33a2d' },
+        { mark: '✕', item: 'الدخول بالهاتف / OTP', file: 'inc/login/otp.php', detail: 'موجود وعامل: 6 خانات، صلاحية 300 ثانية، إعادة إرسال 60 ثانية، 5 محاولات. الموجز يطلب إزالته كوسيلة دخول — لكن أرقام العملاء وطلباتهم تبقى.', bg: 'rgba(216,181,106,.09)', border: 'rgba(216,181,106,.35)', badgeBg: 'rgba(216,181,106,.2)', badgeFg: '#7a5d20' },
+        { mark: '✕', item: 'Facebook', file: 'inc/login/providers.php:31,186', detail: 'مُعرَّف بشعاره ووسمه. يُحذف من التعريفات ومن دالة الشعار ومن أي إعداد — بعد التأكّد أن لا ميزة أخرى تعتمد عليه.', bg: 'rgba(216,181,106,.09)', border: 'rgba(216,181,106,.35)', badgeBg: 'rgba(216,181,106,.2)', badgeFg: '#7a5d20' }
+      ].map(a => Object.assign({}, a, { fileDir: dirOf(a.file) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

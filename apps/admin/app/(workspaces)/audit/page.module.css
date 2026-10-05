@@ -1,0 +1,161 @@
+/*
+UNIT: PAGE-AUDIT
+COMPONENT: audit-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * سجلّ التدقيق — خصائص منطقيّة فقط: الشاشة عربيّة، و`left`/`right` تنقلب
+ * عند الانعكاس. كلّ ما يمسّ الجانب هنا `inline-start` / `inline-end`.
+ */
+
+/*
+ * الجدول أعرض من العمود عمدًا (وقت · فعل · كيان · مشغّل · IP · تغيير)، فيجري
+ * داخل طوقه لا في الوثيقة. الطوق `‎.table-scroll‎` في `globals.css` هو المصدر
+ * (بحدّه وتبئيره)، والصفحة تكتب `tabIndex`/`role`/`aria-label` كما يوجب تعليقه.
+ * ما هنا زيادتان لا تكرار: طوقٌ احتياطيّ لو غاب الصنف العامّ، وحدٌّ أدنى لعرض
+ * الجدول كي تنزلق الأعمدة بدل أن تنضغط إلى حرفٍ في السطر.
+ */
+.scroller {
+  overflow-x: auto;
+  max-inline-size: 100%;
+  overscroll-behavior-inline: contain;
+}
+
+.scroller > table {
+  min-inline-size: 720px;
+}
+
+/* عمود الوقت لا يلتفّ: سطران يجعلان الصفّ ضعف ارتفاعه بلا فائدة. */
+.when {
+  white-space: nowrap;
+}
+
+.action {
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.sub {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-block-start: 3px;
+  word-break: break-word;
+}
+
+/* زرّ الكشف — نصّ لا صندوق، ليبقى الصفّ صفًّا. */
+.toggle {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  /* هدف لمسٍ ≥44px والنصّ نصٌّ — الصفّ أعلى منه فلا يتغيّر ارتفاعه. */
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--cc-link);
+  cursor: pointer;
+  text-align: start;
+  text-decoration: underline;
+}
+
+.toggle:disabled {
+  color: var(--text-muted);
+  cursor: default;
+  text-decoration: none;
+}
+
+/*
+ * صفّ الفرق: خليّةٌ واحدة ممتدّة تحت الصفّ الذي يخصّها.
+ * البئر (`--cc-well`) صبغةٌ شفّافة؛ وحدها كانت تقع بين زجاجين (طوق الجدول
+ * وطوق الفرق) فوق الإضاءة المحيطة، فتصير أرضها رماديّةً وسطى تتبع ما تحتها
+ * (الباهت 4.0:1 والأخضر 4.46:1 في الداكن). أرضٌ معتمة من السمة (`--cc-bg1`)
+ * تحت الصبغة تُثبّت اللون بالسمة وحدها، أيًّا كان ما تحت الصفّ أو فوقه.
+ */
+.diffCell {
+  background-color: var(--cc-bg1);
+  background-image: linear-gradient(var(--cc-well), var(--cc-well));
+  padding: 12px;
+}
+
+/* طوق التمرير داخل الفرق يبقى طوقًا (تمريرٌ ومنطقةٌ تُبأَّر وحدّ) لا زجاجًا ثانيًا فوق البئر. */
+.diffCell > :global(.table-scroll) {
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.diffTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.diffTable th,
+.diffTable td {
+  text-align: start;
+  padding: 6px 8px;
+  vertical-align: top;
+  border-block-end: 1px solid var(--cc-hair);
+  word-break: break-word;
+}
+
+.diffTable thead th {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* مسار الحقل معرّف لاتينيّ: يُعزل بذاته ويُعرض بخطّ ثابت. */
+.path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.value {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.value code {
+  font-size: 12px;
+  word-break: break-all;
+}
+
+/* حالة الحقل: أُضيف · أُزيل · تغيّر. لونٌ خفيف لا شارة صاخبة. */
+.markAdded {
+  color: var(--cc-success);
+  font-weight: 700;
+}
+
+.markRemoved {
+  color: var(--cc-danger);
+  font-weight: 700;
+}
+
+.markChanged {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.note {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.unchanged {
+  margin-block-start: 10px;
+}
+
+.unchanged > summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.pager {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}

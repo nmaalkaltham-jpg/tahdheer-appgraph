@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tah-runtimes.css">
+<link rel="stylesheet" href="./assets/css/tah-components.css">
+<link rel="stylesheet" href="./assets/css/tah-heroes.css">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#1a1a1a}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="./assets/js/tah-rt-gallery.js"></script>
+<script src="./assets/js/tah-rt-observer.js"></script>
+</helmet>
+
+<div dir="rtl" style="width:100%;max-width:1240px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:13px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">HEROES · حيّ</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif">٣٠ هدفًا تجاريًا على ١٠ هياكل — ٣ أهداف لكل هيكل</span>
+</div>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">الهياكل أدناه مُنسَّقة بـ<code style="font-size:10.5px">assets/css/tah-heroes.css</code> الحقيقي وبنيتها مخرج <code style="font-size:10.5px">tahdheer_render_hero()</code> حرفيًّا. الفرق بين الثلاثين في <b>الهدف والمحتوى ومصدر البيانات</b> لا في التخطيط — «الأكثر مبيعًا» و«الوصول الجديد» نفس الهيكل باستعلام مختلف. أسماء الوسائط تطابق خصائص <code style="font-size:10.5px">block.json</code> القائم فينتقل البلوك بلا تحويل بيانات.</p>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+<div style="padding:11px 13px;border-radius:10px;background:{{ st.bg }};border:1px solid {{ st.edge }}">
+<span style="display:block;font:900 22px ui-monospace,monospace;color:{{ st.fg }}">{{ st.n }}</span>
+<span style="display:block;font:800 10px Tajawal,sans-serif;margin-bottom:2px">{{ st.label }}</span>
+<span style="display:block;font:500 9px/1.5 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ st.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:13px">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="10">
+<button type="button" onClick="{{ tb.onClick }}" aria-pressed="{{ tb.on }}" style="min-height:36px;padding:0 13px;border:1px solid {{ tb.edge }};border-radius:8px;background:{{ tb.bg }};color:{{ tb.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px">
+<span>{{ tb.label }}</span>
+<span style="font:800 8.5px ui-monospace,monospace;padding:2px 5px;border-radius:20px;background:{{ tb.cBg }};color:{{ tb.cFg }}">{{ tb.n }}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="padding:13px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:9px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">{{ cur.label }}</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">data-tah-hero="{{ cur.id }}"</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ cur.deps }}</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ cur.objectives }}" as="ob" hint-placeholder-count="4">
+<span style="font:700 10px Tajawal,sans-serif;padding:5px 10px;border-radius:7px;background:{{ ob.bg }};border:1px solid {{ ob.edge }};color:{{ ob.fg }}">{{ ob.label }}<span style="font-family:ui-monospace,monospace;font-size:8.5px;opacity:.5;margin-inline-start:5px">{{ ob.source }}</span></span>
+</sc-for>
+</div>
+<p style="margin:9px 0 0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.56)">{{ cur.note }}</p>
+</div>
+
+<section style="display:{{ show.split }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="split" data-objective="product_split" data-bg="tint" data-reverse="0" style="border-radius:14px;border:1px solid #dcdcde">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-eyebrow>الأكثر طلبًا هذا الفصل</span>
+<h2 data-tah-hero-title>تحضير <mark data-tah-hl>الرياضيات</mark> للصف السادس — الفصل الأول</h2>
+<p data-tah-hero-body>ملف تحضير كامل وفق توزيع الوزارة: أهداف كل درس ومهاراته وأنشطته وأساليب تقويمه، بصيغتَي PowerPoint قابلة للتعديل وPDF جاهزة للطبع.</p>
+<div data-tah-hero-price><span>٣٥.٠٠ ر.س</span><del>٥٠.٠٠ ر.س</del><span data-tah-hero-off>خصم ٣٠٪</span></div>
+<a data-tah-hero-cta data-tone="primary" href="#0">أضف إلى السلة</a>
+<a data-tah-hero-cta data-tone="secondary" href="#0">عيّنة مجانية</a>
+<ul data-tah-hero-trust>
+<sc-for list="{{ trust }}" as="tr" hint-placeholder-count="3">
+<li><span>{{ tr }}</span></li>
+</sc-for>
+</ul>
+</div>
+<div data-tah-hero-figure>
+<figure data-tah-hero-media><span style="display:block;height:250px;background:repeating-linear-gradient(135deg,#e7f1ea 0 14px,#f3f8f5 14px 28px)"></span></figure>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الشارة أعلاه تحمل عدد أهداف هذا الهيكل — مقروءًا من السجل لا مكتوبًا في النصّ. والفرق بينها: نوع الوسيط ومصدر البيانات والفتحات المُفعَّلة، لا الشبكة. و<code style="font-size:9.5px">layoutReverse</code> يقلب العمودين، وهو موجود أصلًا في عقد البلوك.</p>
+</section>
+
+<section style="display:{{ show.centered }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="centered" data-objective="seasonal" data-bg="image-overlay" data-glow="1" style="border-radius:14px;--tah-hero-bg:linear-gradient(135deg,#123d2f,#1e7355);--tah-hero-overlay:.5;--tah-hero-minh:320px">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-label>عرض بداية الفصل</span>
+<h2 data-tah-hero-title>جاهزيتك للفصل الأول تبدأ من هنا</h2>
+<p data-tah-hero-body>حزم تحضير كاملة لجميع المواد والمستويات، بخصم يصل إلى ٣٥٪ حتى نهاية الشهر.</p>
+<a data-tah-hero-cta data-tone="primary" href="#0">تصفّح الحزم</a>
+<a data-tah-hero-cta data-tone="ghost" href="#0">كيف أختار الحزمة؟</a>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">‏<code style="font-size:9.5px">bgMode</code> و<code style="font-size:9.5px">overlayOpacity</code> و<code style="font-size:9.5px">glow</code> و<code style="font-size:9.5px">grain</code> كلّها خصائص موجودة في العقد الحالي — تُقرأ ولا تُعاد كتابتها. والنصّ يتحوّل للأبيض تلقائيًّا فوق التعمية.</p>
+</section>
+
+<section style="display:{{ show.grid }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="grid" data-objective="bento" data-bg="none" style="border-radius:14px;border:1px solid #dcdcde;--tah-hero-cols:4">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<h2 data-tah-hero-title>ابحث بالمادة أو بالمستوى</h2>
+<p data-tah-hero-body>التصنيف بالمادة والمستوى والفصل — الطريقة التي يبحث بها معلّم فعلًا.</p>
+</div>
+</div>
+<div data-tah-hero-wide>
+<ul data-tah-hero-cards>
+<sc-for list="{{ cards }}" as="cd" hint-placeholder-count="6">
+<li data-span="{{ cd.span }}"><a href="#0">
+<span data-tah-mslot style="display:block;aspect-ratio:4/3;border-radius:8px;background:{{ cd.tint }}"></span>
+<span data-tah-card-label>{{ cd.label }}</span>
+<span data-tah-card-count>{{ cd.count }}</span>
+</a></li>
+</sc-for>
+</ul>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">هذا هو <code style="font-size:9.5px">variant</code> الافتراضي في البلوك اليوم — <code style="font-size:9.5px">bento</code> مع <code style="font-size:9.5px">cards[]</code> و<code style="font-size:9.5px">span</code>. الأعمدة تنزل من ٤ إلى ٢ إلى ١، والبطاقة الممتدّة تنضبط معها.</p>
+</section>
+
+<section style="display:{{ show.carousel }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="carousel" data-objective="carousel" data-bg="none" style="border-radius:14px;border:1px solid #dcdcde">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-eyebrow>وصل حديثًا</span>
+<h2 data-tah-hero-title>ملفّات هذا الأسبوع</h2>
+</div>
+</div>
+<div data-tah-hero-wide>
+<div data-tah-gallery data-loop="0" data-label="ملفّات جديدة">
+<ul data-tah-hero-products data-tah-track>
+<sc-for list="{{ prods }}" as="pr" hint-placeholder-count="6">
+<li data-tah-slide><a href="#0">
+<span data-tah-mslot style="display:block;aspect-ratio:4/3;border-radius:8px;background:{{ pr.tint }}"></span>
+<span data-tah-p-title>{{ pr.title }}</span>
+<span data-tah-p-price>{{ pr.price }}</span>
+</a></li>
+</sc-for>
+</ul>
+<div style="display:flex;align-items:center;gap:8px;margin-top:11px">
+<button type="button" data-tah-prev aria-label="السابق" style="width:32px;height:32px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;cursor:pointer;position:relative"></button>
+<button type="button" data-tah-next aria-label="التالي" style="width:32px;height:32px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;cursor:pointer;position:relative"></button>
+<div data-tah-dots style="flex:1;color:#1e7355"></div>
+</div>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الهيكل الوحيد الذي يطلب <code style="font-size:9.5px">rt-gallery</code> — والطلب داخل المُصيِّر لا في التحميل العام. نفس قائمة المنتجات في «قائم على قائمة» تُصيَّر شبكةً بلا أي جافاسكربت.</p>
+</section>
+
+<section style="display:{{ show.search }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="search" data-objective="search_first" data-bg="tint" style="border-radius:14px;border:1px solid #dcdcde">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<h2 data-tah-hero-title>ما الذي تحضّره اليوم؟</h2>
+<p data-tah-hero-body>اكتب المادة والمستوى — أو اختر من الأكثر بحثًا.</p>
+<form data-tah-hero-search role="search" method="get" action="#0">
+<label for="hero-q" data-tah-sr>ابحث في المتجر</label>
+<input id="hero-q" type="search" name="s" placeholder="ابحث عن مادة أو مستوى…" autocomplete="off" />
+<button type="submit">ابحث</button>
+</form>
+<ul data-tah-hero-chips>
+<sc-for list="{{ chips }}" as="ch" hint-placeholder-count="6">
+<li><a href="#0">{{ ch.label }} <span>{{ ch.count }}</span></a></li>
+</sc-for>
+</ul>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الحقل يُوجَّه إلى بحث المتجر القائم في <code style="font-size:9.5px">inc/sections/render/search.php</code> — يُستدعى ولا يُعاد بناؤه. والتسمية موجودة لقارئ الشاشة ومخفيّة بصريًّا.</p>
+</section>
+
+<section style="display:{{ show.editorial }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="editorial" data-objective="editorial" data-bg="none" style="border-radius:14px;border:1px solid #dcdcde;background:#fff">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-eyebrow>من الميدان</span>
+<h2 data-tah-hero-title>لماذا نصنّف بالمادة والمستوى لا بالكلمات المفتاحية</h2>
+<p data-tah-hero-body>معلّم يبحث عن «تحضير رياضيات سادس فصل أول» لا عن «ملفّات تعليمية جاهزة». التصنيف الذي يطابق طريقة السؤال يوفّر خطوتين في كل زيارة — وهذا ما يظهر في معدّل الوصول للملف الصحيح من أول محاولة.</p>
+<a data-tah-hero-cta data-tone="ghost" href="#0">اقرأ كيف بنينا التصنيف</a>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">إيقاع طباعي أوسع لا هيكل جديد: عمود واحد بعرض ٧٢ محرفًا وارتفاع سطر ١.٩٥. ثلاثة أهداف تشترك فيه.</p>
+</section>
+
+<section style="display:{{ show.campaign }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="campaign" data-objective="flash" data-bg="none" style="border-radius:14px;border:1px solid #f5c9c4">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-label>تخفيض ٤٨ ساعة</span>
+<h2 data-tah-hero-title>حزم الفصل الأول — خصم ٣٥٪</h2>
+<div data-tah-hero-countdown data-until="2026-09-02T20:00:00Z"><span data-tah-cd-label>ينتهي العرض</span><time datetime="2026-09-02T20:00:00Z">٢ سبتمبر ٢٠٢٦</time></div>
+<a data-tah-hero-cta data-tone="primary" href="#0">اشترِ الآن</a>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">العدّاد يقرأ <code style="font-size:9.5px">_sale_price_dates_to</code> من ووكومرس. <b>ولا عدّاد بلا تاريخ</b> — بلا تاريخ يُخرج حالة فراغ للمشرف ولا شيء للزائر، لأن العدّاد المخترع ندرة مُلفَّقة يمنعها الطلب. والتاريخ مكتوب في <code style="font-size:9.5px">&lt;time&gt;</code> فيبقى مفهومًا بلا جافاسكربت.</p>
+</section>
+
+<section style="display:{{ show.layered }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="layered" data-objective="parallax" data-bg="tint" data-grain="1" style="border-radius:14px;border:1px solid #dcdcde">
+<div data-tah-hero-layers aria-hidden="true">
+<span data-tah-layer="0" style="--tah-depth:1;background-image:radial-gradient(circle at 22% 32%,#cfe6dc,transparent 58%)"></span>
+<span data-tah-layer="1" style="--tah-depth:2;background-image:radial-gradient(circle at 78% 66%,#e3ecf7,transparent 54%)"></span>
+</div>
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<h2 data-tah-hero-title>مكتبة تنمو مع كل فصل</h2>
+<p data-tah-hero-body>ما تشتريه اليوم يبقى في مكتبتك، ويُحدَّث مجانًا عند صدور توزيع جديد لنفس المستوى.</p>
+<a data-tah-hero-cta data-tone="primary" href="#0">ابدأ من مادتك</a>
+</div>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الهيكل الوحيد ذو الطبقات — و<code style="font-size:9.5px">aria-hidden</code> عليها دائمًا فلا تُقرأ كمحتوى. يطلب <code style="font-size:9.5px">rt-observer</code>، ومع تقليل الحركة تثبت الطبقات بلا حركة.</p>
+</section>
+
+<section style="display:{{ show.listed }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="listed" data-objective="bestseller" data-bg="none" style="border-radius:14px;border:1px solid #dcdcde;background:#fff">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<span data-tah-hero-label>الأكثر مبيعًا</span>
+<h2 data-tah-hero-title>ما يشتريه المعلّمون هذا الأسبوع</h2>
+</div>
+<div><a data-tah-hero-cta data-tone="secondary" href="#0">كل الملفّات</a></div>
+</div>
+<div data-tah-hero-wide>
+<ul data-tah-hero-products>
+<sc-for list="{{ prods }}" as="pr2" hint-placeholder-count="4">
+<li><a href="#0">
+<span data-tah-mslot style="display:block;aspect-ratio:4/3;border-radius:8px;background:{{ pr2.tint }}"></span>
+<span data-tah-p-title>{{ pr2.title }}</span>
+<span data-tah-p-price>{{ pr2.price }}</span>
+</a></li>
+</sc-for>
+</ul>
+</div>
+</div>
+<p style="margin:0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">أوضح دليل على أن الفرق في الهدف لا التخطيط: «الأكثر مبيعًا» و«الوصول الجديد» <b>نفس الهيكل حرفيًّا</b> — <code style="font-size:9.5px">orderby=popularity</code> مقابل <code style="font-size:9.5px">orderby=date</code>، وشارة مختلفة. بلوكان منفصلان يعنيان نسخ ٧٥ خاصية مرّتين.</p>
+</section>
+
+<section style="display:{{ show.adaptive }};flex-direction:column;gap:12px">
+<div data-tah-c="hero" data-tah-hero="adaptive" data-objective="trust" data-bg="tint" style="border-radius:14px;border:1px solid #dcdcde">
+<div data-tah-hero-inner>
+<div data-tah-hero-text>
+<h2 data-tah-hero-title>ملفّات يراجعها معلّمون قبل النشر</h2>
+<p data-tah-hero-body>كل ملف يمرّ على مراجعة مطابقة للتوزيع المعتمد قبل أن يظهر في المتجر.</p>
+<ul data-tah-hero-benefits>
+<sc-for list="{{ benefits }}" as="bn" hint-placeholder-count="3">
+<li><strong>{{ bn.label }}</strong><span>{{ bn.body }}</span></li>
+</sc-for>
+</ul>
+<a data-tah-hero-cta data-tone="primary" href="#0">تصفّح المكتبة</a>
+</div>
+<div data-tah-hero-figure>
+<div data-tah-c="facts" data-layout="dl">
+<dl data-tah-facts>
+<sc-for list="{{ facts }}" as="fc" hint-placeholder-count="4">
+<div data-tah-row><dt>{{ fc.k }}</dt><dd>{{ fc.v }}</dd></div>
+</sc-for>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div style="padding:13px 15px;border:1px solid #f0dca0;border-radius:11px;background:#fdf9ef">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#7a5a00;margin-bottom:5px">هدفان من الثلاثين معطّلان بإعلان صريح</span>
+<p style="margin:0 0 9px;font:500 10.5px/1.75 Tajawal,sans-serif;color:#7a5a00">«شخصي ديناميكي» يحتاج مصدر جلسة العميل، و«تكيّفي ذكي» يحتاج مصدر توصيات خارجيًّا. الطلب صريح: لا ذكاء مُلفَّق، وإذا غاب المصدر تُعطَّل السلوكيات وتبقى المعمارية جاهزة. فهما يُصيَّران حالة فراغ للمشرف ولا شيء للزائر — لا محتوى مخترعًا ولا توصية عشوائية تُسمّى تخصيصًا.</p>
+<div data-tah-empty data-tah-c="hero:personal" style="margin-bottom:6px"><strong>hero:personal</strong> بلا محتوى — المطلوب: مصدر جلسة العميل</div>
+<div data-tah-empty data-tah-c="hero:adaptive"><strong>hero:adaptive</strong> بلا محتوى — المطلوب: مصدر توصيات خارجي</div>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-top:12px">
+<h2 style="margin:0 0 10px;font:800 13px Tajawal,sans-serif">الفحوص الاثنا عشر لهذه الطبقة</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:6px;margin-bottom:12px">
+<sc-for list="{{ checks }}" as="gd" hint-placeholder-count="12">
+<div style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;align-items:start;padding:8px 10px;border:1px solid #ececef;border-radius:8px;background:#fcfcfd">
+<span aria-hidden="true" style="font:900 10px ui-monospace,monospace;color:#1e7355">✓</span>
+<div><span style="display:block;font:800 10.5px Tajawal,sans-serif">{{ gd.k }}</span><span style="display:block;font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ gd.v }}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="padding:11px 13px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.85 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ install }}</pre>
+</div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startSkeleton&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;split&quot;,&quot;centered&quot;,&quot;grid&quot;,&quot;carousel&quot;,&quot;search&quot;,&quot;editorial&quot;,&quot;campaign&quot;,&quot;layered&quot;,&quot;listed&quot;,&quot;adaptive&quot;],&quot;default&quot;:&quot;split&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7';
+const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
+
+// السجل — مرآة inc/tahdheer-heroes.php. الفحص يستخرج نفسه من المصدر ويُسقط
+// البناء إن اختلف العدد، فلا ينحرف هذا الجدول عنه صامتًا.
+const SK = [
+  ['split', 'منقسم', '—', [
+    ['منتج منقسم', 'product'], ['إبراز منتج', 'product'], ['غنيّ بالميزات', 'product'],
+    ['المنتج الرقمي', 'product'], ['مقارنة', 'products'], ['فيديو تجاري', 'manual'],
+  ], 'كل أهداف هذا الهيكل تتشارك الشبكة نفسها. الفرق: نوع الوسيط ومصدر البيانات والفتحات المُفعَّلة.'],
+  ['centered', 'مركزي', '—', [
+    ['كلاسيكي مركزي', 'manual'], ['ترويج موسمي', 'manual'], ['فخم بسيط', 'manual'], ['شاشة كاملة', 'manual'],
+  ], 'محتوى مركزي فوق خلفية — كل خصائص الخلفية موجودة في العقد الحالي.'],
+  ['grid', 'شبكي / بينتو', '—', [
+    ['استكشاف التصنيفات', 'terms'], ['مجموعة ضخمة', 'terms'], ['بينتو تجاري', 'mixed'],
+    ['عدّة منتجات', 'products'], ['مستكشف السوق', 'terms'],
+  ], 'هذا هو variant الافتراضي اليوم — bento مع cards[] و span. جاهز تقريبًا.'],
+  ['carousel', 'كاروسيل', 'rt-gallery', [
+    ['كاروسيل تجاري', 'products'], ['معرض تفاعلي', 'product'],
+  ], 'الهيكل الوحيد الذي يطلب زمن تشغيل للتمرير — والطلب داخل المُصيِّر.'],
+  ['search', 'البحث أولًا', '—', [
+    ['البحث أولًا', 'manual'], ['تصفّح بالحاجة', 'terms'],
+  ], 'يستدعي بحث المتجر القائم — لا نموذج جديد ولا مسار بحث ثانٍ.'],
+  ['editorial', 'تحريري', '—', [
+    ['قصّة تحريرية', 'manual'], ['شهادات تجارية', 'reviews'], ['تعليمي تجاري', 'manual'],
+  ], 'إيقاع طباعي أوسع: عمود واحد ٧٢ محرفًا وارتفاع سطر ١.٩٥.'],
+  ['campaign', 'حملة بعدّاد', '—', [
+    ['تخفيض سريع', 'sale'], ['حملة بعدّاد', 'sale'],
+  ], 'العدّاد من تواريخ ووكومرس الحقيقية — ولا عدّاد بلا تاريخ.'],
+  ['layered', 'طبقي', 'rt-observer', [
+    ['بارالاكس طبقي', 'manual'],
+  ], 'الطبقات aria-hidden دائمًا، وتثبت مع تقليل الحركة.'],
+  ['listed', 'قائم على قائمة', '—', [
+    ['الأكثر مبيعًا', 'products'], ['الوصول الجديد', 'products'],
+  ], 'نفس الهيكل حرفيًّا — orderby مختلف وشارة مختلفة. لا شيء غيرهما.'],
+  ['adaptive', 'ثقة / تكيّفي', '—', [
+    ['مدفوع بالثقة', 'manual'], ['شخصي ديناميكي', 'session'], ['تكيّفي ذكي', 'ai'],
+  ], 'الأخيران معطّلان بإعلان — لا ذكاء مُلفَّق ولا تخصيص مُدَّعى.'],
+];
+
+const BLOCKED = new Set(['session', 'ai']);
+
+class Component extends DCLogic {
+  state = { sk: 0 };
+
+  renderVals() {
+    const cur = SK[this.state.sk];
+    const total = SK.reduce((s, k) => s + k[3].length, 0);
+    const blocked = SK.reduce((s, k) => s + k[3].filter((o) => BLOCKED.has(o[1])).length, 0);
+
+    return {
+      stats: [
+        [AR(total), 'هدفًا تجاريًا', 'كل واحد بمصدره وفتحاته', GBG, '#cfe6dc', G],
+        [AR(SK.length), 'هياكل تخطيط', 'كل هيكل يُعرَّف مرّة واحدة', '#fff', '#dcdcde', '#1a1a1a'],
+        [AR(total - blocked), 'جاهزًا الآن', 'بمصادر بيانات حقيقية موجودة', GBG, '#cfe6dc', G],
+        [AR(blocked), 'معطّلان بإعلان', 'ينتظران مصدرًا — لا تلفيق', ABG, '#f0dca0', '#7a5a00'],
+      ].map((s) => ({ n: s[0], label: s[1], note: s[2], bg: s[3], edge: s[4], fg: s[5] })),
+
+      tabs: SK.map((k, i) => {
+        const on = this.state.sk === i;
+        return {
+          label: k[1], n: AR(k[3].length), on,
+          onClick: () => this.setState({ sk: i }),
+          edge: on ? '#1a1a1a' : '#dcdcde', bg: on ? '#1a1a1a' : '#fff',
+          fg: on ? '#fff' : 'rgba(0,0,0,.62)',
+          cBg: on ? 'rgba(255,255,255,.2)' : '#f2f2f4', cFg: on ? '#fff' : 'rgba(0,0,0,.45)',
+        };
+      }),
+
+      cur: {
+        id: cur[0], label: cur[1], note: cur[4],
+        deps: cur[2] === '—' ? 'بلا زمن تشغيل' : 'يطلب ' + cur[2],
+        objectives: cur[3].map((o) => {
+          const off = BLOCKED.has(o[1]);
+          return {
+            label: o[0], source: o[1],
+            bg: off ? ABG : '#fff', edge: off ? '#f0dca0' : '#e4e4e7',
+            fg: off ? '#7a5a00' : 'rgba(0,0,0,.68)',
+          };
+        }),
+      },
+
+      show: Object.fromEntries(SK.map((k, i) => [k[0], this.state.sk === i ? 'flex' : 'none'])),
+
+      trust: ['تحميل فوري', 'تحديثات مجانية', 'ملف قابل للتعديل'],
+
+      cards: [
+        ['الرياضيات', '٤٨ ملفًّا', 2, '#e3ecf7'], ['العلوم', '٤٢ ملفًّا', 1, '#e7f1ea'],
+        ['اللغة العربية', '٥١ ملفًّا', 1, '#f7eee3'], ['الدراسات الإسلامية', '٣٦ ملفًّا', 1, '#eee7f5'],
+        ['الإنجليزية', '٢٩ ملفًّا', 1, '#f5e7ea'], ['المهارات الرقمية', '١٨ ملفًّا', 2, '#e7f0f5'],
+      ].map((c) => ({ label: c[0], count: c[1], span: String(c[2]), tint: c[3] })),
+
+      prods: [
+        ['تحضير الرياضيات — سادس', '٣٥.٠٠ ر.س', '#e3ecf7'],
+        ['تحضير العلوم — سادس', '٣٥.٠٠ ر.س', '#e7f1ea'],
+        ['تحضير اللغة العربية — خامس', '٣٥.٠٠ ر.س', '#f7eee3'],
+        ['حزمة الفصل الأول', '١٤٠.٠٠ ر.س', '#eee7f5'],
+        ['أوراق عمل — سادس', '٢٠.٠٠ ر.س', '#f5e7ea'],
+        ['دليل المعلم — علوم', '٢٥.٠٠ ر.س', '#e7f0f5'],
+      ].map((p) => ({ title: p[0], price: p[1], tint: p[2] })),
+
+      chips: [
+        ['رياضيات سادس', '٤٨'], ['علوم خامس', '٣٢'], ['عربي رابع', '٢٧'],
+        ['حزم الفصل الأول', '١٢'], ['أوراق عمل', '٦٤'], ['دليل المعلم', '١٩'],
+      ].map((c) => ({ label: c[0], count: c[1] })),
+
+      benefits: [
+        ['مطابقة التوزيع', 'كل ملف يُراجَع مقابل التوزيع المعتمد للمستوى'],
+        ['قابلية التعديل', 'ملف مفتوح بلا حماية — النصوص والصور والترتيب'],
+        ['تحديث مجاني', 'إصدار جديد عند تغيّر التوزيع، بلا رسوم لنفس المستوى'],
+      ].map((b) => ({ label: b[0], body: b[1] })),
+
+      facts: [
+        ['الصيغ', 'PPTX · PDF'], ['التسليم', 'فوري بعد الدفع'],
+        ['الوصول', 'دائم في مكتبتك'], ['الدعم', 'واتساب · بريد'],
+      ].map((f) => ({ k: f[0], v: f[1] })),
+
+      checks: [
+        ['عدد الأهداف', '٣٠ هدفًا — يُستخرج من المصدر لا من قائمة في الفحص.'],
+        ['عدد الهياكل', '١٠ هياكل · ٣ أهداف لكل هيكل.'],
+        ['مراجع الهياكل', 'كل هدف يشير إلى هيكل مسجّل — لا مرجع معلَّق.'],
+        ['تطابق الهياكل ↔ CSS', 'لا هيكل بلا نمط، ولا نمط بلا هيكل. الأقوى في الطبقة.'],
+        ['الفتحات', 'كل فتحة مُعلَنة لها فرع، ولا فرع زائد بلا استعمال.'],
+        ['تبعيات الهياكل', 'الكاروسيل والطبقي يطلبان زمنهما بالتصيير — لا إدراج عام.'],
+        ['حصر الفتحات', 'ترتيب المشرف يُقصّ على ما أعلنه الهدف — والزائد يُرفض.'],
+        ['بلا تلفيق', 'السعر والتقييم والعدّاد من مصادر حقيقية.'],
+        ['عنوان واحد', 'h1 على الأرشيف · h2 على المنتج — لا عنوان رئيسي ثانٍ.'],
+        ['أداء الوسيط', 'وسيط الهيرو eager + fetchpriority · البطاقات lazy.'],
+        ['الزخرفة', 'الطبقات aria-hidden — زخرفة لا تُقرأ كمحتوى.'],
+        ['التقرير', 'التغطية محسوبة من السجل لا مكتوبة بيد.'],
+      ].map((g) => ({ k: g[0], v: g[1] })),
+
+      install: "// functions.php — الترتيب: السجل ← الأزمنة ← المُصيِّرات ← الهيرو\nrequire_once get_template_directory() . '/inc/tahdheer-component-registry.php';\nrequire_once get_template_directory() . '/inc/tahdheer-runtimes.php';\nrequire_once get_template_directory() . '/inc/tahdheer-renderers.php';\nrequire_once get_template_directory() . '/inc/tahdheer-heroes.php';\n\n// تصيير هيرو بهدفه — أسماء الوسائط تطابق block.json القائم\necho tahdheer_render_hero( 'bestseller', array(\n  'label'      => 'الأكثر مبيعًا',\n  'title'      => 'ما يشتريه المعلّمون هذا الأسبوع',\n  'productIds' => array( 128, 214, 307, 411 ),\n  'ctaText'    => 'كل الملفّات',\n  'ctaUrl'     => get_permalink( wc_get_page_id( 'shop' ) ),\n) );\n\n// «الوصول الجديد» = نفس الهيكل، هدف آخر، استعلام آخر\necho tahdheer_render_hero( 'new_arrival', array( /* … */ ) );\n\nprint_r( tahdheer_hero_coverage() );\n// ['objectives'=>30,'skeletons'=>10,'ready'=>28,'blocked'=>2,'ratio'=>3.0]\n\nnode scripts/check-heroes.mjs",
+    };
+  }
+}
+
+</script>
+</body>
+</html>

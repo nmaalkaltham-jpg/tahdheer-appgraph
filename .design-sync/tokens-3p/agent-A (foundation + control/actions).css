@@ -1,0 +1,48 @@
+/**
+ * Analytics Pro OS — رموز العميل A (الأساس + غرفة التحكم + مركز الإجراءات).
+ * كل قيمة حرفية من docs/design/matgarr/Tahdheer - Analytics Pro OS.dc.html.
+ * ما وُجد له رمز في packages/design-system/src/tokens.css أُعيد استعماله
+ * هناك ولم يُكرَّر هنا (--ink=#14261d · --gold-500 · --success-chip-* ·
+ * --warning-text · --info · --chrome-06/14 · --tint-gold-16 · --shadow-toast).
+ */
+:root {
+  /* ── كروم النظام الداكن (رأس الشاشات + شريط المستوى) ─────────────── */
+  --os-chrome-bg: #0c1411;                       /* رأس الكروم */
+  --os-chrome-fg: #eaf2ee;                       /* نص الكروم */
+  --os-chrome-fg-dim72: rgba(234, 242, 238, 0.72); /* تبويب خامل */
+  --os-chrome-fg-dim55: rgba(234, 242, 238, 0.55); /* عنوان «مستوى التنفيذ» */
+  --os-chrome-fg-dim50: rgba(234, 242, 238, 0.5);  /* تلميح المستوى */
+  --os-brand-grad: linear-gradient(150deg, #2b9c72, #14603f); /* بلاطة الشعار */
+  --os-gold-badge-border: rgba(216, 181, 106, 0.36); /* حدّ شارة «طبقة تنفيذية» */
+  --os-gold-badge-fg: #e8d3a6;                   /* نص الشارة الذهبية */
+  --os-gold-on: #2a1f08;                         /* نص المستوى النشط على الذهبي */
+
+  /* ── سطح الصفحة والحدود ──────────────────────────────────────────── */
+  --os-page-bg: #eef0ee;                         /* خلفية مساحة النظام */
+  --os-border: #dce2dd;                          /* حدّ البطاقات */
+  --os-border-soft: #e6ebe7;                     /* حدّ شرائح الحلقة */
+  --os-border-dashed: #eef1ef;                   /* الفواصل المنقّطة */
+  --os-surface-soft: #fbfcfb;                    /* زر ثانوي + شريحة حلقة بلا بنية */
+  --os-chip-bg: #eef2ef;                         /* شريحة المصدر */
+  --os-code-bg: #f4f6f4;                         /* شريحة المسارات code */
+
+  /* ── درجات النص الرمادية للوحة ───────────────────────────────────── */
+  --os-strong: #3d4f45;                          /* نص ثانوي قوي */
+  --os-muted: #8b978f;                           /* ملاحظات الرأس */
+  --os-muted-2: #7c8a82;                         /* وصف السطر الثاني */
+  --os-faint: #a9b4ad;                           /* التنويهات الخافتة */
+
+  /* ── ألوان الحالات كما في اللوح ──────────────────────────────────── */
+  --os-danger: #b32d2e;                          /* أحمر اللوح (يخالف --danger-text) */
+  --os-danger-bg: #fdf6f6;                       /* بلاطة حرِجة + زر تراجع */
+  --os-danger-border: #f0d3d3;                   /* حدّها */
+  --os-danger-bg-strong: #fce8e8;                /* شارة «عالي الخطورة» */
+  --os-warn-bg: #fffdf5;                         /* بلاطة الفرص */
+  --os-warn-border: #f0e2b8;                     /* حدّها */
+  --os-ok-bg: #f6fbf8;                           /* بلاطة سليمة */
+  --os-ok-border: #cfe0d6;                       /* حدّها + حدّ زر الموافقة */
+  --os-info-bg: #f6f9fc;                         /* بلاطة معلوماتية */
+  --os-info-border: #cfe0f0;                     /* حدّها */
+  --os-loop-done-bg: #f2f6f3;                    /* شريحة مرحلة لها بنية */
+  --os-approve-bg: #f2f8f5;                      /* خلفية زر الموافقة */
+}

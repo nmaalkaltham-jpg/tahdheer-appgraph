@@ -1,0 +1,26 @@
+/* Download action — tokens only, logical properties only. */
+
+.wrap {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: end;
+}
+
+.button {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  min-inline-size: 112px;
+}
+
+.error {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+}
+
+.amber {
+  composes: notice noticeWarning from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+  padding-block: 8px;
+  padding-inline: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}

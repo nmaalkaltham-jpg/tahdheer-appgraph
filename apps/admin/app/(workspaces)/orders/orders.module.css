@@ -1,0 +1,74 @@
+/*
+UNIT: ORDERS
+COMPONENT: page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* شرائح إحصائيّة — كلٌّ تقول مداها، فلا يُقرأ رقم صفحةٍ رقمًا للمتجر. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp-2);
+  margin: 0;
+}
+
+.stat {
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.stat dt {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.stat dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.statSub {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+/*
+UNIT: PAGE-ORDERS
+COMPONENT: unused
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * شريط العدسة — يظهر حين يصل المشغّل من بطاقةٍ في لوحة التشغيل.
+ *
+ * بلا هذا السطر يبدو الجدول المقصوص جدولًا كاملًا: يقرأ «١٢٣» ويظنّها كلّ
+ * الطلبات. والزرّ يعيده إلى القائمة الكاملة بضغطة، فالعدسة لا تحبسه.
+ */
+.lens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+  margin: 0;
+  padding: var(--sp-2, 8px) var(--sp-3, 12px);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-card, 12px);
+  background: var(--primary-soft, var(--bg-green-light));
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.lens > button {
+  margin-inline-start: auto;
+}

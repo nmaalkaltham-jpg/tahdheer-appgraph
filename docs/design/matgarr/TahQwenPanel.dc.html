@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section dir="rtl" style="padding:16px 18px;border:1px solid {{ shellBorder }};border-radius:12px;background:{{ shellBg }};font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px">
+<span aria-hidden="true" style="flex:0 0 auto;width:28px;height:28px;border-radius:8px;background:{{ badgeBg }};color:{{ badgeFg }};display:grid;place-items:center"><svg style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-sparkle"></use></svg></span>
+<h2 style="margin:0;flex:1;min-width:0;font-size:14px;font-weight:900;color:#14261d;text-align:start">مساعد الكتابة</h2>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:#fff;border:1px solid {{ statusBorder }};font-size:10px;font-weight:900;color:{{ statusFg }}">
+<span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:{{ statusDot }}"></span>{{ statusLabel }}
+</span>
+<code dir="ltr" style="flex:0 0 auto;font:700 10px ui-monospace,Menlo,monospace;color:#3b4d43">{{ modelId }}</code>
+</div>
+
+<div role="status" aria-live="polite" style="display:{{ offlineDisplay }};margin-bottom:12px">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border-radius:10px;background:rgba(216,181,106,.09);border:1px solid rgba(216,181,106,.35)">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:1px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<div dir="rtl" style="min-width:0;text-align:start">
+<b style="display:block;font-size:12px;font-weight:900;color:#7a5d20;margin-bottom:3px">{{ offlineTitle }}</b>
+<span style="font-size:11px;line-height:1.7;color:#3b4d43">{{ offlineBody }}</span>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px">
+<sc-for list="{{ actions }}" as="a" hint-placeholder-count="6">
+<button type="button" onClick="{{ a.onClick }}" disabled="{{ a.disabled }}" style="display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border:1px solid {{ a.border }};border-radius:9px;background:{{ a.bg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:{{ a.fg }};cursor:{{ a.cursor }}">
+<svg aria-hidden="true" style="display:{{ a.iconDisplay }};width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ a.icon }}"></use></svg>
+<span style="display:{{ a.spinnerDisplay }};width:13px;height:13px;border-radius:50%;border:2px solid rgba(20,45,33,.2);border-top-color:#14261d;animation:tahSpin .7s linear infinite"></span>
+{{ a.label }}
+</button>
+</sc-for>
+</div>
+
+<div style="display:{{ suggestionDisplay }};border:1px solid #e6e9e2;border-radius:11px;background:#fff;overflow:hidden">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #eef1ec;background:#fbfcfa">
+<span style="flex:1;min-width:0;font-size:11.5px;font-weight:900;color:#14261d;text-align:start">{{ sugField }}</span>
+<span style="padding:3px 9px;border-radius:6px;background:{{ confBg }};font-size:10px;font-weight:900;color:{{ confFg }};white-space:nowrap">{{ confLabel }}</span>
+<code dir="ltr" style="font:700 9.5px ui-monospace,Menlo,monospace;color:#3b4d43;white-space:nowrap">{{ genLabel }}</code>
+<bdi dir="ltr" style="font:700 9.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ sugLocale }}</bdi>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+<div style="padding:12px;border-inline-end:1px solid #eef1ec">
+<span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:6px">القيمة الحالية</span>
+<p dir="rtl" style="margin:0;font-size:12px;line-height:1.8;color:#3b4d43;text-align:start">{{ oldValue }}</p>
+</div>
+<div style="padding:12px;background:rgba(37,155,111,.04)">
+<span style="display:block;font-size:10px;font-weight:900;color:#1e7355;margin-bottom:6px">المقترح</span>
+<p dir="rtl" style="margin:0;font-size:12px;line-height:1.8;color:#14261d;font-weight:700;text-align:start">{{ newValue }}</p>
+</div>
+</div>
+
+<div style="padding:12px;border-top:1px solid #eef1ec">
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:11px">
+
+<div>
+<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:900;color:#1e7355;margin-bottom:6px"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6"><use href="#i-check"></use></svg>حقائق مستخدمة من السجل المقفل</span>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ usedFacts }}" as="u" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:rgba(37,155,111,.08);border:1px solid rgba(37,155,111,.22);font-size:10px;font-weight:800;color:#1e7355"><bdi dir="rtl">{{ u.label }}</bdi><b><bdi dir="{{ u.dir }}" style="color:#14261d">{{ u.value }}</bdi></b></span>
+</sc-for>
+</div>
+</div>
+
+<div>
+<span style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:900;color:#a33a2d;margin-bottom:6px"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-info"></use></svg>معلومات ناقصة — تحتاج تأكيدك</span>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ missing }}" as="m" hint-placeholder-count="2">
+<span dir="rtl" style="display:flex;align-items:baseline;gap:6px;font-size:10.5px;line-height:1.65;color:#3b4d43;text-align:start"><span aria-hidden="true" style="flex:0 0 auto;color:#a33a2d;font-weight:900">؟</span>{{ m }}</span>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ uncertainDisplay }};padding:10px 11px;border-radius:9px;background:#fdf3f2;border:1px solid rgba(163,58,45,.2);margin-bottom:11px">
+<span style="display:block;font-size:10px;font-weight:900;color:#a33a2d;margin-bottom:5px">ادّعاءات غير مؤكَّدة — حُذفت من المقترح</span>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ uncertain }}" as="c" hint-placeholder-count="2">
+<span dir="rtl" style="font-size:10.5px;line-height:1.65;color:#3b4d43;text-align:start">«{{ c }}»</span>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<button type="button" onClick="{{ onAccept }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 16px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6"><use href="#i-check"></use></svg>اعتمد</button>
+<button type="button" onClick="{{ onEdit }}" style="display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border:1px solid #d3d8cf;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;color:#14261d;cursor:pointer">عدّل ثم اعتمد</button>
+<button type="button" onClick="{{ onReject }}" style="display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border:0;border-radius:9px;background:none;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;color:#5f7167;cursor:pointer">أهمِل</button>
+<div style="flex:1"></div>
+<span dir="rtl" style="align-self:center;font-size:10px;line-height:1.6;color:#5f7167;text-align:start">لا يُطبَّق شيء دون اعتمادك — والحقائق المقفلة لا تُعدَّل من هنا.</span>
+</div>
+</div>
+</div>
+
+<div style="display:{{ acceptedDisplay }};padding:11px 12px;border-radius:10px;background:rgba(37,155,111,.06);border:1px solid rgba(37,155,111,.2)">
+<span dir="rtl" style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;color:#1e7355;text-align:start"><svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6"><use href="#i-check"></use></svg>اعتُمد المقترح في حقل «{{ sugField }}». يمكنك التراجع من سجل التعديلات.</span>
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:820,&quot;height&quot;:520},&quot;online&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { view: 'idle', busy: null };
+
+  renderVals() {
+    const online = this.props.online !== false;
+    const st = this.state;
+    /*
+     * VPS state is a PROP, not a simulation: the studio owns connectivity and
+     * passes it down. Offline must never block saving or publishing (§23), so the
+     * panel degrades to a notice and the studio's own gates are untouched.
+     */
+    const view = online ? st.view : 'idle';
+    const busy = online ? st.busy : null;
+
+    const actDefs = [
+      ['gen', 'اقترح وصفًا', '#i-sparkle'],
+      ['improve', 'حسّن النص', '#i-pen'],
+      ['shorten', 'اختصر', '#i-close'],
+      ['natural', 'عربية أطبع', '#i-refresh'],
+      ['missing', 'ابحث عن نقص', '#i-info'],
+      ['claims', 'ادّعاءات بلا سند', '#i-info']
+    ];
+    const actions = actDefs.map(a => {
+      const running = busy === a[0];
+      return {
+        label: running ? 'جارٍ…' : a[1],
+        icon: a[2],
+        disabled: !online || !!busy,
+        border: online ? '#dde3dc' : '#e6e9e2',
+        bg: online ? '#fff' : '#fbfcfa',
+        fg: online ? '#14261d' : '#5f7167',
+        cursor: online && !busy ? 'pointer' : 'not-allowed',
+        iconDisplay: running ? 'none' : 'inline-block',
+        spinnerDisplay: running ? 'inline-block' : 'none',
+        onClick: online ? (() => {
+          this.setState({ busy: a[0] });
+          setTimeout(() => this.setState({ busy: null, view: 'suggestion' }), 650);
+        }) : (() => {})
+      };
+    });
+
+    const dirOf = s => (/[\u0600-\u06FF]/.test(String(s)) ? 'rtl' : 'ltr');
+
+    return {
+      modelId: 'Qwen3.5-0.8B',
+      shellBorder: online ? 'rgba(37,155,111,.28)' : '#dcdcde',
+      shellBg: online ? 'rgba(37,155,111,.04)' : '#fbfcfa',
+      badgeBg: online ? 'rgba(37,155,111,.12)' : '#f2f5f2',
+      badgeFg: online ? '#1e7355' : '#5f7167',
+      statusLabel: online ? 'متصل بالخادم الخاص' : 'الخادم غير متاح',
+      statusBorder: online ? 'rgba(37,155,111,.3)' : 'rgba(216,181,106,.4)',
+      statusFg: online ? '#1e7355' : '#7a5d20',
+      statusDot: online ? '#259b6f' : '#d8b56a',
+
+      offlineDisplay: online ? 'none' : 'block',
+      offlineTitle: 'المساعد معطّل — وهذا لا يمنع شيئًا',
+      offlineBody: 'الكتابة اليدوية والحفظ والمعاينة والنشر تعمل كلها كما هي. لا طابور ولا محاولات تلقائية بلا إذنك — أعِد المحاولة عند عودة الخادم.',
+
+      actions,
+      suggestionDisplay: view === 'suggestion' ? 'block' : 'none',
+      acceptedDisplay: view === 'accepted' ? 'block' : 'none',
+
+      sugField: 'الوصف المختصر',
+      sugLocale: 'ar-SA',
+      /*
+       * One value per hole. 'ثقة {{ confPct }}%' split into three text nodes
+       * inside an inline-flex, so each became a flex item — separate runs to a
+       * screen reader and to innerText. One string keeps it one run.
+       */
+      confLabel: 'ثقة 78%',
+      confBg: 'rgba(216,181,106,.16)',
+      confFg: '#7a5d20',
+      genLabel: '640ms',
+
+      oldValue: 'درس تعليمي متكامل وجاهز للشرح والتقديم، مبني على المنهج الحالي وقابل للتعديل بالكامل.',
+      newValue: 'عرض بوربوينت جاهز للعرض الصفّي في الكيمياء العضوية — 22 شريحة قابلة للتعديل بالكامل، مع 7 أوراق عمل، يصلك فور الدفع.',
+
+      /* Direction derived per value — 'PPTX' is LTR, 'نعم' is RTL. */
+      usedFacts: [
+        { label: 'الشرائح', value: '22' },
+        { label: 'الصيغة', value: 'PPTX' },
+        { label: 'قابل للتعديل', value: 'نعم' },
+        { label: 'التسليم', value: 'فوري' }
+      ].map(f => Object.assign({}, f, { dir: dirOf(f.value) })),
+      missing: [
+        'عدد أوراق العمل غير مسجَّل في حقل — النصّ أعلاه ذكر «7» من الوصف القديم لا من بيانات المنتج. أكِّده أو احذفه.',
+        'مدّة الدعم غير محدّدة، فلم يُذكر دعم في المقترح.'
+      ],
+      uncertainDisplay: 'block',
+      uncertain: [
+        'الأكثر مبيعًا في مادة الكيمياء',
+        'يوافق منهج 2026 في كل الدول العربية'
+      ],
+
+      onAccept: () => this.setState({ view: 'accepted' }),
+      onEdit: () => this.setState({ view: 'accepted' }),
+      onReject: () => this.setState({ view: 'idle' })
+    };
+  }
+}
+</script>
+</body>
+</html>

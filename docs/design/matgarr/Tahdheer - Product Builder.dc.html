@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#e9ebe9;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes pbFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="b-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="b-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="b-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"></path></symbol>
+<symbol id="b-dn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></symbol>
+<symbol id="b-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h2l2.2 9.4a1.6 1.6 0 0 0 1.6 1.3h7a1.6 1.6 0 0 0 1.6-1.3L20 8H6.4"></path><circle cx="10" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></symbol>
+<symbol id="b-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="b-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10M8 11l4 4 4-4M5 19h14"></path></symbol>
+<symbol id="b-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="b-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor" stroke="none"></path></symbol>
+<symbol id="b-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="b-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+<symbol id="b-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="b-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="b-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.6-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.4-9 9-9 9z"></path></symbol>
+<symbol id="b-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></symbol>
+</defs></svg>
+
+<div dir="{{ dir }}" style="min-height:100vh">
+
+<div style="position:sticky;top:0;z-index:60;background:#14261d;color:#eaf2ee;box-shadow:0 6px 20px rgba(8,20,15,.18)">
+<div style="max-width:1560px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 13px Tajawal">ت</span><b style="font-size:13.5px">منشئ صفحة المنتج</b><span style="padding:2px 8px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">٥٠ ودجة</span></span>
+<span aria-hidden="true" style="width:1px;height:22px;background:rgba(255,255,255,.14)"></span>
+<sc-for list="{{ types }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:32px;padding:0 13px;border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:11px;font-weight:900;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:rgba(234,242,238,.7)">قالب جاهز
+<select value="{{ presetV }}" onChange="{{ onPreset }}" style="min-height:32px;padding:0 9px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.07);color:#eaf2ee;font:800 11px Tajawal;outline:none">
+<sc-for list="{{ presets }}" as="p" hint-placeholder-count="6"><option value="{{ p.k }}">{{ p.n }}</option></sc-for>
+</select></label>
+<label style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:rgba(234,242,238,.7)">الكثافة
+<select value="{{ densV }}" onChange="{{ onDens }}" style="min-height:32px;padding:0 9px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.07);color:#eaf2ee;font:800 11px Tajawal;outline:none">
+<option value="compact">مضغوطة</option><option value="balanced">متوازنة</option><option value="rich">غنية</option>
+</select></label>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:rgba(255,255,255,.07)">
+<sc-for list="{{ devices }}" as="d" hint-placeholder-count="2">
+<button type="button" onClick="{{ d.onClick }}" aria-pressed="{{ d.on }}" style="min-height:28px;padding:0 11px;border:0;border-radius:7px;background:{{ d.bg }};color:{{ d.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ d.n }}</button>
+</sc-for>
+</div>
+<span style="padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);font-size:10px;font-weight:900">{{ activeN }}</span>
+</div>
+</div>
+
+<div style="max-width:1560px;margin:0 auto;padding:16px 18px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:14px;align-items:start">
+
+<aside style="position:sticky;top:66px;border:1px solid #dcdcde;border-radius:13px;background:#fff;overflow:hidden;max-height:calc(100vh - 90px);display:flex;flex-direction:column">
+<div style="padding:11px 14px;border-bottom:1px solid #eef1ef;background:#fbfcfb">
+<span style="display:block;font-size:12.5px;font-weight:900">مدير الودجات</span>
+<span style="font-size:9px;color:#8b978f">فعّل، عطّل، ورتّب — يُحمَّل النشط فقط ولا تُعرض ودجات لا تناسب نوع المنتج</span>
+</div>
+<div style="flex:1;overflow:auto;padding:8px 10px">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="6">
+<div style="margin-bottom:8px">
+<span style="display:flex;align-items:center;gap:7px;padding:5px 4px;font-size:10px;font-weight:900;color:#5f7167"><span aria-hidden="true" style="width:7px;height:7px;border-radius:2px;background:{{ g.c }}"></span>{{ g.n }} <span style="opacity:.6">{{ g.count }}</span></span>
+<sc-for list="{{ g.rows }}" as="w" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:6px;padding:4px 4px;border-radius:8px;background:{{ w.bg }};opacity:{{ w.op }}">
+<button type="button" onClick="{{ w.onToggle }}" role="switch" aria-checked="{{ w.on }}" aria-label="{{ w.n }}" disabled="{{ w.dis }}" style="flex:0 0 28px;height:15px;border:0;border-radius:999px;background:{{ w.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ w.knob }};width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:inset-inline-start .12s"></span></button>
+<span style="flex:1;min-width:0;font-size:10.5px;font-weight:800;color:#14261d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.num }}. {{ w.n }}</span>
+<sc-if value="{{ w.na }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 6px;border-radius:5px;background:#f2f0ee;color:#8b978f;font-size:8px;font-weight:900">{{ w.naTxt }}</span></sc-if>
+<sc-if value="{{ w.on }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ w.onUp }}" aria-label="أعلى" style="width:20px;height:20px;border:1px solid #e6e9e6;border-radius:6px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#b-up"></use></svg></button>
+<button type="button" onClick="{{ w.onDn }}" aria-label="أسفل" style="width:20px;height:20px;border:1px solid #e6e9e6;border-radius:6px;background:#fff;color:#5f7167;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#b-dn"></use></svg></button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</aside>
+
+<div style="min-width:0">
+<div style="display:flex;justify-content:center;background:#dfe2df;border:1px solid #d0d4d0;border-radius:16px;padding:{{ stagePad }}">
+<div style="width:{{ devW }};max-width:100%;background:#f7f8f7;border-radius:12px;overflow:hidden;box-shadow:0 14px 44px rgba(10,25,18,.14);transition:width .25s ease">
+<div style="padding:12px 16px;background:#fff;border-bottom:1px solid #eef1ef;display:flex;align-items:center;gap:9px">
+<span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 12px Tajawal">ت</span>
+<span style="font-size:11px;font-weight:800;color:#5f7167">الرئيسية ‹ المتجر ‹ <b style="color:#14261d">{{ prodName }}</b></span>
+</div>
+<div style="padding:{{ canvasPad }};display:flex;flex-direction:column;gap:{{ gap }}">
+<sc-for list="{{ widgets }}" as="w" hint-placeholder-count="8">
+<section aria-label="{{ w.n }}" style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;overflow:hidden;animation:pbFade .25s ease">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #f4f6f4;background:#fbfcfb">
+<span style="padding:1px 7px;border-radius:6px;background:#eef2ef;font:900 9px Tajawal;color:#5f7167">{{ w.num }}</span>
+<h2 style="margin:0;font-size:12.5px;font-weight:900;color:#14261d">{{ w.n }}</h2>
+</div>
+<div style="padding:13px 14px">
+
+<sc-if value="{{ w.isMedia }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;height:210px;border-radius:11px;background:{{ w.main }};display:grid;place-items:center;color:rgba(255,255,255,.9)">
+<sc-if value="{{ w.video }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:46px;height:46px;fill:none;stroke:currentColor;stroke-width:1.6"><use href="#b-play"></use></svg><span style="position:absolute;bottom:10px;inset-inline-start:12px;font-size:11px;font-weight:900">{{ w.vt }}</span></sc-if>
+<sc-if value="{{ w.notVideo }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:1.5"><use href="#b-doc"></use></svg></sc-if>
+</div>
+<sc-if value="{{ w.hasThumbs }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:6px;margin-top:8px">
+<sc-for list="{{ w.imgs }}" as="g" hint-placeholder-count="4">
+<button type="button" onClick="{{ g.onGo }}" aria-pressed="{{ g.on }}" aria-label="صورة" style="flex:1;height:44px;border:2px solid {{ g.bd }};border-radius:9px;background:{{ g.img }};cursor:pointer"></button>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ w.isSlides }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">
+<sc-for list="{{ w.items }}" as="s" hint-placeholder-count="4">
+<figure style="margin:0;flex:0 0 132px"><span aria-hidden="true" style="display:block;height:80px;border-radius:9px;background:{{ s.img }}"></span><figcaption style="margin-top:4px;font-size:9.5px;font-weight:800;color:#3d4f45">{{ s.t }} <span style="color:#a9b4ad">{{ s.d }}</span></figcaption></figure>
+</sc-for>
+</div>
+<span style="font-size:9px;color:#8b978f">{{ w.note }}</span>
+</sc-if>
+
+<sc-if value="{{ w.isPurchase }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<span style="flex:1;min-width:200px"><span style="display:block;font:900 15px/1.5 Tajawal">{{ w.name }}</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:900;color:#8a6500"><svg aria-hidden="true" style="width:12px;height:12px;color:#d8a723"><use href="#b-star"></use></svg>{{ w.rate }}</span><span style="display:block;margin-top:2px;font-size:10.5px;color:#5f7167">{{ w.meta }}</span></span>
+<span style="text-align:center"><span style="display:block;font:900 22px Tajawal;color:#146c4c">{{ w.price }}</span><span style="font-size:11px;color:#a9b4ad;text-decoration:line-through">{{ w.old }}</span></span>
+<div style="display:flex;gap:7px">
+<button type="button" onClick="{{ w.onAdd }}" style="display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 20px;border:0;border-radius:11px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2"><use href="#b-cart"></use></svg>أضف للسلة</button>
+<button type="button" onClick="{{ w.onBuy }}" style="min-height:44px;padding:0 15px;border:0;border-radius:11px;background:#14261d;color:#fff;font-size:12px;font-weight:900;cursor:pointer">اشترِ الآن</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isPrice }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font:900 24px Tajawal;color:#146c4c">{{ w.price }}</span><span style="font-size:12px;color:#a9b4ad;text-decoration:line-through">{{ w.old }}</span><span style="padding:2px 9px;border-radius:6px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900">{{ w.save }}</span><span style="font-size:9.5px;color:#a9b4ad">{{ w.vat }}</span></div>
+</sc-if>
+
+<sc-if value="{{ w.isPick }}" hint-placeholder-val="{{ false }}">
+<span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:6px">{{ w.label }}</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ w.opts }}" as="o" hint-placeholder-count="3">
+<span style="min-height:36px;display:inline-flex;align-items:center;padding:0 14px;border:1.5px solid #d7ddd8;border-radius:10px;background:#fff;font-size:11.5px;font-weight:900;color:#14261d">{{ o }}</span>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isChips }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ w.items }}" as="c" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:{{ w.chipBg }};border:1px solid {{ w.chipBd }};font-size:11px;font-weight:800;color:{{ w.chipC }}">{{ c }}</span>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isRows }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ w.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed #f1f4f2"><span style="flex:0 0 132px;font-size:10.5px;font-weight:800;color:#8b978f">{{ r.0 }}</span><span style="font-size:11.5px;font-weight:800;color:#14261d">{{ r.1 }}</span></div>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ w.isGrid }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:{{ w.cols }};gap:9px">
+<sc-for list="{{ w.items }}" as="g" hint-placeholder-count="4">
+<div style="padding:11px 12px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb"><svg aria-hidden="true" style="width:14px;height:14px;color:#146c4c;fill:none;stroke:currentColor;stroke-width:2.3"><use href="#b-check"></use></svg><span style="display:block;margin-top:5px;font-size:11.5px;font-weight:900;color:#14261d">{{ g.0 }}</span><span style="font-size:9.5px;line-height:1.6;color:#7c8a82">{{ g.1 }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isTable }}" hint-placeholder-val="{{ false }}">
+<table style="width:100%;border-collapse:collapse">
+<tbody>
+<sc-for list="{{ w.rows }}" as="r" hint-placeholder-count="5">
+<tr><th scope="row" style="width:40%;padding:7px 12px;text-align:start;font-size:10.5px;font-weight:800;color:#5f7167;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ r.0 }}</th><td style="padding:7px 12px;font-size:11px;font-weight:800;border-top:1px solid #f4f6f4">{{ r.1 }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</sc-if>
+
+<sc-if value="{{ w.isSteps }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">
+<sc-for list="{{ w.steps }}" as="s" hint-placeholder-count="3">
+<div style="padding:11px 12px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb"><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ s.0 }}</span><span style="font-size:9.5px;line-height:1.6;color:#7c8a82">{{ s.1 }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isNote }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:11px;background:{{ w.tone }}"><sc-if value="{{ w.ic }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:{{ w.c }};fill:none;stroke:currentColor;stroke-width:2"><use href="{{ w.ic }}"></use></svg></sc-if><span style="font-size:11.5px;font-weight:800;line-height:1.7;color:#3d4f45">{{ w.t }}</span></div>
+</sc-if>
+
+<sc-if value="{{ w.isBefore }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<div style="padding:12px 13px;border-radius:11px;background:#fdf6f6;border:1px solid #f0d3d3"><span style="font-size:10px;font-weight:900;color:#b32d2e">{{ w.a.0 }}</span><p style="margin:3px 0 0;font-size:11px;line-height:1.7;color:#5f7167">{{ w.a.1 }}</p></div>
+<div style="padding:12px 13px;border-radius:11px;background:#f2f8f5;border:1px solid #cfe0d6"><span style="font-size:10px;font-weight:900;color:#146c4c">{{ w.b.0 }}</span><p style="margin:3px 0 0;font-size:11px;line-height:1.7;color:#3d4f45">{{ w.b.1 }}</p></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isCta }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:linear-gradient(140deg,#14261d,#1e5c42);color:#fff;flex-wrap:wrap">
+<span style="flex:1;min-width:200px"><span style="display:block;font-size:14px;font-weight:900">{{ w.t }}</span><span style="font-size:10.5px;color:rgba(255,255,255,.75)">{{ w.d }}</span></span>
+<button type="button" onClick="{{ w.onGo }}" style="min-height:42px;padding:0 20px;border:0;border-radius:11px;background:#fff;color:#14261d;font-size:12.5px;font-weight:900;cursor:pointer">{{ w.btn }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isTimeline }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ w.items }}" as="t" hint-placeholder-count="3">
+<div style="display:flex;gap:10px;padding:5px 0"><span aria-hidden="true" style="flex:0 0 auto;width:9px;height:9px;margin-top:4px;border-radius:50%;background:#1e7355"></span><span><b style="font-size:11px">{{ t.0 }}</b><span style="display:block;font-size:10.5px;color:#5f7167">{{ t.1 }}</span></span></div>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ w.isLicense }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<div><span style="font-size:10.5px;font-weight:900;color:#146c4c">مسموح</span><sc-for list="{{ w.ok }}" as="x" hint-placeholder-count="3"><span style="display:block;padding:2px 0;font-size:10.5px;color:#3d4f45">✓ {{ x }}</span></sc-for></div>
+<div><span style="font-size:10.5px;font-weight:900;color:#b32d2e">غير مسموح</span><sc-for list="{{ w.no }}" as="x" hint-placeholder-count="2"><span style="display:block;padding:2px 0;font-size:10.5px;color:#5f7167">✕ {{ x }}</span></sc-for></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isCompare }}" hint-placeholder-val="{{ false }}">
+<table style="width:100%;border-collapse:collapse">
+<tbody>
+<sc-for list="{{ w.rows }}" as="r" hint-placeholder-count="3">
+<tr><td style="padding:7px 10px;border-top:1px solid #f4f6f4;font-size:11px;font-weight:900;color:#1e7355">{{ r.0 }}</td><td style="padding:7px 10px;border-top:1px solid #f4f6f4;font:900 11px Tajawal">{{ r.1 }}</td><td style="padding:7px 10px;border-top:1px solid #f4f6f4;font-size:10.5px;color:#5f7167">{{ r.2 }}</td><td style="padding:7px 10px;border-top:1px solid #f4f6f4;font-size:10.5px;color:#5f7167">{{ r.3 }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</sc-if>
+
+<sc-if value="{{ w.isBundle }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ w.items }}" as="b" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px dashed #f1f4f2">
+<span aria-hidden="true" style="width:19px;height:19px;border-radius:6px;border:2px solid {{ b.bd }};background:{{ b.bg }};color:#fff;display:grid;place-items:center"><sc-if value="{{ b.on }}" hint-placeholder-val="{{ true }}"><svg style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:3"><use href="#b-check"></use></svg></sc-if></span>
+<span style="flex:1;font-size:11.5px;font-weight:800">{{ b.n }}</span><span style="font:900 11.5px Tajawal;color:#146c4c">{{ b.p }}</span>
+</div>
+</sc-for>
+<div style="display:flex;align-items:center;gap:9px;margin-top:8px"><span style="font-size:11.5px;font-weight:900">المجموع: <span style="font:900 14px Tajawal;color:#146c4c">{{ w.sum }}</span></span><button type="button" onClick="{{ w.onAll }}" style="margin-inline-start:auto;min-height:34px;padding:0 14px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;cursor:pointer">أضف المحدد</button></div>
+</sc-if>
+
+<sc-if value="{{ w.isMinis }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ w.items }}" as="m" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px dashed #f1f4f2"><span aria-hidden="true" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(140deg,#2b9c72,#14603f)"></span><a href="#" style="flex:1;font-size:11.5px;font-weight:800">{{ m.0 }}</a><span style="font:900 11px Tajawal">{{ m.1 }}</span></div>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ w.isRevsum }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:14px">
+<span style="text-align:center"><span style="display:block;font:900 26px Tajawal;color:#8a6500">{{ w.rate }}</span><span style="font-size:9.5px;color:#8b978f">{{ w.n2 }}</span></span>
+<div style="flex:1">
+<sc-for list="{{ w.bars }}" as="b" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:6px;padding:2px 0"><span style="flex:0 0 16px;font-size:9.5px;font-weight:900">{{ b.s }}★</span><span style="flex:1;height:6px;border-radius:4px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ b.w }};background:#d8a723"></span></span><span style="flex:0 0 28px;font-size:9px;color:#8b978f;text-align:end">{{ b.p }}</span></div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isReviews }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px">
+<sc-for list="{{ w.items }}" as="r" hint-placeholder-count="3">
+<article style="padding:11px 13px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb">
+<span style="display:flex;align-items:center;gap:6px"><b style="font-size:11px">{{ r.0 }}</b><span style="color:#d8a723;font-size:10px">{{ r.stars }}</span><sc-if value="{{ r.3 }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 6px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8px;font-weight:900">{{ r.3 }} ✓</span></sc-if></span>
+<p style="margin:4px 0 0;font-size:10.5px;line-height:1.8;color:#3d4f45">{{ r.1 }}</p>
+</article>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isQuote }}" hint-placeholder-val="{{ false }}">
+<blockquote style="margin:0;padding:14px 18px;border-inline-start:3px solid #d8b56a;border-radius:10px;background:#fffaf0"><p style="margin:0;font-size:13px;line-height:1.9;font-weight:800;color:#14261d">{{ w.t }}</p><cite style="display:block;margin-top:6px;font-size:10px;font-style:normal;color:#8a7040">{{ w.by }}</cite></blockquote>
+</sc-if>
+
+<sc-if value="{{ w.isFaq }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ w.items }}" as="f" hint-placeholder-count="3">
+<details style="border:1px solid #eef1ef;border-radius:10px;margin-bottom:6px;background:#fbfcfb">
+<summary style="padding:10px 13px;font-size:11.5px;font-weight:900;cursor:pointer;color:#14261d">{{ f.0 }}</summary>
+<p style="margin:0;padding:0 13px 11px;font-size:11px;line-height:1.9;color:#4a5b51">{{ f.1 }}</p>
+</details>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ w.isProfile }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#b-user"></use></svg></span>
+<span style="flex:1;min-width:200px"><b style="font-size:13px">{{ w.n2 }}</b><span style="display:block;font-size:10.5px;line-height:1.7;color:#5f7167">{{ w.d }}</span></span>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ w.stats }}" as="s" hint-placeholder-count="3"><span style="padding:5px 11px;border-radius:999px;background:#f2f8f5;font-size:10px;font-weight:900;color:#146c4c">{{ s }}</span></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ w.isStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">
+<sc-for list="{{ w.items }}" as="s" hint-placeholder-count="3">
+<div style="padding:12px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb;text-align:center"><span style="display:block;font:900 18px Tajawal;color:#146c4c">{{ s.0 }}</span><span style="font-size:9.5px;color:#7c8a82">{{ s.1 }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:pbFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1460,&quot;height&quot;:940},&quot;startPreset&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ppt&quot;,&quot;edu&quot;,&quot;soft&quot;,&quot;phys&quot;,&quot;hybrid&quot;,&quot;conv&quot;],&quot;default&quot;:&quot;ppt&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;البداية&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+sr(n){ return this.ar(n)+' ر.س'; }
+
+/* 50-widget registry: n=name, g=group, t=types(d/p/h), k=render kind */
+REG=[
+[1,'معرض الوسائط','media','dph','media'],[2,'معاينة المنتج الرقمي','media','dh','slides'],[3,'معاينة فيديو','media','dph','video'],[4,'عرض تفاعلي','media','dph','slides'],
+[5,'بطاقة الشراء','buy','dph','purchase'],[6,'شريط لاصق (سطح المكتب)','buy','dph','note'],[7,'شريط شراء الجوال','buy','dph','note'],[8,'السعر والتوفير','buy','dph','price'],
+[9,'اختيار الترخيص','buy','dh','pick'],[10,'اختيار المتغيرات','buy','ph','pick'],[11,'محدد الكمية','buy','ph','note'],[12,'صيغ الملفات','digital','dh','chips'],
+[13,'التوافق البرمجي','digital','dh','chips'],[14,'متطلبات التشغيل','digital','dh','rows'],[15,'التنزيل الفوري','digital','dh','steps'],[16,'الشحن والتوصيل','physical','ph','rows'],
+[17,'حالة التوفر','buy','dph','note'],[18,'ماذا تتضمن','info','dph','rows'],[19,'شبكة المميزات','info','dph','grid'],[20,'الفوائد الرئيسية','info','dph','grid'],
+[21,'حالات الاستخدام','info','dph','chips'],[22,'لمن هذا المنتج؟','info','dph','chips'],[23,'ليس مناسبًا لـ','info','dph','chips'],[24,'قبل / بعد','info','dh','before'],
+[25,'عينة مجانية','digital','dh','cta'],[26,'المواصفات','info','dph','table'],[27,'الأبعاد والخامات','physical','ph','rows'],[28,'معلومات الإصدار','digital','dh','rows'],
+[29,'سجل التحديثات','digital','dh','timeline'],[30,'خارطة الطريق','digital','dh','timeline'],[31,'ملخص الترخيص','digital','dh','license'],[32,'جدول المقارنة','recs','dph','compare'],
+[33,'منشئ الحزم','recs','dph','bundle'],[34,'يُشترى معًا','recs','dph','bundle'],[35,'منتجات ذات صلة','recs','dph','minis'],[36,'بدائل مقترحة','recs','dph','minis'],
+[37,'شوهدت مؤخرًا','recs','dph','minis'],[38,'ملخص التقييمات','trust','dph','revsum'],[39,'التقييمات المتقدمة','trust','dph','reviews'],[40,'شهادات مميزة','trust','dph','quote'],
+[41,'أسئلة وأجوبة','trust','dph','qa'],[42,'أسئلة شائعة','trust','dph','faq'],[43,'الثقة والأمان','trust','dph','chips'],[44,'الضمان والاسترجاع','trust','dph','note'],
+[45,'ملف المُعِدّ','trust','dph','profile'],[46,'الدعم بعد الشراء','trust','dph','rows'],[47,'إثبات اجتماعي','trust','dph','stats'],[48,'مشاركة وحفظ','buy','dph','chips'],
+[49,'تنقل الصفحة الذكي','layout','dph','nav'],[50,'CTA ختامي ذكي','layout','dph','cta']
+];
+GROUPS=[['media','الوسائط','#6b3fa0'],['buy','الشراء','#1e7355'],['digital','رقمي','#1d5f9c'],['physical','مادي','#b45309'],['info','المعلومات','#0f766e'],['recs','التوصيات','#8a6500'],['trust','الثقة','#b32d2e'],['layout','التخطيط','#5f7167']];
+PRESETS=[
+ ['ppt','قالب بوربوينت — مصغّر','d',[1,2,5,8,12,13,15,18,19,25,31,38,42,50]],
+ ['edu','مورد تعليمي غني','d',[1,2,3,5,8,9,12,15,18,19,20,21,22,24,25,26,29,31,32,34,38,39,41,42,45,46,49,50]],
+ ['soft','برمجية / إضافة','d',[1,3,5,8,9,13,14,15,18,19,26,28,29,30,31,32,38,39,41,42,46,49,50]],
+ ['phys','منتج مادي','p',[1,5,8,10,11,16,17,18,19,26,27,32,34,35,38,39,42,43,44,50]],
+ ['hybrid','هجين (مطبوع + رقمي)','h',[1,2,5,8,10,12,15,16,17,18,19,26,29,31,34,38,39,42,44,45,50]],
+ ['conv','تحويل عالٍ','d',[1,2,5,8,17,19,20,24,34,38,40,42,43,47,50]]
+];
+TYPEP={d:{name:'عرض تحاضير الوحدة الأولى — بوربوينت',price:39,old:49},p:{name:'مذكرة رياضيات مطبوعة — أول ثانوي',price:60,old:68},h:{name:'حزمة المذكرة: مطبوعة + PDF',price:85,old:105}};
+
+state={type:'d',preset:'ppt',dens:'balanced',device:'desktop',order:null,off:{},toasts:[]};
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+curPreset(){ return this.PRESETS.filter(p=>p[0]===this.state.preset)[0]; }
+order(){ return this.state.order||this.curPreset()[3].slice(); }
+relevant(w){ return w[3].indexOf(this.state.type)>=0; }
+applyPreset(k){
+ const p=this.PRESETS.filter(x=>x[0]===k)[0];
+ this.setState({preset:k,type:p[2],order:p[3].slice(),off:{}});
+ this.toast('قالب «'+p[1]+'» — '+this.ar(p[3].length)+' ودجة مختارة بذكاء، وعدّل ما شئت');
+}
+move(id,d){
+ const o=this.order().slice(); const i=o.indexOf(id); const j=i+d;
+ if(j<0||j>=o.length) return;
+ o.splice(i,1); o.splice(j,0,id);
+ this.setState({order:o});
+}
+tog(id){
+ const o=this.order().slice();
+ if(o.indexOf(id)>=0){ this.setState({order:o.filter(x=>x!==id)}); }
+ else { o.push(id); this.setState({order:o}); this.toast('فُعِّلت الودجة — تُحمَّل الآن فقط (تحميل شرطي)'); }
+}
+renderVals(){
+ const st=this.state;
+ const type=st.type;
+ const order=this.order().filter(id=>{const w=this.REG.filter(x=>x[0]===id)[0];return w&&this.relevant(w);});
+ const isMob=st.device==='mobile';
+ const dens=st.dens;
+ const cap=dens==='compact'?2:(dens==='rich'?6:4);
+ const base={
+  dir:'rtl',
+  types:[['d','رقمي'],['p','مادي'],['h','هجين']].map(t=>({k:t[0],n:t[1],on:type===t[0],
+   bg:type===t[0]?'#eaf2ee':'transparent',fg:type===t[0]?'#0c1411':'rgba(234,242,238,.75)',bd:type===t[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>{ this.setState({type:t[0]}); this.toast('نوع المنتج: '+t[1]+' — تُخفى الودجات غير الملائمة تلقائيًا وتتبدل الصياغة'); }})),
+  presets:this.PRESETS.map(p=>({k:p[0],n:p[1]})),
+  presetV:st.preset,onPreset:(e)=>this.applyPreset(e.target.value),
+  densV:dens,onDens:(e)=>this.setState({dens:e.target.value}),
+  devices:[['desktop','كمبيوتر'],['mobile','جوال']].map(d=>({k:d[0],n:d[1],on:st.device===d[0],
+   bg:st.device===d[0]?'#eaf2ee':'transparent',fg:st.device===d[0]?'#0c1411':'rgba(234,242,238,.7)',
+   onClick:()=>this.setState({device:d[0]})})),
+  activeN:this.ar(order.length)+' من ٥٠ نشطة',
+  devW:isMob?'400px':'100%',stagePad:isMob?'22px':'0px',
+  canvasPad:isMob?'14px':'20px 24px',gap:dens==='compact'?'10px':'14px',
+  prodName:this.TYPEP[type].name,
+  groups:this.GROUPS.map(g=>{
+   const rows=this.REG.filter(w=>w[2]===g[0]);
+   return {n:g[1],c:g[2],count:this.ar(rows.length),
+    rows:rows.map(w=>{
+     const rel=this.relevant(w); const on=rel&&order.indexOf(w[0])>=0;
+     return {num:this.ar(w[0]),n:w[1],on:on,dis:!rel,na:!rel,naTxt:type==='d'?'مادي فقط':'لا يلائم',
+      bg:on?'#f2f8f5':'transparent',op:rel?'1':'.45',
+      swBg:on?'#1e7355':'#cfd8d3',knob:on?'14px':'2px',
+      onToggle:()=>rel&&this.tog(w[0]),
+      onUp:()=>this.move(w[0],-1),onDn:()=>this.move(w[0],1)};
+    })};
+  }),
+  is:{toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ return Object.assign(base,{widgets:order.map(id=>this.buildW(id,type,cap,isMob)).filter(Boolean)});
+}
+buildW(id,ty,cap,isMob){
+ const P=this.TYPEP[ty];
+ const W=this.REG.filter(x=>x[0]===id)[0]; if(!W) return null;
+ const o={num:this.ar(id),n:W[1],kind:W[4],cols:isMob?'1fr 1fr':'repeat(4,minmax(0,1fr))'};
+ const G=['linear-gradient(140deg,#2b9c72,#14603f)','linear-gradient(140deg,#d8b56a,#8a6a35)','linear-gradient(140deg,#527a96,#2d5471)','linear-gradient(140deg,#6b8f5a,#3f6132)'];
+ const slice=(a)=>a.slice(0,Math.max(2,cap));
+ const D={
+ 1:()=>({kind:'media',imgs:G.map((g,i)=>({img:g,on:i===(this.state.g||0),bd:i===(this.state.g||0)?'#1e7355':'#e2e8e4',onGo:()=>this.setState({g:i})})),main:G[this.state.g||0],video:false}),
+ 2:()=>({kind:'slides',items:slice([['شريحة العنوان','١/٢٤'],['خريطة الوحدة','٢/٢٤'],['نشاط تفاعلي','٧/٢٤'],['تقويم ختامي','٢٢/٢٤'],['قالب فارغ','٢٤/٢٤'],['ملاحظات المعلم','—']]).map((s,i)=>({img:G[i%4],t:s[0],d:s[1]})),note:'معاينة حقيقية من داخل الملف — ليست صورًا تسويقية'}),
+ 3:()=>({kind:'media',imgs:[],main:'linear-gradient(140deg,#14261d,#1e5c42)',video:true,vt:'جولة ٦٠ ثانية داخل '+(ty==='p'?'المذكرة':'القالب')}),
+ 4:()=>({kind:'slides',items:slice([['زاوية أمامية',''],['فتح الصفحات',''],['قياس الحجم باليد',''],['التغليف','']]).map((s,i)=>({img:G[(i+1)%4],t:s[0],d:s[1]})),note:ty==='p'?'زوايا حقيقية للمنتج':'شاشات من الاستخدام الفعلي'}),
+ 5:()=>({kind:'purchase',name:P.name,price:this.sr(P.price),old:this.sr(P.old),rate:'٤٫٨ (٩٦)',
+   meta:ty==='d'?'تنزيل فوري · ٢٤ شريحة · PPTX':'يُشحن خلال ١–٣ أيام · متوفر',
+   onAdd:()=>this.toast('أُضيف للسلة'),onBuy:()=>this.toast('شراء الآن ← الدفع')}),
+ 6:()=>({kind:'note',ic:'#b-cart',t:'شريط لاصق يظهر بعد مغادرة بطاقة الشراء — مصغّر المنتج والسعر وCTA (مطبق في صفحة المنتج الاحترافية)',tone:'#f2f8f5',c:'#146c4c'}),
+ 7:()=>({kind:'note',ic:'#b-cart',t:'شريط جوال سفلي مضغوط: السعر + أضف للسلة — لا يحجب المحتوى ولا يسبب CLS',tone:'#f2f8f5',c:'#146c4c'}),
+ 8:()=>({kind:'price',price:this.sr(P.price),old:this.sr(P.old),save:'وفّرت '+this.sr(P.old-P.price)+' ('+this.ar(Math.round((P.old-P.price)/P.old*100))+'٪)',vat:'شامل الضريبة'}),
+ 9:()=>({kind:'pick',label:'الترخيص',opts:['شخصي — '+this.sr(P.price),'معلم/فصل — '+this.sr(P.price+30),'مدرسة — '+this.sr(P.price+110)]}),
+ 10:()=>({kind:'pick',label:'النسخة',opts:ty==='h'?['مطبوعة + PDF — '+this.sr(85)]:['A4 عادية — '+this.sr(60),'A4 فاخرة — '+this.sr(75)]}),
+ 11:()=>({kind:'note',ic:'#b-cart',t:'محدد كمية ± مع احترام حد المخزون — يظهر للمنتجات المادية فقط',tone:'#fbfcfb',c:'#3d4f45'}),
+ 12:()=>({kind:'chips',items:ty==='h'?['PDF','مطبوع A4']:['PPTX','PDF مصدَّر','خطوط مضمنة','16:9']}),
+ 13:()=>({kind:'chips',items:['PowerPoint 2016+','Google Slides','Keynote (تصدير)','ويندوز وماك']}),
+ 14:()=>({kind:'rows',rows:[['الحد الأدنى','PowerPoint 2016 أو Google Slides'],['المستحسن','PowerPoint 365 لعرض الحركات كاملة'],['الخطوط','مضمنة — لا تثبيت يدويًا']]}),
+ 15:()=>({kind:'steps',steps:[['ادفع بأي وسيلة','مدى · Apple Pay · بطاقات'],['رابط التنزيل فورًا','في الصفحة والبريد معًا'],['نزّل حتى ٥ مرات','صالح سنة كاملة مع التحديثات']]}),
+ 16:()=>({kind:'rows',rows:[['التجهيز','يوم عمل'],['المدن الرئيسية','١–٣ أيام — ١٥ ر.س'],['بقية المناطق','٣–٥ أيام — ١٩ ر.س'],['مجاني','فوق ٢٠٠ ر.س']]}),
+ 17:()=>({kind:'note',ic:'#b-check',t:ty==='d'?'متاح دائمًا — منتج رقمي بلا نفاد':'متوفر — باقٍ ١٨ نسخة في المستودع',tone:'#f2f8f5',c:'#146c4c'}),
+ 18:()=>({kind:'rows',rows:ty==='p'?[['المذكرة المطبوعة','٨٤ صفحة ملونة'],['ملف الإجابات','منفصل'],['جدول مذاكرة','هدية']]:[['ملف العرض PPTX','٢٤ شريحة'],['نسخة PDF','للطباعة'],['دليل الاستخدام','٤ صفحات'],['قالب فارغ','لبناء دروسك']]}),
+ 19:()=>({kind:'grid',items:slice([['حركات جاهزة','انتقالات مضبوطة لكل شريحة'],['قابل للتعديل ١٠٠٪','نصوص وألوان وصور'],['خرائط مفاهيم','جاهزة لكل درس'],['أنشطة تفاعلية','أسئلة تظهر بالنقر'],['وضع العرض والطباعة','نسختان مهيأتان'],['متوافق مع المنهج','محدث لهذا الفصل']])}),
+ 20:()=>({kind:'grid',items:slice([['وفّر ٦ ساعات إعداد','لكل وحدة دراسية'],['انتباه أعلى للطلاب','عناصر بصرية مدروسة'],['جاهز للعرض فورًا','افتح وقدّم'],['مظهر احترافي موحد','عبر كل دروسك']])}),
+ 21:()=>({kind:'chips',items:['الشرح داخل الفصل','التعليم عن بعد','دورات خاصة','مراجعة قبل الاختبار']}),
+ 22:()=>({kind:'chips',items:['معلمو المرحلة الثانوية','المعلمون الجدد','مدربو الدورات','أولياء أمور يدرّسون منزليًا']}),
+ 23:()=>({kind:'chips',warn:true,items:['من يريد محتوى مكتوبًا جاهزًا ١٠٠٪','مستخدمي LibreOffice (تنسيق جزئي)']}),
+ 24:()=>({kind:'before',a:['قبل','شرائح نصية مزدحمة، إعداد ٣ ساعات لكل درس'],b:['بعد','عرض بصري جاهز — عدّل الأسماء وابدأ']}),
+ 25:()=>({kind:'cta',t:'جرّب قبل الشراء',d:'٣ شرائح مجانية من الملف الفعلي — بلا بريد ولا تسجيل',btn:'حمّل العينة',onGo:()=>this.toast('تنزيل العينة المجانية')}),
+ 26:()=>({kind:'table',rows:ty==='p'?[['المقاس','A4'],['الصفحات','٨٤'],['الورق','١٢٠غ مصقول'],['التجليد','حلزوني'],['الوزن','٣٢٠غ']]:[['الشرائح','٢٤'],['النسبة','16:9'],['الحجم','١٨ م.ب'],['اللغة','عربية (+نسخة إنجليزية)'],['الإصدار','2.1']]}),
+ 27:()=>({kind:'rows',rows:[['الأبعاد','21 × 29.7 سم (A4)'],['السماكة','٩ ملم'],['الوزن','٣٢٠ غرامًا'],['الخامة','ورق ١٢٠غ + غلاف مقوى']]}),
+ 28:()=>({kind:'rows',rows:[['الإصدار الحالي','2.1'],['تاريخه','أغسطس ٢٠٢٦'],['التحديثات','مجانية لنفس العام']]}),
+ 29:()=>({kind:'timeline',items:[['2.1 · أغسطس','شرائح تقويم ختامي جديدة'],['2.0 · يونيو','إعادة تصميم كاملة 16:9'],['1.2 · فبراير','نسخة Google Slides']]}),
+ 30:()=>({kind:'timeline',items:[['سبتمبر','بنك أسئلة تفاعلي'],['أكتوبر','نسخة داكنة للعرض المسائي']]}),
+ 31:()=>({kind:'license',ok:['استخدامك التعليمي داخل فصولك','التعديل الكامل','الطباعة لطلابك'],no:['إعادة البيع أو التوزيع','الرفع على مواقع أخرى']}),
+ 32:()=>({kind:'compare',rows:[['هذا القالب',this.sr(P.price),'٢٤ شريحة','تفاعلي'],['القالب الأساسي',this.sr(19),'١٢ شريحة','ثابت'],['حزمة الوحدات الخمس',this.sr(129),'١٢٠ شريحة','تفاعلي']]}),
+ 33:()=>({kind:'bundle',items:[['هذا المنتج',P.price,true],['بنك أسئلة الوحدة',25,true],['أوراق عمل مطبوعة',19,false]]}),
+ 34:()=>({kind:'bundle',items:[['هذا المنتج',P.price,true],['عرض الوحدة الثانية',39,true],['قالب اختبار قصير',15,false]]}),
+ 35:()=>({kind:'minis',items:[['عرض الوحدة الثانية',this.sr(39)],['قالب خطة أسبوعية',this.sr(15)],['حزمة الوحدات الخمس',this.sr(129)]]}),
+ 36:()=>({kind:'minis',alt:true,items:[['القالب الأساسي — أرخص للبداية',this.sr(19)],['الحزمة الكاملة — أوفر ٢٧٪',this.sr(129)]]}),
+ 37:()=>({kind:'minis',items:[['مذكرة رياضيات أول ثانوي',this.sr(45)],['بنك أسئلة الفيزياء',this.sr(29)]]}),
+ 38:()=>({kind:'revsum',rate:'٤٫٨',n:'٩٦ تقييمًا',bars:[[5,81],[4,13],[3,4],[2,2],[1,0]]}),
+ 39:()=>({kind:'reviews',items:slice([['أ. هند','معلمة رياضيات — وفّر عليّ ليلة كاملة. الطلاب انتبهوا أكثر من أي عرض سابق.','٥','موثق'],['أ. سلطان','التفاعلات ممتازة والألوان مريحة. أتمنى نسخة داكنة.','٤','موثق'],['مدربة دورات','استخدمته في دورة خاصة — مظهر احترافي جدًا.','٥','']])}),
+ 40:()=>({kind:'quote',t:'«أفضل استثمار ٣٩ ريالًا في مسيرتي التعليمية — صار العرض جاهزًا قبل أن تجهز قهوتي»',by:'أ. هند العتيبي — معلمة رياضيات، الرياض'}),
+ 41:()=>({kind:'faq',qa:true,items:[['هل يعمل على Google Slides؟','نعم — نسخة مهيأة مرفقة، مع ملاحظة أن بعض الحركات تُبسَّط.'],['هل أستطيع تغيير الألوان للهوية المدرسية؟','نعم — لوحة الألوان مركزية: غيّر مرة واحدة فتتحدث كل الشرائح.']]}),
+ 42:()=>({kind:'faq',items:[['كيف أستلم الملف؟',ty==='p'?'يُشحن خلال ١–٣ أيام مع تتبع برسالة.':'رابط تنزيل فوري بعد الدفع + نسخة للبريد.'],['هل التحديثات مجانية؟','نعم لنفس العام الدراسي — تصلك برسالة عند كل تحديث.'],['ماذا لو لم يناسبني؟',ty==='d'?'استرجاع كامل قبل التنزيل الأول.':'استرجاع ١٤ يومًا بحالته الأصلية.']]}),
+ 43:()=>({kind:'chips',items:['دفع مشفَّر','لا نخزن بطاقتك','فاتورة ضريبية','دعم بشري سريع']}),
+ 44:()=>({kind:'note',ic:'#b-shield',t:ty==='d'?'ضمان استرجاع كامل قبل التنزيل الأول — وبعده نساعدك حتى يعمل الملف لديك':'استرجاع ١٤ يومًا للمنتج بحالته — والشحن علينا إن كان الخطأ منا',tone:'#fffaf0',c:'#8a6500'}),
+ 45:()=>({kind:'profile',n:'أ. سارة القحطاني',d:'معلمة رياضيات ١٢ عامًا — أعدّت ٣٤ موردًا تعليميًا على تذكير يعتمدها +٤ آلاف معلم',stats:['٣٤ موردًا','٤٫٩ متوسط تقييم','ترد خلال يوم']}),
+ 46:()=>({kind:'rows',rows:[['واتساب','٩ص–١١م — نرفق رقم طلبك تلقائيًا'],['دليل مصور','مرفق مع الملف'],['فيديوهات شرح','قناة تعليمية مجانية']]}),
+ 47:()=>({kind:'stats',items:[['+٢٫٤ ألف','تنزيل حقيقي'],['٩٦','تقييمًا موثقًا'],['+٤ آلاف','معلم يعتمد موارد المُعِدّة']]}),
+ 48:()=>({kind:'chips',items:['♡ حفظ للمفضلة','نسخ الرابط','مشاركة واتساب','حفظ لوقت لاحق']}),
+ 49:()=>({kind:'chips',nav:true,items:['المعاينة','المميزات','المواصفات','التقييمات','الأسئلة']}),
+ 50:()=>({kind:'cta',t:ty==='d'?'جاهز خلال دقيقة من الآن':'اطلبه اليوم يصلك خلال أيام',d:ty==='d'?'ادفع، نزّل، وقدّم درسك القادم بهذا العرض':'مع ضمان استرجاع ١٤ يومًا كاملًا',btn:'أضف للسلة — '+this.sr(P.price),onGo:()=>this.toast('أُضيف للسلة')})
+ };
+ const fn=D[id]; if(!fn) return null;
+ const d=fn();
+ /* derive template-ready fields + resolve key collisions with the widget title */
+ if(d.kind==='media'){ d.notVideo=!d.video; d.hasThumbs=(d.imgs||[]).length>0; }
+ if(d.kind==='chips'){ d.chipBg=d.warn?'#fdf6f6':(d.nav?'#14261d':'#f2f8f5'); d.chipC=d.warn?'#b32d2e':(d.nav?'#fff':'#146c4c'); d.chipBd=d.warn?'#f0d3d3':(d.nav?'#14261d':'#dceee4'); }
+ if(d.kind==='bundle'){
+  const its=d.items.map(x=>({n:x[0],p:this.sr(x[1]),on:x[2],bd:x[2]?'#1e7355':'#c9d2cc',bg:x[2]?'#1e7355':'#fff'}));
+  d.sum=this.sr(d.items.filter(x=>x[2]).reduce((a,x)=>a+x[1],0));
+  d.items=its; d.onAll=()=>this.toast('أُضيف المحدد معًا للسلة');
+ }
+ if(d.kind==='revsum'){ d.n2=d.n; delete d.n; d.bars=d.bars.map(b=>({s:this.ar(b[0]),w:b[1]+'%',p:this.ar(b[1])+'٪'})); }
+ if(d.kind==='reviews'){ d.items=d.items.map(r=>{
+  const n='٠١٢٣٤٥٦٧٨٩'.indexOf(String(r[2]));           /* Arabic-Indic digit → real number */
+  return {0:r[0],1:r[1],3:r[3],stars:'★★★★★'.slice(0,n>0?n:5)};
+ }); }
+ if(d.kind==='profile'){ d.n2=d.n; delete d.n; }
+ return Object.assign(o,d,{
+  isMedia:d.kind==='media',isSlides:d.kind==='slides',isPurchase:d.kind==='purchase',isPrice:d.kind==='price',
+  isPick:d.kind==='pick',isChips:d.kind==='chips',isRows:d.kind==='rows',isGrid:d.kind==='grid',
+  isTable:d.kind==='table',isSteps:d.kind==='steps',isNote:d.kind==='note',isBefore:d.kind==='before',
+  isCta:d.kind==='cta',isTimeline:d.kind==='timeline',isLicense:d.kind==='license',isCompare:d.kind==='compare',
+  isBundle:d.kind==='bundle',isMinis:d.kind==='minis',isRevsum:d.kind==='revsum',isReviews:d.kind==='reviews',
+  isQuote:d.kind==='quote',isFaq:d.kind==='faq',isProfile:d.kind==='profile',isStats:d.kind==='stats'
+ });
+}
+/*@BUILD*/
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+/*
+ * search-intel-a — رموز مركز ذكاء البحث (الغلاف + القاموس الشامل).
+ * القيم حرفية من Tahdheer - Search Intelligence Center.dc.html، ومعلنة محليًا
+ * أيضًا في apps/admin/app/(workspaces)/search/search.module.css على .root
+ * (عرف command-palette.module.css) — هذا الملف نسخة الدمج في tokens.css.
+ * المُعاد استعماله بلا رموز جديدة: --ink (#14261d) · --text-muted (#5f7167) ·
+ * --green-700 (#1e7355) · --warning-bg/--warning-text (#fff4d6/#8a6500) ·
+ * --success-chip-fg (#146c4c) · --bg (#ffffff) · --z-toast.
+ */
+
+:root {
+  --si-page: #eef0ee; /* Tahdheer - Search Intelligence Center.dc.html — خلفية جسم المركز */
+  --si-text: #17251d; /* Tahdheer - Search Intelligence Center.dc.html — نص الجسم الأساسي */
+  --si-chrome-fg: #eaf2ee; /* Tahdheer - Search Intelligence Center.dc.html — نص الشريط الداكن والحبة النشطة */
+  --si-chrome-fg-dim: rgba(234, 242, 238, 0.72); /* Tahdheer - Search Intelligence Center.dc.html — نص حبة المبدّل الخاملة */
+  --si-chrome-pill-bd: rgba(255, 255, 255, 0.14); /* Tahdheer - Search Intelligence Center.dc.html — حد حبة المبدّل الخاملة */
+  --si-chrome-on-fg: #0c1411; /* Tahdheer - Search Intelligence Center.dc.html — نص حبة المبدّل النشطة */
+  --si-border: #dce2dd; /* Tahdheer - Search Intelligence Center.dc.html — حدود بطاقات القاموس والأقسام */
+  --si-border-field: #d5dbd6; /* Tahdheer - Search Intelligence Center.dc.html — حد حقل بحث القاموس */
+  --si-border-pill: #dfe4df; /* Tahdheer - Search Intelligence Center.dc.html — حد حبة التصنيف الخاملة */
+  --si-chip-bg: #f2f6f3; /* Tahdheer - Search Intelligence Center.dc.html — خلفية شريحة تصنيف المفهوم */
+  --si-flag-bg: #f2f4f2; /* Tahdheer - Search Intelligence Center.dc.html — خلفية وسم «تاريخي» المحايد */
+  --si-def: #3d4f45; /* Tahdheer - Search Intelligence Center.dc.html — نص تعريف المفهوم */
+  --si-abbr-fg: #a8e2c5; /* Tahdheer - Search Intelligence Center.dc.html — نص شريحة الاختصار على الداكن */
+  --si-val-bg: #f8fbf9; /* Tahdheer - Search Intelligence Center.dc.html — خلفية صف «قيمتك الآن» */
+  --si-hint: #8b978f; /* Tahdheer - Search Intelligence Center.dc.html — تلميحات رمادية صغيرة */
+  --si-toast-shadow: 0 12px 32px rgba(10, 25, 18, 0.3); /* Tahdheer - Search Intelligence Center.dc.html — ظل الإشعار */
+}

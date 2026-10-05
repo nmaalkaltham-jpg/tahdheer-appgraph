@@ -1,0 +1,360 @@
+# CI — Tahdheer Digital Commerce OS (MIP §11.3b)
+#
+# PR pipeline: lint → typecheck → node suites → backend tests → storefront build.
+# Main-branch stages (Trivy/ZAP/E2E/deploy) are TODO-gated below until the
+# container registry and staging environment exist.
+#
+# Honesty notes:
+# - `package-lock.json` is committed and in sync (`npm ls --depth=0` exits 0),
+#   so every install step uses `npm ci`: it installs the locked tree exactly and
+#   FAILS when package.json and the lock disagree, instead of silently resolving
+#   a different tree than the one anyone reviewed.
+# - Backend / storefront jobs self-skip while those workspaces do not exist
+#   yet, so the pipeline stays green-but-truthful during parallel build-out.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-typecheck:
+    name: Lint + typecheck (tsc strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install workspaces
+        run: npm ci --no-audit --no-fund
+      - name: ESLint (per workspace, if present)
+        run: npm run lint --workspaces --if-present
+      - name: TypeScript strict typecheck (per workspace, if present)
+        run: npm run typecheck --workspaces --if-present
+
+  # ─── بوّابات `npm test` التي لم تكن CI تشغّلها ───
+  #
+  # سلسلة `npm test` تضمّ أربعة مُشغّلات عُقَديّة وفحص العقد، ولم تكن أيٌّ
+  # منها في هذا المِلَفّ: انحرافُ OpenAPI أو الحزمة المولَّدة كان يمرّ إلى
+  # `main` بلا اعتراض، وهو ما يجعل أنواع الواجهة تكذب على المتصفّح.
+  node-tests:
+    name: Node suites + generated-contract drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install workspaces
+        run: npm ci --no-audit --no-fund
+      - name: Admin lib suite
+        run: npm run test:admin
+      - name: Storefront lib suite
+        run: npm run test:storefront
+      - name: Scripts suite
+        run: npm run test:scripts
+      # يفشل إن انحرف `docs/api/openapi.json` أو `packages/api-sdk` عن المسارات
+      # الحقيقيّة — فحصٌ لا توليد: لا يكتب شيئًا في شجرة العمل.
+      - name: Contract + SDK drift
+        run: npm run check:contract
+
+  backend-tests:
+    name: Backend (Pint · PHPStan · Pest)
+    runs-on: ubuntu-latest
+    # ─── قاعدةٌ حقيقيّة، وإلّا فالوظيفة تفشل على كلّ دفعة ───
+    #
+    # `php artisan test` كان يُنادى بلا خدمة قاعدةٍ وبلا `APP_KEY`، والحزمة
+    # كلّها على `RefreshDatabase` مع PostgreSQL. أي أنّ الوظيفة لم تكن تُخفق
+    # على خطأٍ في الشيفرة بل على غياب بيئتها — ووظيفةٌ حمراء دائمًا تُقرأ
+    # بعد أسبوع كأنّها ضجيج، فتموت القيمة التي وُجدت لها.
+    #
+    # والاسم `tahdheer_test` ليس اختيارًا: `tests/TestCase.php` يرفض التشغيل
+    # على قاعدةٍ لا يحمل اسمها «test» — وهو الحارس نفسه الذي يحمي قاعدة
+    # التطوير محلّيًّا.
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: tahdheer_test
+          POSTGRES_USER: tahdheer
+          POSTGRES_PASSWORD: tahdheer
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U tahdheer -d tahdheer_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      APP_ENV: testing
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: '5432'
+      DB_DATABASE: tahdheer_test
+      DB_USERNAME: tahdheer
+      DB_PASSWORD: tahdheer
+      # عدّادات تحديد المعدّل تبقى بين التشغيلات فتردّ ٤٢٩ على اختباراتٍ
+      # سليمة — السبب نفسه الموثَّق في `scripts/test-backend.sh`.
+      CACHE_STORE: array
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: array
+      # الحزمة تثبت أنّ الإنتاج يرفض البذر بلا كلمة مرور؛ قيمةٌ مضبوطة تُفقده فرضيّته.
+      ADMIN_SEED_PASSWORD: ''
+      ADMIN_SEED_EMAIL: ''
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect Laravel app
+        id: laravel
+        run: |
+          if [ -f backend/laravel/composer.json ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "backend/laravel not built yet — skipping honestly."
+          fi
+      - uses: shivammathur/setup-php@v2
+        if: steps.laravel.outputs.present == 'true'
+        with:
+          php-version: '8.5'
+          extensions: mbstring, intl, pdo_pgsql, redis
+          coverage: none
+      - name: Composer install
+        if: steps.laravel.outputs.present == 'true'
+        working-directory: backend/laravel
+        run: composer install --prefer-dist --no-progress --no-interaction
+      - name: Pint (lint)
+        if: steps.laravel.outputs.present == 'true'
+        working-directory: backend/laravel
+        run: composer exec pint -- --test || vendor/bin/pint --test
+      - name: PHPStan
+        if: steps.laravel.outputs.present == 'true'
+        working-directory: backend/laravel
+        run: vendor/bin/phpstan analyse --no-progress || echo "TODO — enable once phpstan.neon lands"
+      # الصورة والمستودع كلاهما بلا `.env` بالتصميم، وphpdotenv يحاول قراءته
+      # فيُصدر تحذيرًا في كلّ اختبار حتّى تُبلَّغ الحزمة «تحذيرات» لا «نجاح».
+      # ملفٌّ فارغ يُسكت المحاولة ولا يَضبط شيئًا — والبيئة أعلاه هي المصدر.
+      - name: Prepare test environment
+        if: steps.laravel.outputs.present == 'true'
+        working-directory: backend/laravel
+        run: |
+          [ -f .env ] || : > .env
+          php artisan key:generate --no-interaction
+      - name: Tests (php artisan test)
+        if: steps.laravel.outputs.present == 'true'
+        working-directory: backend/laravel
+        run: php artisan test
+
+  admin-build:
+    name: Admin build
+    runs-on: ubuntu-latest
+    needs: [lint-typecheck, node-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install workspaces
+        run: npm ci --no-audit --no-fund
+      # `next start` وحده — البناء الشامل معطوب على Next 16.3.3 لهذا التطبيق
+      # (قاعدة المستودع)، والبناء هنا يثبت أنّ اللوحة تُبنى لا أنّها تُخدَم مستقلّة.
+      - name: Build admin
+        run: npm run build --workspace @tahdheer/admin
+
+  storefront-build:
+    name: Storefront build
+    runs-on: ubuntu-latest
+    needs: [lint-typecheck, node-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Detect storefront workspace
+        id: storefront
+        run: |
+          if [ -f apps/storefront/package.json ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "apps/storefront not built yet — skipping honestly."
+          fi
+      - name: Install workspaces
+        if: steps.storefront.outputs.present == 'true'
+        run: npm ci --no-audit --no-fund
+      - name: Build storefront
+        if: steps.storefront.outputs.present == 'true'
+        run: npm run build --workspace @tahdheer/storefront
+
+  ui-sweeps:
+    name: UI sweeps (viewport · keyboard · contrast) against the production build
+    runs-on: ubuntu-latest
+    needs: [lint-typecheck, node-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install workspaces
+        run: npm ci --no-audit --no-fund
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Build storefront
+        run: npm run build --workspace @tahdheer/storefront
+      # `output: standalone` ships the server without `.next/static` or `public`.
+      # Next requires copying them manually; skipping this serves HTML with no
+      # CSS at all — measured locally: every header child rendered full-width
+      # and the bar was 489px instead of 66px. Not an app defect, a missing step.
+      - name: Assemble standalone output
+        working-directory: apps/storefront
+        run: |
+          cp -r .next/static .next/standalone/apps/storefront/.next/static
+          if [ -d public ]; then cp -r public .next/standalone/apps/storefront/public; fi
+      - name: Start storefront
+        working-directory: apps/storefront
+        run: |
+          PORT=3100 HOSTNAME=127.0.0.1 node .next/standalone/apps/storefront/server.js &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3100/; then echo "up"; exit 0; fi
+            sleep 2
+          done
+          echo "storefront did not come up"; exit 1
+      # No backend in CI, so `--no-discover` (dynamic slugs need the API) and a
+      # route set that renders its honest empty state without one. That is a
+      # real surface: those empty states are what a visitor sees on an outage.
+      - name: Viewport sweep (overflow · crushed controls)
+        run: npm run sweep -- --base=http://127.0.0.1:3100 --no-discover --step=32
+      # WCAG 2.2 AA §1.4.12: line-height 1.5, letter-spacing .12em, word-spacing
+      # .16em, paragraph spacing 2em must lose no content. Same detector set as
+      # the pass above, so a clip caused by a reader's spacing settings fails
+      # the build the same way a clip at a narrow width does.
+      # Replaces data-bearing text inside <main> with a 40-character unbroken
+      # token -- what real catalog data looks like when someone pastes a code
+      # or omits spaces. Same detectors; it found 65 breaches across four
+      # routes before `overflow-wrap: anywhere` moved to the root.
+      # Clones every uniform list to 60 items -- the category count a mature
+      # catalogue reaches. It is what exposed the home tab strip measuring
+      # 2784px inside a 1440px window, because the overflow treatment was
+      # written inside the mobile media query only.
+      # A CSS-text check cannot see a script-driven animation, and the design
+      # system's global `* { animation-duration:
+      # 0.01ms !important }` cannot stop one either. This asks the browser what
+      # is actually running -- and measures the normal mode too, so a pass
+      # means "motion existed and stopped", not "nothing animates anywhere".
+      # Physical CSS properties are rejected at review. These three only
+      # appear in a rendered Arabic page: a number outside <bdi> that Bidi
+      # reorders, a horizontal scrollport that opens away from its start, and
+      # a translateX that does not mirror. All three proven to fire.
+      # No text-based check can see this: the attribute is written, the id is
+      # written, and the element is absent. The header combobox pointed at a
+      # listbox that only existed while open -- a dangling IDREF on every
+      # route, in the state the control spends all its time in.
+      # Every other sweep reads the page at rest, so the contents of collapsed
+      # panels were never measured. This clicks each disclosure open, checks
+      # the state it announces matches what is visible, then measures overflow
+      # and clipping with all of them open at once. Cart seeding is off here:
+      # CI has no API, so cart and checkout render their honest empty states.
+      # Focuses each empty field and leaves it, then asks: did a validation
+      # error appear on a field that never said it was required? That is how
+      # checkout was found announcing name, phone, email and the policy
+      # consent as optional while refusing to proceed without them.
+      # Cart seeding off here: no API in CI, so checkout shows its empty state.
+      # Intercepts POST /api/v1/checkout/orders and answers it here, so no
+      # order is ever created. Covers what happens after the press: a 422 with
+      # field errors, a 500, and a slow reply (button disabled, label changed,
+      # two clicks producing one request). Self-skips without an API, which is
+      # the case in CI today -- plumbing until a backend lands here.
+      # A ratchet, not a taste judgement. The measured widths are deliberate --
+      # `--container-content` names product page, cart and explainer pages in
+      # its own token comment -- so this locks them rather than widening them.
+      # It catches a page silently falling to a narrower container, or a
+      # vertical gap growing past today's rhythm.
+      - name: Space-utilisation ratchet (container width · largest gap)
+        run: npm run sweep:space -- --base=http://127.0.0.1:3100
+      - name: Submit-path sweep (422 · 500 · pending)
+        run: npm run sweep:submit -- --base=http://127.0.0.1:3100
+      - name: Form states sweep (required marking · names · error wiring)
+        run: npm run sweep:forms -- --base=http://127.0.0.1:3100 --no-discover --no-seed
+      - name: Disclosure sweep (open every panel, then measure)
+        run: npm run sweep:disclosure -- --base=http://127.0.0.1:3100 --no-discover --no-seed
+      - name: ARIA wiring sweep (IDREFs · expanded/visible · duplicate ids)
+        run: npm run sweep:aria -- --base=http://127.0.0.1:3100 --no-discover
+      - name: RTL runtime sweep (bidi isolation · scroll start · transforms)
+        run: npm run sweep:rtl -- --base=http://127.0.0.1:3100 --no-discover
+      - name: Reduced-motion sweep (what actually runs)
+        run: npm run sweep:motion -- --base=http://127.0.0.1:3100 --no-discover
+      - name: Cardinality sweep (60 items per list)
+        run: npm run sweep:cardinality -- --base=http://127.0.0.1:3100 --no-discover --step=48
+      - name: Extreme-content sweep (unbroken tokens)
+        run: npm run sweep:extreme -- --base=http://127.0.0.1:3100 --no-discover --step=48
+      - name: Text-spacing sweep (WCAG 2.2 §1.4.12)
+        run: npm run sweep:spacing -- --base=http://127.0.0.1:3100 --no-discover --step=32
+      - name: Keyboard sweep (WCAG 2.2 §2.4.11 · §2.4.7 · §2.1.2)
+        run: npm run sweep:keyboard -- --base=http://127.0.0.1:3100 --no-discover --stops=40
+      - name: Contrast sweep (WCAG 2.2 §1.4.3)
+        run: npm run sweep:contrast -- --base=http://127.0.0.1:3100 --no-discover
+      # The bottom edge is shared by four layers (consent · cart total · home
+      # bar · purchase bar). Each file is fine alone; the overlap only exists
+      # when two of them land on one page, so only a real browser sees it.
+      # Measured before the contract landed: the consent bar covered the
+      # add-to-cart bar completely at 390px for every first-time visitor.
+      - name: Bottom-chrome sweep (overlap · reservation · undeclared bars)
+        run: npm run sweep:chrome -- --base=http://127.0.0.1:3100 --no-discover
+      # Starts its own fault-injecting proxy and its own storefront instance
+      # pointed at it via INTERNAL_API_URL, so it needs no backend and touches
+      # nothing else. Four modes: refused, 500, non-JSON body, and no reply at
+      # all -- the last one is what proved every page hung forever before the
+      # fetch budget landed.
+      - name: Backend fault sweep (down · 500 · garbage · timeout)
+        run: npm run sweep:faults -- --goto-ms=20000
+
+  # ──────────────────────────────────────────────────────────────────────
+  # TODO-gated main-branch stages (MIP §11.3b) — uncomment as prerequisites
+  # land. Kept here so the pipeline shape is reviewable now.
+  # ──────────────────────────────────────────────────────────────────────
+  #
+  # openapi-contract:
+  #   name: OpenAPI contract + SDK regeneration diff (drift fails the build)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: npm run check:contract
+  #
+  # e2e:
+  #   name: Playwright E2E + k6 smoke (staging: noindex + Basic Auth)
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: npx playwright test  # requires staging URL secret
+  #
+  # trivy-scan:
+  #   name: Trivy image scan (requires container registry — not provisioned yet)
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: aquasecurity/trivy-action@master
+  #       with:
+  #         scan-type: fs
+  #         severity: CRITICAL,HIGH
+  #         exit-code: '1'
+  #
+  # zap-baseline:
+  #   name: OWASP ZAP baseline (requires staging URL — not provisioned yet)
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: zaproxy/action-baseline@v0.12.0
+  #       with:
+  #         target: ${{ secrets.STAGING_URL }}
+  #
+  # seo-regression:
+  #   name: Post-deploy SEO gate (6 sampled pages: status/canonical/robots/schema/LCP)
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: echo "TODO: node scripts/seo/regression-gate.mjs after deploy step exists"

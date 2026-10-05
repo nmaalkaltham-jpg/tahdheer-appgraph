@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;background:#fff;color:#223129;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif;position:relative;padding-bottom:70px">
+
+<div style="background:#14261d">
+<div style="height:34px;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.08)">
+<div style="display:inline-flex;align-items:center;white-space:nowrap;animation:tahMarquee 30s linear infinite">
+<sc-for list="{{ ann }}" as="a" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px;padding-inline:14px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.8)">{{ a }}<span style="width:4px;height:4px;border-radius:50%;background:#d8b56a"></span></span>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 14px">
+<button type="button" aria-label="فتح القائمة" style="width:44px;height:44px;border-radius:11px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round"><use href="#i-menu"></use></svg></button>
+<a href="#" style="flex:1;display:flex;align-items:center;gap:9px;justify-content:center"><b style="color:#fff;font-size:16px;font-weight:900">التحاضير الحديثة</b><span style="width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg aria-hidden="true" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span></a>
+<a href="#" aria-label="سلة التسوق" style="position:relative;width:44px;height:44px;border-radius:11px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:#fff;display:grid;place-items:center"><svg aria-hidden="true" style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg><span style="position:absolute;inset-block-start:-5px;inset-inline-end:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#d8b56a;color:#14261d;font-size:10.5px;font-weight:900;display:grid;place-items:center">2</span></a>
+</div>
+<div style="padding:0 14px 12px">
+<form style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:11px;height:44px;padding-inline:14px">
+<svg aria-hidden="true" style="width:17px;height:17px;color:rgba(255,255,255,.5);fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg>
+<input type="search" placeholder="ابحث عن تحضير أو عرض…" style="flex:1;min-width:0;background:none;border:0;outline:none;color:#fff;font:600 13.5px Tajawal,sans-serif">
+</form>
+</div>
+</div>
+
+<section style="position:relative;overflow:hidden;background:linear-gradient(180deg,#f7f9f6,#fff);border-bottom:1px solid #e6e9e2;padding:28px 18px 32px">
+<span style="position:absolute;inset-block-start:-90px;inset-inline-end:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(216,181,106,.16),transparent 68%)"></span>
+<div style="position:relative">
+<span style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:4px 5px 4px 12px;border-radius:999px;border:1px solid rgba(216,181,106,.5);background:rgba(216,181,106,.12);color:#7a5d20;font-size:11.5px;font-weight:800"><span style="width:18px;height:18px;border-radius:50%;background:#d8b56a;color:#14261d;display:grid;place-items:center;font-size:10px;font-weight:900">1</span>الأول عربيًا في الملفات التعليمية</span>
+<h1 style="margin:0 0 12px;font-size:30px;line-height:1.28;color:#14261d;font-weight:900;letter-spacing:-.01em;text-wrap:balance">كل ما تحتاجه لحصّة ناجحة <span style="color:#1e7355">في مكان واحد</span></h1>
+<p style="margin:0 0 18px;font-size:14.5px;line-height:1.85;color:#5f7167">عروض بوربوينت، تحاضير جاهزة، أنشطة وملفات قابلة للتعديل — تصلك فور الدفع.</p>
+<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+<a href="#" style="display:flex;align-items:center;justify-content:center;gap:9px;min-height:48px;border-radius:12px;font-weight:800;font-size:15px;background:#1e7355;color:#fff"><svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-grid"></use></svg>تصفّح المنتجات</a>
+<a href="#" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;font-weight:800;font-size:15px;background:#fff;color:#14261d;border:1px solid #d3d8cf">اكتشف المتجر</a>
+</div>
+<div style="position:relative;height:186px;margin-bottom:18px">
+<div style="position:absolute;inset-block-start:8px;inset-inline-end:0;width:150px;background:#fff;border:1px solid #e6e9e2;border-radius:13px;box-shadow:0 8px 22px rgba(20,45,33,.08);padding:11px;transform:rotate(-5deg)"><div style="display:flex;align-items:center;gap:7px;margin-bottom:8px"><span style="width:22px;height:22px;border-radius:6px;background:rgba(216,181,106,.18);color:#7a5d20;display:grid;place-items:center"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span><b style="font-size:11.5px;color:#14261d">ملف PDF</b></div><div style="height:6px;border-radius:3px;background:#eef1ec;margin-bottom:5px"></div><div style="height:6px;border-radius:3px;background:#eef1ec;width:70%"></div></div>
+<div style="position:absolute;inset-block-start:0;inset-inline-start:6px;width:224px;background:#fff;border:1px solid #e6e9e2;border-radius:16px;box-shadow:0 16px 38px rgba(20,45,33,.14);overflow:hidden">
+<div style="display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #eef1ec;background:#fbfcfa"><span style="width:7px;height:7px;border-radius:50%;background:#e06c5a"></span><span style="width:7px;height:7px;border-radius:50%;background:#d8b56a"></span><span style="width:7px;height:7px;border-radius:50%;background:#259b6f"></span></div>
+<div style="aspect-ratio:16/10;background:linear-gradient(150deg,#123d2f,#1e7355);padding:16px;display:flex;flex-direction:column;justify-content:center;gap:9px"><span style="width:32px;height:3px;border-radius:2px;background:#d8b56a"></span><div style="font-size:15px;font-weight:900;color:#fff;line-height:1.4">الكسور العشرية<br>— الحصة الثالثة</div></div>
+</div>
+<div style="position:absolute;inset-block-end:6px;inset-inline-start:0;display:inline-flex;align-items:center;gap:5px;background:#14261d;color:#fff;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:800;box-shadow:0 6px 16px rgba(20,45,33,.22)"><svg aria-hidden="true" style="width:13px;height:13px;color:#d8b56a;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-download"></use></svg>تحميل فوري</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 14px">
+<sc-for list="{{ heroTrust }}" as="t" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#3b4d43"><svg aria-hidden="true" style="width:15px;height:15px;color:#259b6f;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>{{ t }}</span>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="background:#fff;border-bottom:1px solid #e6e9e2"><div style="display:grid;grid-template-columns:1fr 1fr">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:15px 16px;border-inline-start:1px solid #f0f3ef;border-bottom:1px solid #f0f3ef"><span style="display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:rgba(37,155,111,.10);color:#1e7355;flex:0 0 auto"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span><span style="min-width:0"><b style="display:block;font-size:12.5px;font-weight:800;color:#14261d">{{ f.title }}</b><span style="font-size:11px;color:#5f7167">{{ f.desc }}</span></span></div>
+</sc-for>
+</div></section>
+
+<section style="padding:32px 0 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:0 18px;margin-bottom:14px"><h2 style="margin:0;font-size:21px;font-weight:900;color:#14261d">تسوّق حسب المرحلة</h2><a href="#" style="font-size:12.5px;font-weight:800;color:#1e7355">الكل</a></div>
+<div style="display:flex;gap:12px;overflow-x:auto;padding:2px 18px 8px;scrollbar-width:none">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+<a href="#" style="flex:0 0 auto;width:186px;display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:15px;border:1px solid #e6e9e2;background:#fff"><span style="display:grid;place-items:center;width:42px;height:42px;border-radius:11px;background:{{ s.tint }};color:{{ s.color }}"><svg aria-hidden="true" style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg></span><span><b style="display:block;font-size:15px;font-weight:800;color:#14261d;margin-bottom:2px">{{ s.title }}</b><span style="font-size:12px;color:#5f7167">{{ s.sub }}</span></span><span style="font-size:11.5px;font-weight:700;color:#5f7167;padding-top:10px;border-top:1px solid #f0f3ef">{{ s.count }}</span></a>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:32px 0 0">
+<div style="padding:0 18px;margin-bottom:12px"><h2 style="margin:0 0 12px;font-size:21px;font-weight:900;color:#14261d">منتجات مختارة</h2>
+<div style="display:flex;gap:4px;padding:4px;border-radius:11px;background:#f2f5f2;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="4">
+<button type="button" onClick="{{ tb.onClick }}" style="flex:0 0 auto;min-height:36px;padding:0 15px;border:0;border-radius:8px;font:800 12.5px Tajawal,sans-serif;cursor:pointer;background:{{ tb.bg }};color:{{ tb.fg }};box-shadow:{{ tb.shadow }}">{{ tb.label }}</button>
+</sc-for>
+</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px">
+<sc-for list="{{ featured }}" as="p" hint-placeholder-count="4">
+<dc-import name="TahProductCard" p="{{ p }}" hint-size="100%,330px"></dc-import>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:32px 0 0">
+<div style="padding:0 18px;margin-bottom:12px"><h2 style="margin:0;font-size:21px;font-weight:900;color:#14261d">تسوّق حسب المادة</h2></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px">
+<sc-for list="{{ subjects }}" as="sb" hint-placeholder-count="8">
+<a href="#" style="display:flex;align-items:center;gap:9px;min-height:48px;padding:0 12px;border-radius:11px;border:1px solid #e6e9e2;background:#fbfcfa"><span style="width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:rgba(37,155,111,.10);color:#1e7355;flex:0 0 auto"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ sb.iconRef }}"></use></svg></span><span style="min-width:0"><b style="display:block;font-size:12.5px;font-weight:800;color:#14261d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sb.name }}</b><span style="font-size:10.5px;color:#5f7167">{{ sb.count }} ملف</span></span></a>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:32px 0 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:0 18px;margin-bottom:14px"><h2 style="margin:0;font-size:21px;font-weight:900;color:#14261d">الأكثر مبيعًا</h2><a href="#" style="font-size:12.5px;font-weight:800;color:#1e7355">الكل</a></div>
+<div style="display:flex;flex-direction:column;gap:10px;padding:0 18px">
+<sc-for list="{{ bestsellers }}" as="b" hint-placeholder-count="4">
+<a href="#" style="display:flex;align-items:center;gap:12px;padding:11px;border-radius:14px;border:1px solid #e6e9e2;background:#fff">
+<span style="position:relative;flex:0 0 auto;width:74px;height:74px;border-radius:11px;background:#f2f5f2;display:grid;place-items:center;overflow:hidden"><span style="font:900 20px ui-monospace,Menlo,monospace;color:#5f7167">{{ b.rank }}</span></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:11px;font-weight:700;color:#5f7167;margin-bottom:3px">{{ b.cat }}</span><b style="display:block;font-size:13.5px;font-weight:800;color:#14261d;line-height:1.5;margin-bottom:6px">{{ b.title }}</b><span style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;font-weight:900;color:#14261d">{{ b.price }} <span style="font-size:11px;font-weight:800;color:#5f7167">ر.س</span></span><span style="color:#d8b56a;font-size:11px">★ <span style="color:#5f7167;font-weight:700">{{ b.rating }}</span></span></span></span>
+<span style="flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#1e7355;color:#fff;display:grid;place-items:center"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg></span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:32px 18px 0">
+<div style="position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(140deg,#123d2f,#1e7355);padding:26px">
+<span style="position:absolute;inset-block-start:-60px;inset-inline-start:-40px;width:200px;height:200px;border-radius:50%;background:rgba(216,181,106,.14)"></span>
+<span style="position:relative;display:inline-flex;margin-bottom:12px;padding:4px 11px;border-radius:999px;background:rgba(216,181,106,.2);color:#e6cd93;font-size:11.5px;font-weight:800">ينتهي بعد 4 أيام</span>
+<h3 style="position:relative;margin:0 0 8px;font-size:22px;font-weight:900;color:#fff;line-height:1.4">حزم الفصل الأول — وفّر حتى 40%</h3>
+<p style="position:relative;margin:0 0 18px;font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.8">كل مواد المرحلة، محدّثة على المنهج الحالي، بملف واحد قابل للتعديل.</p>
+<a href="#" style="position:relative;display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:11px;background:#d8b56a;color:#14261d;font-weight:800;font-size:14.5px">تصفّح الحزم</a>
+</div>
+</section>
+
+<section style="padding:32px 18px 0">
+<h2 style="margin:0 0 14px;font-size:21px;font-weight:900;color:#14261d;text-wrap:balance">لماذا يختار 18 ألف معلّم متجرنا؟</h2>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ why }}" as="w" hint-placeholder-count="3">
+<div style="padding:20px;border-radius:14px;border:1px solid #e6e9e2;background:#fff"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font:900 12px ui-monospace,Menlo,monospace;color:#7a5d20">{{ w.n }}</span><span style="flex:1;height:1px;background:#eef1ec"></span></div><b style="display:block;font-size:15.5px;font-weight:900;color:#14261d;margin-bottom:6px">{{ w.title }}</b><p style="margin:0;font-size:13.5px;line-height:1.85;color:#5f7167">{{ w.body }}</p></div>
+</sc-for>
+</div>
+</section>
+
+<div style="padding-inline:18px"><dc-import name="TahHomeReviews" compact="{{ true }}" hint-size="100%,620px"></dc-import></div>
+
+<section style="padding:32px 18px 0">
+<h2 style="margin:0 0 14px;font-size:21px;font-weight:900;color:#14261d">الأسئلة الشائعة</h2>
+<div style="border:1px solid #e6e9e2;border-radius:14px;overflow:hidden;background:#fff">
+<sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+<div style="border-bottom:1px solid #eef1ec">
+<button type="button" onClick="{{ f.onClick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:14px 16px;border:0;background:{{ f.rowBg }};text-align:start;cursor:pointer;font:800 13.5px Tajawal,sans-serif;color:#14261d"><span>{{ f.q }}</span><span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:{{ f.iconBg }};color:{{ f.iconFg }};display:grid;place-items:center;transform:{{ f.iconRotate }}"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><use href="#i-plus"></use></svg></span></button>
+<div style="display:{{ f.bodyDisplay }};padding:0 16px 16px;font-size:13px;line-height:1.9;color:#5f7167">{{ f.a }}</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:32px 18px">
+<div style="position:relative;overflow:hidden;border-radius:18px;background:#14261d;padding:28px 22px">
+<span style="position:absolute;inset-block-end:-100px;inset-inline-start:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(30,115,85,.5),transparent 68%)"></span>
+<h2 style="position:relative;margin:0 0 10px;font-size:24px;font-weight:900;color:#fff;line-height:1.35">جاهز تبدأ فصلك بثقة؟</h2>
+<p style="position:relative;margin:0 0 18px;font-size:14px;line-height:1.85;color:rgba(255,255,255,.68)">اشترك واحصل على ملف تحضير مجاني كل أسبوع.</p>
+<form style="position:relative;display:flex;flex-direction:column;gap:9px"><input type="email" placeholder="بريدك الإلكتروني" style="min-height:48px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;outline:none;color:#fff;font:600 14px Tajawal,sans-serif;padding-inline:16px"><button type="button" style="min-height:48px;border:0;border-radius:12px;background:#d8b56a;color:#14261d;font:800 15px Tajawal,sans-serif;cursor:pointer">اشترك الآن</button></form>
+</div>
+</section>
+
+<footer style="background:#f7f9f6;border-top:1px solid #e6e9e2;padding:28px 18px 22px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg aria-hidden="true" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span><b style="font-size:15.5px;font-weight:900;color:#14261d">التحاضير الحديثة</b></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
+<sc-for list="{{ footerLinks }}" as="l" hint-placeholder-count="8"><a href="#" style="min-height:40px;display:flex;align-items:center;font-size:13px;color:#5f7167">{{ l }}</a></sc-for>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px"><sc-for list="{{ payments }}" as="pm" hint-placeholder-count="5"><span style="padding:5px 10px;border-radius:7px;border:1px solid #e6e9e2;background:#fff;font:700 10px ui-monospace,Menlo,monospace;color:#5f7167">{{ pm }}</span></sc-for></div>
+<div style="font-size:11.5px;color:#5f7167;text-align:center;padding-top:14px;border-top:1px solid #e6e9e2">© 2026 التحاضير الحديثة</div>
+</footer>
+
+<div style="position:sticky;inset-block-end:0;z-index:20;display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.96);border-top:1px solid #e6e9e2;box-shadow:0 -6px 22px rgba(20,45,33,.07);backdrop-filter:blur(8px)">
+<a href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;background:#1e7355;color:#fff;font-weight:800;font-size:14.5px"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-grid"></use></svg>تصفّح المنتجات</a>
+<a href="#" aria-label="واتساب" style="flex:0 0 auto;width:48px;height:48px;border-radius:12px;background:#25d366;color:#fff;display:grid;place-items:center"><svg aria-hidden="true" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-headset"></use></svg></a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 0, faq: 0 };
+
+  renderVals() {
+    const tabLabels = ['الكل', 'ابتدائي', 'متوسط', 'ثانوي'];
+    const tabs = tabLabels.map((label, i) => ({
+      label,
+      onClick: () => this.setState({ tab: i }),
+      bg: this.state.tab === i ? '#fff' : 'transparent',
+      fg: this.state.tab === i ? '#14261d' : '#5f7167',
+      shadow: this.state.tab === i ? '0 1px 3px rgba(20,45,33,.12)' : 'none'
+    }));
+
+    const faqData = [
+      { q: 'كيف أستلم الملفات؟', a: 'فور اكتمال الدفع يظهر رابط التحميل في صفحة الطلب، وتصلك نسخة على بريدك. الروابط تبقى في «حسابي ← تنزيلاتي» دائمًا.' },
+      { q: 'هل الملفات قابلة للتعديل؟', a: 'نعم — معظمها Word و PowerPoint مفتوحة بالكامل. الصيغة موضّحة على كل بطاقة منتج.' },
+      { q: 'هل المحتوى محدّث؟', a: 'تُراجَع كل الملفات مع بداية كل فصل، والتحديث مجاني لمن اشترى النسخة السابقة.' },
+      { q: 'ما سياسة الاسترجاع؟', a: 'استرجاع خلال 7 أيام إذا لم يُحمَّل الملف أو كان مختلفًا عن الوصف.' },
+      { q: 'هل هناك تراخيص للمدارس؟', a: 'نعم، تراخيص وحزم بأسعار خاصة. تواصل معنا عبر واتساب.' }
+    ];
+    const faqs = faqData.map((f, i) => {
+      const open = this.state.faq === i;
+      return { q: f.q, a: f.a, onClick: () => this.setState({ faq: open ? -1 : i }), rowBg: open ? '#fbfcfa' : '#fff', iconBg: open ? '#1e7355' : '#f2f5f2', iconFg: open ? '#fff' : '#5f7167', iconRotate: open ? 'rotate(45deg)' : 'rotate(0deg)', bodyDisplay: open ? 'block' : 'none' };
+    });
+
+    return {
+      tabs, faqs,
+      ann: ['🎁 خصم 20% على تحاضير الفصل الأول', '⚡ تحميل فوري بعد الدفع', '📚 ملفات قابلة للتعديل', '🎁 خصم 20% على تحاضير الفصل الأول'],
+      heroTrust: ['تحميل فوري', 'قابلة للتعديل', 'دعم عربي', 'دفع آمن'],
+      facts: [
+        { title: 'دفع آمن', desc: 'Apple Pay ومدى', iconRef: '#i-shield' },
+        { title: 'تحميل فوري', desc: 'بعد الدفع مباشرة', iconRef: '#i-download' },
+        { title: 'دعم سريع', desc: 'واتساب خلال ساعة', iconRef: '#i-headset' },
+        { title: 'قابلة للتعديل', desc: 'Word و PowerPoint', iconRef: '#i-pen' }
+      ],
+      stages: [
+        { title: 'الابتدائية', sub: 'الصف 1 — 6', count: '١٬٤٢٠ ملف', color: '#7a5d20', tint: 'rgba(216,181,106,.16)', iconRef: '#i-blocks' },
+        { title: 'المتوسطة', sub: 'الصف 7 — 9', count: '٩٨٦ ملف', color: '#1e7355', tint: 'rgba(37,155,111,.13)', iconRef: '#i-book' },
+        { title: 'الثانوية', sub: 'الصف 10 — 12', count: '١٬١٣٠ ملف', color: '#123d2f', tint: 'rgba(18,61,47,.10)', iconRef: '#i-files' },
+        { title: 'الدورات التدريبية', sub: 'طوّر مهاراتك', count: '٦٦٤ ملف', color: '#7a5d20', tint: 'rgba(216,181,106,.16)', iconRef: '#i-cap' }
+      ],
+      featured: [
+        { badge: 'الأكثر رواجًا', badgeBg: '#14261d', cat: 'الابتدائية', title: 'تحضير الرياضيات — الصف الرابع', format: 'PPT', rating: '4.9', reviews: '128', price: '45.00' },
+        { badge: 'جديد', badgeBg: '#1e7355', cat: 'المتوسطة', title: 'أوراق عمل العلوم — الثاني المتوسط', format: 'PDF', rating: '4.8', reviews: '64', price: '30.00' },
+        { badge: 'خصم 25%', badgeBg: '#d8b56a', badgeFg: '#14261d', cat: 'الثانوية', title: 'عرض الكيمياء العضوية كاملًا', format: 'PPT', rating: '5.0', reviews: '212', price: '56.00', was: '75.00' },
+        { badge: 'مميّز', badgeBg: '#1e7355', cat: 'دورات', title: 'حقيبة التعلّم النشط', format: 'Word', rating: '4.7', reviews: '39', price: '120.00' }
+      ],
+      bestsellers: [
+        { rank: '1', cat: 'الابتدائية', title: 'حزمة تحاضير اللغة العربية — الفصل الأول', price: '95.00', rating: '4.9' },
+        { rank: '2', cat: 'المتوسطة', title: 'اختبارات نهائية محلولة — الرياضيات', price: '38.00', rating: '4.8' },
+        { rank: '3', cat: 'وسائل تعليمية', title: 'وسائل صفّية جاهزة — 60 وسيلة', price: '42.00', rating: '4.9' },
+        { rank: '4', cat: 'الثانوية', title: 'عروض الفيزياء — المنهج كاملًا', price: '88.00', rating: '4.7' }
+      ],
+      subjects: [
+        { name: 'الرياضيات', count: '٤٢٠', iconRef: '#i-grid' }, { name: 'العلوم', count: '٣٨٦', iconRef: '#i-globe' },
+        { name: 'اللغة العربية', count: '٥١٢', iconRef: '#i-book' }, { name: 'الإنجليزية', count: '٣٠٤', iconRef: '#i-globe' },
+        { name: 'الدراسات الإسلامية', count: '٢٧٨', iconRef: '#i-files' }, { name: 'الاجتماعيات', count: '١٩٤', iconRef: '#i-globe' },
+        { name: 'الحاسب الآلي', count: '١٦٢', iconRef: '#i-blocks' }, { name: 'التربية الفنية', count: '١٤٨', iconRef: '#i-palette' }
+      ],
+      why: [
+        { n: '01', title: 'يعدّها معلّمون، لا مصمّمون', body: 'كل ملف يمرّ على معلّم ميداني قبل النشر — الصياغة والأهداف مبنية على واقع الحصة.' },
+        { n: '02', title: 'تعديل كامل بلا قيود', body: 'ملفات مفتوحة: غيّر اسمك وشعار مدرستك والمحتوى في دقائق.' },
+        { n: '03', title: 'تحديث مجاني كل فصل', body: 'مع كل تحديث للمنهج تصلك النسخة الجديدة مجانًا في «تنزيلاتي».' }
+      ],
+      reviews: [
+        { quote: 'وفّر عليّ أسبوعًا كاملًا في بداية الفصل. الملفات مرتبة والأهداف توافق نموذج المدرسة تمامًا.', name: 'أ. نورة الحربي', role: 'معلّمة رياضيات', initial: 'ن' },
+        { quote: 'أفضل ما فيه أن كل شيء قابل للتعديل. عدّلت الشعار على 40 ملفًا في أقل من ساعة.', name: 'أ. خالد العتيبي', role: 'وكيل شؤون تعليمية', initial: 'خ' },
+        { quote: 'طلبت مساعدة على واتساب العاشرة مساءً ووصلني الرد خلال دقائق.', name: 'أ. سارة القحطاني', role: 'معلّمة علوم', initial: 'س' }
+      ],
+      footerLinks: ['كل المنتجات', 'العروض الحالية', 'من نحن', 'المدوّنة', 'تواصل معنا', 'الأسئلة الشائعة', 'سياسة الخصوصية', 'سياسة الاسترجاع'],
+      payments: ['mada', 'VISA', 'MC', 'Apple Pay', 'STC Pay']
+    };
+  }
+}
+</script>
+</body>
+</html>

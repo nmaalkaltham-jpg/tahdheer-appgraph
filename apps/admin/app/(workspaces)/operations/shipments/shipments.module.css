@@ -1,0 +1,37 @@
+/*
+UNIT: SHIPMENTS
+COMPONENT: shipments-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sub {
+  margin-block-start: 2px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/*
+ * خليّة النقل.
+ *
+ * حقول الأساسيّات المشتركة ٣٦px و`.btn` ٤٠px، ورفعُ `globals.css` إلى ٤٤px
+ * مشروطٌ بمؤشّرٍ خشن ومُوجَّهٌ إلى جدولٍ ذي صنفٍ عامّ — وجدول القوائم وحدةُ
+ * أنماطٍ مُجزّأة الأصناف فلا يبلغه. فيُرفع هنا: هذه خليّةُ كتابةٍ يُنقر فيها
+ * ثلاثُ عناصر متجاورة، وخطأُ الإصبع فيها ينقل شحنةً إلى حالةٍ لم تُقصد.
+ *
+ * والعرض الأدنى يمنع تكسّر العناصر الثلاثة سلّمًا في عمودٍ ضيّق.
+ */
+.transitionCell {
+  min-inline-size: 22ch;
+}
+
+.transitionCell select,
+.transitionCell input,
+.transitionCell button {
+  min-block-size: 44px;
+}

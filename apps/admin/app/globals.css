@@ -1,0 +1,2276 @@
+/*
+UNIT: GLOBALS
+COMPONENT: layout.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لوحة تشغيل «التحاضير الحديثة» — كروم داكن (MIP §8: #14261d/#0c1411، نص #eaf2ee، لوح #eef0ee).
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة §2.4). الخط: Tajawal — الاستضافة الذاتية
+ * للوزنين 700/900 تملكها حزمة design-system؛ هنا سلسلة الاحتياط فقط.
+ */
+
+/*
+ * ─── رموز اللوحة ───
+ *
+ * محلّيّةٌ للوحة عمدًا ولا تُكتب في `packages/design-system`: المتجر يقرأ تلك
+ * الحزمة، وتغييرُ أخضرها لأجل شريطٍ إداريّ كان سيُعيد صبغ واجهة الزبون.
+ * اللوحة تستهلك رموز الحزمة وتضيف طبقتها فوقها.
+ */
+:root {
+  /*
+   * ألوان الكروم والأساسيّ والحالات لم تعد هنا: كانت قيمًا فاتحةً حرفيّة
+   * (أخضر ‎#3f7f61‎ وأخواته) تُظلّلها طبقة «مركز القيادة» على `<body>` في
+   * كلّ عنصر — فلا يقرؤها شيء، وتُحسب ألوانًا خامّة. مصدرها الآن
+   * `body` (السمة) وطبقة المظهر آخر الملفّ.
+   */
+  --surface: var(--bg);
+  --body: var(--text);
+  --muted: var(--text-muted);
+  --gold: var(--gold-500);
+
+  /* شبكة تباعدٍ على ٤px — تُستعمل بالاسم فلا تتناثر أرقامٌ حرّة. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  /* أدنى ارتفاعٍ لعناصر التحكّم — هدف لمسٍ مقبول على الجوال. */
+  --control-h: 40px;
+  --sidebar-w: 260px;
+  --sidebar-w-mini: 68px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+}
+
+body {
+  /* الخطّ يُحمَّل الآن فعلًا عبر next/font في layout.tsx؛ المتغيّر يشير إليه. */
+  font-family: var(--font-tajawal), 'Tajawal', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: var(--canvas);
+  color: var(--body);
+  line-height: 1.85;
+  min-block-size: 100dvh;
+}
+
+:focus-visible {
+  /* لون الرابط لا الأساسيّ: الذهبيّ الفاتح أساسيّه تعبئةٌ لا تبلغ 3:1 حلقةً. */
+  outline: 2.5px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.admin-shell {
+  display: grid;
+  /* minmax(0,1fr) not a bare 1fr: a bare `1fr` floors at the content's
+     min-content width, so one wide table or code block pushes the whole shell
+     past the viewport instead of scrolling inside its own pane. */
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-block-size: 100dvh;
+}
+
+/* الوضع المصغّر: أيقوناتٌ وحدها. يُعلنه الشريط على الجسم كما يفعل الدرج. */
+body[data-nav-mini='1'] .admin-shell {
+  grid-template-columns: var(--sidebar-w-mini) minmax(0, 1fr);
+}
+
+/* Tablet and below: the fixed rail cannot coexist with the canvas. The rail
+   becomes a horizontally scrollable strip above the content — the whole shell
+   never scrolls sideways. */
+/*
+ * تحت 900px: الشريط **يخرج من التدفّق** ولا يصير كتلة فوق المحتوى.
+ *
+ * قِسته قبل التعديل عند 820px: الشريط بلغ ارتفاعه **703px** ثمّ بدأ محتوى
+ * الصفحة بعده — أي أنّ المستعمل يمرّر شاشةً كاملة من الملاحة قبل أن يرى ما
+ * جاء لأجله. الآن درجٌ منزلق يُفتح من زرّ في الرأس.
+ */
+@media (max-width: 900px) {
+  .admin-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .admin-shell > .sidebar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: min(300px, 86vw);
+    z-index: 60;
+    /* منطقي لا فيزيائي: يخرج من الحافّة التي يدخل منها أيًّا كان الاتجاه. */
+    transform: translateX(var(--drawer-out, 100%));
+    transition: transform 180ms var(--ease-smooth, ease);
+    overflow-y: auto;
+  }
+
+  [dir='rtl'] .admin-shell > .sidebar {
+    --drawer-out: 100%;
+  }
+
+  [dir='ltr'] .admin-shell > .sidebar {
+    --drawer-out: -100%;
+  }
+
+  body[data-drawer='open'] .admin-shell > .sidebar {
+    transform: translateX(0);
+  }
+
+  /* الغشاء يغلق بالنقر خارجه، ويمنع تمرير ما تحته. */
+  body[data-drawer='open']::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    /* لون الغشاء من السمة: أخضرٌ محفور كان يبقى أخضر في السمة الفاتحة. */
+    background: var(--cc-overlay, rgba(20, 38, 29, 0.45));
+    backdrop-filter: blur(2px);
+  }
+
+  body[data-drawer='open'] {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .admin-shell > .sidebar {
+      transition: none;
+    }
+  }
+
+  .sidebar {
+    border-inline-end: 0;
+    padding-block: var(--sp-4);
+    padding-inline: var(--sp-3);
+  }
+
+  /* الدرج كامل العرض أصلًا: التصغير لا معنى له، فلا يُطبَّق ولو كان محفوظًا. */
+  body[data-nav-mini='1'] .admin-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body[data-nav-mini='1'] .sidebar {
+    padding-inline: var(--sp-3);
+  }
+}
+
+/* ───── الشريط الجانبي ───── */
+/*
+ * الهندسة وحدها هنا؛ مظهر الشجرة في `components/sidebar.module.css`.
+ * السبب أنّ الدرج تحت 900px يستهدف `.admin-shell > .sidebar` من هذا الملفّ،
+ * فاسم الصنف يبقى عامًّا بينما يبقى كلّ ما عداه محصورًا في وحدته.
+ */
+.sidebar {
+  background: var(--chrome);
+  color: var(--chrome-text);
+  padding-block: var(--sp-4);
+  padding-inline: var(--sp-3);
+  border-inline-end: 1px solid var(--chrome-deep);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+body[data-nav-mini='1'] .sidebar {
+  padding-inline: var(--sp-2);
+}
+
+/* ───── لوح المحتوى ───── */
+/*
+ * العمود الرئيسي يملأ ما تبقّى — بلا حدّ عرض وبلا تمرير أفقي.
+ *
+ * قِسته قبل التعديل على شاشة 1920: الشريط 260px والعمود يقف عند 1200px،
+ * فتبقى **فجوة يسارية ~460px** بلا محتوى ولا سبب. والحدّ لم يكن يخدم
+ * القراءة أصلًا: الجداول ولوحات القياس والاستوديوهات تريد كل بكسل، والنماذج
+ * وحدها تريد سطرًا مقروءًا — وهذا قرارُ **محتوى** يُتّخذ في `PageFrame` لا
+ * قرارُ قشرة يُفرض على الجميع.
+ *
+ * و`overflow-x` أُزيلت من هنا: عمودٌ يمرّر أفقيًّا يخفي أنّ جدولًا بداخله هو
+ * الفائض، فيُمرَّر المحتوى كلّه بدل الجدول وحده. التمرير الأفقي مسؤولية
+ * الحاوية الفائضة نفسها (جدول · مخطّط · شريط تبويبات).
+ *
+ * وهذا الوعد بقي بلا حاوية تفي به؛ الوفاء الآن في قسم «الجداول» أدناه
+ * (`.table-scroll` وشبكة الأمان `‎.canvas :has(> table)‎`).
+ */
+.canvas {
+  min-inline-size: 0; /* a grid child must be allowed to shrink below its content */
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+}
+
+/* الحشو انتقل إلى إطار المحتوى — الرأس والتبويبات لاصقان بلا حشو حولهما. */
+/* الحشو يتبع الكثافة: «مضغوط» يستردّ ١٦px من عرض كلّ جدول و١٦px من ارتفاعه. */
+.canvas > .page-body {
+  flex: 1;
+  min-block-size: 0;
+  padding-block: var(--d-page-y, 20px) calc(var(--d-page-y, 20px) + 12px);
+  padding-inline: var(--d-page-x, 20px);
+}
+
+.crumbs {
+  font-size: 12px;
+  color: var(--muted);
+  margin-block-end: 8px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-block: 0 16px;
+}
+
+/* ───── بطاقات الحالة الصادقة ───── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card .value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin-block: 4px;
+}
+
+.card .state {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--warning-text);
+  background: var(--warning-bg);
+  border-radius: 999px;
+  padding-block: 2px;
+  padding-inline: 8px;
+}
+
+.card .api {
+  display: block;
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-block-start: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ───── حالة فراغ مساحة العمل ───── */
+.empty-state {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  padding-block: 32px;
+  padding-inline: 24px;
+  text-align: center;
+  max-inline-size: 560px;
+}
+
+.empty-state .empty-title {
+  font-weight: 800;
+  color: var(--ink);
+  margin-block: 0 8px;
+}
+
+.empty-state p {
+  margin-block: 0 8px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.empty-state code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--cc-link);
+  background: var(--primary-soft);
+  border-radius: 6px;
+  padding-block: 2px;
+  padding-inline: 6px;
+}
+
+.page-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-block-start: 16px;
+}
+
+/* ───── عناصر مشتركة: أزرار وحقول ───── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 13.5px;
+  min-block-size: 40px;
+  padding-block: 8px;
+  padding-inline: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--body);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding-block: 9px;
+  padding-inline: 12px;
+  min-block-size: 40px;
+  inline-size: 100%;
+}
+
+.field textarea {
+  min-block-size: 120px;
+  resize: vertical;
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled {
+  background: var(--cc-hair, var(--bg-2));
+  color: var(--muted);
+}
+
+.field-inline {
+  min-inline-size: 180px;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+fieldset.field {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding-block: 12px;
+  padding-inline: 12px;
+}
+
+fieldset.field legend {
+  font-weight: 800;
+  padding-inline: 6px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin-block: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.form-grid h2 {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-error {
+  background: var(--state-danger-soft);
+  border: 1px solid color-mix(in srgb, var(--state-danger) 40%, transparent);
+  border-radius: var(--radius-md);
+  color: var(--state-danger);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding-block: 10px;
+  padding-inline: 12px;
+}
+
+/* ───── الرأس والألواح ───── */
+.page-head {
+  margin-block-end: 8px;
+}
+
+.page-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding-block: 20px;
+  padding-inline: 20px;
+  margin-block-start: 24px;
+}
+
+.panel h2 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-block: 0 12px;
+}
+
+.panel h3 {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-block: 20px 8px;
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block-end: 8px;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ───── الجداول ───── */
+/*
+ * الحاوية الفائضة التي وعد بها تعليق `.canvas` — لم تكن موجودة.
+ *
+ * قِيس في 2026-09-10: ٤٢ ملفًّا تحت `apps/admin` يرسم `<table>`، اثنان فقط
+ * يلفّان جدولهما بطوق تمرير خاصّ (`navigation/views.tsx` و
+ * `analytics/_shared/cohort-grid.tsx`)، والأربعون الباقية بلا شيء: لا صنف
+ * `.table-scroll` كان في هذا الملف، ولا `.data-table` ولا `.table` يملك
+ * `overflow`، ولا واحدٌ من استعلامَي العرض الوحيدين هنا يمسّ جدولًا.
+ * فعلى عرض 390px يدفع جدولٌ عريض (‎/payments‎ ثلاثة جداول أعرضها سبعة أعمدة
+ * نصّيّة) **الوثيقةَ كلَّها** جانبًا: يزحف الرأس والشريط مع الجدول، ويصير
+ * المُمرَّر هو المستند لا الجدول — عينُ العطب الذي كُتب تعليق `.canvas` لمنعه.
+ *
+ * العلاج طبقتان، والأولى وحدها كاملة:
+ *
+ * (١) `.table-scroll` — الطوق المعلن، على نمط
+ *     `apps/storefront/app/policies/[type]/page.module.css:211`. وهو وحده
+ *     يصلح **منطقةَ بلوغٍ بلوحة المفاتيح**، لأنّ ذلك ترميزٌ لا نمط: على الصفحة
+ *     أن تكتب `<div className="table-scroll" tabIndex={0} role="region" aria-label="…">`
+ *     حول الجدول. (كروم لا يبئّر منطقة تمرير من تلقائه، فايرفكس يبئّرها.)
+ *
+ * (٢) شبكة أمان بلا تعديل ترميز: كلّ عنصر داخل `.canvas` أبوه المباشر جدولٌ
+ *     يصير هو المُمرِّر. تحبس الفيضان في أقرب حاوية للجدول بدل المستند، وهي
+ *     أضعف من (١): قد تجرّ شريط المرشّحات المجاور مع الجدول، ولا تمنح تبئيرًا
+ *     لجدولٍ خالٍ من الروابط. جسرٌ حتّى تتبنّى الصفحات (١)، لا بديلٌ عنها.
+ *
+ * الصفحات التي عليها تبنّي `.table-scroll` — سطرٌ واحد حول كلّ `<table>` —
+ * تحت `apps/admin/` (لا تُعدَّل من هذا الملف):
+ *   app/(workspaces)/analytics/_tabs/{abandoned,contract,purchase-funnel,search-funnel,sources}.tsx
+ *   app/(workspaces)/analytics/os/assets/page.tsx
+ *   app/(workspaces)/crawl/page.tsx
+ *   app/(workspaces)/customers/page.tsx · customers/[id]/page.tsx
+ *   app/(workspaces)/demand/page.tsx · growth/page.tsx · media/asset-library.tsx
+ *   app/(workspaces)/navigation/page.tsx
+ *   app/(workspaces)/orders/page.tsx · orders/[id]/page.tsx
+ *   app/(workspaces)/payments/page.tsx · performance/page.tsx · promotions/page.tsx
+ *   app/(workspaces)/search/_screens/internal-data.tsx
+ *   app/(workspaces)/seo/_section-content-products.tsx · seo/_section-search-index.tsx
+ *   app/(workspaces)/seo/international/opportunities/page.tsx
+ *   app/(workspaces)/seo/international/preview/_inherit-table.tsx
+ *   app/(workspaces)/settings/page.tsx · settings/users/page.tsx
+ *   app/(workspaces)/studio/catalog/page.tsx
+ *   app/(workspaces)/studio/catalog/[id]/studio-client.tsx · wired-panels.tsx
+ *   app/(workspaces)/studio/catalog/[id]/layout/composer-client.tsx
+ *   app/(workspaces)/system/page.tsx · system/architecture.tsx
+ *   components/settings/PaymentProviderPanel.tsx
+ *   components/ai/ai-usage-panel.tsx · components/ai/ai-request-log.tsx
+ */
+.table-scroll,
+.canvas :has(> table) {
+  overflow-x: auto;
+  /* التمرير يقف عند حافّة الجدول ولا يُسلَّم إلى المستند ولا إلى إيماءة الرجوع. */
+  overscroll-behavior-inline: contain;
+}
+
+.table-scroll {
+  max-inline-size: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+/* الطوق هو الحدّ الآن، فهامش الجدول العلويّ يسقط داخله. */
+.table-scroll > .data-table {
+  margin-block-start: 0;
+}
+
+/* حلقة التبئير من `:focus-visible` العامّة؛ تُزاح للداخل كي لا يقصّها الطوق. */
+.table-scroll:focus-visible {
+  outline-offset: -2px;
+}
+
+.data-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-block-start: 8px;
+}
+
+.data-table caption {
+  text-align: start;
+}
+
+/* حشو الخليّة يتبع الكثافة — وهو ما يُترجَم «صفوفًا أكثر في الشاشة». */
+.data-table th,
+.data-table td {
+  text-align: start;
+  padding-block: var(--d-cell-y, 10px);
+  padding-inline: 12px;
+  border-block-end: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.data-table tbody th {
+  font-weight: 700;
+  color: var(--body);
+}
+
+.data-table a {
+  color: var(--cc-link);
+  font-weight: 700;
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/*
+ * إصبعٌ على جدولٍ يُمرَّر: الهدف الأصغر في اللوحة هو رابط الخليّة (سطرٌ بارتفاع
+ * السطر ~25px) و`.btn` (40px) — كلاهما دون 44px. المؤشّر الخشن وحده يرفعهما،
+ * فلا يتضخّم الجدول تحت الفأرة. و`inline-flex` لازم: الارتفاع الأدنى لا يمسّ
+ * صندوقًا سطريًّا.
+ */
+@media (pointer: coarse) {
+  .data-table td a,
+  .data-table td button,
+  .table td a,
+  .table td button,
+  .row-actions > * {
+    min-block-size: 44px;
+  }
+
+  .data-table td a,
+  .table td a {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* رابط الصف إلى صفحة المنتج العامة — للمنشور فقط. */
+
+.empty-cell {
+  text-align: center;
+  color: var(--muted);
+  padding-block: 28px;
+}
+
+.absent {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* ───── الشارات ───── */
+.chip {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 800;
+  border-radius: 999px;
+  padding-block: 3px;
+  padding-inline: 10px;
+  background: var(--bg-2);
+  color: var(--text-secondary);
+}
+
+/* ───── حالات صريحة ───── */
+.state-line {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-block: 16px;
+}
+
+.state-error {
+  background: var(--state-danger-soft);
+  border: 1px solid color-mix(in srgb, var(--state-danger) 40%, transparent);
+  border-radius: var(--radius-card);
+  color: var(--state-danger);
+  font-size: 13.5px;
+  padding-block: 14px;
+  padding-inline: 16px;
+  margin-block: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.state-error p {
+  margin-block: 0;
+}
+
+.state-ok {
+  background: var(--state-success-soft);
+  border: 1px solid color-mix(in srgb, var(--state-success) 40%, transparent);
+  border-radius: var(--radius-card);
+  color: var(--state-success);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding-block: 12px;
+  padding-inline: 16px;
+  margin-block: 16px;
+}
+
+.boot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 100dvh;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.boot-error {
+  flex-direction: column;
+  gap: 8px;
+  color: var(--state-danger);
+}
+
+/* ───── قائمة الجاهزية ───── */
+.checklist {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13.5px;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checklist .todo {
+  color: var(--state-danger);
+  font-weight: 700;
+}
+
+.permission-list {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.permission-list li {
+  background: var(--bg-2);
+  border-radius: var(--radius-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding-block: 4px;
+  padding-inline: 10px;
+}
+
+/* ───── بطاقات مقيسة وغير مُهيأة ───── */
+.card .value {
+  color: var(--ink);
+}
+
+.card .value-absent {
+  color: var(--muted);
+}
+
+.card-reason {
+  font-size: 12px;
+  color: var(--muted);
+  margin-block: 8px 0;
+}
+
+/* ───── الشريط الجانبي: بطاقة الجلسة ───── */
+
+/* جسر اللوحة إلى المتجر العام. السهم زخرفي، ونصّ «تبويب جديد» للقارئ الصوتي. */
+
+/* ───── صفحة الدخول ───── */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 100dvh;
+  background: var(--chrome);
+  padding-block: 32px;
+  padding-inline: 16px;
+}
+
+.login-card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding-block: 32px;
+  padding-inline: 28px;
+  inline-size: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--e-4);
+}
+
+.login-brand strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.login-brand small {
+  color: var(--cc-link);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.login-title {
+  font-size: 20px;
+  margin-block: 0;
+}
+
+.login-note {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-block: 0;
+}
+
+.refund-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  align-items: end;
+  margin-block-start: 16px;
+  border-block-start: 1px solid var(--border);
+  padding-block-start: 16px;
+}
+
+.refund-form h3 {
+  grid-column: 1 / -1;
+  margin-block: 0;
+}
+
+.refund-form .form-error {
+  grid-column: 1 / -1;
+}
+
+/* ───── مساعد الوصول ───── */
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding-block: 0;
+  padding-inline: 0;
+  margin-block: -1px;
+  margin-inline: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/*
+ * تقليل الحركة: القاعدة الكاملة تعيش في packages/design-system/src/tokens.css
+ * الذي يستورده التخطيط الآن. كانت هنا نسخة مُضعَّفة تستهدف * وحدها بلا
+ * ::before/::after وبلا scroll-behavior، فتترك الحركات الزائفة والتمرير
+ * السلس يعملان لمن طلب إيقافهما. نسخة واحدة أصدق من نسختين متباعدتين.
+ */
+
+/* ───── استوديو المنتج ───── */
+
+/*
+ * التبويبات: زرّ حقيقي داخل role="tablist"، لا رابط ولا div. المؤشّر خطّ
+ * سفلي مع لون وسُمك — اللون وحده لا يصل من يميّز الألوان بصعوبة.
+ */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-block-end: 1px solid var(--border);
+  margin-block-end: 16px;
+}
+
+.tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-block-end: 3px solid transparent;
+  padding-block: 10px;
+  padding-inline: 14px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.tab-active {
+  color: var(--cc-link);
+  border-block-end-color: var(--primary);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-inset {
+  margin-block-start: 0;
+  background: var(--canvas);
+}
+
+.panel-inset h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-block: 0 10px;
+}
+
+/* شبكة الصور: minmax(0,…) لا 1fr المجرّدة — الأخيرة لا تنكمش دون المحتوى. */
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: start;
+  padding-block: 10px;
+  padding-inline: 8px;
+  border-block-end: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.table th {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.pairs {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px 16px;
+  margin: 0;
+}
+
+.pairs dt {
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.pairs dd {
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.inline-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/*
+ * Tab في الاستوديو يخفي ملاحة اللوحة أيضًا (STORE VISUAL STUDIO §33، §10).
+ *
+ * لماذا هنا لا في وحدة الاستوديو: الشريط ملك القشرة، وشبكتها معرَّفة في هذا
+ * الملف. وحدةُ CSS داخل الاستوديو لا تبلغ `.admin-shell` أصلًا (الأصناف
+ * مُجزّأة)، فمحاولةُ إخفائه من هناك تفشل صامتةً.
+ *
+ * العَلَم على `<body>` لا على القشرة: المحرّر يعيش داخلها، فلا مرجع له إليها.
+ * والإخفاء `display: none` لا عرضٌ صفري — الشريط المخفيّ يجب أن يخرج من
+ * شجرة الوصولية كذلك.
+ */
+body[data-studio-chrome='hidden'] .admin-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body[data-studio-chrome='hidden'] .admin-shell > .sidebar {
+  display: none;
+}
+
+/* ═════════ شريط مؤشّرات وأدوات القوائم (اتّجاه 1a) ═════════ */
+
+/*
+ * شريط المؤشّرات يملأ العرض بـ`auto-fit` لا بعدد ثابت: عدد البطاقات يختلف
+ * بين شاشة وأخرى، وعددٌ مثبَّت يترك مسارًا فارغًا على الأوسع ويزحم الأضيق.
+ *
+ * وما يُعرض فيه **مقيَّد بما يعرفه العميل فعلًا**: الفهرس يُعيد `data` و`meta`
+ * بلا مجاميع، فلا «إيراد اليوم» ولا «طلبات اليوم» — تلك تحتاج نقطة نهاية
+ * تجميع لا تخمينًا. وكل بطاقة تقول نطاقها في تسميتها («هذه الصفحة») كي لا
+ * يُقرأ رقمُ صفحةٍ على أنّه رقم المتجر.
+ */
+.list-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-block-end: 14px;
+}
+
+.list-stat {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  min-inline-size: 0;
+}
+
+.list-stat dt {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.list-stat dd {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.list-stat .list-stat-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/*
+ * صفّ الأدوات يمتدّ بالعرض كلّه: المرشِّحات في البداية والعدّاد في النهاية.
+ * قِسته قبل التعديل: المرشِّحات تشغل ~٤٠٪ وتترك ~٩٥٠px فارغة على 1920.
+ */
+.list-toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-block-end: 12px;
+}
+
+/*
+ * ملاحظات المشغّلين.
+ *
+ * قائمة لا جدول: الملاحظة نصٌّ حرّ متغيّر الطول، وحشرُها في خليّة يجعل الصفّ
+ * يتمدّد فتنكسر محاذاة بقيّة الأعمدة. والخصائص منطقية فينعكس الشريط الجانبي
+ * مع اتجاه المستند وحده.
+ */
+.notes-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.note {
+  border-inline-start: 3px solid var(--border, #e4e4e7);
+  padding-inline-start: 12px;
+}
+.note-body {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.note-meta {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted, #6b7280);
+}
+
+/*
+ * زرّ بمظهر رابط — إجراء داخل سطر نصّي.
+ *
+ * `<button>` لا `<a>`: هذه أفعال (تعديل، حذف) لا وجهات. ورابطٌ بلا `href`
+ * يسقط من ترتيب التركيز ولا يستجيب لمفتاح المسافة — فيبدو صحيحًا للعين
+ * ومكسورًا للوحة المفاتيح.
+ */
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--link, #1d4ed8);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link-button:disabled { cursor: default; opacity: 0.6; }
+
+/*
+ * ذيل القائمة — العدّاد في طرف والتصدير في الطرف الآخر.
+ *
+ * كان العدّاد سطرًا وحده تحت الجدول وبقيّة العرض فارغة؛ ووضع زرّ التصدير
+ * فوق الجدول كان سيزحم شريط المرشِّحات. والخصائص منطقية: الطرفان ينعكسان
+ * مع اتجاه المستند بلا قاعدة ثانية للإنجليزية.
+ */
+.list-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.list-foot .page-note { margin: 0; }
+
+.export-csv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* رسالة الفشل تلي الزرّ في السطر نفسه ما اتّسع، وتنزل تحته إن ضاق. */
+.export-csv-error {
+  color: var(--danger, #b42318);
+  font-size: 13px;
+}
+
+.list-toolbar-end {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/*
+ * بطاقة تستدعي قرارًا (رسائل الموتى مثلًا). الحدّ وحده يميّزها — لا لون
+ * خلفية صارخ يحوّل لوحةً تشغيليّة إلى إنذار دائم.
+ */
+
+/*
+ * حمولة حدث بوّابة — نصّ آليّ يُقرأ لا يُحرَّر. الاتّجاه LTR دائمًا (JSON
+ * لاتينيّ)، والالتفاف مسموح كي لا يُخرج مفتاحٌ طويل الجدول عن عرضه.
+ */
+.code-block {
+  margin: 0;
+  max-inline-size: 46ch;
+  max-block-size: 14rem;
+  overflow: auto;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-mist, var(--bg-soft));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ═════ التصاميم الخمسة — تخطيط اللوحة ═════ */
+/*
+ * القيمة الواحدة `data-admin-layout` على الجسم تُبدّل الشكل كلّه.
+ *
+ * خمس قشراتٍ في خمسة ملفّات تتباعد بعد أوّل تعديل: تُضاف شارةٌ إلى إحداها
+ * وتُنسى الأربع، فيصير «التصميم الثاني» نسخةً قديمة من الأوّل لا خيارًا
+ * عنه. وكلّ ما يختلف بينها مكتوبٌ هنا وحده — البنية والترميز واحد.
+ *
+ * والافتراض (`sidebar`) هو ما تصفه القواعد أعلاه، فلا يحتاج كتلةً خاصّة.
+ */
+
+/* ───── ٢ · شريط مصغّر ───── */
+body[data-admin-layout='rail'] .admin-shell {
+  grid-template-columns: var(--sidebar-w-mini) minmax(0, 1fr);
+}
+
+body[data-admin-layout='rail'] .sidebar {
+  padding-inline: var(--sp-2);
+}
+
+/* ───── ٣ · تنقّل علويّ ───── */
+/*
+ * الشريط يستلقي فوق المحتوى. والارتفاع هو المكسب: شاشةٌ عريضة قصيرة
+ * (لابتوب ١٣ بوصة) تُعطي الجدول صفوفًا أكثر حين لا يأكل الشريط عرضها.
+ */
+body[data-admin-layout='topbar'] .admin-shell {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+body[data-admin-layout='topbar'] .sidebar {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block: var(--sp-2);
+  padding-inline: var(--sp-4);
+  border-inline-end: 0;
+  border-block-end: 1px solid var(--chrome-deep);
+  /* الصفّ يمرّر أفقيًّا ولا يلتفّ: الالتفاف يُعيد الطول الذي جاء ليوفّره. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+}
+
+body[data-admin-layout='topbar'] .sidebar > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3);
+  block-size: auto;
+  inline-size: max-content;
+}
+
+/* المجموعات صفٌّ واحد، وعناوينها تُطوى — لا مكان لسطرين في شريطٍ ارتفاعُه ٥٦px. */
+body[data-admin-layout='topbar'] .sidebar nav {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-2);
+  overflow: visible;
+  padding-block-end: 0;
+}
+
+body[data-admin-layout='topbar'] .sidebar nav > div {
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+
+body[data-admin-layout='topbar'] .sidebar nav ul {
+  flex-direction: row;
+  gap: 2px;
+  margin-block: 0;
+}
+
+/* ───── ٤ · عمودان ───── */
+body[data-admin-layout='split'] .admin-shell {
+  grid-template-columns: 218px minmax(0, 1fr);
+}
+
+/* ───── ٥ · تركيز ───── */
+/*
+ * بلا شريطٍ دائم: الملاحة من زرّ القائمة كما في الجوال. والمكسب أنّ
+ * المحتوى يأخذ العرض كلّه — تُفتح لتحرير صفحةٍ أو قراءة جدولٍ عريض.
+ */
+body[data-admin-layout='focus'] .admin-shell {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body[data-admin-layout='focus'] .admin-shell > .sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: min(300px, 86vw);
+  z-index: 60;
+  transform: translateX(var(--drawer-out, 100%));
+  transition: transform 180ms var(--ease-smooth, ease);
+  overflow-y: auto;
+}
+
+[dir='rtl'] body[data-admin-layout='focus'] .admin-shell > .sidebar {
+  --drawer-out: 100%;
+}
+
+[dir='ltr'] body[data-admin-layout='focus'] .admin-shell > .sidebar {
+  --drawer-out: -100%;
+}
+
+body[data-admin-layout='focus'][data-drawer='open'] .admin-shell > .sidebar {
+  transform: translateX(0);
+}
+
+/* زرّ القائمة يظهر في «تركيز» على كلّ المقاسات — وإلّا لا سبيل إلى الملاحة. */
+body[data-admin-layout='focus'] [data-menu-button] {
+  display: inline-flex;
+}
+
+/*
+ * وغشاءٌ فوق 900px أيضًا — كان معرَّفًا للجوّال وحده.
+ *
+ * في «تركيز» الدرجُ يطفو على المكتب كذلك، واللوح تحته صار `inert` ما دام
+ * مفتوحًا. وسطحٌ مشلولٌ بلا غشاء يكذب على العين: يبدو قابلًا للنقر ولا
+ * يستجيب — والغشاء هو ما يقول «هذا محجوب» قبل أن يجرّبه أحد.
+ */
+@media (min-width: 901px) {
+  body[data-admin-layout='focus'][data-drawer='open']::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--cc-overlay, rgba(20, 38, 29, 0.45));
+    backdrop-filter: blur(2px);
+  }
+
+  body[data-admin-layout='focus'][data-drawer='open'] {
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-admin-layout='focus'] .admin-shell > .sidebar {
+    transition: none;
+  }
+}
+
+/*
+ * تحت 900px: الدرج يحكم أيًّا كان التخطيط.
+ *
+ * تخطيطٌ عريض على شاشةٍ ضيّقة ليس خيارًا بل عطل — و«علويّ» على ٣٩٠px يصير
+ * شريطًا يمرّر أفقيًّا فوق كلّ صفحة.
+ */
+@media (max-width: 900px) {
+  body[data-admin-layout] .admin-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  body[data-admin-layout='topbar'] .sidebar {
+    flex-direction: column;
+    align-items: stretch;
+    border-block-end: 0;
+    overflow-x: visible;
+  }
+
+  body[data-admin-layout='topbar'] .sidebar > div,
+  body[data-admin-layout='topbar'] .sidebar nav,
+  body[data-admin-layout='topbar'] .sidebar nav > div,
+  body[data-admin-layout='topbar'] .sidebar nav ul {
+    flex-direction: column;
+    inline-size: auto;
+    align-items: stretch;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * طبقة «مركز القيادة» — Tahdheer Admin - All Screens.dc.html
+ *
+ * سطحٌ زجاجيّ واحد لكلّ الشاشات: الرموز الدلاليّة (--bg · --surface ·
+ * --text · --border · --primary · --state-*) تُعاد صياغتها هنا من رموز
+ * `--cc-*` فتتبدّل الشاشات الثماني والستّون معًا بلا لمس صفحةٍ واحدة.
+ * السمة تُعلَن على `<body data-theme>` من `useAdminTheme`، والداكن افتراضيّ.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+body {
+  --cc-bg0: var(--cc-dark-bg0);
+  --cc-bg1: var(--cc-dark-bg1);
+  --cc-surface: var(--cc-dark-surface);
+  --cc-text: var(--cc-dark-text);
+  --cc-muted: var(--cc-dark-muted);
+  --cc-mesh: var(--cc-dark-mesh);
+  --cc-glass: var(--cc-dark-glass);
+  --cc-glass-top: var(--cc-dark-glass-top);
+  --cc-edge: var(--cc-dark-edge);
+  --cc-edge-strong: var(--cc-dark-edge-strong);
+  --cc-hair: var(--cc-dark-hair);
+  --cc-well: var(--cc-dark-well);
+  --cc-rail: var(--cc-dark-rail);
+  --cc-bar: var(--cc-dark-bar);
+  --cc-tip: var(--cc-dark-tip);
+  --cc-kbd: var(--cc-dark-kbd);
+  --cc-shadow: var(--cc-dark-shadow);
+  --cc-overlay: var(--cc-dark-overlay);
+  --cc-primary: var(--cc-primary-dark);
+  --cc-primary-2: var(--cc-primary-2-dark);
+  --cc-link: var(--cc-link-dark);
+  --cc-grad: linear-gradient(135deg, var(--cc-primary), var(--cc-primary-2));
+  --cc-success: var(--cc-emerald-text);
+  --cc-warning: var(--cc-orange-text);
+  --cc-danger: var(--cc-red-text);
+  --cc-info: var(--cc-blue-text);
+
+  /* ── إعادة صياغة الرموز الدلاليّة ── */
+  --bg: var(--cc-bg1);
+  --bg-page: var(--cc-bg0);
+  --bg-2: var(--cc-well);
+  --bg-soft: var(--cc-well);
+  --bg-mist: var(--cc-well);
+  --bg-green-light: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  --canvas: var(--cc-bg0);
+  /*
+   * السطح مُعتِمٌ دائمًا — لا زجاجيّ.
+   *
+   * ١٤٠ قاعدة تقرأ `--surface`، وفيها ألواحُ الحوارات والقوائم المنسدلة:
+   * سطحٌ شفّاف هناك يجعل النصّ يتراكب مع الصفحة تحته فلا يُقرأ حرفٌ واحد
+   * (وقع فعلًا في «عقد النشر الذرّي»). الزجاج يُطلب باسمه `--cc-glass` في
+   * البطاقات والألواح التي تريده.
+   */
+  --surface: var(--cc-bg1);
+  --ink: var(--cc-text);
+  --text: var(--cc-text);
+  --text-secondary: color-mix(in srgb, var(--cc-text) 78%, var(--cc-muted));
+  --text-muted: var(--cc-muted);
+  --body: var(--cc-text);
+  --muted: var(--cc-muted);
+  --border: var(--cc-edge);
+  --border-hairline: var(--cc-hair);
+  --border-strong: var(--cc-edge-strong);
+  --border-hairline-card: var(--cc-hair);
+  --border-card-hover: var(--cc-edge-strong);
+  --primary: var(--cc-primary);
+  --primary-strong: var(--cc-link);
+  --primary-soft: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  --primary-onchrome: var(--cc-link);
+  --accent: var(--cc-primary);
+  --green-700: var(--cc-primary);
+  --state-success: var(--cc-success);
+  --state-success-soft: color-mix(in srgb, var(--cc-emerald) 14%, transparent);
+  --state-warning: var(--cc-warning);
+  --state-warning-soft: color-mix(in srgb, var(--cc-orange) 14%, transparent);
+  --state-danger: var(--cc-danger);
+  --state-danger-soft: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --state-info: var(--cc-info);
+  --state-info-soft: color-mix(in srgb, var(--cc-blue) 14%, transparent);
+  /* رقاقات الحزمة ذات القيم الفاتحة الحرفيّة — تُعاد صياغتها فتقرأها الأنماط المضمَّنة في كلّ سمة. */
+  --success-chip-fg: var(--cc-success);
+  --success-chip-bg: color-mix(in srgb, var(--cc-emerald) 14%, transparent);
+  --warning-text: var(--cc-warning);
+  --warning-bg: color-mix(in srgb, var(--cc-amber) 14%, transparent);
+  --danger-text: var(--cc-danger);
+  --info: var(--cc-info);
+  --info-bg: color-mix(in srgb, var(--cc-blue) 14%, transparent);
+  --ai: var(--cc-violet-text);
+  --ai-bg: color-mix(in srgb, var(--cc-violet) 14%, transparent);
+  --gold-text: var(--gold-light);
+  --border-neutral: var(--cc-edge);
+  --border-mist: var(--cc-hair);
+  --border-mid: var(--cc-edge);
+  --border-muted: var(--cc-edge);
+  --border-field: var(--cc-edge);
+  --border-dashed: var(--cc-edge-strong);
+  --border-row-hover: var(--cc-edge);
+  --bg-row-hover: var(--cc-well);
+  /* رموز الحزمة الخاصّة بصفحات الظهور والبحث — قيمٌ فاتحة حرفيّة تُعاد صياغتها هنا لكلّ سمة. */
+  --danger-bg: color-mix(in srgb, var(--cc-red) 12%, transparent);
+  --danger-strong: var(--cc-danger);
+  --on-accent: var(--cc-on-tone);
+  --tint-danger-08: color-mix(in srgb, var(--cc-red) 8%, transparent);
+  --tint-gold-07: color-mix(in srgb, var(--gold-500) 7%, transparent);
+  --tint-green-06: color-mix(in srgb, var(--cc-emerald) 6%, transparent);
+  --tint-green-12: color-mix(in srgb, var(--cc-emerald) 12%, transparent);
+  --intl-bg-head: var(--cc-well);
+  --intl-bg-mint: color-mix(in srgb, var(--cc-emerald) 8%, transparent);
+  --intl-bg-row: var(--cc-well);
+  --intl-body: var(--cc-text);
+  --intl-body-2: var(--text-secondary);
+  --intl-border-mint: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --intl-border-row: var(--cc-hair);
+  --intl-border-soft: var(--cc-edge);
+  --intl-chrome-light: var(--cc-text);
+  --intl-code-mint: var(--cc-link);
+  --intl-danger-border-20: color-mix(in srgb, var(--cc-red) 20%, transparent);
+  --intl-danger-border-24: color-mix(in srgb, var(--cc-red) 24%, transparent);
+  --intl-danger-border-28: color-mix(in srgb, var(--cc-red) 28%, transparent);
+  --intl-danger-chip: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --intl-danger-text: var(--cc-danger);
+  --intl-dim: var(--cc-muted);
+  --intl-edge: var(--cc-edge);
+  --intl-gate-tint: var(--cc-well);
+  --intl-gold-bg: color-mix(in srgb, var(--gold-500) 16%, transparent);
+  --intl-gold-edge: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  --intl-gold-text: var(--gold-text);
+  --intl-green-edge: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --intl-locked-bg: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --intl-locked-fg: var(--cc-danger);
+  --intl-muted: var(--cc-muted);
+  --intl-neutral-chip: var(--cc-well);
+  --intl-row-active: color-mix(in srgb, var(--cc-emerald) 8%, transparent);
+  --intl-rule: var(--cc-hair);
+  --intl-tint-danger-12: color-mix(in srgb, var(--cc-red) 12%, transparent);
+  --intl-tint-gold-20: color-mix(in srgb, var(--gold-500) 20%, transparent);
+  --intl-tint-gold-22: color-mix(in srgb, var(--gold-500) 22%, transparent);
+  --intl-tint-gold-border-34: color-mix(in srgb, var(--gold-500) 34%, transparent);
+  --intl-tint-green-04: color-mix(in srgb, var(--cc-emerald) 4%, transparent);
+  --intl-tint-green-14: color-mix(in srgb, var(--cc-emerald) 14%, transparent);
+  --intl-tint-green-border-22: color-mix(in srgb, var(--cc-emerald) 22%, transparent);
+  --si-chip-bg: var(--cc-well);
+  --si-def: var(--text-secondary);
+  --si-flag-bg: var(--cc-well);
+  --si-hint: var(--cc-muted);
+  --si-val-bg: var(--cc-well);
+  --sib-action-bg: color-mix(in srgb, var(--cc-emerald) 10%, transparent);
+  --sib-action-border: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --sib-card-border: var(--cc-edge);
+  --sib-danger: var(--cc-danger);
+  --sib-danger-bg: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --sib-hint: var(--cc-muted);
+  --sib-input-border: var(--cc-edge);
+  --sib-neutral-chip-bg: var(--cc-well);
+  --sib-ring-mid: var(--cc-warning);
+  --sib-ring-track: var(--cc-well);
+  --sib-row: var(--cc-hair);
+  --sib-well: var(--cc-well);
+  /* رموز التحليلات والقوائم ونظام النمو — قيمٌ فاتحة حرفيّة في الحزمة. */
+  --warning: var(--cc-warning);
+  --chrome-06: var(--cc-well);
+  --chrome-08: var(--cc-well);
+  --chrome-10: var(--cc-edge);
+  --chrome-14: var(--cc-edge);
+  --chrome-gold-border: color-mix(in srgb, var(--gold-500) 42%, transparent);
+  --tint-gold-16: color-mix(in srgb, var(--gold-500) 16%, transparent);
+  --menu-pop-row-line: var(--cc-hair);
+  --menu-json-line: var(--cc-edge);
+  --apb-border: var(--cc-edge);
+  --apb-hairline: var(--cc-hair);
+  --apb-surface-soft: var(--cc-well);
+  --apb-neutral: var(--cc-well);
+  --apb-neutral-2: var(--cc-well);
+  --apb-strong: var(--cc-text);
+  --apb-dim: var(--cc-muted);
+  --apb-soft: var(--cc-muted);
+  --apb-faint: var(--cc-muted);
+  --apb-danger: var(--cc-danger);
+  --apb-danger-bg: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --apb-info-border: color-mix(in srgb, var(--cc-blue) 38%, transparent);
+  --apb-chrome-faint: var(--cc-muted);
+  --apb-gold-chip-text: var(--gold-text);
+  --apb-gold-chip-border: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  --apb-green-chip-text: var(--cc-success);
+  --apb-green-chip-bg: color-mix(in srgb, var(--cc-emerald) 14%, transparent);
+  --apb-green-chip-border: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --apb-switch-track: var(--cc-edge-strong);
+  /* نظام تشغيل النمو (--os-*) — ملفّ رموزٍ فاتح يُحقن في الجذر، يُعاد هنا إلى السمة. */
+  --os-chrome-bg: var(--cc-glass);
+  --os-chrome-fg: var(--cc-text);
+  --os-chrome-fg-dim72: var(--cc-muted);
+  --os-chrome-fg-dim55: var(--cc-muted);
+  --os-chrome-fg-dim50: var(--cc-muted);
+  --os-brand-grad: var(--cc-grad);
+  --os-gold-badge-border: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  --os-gold-badge-fg: var(--gold-text);
+  --os-gold-on: #2a1f08;
+  --os-page-bg: transparent;
+  --os-border: var(--cc-edge);
+  --os-border-soft: var(--cc-hair);
+  --os-border-dashed: var(--cc-edge);
+  --os-surface-soft: var(--cc-well);
+  --os-chip-bg: var(--cc-well);
+  --os-code-bg: var(--cc-well);
+  --os-strong: var(--cc-text);
+  --os-muted: var(--cc-muted);
+  --os-muted-2: var(--cc-muted);
+  --os-faint: var(--cc-muted);
+  --os-danger: var(--cc-danger);
+  --os-danger-bg: color-mix(in srgb, var(--cc-red) 10%, transparent);
+  --os-danger-border: color-mix(in srgb, var(--cc-red) 38%, transparent);
+  --os-danger-bg-strong: color-mix(in srgb, var(--cc-red) 16%, transparent);
+  --os-warn-bg: color-mix(in srgb, var(--cc-amber) 10%, transparent);
+  --os-warn-border: color-mix(in srgb, var(--cc-amber) 38%, transparent);
+  --os-ok-bg: color-mix(in srgb, var(--cc-emerald) 10%, transparent);
+  --os-ok-border: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+  --os-info-bg: color-mix(in srgb, var(--cc-blue) 10%, transparent);
+  --os-info-border: color-mix(in srgb, var(--cc-blue) 38%, transparent);
+  --os-loop-done-bg: color-mix(in srgb, var(--cc-emerald) 12%, transparent);
+  --os-approve-bg: color-mix(in srgb, var(--cc-emerald) 10%, transparent);
+  --chrome: var(--cc-rail);
+  --chrome-deep: var(--cc-well);
+  --chrome-line: var(--cc-hair);
+  --chrome-text: var(--cc-text);
+  --chrome-muted: var(--cc-muted);
+  /* الظلال من `data-fx-shadows` (طبقة المظهر) — هنا الاسمان القديمان فقط. */
+  --shadow-card: var(--e-1);
+  --shadow-pop: var(--e-3);
+  /* الزوايا من `data-radius` (طبقة المظهر آخر الملفّ) — كلّها على السلّم. */
+  --radius-card: var(--adm-r-card);
+  --radius-md: var(--adm-r-md);
+  --radius-sm: var(--adm-r-sm);
+  --radius-nav: var(--adm-r-sm);
+
+  background: var(--cc-mesh), var(--cc-bg0);
+  background-attachment: fixed;
+  color: var(--cc-text);
+  color-scheme: dark;
+}
+
+body[data-theme='light'] {
+  --cc-bg0: var(--cc-light-bg0);
+  --cc-bg1: var(--cc-light-bg1);
+  --cc-surface: var(--cc-light-surface);
+  --cc-text: var(--cc-light-text);
+  --cc-muted: var(--cc-light-muted);
+  --cc-mesh: var(--cc-light-mesh);
+  --cc-glass: var(--cc-light-glass);
+  --cc-glass-top: var(--cc-light-glass-top);
+  --cc-edge: var(--cc-light-edge);
+  --cc-edge-strong: var(--cc-light-edge-strong);
+  --cc-hair: var(--cc-light-hair);
+  --cc-well: var(--cc-light-well);
+  --cc-rail: var(--cc-light-rail);
+  --cc-bar: var(--cc-light-bar);
+  --cc-tip: var(--cc-light-tip);
+  --cc-kbd: var(--cc-light-kbd);
+  --cc-shadow: var(--cc-light-shadow);
+  --cc-overlay: var(--cc-light-overlay);
+  --cc-primary: var(--cc-primary-light);
+  --cc-primary-2: var(--cc-primary-2-light);
+  --cc-link: var(--cc-link-light);
+  --cc-success: var(--cc-emerald);
+  --cc-warning: var(--cc-orange-deep);
+  --cc-danger: var(--cc-red);
+  --cc-info: var(--cc-blue);
+  --gold-text: #7a5d20;
+  --ai: var(--cc-violet);
+  color-scheme: light;
+}
+
+/* ═════ كثافة العرض — طبقة `--d-*` ═════
+ *
+ * قيمةٌ واحدة على الجسم (`data-density`) تُبدّل الارتفاعات والحشوات ودرجات
+ * الخطّ **معًا**. ولا شجرةَ ترميزٍ ثانية «مضغوطة»: نسختان من القشرة تتباعدان
+ * بعد أوّل تعديل — العيب نفسه الذي جمع التصاميم الخمسة في ملفٍّ واحد أعلاه.
+ *
+ * والمضغوط ليس «الصغير»: لو قُصّت الارتفاعات وحدها لبقي الخطّ يسبح في صفٍّ
+ * ضيّق، ولو قُصّ الخطّ وحده لبقي الفراغ. التنسيق بين الثلاثة هو كلّ الفائدة.
+ *
+ * و«مريح» هو الافتراض بقيمه الحاليّة نفسها — لا تبديلَ صامتًا لما يراه من لم
+ * يختر شيئًا.
+ */
+body {
+  /* الرأس وما يلصق تحته: التبويبات تقرأ `--d-bar-h` فلا يتقادم رقمٌ منسوخ. */
+  --d-bar-h: 60px;
+  /* أدوات الرأس المربّعة (الجرس · اللغة · المتجر · الحساب · القائمة). */
+  --d-tool: 36px;
+  /* صفّ الملاحة، وعنوان المجموعة فوقه، والفجوة بين الصفوف. */
+  --d-nav-h: 36px;
+  --d-nav-gap: 2px;
+  --d-group-h: 30px;
+  --d-tab-h: 30px;
+  /* حشو لوح المحتوى وخليّة الجدول — «كثافة الصفوف» تُقاس هنا. */
+  --d-page-y: 20px;
+  --d-page-x: 20px;
+  --d-cell-y: 10px;
+  /* درجات الخطّ: عنوان الصفحة · صفّ الملاحة · عنوان المجموعة · المسار. */
+  --d-font-title: 17px;
+  --d-font-nav: 13px;
+  --d-font-group: 10.5px;
+  --d-font-crumb: 10.5px;
+  /* ارتفاع التحكّم العامّ يتبع الكثافة — فتضيق أشرطة الترشيح والحقول معه. */
+  --control-h: 40px;
+  /* حشو الشريط الجانبيّ — وعرضُه: الملاحة تضيق مع المحتوى لا وحدها. */
+  --d-rail-y: 14px;
+  --d-rail-x: 10px;
+  --sidebar-w: 260px;
+  --sidebar-w-mini: 68px;
+}
+
+body[data-density='compact'] {
+  --d-bar-h: 48px;
+  --d-tool: 30px;
+  --d-nav-h: 29px;
+  --d-nav-gap: 0px;
+  --d-group-h: 24px;
+  --d-tab-h: 26px;
+  --d-page-y: 12px;
+  --d-page-x: 14px;
+  --d-cell-y: 6px;
+  --d-font-title: 15px;
+  --d-font-nav: 12px;
+  --d-font-group: 10px;
+  --d-font-crumb: 10px;
+  --control-h: 34px;
+  --d-rail-y: 8px;
+  --d-rail-x: 7px;
+  --sidebar-w: 226px;
+  --sidebar-w-mini: 58px;
+}
+
+/*
+ * الإصبع لا يعرف كثافة: أهداف اللمس تعود إلى 44px في كلتا الحالتين.
+ *
+ * المضغوط مكسبُ **فأرةٍ** — بكسلاتٌ تُوفَّر لمن يصوّب بدقّة مليمتر. وقصُّ
+ * الهدف تحت إصبعٍ عرضُه ٩مم ليس كثافةً بل عطل.
+ */
+@media (pointer: coarse) {
+  body,
+  body[data-density='compact'] {
+    --d-tool: 44px;
+    --d-nav-h: 44px;
+    --d-tab-h: 40px;
+    --control-h: 44px;
+  }
+}
+
+/* ── الهيكل ── */
+.sidebar {
+  background: var(--cc-rail);
+  border-inline-end: 1px solid var(--cc-edge);
+  backdrop-filter: blur(calc(14px * var(--fx-k, 1))) saturate(140%);
+  padding-block: var(--d-rail-y, 14px);
+  padding-inline: var(--d-rail-x, 10px);
+}
+
+h1 {
+  color: var(--cc-text);
+}
+
+/* ── الأسطح الزجاجيّة ── */
+.card,
+.panel,
+.empty-state,
+.table-scroll,
+.list-stat,
+.login-card,
+.panel-inset,
+.card-alert,
+.refund-form {
+  position: relative;
+  overflow: hidden;
+  background: var(--cc-glass);
+  border: 1px solid var(--cc-edge);
+  /* سطحٌ ساكن: حدٌّ + ظلّ شعرة — لا يرتفع ولا يتوهّج. اللمعة في `::before`. */
+  box-shadow: var(--e-1);
+  backdrop-filter: blur(calc(10px * var(--fx-k, 1)));
+}
+
+.empty-state {
+  border-style: dashed;
+}
+
+/*
+ * اللمعة: شعرةُ ضوءٍ علويّة على السطح — لا خطٌّ ملوّن متوهّج.
+ *
+ * كان هنا تدرّجٌ أساسيّ اللون يعلو **كلّ** بطاقةٍ ولوح: توهّجٌ دائم لا يقول
+ * شيئًا، فيضيع التوهّج الذي يقول «هنا خلل». التوهّج صار للحالة وحدها
+ * (طبقة المظهر: `data-fx-glow`)، وهذه الشعرة يطفئها `data-fx-shine='off'`.
+ */
+.card::before,
+.panel::before,
+.login-card::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  background: var(--cc-glass-top);
+  pointer-events: none;
+}
+
+.card {
+  border-radius: var(--adm-r-card);
+  padding-block: 11px;
+  padding-inline: 14px;
+}
+
+.card .label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--cc-muted);
+}
+
+.card .value,
+.list-stat dd {
+  font-size: 20px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--cc-text);
+}
+
+.panel-blocked {
+  border-color: color-mix(in srgb, var(--cc-amber) 40%, transparent);
+  background: color-mix(in srgb, var(--cc-amber) 8%, transparent);
+}
+
+.card-alert {
+  border-color: color-mix(in srgb, var(--cc-red) 40%, transparent);
+}
+
+.panel h2,
+.panel h3,
+.empty-state .empty-title,
+.login-brand strong {
+  color: var(--cc-text);
+}
+
+.empty-state code,
+.mono,
+.code-block {
+  background: var(--cc-well);
+  color: var(--cc-link);
+}
+
+/* ── الأزرار ── */
+.btn {
+  min-block-size: 36px;
+  font-size: 12.5px;
+  font-weight: 800;
+  border-radius: var(--adm-r-sm);
+}
+
+.btn-primary {
+  border: 0;
+  background: var(--cc-grad);
+  /* حبرٌ محسوب لكلّ لونٍ وسمة (≥4.5:1) — الأبيض على التركواز الساطع كان 1.8:1. */
+  color: var(--adm-on-accent);
+  box-shadow: var(--e-1);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--cc-grad);
+  filter: brightness(1.08);
+}
+
+.btn-ghost {
+  background: var(--cc-well);
+  color: var(--cc-text);
+  border-color: var(--cc-edge);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  color: var(--cc-link);
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+}
+
+.link-button {
+  color: var(--cc-link);
+}
+
+/* ── الحقول ── */
+.field input,
+.field select,
+.field textarea {
+  background: var(--cc-well);
+  color: var(--cc-text);
+  /* حدٌّ ≥3:1 على ما حوله (WCAG 1.4.11) — `--cc-edge` كان 1.3–1.6:1. */
+  border-color: var(--adm-field-line);
+  border-radius: var(--adm-r-sm);
+  min-block-size: 38px;
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  border-color: color-mix(in srgb, var(--cc-primary) 50%, transparent);
+  outline-color: var(--cc-primary);
+}
+
+.field textarea:disabled {
+  background: var(--cc-hair);
+}
+
+.form-error,
+.state-error,
+.boot-error {
+  background: color-mix(in srgb, var(--cc-red) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cc-red) 40%, transparent);
+  color: var(--cc-red-text);
+  border-radius: var(--adm-r-md);
+}
+
+.state-ok,
+.checklist .done {
+  background: color-mix(in srgb, var(--cc-emerald) 12%, transparent);
+  border-color: color-mix(in srgb, var(--cc-emerald) 40%, transparent);
+  color: var(--cc-success);
+}
+
+.checklist .todo {
+  color: var(--cc-red-text);
+}
+
+/* ── الشارات ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  padding-block: 1px;
+  padding-inline: 8px;
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  border: 1px solid var(--cc-edge);
+}
+
+.chip-published,
+.chip-paid,
+.chip-completed,
+.chip-active {
+  background: color-mix(in srgb, var(--cc-emerald) 14%, transparent);
+  color: var(--cc-success);
+  border-color: color-mix(in srgb, var(--cc-emerald) 38%, transparent);
+}
+
+.chip-draft,
+.chip-pending,
+.chip-awaiting_payment,
+.chip-processing {
+  background: color-mix(in srgb, var(--cc-amber) 14%, transparent);
+  color: var(--cc-warning);
+  border-color: color-mix(in srgb, var(--cc-amber) 38%, transparent);
+}
+
+.chip-retired,
+.chip-failed,
+.chip-cancelled,
+.chip-negative,
+.chip-refunded,
+.chip-partially_refunded {
+  background: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  color: var(--cc-danger);
+  border-color: color-mix(in srgb, var(--cc-red) 38%, transparent);
+}
+
+/* ── الجداول ── */
+.table-scroll {
+  border-radius: var(--adm-r-card);
+}
+
+.data-table,
+.table {
+  font-size: 12px;
+}
+
+.data-table th,
+.data-table td,
+.table th,
+.table td {
+  border-block-end-color: var(--cc-hair);
+}
+
+.data-table thead th,
+.table th {
+  background: transparent;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--cc-muted);
+}
+
+.data-table tbody tr:hover,
+.table tbody tr:hover {
+  background: var(--cc-well);
+}
+
+.data-table a,
+.pairs a {
+  color: var(--cc-link);
+}
+
+/* ── التبويبات ── */
+.tabs {
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--cc-edge);
+  border-block-end: 1px solid var(--cc-edge);
+  border-radius: var(--adm-r-md);
+  background: var(--cc-well);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+}
+
+.tab {
+  min-block-size: 30px;
+  padding-block: 4px;
+  padding-inline: 12px;
+  border-block-end: 0;
+  border-radius: var(--adm-r-xs);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cc-muted);
+}
+
+.tab:hover {
+  color: var(--cc-text);
+  background: var(--cc-well);
+}
+
+.tab-active,
+.tab-active:hover {
+  color: var(--cc-text);
+  font-weight: 800;
+  background: var(--cc-glass);
+  box-shadow: var(--e-1);
+}
+
+/* ── الملاحظات والحالات ── */
+.crumbs,
+.page-note,
+.list-foot {
+  color: var(--cc-muted);
+}
+
+.boot {
+  color: var(--cc-muted);
+}
+
+/* ── الدخول ── */
+.login-page {
+  background: var(--cc-mesh), var(--cc-bg0);
+}
+
+.login-card {
+  border-radius: 24px;
+  padding-block: 28px;
+  padding-inline: 28px;
+  box-shadow: var(--e-4);
+  backdrop-filter: blur(calc(16px * var(--fx-k, 1)));
+}
+
+.login-card::before {
+  background: var(--cc-grad);
+}
+
+.login-brand small {
+  color: var(--cc-link);
+}
+
+.login-title {
+  color: var(--cc-text);
+}
+
+.login-note {
+  color: var(--cc-muted);
+}
+
+/* ── قوائم الإحصاء ── */
+.list-stat {
+  border-radius: var(--adm-r-md);
+}
+
+.list-stat dt {
+  color: var(--cc-muted);
+}
+
+.list-stat .list-stat-sub {
+  color: var(--cc-muted);
+}
+
+/* ── القائمة المنسدلة والحوارات تقرأ السطح الزجاجيّ ── */
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * طبقة المظهر — اللون · الزوايا · المؤثّرات (الإعدادات › المظهر)
+ *
+ * كلّ تفضيلٍ سمةٌ واحدة على `<body>` يكتبها `AdminShell` وسكربت ما قبل الرسم
+ * من `lib/appearance.ts`: `data-accent` · `data-radius` · `data-fx-glow` ·
+ * `data-fx-shine` · `data-fx-glass` · `data-fx-ambient` · `data-fx-shadows` ·
+ * `data-fx-motion` · `data-fx-intensity`. والسمة تحمل الحالة **الفعليّة**
+ * (تفضيل النظام وشدّة «بلا» محسوبان قبلها)، فلا حساب هنا.
+ *
+ * «معطّل» يعني غيابًا تامًّا لا تخفيفًا: لا `backdrop-filter` ولا ظلّ ولا
+ * حركة يبقى.
+ *
+ * عقدٌ لمن يرسم زخرفةً في وحدته (لوحة القيادة مثلًا): `data-fx="ambient"`
+ * على العنصر الزخرفيّ يُخفيه حين تُطفأ الإضاءة المحيطة، و`data-fx="glow"`
+ * يُسقط توهّجه حين يُطفأ التوهّج؛ و`var(--fx-k)` معامل الشدّة (0.6/1/1.4).
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── ألوان الحالة والنصّ — ≥4.5:1، مشتقّةٌ من رموز الحزمة لا حرفيّة ──
+ *
+ * رموز الحزمة `--cc-*-text` قيمٌ للداكن (أفتح من 400)؛ على الأبيض كانت
+ * 1.8–2.7:1 في رقاقات لوحة القيادة وشارات الحالة. تُعاد هنا بخلط النبرة
+ * الأصل بحبر الأرض الداكنة (`--cc-dark-bg0`) أو بالأبيض (`--cc-on-tone`)،
+ * فلا لونٌ خامّ جديد، ويقرؤها كلّ مستهلكٍ بلا تعديل وحدته. والنسب محسوبة
+ * (`appearance.test.mjs` يقيس اللون الأساسيّ؛ هذه قيست بالمِسبار نفسه).
+ * لا يُعاد تعريف رمزٍ من نفسه (`--cc-emerald: …var(--cc-emerald)…` حلقةٌ
+ * تُبطل القيمة): النبرة الأصل تبقى، ويُعاد المشتقّ النصّيّ وحده. */
+body[data-theme='light'] {
+  --cc-light-muted: color-mix(in srgb, var(--cc-slate) 40%, var(--cc-light-text));
+  --cc-muted: var(--cc-light-muted);
+  --cc-emerald-text: color-mix(in srgb, var(--cc-emerald) 52%, var(--cc-dark-bg0));
+  --cc-red-text: color-mix(in srgb, var(--cc-red) 72%, var(--cc-dark-bg0));
+  --cc-orange-text: color-mix(in srgb, var(--cc-orange) 60%, var(--cc-dark-bg0));
+  --cc-blue-text: color-mix(in srgb, var(--cc-blue) 70%, var(--cc-dark-bg0));
+  --cc-violet-text: color-mix(in srgb, var(--cc-violet) 72%, var(--cc-dark-bg0));
+  --cc-cyan-text: color-mix(in srgb, var(--cc-cyan) 56%, var(--cc-dark-bg0));
+  --cc-teal: color-mix(in srgb, var(--teal-600) 75%, var(--cc-dark-bg0));
+  --cc-success: var(--cc-emerald-text);
+  --cc-warning: color-mix(in srgb, var(--cc-orange) 50%, var(--cc-dark-bg0));
+  --cc-danger: var(--cc-red-text);
+  --cc-info: var(--cc-blue-text);
+  --ai: var(--cc-violet-text);
+  --adm-field-line: color-mix(in srgb, var(--cc-light-text) 62%, transparent);
+}
+
+/* الداكن: الباهت ونصوص النطاقات درجةً أفتح — كانت 4.0–4.3:1 على الزجاج فوق الإضاءة. */
+body {
+  /* المصدر لا المشتقّ: وحداتٌ تقرأ `--cc-dark-muted` مباشرةً ترث الرفع أيضًا. */
+  --cc-dark-muted: color-mix(in srgb, var(--cc-slate) 78%, var(--cc-on-tone));
+  --cc-muted: var(--cc-dark-muted);
+  --cc-blue-text: color-mix(in srgb, var(--cc-blue) 55%, var(--cc-on-tone));
+  --cc-violet-text: color-mix(in srgb, var(--cc-violet) 55%, var(--cc-on-tone));
+  --cc-orange-text: color-mix(in srgb, var(--cc-orange) 60%, var(--cc-on-tone));
+  /* الأحمر كان الوحيد بلا رفع: رقاقات «فشل/بلا مستهلك» في جداول الداكن 3.3–4.0:1. */
+  --cc-red-text: color-mix(in srgb, var(--cc-red) 48%, var(--cc-on-tone));
+  --adm-field-line: color-mix(in srgb, var(--cc-on-tone) 38%, transparent);
+  /* تعبئات العدّادات: أبيضٌ عليها ≥5.9:1 في السمتين (‎#ef4444‎ كان 3.8:1، ‎#3b82f6‎ 3.7:1). */
+  --adm-danger-fill: color-mix(in srgb, var(--cc-red) 72%, var(--cc-dark-bg0));
+  --adm-info-fill: color-mix(in srgb, var(--cc-blue) 72%, var(--cc-dark-bg0));
+  --adm-on-danger: var(--cc-on-tone);
+  /* كان في `:root` يُحسب هناك مرّةً بالأخضر القديم؛ هنا يتبع السمة. */
+  --accent-dark: var(--primary-onchrome);
+}
+
+/* ── اللون الأساسيّ — من مقاييس الهويّة (`--teal-600` · `--navy-700` · `--gold-*`) ──
+ * لكلّ لون: أساسيٌّ وثانٍ للتدرّج ورابط، لكلّ سمة، وحبرُ النصّ فوق التعبئة.
+ * الداكن: تعبئةٌ ساطعة بحبرٍ داكن؛ الفاتح: تعبئةٌ عميقة بحبرٍ أبيض (الذهبيّ
+ * بحبرٍ داكن). والرابط ≥4.5:1 على السطح والأرض — `appearance.test.mjs`
+ * يقيس ذلك من هذه الكتل. التركواز الداكن قيمُ الحزمة نفسها (`--cc-*-dark`). */
+body,
+body[data-accent='teal'] {
+  --cc-primary-light: color-mix(in srgb, var(--teal-600) 80%, var(--cc-dark-bg0));
+  --cc-primary-2-light: color-mix(in srgb, var(--cc-cyan) 55%, var(--cc-dark-bg0));
+  --cc-link-light: color-mix(in srgb, var(--teal-600) 62%, var(--cc-dark-bg0));
+  --adm-on-accent-dark: color-mix(in srgb, var(--teal-600) 22%, var(--cc-dark-bg0));
+  --adm-on-accent-light: var(--cc-on-tone);
+  --cc-admin-hero-gradient: linear-gradient(135deg, color-mix(in srgb, var(--teal-600) 60%, var(--cc-dark-bg0)), color-mix(in srgb, var(--cc-cyan) 40%, var(--cc-dark-bg0)) 50%, color-mix(in srgb, var(--navy-700) 90%, var(--cc-dark-bg0)));
+  --cc-hero-gradient: var(--cc-admin-hero-gradient);
+}
+
+body[data-accent='navy'] {
+  --cc-primary-dark: color-mix(in srgb, var(--navy-700) 45%, var(--cc-on-tone));
+  --cc-primary-2-dark: color-mix(in srgb, var(--cc-blue) 60%, var(--cc-on-tone));
+  --cc-link-dark: color-mix(in srgb, var(--navy-700) 25%, var(--cc-on-tone));
+  --cc-primary-light: var(--navy-700);
+  --cc-primary-2-light: color-mix(in srgb, var(--navy-700) 70%, var(--cc-blue));
+  --cc-link-light: color-mix(in srgb, var(--navy-700) 85%, var(--cc-on-tone));
+  --adm-on-accent-dark: color-mix(in srgb, var(--navy-700) 60%, var(--cc-dark-bg0));
+  --adm-on-accent-light: var(--cc-on-tone);
+  --cc-admin-hero-gradient: linear-gradient(135deg, var(--navy-700), color-mix(in srgb, var(--navy-700) 75%, var(--cc-blue)) 50%, color-mix(in srgb, var(--navy-700) 80%, var(--cc-dark-bg0)));
+}
+
+body[data-accent='gold'] {
+  --cc-primary-dark: var(--gold-500);
+  --cc-primary-2-dark: var(--gold-400);
+  --cc-link-dark: color-mix(in srgb, var(--gold-300) 70%, var(--cc-on-tone));
+  --cc-primary-light: var(--gold-400);
+  --cc-primary-2-light: color-mix(in srgb, var(--gold-400) 85%, var(--cc-orange));
+  --cc-link-light: color-mix(in srgb, var(--gold-400) 42%, var(--cc-dark-bg0));
+  --adm-on-accent-dark: color-mix(in srgb, var(--gold-400) 18%, var(--cc-dark-bg0));
+  --adm-on-accent-light: color-mix(in srgb, var(--gold-400) 18%, var(--cc-dark-bg0));
+  --cc-admin-hero-gradient: linear-gradient(135deg, color-mix(in srgb, var(--gold-400) 45%, var(--cc-dark-bg0)), color-mix(in srgb, var(--gold-400) 38%, var(--cc-dark-bg0)) 50%, color-mix(in srgb, var(--cc-orange) 35%, var(--cc-dark-bg0)));
+}
+
+body {
+  --adm-on-accent: var(--adm-on-accent-dark);
+}
+
+body[data-theme='light'] {
+  --adm-on-accent: var(--adm-on-accent-light);
+}
+
+/* ── الزوايا — من السلّم وحده (8/10/12/16/20)، والداخل = الخارج − الحشوة ── */
+body,
+body[data-radius='default'] {
+  --adm-r-xs: 8px;
+  --adm-r-sm: 10px;
+  --adm-r-md: 12px;
+  --adm-r-card: 16px;
+}
+
+body[data-radius='compact'] {
+  --adm-r-xs: 8px;
+  --adm-r-sm: 8px;
+  --adm-r-md: 10px;
+  --adm-r-card: 12px;
+}
+
+body[data-radius='soft'] {
+  --adm-r-xs: 10px;
+  --adm-r-sm: 12px;
+  --adm-r-md: 16px;
+  --adm-r-card: 20px;
+}
+
+/* ── الشدّة — معاملٌ واحد تقرؤه الضبابيّة والتوهّج والإضاءة ── */
+body {
+  --fx-k: 1;
+}
+
+body[data-fx-intensity='low'] {
+  --fx-k: 0.6;
+}
+
+body[data-fx-intensity='high'] {
+  --fx-k: 1.4;
+}
+
+/* ── الظلال — سلّم `--e-*` نفسه، بحبرٍ لكلّ سمة ومستوًى لكلّ تفضيل ──
+ * الكحليّ الشفيف لا يُرى على أرضٍ داكنة: الداكن بأسودٍ أكثف. */
+body {
+  --fx-ink: var(--cc-dark-bg0);
+  --fx-tone: 2.4;
+  --fx-lvl: 1;
+  --e-1: 0 1px 2px color-mix(in srgb, var(--fx-ink) calc(6% * var(--fx-tone) * var(--fx-lvl)), transparent);
+  --e-2: 0 2px 6px color-mix(in srgb, var(--fx-ink) calc(6% * var(--fx-tone) * var(--fx-lvl)), transparent),
+    0 10px 24px -10px color-mix(in srgb, var(--fx-ink) calc(18% * var(--fx-tone) * var(--fx-lvl)), transparent);
+  --e-3: 0 4px 10px color-mix(in srgb, var(--fx-ink) calc(6% * var(--fx-tone) * var(--fx-lvl)), transparent),
+    0 18px 40px -14px color-mix(in srgb, var(--fx-ink) calc(24% * var(--fx-tone) * var(--fx-lvl)), transparent);
+  --e-4: 0 8px 20px color-mix(in srgb, var(--fx-ink) calc(8% * var(--fx-tone) * var(--fx-lvl)), transparent),
+    0 32px 72px -20px color-mix(in srgb, var(--fx-ink) calc(32% * var(--fx-tone) * var(--fx-lvl)), transparent);
+}
+
+body[data-theme='light'] {
+  /* حبرٌ كحليّ لا رماديّ (العقد §2). */
+  --fx-ink: var(--navy-700);
+  --fx-tone: 1;
+}
+
+body[data-fx-shadows='low'] {
+  --fx-lvl: 0.5;
+}
+
+body[data-fx-shadows='high'] {
+  --fx-lvl: 1.6;
+}
+
+body[data-fx-shadows='off'] {
+  --e-1: none;
+  --e-2: none;
+  --e-3: none;
+  --e-4: none;
+  --shadow-card: none;
+  --shadow-pop: none;
+}
+
+/* حلقة التركيز ليست ظلًّا زخرفيًّا: تبقى — والوحدات التي ترسمها بـ`box-shadow` كذلك. */
+body[data-fx-shadows='off'] :where(*:not(:focus-visible)),
+body[data-fx-shadows='off'] *::before,
+body[data-fx-shadows='off'] *::after {
+  box-shadow: none !important;
+}
+
+/* ── التوهّج — للحالة وحدها: خلل · حجب · الموضع الحاليّ · الزرّ تحت اليد ── */
+.card-alert {
+  --glow-c: var(--cc-red);
+}
+
+.panel-blocked {
+  --glow-c: var(--cc-amber);
+}
+
+body[data-fx-glow='on'] :is(
+  .card-alert,
+  .panel-blocked,
+  .sidebar [aria-current='page'],
+  .tab-active,
+  .btn-primary:hover:not(:disabled),
+  .btn-primary:focus-visible,
+  [data-glow='on']
+) {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-c, var(--cc-primary)) 40%, transparent),
+    0 0 calc(22px * var(--fx-k)) -6px color-mix(in srgb, var(--glow-c, var(--cc-primary)) calc(40% * var(--fx-k)), transparent) !important;
+}
+
+body[data-fx-glow='off'] [data-fx~='glow'],
+body[data-fx-glow='off'] [data-fx~='glow']::before,
+body[data-fx-glow='off'] [data-fx~='glow']::after {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* ── اللمعة — شعرة الضوء العلويّة ── */
+body[data-fx-shine='off'] {
+  --cc-glass-top: transparent;
+}
+
+body[data-fx-shine='off'] :is(.card, .panel)::before {
+  display: none;
+}
+
+/* ── الزجاج — «معطّل» سطحٌ مُعتِم بلا ضبابيّة، لا زجاجٌ أقلّ ── */
+body[data-fx-glass='off'] {
+  --cc-glass: var(--cc-bg1);
+  --cc-surface: var(--cc-bg1);
+  --cc-rail: var(--cc-bg1);
+  --cc-bar: var(--cc-bg1);
+  --cc-tip: var(--cc-bg1);
+}
+
+body[data-fx-glass='off'] *,
+body[data-fx-glass='off'] *::before,
+body[data-fx-glass='off'] *::after {
+  /* الخاصّيّة وحدها: مع نظيرها `-webkit-` كان المُحوِّل يُفرغ القاعدة كلّها. */
+  backdrop-filter: none !important;
+}
+
+/* ── الإضاءة المحيطة — تتبع اللون الأساسيّ، هادئةٌ بمعامل الشدّة ──
+ * كانت ثلاث بقعٍ (زمرّديّ · بنفسجيّ · سماويّ) لا تنتمي إلى الهويّة. */
+body[data-fx-ambient] {
+  --cc-mesh:
+    radial-gradient(900px 600px at 85% -10%, color-mix(in srgb, var(--cc-primary) calc(14% * var(--fx-k)), transparent), transparent 60%),
+    radial-gradient(800px 600px at 10% 20%, color-mix(in srgb, var(--cc-primary-2) calc(9% * var(--fx-k)), transparent), transparent 60%);
+}
+
+body[data-fx-ambient='off'] {
+  --cc-mesh: none;
+}
+
+body[data-fx-ambient='off'] [data-fx~='ambient'] {
+  display: none !important;
+}
+
+/* ── الحركة — «مخفّفة» بلا حركةٍ زخرفيّة، «بلا» بلا انتقالٍ أصلًا ── */
+body[data-fx-motion='reduced'] *,
+body[data-fx-motion='reduced'] *::before,
+body[data-fx-motion='reduced'] *::after {
+  animation: none !important;
+}
+
+body[data-fx-motion='off'] *,
+body[data-fx-motion='off'] *::before,
+body[data-fx-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* تفضيل النظام يغلب قبل أن يعمل أيّ سكربت. */
+@media (prefers-reduced-motion: reduce) {
+  body *,
+  body *::before,
+  body *::after {
+    animation: none !important;
+  }
+}

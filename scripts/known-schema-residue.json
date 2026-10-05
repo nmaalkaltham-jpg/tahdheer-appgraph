@@ -1,0 +1,126 @@
+{
+  "_": "رواسب مخطّطٍ في قاعدة التطوير وحدها: جداول وأعمدة خلّفتها شيفرةٌ حُذفت عند دمج المستودع (٥٤ ملفّ هجرة على القرص مقابل ٧٠ صفًّا في جدول migrations — ستّ عشرة هجرة اختفت مع شيفرتها). لا سطر في backend/laravel/app يشير إلى أيٍّ منها؛ أُثبت بالبحث. ليست خطرًا على الإنتاج لأنّ النشر النظيف لا يُنشئها ولا أحد يقرؤها — لكنّها تجعل التطوير يخالف النشر النظيف، وهي الحالة نفسها التي أخفت refunds.notified_at. تُحصى هنا فيبقى الفحص مفيدًا: أيّ انحرافٍ جديد يفشل، وأيّ مدخلٍ صارت له هجرة يفشل أيضًا.",
+  "tables": {
+    "ai_requests": [
+      "actor_email",
+      "admin_user_id",
+      "attempts",
+      "cost_minor",
+      "created_at",
+      "error_code",
+      "field",
+      "id",
+      "input_tokens",
+      "latency_ms",
+      "model",
+      "output_tokens",
+      "product_id",
+      "prompt_version",
+      "provider",
+      "status",
+      "suggestions",
+      "task"
+    ],
+    "analytics_daily": [
+      "created_at",
+      "day",
+      "event_type",
+      "events",
+      "id",
+      "updated_at",
+      "value_minor",
+      "visitors"
+    ],
+    "analytics_product_daily": [
+      "add_to_carts",
+      "created_at",
+      "day",
+      "id",
+      "product_id",
+      "purchases",
+      "revenue_minor",
+      "updated_at",
+      "views"
+    ],
+    "customer_sessions": [
+      "created_at",
+      "customer_id",
+      "expires_at",
+      "id",
+      "last_seen_at",
+      "token_hash",
+      "updated_at",
+      "user_agent"
+    ],
+    "features": [
+      "created_at",
+      "id",
+      "name",
+      "scope",
+      "updated_at",
+      "value"
+    ],
+    "invoices": [
+      "created_at",
+      "id",
+      "issued_at",
+      "number",
+      "order_id",
+      "snapshot",
+      "updated_at"
+    ],
+    "orders": [
+      "confirmation_resent_at",
+      "confirmation_sent_at",
+      "payment_failed_mail_at",
+      "payment_failed_mail_charge_id",
+      "reminded_at",
+      "reminder_stage"
+    ],
+    "product_fact_evidence": [
+      "asset_id",
+      "asset_sha256",
+      "confidence",
+      "contradicts",
+      "created_at",
+      "extractor",
+      "fact_id",
+      "id",
+      "locator",
+      "snippet",
+      "source_provider",
+      "updated_at"
+    ],
+    "product_knowledge_facts": [
+      "confidence",
+      "created_at",
+      "extraction_method",
+      "id",
+      "key",
+      "model",
+      "pipeline_version",
+      "product_id",
+      "updated_at",
+      "value_int",
+      "value_text",
+      "verification_state"
+    ],
+    "quote_requests": [
+      "contact_name",
+      "created_at",
+      "email",
+      "handled_at",
+      "handled_by",
+      "id",
+      "note",
+      "notified_at",
+      "org_name",
+      "phone",
+      "product_id",
+      "quote",
+      "seats",
+      "updated_at",
+      "vat_number"
+    ]
+  }
+}

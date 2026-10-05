@@ -1,0 +1,48 @@
+/*
+ * نموذج فتح الطلب — وصفات الحقل والزرّ من ‎@tahdheer/ui/controls.module.css‎:
+ * تسمية 13/700 فوق حقل ‎48px‎، تلميحٌ تحته، خطأٌ بأيقونة مربوطٌ بـaria-describedby،
+ * وزرٌّ أساسيّ يحمل حالة الانشغال (aria-busy) بعرضٍ ثابت.
+ */
+
+.form {
+  display: block;
+  text-align: start;
+}
+
+.heading {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.label {
+  composes: label from "@tahdheer/ui/controls.module.css";
+}
+
+.input {
+  composes: field from "@tahdheer/ui/controls.module.css";
+  text-align: start;
+}
+
+.hint {
+  composes: hint from "@tahdheer/ui/controls.module.css";
+  margin-block-end: 0;
+}
+
+.error {
+  composes: fieldError from "@tahdheer/ui/controls.module.css";
+  margin-block-end: 0;
+}
+
+.submit {
+  composes: btn btnPrimary from "@tahdheer/ui/controls.module.css";
+  inline-size: 100%;
+  margin-block-start: 12px;
+}
+
+.submitSecondary {
+  composes: btn btnOutline from "@tahdheer/ui/controls.module.css";
+  inline-size: 100%;
+  margin-block-start: 12px;
+}

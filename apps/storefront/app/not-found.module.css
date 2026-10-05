@@ -1,0 +1,420 @@
+/*
+ * 404 — لغة تصميم المتجر: رأس بسيط برقاقة سبب، حقل بحث كحقل لوحة الشراء
+ * (54px، حدّ 1.5px ‎--sf-control‎، نصف قطر 12) بزرٍّ تركوازي، بطاقات بداية
+ * كبطاقات «جرّب عيّنة» ببلاطات ملوّنة، وقسم بدائل برأسٍ وربطٍ لاحق.
+ * Tokens only, logical properties only, mobile-first.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+.heroRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+/* رسم ‎EMPTY_ART‎ في صندوقٍ ثابت ‎120²‎ (‎88²‎ جوّالًا) — لا إزاحة. */
+.heroArt {
+  flex: 0 0 auto;
+  display: block;
+  inline-size: 120px;
+  block-size: 120px;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .heroArt {
+    inline-size: 88px;
+    block-size: 88px;
+  }
+}
+
+.heroMain {
+  flex: 1;
+  min-inline-size: 200px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  margin-block-end: 8px;
+  padding: 3px 10px;
+  border-radius: var(--r-xs);
+  background: var(--sf-chip);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sf-ink-2);
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.body {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.urlBox {
+  margin-block-start: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+}
+
+.urlLabel {
+  display: block;
+  margin-block-end: 2px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.urlValue {
+  display: block;
+  font: 600 13px var(--font-mono);
+  color: var(--sf-ink);
+  word-break: break-all;
+}
+
+/* ── البحث ─────────────────────────────────────────────────────────── */
+.search {
+  margin-block-start: 28px;
+}
+
+.searchLabel {
+  display: block;
+  margin-block-end: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.searchField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 54px;
+  padding-inline: 14px 6px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+.searchField:focus-within {
+  border-color: var(--teal-600);
+}
+
+.searchIcon {
+  flex: 0 0 auto;
+  inline-size: 20px;
+  block-size: 20px;
+  color: var(--sf-icon);
+}
+
+.searchInput {
+  flex: 1;
+  min-inline-size: 0;
+  /* يملأ ارتفاع الحقل (54px) فيكون هدف النقر الحقلَ كلَّه لا سطر النصّ. */
+  align-self: stretch;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--sf-ink);
+}
+
+.searchInput::placeholder {
+  color: var(--sf-faint);
+}
+
+/* حلقة التركيز على الحقل نفسه (§2.4.7) — والحدّ التركوازي على الإطار حوله. */
+.searchInput:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 4px;
+  border-radius: var(--r-xs);
+}
+
+.searchBtn {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-inline: 22px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--teal-on);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.searchBtn:hover {
+  background: var(--color-secondary-hover);
+}
+
+/* ── «هل تقصد؟» و«ابدأ من هنا» ─────────────────────────────────────── */
+.start {
+  margin-block-start: 32px;
+}
+
+.startTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.startGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.startCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  block-size: 100%;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+.startCard:hover {
+  border-color: var(--teal-600);
+}
+
+.startIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--r-sm);
+}
+
+.startGlyph {
+  inline-size: 19px;
+  block-size: 19px;
+}
+
+/* بلاطات البداية: رمليّ ثمّ تركوازي ثمّ كحلي — تدرّج بطاقات الثقة. */
+.tintGold {
+  background: var(--tint-sand);
+  color: var(--gold-text);
+}
+
+.tintGreen {
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.tintDeep {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.startName {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.startBody {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-muted);
+}
+
+.startCta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: auto;
+  padding-block-start: 10px;
+  border-block-start: 1px solid var(--sf-hair);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-secondary-text);
+}
+
+.startGo {
+  flex: 0 0 auto;
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+/* ── البدائل السريعة ────────────────────────────────────────────────── */
+.alt {
+  margin-block-start: 40px;
+}
+
+.altHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-block-end: 14px;
+}
+
+.altTitle {
+  flex: 1;
+  min-inline-size: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.altLink {
+  /* ‎22px‎ مرئيًّا؛ الهدف ‎44px‎ بعنصرٍ زائف (نمط الفتات) بلا تغيير في التخطيط. */
+  position: relative;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-secondary-text);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.altLink::before {
+  content: '';
+  position: absolute;
+  inset-block: -11px;
+  inset-inline: 0;
+}
+
+.altLink:hover {
+  color: var(--teal-text);
+}
+
+.altGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guessList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guess {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  min-block-size: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+.guess:hover {
+  border-color: var(--teal-600);
+}
+
+.guessPath {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-ink);
+}
+
+.guessWhy {
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding-block-start: 32px;
+  }
+
+  .startGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .altGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ── الجوّال — في آخر الورقة كي تعلو قواعدُه على ما قبلها ───────────── */
+@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  }
+
+.hero {
+  padding-block: 24px 8px;
+
+  .title {
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+::selection{background:rgba(30,115,85,.18)}
+@keyframes tyDraw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+@keyframes tyPop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes tyFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tyPulse{0%,100%{box-shadow:0 0 0 0 rgba(30,115,85,.28)}50%{box-shadow:0 0 0 9px rgba(30,115,85,0)}}
+@keyframes tyConf{0%{transform:translateY(-12px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(120px) rotate(240deg);opacity:0}}
+@keyframes tyBar{from{width:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<symbol id="t-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="t-truck" viewBox="0 0 24 24"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+<symbol id="t-box" viewBox="0 0 24 24"><path d="M12 3l8 4v10l-8 4-8-4V7z"></path><path d="M4 7l8 4 8-4M12 11v10"></path></symbol>
+<symbol id="t-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="t-download" viewBox="0 0 24 24"><path d="M12 4v10M8 11l4 4 4-4M5 19h14"></path></symbol>
+<symbol id="t-print" viewBox="0 0 24 24"><path d="M7 8V4h10v4M7 16H4v-8h16v8h-3"></path><path d="M7 13h10v7H7z"></path></symbol>
+<symbol id="t-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="t-cart" viewBox="0 0 24 24"><path d="M4 5h2l2.2 9.4a1.6 1.6 0 0 0 1.6 1.3h7a1.6 1.6 0 0 0 1.6-1.3L20 8H6.4"></path><circle cx="10" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></symbol>
+<symbol id="t-chat" viewBox="0 0 24 24"><path d="M4 6h16v11H9l-5 4z"></path><path d="M8 10h8M8 13h5"></path></symbol>
+<symbol id="t-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></symbol>
+<symbol id="t-phone" viewBox="0 0 24 24"><path d="M6 3h4l1.5 5-2.5 1.5a12 12 0 0 0 5.5 5.5L16 12.5l5 1.5v4a2 2 0 0 1-2.2 2A16.8 16.8 0 0 1 4 6.2 2 2 0 0 1 6 3z"></path></symbol>
+<symbol id="t-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path></symbol>
+<symbol id="t-gift" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"></rect><path d="M12 10v10M4 13h16M12 10c-4 0-5-2-5-3.5A2 2 0 0 1 10.5 5C12 5 12 7 12 10zm0 0c4 0 5-2 5-3.5A2 2 0 0 0 13.5 5C12 5 12 7 12 10z"></path></symbol>
+<symbol id="t-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="t-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="t-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5.5l3.5 2"></path></symbol>
+<symbol id="t-warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"></path><path d="M12 10v5M12 17.6v.1"></path></symbol>
+<symbol id="t-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="t-chev-d" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></symbol>
+<symbol id="t-chev-l" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="t-pin" viewBox="0 0 24 24"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="12" cy="11" r="2.2"></circle></symbol>
+<symbol id="t-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"></circle><circle cx="17" cy="6" r="2.5"></circle><circle cx="17" cy="18" r="2.5"></circle><path d="M8.3 10.8l6.4-3.6M8.3 13.2l6.4 3.6"></path></symbol>
+<symbol id="t-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M4 10h16M8 3v4M16 3v4"></path></symbol>
+<symbol id="t-retry" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"></path><path d="M4 4v5h5"></path></symbol>
+<symbol id="t-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4"></path></symbol>
+<symbol id="t-whats" viewBox="0 0 24 24"><path d="M12 3.5A8.5 8.5 0 0 0 4.6 16.2L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"></path><path d="M9 8.8c-.3 2.2 2.9 6 6.2 6.2.8 0 1.4-.5 1.3-1.2l-.3-1.2-1.7-.4-.9.9a5.6 5.6 0 0 1-2.7-2.7l.9-.9-.4-1.7-1.2-.3c-.7-.1-1.2.5-1.2 1.3z"></path></symbol>
+</defs></svg>
+
+<div dir="{{ dir }}" style="min-height:100vh;color:#17251d">
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 15px Tajawal">ت</span><span style="font:900 17px Tajawal;color:#14261d">تذكير</span></span>
+<nav aria-label="التنقل الرئيسي" style="display:flex;gap:2px;flex-wrap:wrap">
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">الرئيسية</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">المتجر</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">المناهج</a>
+<a href="#" style="padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:800;color:#3d4f45">تواصل معنا</a>
+</nav>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#f2f6f3;font-size:11px;font-weight:800;color:#146c4c"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-shield"></use></svg>دفع آمن ومشفَّر</span>
+</div>
+</header>
+
+<main id="main" style="max-width:1080px;margin:0 auto;padding:26px 20px 60px;display:flex;flex-direction:column;gap:18px">
+
+<sc-if value="{{ is.ok }}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="ty-title" style="position:relative;overflow:hidden;border:1px solid #e2e8e4;border-radius:18px;background:{{ hero.bg }};padding:{{ hero.pad }};text-align:center;animation:tyFade .4s ease">
+<sc-if value="{{ is.celebration }}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none">
+<sc-for list="{{ hero.conf }}" as="c" hint-placeholder-count="6">
+<span style="position:absolute;top:0;inset-inline-start:{{ c.x }};width:8px;height:12px;border-radius:2px;background:{{ c.c }};animation:tyConf 2.6s ease-in {{ c.d }} 2"></span>
+</sc-for>
+</div>
+</sc-if>
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:12px">
+<span style="width:{{ hero.checkSize }};height:{{ hero.checkSize }};border-radius:50%;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;box-shadow:0 10px 26px rgba(20,96,63,.28);animation:tyPop .5s cubic-bezier(.2,1.4,.4,1) both,{{ hero.pulse }}">
+<svg viewBox="0 0 24 24" style="width:52%;height:52%;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12.5l4.5 4.5L19 7" style="stroke-dasharray:24;stroke-dashoffset:0;animation:tyDraw .55s ease .35s backwards"></path></svg>
+</span>
+<h1 id="ty-title" style="margin:0;font:900 26px/1.4 Tajawal,sans-serif;color:#14261d">{{ hero.title }}</h1>
+<p style="margin:0;max-width:560px;font-size:14px;line-height:1.9;color:#4a5b51">{{ hero.sub }}</p>
+<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;background:{{ hero.payBg }};color:{{ hero.payFg }};font-size:12px;font-weight:900"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:currentColor"></span>{{ hero.payN }}</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+<sc-for list="{{ hero.facts }}" as="f" hint-placeholder-count="5">
+<span style="padding:8px 14px;border-radius:11px;background:#fff;border:1px solid #e6ebe7;box-shadow:0 1px 2px rgba(10,25,18,.04)"><span style="display:block;font-size:9.5px;font-weight:800;color:#8b978f">{{ f.l }}</span><span style="display:block;margin-top:1px;font-size:13px;font-weight:900;color:#14261d">{{ f.v }}</span></span>
+</sc-for>
+</div>
+<div style="width:100%;max-width:520px;margin-top:6px">
+<span aria-hidden="true" style="display:block;height:8px;border-radius:6px;background:#e8ede9;overflow:hidden"><span style="display:block;height:100%;width:{{ hero.progressW }};border-radius:6px;background:linear-gradient(90deg,#2b9c72,#14603f);animation:tyBar .9s ease .3s both"></span></span>
+<span style="display:block;margin-top:5px;font-size:11px;font-weight:800;color:#146c4c">{{ hero.stageTxt }}</span>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.failed }}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="ty-fail" style="border:1px solid #f0d3d3;border-radius:18px;background:linear-gradient(170deg,#fdf6f6,#fff 60%);padding:32px 26px;text-align:center;animation:tyFade .4s ease">
+<div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+<span style="width:70px;height:70px;border-radius:50%;background:#fdecec;border:2px solid #f0c4c4;display:grid;place-items:center;animation:tyPop .45s ease both"><svg aria-hidden="true" style="width:32px;height:32px;fill:none;stroke:#b32d2e;stroke-width:2.4;stroke-linecap:round"><use href="#t-x"></use></svg></span>
+<h1 id="ty-fail" style="margin:0;font:900 25px/1.4 Tajawal;color:#8e2223">{{ fail.title }}</h1>
+<p style="margin:0;max-width:560px;font-size:13.5px;line-height:1.9;color:#4a5b51">{{ fail.sub }}</p>
+<span style="max-width:520px;padding:9px 14px;border-radius:10px;background:#fff;border:1px dashed #e8c9c9;font-size:11px;color:#8e2223">{{ fail.reason }}</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+<button type="button" onClick="{{ fail.onRetry }}" style="display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 22px;border:0;border-radius:12px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,100,73,.3)"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.1"><use href="#t-retry"></use></svg>إعادة محاولة الدفع</button>
+<button type="button" onClick="{{ fail.onChange }}" style="display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border:1.5px solid #d7ddd8;border-radius:12px;background:#fff;font-size:13px;font-weight:900;color:#14261d;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-card"></use></svg>تغيير وسيلة الدفع</button>
+<button type="button" onClick="{{ fail.onSupport }}" style="display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border:1.5px solid #d7ddd8;border-radius:12px;background:#fff;font-size:13px;font-weight:900;color:#14261d;cursor:pointer"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-whats"></use></svg>مساعدة فورية</button>
+</div>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{ is.ok }}" hint-placeholder-val="{{ true }}">
+
+<sc-if value="{{ is.phys }}" hint-placeholder-val="{{ true }}">
+<section aria-label="مراحل الطلب" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px;animation:tyFade .4s ease .08s both">
+<ol style="list-style:none;margin:0;padding:0;display:flex;gap:0">
+<sc-for list="{{ timeline }}" as="s" hint-placeholder-count="6">
+<li style="flex:1;min-width:0;position:relative;text-align:center">
+<span aria-hidden="true" style="position:absolute;top:15px;inset-inline-start:50%;width:100%;height:3px;background:{{ s.barBg }}"></span>
+<span title="{{ s.d }}" style="position:relative;display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:{{ s.dotBg }};border:2.5px solid {{ s.dotBd }};color:{{ s.dotFg }};animation:{{ s.anim }}">
+<sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:3"><use href="#t-check"></use></svg></sc-if>
+<sc-if value="{{ s.notDone }}" hint-placeholder-val="{{ true }}"><span style="font:900 12px Tajawal">{{ s.num }}</span></sc-if>
+</span>
+<span style="display:block;margin-top:7px;font-size:11px;font-weight:900;color:{{ s.tFg }}">{{ s.n }}</span>
+<span style="display:block;margin-top:1px;font-size:9px;line-height:1.5;color:#a9b4ad;padding:0 6px">{{ s.d }}</span>
+</li>
+</sc-for>
+</ol>
+</section>
+</sc-if>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden;animation:tyFade .4s ease .12s both">
+<button type="button" onClick="{{ onSum }}" aria-expanded="{{ is.sumOpen }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:15px 20px;border:0;background:none;cursor:pointer;text-align:start">
+<svg aria-hidden="true" style="width:17px;height:17px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-doc"></use></svg>
+<h2 style="margin:0;flex:1;font-size:15px;font-weight:900;color:#14261d">ملخص الطلب <span style="font-size:11px;font-weight:700;color:#8b978f">{{ itemsN }}</span></h2>
+<sc-if value="{{ sumCaret }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:15px;height:15px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ sumCaret }}"></use></svg></sc-if>
+</button>
+<sc-if value="{{ is.sumOpen }}" hint-placeholder-val="{{ true }}">
+<div style="padding:0 20px 18px">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid #f1f4f2">
+<span aria-hidden="true" style="flex:0 0 52px;height:52px;border-radius:11px;background:{{ it.img }};display:grid;place-items:center;color:#fff"><sc-if value="{{ it.ic }}" hint-placeholder-val="{{ false }}"><svg style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="{{ it.ic }}"></use></svg></sc-if></span>
+<span style="flex:1;min-width:0">
+<span style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span style="font-size:13px;font-weight:900;color:#14261d">{{ it.n }}</span>
+<sc-if value="{{ it.badge }}" hint-placeholder-val="{{ false }}"><span style="padding:2px 8px;border-radius:6px;background:#eaf3ee;color:#146c4c;font-size:9px;font-weight:900">{{ it.badge }}</span></sc-if></span>
+<span style="display:block;margin-top:2px;font-size:11px;color:#7c8a82">{{ it.v }} · <bdi dir="ltr" style="font:600 9.5px ui-monospace,monospace">{{ it.sku }}</bdi></span>
+</span>
+<span style="flex:0 0 auto;font-size:12px;font-weight:800;color:#7c8a82">{{ it.q }}</span>
+<span style="flex:0 0 auto;font-size:13.5px;font-weight:900;color:#14261d">{{ it.p }}</span>
+</div>
+</sc-for>
+<div style="margin-top:6px;padding:13px 15px;border-radius:12px;background:#f8faf8">
+<sc-for list="{{ totals }}" as="t" hint-placeholder-count="5">
+<sc-if value="{{ t.big }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;padding-top:9px;margin-top:7px;border-top:1.5px solid #dfe6e1"><span style="font-size:14px;font-weight:900;color:#14261d">{{ t.l }}</span><span style="font-size:17px;font-weight:900;color:#146c4c">{{ t.v }}</span></div>
+</sc-if>
+<sc-if value="{{ t.small }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;justify-content:space-between;padding:3px 0"><span style="font-size:11.5px;color:#5f7167">{{ t.l }}</span><span style="font-size:11.5px;font-weight:800;color:#3d4f45">{{ t.v }}</span></div>
+</sc-if>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</section>
+
+<sc-if value="{{ is.digital }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #d8e6dd;border-radius:16px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:16px 20px;animation:tyFade .4s ease .16s both">
+<h2 style="margin:0 0 4px;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:900;color:#14261d"><svg aria-hidden="true" style="width:17px;height:17px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-download"></use></svg>حمّل مشترياتك الرقمية الآن</h2>
+<sc-for list="{{ dls }}" as="d" hint-placeholder-count="1">
+<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid #e8f0ea">
+<span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:900">{{ d.n }}</span><span style="font-size:10px;color:#7c8a82">{{ d.meta }}</span></span>
+<button type="button" onClick="{{ d.onDl }}" style="display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 16px;border:0;border-radius:11px;background:#1e7355;color:#fff;font-size:12px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#t-download"></use></svg>تنزيل PDF</button>
+</div>
+</sc-for>
+</section>
+</sc-if>
+
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 20px;animation:tyFade .4s ease .2s both">
+<h2 style="margin:0 0 10px;font-size:15px;font-weight:900;color:#14261d">ماذا يحدث الآن؟</h2>
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+<li style="display:flex;align-items:center;gap:11px">
+<span aria-hidden="true" style="flex:0 0 34px;height:34px;border-radius:10px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><sc-if value="{{ n.ic }}" hint-placeholder-val="{{ false }}"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ n.ic }}"></use></svg></sc-if></span>
+<span style="font-size:12.5px;line-height:1.7;color:#3d4f45;font-weight:700">{{ n.n }}</span>
+</li>
+</sc-for>
+</ol>
+<div style="display:flex;align-items:center;gap:9px;margin-top:12px;padding:10px 13px;border-radius:11px;background:#f8faf8;flex-wrap:wrap">
+<svg aria-hidden="true" style="width:15px;height:15px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-mail"></use></svg>
+<span style="flex:1;min-width:200px;font-size:11.5px;color:#3d4f45;font-weight:700">{{ email.txt }}</span>
+<button type="button" onClick="{{ email.onResend }}" style="min-height:32px;padding:0 12px;border:1px solid #d7ddd8;border-radius:9px;background:#fff;font-size:11px;font-weight:800;color:#3d4f45;cursor:pointer">إعادة إرسال البريد</button>
+</div>
+</section>
+
+<sc-if value="{{ is.coupon }}" hint-placeholder-val="{{ true }}">
+<section style="position:relative;overflow:hidden;border:1.5px dashed #c9a869;border-radius:16px;background:linear-gradient(150deg,#fffaf0,#fff);padding:16px 20px;animation:tyFade .4s ease .24s both">
+<div style="display:flex;align-items:center;gap:13px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:44px;height:44px;border-radius:12px;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-gift"></use></svg></span>
+<span style="flex:1;min-width:220px"><span style="display:block;font-size:14.5px;font-weight:900;color:#14261d">{{ coupon.off }}</span><span style="font-size:10.5px;color:#8a7040;font-weight:700">{{ coupon.exp }}</span></span>
+<span dir="ltr" style="padding:9px 16px;border-radius:10px;background:#fff;border:1.5px dashed #d8b56a;font:900 15px ui-monospace,monospace;letter-spacing:2px;color:#8a6500">{{ coupon.code }}</span>
+<button type="button" onClick="{{ coupon.onCopy }}" style="display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 16px;border:0;border-radius:11px;background:{{ coupon.bg }};color:#fff;font-size:12px;font-weight:900;cursor:pointer;transition:background .2s"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-copy"></use></svg>{{ coupon.label }}</button>
+</div>
+</section>
+</sc-if>
+
+<section aria-label="قد يعجبك أيضًا" style="animation:tyFade .4s ease .28s both">
+<div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><h2 style="margin:0;font-size:15px;font-weight:900;color:#14261d">قد يعجبك أيضًا</h2><span style="font-size:10px;color:#8b978f">{{ recNote }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ recs }}" as="r" hint-placeholder-count="3">
+<div style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;overflow:hidden;display:flex;flex-direction:column">
+<button type="button" onClick="{{ r.onView }}" aria-label="عرض {{ r.n }}" style="display:block;height:96px;border:0;background:{{ r.img }};cursor:pointer"></button>
+<div style="padding:11px 13px;display:flex;flex-direction:column;gap:5px;flex:1">
+<span style="display:flex;align-items:center;gap:5px"><span style="padding:2px 7px;border-radius:6px;background:#f0f6f2;color:#146c4c;font-size:8.5px;font-weight:900">{{ r.why }}</span><span style="display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;color:#8a6500"><svg aria-hidden="true" style="width:10px;height:10px;color:#d8a723"><use href="#t-star"></use></svg>{{ r.rate }}</span></span>
+<span style="font-size:12.5px;font-weight:900;color:#14261d;line-height:1.5">{{ r.n }}</span>
+<div style="display:flex;align-items:center;gap:7px;margin-top:auto">
+<span style="flex:1;font-size:13px;font-weight:900;color:#146c4c">{{ r.p }}</span>
+<button type="button" onClick="{{ r.onAdd }}" style="min-height:32px;padding:0 12px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;color:#146c4c;font-size:11px;font-weight:900;cursor:pointer">أضف للسلة</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<aside style="display:flex;flex-direction:column;gap:16px;min-width:0">
+
+<sc-if value="{{ is.phys }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 18px;animation:tyFade .4s ease .14s both">
+<h2 style="margin:0 0 10px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:900;color:#14261d"><svg aria-hidden="true" style="width:16px;height:16px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-truck"></use></svg>معلومات التوصيل</h2>
+<div style="display:flex;flex-direction:column;gap:7px;font-size:11.5px;color:#3d4f45">
+<span style="display:flex;gap:8px"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;margin-top:2px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-user"></use></svg><span><b>{{ ship.name }}</b><br><span style="color:#7c8a82">{{ ship.phone }} — مموَّه للخصوصية</span></span></span>
+<span style="display:flex;gap:8px"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;margin-top:2px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-pin"></use></svg><span style="line-height:1.7">{{ ship.addr }}</span></span>
+<span style="display:flex;gap:8px"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;margin-top:2px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-box"></use></svg><span>{{ ship.carrier }} · شحن قياسي · يصل {{ ship.eta }}</span></span>
+</div>
+<div style="margin-top:10px;padding:9px 12px;border-radius:10px;background:#f0f6f2;font-size:10.5px;font-weight:800;color:#146c4c">{{ ship.status }}</div>
+<button type="button" onClick="{{ ship.onTrack }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;margin-top:10px;border:0;border-radius:12px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,100,73,.28)"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="#t-truck"></use></svg>تتبع شحنتك — {{ ship.track }}</button>
+</section>
+</sc-if>
+
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:14px 16px;animation:tyFade .4s ease .18s both">
+<h2 style="margin:0 0 9px;font-size:13.5px;font-weight:900;color:#14261d">إجراءات سريعة</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+<sc-for list="{{ acts }}" as="a" hint-placeholder-count="5">
+<button type="button" onClick="{{ a.onGo }}" style="display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 12px;border:1px solid #e2e8e4;border-radius:11px;background:#fbfcfb;font-size:11.5px;font-weight:900;color:#3d4f45;cursor:pointer;text-align:start"><sc-if value="{{ a.ic }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:#146c4c;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ a.ic }}"></use></svg></sc-if>{{ a.n }}</button>
+</sc-for>
+</div>
+</section>
+
+<sc-if value="{{ is.guest }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #d8e2ec;border-radius:16px;background:linear-gradient(170deg,#f4f8fc,#fff 60%);padding:16px 18px;animation:tyFade .4s ease .22s both">
+<h2 style="margin:0 0 4px;font-size:14px;font-weight:900;color:#14261d">أنشئ حسابًا بنقرة — ببيانات طلبك نفسها</h2>
+<span style="font-size:10.5px;color:#5f7167">بلا نماذج ولا إعادة إدخال. لن ننشئه أبدًا دون موافقتك.</span>
+<ul style="list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ guest.benefits }}" as="b" hint-placeholder-count="4">
+<li style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:#3d4f45"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:#1d5f9c;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#t-check"></use></svg>{{ b }}</li>
+</sc-for>
+</ul>
+<button type="button" onClick="{{ guest.onCreate }}" style="width:100%;min-height:42px;margin-top:11px;border:0;border-radius:11px;background:#1d5f9c;color:#fff;font-size:12.5px;font-weight:900;cursor:pointer">إنشاء حسابي وتتبع طلباتي</button>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.loyalty }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e6ddc8;border-radius:16px;background:linear-gradient(170deg,#fdfaf2,#fff 60%);padding:16px 18px;animation:tyFade .4s ease .22s both">
+<div style="display:flex;align-items:center;gap:9px"><span style="font:900 20px Tajawal;color:#8a6500">{{ loyalty.earned }}</span><span style="font-size:12px;font-weight:900;color:#14261d">نقطة كسبتها من هذا الطلب 🎉</span></div>
+<span style="display:block;margin-top:4px;font-size:10.5px;color:#5f7167">رصيدك {{ loyalty.total }} نقطة · مستواك: {{ loyalty.tier }} — يفصلك {{ loyalty.needed }} نقطة عن {{ loyalty.next }}</span>
+<span aria-hidden="true" style="display:block;height:8px;margin-top:8px;border-radius:6px;background:#f0e9d8;overflow:hidden"><span style="display:block;height:100%;width:{{ loyalty.w }};border-radius:6px;background:linear-gradient(90deg,#d8b56a,#a5813a);animation:tyBar .9s ease .4s both"></span></span>
+</section>
+</sc-if>
+
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 18px;animation:tyFade .4s ease .26s both">
+<h2 style="margin:0 0 4px;font-size:14px;font-weight:900;color:#14261d">تحتاج مساعدة في طلبك؟</h2>
+<span style="font-size:10.5px;color:#5f7167">نرفق رقم طلبك تلقائيًا — بلا أي بيانات دفع حساسة.</span>
+<div style="display:flex;flex-direction:column;gap:7px;margin-top:10px">
+<sc-for list="{{ support.chans }}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{ c.onGo }}" style="display:flex;align-items:center;gap:10px;min-height:46px;padding:0 13px;border:1px solid #e2e8e4;border-radius:12px;background:#fbfcfb;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="width:32px;height:32px;flex:0 0 auto;border-radius:9px;background:{{ c.c }}14;color:{{ c.c }};display:grid;place-items:center"><sc-if value="{{ c.ic }}" hint-placeholder-val="{{ false }}"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ c.ic }}"></use></svg></sc-if></span>
+<span style="flex:1;min-width:0"><span style="display:block;font-size:12px;font-weight:900;color:#14261d">{{ c.n }}</span><span style="font-size:9.5px;color:#7c8a82">{{ c.d }}</span></span>
+<svg aria-hidden="true" style="width:13px;height:13px;color:#a9b4ad;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#t-chev-l"></use></svg>
+</button>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 18px;animation:tyFade .4s ease .3s both">
+<h2 style="margin:0 0 6px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:900;color:#14261d"><svg aria-hidden="true" style="width:15px;height:15px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-share"></use></svg>شارك تذكير مع زملائك</h2>
+<span style="font-size:10.5px;color:#5f7167">تكسبان معًا ١٥ ر.س بعد أول طلب لصديقك — رابطك الخاص:</span>
+<div style="display:flex;gap:6px;margin-top:8px">
+<span dir="ltr" style="flex:1;min-width:0;padding:9px 11px;border-radius:10px;background:#f8faf8;border:1px solid #e6ebe7;font:700 10.5px ui-monospace,monospace;color:#3d4f45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ refer.link }}</span>
+<button type="button" onClick="{{ refer.onCopy }}" style="min-height:38px;padding:0 13px;border:0;border-radius:10px;background:#14261d;color:#fff;font-size:11px;font-weight:900;cursor:pointer">{{ refer.label }}</button>
+</div>
+<div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap">
+<sc-for list="{{ refer.chans }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onGo }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:1px solid #e2e8e4;border-radius:9px;background:#fff;font-size:10.5px;font-weight:800;color:#3d4f45;cursor:pointer"><sc-if value="{{ c.ic }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ c.ic }}"></use></svg></sc-if>{{ c.n }}</button>
+</sc-for>
+</div>
+</section>
+
+</aside>
+</div>
+
+<section aria-label="أسئلة ما بعد الشراء" style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden;animation:tyFade .4s ease .32s both">
+<h2 style="margin:0;padding:15px 20px 5px;font-size:15px;font-weight:900;color:#14261d">أسئلة شائعة بعد الطلب</h2>
+<div style="padding:8px 12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+<sc-for list="{{ faq }}" as="f" hint-placeholder-count="6">
+<div style="border:1px solid #eef1ef;border-radius:12px;background:{{ f.bg }};overflow:hidden;align-self:start">
+<button type="button" onClick="{{ f.onToggle }}" aria-expanded="{{ f.open }}" style="display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:0 13px;border:0;background:none;cursor:pointer;text-align:start">
+<span style="flex:1;font-size:12px;font-weight:900;color:#14261d">{{ f.q }}</span>
+<sc-if value="{{ f.caret }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:13px;height:13px;color:#8b978f;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ f.caret }}"></use></svg></sc-if>
+</button>
+<sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;padding:0 13px 12px;font-size:11.5px;line-height:1.9;color:#4a5b51">{{ f.a }}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px">
+<sc-for list="{{ trust }}" as="t" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:11px 13px;border:1px solid #e6ebe7;border-radius:13px;background:#fff">
+<svg aria-hidden="true" style="width:17px;height:17px;flex:0 0 auto;color:#146c4c;fill:none;stroke:currentColor;stroke-width:1.9"><use href="#t-shield"></use></svg>
+<span><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ t.t }}</span><span style="font-size:9.5px;color:#7c8a82">{{ t.d }}</span></span>
+</div>
+</sc-for>
+</div>
+
+</sc-if>
+
+<sc-if value="{{ is.failed }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden">
+<h2 style="margin:0;padding:15px 20px;font-size:14px;font-weight:900;color:#14261d;border-bottom:1px solid #f1f4f2">طلبك المحفوظ — لم يُخصم أي مبلغ</h2>
+<div style="padding:6px 20px 16px">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid #f6f8f6">
+<span aria-hidden="true" style="flex:0 0 44px;height:44px;border-radius:10px;background:{{ it.img }};display:grid;place-items:center;color:#fff"><sc-if value="{{ it.ic }}" hint-placeholder-val="{{ false }}"><svg style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="{{ it.ic }}"></use></svg></sc-if></span>
+<span style="flex:1;min-width:0;font-size:12.5px;font-weight:900;color:#14261d">{{ it.n }}</span>
+<span style="font-size:11px;font-weight:800;color:#7c8a82">{{ it.q }}</span>
+<span style="font-size:12.5px;font-weight:900">{{ it.p }}</span>
+</div>
+</sc-for>
+<div style="display:flex;justify-content:space-between;padding-top:11px"><span style="font-size:13px;font-weight:900">الإجمالي عند إتمام الدفع</span><span style="font-size:15px;font-weight:900;color:#146c4c">٢٣٩ ر.س</span></div>
+</div>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 18px">
+<h2 style="margin:0 0 4px;font-size:14px;font-weight:900;color:#14261d">تحتاج مساعدة في الدفع؟</h2>
+<span style="font-size:10.5px;color:#5f7167">نرفق رقم طلبك تلقائيًا — بلا أي بيانات بطاقة.</span>
+<div style="display:flex;flex-direction:column;gap:7px;margin-top:10px">
+<sc-for list="{{ support.chans }}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{ c.onGo }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 13px;border:1px solid #e2e8e4;border-radius:12px;background:#fbfcfb;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="width:30px;height:30px;flex:0 0 auto;border-radius:9px;background:{{ c.c }}14;color:{{ c.c }};display:grid;place-items:center"><sc-if value="{{ c.ic }}" hint-placeholder-val="{{ false }}"><svg style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ c.ic }}"></use></svg></sc-if></span>
+<span style="flex:1;font-size:12px;font-weight:900;color:#14261d">{{ c.n }}</span>
+</button>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<details style="border:1px solid #e6ebe7;border-radius:13px;background:#fbfcfb;padding:0">
+<summary style="padding:12px 16px;font-size:11px;font-weight:900;color:#5f7167;cursor:pointer">عقد التنفيذ الفني — الأمان والتحليلات وSEO والأداء (للاطلاع)</summary>
+<ul style="list-style:none;margin:0;padding:4px 16px 13px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ contract }}" as="c" hint-placeholder-count="6">
+<li style="font-size:10.5px;line-height:1.8;color:#5f7167">• {{ c }}</li>
+</sc-for>
+</ul>
+</details>
+
+</main>
+
+<footer style="background:#14261d;color:rgba(234,242,238,.75)">
+<div style="max-width:1080px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:11px">
+<span style="font-weight:900;color:#fff">تذكير</span>
+<a href="#" style="color:rgba(234,242,238,.75)">سياسة الاسترجاع</a>
+<a href="#" style="color:rgba(234,242,238,.75)">سياسة الشحن</a>
+<a href="#" style="color:rgba(234,242,238,.75)">الأسئلة الشائعة</a>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9.5px ui-monospace,monospace;opacity:.55">order-received · noindex,follow · خارج Sitemap</span>
+</div>
+</footer>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-start:18px;bottom:18px;z-index:100;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="display:flex;align-items:center;gap:9px;max-width:420px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);animation:tyFade .2s ease">
+<svg aria-hidden="true" style="width:15px;height:15px;flex:0 0 auto;color:#7fd4ab;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#t-check"></use></svg>
+<span style="font-size:12px;font-weight:800;line-height:1.6">{{ t.m }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:940},&quot;designMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;minimal&quot;,&quot;premium&quot;,&quot;celebration&quot;],&quot;default&quot;:&quot;premium&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;التصميم&quot;},&quot;orderState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;paid&quot;,&quot;pending&quot;,&quot;cod&quot;,&quot;failed&quot;],&quot;default&quot;:&quot;paid&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;حالة الطلب&quot;},&quot;customerType&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;guest&quot;,&quot;account&quot;],&quot;default&quot;:&quot;guest&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;حالة الطلب&quot;},&quot;orderKind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mixed&quot;,&quot;physical&quot;,&quot;digital&quot;],&quot;default&quot;:&quot;mixed&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;حالة الطلب&quot;},&quot;showCoupon&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الأقسام&quot;},&quot;direction&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rtl&quot;,&quot;ltr&quot;],&quot;default&quot;:&quot;rtl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;التصميم&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+sar(n){ return this.ar(Number(n).toLocaleString('en-US'))+' ر.س'; }
+
+state={sumOpen:true,faqOpen:0,copied:false,copiedRef:false,resent:false,toasts:[],reordered:false,accountMade:false};
+
+ORDER={num:'TD-48213',date:'٢٩ أغسطس ٢٠٢٦ · ٢:١٤ م',name:'نورة السالم',email:'n***a@gmail.com',
+ phone:'٠٥٥ *** **٤٢',addr:'حي النرجس، شارع العليا، الرياض ١٣٣٢٥، السعودية',
+ method:'مدى **** ٤٨٢١',eta:'٢ – ٤ سبتمبر',carrier:'سمسا إكسبرس',track:'SMSA-٩٨٤٤١٢٧٧٠٥',
+ sub:244,disc:20,ship:15,vat:31.17,total:239};
+ITEMS=[
+ {n:'حزمة المراجعة الشاملة',v:'ثالث ثانوي · نسخة رقمية PDF',q:1,p:149,digital:true,sku:'RB-300',img:'linear-gradient(140deg,#d8b56a,#a5813a)',ic:'#t-download'},
+ {n:'مذكرة رياضيات — أول ثانوي',v:'مطبوعة · ٨٤ صفحة',q:1,p:45,digital:false,sku:'MA-101',img:'linear-gradient(140deg,#2b9c72,#14603f)',ic:'#t-box'},
+ {n:'أوراق عمل — لغتي الرابع',v:'مطبوعة · الفصل الأول',q:2,p:25,digital:false,sku:'AR-204',img:'linear-gradient(140deg,#527a96,#2d5471)',ic:'#t-box'}
+];
+STAGES=[
+ {n:'استلمنا الطلب',d:'وصل طلبك وسُجّل برقمه'},
+ {n:'تأكيد الدفع',d:'اكتملت عملية الدفع بنجاح'},
+ {n:'قيد التجهيز',d:'نجهّز موادك للطباعة والتغليف'},
+ {n:'جاهز للشحن',d:'غُلّف الطلب وينتظر المندوب'},
+ {n:'في الطريق إليك',d:'مع شركة الشحن — تتبّعه لحظيًا'},
+ {n:'تم التسليم',d:'وصل! نتمنى لك فائدة ممتعة'}
+];
+RECS=[
+ {n:'ملزمة فيزياء — ثاني ثانوي',p:'٥٥ ر.س',why:'من نفس المرحلة',rate:'٤٫٨',img:'linear-gradient(140deg,#6b8f5a,#3f6132)'},
+ {n:'دفتر تمارين الرياضيات',p:'٢٩ ر.س',why:'يُشترى معًا عادة',rate:'٤٫٦',img:'linear-gradient(140deg,#2b9c72,#14603f)'},
+ {n:'حزمة أحياء ثالث ثانوي',p:'١٣٩ ر.س',why:'مكمّل لحزمتك',rate:'٤٫٩',img:'linear-gradient(140deg,#d8b56a,#a5813a)'}
+];
+FAQ=[
+ {q:'متى يصل طلبي؟',a:'الطلبات المطبوعة تصل خلال ١–٣ أيام عمل داخل الرياض و٢–٤ أيام لبقية المناطق. موادك الرقمية متاحة للتنزيل فورًا.'},
+ {q:'كيف أتتبع طلبي؟',a:'بزر «تتبع الشحنة» أعلاه، أو من حسابي ← طلباتي. سنرسل لك رقم التتبع برسالة فور تسليم الشحنة للناقل.'},
+ {q:'هل أستطيع تعديل عنوان الشحن؟',a:'نعم ما دام الطلب «قيد التجهيز» — تواصل معنا فورًا عبر واتساب وسنعدّله قبل الشحن.'},
+ {q:'هل يمكن إلغاء الطلب؟',a:'يمكن الإلغاء قبل الشحن بكامل المبلغ. بعد الشحن تسري سياسة الاسترجاع (١٤ يومًا للمطبوعات بحالتها الأصلية).'},
+ {q:'كيف أحمّل الفاتورة؟',a:'من أزرار «الفاتورة» في هذه الصفحة، أو من حسابي ← طلباتي ← عرض الفاتورة (PDF).'},
+ {q:'ماذا لو تأخر الطلب؟',a:'إن تجاوز الموعد المتوقع يومين، راسلنا برقم الطلب وسنتابع مع الناقل ونعوّضك عن أي تقصير من طرفنا.'}
+];
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+copy(txt,key,msg){
+ try{ navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{}); }catch(e){}
+ this.setState({[key]:true}); this.toast(msg);
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({[key]:false}),2400));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+
+renderVals(){
+ const p=this.props||{};
+ const st=p.orderState||'paid';
+ const mode=p.designMode||'premium';
+ const guest=(p.customerType||'guest')==='guest';
+ const kind=p.orderKind||'mixed';
+ const digitalOnly=kind==='digital';
+ const physOnly=kind==='physical';
+ const failed=st==='failed', paid=st==='paid', pending=st==='pending', cod=st==='cod';
+ const items=digitalOnly?this.ITEMS.filter(i=>i.digital):(physOnly?this.ITEMS.filter(i=>!i.digital):this.ITEMS);
+ const hasDigital=items.some(i=>i.digital), hasPhys=items.some(i=>!i.digital);
+ const stage=paid?2:(cod?1:(pending?0:0));
+ const O=this.ORDER;
+ const heroBg={minimal:'#fff',premium:'linear-gradient(170deg,#f0f7f3,#fff 60%)',celebration:'linear-gradient(170deg,#eaf6ef,#fff 70%)'}[mode];
+ const PAYC={paid:{n:'مدفوع',bg:'#e4f4ec',fg:'#146c4c'},pending:{n:'بانتظار التحويل',bg:'#fff4d6',fg:'#8a6500'},cod:{n:'الدفع عند الاستلام',bg:'#e8f2fc',fg:'#1d5f9c'},failed:{n:'فشل الدفع',bg:'#fdecec',fg:'#b32d2e'}}[st];
+ return {
+  dir:p.direction==='ltr'?'ltr':'rtl',
+  is:{failed:failed,ok:!failed,paid:paid,pending:pending,cod:cod,guest:guest&&!this.state.accountMade,member:!guest||this.state.accountMade,
+   digital:hasDigital,phys:hasPhys,digitalOnly:digitalOnly,celebration:mode==='celebration'&&!failed,
+   coupon:p.showCoupon!==false&&!failed,loyalty:!guest&&!failed,sumOpen:this.state.sumOpen,
+   toasts:this.state.toasts.length>0,resent:this.state.resent},
+  hero:{
+   bg:heroBg,
+   pad:mode==='minimal'?'26px 22px':'34px 26px',
+   checkSize:mode==='celebration'?'86px':'72px',
+   pulse:mode!=='minimal'?'tyPulse 2.2s ease-out 1.2s 3':'none',
+   title:paid?'تم استلام طلبك بنجاح!':(pending?'أنشأنا طلبك — بانتظار تأكيد التحويل':(cod?'تم تأكيد طلبك — الدفع عند الاستلام':'')),
+   sub:paid?('شكرًا لك يا '+O.name.split(' ')[0]+'! اكتمل الدفع وبدأنا العمل على طلبك فورًا.'):(pending?'حوّل المبلغ خلال ٤٨ ساعة على الحساب المرسل لبريدك، وسيتأكد الطلب تلقائيًا فور المطابقة.':(cod?'جهّز المبلغ '+this.sar(O.total)+' نقدًا أو بالشبكة عند استلام الشحنة.':'')),
+   payN:PAYC.n,payBg:PAYC.bg,payFg:PAYC.fg,
+   facts:[['رقم الطلب','#'+O.num],['التاريخ',O.date],['طريقة الدفع',cod?'عند الاستلام':(pending?'تحويل بنكي':O.method)],['الإجمالي',this.sar(O.total)],['التسليم المتوقع',digitalOnly?'فوري — تنزيل مباشر':O.eta]].map(f=>({l:f[0],v:f[1]})),
+   conf:[['12%','#2b9c72','0s'],['28%','#d8b56a','.35s'],['46%','#527a96','.15s'],['62%','#2b9c72','.5s'],['78%','#d8b56a','.1s'],['90%','#6b8f5a','.42s']].map(c=>({x:c[0],c:c[1],d:c[2]})),
+   progressW:Math.round((stage+1)/6*100)+'%',
+   stageTxt:'المرحلة '+this.ar(stage+1)+' من ٦ — '+this.STAGES[stage].n
+  },
+  fail:{
+   title:'لم يكتمل الدفع',
+   sub:'لم يُخصم أي مبلغ من بطاقتك. طلبك محفوظ برقم #'+O.num+' ويمكنك إتمام الدفع الآن أو تغيير الوسيلة — منتجاتك محجوزة لمدة ٢٤ ساعة.',
+   reason:'رفضت البطاقة العملية (رصيد غير كافٍ أو حد يومي). لا تُعرض تفاصيل تقنية حساسة هنا.',
+   onRetry:()=>this.toast('إعادة توجيهك لبوابة الدفع بنفس الطلب — بلا إدخال بيانات من جديد'),
+   onChange:()=>this.toast('عرض وسائل الدفع: مدى · بطاقات · Apple Pay · تحويل بنكي · عند الاستلام'),
+   onSupport:()=>this.toast('فتح واتساب الدعم مع رقم طلبك #'+O.num+' تلقائيًا')
+  },
+  timeline:this.STAGES.map((s,i)=>({
+   n:s.n,d:s.d,
+   done:i<stage,notDone:i>=stage,cur:i===stage,up:i>stage,
+   ic:i<stage?'#t-check':'',
+   num:this.ar(i+1),
+   dotBg:i<stage?'#1e7355':(i===stage?'#fff':'#fff'),
+   dotBd:i<stage?'#1e7355':(i===stage?'#1e7355':'#d5dcd7'),
+   dotFg:i<stage?'#fff':(i===stage?'#1e7355':'#a9b4ad'),
+   barBg:i<stage?'#1e7355':'#e3e8e4',
+   tFg:i<=stage?'#14261d':'#a9b4ad',
+   anim:i===stage?'tyPulse 2.4s ease-out infinite':'none'
+  })),
+  items:items.map(it=>({n:it.n,v:it.v,q:'×'+this.ar(it.q),p:this.sar(it.p*it.q),sku:it.sku,img:it.img,ic:it.ic,
+   badge:it.digital?'رقمي — تنزيل فوري':'',dl:it.digital})),
+  totals:[['المجموع الفرعي',this.sar(O.sub),false],['الخصم — كوبون WELCOME','− '+this.sar(O.disc),false],['الشحن',physOnly||hasPhys?this.sar(O.ship):'—',false],['ض.ق.م ١٥٪ (مشمولة)',this.ar(31.17)+' ر.س',false],['الإجمالي',this.sar(O.total),true]].map(t=>({l:t[0],v:t[1],big:t[2],small:!t[2]})),
+  onSum:()=>this.setState({sumOpen:!this.state.sumOpen}),
+  sumCaret:this.state.sumOpen?'#t-chev-d':'#t-chev-l',
+  itemsN:this.ar(items.length)+' منتجات · #'+O.num,
+  ship:{name:O.name,addr:O.addr,phone:O.phone,carrier:O.carrier,track:O.track,eta:O.eta,
+   status:paid?'الشحنة قيد التجهيز — يُسلَّم الناقل غدًا':'تُجهَّز الشحنة بعد تأكيد الدفع',
+   onTrack:()=>this.toast('فتح صفحة تتبع '+O.carrier+' برقم '+O.track+' في تبويب جديد')},
+  dls:items.filter(i=>i.digital).map(i=>({n:i.n,meta:'PDF · ٢٨ م.ب · متاح حتى ٢٩ أغسطس ٢٠٢٧ · ٥ تنزيلات متبقية',
+   onDl:()=>this.toast('بدأ تنزيل «'+i.n+'» — رابط مؤقت موقَّع وآمن')})),
+  next:[
+   {n:'وصلك الآن بريد تأكيد فيه تفاصيل الطلب كاملة',ic:'#t-mail'},
+   {n:hasPhys?'نجهّز المطبوعات خلال يوم عمل ونغلّفها بعناية':'ملفاتك الرقمية جاهزة للتنزيل في الأسفل',ic:'#t-box'},
+   {n:hasPhys?'نرسل لك رقم التتبع برسالة فور خروج الشحنة':'نرسل نسخة احتياطية من روابط التنزيل لبريدك',ic:'#t-truck'},
+   {n:'تعود لهذه الصفحة أو لحسابك متى شئت لمتابعة كل شيء',ic:'#t-clock'}
+  ],
+  email:{txt:'أرسلنا تفاصيل الطلب إلى '+O.email,
+   onResend:()=>{ if(this.state.resent) return this.toast('أُعيد الإرسال قبل قليل — انتظر دقيقتين (حد إعادة الإرسال)');
+    this.setState({resent:true}); this.toast('أُعيد إرسال بريد التأكيد إلى '+O.email); }},
+  acts:[
+   {n:'تتبع الشحنة',ic:'#t-truck',pri:true,show:hasPhys&&!failed,onGo:()=>this.toast('فتح تتبع '+O.carrier+' — '+O.track)},
+   {n:'عرض الطلب',ic:'#t-doc',pri:false,show:true,onGo:()=>this.toast('فتح تفاصيل الطلب #'+O.num+' في حسابك')},
+   {n:'تنزيل الفاتورة PDF',ic:'#t-download',pri:false,show:!failed,onGo:()=>this.toast('تنزيل فاتورة ضريبية مبسطة #'+O.num)},
+   {n:'طباعة الفاتورة',ic:'#t-print',pri:false,show:!failed,onGo:()=>this.toast('فتح نسخة الطباعة — تُطبع بلا ألوان خلفية')},
+   {n:'متابعة التسوق',ic:'#t-cart',pri:false,show:true,onGo:()=>this.toast('العودة للمتجر — سلتك الجديدة فارغة وجاهزة')},
+   {n:'إعادة طلب سابق',ic:'#t-retry',pri:false,show:!guest&&!failed,onGo:()=>{ if(this.state.reordered) return this.toast('المنتجات في السلة بالفعل');
+    this.setState({reordered:true}); this.toast('أُضيفت ٣ منتجات متوفرة بأسعار اليوم — استُبعد منتج نافد وسُجّل تنبيه لك'); }}
+  ].filter(a=>a.show),
+  guest:{
+   benefits:['تتبع كل طلباتك بنقرة','إعادة طلب مشترياتك السابقة','حفظ العناوين والفواتير','عروض مخصصة لصفوف أبنائك'],
+   onCreate:()=>{ this.setState({accountMade:true}); this.toast('أُنشئ حسابك ببيانات الطلب نفسها — عيّن كلمة المرور من الرابط المرسل لبريدك'); }
+  },
+  loyalty:{earned:'+١٢٠',total:this.ar(480),tier:'فضي',next:'ذهبي',needed:this.ar(120),w:'80%'},
+  recs:this.RECS.map(r=>({n:r.n,p:r.p,why:r.why,rate:r.rate,img:r.img,
+   onAdd:()=>this.toast('أُضيف «'+r.n+'» إلى السلة'),
+   onView:()=>this.toast('فتح صفحة «'+r.n+'»')})),
+  recNote:'مرشحة بناءً على مشترياتك ومرحلة أبنائك — استُبعد ما اشتريته وما هو غير متوفر.',
+  coupon:{code:'THANKS10',off:'خصم ١٠٪ على طلبك القادم',exp:'صالح حتى ١٥ سبتمبر · استخدام واحد لكل حساب',
+   label:this.state.copied?'نُسخ ✓':'نسخ الكود',
+   bg:this.state.copied?'#146c4c':'#14261d',
+   onCopy:()=>this.copy('THANKS10','copied','نُسخ كود THANKS10 — يُطبق تلقائيًا في سلتك القادمة')},
+  refer:{link:'tahdheer.sa/r/NORA48',label:this.state.copiedRef?'نُسخ ✓':'نسخ الرابط',
+   onCopy:()=>this.copy('https://tahdheer.sa/r/NORA48','copiedRef','نُسخ رابط الإحالة — تكسبان معًا ١٥ ر.س بعد أول طلب لصديقك'),
+   chans:[['واتساب','#t-whats'],['X','#t-share'],['تيليجرام','#t-share'],['البريد','#t-mail']].map(c=>({n:c[0],ic:c[1],onGo:()=>this.toast('مشاركة عبر '+c[0]+' — الرابط جاهز في الرسالة')}))},
+  support:{
+   chans:[
+    {n:'واتساب',d:'رد خلال دقائق · ٩ص–١١م',ic:'#t-whats',c:'#1e7355'},
+    {n:'محادثة مباشرة',d:'من أيقونة الدردشة أسفل المتجر',ic:'#t-chat',c:'#1d5f9c'},
+    {n:'البريد',d:'support@tahdheer.sa · خلال ٢٤ ساعة',ic:'#t-mail',c:'#8a6500'}
+   ].map(c=>Object.assign(c,{onGo:()=>this.toast('فتح '+c.n+' مع إرفاق رقم طلبك #'+O.num+' تلقائيًا — بلا أي بيانات دفع')})),
+  },
+  faq:this.FAQ.map((f,i)=>({q:f.q,a:f.a,open:this.state.faqOpen===i,
+   caret:this.state.faqOpen===i?'#t-chev-d':'#t-chev-l',
+   bg:this.state.faqOpen===i?'#f7faf8':'#fff',
+   onToggle:()=>this.setState({faqOpen:this.state.faqOpen===i?-1:i})})),
+  trust:[['دفع آمن','مدى · فيزا · Apple Pay'],['طلب محمي','استرجاع سهل خلال ١٤ يومًا'],['دعم حقيقي','بشر يردون عليك سريعًا'],['فوترة معتمدة','فاتورة ضريبية مبسطة']].map(t=>({t:t[0],d:t[1]})),
+  toasts:this.state.toasts.map(t=>({m:t.m})),
+  contract:[
+   'الأمان: تحقق ملكية الطلب (عميل مسجّل) أو Order Key مشفَّر (زائر) — تغيير رقم الطلب في الرابط لا يعرض طلب غيرك',
+   'التحليلات: حدث purchase مرة واحدة لكل order_id — محمي من التكرار عند التحديث/الرجوع/تعدد التبويبات',
+   'SEO: noindex,follow · مستبعدة من Sitemap والأرشيفات · روابط داخلية طبيعية للتصنيفات والأدلة',
+   'الأداء: LCP < ٢٫٥ث · CLS < ٠٫١ · التأكيد لا ينتظر سكربتات التتبع ويعمل بدونها',
+   'ووكومرس: woocommerce_thankyou · دعم HPOS والاسترجاعات والمتغيرات — بلا تعديل ملفات النواة',
+   'بلا JavaScript: الرقم والحالة والمنتجات والإجمالي والأزرار الأساسية تُعرض من الخادم كما هي'
+  ]
+ };
+}
+}
+</script>
+</body>
+</html>

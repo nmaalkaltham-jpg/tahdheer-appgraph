@@ -1,0 +1,19 @@
+# Storefront build-context exclusions.
+#
+# NOTE: the real image builds from the MONOREPO ROOT context
+# (`docker build -f apps/storefront/Dockerfile .`) because the app consumes
+# npm-workspace packages in ../../packages/*. In that mode Docker reads
+# /.dockerignore, not this file. This file only applies if someone builds with
+# apps/storefront as the context; it is kept in sync so that stays cheap.
+node_modules
+.next
+out
+dist
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Dockerfile
+.dockerignore

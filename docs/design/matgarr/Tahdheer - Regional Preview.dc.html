@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div style="width:1240px;margin:0 auto;padding:24px 20px 40px;box-sizing:border-box">
+
+<div style="display:flex;align-items:baseline;gap:9px;margin-bottom:8px">
+<span style="font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px">REGIONAL PREVIEW</span>
+<span style="font:700 13px/1.3 system-ui,sans-serif;color:#1a1a1a">معاينة النسخ الإقليمية ومقارنتها</span>
+</div>
+<p style="margin:0 0 20px;font:400 12.5px/1.75 system-ui,sans-serif;color:rgba(0,0,0,.6);max-width:88ch;text-wrap:pretty">الأداة التي تحكم ما إذا كانت النسخة الإقليمية تستحقّ رابطًا خاصًا بها. التشابه محسوب فعليًا بمعامل جاكار على مقاطع ثلاثية من النصّ المعروض — لا تقدير بصري.</p>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:14px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font-size:11.5px;font-weight:800;color:#5f7167">قارن</span>
+<div style="display:flex;gap:4px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ leftPicks }}" as="p" hint-placeholder-count="3">
+<button type="button" onClick="{{ p.onClick }}" aria-pressed="{{ p.pressed }}" style="min-height:34px;padding:0 12px;border:0;border-radius:7px;background:{{ p.bg }};color:{{ p.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer"><bdi dir="ltr">{{ p.code }}</bdi></button>
+</sc-for>
+</div>
+</div>
+<svg aria-hidden="true" style="width:16px;height:16px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-share"></use></svg>
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font-size:11.5px;font-weight:800;color:#5f7167">مع</span>
+<div style="display:flex;gap:4px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ rightPicks }}" as="p" hint-placeholder-count="4">
+<button type="button" onClick="{{ p.onClick }}" aria-pressed="{{ p.pressed }}" style="min-height:34px;padding:0 12px;border:0;border-radius:7px;background:{{ p.bg }};color:{{ p.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer"><bdi dir="ltr">{{ p.code }}</bdi></button>
+</sc-for>
+</div>
+</div>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onToggleDiff }}" aria-pressed="{{ diffAria }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 13px;border:1px solid {{ diffBorder }};border-radius:9px;background:{{ diffBg }};color:{{ diffFg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">
+<svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-layers"></use></svg>إبراز الفروق
+</button>
+</div>
+
+<div style="padding:14px 16px;border:1px solid {{ verdict.border }};border-radius:12px;background:{{ verdict.bg }};margin-bottom:16px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:10px">
+<span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:{{ verdict.iconBg }};color:{{ verdict.iconFg }};display:grid;place-items:center"><svg style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ verdict.iconRef }}"></use></svg></span>
+<div>
+<div dir="rtl" style="font-size:13px;font-weight:900;color:{{ verdict.fg }};text-align:start">{{ verdict.title }}</div>
+<div dir="rtl" style="font-size:11px;color:#5f7167;text-align:start">تشابه <bdi dir="ltr">{{ sim }}%</bdi> · العتبة <bdi dir="ltr">{{ threshold }}%</bdi></div>
+</div>
+</div>
+<div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px">
+<span style="display:block;height:8px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:{{ simW }};border-radius:999px;background:{{ verdict.barFg }};animation:{{ barAnim }}"></span></span>
+<span dir="rtl" style="font-size:10.5px;color:#5f7167;text-align:start">{{ verdict.note }}</span>
+</div>
+<div style="flex:0 0 auto;display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ actions }}" as="a" hint-placeholder-count="2">
+<button type="button" style="min-height:36px;padding:0 13px;border:1px solid {{ a.border }};border-radius:9px;background:{{ a.bg }};color:{{ a.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer">{{ a.label }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start">
+<sc-for list="{{ panes }}" as="p" hint-placeholder-count="2">
+<section style="border:1px solid #dcdcde;border-radius:12px;background:#fff;overflow:hidden;animation:{{ p.anim }}">
+<div style="display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid #eef1ec;background:{{ p.headBg }}">
+<span aria-hidden="true" style="width:24px;height:24px;border-radius:7px;background:{{ p.tint }};color:{{ p.color }};display:grid;place-items:center"><svg style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-globe"></use></svg></span>
+<b dir="rtl" style="flex:1;min-width:0;font-size:12.5px;font-weight:900;color:#14261d;text-align:start">{{ p.name }}</b>
+<bdi dir="ltr" style="font:700 11px ui-monospace,Menlo,monospace;color:#5f7167">{{ p.code }}</bdi>
+</div>
+
+<div style="padding:14px">
+<div style="font-size:10px;font-weight:900;color:#5f7167;margin-bottom:8px">معاينة نتيجة البحث</div>
+<div style="padding:12px 13px;border:1px solid #eef1ec;border-radius:10px;background:#fbfcfa;margin-bottom:14px">
+<bdi dir="ltr" style="display:block;font:600 10.5px ui-monospace,Menlo,monospace;color:#1e7355;margin-bottom:5px;word-break:break-all">{{ p.url }}</bdi>
+<div dir="rtl" style="font-size:14px;font-weight:800;color:#1a0dab;line-height:1.5;margin-bottom:4px;text-align:start">{{ p.title }}</div>
+<div dir="rtl" style="font-size:11.5px;line-height:1.7;color:#4d5156;text-align:start">{{ p.meta }}</div>
+</div>
+
+<div style="font-size:10px;font-weight:900;color:#5f7167;margin-bottom:8px">الطبقات المحلّية</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ p.layers }}" as="l" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid {{ l.border }};border-radius:9px;background:{{ l.bg }}">
+<span style="flex:0 0 auto;padding:2px 7px;border-radius:5px;background:{{ l.tagBg }};color:{{ l.tagFg }};font-size:9px;font-weight:900;white-space:nowrap">{{ l.tag }}</span>
+<div style="flex:1;min-width:0">
+<div dir="rtl" style="font-size:11px;font-weight:800;color:#14261d;margin-bottom:2px;text-align:start">{{ l.label }}</div>
+<div dir="{{ l.dir }}" style="font-size:11px;line-height:1.65;color:#5f7167;text-align:start">{{ l.value }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+
+<div style="margin-top:16px;padding:14px 16px;border:1px solid rgba(216,181,106,.4);border-radius:12px;background:rgba(216,181,106,.08)">
+<div style="display:flex;align-items:flex-start;gap:11px">
+<svg aria-hidden="true" style="width:16px;height:16px;flex:0 0 auto;margin-top:2px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-info"></use></svg>
+<div style="min-width:0">
+<div style="font-size:12.5px;font-weight:900;color:#7a5d20;margin-bottom:5px">الجودة ليست نسبة النصّ المتغيّر</div>
+<p dir="rtl" style="margin:0;font-size:11.5px;line-height:1.8;color:#3b4d43;text-align:start">نسخة تختلف <bdi dir="ltr">60%</bdi> بمرادفات مُبدَّلة أسوأ من نسخة تختلف <bdi dir="ltr">15%</bdi> بفرق حقيقي في المنهج أو العملة أو التوفّر. المقياس هنا يكشف التكرار، ولا يُستخدم هدفًا يُسعى لبلوغه.</p>
+</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  /*
+   * Regional preview + diff. The similarity number is COMPUTED (Jaccard over
+   * 3-gram shingles of the rendered title + meta + intro), not authored — so a
+   * pair that is genuinely near-identical cannot be presented as differentiated.
+   *
+   * The verdict deliberately reads the number in one direction only: high
+   * similarity blocks a separate URL. It never rewards a low number, because
+   * "60% different by synonym swap" is worse than "15% different by curriculum
+   * fact" — §47 and §120.
+   */
+  state = { left: 'ar', right: 'ar-SA', diff: true };
+
+  content() {
+    return {
+      'ar': {
+        name: 'العربية العامة', code: 'ar',
+        url: 'https://tahdheer.example/ar/product/organic-chemistry-pptx',
+        title: 'عرض بوربوينت — الكيمياء العضوية | 22 شريحة قابلة للتعديل',
+        meta: 'عرض تعليمي متكامل عن الكيمياء العضوية في 22 شريحة قابلة للتعديل بصيغة PowerPoint، مع 7 أوراق عمل. تحميل فوري بعد الدفع.',
+        layers: [
+          ['حقيقة مشتركة', '22 شريحة · PPTX · 7 أوراق عمل', 'rtl'],
+          ['لغة', 'عربية فصحى حديثة', 'rtl'],
+          ['مصطلح إقليمي', 'لا تخصيص — صياغة محيّدة', 'rtl'],
+          ['تجارة', 'السعر الافتراضي للمتجر', 'rtl']
+        ]
+      },
+      'ar-SA': {
+        name: 'السعودية', code: 'ar-SA',
+        url: 'https://tahdheer.example/ar-sa/product/organic-chemistry-pptx',
+        title: 'عرض بوربوينت — الكيمياء العضوية | المنهج السعودي، الثالث الثانوي',
+        meta: 'عرض جاهز لوحدة الكيمياء العضوية وفق منهج الثالث الثانوي السعودي، 22 شريحة قابلة للتعديل مع 7 أوراق عمل. السعر 300 ر.س وتحميل فوري.',
+        layers: [
+          ['حقيقة مشتركة', '22 شريحة · PPTX · 7 أوراق عمل', 'rtl'],
+          ['لغة', 'عربية فصحى حديثة', 'rtl'],
+          ['مصطلح إقليمي', 'الثالث الثانوي · الفصل الأول · منهج سعودي', 'rtl'],
+          ['تجارة', '300 ر.س — عملة المتجر الفعلية', 'rtl']
+        ]
+      },
+      'ar-AE': {
+        name: 'الإمارات', code: 'ar-AE',
+        url: 'https://tahdheer.example/ar-ae/product/organic-chemistry-pptx',
+        title: 'عرض بوربوينت — الكيمياء العضوية | 22 شريحة قابلة للتعديل',
+        meta: 'عرض تعليمي متكامل عن الكيمياء العضوية في 22 شريحة قابلة للتعديل بصيغة PowerPoint، مع 7 أوراق عمل. تحميل فوري بعد الدفع.',
+        layers: [
+          ['حقيقة مشتركة', '22 شريحة · PPTX · 7 أوراق عمل', 'rtl'],
+          ['لغة', 'عربية فصحى حديثة', 'rtl'],
+          ['مصطلح إقليمي', 'لا مصطلح معتمد — لا مصدر بيانات', 'rtl'],
+          ['تجارة', 'لا عملة إقليمية مُهيّأة', 'rtl']
+        ]
+      },
+      'ar-EG': {
+        name: 'مصر', code: 'ar-EG',
+        url: 'https://tahdheer.example/ar-eg/product/organic-chemistry-pptx',
+        title: 'عرض بوربوينت — الكيمياء العضوية | 22 شريحة قابلة للتعديل',
+        meta: 'عرض تعليمي متكامل عن الكيمياء العضوية في 22 شريحة قابلة للتعديل بصيغة PowerPoint، مع 7 أوراق عمل. تحميل فوري بعد الدفع.',
+        layers: [
+          ['حقيقة مشتركة', '22 شريحة · PPTX · 7 أوراق عمل', 'rtl'],
+          ['لغة', 'عربية فصحى حديثة', 'rtl'],
+          ['مصطلح إقليمي', 'تعارض منهج — لا تخصيص مسموح', 'rtl'],
+          ['تجارة', 'لا عملة إقليمية مُهيّأة', 'rtl']
+        ]
+      }
+    };
+  }
+
+  /* Jaccard over 3-gram shingles of the normalised visible text. */
+  similarity(a, b) {
+    const norm = s => String(s).replace(/[^\u0600-\u06FF\u0020a-zA-Z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+    const shingle = s => {
+      const w = norm(s).split(' ').filter(Boolean);
+      const set = new Set();
+      for (let i = 0; i + 2 < w.length; i++) set.add(w[i] + ' ' + w[i + 1] + ' ' + w[i + 2]);
+      return set;
+    };
+    const A = shingle(a), B = shingle(b);
+    if (!A.size && !B.size) return 100;
+    let inter = 0;
+    A.forEach(x => { if (B.has(x)) inter++; });
+    const union = A.size + B.size - inter;
+    return union ? Math.round((inter / union) * 100) : 0;
+  }
+
+  renderVals() {
+    const st = this.state;
+    const C = this.content();
+    const L = C[st.left], R = C[st.right];
+    const text = p => p.title + ' ' + p.meta + ' ' + p.layers.map(l => l[1]).join(' ');
+    const sim = this.similarity(text(L), text(R));
+    const threshold = 82;
+
+    const verdict = sim >= threshold
+      ? {
+          title: 'تشابه مرتفع — لا تُنشئ رابطًا إقليميًا منفصلًا',
+          note: 'الفرق لا يتجاوز إعادة صياغة. استخدم ar بدل نسخة إقليمية رقيقة.',
+          border: 'rgba(180,35,24,.28)', bg: '#fdf3f2', fg: '#b42318',
+          iconBg: 'rgba(180,35,24,.12)', iconFg: '#b42318', iconRef: '#i-close', barFg: '#b42318'
+        }
+      : {
+          title: 'فرق إقليمي حقيقي — يستحقّ رابطًا خاصًا',
+          note: 'الاختلاف في المنهج والعملة والمصطلح، لا في المرادفات.',
+          border: 'rgba(37,155,111,.28)', bg: 'rgba(37,155,111,.06)', fg: '#1e7355',
+          iconBg: 'rgba(37,155,111,.14)', iconFg: '#1e7355', iconRef: '#i-check', barFg: '#1e7355'
+        };
+
+    const actions = sim >= threshold
+      ? [
+          { label: 'دمج في ar', border: '#b42318', bg: '#fff', fg: '#b42318' },
+          { label: 'حسّن التخصيص', border: '#dde3dc', bg: '#fff', fg: '#5f7167' }
+        ]
+      : [
+          { label: 'اعتمد النسخة', border: '#1e7355', bg: '#1e7355', fg: '#fff' },
+          { label: 'قفل التخصيص', border: '#dde3dc', bg: '#fff', fg: '#5f7167' }
+        ];
+
+    const layerStyle = (i, differs) => {
+      const changed = st.diff && differs;
+      return {
+        border: changed ? 'rgba(216,181,106,.45)' : '#eef1ec',
+        bg: changed ? 'rgba(216,181,106,.09)' : '#fbfcfa',
+        tagBg: changed ? 'rgba(216,181,106,.24)' : '#f2f5f2',
+        tagFg: changed ? '#7a5d20' : '#5f7167'
+      };
+    };
+
+    const pane = (p, other, i) => ({
+      name: p.name, code: p.code, url: p.url, title: p.title, meta: p.meta,
+      headBg: i === 0 ? '#fbfcfa' : 'rgba(37,155,111,.04)',
+      tint: i === 0 ? '#f2f5f2' : 'rgba(37,155,111,.12)',
+      color: i === 0 ? '#5f7167' : '#1e7355',
+      anim: 'tahFadeUp .4s ease-out ' + (i * 80) + 'ms both',
+      layers: p.layers.map((l, k) => ({
+        tag: l[0], label: l[0], value: l[1], dir: l[2],
+        ...layerStyle(k, other.layers[k] && other.layers[k][1] !== l[1])
+      }))
+    });
+
+    const picks = (side, list) => list.map(code => ({
+      code,
+      pressed: st[side] === code ? 'true' : 'false',
+      bg: st[side] === code ? '#fff' : 'transparent',
+      fg: st[side] === code ? '#14261d' : '#5f7167',
+      onClick: () => this.setState({ [side]: code })
+    }));
+
+    return {
+      leftPicks: picks('left', ['ar', 'ar-SA', 'ar-AE']),
+      rightPicks: picks('right', ['ar-SA', 'ar-AE', 'ar-EG', 'ar']),
+      diffAria: st.diff ? 'true' : 'false',
+      diffBorder: st.diff ? '#1e7355' : '#dde3dc',
+      diffBg: st.diff ? 'rgba(37,155,111,.08)' : '#fff',
+      diffFg: st.diff ? '#1e7355' : '#5f7167',
+      onToggleDiff: () => this.setState(s => ({ diff: !s.diff })),
+      sim, threshold, simW: sim + '%',
+      barAnim: 'tahBarGrow .8s cubic-bezier(.22,1,.36,1) both',
+      verdict, actions,
+      panes: [pane(L, R, 0), pane(R, L, 1)]
+    };
+  }
+}
+</script>
+</body>
+</html>

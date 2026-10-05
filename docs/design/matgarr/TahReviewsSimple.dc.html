@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section aria-labelledby="rvs-h" style="direction:rtl;background:#fff;color:#223129;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif;padding:{{ pad }};border:1px solid #e6e9e2;border-radius:18px">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:{{ headGap }};padding-bottom:{{ headPb }};border-bottom:1px solid #eef1ec">
+<div style="display:flex;align-items:center;gap:14px">
+<div style="display:flex;align-items:baseline;gap:3px;font-size:{{ avgSize }};font-weight:900;color:#14261d;line-height:1"><dc-import name="TahCountUp" value="{{ avg }}" decimals="{{ 1 }}" motion="{{ motion }}" duration="{{ 1100 }}" hint-size="58px,40px"></dc-import><span style="font-size:.42em;font-weight:800;color:#5f7167">/5</span></div>
+<div>
+<div role="img" aria-label="{{ starsLabel }}" style="display:flex;gap:2px;margin-bottom:4px">
+<sc-for list="{{ heroStars }}" as="s" hint-placeholder-count="5">
+<span style="position:relative;display:block;width:16px;height:16px;color:#e0e5dd"><svg aria-hidden="true" style="position:absolute;inset:0;width:16px;height:16px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg><span style="position:absolute;inset-block:0;inset-inline-start:0;width:{{ s.fill }};overflow:hidden;color:#d8b56a"><svg aria-hidden="true" style="width:16px;height:16px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg></span></span>
+</sc-for>
+</div>
+<div style="font-size:12.5px;color:#5f7167;font-weight:700">{{ totalText }} تقييمًا</div>
+</div>
+</div>
+<h2 id="rvs-h" style="margin:0;font-size:{{ h2 }};font-weight:900;color:#14261d;letter-spacing:-.01em">آراء العملاء</h2>
+<div style="margin-inline-start:auto;display:flex;align-items:center;gap:8px">
+<sc-if value="{{ showPause }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ onTogglePause }}" aria-pressed="{{ pausedAria }}" style="display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 14px;border:1px solid #dde3dc;border-radius:10px;background:#fbfcfa;color:#3b4d43;font:800 12px Tajawal,sans-serif;cursor:pointer" style-hover="border-color:#1e7355;color:#1e7355">
+<span aria-hidden="true" style="width:9px;height:9px;border-radius:{{ dotRadius }};background:{{ dotColor }};flex:0 0 auto"></span>{{ pauseLabel }}
+</button>
+</sc-if>
+<sc-if value="{{ showScrollHint }}" hint-placeholder-val="{{ false }}">
+<span style="display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:#fbfcfa;border:1px solid #e6e9e2;font-size:11.5px;font-weight:800;color:#5f7167"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-chev"></use></svg>مرّر لرؤية المزيد</span>
+</sc-if>
+</div>
+</div>
+
+<div role="region" aria-label="تعليقات العملاء" tabindex="0" style="margin:{{ trackMargin }};padding-inline:{{ regionPadX }};overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)">
+<ul style="display:flex;width:max-content;list-style:none;margin:0;padding:2px 0;animation:tahScrollX {{ duration }} linear infinite;animation-play-state:{{ playState }}" style-hover="animation-play-state:paused">
+<sc-for list="{{ track }}" as="r" hint-placeholder-count="8">
+<li aria-hidden="{{ r.dupe }}" style="flex:0 0 auto;box-sizing:border-box;width:{{ cardW }};margin-inline-end:{{ gap }};padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span role="img" aria-label="{{ r.ratingLabel }}" style="color:#d8b56a;font-size:13px;letter-spacing:1.5px">{{ r.starGlyphs }}</span>
+<time datetime="{{ r.iso }}" style="font-size:11px;color:#5f7167">{{ r.date }}</time>
+</div>
+<p style="margin:0;font-size:{{ quoteSize }};line-height:1.85;color:#223129;flex:1;text-wrap:pretty">{{ r.text }}</p>
+<div style="display:flex;align-items:center;gap:9px;padding-top:10px;border-top:1px solid #eef1ec">
+<span aria-hidden="true" style="width:30px;height:30px;border-radius:50%;background:{{ r.avatarBg }};color:{{ r.avatarFg }};display:grid;place-items:center;font-weight:900;font-size:12.5px">{{ r.initial }}</span>
+<span style="min-width:0"><b style="display:block;font-size:12.5px;font-weight:900;color:#14261d">{{ r.name }}</b><span style="font-size:11px;color:#5f7167">{{ r.role }}</span></span>
+</div>
+</li>
+</sc-for>
+</ul>
+</div>
+
+<sc-if value="{{ hasMine }}" hint-placeholder-val="{{ false }}">
+<div style="margin-bottom:16px;padding:14px 16px;border:1px solid rgba(37,155,111,.3);border-radius:13px;background:rgba(37,155,111,.06)">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+<svg aria-hidden="true" style="width:14px;height:14px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>
+<b style="font-size:12.5px;font-weight:900;color:#1e7355">أُضيف تعليقك</b>
+<span style="font-size:11px;color:#5f7167">— معاينة محلية، ينتظر المراجعة</span>
+</div>
+<span role="img" aria-label="{{ mine.ratingLabel }}" style="display:block;color:#d8b56a;font-size:13px;letter-spacing:1.5px;margin-bottom:5px">{{ mine.starGlyphs }}</span>
+<p style="margin:0;font-size:13.5px;line-height:1.85;color:#223129">{{ mine.text }}</p>
+<div style="margin-top:7px;font-size:11.5px;font-weight:800;color:#14261d">{{ mine.name }}</div>
+</div>
+</sc-if>
+
+<form onSubmit="{{ onSubmit }}" style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+<b style="font-size:13.5px;font-weight:900;color:#14261d">اكتب تعليقك</b>
+<div role="group" aria-label="اختر تقييمك" style="display:flex;gap:3px">
+<sc-for list="{{ picker }}" as="p" hint-placeholder-count="5">
+<button type="button" onClick="{{ p.onClick }}" aria-pressed="{{ p.pressed }}" aria-label="{{ p.label }}" style="width:{{ tapMin }};height:{{ tapMin }};border:1px solid {{ p.border }};border-radius:9px;background:{{ p.bg }};color:{{ p.color }};display:grid;place-items:center;cursor:pointer;padding:0;transition:.14s ease"><svg aria-hidden="true" style="width:18px;height:18px;fill:currentColor;stroke:none"><use href="#i-star"></use></svg></button>
+</sc-for>
+</div>
+<span style="font-size:12px;font-weight:700;color:#5f7167">{{ pickerHint }}</span>
+</div>
+
+<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e6e9e2;border-radius:11px;background:#fbfcfa">
+<span aria-hidden="true" style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center;font-weight:900;font-size:13.5px">{{ account.initial }}</span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:12.5px;font-weight:900;color:#14261d">{{ account.name }}</b><span style="font-size:11px;color:#5f7167">يُنشر باسم حسابك</span></span>
+<span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;background:rgba(37,155,111,.10);font-size:10.5px;font-weight:900;color:#1e7355"><svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>مشترٍ موثق</span>
+</div>
+
+<label style="display:flex;flex-direction:column;gap:5px">
+<span style="font-size:12px;font-weight:800;color:#3b4d43">تعليقك</span>
+<textarea value="{{ textValue }}" onChange="{{ onText }}" rows="3" placeholder="كيف كانت تجربتك مع الملف؟" style="padding:11px 13px;border:1px solid #dde3dc;border-radius:11px;background:#fff;font:600 13.5px/1.8 Tajawal,sans-serif;color:#14261d;outline:none;resize:vertical;box-sizing:border-box"></textarea>
+</label>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+<button type="submit" disabled="{{ disabled }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border:0;border-radius:12px;background:{{ submitBg }};color:{{ submitFg }};font:900 14.5px Tajawal,sans-serif;cursor:{{ submitCursor }};flex:{{ submitFlex }}"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-pen"></use></svg>أرسل التعليق</button>
+<span style="font-size:11.5px;line-height:1.65;color:#5f7167;flex:1;min-width:160px">{{ note }}</span>
+</div>
+</form>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:700},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;speed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:7,&quot;min&quot;:3,&quot;max&quot;:16,&quot;step&quot;:1,&quot;unit&quot;:&quot;s per card&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;accountName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;أ. منى الزهراني&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Account&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Minimal reviews panel: rating summary + a continuously scrolling comment
+   * strip + a write-comment form. Nothing else — no sort, search, filters,
+   * helpful votes or store replies; those live in the full PDP components.
+   *
+   * Motion runs on an infinite loop as asked. Two concessions kept, because a
+   * carousel that can never stop is unreadable and fails WCAG 2.2.2: it pauses
+   * on hover, and there is an explicit pause control. The duplicated half of the
+   * track is aria-hidden so screen readers hear each comment once.
+   */
+  state = { paused: false, stars: 0, text: '', mine: null, reduced: false };
+
+  componentDidMount() {
+    // The strip is the only way to reach comments 3-6, so when the OS asks for
+    // reduced motion we swap the loop for manual scrolling rather than leaving
+    // a frozen strip with unreachable content.
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this._mq = mq;
+    this._onMq = () => this.setState({ reduced: mq.matches });
+    this._onMq();
+    if (mq.addEventListener) mq.addEventListener('change', this._onMq);
+  }
+
+  componentWillUnmount() {
+    if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._onMq);
+  }
+
+  /*
+   * The reviewer's identity comes from the signed-in account — never a free-text
+   * name field. That is what makes «مشترٍ موثق» meaningful: a typed name proves
+   * nothing, while the account ties the review to a real order.
+   */
+  account() {
+    const name = this.props.accountName || 'أ. منى الزهراني';
+    return { name, initial: name.replace(/^أ\.\s*/, '').charAt(0) };
+  }
+
+  submit(e) {
+    e.preventDefault();
+    const { stars, text } = this.state;
+    if (!stars || !text.trim()) return;
+    this.setState({
+      mine: { stars, name: this.account().name, text: text.trim() },
+      stars: 0, text: ''
+    });
+  }
+
+  renderVals() {
+    const compact = !!this.props.compact;
+    const motion = this.props.motion !== false;
+    const avg = 4.9;
+    const total = 212;
+
+    const items = [
+      { id: 's1', name: 'أ. نورة الحربي', role: 'معلّمة كيمياء', initial: 'ن', rating: 5, iso: '2026-08-14', date: '14 أغسطس', text: 'الشرائح مرتّبة بتسلسل منطقي، ووفّرت عليّ إعادة الترتيب من الصفر. أوراق العمل كانت الأنفع.' },
+      { id: 's2', name: 'أ. خالد العتيبي', role: 'وكيل شؤون تعليمية', initial: 'خ', rating: 5, iso: '2026-08-09', date: '9 أغسطس', text: 'كل عنصر نص حقيقي وليس صورة، فغيّرت هوية المدرسة على أربعين شريحة في أقل من ساعة.' },
+      { id: 's3', name: 'أ. سارة القحطاني', role: 'معلّمة علوم', initial: 'س', rating: 5, iso: '2026-08-03', date: '3 أغسطس', text: 'أسئلة أوراق العمل متدرّجة من التذكّر إلى التطبيق، ومناسبة للعمل الجماعي داخل الصف.' },
+      { id: 's4', name: 'أ. عبدالله الشمري', role: 'معلّم كيمياء', initial: 'ع', rating: 4, iso: '2026-07-28', date: '28 يوليو', text: 'المحتوى دقيق والتصميم مريح على شاشة العرض. أضفت شريحتين أمثلة من عندي.' },
+      { id: 's5', name: 'أ. هيفاء المطيري', role: 'معلّمة علوم', initial: 'ه', rating: 5, iso: '2026-07-21', date: '21 يوليو', text: 'وصلني الرابط بعد الدفع مباشرة، وفتحته على حاسب المدرسة بلا مشكلة في الخطوط.' },
+      { id: 's6', name: 'أ. ماجد الدوسري', role: 'معلّم كيمياء', initial: 'م', rating: 4, iso: '2026-07-11', date: '11 يوليو', text: 'اثنتان وعشرون شريحة كما هو مكتوب، والصيغة PPTX كما هو مكتوب. وصف صادق.' }
+    ];
+
+    const decorate = (r, dupe) => ({
+      ...r,
+      dupe: dupe ? 'true' : 'false',
+      starGlyphs: '★★★★★'.slice(0, r.rating) + '☆☆☆☆☆'.slice(0, 5 - r.rating),
+      ratingLabel: 'التقييم ' + r.rating + ' من 5',
+      avatarBg: r.rating >= 5 ? 'rgba(37,155,111,.12)' : 'rgba(216,181,106,.18)',
+      avatarFg: r.rating >= 5 ? '#1e7355' : '#7a5d20'
+    });
+
+    const speed = Number(this.props.speed) || 7;
+    const stars = this.state.stars;
+    const ready = stars > 0 && this.state.text.trim().length > 0;
+    const m = this.state.mine;
+
+    return {
+      pad: compact ? '18px' : '26px 28px',
+      headGap: compact ? '12px' : '18px',
+      headPb: compact ? '14px' : '18px',
+      h2: compact ? '17px' : '20px',
+      avgSize: compact ? '38px' : '44px',
+      // The duplicate-and-translate loop only lands seamlessly if half the track
+      // is exactly one set. So the gap lives on each card (margin-inline-end) and
+      // the edge padding lives on the wrapper — never on the animated <ul> — and
+      // cards are border-box so the authored width IS the rendered width.
+      gap: compact ? '10px' : '14px',
+      cardW: compact ? '250px' : '310px',
+      cardPad: compact ? '14px' : '18px',
+      quoteSize: compact ? '13px' : '14px',
+      trackMargin: compact ? '14px -18px 16px' : '18px -28px 20px',
+      regionPadX: compact ? '18px' : '28px',
+      tapMin: compact ? '44px' : '38px',
+      duration: (items.length * speed) + 's',
+      playState: this.state.paused || !motion ? 'paused' : 'running',
+      showPause: motion && !this.state.reduced,
+      showScrollHint: !motion || this.state.reduced,
+      pausedAria: this.state.paused ? 'true' : 'false',
+      pauseLabel: this.state.paused ? 'تشغيل' : 'إيقاف',
+      dotColor: this.state.paused ? '#5f7167' : '#1e7355',
+      dotRadius: this.state.paused ? '2px' : '50%',
+      onTogglePause: () => this.setState(s => ({ paused: !s.paused })),
+      avg,
+      // One numeral system per surface: Western, matching TahPdp and the dates.
+      totalText: total.toLocaleString('en-US'),
+      starsLabel: 'متوسط التقييم ' + avg + ' من 5',
+      motion,
+      heroStars: [0, 1, 2, 3, 4].map(i => ({ fill: Math.max(0, Math.min(1, avg - i)) * 100 + '%' })),
+      track: items.map(r => decorate(r, false)).concat(items.map(r => decorate(r, true))),
+      picker: [1, 2, 3, 4, 5].map(n => ({
+        label: n + ' من 5',
+        pressed: stars === n ? 'true' : 'false',
+        border: n <= stars ? '#d8b56a' : '#dde3dc',
+        bg: n <= stars ? 'rgba(216,181,106,.16)' : '#fff',
+        color: n <= stars ? '#b8944a' : '#c9d4cd',
+        onClick: () => this.setState({ stars: n })
+      })),
+      pickerHint: stars ? stars + ' من 5' : 'اختر تقييمك',
+      account: this.account(),
+      textValue: this.state.text,
+      onText: e => this.setState({ text: e.target.value }),
+      onSubmit: e => this.submit(e),
+      disabled: ready ? null : 'disabled',
+      submitBg: ready ? '#1e7355' : '#eef1ec',
+      submitFg: ready ? '#fff' : '#5f7167',
+      submitCursor: ready ? 'pointer' : 'not-allowed',
+      submitFlex: compact ? '1 1 100%' : '0 0 auto',
+      note: ready ? 'يُراجع التعليق قبل النشر.' : 'اختر تقييمًا واكتب تعليقك لتفعيل الإرسال.',
+      hasMine: !!m,
+      mine: m ? {
+        text: m.text, name: m.name,
+        starGlyphs: '★★★★★'.slice(0, m.stars) + '☆☆☆☆☆'.slice(0, 5 - m.stars),
+        ratingLabel: 'التقييم ' + m.stars + ' من 5'
+      } : {}
+    };
+  }
+}
+</script>
+</body>
+</html>

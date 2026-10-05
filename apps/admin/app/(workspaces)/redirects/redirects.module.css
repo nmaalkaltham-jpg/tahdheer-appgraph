@@ -1,0 +1,67 @@
+/*
+UNIT: REDIRECTS
+COMPONENT: redirects-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * قواعد التحويل — أنماط مساحة العمل (‎/redirects‎).
+ *
+ * الغلاف عمود واحد لا شبكة: المحرّر فوق الجدول لأنّ القاعدة تُكتب بالنظر
+ * إلى القواعد القائمة (السلسلة تُفهم بمجاورة صفوفها)، وعمودان متجاوران
+ * يقصّان المسارات الطويلة — وهي كلّ ما في هذه الشاشة.
+ *
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة §2.4): لا left/right ولا
+ * margin-left، بل inline-start/inline-end — الشاشة عربية والمسارات فيها
+ * لاتينية، والخلط بينهما هو بالضبط ما تكسره الخصائص الفيزيائية.
+ */
+
+.workspace {
+  display: block;
+}
+
+/* المسار قيمة لاتينية داخل نصّ عربيّ: اتّجاهه مثبَّت ونوعه أحاديّ العرض. */
+.path {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 13px;
+  word-break: break-all;
+}
+
+/* لوح التحذير من الدائم — نبرة تنبيهٍ لا خطأ: القاعدة صحيحة وأثرها باقٍ. */
+.permanentNote {
+  margin-block-start: var(--space-2, 8px);
+  padding: var(--space-3, 12px);
+  border: 1px solid color-mix(in srgb, var(--cc-amber) 38%, transparent);
+  background: color-mix(in srgb, var(--cc-amber) 10%, transparent);
+  border-radius: var(--radius-2, 8px);
+  color: var(--cc-warning);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.editing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  flex-wrap: wrap;
+  margin-block-end: var(--space-3, 12px);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.rowActions {
+  display: flex;
+  gap: var(--space-2, 8px);
+  flex-wrap: wrap;
+}
+
+/* السبب نصّ حرّ قد يطول: يُقصّ في الصفّ ويبقى كاملًا في التلميح. */
+.reason {
+  color: var(--text-muted);
+  font-size: 12px;
+  max-inline-size: 28ch;
+}
+
+.action {
+  min-inline-size: 7rem;
+}

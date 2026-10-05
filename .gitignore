@@ -1,0 +1,128 @@
+# dependencies
+node_modules/
+vendor/
+
+# builds
+.next/
+dist/
+out/
+backend/laravel/public/build/
+backend/laravel/storage/*.key
+backend/laravel/storage/logs/*
+backend/laravel/storage/framework/cache/data/*
+backend/laravel/storage/framework/sessions/*
+backend/laravel/storage/framework/views/*
+
+# env & secrets (SOPS-encrypted files ARE committed; raw env never)
+.env
+.env.*
+!.env.example
+# Placeholder-only template for the Traefik coexistence deploy; `.env.traefik`
+# itself (the real one) stays ignored by the `.env.*` rule above.
+!.env.traefik.example
+*.age
+!*.sops.*
+
+# OS / editor
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# test artifacts
+coverage/
+.phpunit.cache/
+playwright-report/
+test-results/
+
+# لقطات المعاينة: ٥٦ صورة ‎/‎ ١٧ ميغابايت تُولَّد بأمر واحد، فلا تُثقل المستودع.
+# المجلد ظاهر في Finder عمدًا (لا يبدأ بنقطة) ليجده المالك.
+معاينة الصفحات/**/*.png
+
+# لقطات HTML مُصدَّرة (٥ م.ب) تُولَّد بأمر واحد؛ المصدر في الكود.
+ملفات HTML/**/*.html
+packages/*/dist/
+
+# أدوات محلّية: إعدادات Claude Code ولقطات Playwright — بيئة كل جهاز، لا المستودع.
+.claude/
+.playwright-mcp/
+# ذاكرة أداة openvisio (LMDB، ٥١ م.ب) — تُبنى محلّيًّا وتتسخ في كلّ جلسة.
+.openvisio/
+
+# ‎build:types‎ يلقي إعلانات مولَّدة داخل مصادر الحزم لا في dist وحدها:
+# tsconfig الخاصّ بـ@tahdheer/ui يضمّ مصادر الحزم الأخرى، و‎--rootDir src‎
+# يجعل tsc يشكو TS6059 **ثمّ يُصدر بجانب المصدر**. الملفّات مولَّدة لا مصدرية.
+# ‎packages/ui/src/css-modules.d.ts‎ مُتعقَّب فعلًا ولا يشمله النمطان أدناه.
+packages/registry/src/*.d.ts
+packages/design-system/src/*.d.ts
+
+# شجرة مؤقّتة لاختبارات scripts/clean-standalone.mjs — تُنظَّف بعد كلّ اختبار،
+# وتبقى فقط إن قُطع الاختبار. تجاهلها يمنع أثرًا عابرًا في `git status`.
+.tmp-standalone-*
+
+# قياس التشغيل: أرقامٌ من قاعدةٍ حيّة تتغيّر بلا تغيير شيفرة. إيداعها يجعل
+# `npm run check:arch` ينحرف كلّ صباح، وحارسًا يفشل بلا سببٍ يُدرَّب على تجاهله.
+.architecture/runtime.json
+
+# نسخ قاعدة البيانات لا تدخل المستودع: بيانات وأسرار
+infrastructure/backups/*.dump
+infrastructure/backups/*.dump.age
+infrastructure/backups/*.dump.partial
+infrastructure/backups/last_success.prom
+
+# ── آثار وكلاء الذكاء: ممنوعة ──
+# `next dev` يكتب AGENTS.md و CLAUDE.md حين يكشف وكيلًا، ويُنشئهما من الصفر إن
+# غابا. المفتاح `agentRules: false` في next.config يُغلق ذلك عند المصدر، وهذه
+# القواعد شبكةُ أمانٍ ثانية كي لا يتسلّل الملفّ إلى إيداعٍ لو عاد المولّد.
+AGENTS.md
+AGENT.md
+RULES.md
+CLAUDE.md
+GEMINI.md
+.cursorrules
+.windsurfrules
+.clinerules
+*.mdc
+.agents/
+.agent/
+.claude/rules/
+.cursor/rules/
+.github/instructions/
+copilot-instructions.md
+.cursor/
+.windsurf/
+.clinerules/
+.codex/
+.gemini/
+
+# فهرس المعمار — مولَّد بـ`npm run arch`، يستهلكه `check:arch`. ثمانية ميغا
+# وأكثر من مئتَي ملفّ، وكان غيابه من هنا يُغرق `git status` بضجيجٍ لا يُودَع.
+.architecture/
+
+# نموذج الذكاء المحلّيّ — ١٫٢ غيغا يجلبها `infrastructure/ai/download-model.sh`.
+# وزنٌ لا يدخل مستودع شيفرة، ومصدرُه سكربتٌ موثَّق.
+infrastructure/ai/models/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies / generated
+node_modules/
+vendor/
+.next/
+dist/
+build/
+coverage/
+
+# Runtime
+storage/logs/
+bootstrap/cache/
+
+# OS / IDE
+.DS_Store

@@ -1,0 +1,24 @@
+/*
+ * ترويسة الأرشيف برسم مفردتها: البلاطة في الطرف الختاميّ على التدرّج الكحليّ،
+ * بحلقةٍ شعريّة فاتحة تفصلها عنه. الجوّال: بلاطةٌ صغيرة في الزاوية، والنصّ
+ * يفسح لها حشوةً فلا يتقاطعان.
+ */
+.tile {
+  --tile: 120px;
+  border-radius: var(--r-xl);
+  box-shadow: 0 0 0 1px var(--hm-white-16);
+}
+
+@media (max-width: 767px) {
+  .withArt {
+    padding-inline-end: calc(24px + 56px + var(--space-3));
+  }
+
+  .tile {
+    --tile: 56px;
+    border-radius: var(--r-md);
+    position: absolute;
+    inset-block-start: var(--space-5);
+    inset-inline-end: var(--space-5);
+  }
+}

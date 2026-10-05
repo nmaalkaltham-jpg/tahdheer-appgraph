@@ -1,0 +1,23 @@
+--- a/inc/language.php
++++ b/inc/language.php
+@@ -196,13 +196,17 @@
+ 	setcookie(
+ 		TAHDHEER_LANG_COOKIE,
+ 		$requested,
+ 		array(
+ 			'expires'  => time() + YEAR_IN_SECONDS,
+ 			/* constant() rather than the bare constant: COOKIEPATH is '' on some
+ 			   installs, but reading it directly lets static analysis fold it to this
+ 			   site's value and call the check dead. Same pattern as the analytics
+ 			   tracker. */
+ 			'path'     => '' !== (string) constant( 'COOKIEPATH' ) ? (string) constant( 'COOKIEPATH' ) : '/',
+ 			'domain'   => (string) COOKIE_DOMAIN,
+ 			'secure'   => is_ssl(),
+-			'httponly' => false,
++			/* الكوكي يُقرأ في PHP فقط (tahdheer_current_locale أعلاه). لا سطر
++			   JavaScript واحد في assets/ يقرأ document.cookie، فكشفه للنص
++			   البرمجي سطح هجوم بلا مقابل وظيفي. */
++			'httponly' => true,
+ 			'samesite' => 'Lax',
+ 		)
+ 	);

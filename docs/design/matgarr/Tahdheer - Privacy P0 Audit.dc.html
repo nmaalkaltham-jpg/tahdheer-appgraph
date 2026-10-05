@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — تدقيق الخصوصية P0</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes pFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1280px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — تدقيق الخصوصية P0: ما هو موجود فعلًا قبل أي سطر إنتاجي</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">القالب المرفق فُحص مباشرة — لا استنتاج من الذاكرة</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="6">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.sum }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 الخلاصة" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">الخلاصة وخريطة الملكية</h1>
+<span style="font-size:11px;color:#7d8a83">الحكم مبنيّ على قراءة الملفات المرفقة، ووثائق القالب، وثلاث درجات دليل معلنة</span>
+</div>
+
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<span style="padding:5px 13px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10.5px;font-weight:900">✓ فُحص في هذه الجلسة</span>
+<span style="padding:5px 13px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:10.5px;font-weight:900">◆ مُعلن في وثائق القالب</span>
+<span style="padding:5px 13px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:10.5px;font-weight:900">؟ يحتاج فحصًا حيًا على الإنتاج</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:11px">
+<sc-for list="{{ verdict }}" as="v" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ v.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+<span style="padding:2px 10px;border-radius:999px;background:{{ v.bg }};color:{{ v.fg }};font-size:9.5px;font-weight:900">{{ v.tag }}</span>
+</div>
+<b style="display:block;font-size:13.5px;line-height:1.55">{{ v.h }}</b>
+<span style="display:block;margin-top:6px;font-size:11.5px;line-height:1.85;color:#5f7167">{{ v.b }}</span>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:14px 18px">
+<b style="font-size:13px;color:#8e2223">البند الحاجز — لا تبدأ P1 قبله</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:1.95;color:#5f4a4a">القالب <b>يقرأ</b> كوكي <code dir="ltr">tahdheer_consent</code> ولا يكتبه أبدًا — وهذا مقصود بالتصميم. لكن <code dir="ltr">grep</code> على كل ملفات القالب أثبت أن كاتبَي الكوكيز الوحيدَين هما متتبّع القياس وملف اللغة، أي <b>لا أحد داخل القالب يكتب كوكي الموافقة</b>. ووثيقة القالب تعلن أن إضافة WP Consent API غير مثبّتة على هذه النسخة. النتيجة المحتملة: لافتة موافقة تظهر للزائر، والبوابة عالقة على <code dir="ltr">unknown</code> إلى الأبد — الموقع يبدو متوافقًا، والقياس المعرَّف لا يعمل ولو مرة. هذا يُحسم بفحص حي واحد على الإنتاج قبل أي كتابة شيفرة.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:13px">مالك واحد لكل سلوك — الحال الآن لا المرغوب</b>
+<sc-for list="{{ own }}" as="o" hint-placeholder-count="9">
+<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px dashed #f1f4f2">
+<span style="flex:0 0 132px;font-size:11.5px;font-weight:800;color:#5f7167">{{ o.k }}</span>
+<div style="flex:1;min-width:0">
+<b style="font-size:11.5px;line-height:1.6">{{ o.v }}</b>
+<span style="display:block;font-size:10.5px;color:#8b978f;line-height:1.7">{{ o.n }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:13px">مصفوفة القرار — لا إعادة بناء لما يعمل</b>
+<sc-for list="{{ mx }}" as="m" hint-placeholder-count="11">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="flex:0 0 auto;padding:2px 10px;border-radius:999px;background:{{ m.bg }};color:{{ m.fg }};font-size:9px;font-weight:900">{{ m.d }}</span>
+<b style="flex:0 0 138px;font-size:11.5px">{{ m.n }}</b>
+<span style="flex:1;min-width:170px;font-size:10.5px;line-height:1.75;color:#5f7167">{{ m.w }}</span>
+</div>
+</sc-for>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.store }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 خريطة التخزين" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">خريطة التخزين — بذرة السجل المركزي</h1>
+<span style="font-size:11px;color:#7d8a83">{{ storeCount }} عنصرًا معروضًا · لا عنصر بلا مالك وغرض ودليل</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:1080px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المفتاح</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الطبقة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المصدر</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الغرض</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">العمر</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الخصائص والملاحظة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">موافقة</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">القرار</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ store }}" as="r" hint-placeholder-count="14">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">
+<code dir="ltr" style="display:block;font-size:10.5px;font-weight:700;color:#17251d;text-align:start;word-break:break-all">{{ r.k }}</code>
+<span style="display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;background:{{ r.eBg }};color:{{ r.eC }};font-size:8.5px;font-weight:900">{{ r.ev }}</span>
+</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;font-weight:800;color:{{ r.lC }};vertical-align:top">{{ r.layer }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9.5px;color:#5f7167;display:block;text-align:start;word-break:break-all">{{ r.src }}</code></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.7;color:#3d4f45;vertical-align:top">{{ r.p }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;color:#3d4f45;vertical-align:top">{{ r.ttl }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.75;color:#5f7167;vertical-align:top">{{ r.at }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10px;font-weight:900;color:{{ r.cC }};vertical-align:top">{{ r.cons }}</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 9px;border-radius:999px;background:{{ r.dBg }};color:{{ r.dC }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.dec }}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px dashed #cfe0d6;border-radius:13px;background:#f8fbf9;padding:13px 17px">
+<b style="font-size:12.5px;color:#146c4c">نتائج إيجابية مثبتة — تُحفظ كما هي</b>
+<sc-for list="{{ good }}" as="g" hint-placeholder-count="5">
+<div style="display:flex;gap:8px;padding:6px 0;font-size:11.5px;line-height:1.85;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span><span>{{ g }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px solid #f2e2be;border-radius:13px;background:#fffdf6;padding:13px 17px">
+<b style="font-size:12.5px;color:#8a6500">ما لم يُفحص — يبقى غير مصنَّف</b>
+<sc-for list="{{ unknown }}" as="u" hint-placeholder-count="4">
+<div style="display:flex;gap:8px;padding:6px 0;font-size:11.5px;line-height:1.85;color:#5f4f2f"><span aria-hidden="true" style="font-weight:900">؟</span><span>{{ u }}</span></div>
+</sc-for>
+<span style="display:block;margin-top:8px;font-size:10.5px;color:#a08a55;line-height:1.75">قاعدة السجل: لا تصنيف تلقائي لسلوك تتبّع لم يُرَ. العنصر غير المفحوص يظهر «قيد المراجعة» ولا يُمنح فئة.</span>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.consent }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 خريطة الموافقة" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">خريطة الموافقة — المحرك الموجود مقابل المطلوب</h1>
+<span style="font-size:11px;color:#7d8a83">‎650 سطرًا في <code dir="ltr">inc/privacy-consent.php</code> — القرار ترقية لا استبدال</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px">سلسلة الأولوية المُنفَّذة اليوم</b>
+<div style="display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:11px">
+<sc-for list="{{ chain }}" as="c" hint-placeholder-count="4">
+<div style="flex:1;min-width:186px;border:1px solid {{ c.bd }};border-radius:12px;background:{{ c.bg }};padding:11px 13px">
+<span style="display:block;font-size:9px;font-weight:900;color:{{ c.fg }};letter-spacing:.04em">{{ c.n }}</span>
+<b style="display:block;margin-top:4px;font-size:12px;line-height:1.5">{{ c.t }}</b>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.75;color:#5f7167">{{ c.d }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.9;color:#5f7167">الفلتر يستطيع التضييق فقط ولا يستطيع التوسيع: إشارة <code dir="ltr">DNT</code> أو <code dir="ltr">Sec-GPC</code> تُعاد فرضًا بعد الفلتر في نفس الدالة، فلا منصّة ولا إعداد يحوّل رفضًا صريحًا إلى موافقة. هذا أقوى من المطلوب في التعريف، ويُحفظ حرفيًا.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:920px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">بند التعريف</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الحال الآن — بالدليل</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الفجوة</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">القرار</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ gaps }}" as="g" hint-placeholder-count="11">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11.5px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">{{ g.req }}</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#3d4f45;vertical-align:top">{{ g.now }}</td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#5f7167;vertical-align:top">{{ g.gap }}</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 9px;border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ g.dec }}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.scripts }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 السكربتات والمكررات" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">خريطة السكربتات وتقرير المكررات</h1>
+<span style="font-size:11px;color:#7d8a83">مركز التكاملات سيفتح شبه فارغ — وهذه هي الحالة الصادقة، لا عيب فيها</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:840px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المزوّد / السطح</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الحالة الصادقة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الدليل</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">فئة الموافقة</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ integ }}" as="i" hint-placeholder-count="12">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11.5px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ i.n }}</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4"><span style="padding:2px 10px;border-radius:999px;background:{{ i.bg }};color:{{ i.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ i.st }}</span></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#5f7167">{{ i.e }}</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;font-weight:800;color:#3d4f45">{{ i.cat }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<h2 style="margin:6px 0 0;font:900 15px Tajawal">تقرير الأنظمة المكرّرة</h2>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ dup }}" as="d" hint-placeholder-count="5">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ d.c }};border-radius:13px;background:#fff;padding:13px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:2px 10px;border-radius:999px;background:{{ d.bg }};color:{{ d.fg }};font-size:9px;font-weight:900">{{ d.lvl }}</span>
+<b style="font-size:12.5px">{{ d.n }}</b>
+<span style="margin-inline-start:auto;padding:1px 9px;border-radius:999px;background:{{ d.eBg }};color:{{ d.eC }};font-size:8.5px;font-weight:900">{{ d.ev }}</span>
+</div>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.9;color:#5f7167">{{ d.b }}</p>
+<p style="margin:5px 0 0;font-size:11.5px;line-height:1.85;color:#17251d"><b style="color:#146c4c">الحل الواحد:</b> {{ d.fix }}</p>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.risk }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="05 الأمن والأداء" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">تقرير مخاطر الأمن وخط أساس الأداء</h1>
+<span style="font-size:11px;color:#7d8a83">مرتّب حسب: {{ sortLabel }}</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ risks }}" as="r" hint-placeholder-count="8">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ r.c }};border-radius:13px;background:#fff;padding:13px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:2px 10px;border-radius:999px;background:{{ r.bg }};color:{{ r.fg }};font-size:9px;font-weight:900">{{ r.lvl }}</span>
+<b style="flex:1;min-width:180px;font-size:12.5px;line-height:1.5">{{ r.n }}</b>
+<code dir="ltr" style="font-size:9.5px;color:#8b978f;text-align:start">{{ r.src }}</code>
+<span style="padding:1px 9px;border-radius:999px;background:{{ r.eBg }};color:{{ r.eC }};font-size:8.5px;font-weight:900">{{ r.ev }}</span>
+</div>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.9;color:#5f7167">{{ r.b }}</p>
+<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">
+<span style="font-size:11px;font-weight:900;color:#17251d">الإصلاح:</span>
+<span style="flex:1;min-width:200px;font-size:11px;line-height:1.8;color:#3d4f45">{{ r.fix }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ r.aBg }};color:{{ r.aC }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.auto }}</span>
+</div>
+</section>
+</sc-for>
+</div>
+
+<h2 style="margin:6px 0 0;font:900 15px Tajawal">خط أساس الأداء</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px">
+<b style="font-size:12.5px">مقيس فعلًا</b>
+<span style="padding:1px 9px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:8.5px;font-weight:900">◆ خط أساس القالب · ‎2026-08-17</span>
+</div>
+<sc-for list="{{ perf }}" as="p" hint-placeholder-count="5">
+<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px dashed #f1f4f2">
+<span style="flex:1;font-size:11.5px;line-height:1.7;color:#3d4f45">{{ p.k }}</span>
+<b dir="ltr" style="flex:0 0 auto;font-size:11.5px;text-align:start">{{ p.v }}</b>
+</div>
+</sc-for>
+</section>
+<sc-if value="{{ showUnmeasured }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:14px 17px">
+<b style="font-size:12.5px;color:#8a6500">غير مقيس — يُعلَن ولا يُخمَّن</b>
+<sc-for list="{{ nomeasure }}" as="n" hint-placeholder-count="5">
+<div style="display:flex;gap:8px;padding:7px 0;border-top:1px dashed #f4ecd8;font-size:11.5px;line-height:1.85;color:#5f4f2f"><span aria-hidden="true" style="font-weight:900">—</span><span>{{ n }}</span></div>
+</sc-for>
+<span style="display:block;margin-top:8px;font-size:10.5px;line-height:1.8;color:#a08a55">ميزانية أداء نظام الخصوصية تُكتب <b>بعد</b> أول قياس لا قبله. أي رقم هدف يُعلن الآن يكون اختراعًا، وأي «تحسّن» يُعلن بلا قياس قبل/بعد يكون ادعاءً.</span>
+</section>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.plan }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="06 الخطة" style="display:flex;flex-direction:column;gap:13px;animation:pFade .25s ease">
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">خطة الملفات والترحيل والتراجع</h1>
+<span style="font-size:11px;color:#7d8a83">كل مرحلة لها بوابة قبول ومسار تراجع — ولا انتقال قبل البوابة</span>
+</div>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:14px 18px">
+<b style="font-size:13px;color:#8e2223">شروط حاجزة قبل P1 — أربعة فحوص حيّة</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:9px;margin-top:10px">
+<sc-for list="{{ pre }}" as="p" hint-placeholder-count="4">
+<div style="border:1px solid #f0d3d3;border-radius:11px;background:#fff;padding:11px 13px">
+<b style="display:block;font-size:11.5px;line-height:1.5;color:#8e2223">{{ p.n }}</b>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.8;color:#5f4a4a">{{ p.b }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:1000px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">المرحلة</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">يُنشأ / يُعدَّل</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">بوابة القبول</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">التراجع</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ plan }}" as="p" hint-placeholder-count="7">
+<tr>
+<th scope="row" style="padding:10px 16px;text-align:start;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">
+<b style="display:block;font-size:12px">{{ p.id }}</b>
+<span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.6;color:#5f7167;font-weight:500">{{ p.n }}</span>
+</th>
+<td style="padding:10px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:9.5px;line-height:1.95;color:#3d4f45;display:block;text-align:start;white-space:pre-wrap">{{ p.files }}</code></td>
+<td style="padding:10px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#3d4f45;vertical-align:top">{{ p.gate }}</td>
+<td style="padding:10px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#5f7167;vertical-align:top">{{ p.rb }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">خطة الترحيل — وضع الظل قبل التبديل</b>
+<sc-for list="{{ mig }}" as="m" hint-placeholder-count="5">
+<div style="display:flex;gap:10px;padding:8px 0;border-top:1px dashed #f1f4f2">
+<span style="flex:0 0 22px;height:22px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ m.i }}</span>
+<span style="flex:1;font-size:11.5px;line-height:1.9;color:#3d4f45">{{ m.t }}</span>
+</div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">قواعد التراجع — غير قابلة للتفاوض</b>
+<sc-for list="{{ rb }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;gap:8px;padding:7px 0;border-top:1px dashed #f1f4f2;font-size:11.5px;line-height:1.85;color:#3d4f45"><span aria-hidden="true" style="color:#8e2223;font-weight:900">↩</span><span>{{ r }}</span></div>
+</sc-for>
+</section>
+</div>
+
+<section style="border:1px dashed #cfe0d6;border-radius:13px;background:#f8fbf9;padding:14px 18px">
+<b style="font-size:12.5px;color:#146c4c">ما لا يُلمس في أي مرحلة</b>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">مصادقة ووردبريس، كوكيز الدخول، جلسة ووكومرس، السلة، الدفع، حالة الطلب، واستحقاق التنزيل الرقمي. بوابة الخصوصية الحالية لا تلمس أيًّا منها اليوم — تحكم القياس فقط — وهذا الحد يبقى قائمًا: رفض كل ما هو غير ضروري يجب أن يُنهي عملية شراء منتج رقمي كاملة بلا خطوة واحدة إضافية.</p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320,&quot;height&quot;:900},&quot;evidence&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;verified&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'verified'&quot;,&quot;section&quot;:&quot;التدقيق&quot;},&quot;sortRisksBy&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;severity&quot;,&quot;fixability&quot;],&quot;default&quot;:&quot;severity&quot;,&quot;tsType&quot;:&quot;'severity' | 'fixability'&quot;,&quot;section&quot;:&quot;التدقيق&quot;},&quot;showUnmeasured&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;التدقيق&quot;}}">
+const EV = {
+  v: { ev: '✓ فُحص', eBg: '#e4f4ec', eC: '#146c4c' },
+  d: { ev: '◆ مُعلن', eBg: '#e8f2fc', eC: '#1d5f9c' },
+  q: { ev: '؟ فحص حي', eBg: '#fff4d6', eC: '#8a6500' },
+};
+const DEC = {
+  KEEP: { bg: '#e4f4ec', fg: '#146c4c' },
+  UPGRADE: { bg: '#e8f2fc', fg: '#1d5f9c' },
+  COMPLETE: { bg: '#f0ecfb', fg: '#5b3ea8' },
+  CONSOLIDATE: { bg: '#fff4d6', fg: '#8a6500' },
+  CREATE: { bg: '#fdf3e0', fg: '#8a5a00' },
+  DEPRECATE: { bg: '#fdf0f0', fg: '#8e2223' },
+  'قيد المراجعة': { bg: '#f1f4f2', fg: '#5f7167' },
+};
+const LVL = {
+  'حرج': { c: '#b42318', bg: '#fdecec', fg: '#8e2223', r: 0 },
+  'مرتفع': { c: '#c2410c', bg: '#fdf0e6', fg: '#9a3412', r: 1 },
+  'متوسط': { c: '#d99a00', bg: '#fff4d6', fg: '#8a6500', r: 2 },
+  'منخفض': { c: '#1d5f9c', bg: '#e8f2fc', fg: '#1d5f9c', r: 3 },
+  'إيجابي مثبت': { c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', r: 4 },
+};
+
+const STORE = [
+  { k: 'tahdheer_analytics_visitor', layer: 'Cookie', src: 'seo-analytics-tracker.php:14,131', p: 'عدّ الزوّار الفريدين', ttl: 'سنة', at: 'HttpOnly · SameSite=Lax · Secure=is_ssl() · COOKIEPATH/COOKIE_DOMAIN', cons: 'نعم — مُنفَّذ', ev: 'v', dec: 'KEEP' },
+  { k: 'tahdheer_analytics_session', layer: 'Cookie', src: 'seo-analytics-tracker.php:15,132', p: 'نافذة جلسة للقياس', ttl: '30 دقيقة', at: 'نفس خصائص الكوكي أعلاه — لا يُكتب قبل الموافقة (:139)', cons: 'نعم — مُنفَّذ', ev: 'v', dec: 'KEEP' },
+  { k: 'tahdheer_lang', layer: 'Cookie', src: 'language.php:25,199', p: 'لغة الواجهة', ttl: 'سنة', at: 'HttpOnly = false بلا قارئ JS واحد — صفر نتائج لـ document.cookie في assets/', cons: 'لا — وظيفي ضروري', ev: 'v', dec: 'UPGRADE' },
+  { k: 'tahdheer_consent', layer: 'Cookie', src: 'privacy-consent.php:24,94 (قراءة فقط)', p: 'حالة الموافقة نفسها', ttl: 'يحدّده الكاتب', at: 'لا كاتب داخل القالب. القيم المقبولة: all · 1 · granted · none · 0 · denied · قائمة أغراض', cons: 'هو البوابة', ev: 'v', dec: 'COMPLETE' },
+  { k: 'tahdheerWishlist', layer: 'localStorage', src: 'theme.js:600,653', p: 'قائمة المفضلة (معرّفات منتجات)', ttl: 'دائم', at: 'بلا سقف عناصر · بلا TTL · بلا زر مسح · بلا تنظيف عند الخروج · لا نظير في User Meta', cons: 'لا — تفضيلات', ev: 'v', dec: 'UPGRADE' },
+  { k: 'tahdheerReminders', layer: 'localStorage', src: 'theme.js:605,653', p: '«ذكّرني لاحقًا»', ttl: 'دائم', at: 'نفس فجوات المفضلة — سلوك مطابق ونفس المعالج', cons: 'لا — تفضيلات', ev: 'v', dec: 'UPGRADE' },
+  { k: 'tahdheerSearchIdx', layer: 'sessionStorage', src: 'theme.js:84,104', p: 'كاش فهرس البحث الحي', ttl: 'عمر التبويب', at: 'شيفرة ميتة: محدّدا [data-tahdheer-live-search] و[data-tahdheer-search-results] غير موجودَين في أي ملف PHP (خط الأساس P1#7)', cons: 'لا', ev: 'v', dec: 'DEPRECATE' },
+  { k: 'tahdheerSeoProLayout · tahdheerSeoNamedLayouts', layer: 'localStorage · إدارة', src: 'seo-analytics-pro.js:543,998', p: 'تخطيط لوحة التحليلات', ttl: 'دائم', at: 'لا يُحمَّل للمتسوّق إطلاقًا · له نظير في تفضيلات المستخدم على السيرفر', cons: 'لا — إدارة', ev: 'v', dec: 'KEEP' },
+  { k: 'tahUnifyView · tahUnifyDomain', layer: 'localStorage · إدارة', src: 'seo-analytics-unify.js:114,214', p: 'وضع عرض اللوحة', ttl: 'دائم', at: 'إدارة فقط · قيمتان محدودتان مُتحقَّق منهما', cons: 'لا — إدارة', ev: 'v', dec: 'KEEP' },
+  { k: 'tahdheerMenuMapView', layer: 'sessionStorage · إدارة', src: 'admin-menu-map.js:35,47', p: 'عرض خريطة القوائم', ttl: 'عمر التبويب', at: 'إدارة فقط', cons: 'لا — إدارة', ev: 'v', dec: 'KEEP' },
+  { k: 'IndexedDB', layer: '—', src: 'grep على assets/ — صفر نتائج', p: 'لا استخدام', ttl: '—', at: 'القالب لا يفتح IndexedDB. لا مبرّر لإنشائه في أي مرحلة قادمة', cons: '—', ev: 'v', dec: 'KEEP' },
+  { k: 'wordpress_logged_in_* · wordpress_sec_* · wp-settings-*', layer: 'Cookie', src: 'WordPress — خارج القالب', p: 'المصادقة وهوية المستخدم', ttl: 'جلسة / سنة', at: 'محظور المساس — لا نظام مصادقة موازٍ ولا تعديل خصائص', cons: 'ضروري', ev: 'q', dec: 'KEEP' },
+  { k: 'wp_woocommerce_session_* · woocommerce_cart_hash · woocommerce_items_in_cart', layer: 'Cookie', src: 'WooCommerce — خارج القالب', p: 'الجلسة التجارية والسلة', ttl: 'جلسة / 48 ساعة', at: 'محظور المساس — ووكومرس هو مصدر الحقيقة للسلة والدفع والطلب', cons: 'ضروري', ev: 'q', dec: 'KEEP' },
+  { k: 'woocommerce_recently_viewed', layer: 'Cookie', src: 'WooCommerce — عند تفعيل الودجت', p: 'شوهد مؤخرًا', ttl: 'جلسة', at: 'يحتاج تحقّقًا: إن كان نشطًا فهو تفضيل يستحق فئة، لا كوكي ضروري', cons: 'تفضيلات', ev: 'q', dec: 'قيد المراجعة' },
+  { k: 'كوكيز Elementor · WooPayments · Tap · طبقة الكاش', layer: 'Cookie', src: '16 إضافة مفعّلة (◆ خط الأساس)', p: 'غير مفحوص', ttl: 'غير معروف', at: 'لا يُصنَّف ما لم يُفحَص. الجرد الحقيقي يحتاج جلسة فحص على الإنتاج بحالات موافقة مختلفة', cons: 'يحدّده الفحص', ev: 'q', dec: 'قيد المراجعة' },
+];
+
+const RISKS = [
+  { lvl: 'حرج', n: 'حقن HTML في نتائج البحث الحي يفتح كل تخزين المتصفح', src: 'theme.js:50-63', b: 'يُبنى HTML بـ innerHTML من عنوان المنتج ورابطه وسعره وصورته بلا هروب (خط الأساس P0#2). أي حقن ناجح يقرأ tahdheerWishlist وtahdheerReminders وكوكي tahdheer_lang غير المحمي بـ HttpOnly. هذا يجعله عيب خصوصية لا أمن فقط: توسيع تخزين المتصفح قبل إغلاقه يوسّع ما يُسرَّب.', fix: 'بناء العقد بـ textContent / createElement، لا سلاسل HTML. يُغلق قبل P1 لا بعده.', ev: 'v', auto: 'لا إصلاح آلي', a: 0 },
+  { lvl: 'متوسط', n: 'كوكي اللغة مكشوف لـ JS بلا أي قارئ JS', src: 'language.php:207', b: 'httponly => false والقالب لا يقرأ الكوكي من JS في أي موضع — صفر نتائج لـ document.cookie في كل assets/. سطح هجوم بلا مقابل وظيفي.', fix: 'httponly => true. تغيير سطر واحد، حتمي، وقابل للإصلاح الآلي ضمن معنى «إصلاح منخفض الخطر».', ev: 'v', auto: 'إصلاح آلي آمن', a: 1 },
+  { lvl: 'متوسط', n: 'صفة Secure معلّقة على is_ssl() خلف بروكسي', src: 'language.php:209 · tracker:697', b: 'secure => is_ssl() صحيح منطقيًا، لكن خلف موازن حِمل أو CDN لا يمرّر X-Forwarded-Proto تعود false، فتُكتب الكوكيز بلا Secure على موقع HTTPS.', fix: 'فحص حي لقيمة is_ssl() على الإنتاج. إن كانت خاطئة، الإصلاح في تهيئة البيئة لا في شيفرة الكوكي.', ev: 'q', auto: 'يحتاج قرارًا', a: 2 },
+  { lvl: 'متوسط', n: 'تخزين تفضيلات بلا سقف ولا TTL ولا مسح', src: 'theme.js:653', b: 'المفضلة والتذكيرات تنمو بلا حدّ، تبقى بعد تسجيل الخروج، ولا واجهة تسمح للعميل بمسحها. يخالف قاعدة «لا سجل تصفّح غير محدود» وقاعدة «لكل عنصر معالج تنظيف».', fix: 'سقف عناصر + TTL + زر مسح في مركز التفضيلات + مزامنة إلى User Meta للمستخدم المسجّل ومسح النسخة المحلية عند الخروج.', ev: 'v', auto: 'لا إصلاح آلي', a: 0 },
+  { lvl: 'متوسط', n: 'الخريطة الحرارية تلتقط 100% وتكتب transient لكل نبضة', src: 'attention-heatmap.php:82,112', b: 'sample => 1 افتراضيًا، وحدّ المعدّل يكتب transient لكل beacon — كتابة قاعدة بيانات لكل نبضة بلا object cache (خط الأساس P2#13,#14). البوابة تحكمه بغرض heatmap، لكن الميزانية غائبة.', fix: 'معدّل عيّنة افتراضي أقل + حدّ معدّل بلا كتابة لكل نبضة. يدخل ميزانية أداء نظام الخصوصية في P7.', ev: 'v', auto: 'يحتاج قرارًا', a: 2 },
+  { lvl: 'منخفض', n: 'سلامة الموافقة مع كاش الصفحات غير مثبتة', src: 'privacy-consent.php — قرار في PHP', b: 'القرار يُتخذ في PHP بقراءة كوكيز الطلب. مع كاش صفحات لا يستثني كوكي الموافقة، قد تُخدَم صفحة بُنيت لحالة زائر إلى زائر بحالة أخرى.', fix: 'فحص حي لطبقة الكاش + استثناء كوكي الموافقة من مفتاح الكاش أو نقل القرار إلى تهيئة عميل مبكرة.', ev: 'q', auto: 'يحتاج قرارًا', a: 2 },
+  { lvl: 'إيجابي مثبت', n: 'لا معرّف ولا كوكي قياس قبل الموافقة — إطلاقًا', src: 'tracker:139 · privacy-consent.php', b: 'كتابة كوكيز الزائر والجلسة محجوبة خلف tahdheer_privacy_has_consent، وتجزئة المعرّف تُرفض على السلسلة الفارغة صراحةً لأن تجزئة الفراغ قيمة ثابتة يتشاركها كل الزوّار — أي معرّف جماعي مموّه. هذا مستوى دقّة يفوق المطلوب.', fix: 'يُحفظ حرفيًا. أي إعادة كتابة للمحرك يجب أن تُبقي هذا الحاجز وتُغطّيه باختبار.', ev: 'v', auto: 'لا يُلمس', a: 4 },
+  { lvl: 'إيجابي مثبت', n: 'لا بصمة جهاز ولا IP خام ولا سرّ في التقارير', src: 'privacy-consent.php:530-650', b: 'صفر canvas/audio fingerprinting. لا IP خام ولا user-agent خام. تنقية الروابط المخزّنة تشطب 27 معاملًا حساسًا، وتُطبّع مسارات order-received و view-order و downloads و lost-password، وتشطب مفاتيح طلبات ووكومرس بنمط القيمة لا بالاسم فقط.', fix: 'يُحفظ حرفيًا ويُستخدم كنموذج للطبقات القادمة.', ev: 'v', auto: 'لا يُلمس', a: 4 },
+];
+
+class Component extends DCLogic {
+  state = { s: 'sum' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const evidence = this.props.evidence ?? 'all';
+    const sortBy = this.props.sortRisksBy ?? 'severity';
+    const onlyV = evidence === 'verified';
+
+    const screens = [
+      ['sum', 'الخلاصة'], ['store', 'التخزين'], ['consent', 'الموافقة'],
+      ['scripts', 'السكربتات'], ['risk', 'الأمن والأداء'], ['plan', 'الخطة'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const store = STORE.filter(r => !onlyV || r.ev === 'v').map(r => ({
+      ...r, ...EV[r.ev], ...{ dBg: DEC[r.dec].bg, dC: DEC[r.dec].fg },
+      lC: r.layer.indexOf('إدارة') > -1 ? '#8b978f' : '#17251d',
+      cons: r.cons,
+      cC: r.cons.indexOf('نعم') === 0 ? '#146c4c' : r.cons.indexOf('ضروري') > -1 ? '#8e2223' : '#5f7167',
+    }));
+
+    const risks = RISKS.filter(r => !onlyV || r.ev === 'v')
+      .slice()
+      .sort((a, b) => sortBy === 'severity' ? LVL[a.lvl].r - LVL[b.lvl].r : a.a - b.a)
+      .map(r => ({
+        ...r, ...EV[r.ev], c: LVL[r.lvl].c, bg: LVL[r.lvl].bg, fg: LVL[r.lvl].fg,
+        aBg: r.auto === 'إصلاح آلي آمن' ? '#e4f4ec' : r.auto === 'لا يُلمس' ? '#f1f4f2' : '#fff4d6',
+        aC: r.auto === 'إصلاح آلي آمن' ? '#146c4c' : r.auto === 'لا يُلمس' ? '#5f7167' : '#8a6500',
+      }));
+
+    return {
+      screens,
+      is: { sum: cur === 'sum', store: cur === 'store', consent: cur === 'consent', scripts: cur === 'scripts', risk: cur === 'risk', plan: cur === 'plan' },
+      store,
+      storeCount: store.length,
+      risks,
+      sortLabel: sortBy === 'severity' ? 'الخطورة' : 'قابلية الإصلاح الآلي',
+      showUnmeasured: this.props.showUnmeasured ?? true,
+
+      verdict: [
+        { tag: 'UPGRADE', c: '#146c4c', bg: '#e4f4ec', fg: '#146c4c', h: 'محرك موافقة حقيقي موجود ويعمل', b: '650 سطرًا في inc/privacy-consent.php: أغراض قابلة للتوسيع، سلسلة أولوية صريحة، احترام GPC/DNT لا يُلغى بفلتر، مصدّر ومازح بيانات شخصية مسجَّلان في ووردبريس، وتنقية روابط جدّية. القرار: ترقية وإكمال — لا إعادة بناء ولا نظام موازٍ.' },
+        { tag: 'حالة صادقة', c: '#1d5f9c', bg: '#e8f2fc', fg: '#1d5f9c', h: 'صفر وسم طرف ثالث في القالب', b: 'لا Google Analytics ولا GTM ولا Google Ads ولا Meta Pixel ولا TikTok ولا Pinterest ولا Clarity ولا Hotjar. القياس كله محلي في سبعة جداول للموقع نفسه. مركز التكاملات سيفتح شبه فارغ، ومنع اختراع حالة «متصل» هو نصف قيمة المشروع.' },
+        { tag: 'CREATE', c: '#8a5a00', bg: '#fdf3e0', fg: '#8a5a00', h: 'الطبقة الإدارية والحاكمة غائبة كاملة', b: 'لا سجل تخزين مركزي، ولا مُحمّل سكربتات واعٍ بالموافقة، ولا فاحص، ولا مركز صحّة، ولا واجهة إدارة، ولا لافتة، ولا مركز تفضيلات للعميل، ولا إصدار سياسة. هذه هي مساحة البناء الحقيقية — وكلها فوق المحرك القائم لا بدلًا منه.' },
+        { tag: 'حاجز', c: '#b42318', bg: '#fdecec', fg: '#8e2223', h: 'أخطر بند: بوابة قد تكون عمياء', b: 'لا أحد داخل القالب يكتب كوكي الموافقة، وإضافة WP Consent API غير مثبّتة (◆). إن لم تكتبه منصّة الموافقة المثبّتة، فالحالة عالقة على unknown دائمًا: قياس تجميعي فقط، ولافتة تُطمئن الزائر بلا أثر حقيقي على البوابة.' },
+      ],
+
+      own: [
+        { k: 'الهوية والدخول', v: 'WordPress حصرًا', n: 'لا نظام مصادقة موازٍ في القالب — مُحقَّق' },
+        { k: 'السلة والدفع والطلب', v: 'WooCommerce حصرًا', n: 'لا سلة ثانية في localStorage — مُحقَّق' },
+        { k: 'الموافقة والسياسة', v: 'inc/privacy-consent.php', n: 'موجود ويعمل — سطح تكامل واحد معلن' },
+        { k: 'القياس', v: 'سبعة جداول محلية للقالب', n: 'لا مزوّد خارجي · احتفاظ 90 يومًا للتفاصيل' },
+        { k: 'اللغة', v: 'كوكي tahdheer_lang', n: 'وظيفي ضروري — يحتاج تصحيح HttpOnly' },
+        { k: 'تفضيلات العميل', v: 'localStorage فقط', n: 'ثغرة: لا نظير في User Meta للمستخدم المسجّل' },
+        { k: 'سجل التخزين', v: 'غير موجود', n: 'CREATE — أول مخرج في P1' },
+        { k: 'مُحمّل السكربتات', v: 'غير موجود', n: 'CREATE — بمستهلك حقيقي واحد لا بمزوّدين وهميين' },
+        { k: 'واجهة الإدارة', v: 'غير موجودة', n: 'CREATE — لا تُحمَّل للمتسوّق إطلاقًا' },
+      ],
+
+      mx: [
+        { d: 'KEEP', n: 'بوابة الأغراض', w: 'analytics و heatmap مربوطان فعلًا بالبوابة في موضعَي استدعاء مُتحقَّق منهما', ...DEC.KEEP },
+        { d: 'KEEP', n: 'أولوية GPC / DNT', w: 'تُعاد فرضًا بعد الفلتر — لا منصّة تحوّل رفضًا صريحًا إلى موافقة', ...DEC.KEEP },
+        { d: 'KEEP', n: 'تنقية الروابط', w: '27 معاملًا حساسًا + تطبيع مسارات الطلبات والتنزيلات + شطب مفاتيح ووكومرس بنمط القيمة', ...DEC.KEEP },
+        { d: 'KEEP', n: 'مصدّر ومازح البيانات', w: 'مسجَّلان في أدوات ووردبريس الرسمية — لا نظام تصدير موازٍ', ...DEC.KEEP },
+        { d: 'UPGRADE', n: 'آلة الحالة', w: 'ثلاث حالات اليوم (granted/denied/unknown) — المطلوب ست حالات مع سحب وإعادة موافقة', ...DEC.UPGRADE },
+        { d: 'UPGRADE', n: 'الفئات', w: 'غرضان فقط — تُضاف تفضيلات وتجارب، ولا تُنشأ فئة تسويق قبل وجود مستفيد واحد حقيقي', ...DEC.UPGRADE },
+        { d: 'UPGRADE', n: 'خصائص الكوكيز', w: 'tahdheer_lang يفقد HttpOnly بلا سبب — إصلاح حتمي بسطر واحد', ...DEC.UPGRADE },
+        { d: 'UPGRADE', n: 'تفضيلات المتصفح', w: 'المفضلة والتذكيرات: سقف وTTL ومسح ومزامنة User Meta', ...DEC.UPGRADE },
+        { d: 'COMPLETE', n: 'كاتب الموافقة', w: 'المحرك يقرأ ولا يكتب، ولا كاتب معروف — يُحسم بكاتب واحد أو بتثبيت WP Consent API', ...DEC.COMPLETE },
+        { d: 'CONSOLIDATE', n: 'منصّة الموافقة', w: 'لافتة إضافة + بوابة قالب = مساران. واحد يبقى، والآخر يُوقف بعد التحقق', ...DEC.CONSOLIDATE },
+        { d: 'CREATE', n: 'السجل والمحمّل والفاحص والصحّة والإدارة', w: 'الطبقة الغائبة كلها — تُبنى فوق المحرك القائم بالترتيب P1←P5', ...DEC.CREATE },
+        { d: 'DEPRECATE', n: 'مفتاح كاش البحث الميت', w: 'tahdheerSearchIdx بلا محدّدات في أي PHP — يُحذف أو يُكمَل مع البحث الحي', ...DEC.DEPRECATE },
+      ],
+
+      chain: [
+        { n: '١ — الأعلى', t: 'إشارة المتصفح', d: 'Sec-GPC: 1 أو DNT: 1 ← رفض كامل. لا إعداد ولا فلتر يتجاوزها', bd: '#c9e2d5', bg: '#f4faf6', fg: '#146c4c' },
+        { n: '٢', t: 'WP Consent API', d: 'تُقرأ فقط عند وجود منصّة نشطة. ◆ غير مثبّتة على هذه النسخة — المسار خامد', bd: '#dce2dd', bg: '#fbfcfb', fg: '#5f7167' },
+        { n: '٣ — النشط الآن', t: 'كوكي tahdheer_consent', d: 'المسار الفعلي على هذه النسخة. القالب يقرأه ولا يكتبه', bd: '#f2d9a8', bg: '#fffdf6', fg: '#8a6500' },
+        { n: '٤', t: 'فلتر المنصّة', d: 'tahdheer_privacy_consent_state — يضيّق فقط، ولا يوسّع أبدًا', bd: '#dce2dd', bg: '#fbfcfb', fg: '#5f7167' },
+      ],
+
+      gaps: [
+        { req: 'حالات الموافقة الست', now: 'ثلاث حالات: granted · denied · unknown، مع سبب معلن لكل قرار (consent_api · cookie_grant · dnt · gpc · filter)', gap: 'لا NECESSARY_ONLY ولا CUSTOM ولا WITHDRAWN ولا POLICY_RECONSENT_REQUIRED، ولا انتقالات تُشغّل تنظيفًا', dec: 'UPGRADE', ...DEC.UPGRADE },
+        { req: 'إصدار السياسة', now: 'لا consent_policy_version ولا consent_schema_version في أي موضع', gap: 'لا يمكن طلب إعادة موافقة عند تغيير جوهري، ولا تمييزه عن تغيير شكلي لا يستحق إزعاج الزائر', dec: 'CREATE', ...DEC.CREATE },
+        { req: 'الفئات الخمس + مخصّصة', now: 'غرضان: analytics و heatmap، قابلان للتوسيع بفلتر tahdheer_privacy_purposes', gap: 'تفضيلات وتجارب مفقودتان. فئة تسويق بلا مستفيد واحد اليوم — إنشاؤها الآن يخلق زرًّا بلا خلفية', dec: 'UPGRADE', ...DEC.UPGRADE },
+        { req: 'الضروري لا يُعطّل الشراء', now: 'البوابة تحكم القياس فقط ولا تلمس السلة ولا الدفع ولا التنزيل الرقمي', gap: 'لا فجوة — الحد قائم ويجب أن يبقى مغطّى باختبار سلوكي في كل مرحلة', dec: 'KEEP', ...DEC.KEEP },
+        { req: 'قياس تجميعي قبل الموافقة', now: 'مُنفَّذ ومفعَّل افتراضيًا: صف حدث بلا معرّف زائر ولا جلسة ولا تجزئة IP ولا ربط بمستخدم أو طلب', gap: 'لا فجوة منطقية. الفجوة الوحيدة أن الإداري لا يرى في أي واجهة أنه في هذا الوضع الآن', dec: 'KEEP', ...DEC.KEEP },
+        { req: 'لافتة الموافقة', now: 'القالب لا يشحن لافتة — قرار تصميمي معلن في وثيقته', gap: 'المطلوب باني لافتة بمعاينة حيّة وأنماط جاهزة تتقاسم منطقًا واحدًا. القرار الحاكم: من يكتب الكوكي؟', dec: 'CREATE', ...DEC.CREATE },
+        { req: 'مركز تفضيلات العميل', now: 'غير موجود. لا رابط دائم في التذييل ولا مسار لسحب الموافقة أو إعادة تعيينها', gap: 'اليوم لا يستطيع العميل تغيير قراره إلا بحذف كوكيز المتصفح يدويًا — وهذا تحديدًا ما يمنعه التعريف', dec: 'CREATE', ...DEC.CREATE },
+        { req: 'تهيئة قبل أي سكربت اختياري', now: 'لا سكربت اختياري في القالب أصلًا، فلا سباق قائم اليوم', gap: 'لحظة إضافة أول وسم اختياري يصبح المحمّل شرطًا مسبقًا لا تحسينًا — يُبنى قبله لا بعده', dec: 'CREATE', ...DEC.CREATE },
+        { req: 'سجل التخزين المركزي', now: 'غير موجود. المفاتيح موزّعة في ثلاثة ملفات JS وملفَي PHP', gap: 'لا مالك ولا غرض ولا معالج تنظيف مسجَّل لأي مفتاح — أول شرط في معايير النجاح', dec: 'CREATE', ...DEC.CREATE },
+        { req: 'منع بصمة الجهاز', now: 'صفر canvas/audio/hardware fingerprinting. التجزئة بـ wp_salt وبعد الموافقة فقط', gap: 'لا فجوة — يُحوَّل إلى بوابة اختبار آلي تمنع تسلّل النمط لاحقًا', dec: 'KEEP', ...DEC.KEEP },
+        { req: 'سلامة الكاش', now: 'القرار في PHP بقراءة كوكيز الطلب', gap: 'لم يُثبَت أن طبقة الكاش تستثني كوكي الموافقة من مفتاح الكاش — فحص حي إلزامي', dec: 'COMPLETE', ...DEC.COMPLETE },
+      ],
+
+      integ: [
+        { n: 'القياس المحلي (7 جداول)', st: 'نشط · مربوط بالموافقة', bg: '#e4f4ec', fg: '#146c4c', e: '✓ tracker + privacy-consent.php + خط الأساس', cat: 'analytics' },
+        { n: 'الخريطة الحرارية', st: 'نشط · مربوط بالموافقة', bg: '#e4f4ec', fg: '#146c4c', e: '✓ attention-heatmap.php:283,360', cat: 'heatmap' },
+        { n: 'Google Analytics / GA4', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ صفر نتائج في inc/ و assets/', cat: '—' },
+        { n: 'Google Tag Manager', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ صفر نتائج', cat: '—' },
+        { n: 'Google Ads', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ صفر نتائج', cat: '—' },
+        { n: 'Meta Pixel', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ صفر نتائج لـ fbq و facebook.net', cat: '—' },
+        { n: 'TikTok Pixel', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ الموجود رابط حساب في خيارات القالب فقط — لا وسم', cat: '—' },
+        { n: 'Pinterest · Microsoft · Clarity · Hotjar', st: 'غير مُهيّأ', bg: '#f1f4f2', fg: '#5f7167', e: '✓ صفر نتائج — «clarity» الوحيدة تعليق CSS', cat: '—' },
+        { n: 'منصّة الموافقة المثبّتة (Elementor)', st: 'يحتاج فحصًا حيًا', bg: '#fff4d6', fg: '#8a6500', e: '◆ معلنة في وثيقة القالب · غير موجودة في المجلد المرفق', cat: 'تُحدَّد بالفحص' },
+        { n: 'إضافة WP Consent API', st: 'غير مثبّتة — المسار خامد', bg: '#fff4d6', fg: '#8a6500', e: '◆ الوثيقة تعلن أن wp_has_consent غير معرَّفة على هذه النسخة', cat: 'ستكون المصدر الأعلى' },
+        { n: 'WooPayments · Tap', st: 'ضروري تجاري — كوكيزه غير مفحوصة', bg: '#e8f2fc', fg: '#1d5f9c', e: '◆ ضمن 16 إضافة مفعّلة في خط الأساس', cat: 'necessary' },
+        { n: 'خطوط ويب وموارد خارجية', st: 'يحتاج فحصًا حيًا', bg: '#fff4d6', fg: '#8a6500', e: '؟ القالب يملك assets/fonts وinc/fonts.php — يُحسم بجرد طلبات على الإنتاج', cat: 'تُحدَّد بالفحص' },
+      ],
+
+      dup: [
+        { lvl: 'حرج', c: '#b42318', bg: '#fdecec', fg: '#8e2223', n: 'لافتة تعرض قرارًا وبوابة لا تسمعه', b: 'منصّة الموافقة المثبّتة تعرض لافتة للزائر، والقالب يقرأ كوكيًا لا يكتبه أحد داخله. إن لم تكن المنصّة تكتب tahdheer_consent فالنتيجة نظامان يتظاهران بالتنسيق: واجهة تجمع الموافقة، وبوابة تتجاهلها وتبقى على unknown.', fix: 'كاتب واحد للحالة فقط. إما يكتبها القالب وتُوقف لافتة الإضافة، أو تُثبَّت WP Consent API فتصير هي المصدر الأعلى ويُعطَّل كاتب القالب. ولا يُسمح بالاثنين معًا في أي لحظة.', ev: 'q', eBg: '#fff4d6', eC: '#8a6500' },
+        { lvl: 'متوسط', c: '#d99a00', bg: '#fff4d6', fg: '#8a6500', n: 'مسارا قرار داخل المحرك نفسه', b: 'WP Consent API وكوكي القالب مساران في نفس الدالة بأولوية صريحة — تصميم سليم لا عيب. العيب أن أحدًا لا يرى أيّ المسارين نشط الآن، فيصير المحرك صندوقًا أسود عند أول خلاف.', fix: 'tahdheer_privacy_diagnostics() يعيد بالفعل الحالة والسبب لكل غرض. يُعرَض في لوحة التشخيص كأول بطاقة: المسار النشط، الحالة، السبب — لا أرقام مخترعة.', ev: 'v', eBg: '#e4f4ec', eC: '#146c4c' },
+        { lvl: 'متوسط', c: '#d99a00', bg: '#fff4d6', fg: '#8a6500', n: 'طبقتا تفضيلات بلا مصدر حقيقة', b: 'المفضلة والتذكيرات في localStorage فقط. المستخدم المسجّل يفقدها بين الأجهزة، وتبقى على الجهاز بعد تسجيل الخروج — أسوأ الاحتمالين معًا.', fix: 'User Meta مصدر الحقيقة الدائم للمسجّل، وlocalStorage طبقة تسريع محلية للزائر فقط، تُمسح عند الخروج. لا مزامنة عبر الأجهزة للزائر غير المسجّل ولا محاولة تعرّف عليه.', ev: 'v', eBg: '#e4f4ec', eC: '#146c4c' },
+        { lvl: 'منخفض', c: '#1d5f9c', bg: '#e8f2fc', fg: '#1d5f9c', n: 'سابقة مثبتة: إجراء واحد بمعالجَين', b: 'خط الأساس يثبت أن wp_ajax_tahdheer_seo_run_workflow مسجَّل في ملفَين، والمعالج الثاني شيفرة ميتة لا تُنفَّذ أبدًا. ليست مشكلة خصوصية، لكنها الدليل العملي على أن كشف المكررات الآلي ليس ترفًا في هذا المستودع.', fix: 'بوابة اختبار تفشل عند تسجيل نفس الإجراء أو نفس مفتاح التخزين من موضعين — تُضاف مع سجل التخزين في P1.', ev: 'd', eBg: '#e8f2fc', eC: '#1d5f9c' },
+        { lvl: 'منخفض', c: '#1d5f9c', bg: '#e8f2fc', fg: '#1d5f9c', n: 'شيفرة ميتة تحتفظ بمفتاح تخزين', b: 'tahdheerSearchIdx يكتب في sessionStorage من مسار بحث حي لا وجود لمحدّداته في أي ملف PHP. مفتاح مسجَّل في الكود وغير موجود في الواقع — عكس الحالة التي يفحصها الفاحص عادة.', fix: 'قرار واحد: يُكمَل البحث الحي فيصبح المفتاح شرعيًا ومسجَّلًا، أو يُحذف المسار كله. لا يبقى معلّقًا.', ev: 'v', eBg: '#e4f4ec', eC: '#146c4c' },
+      ],
+
+      perf: [
+        { k: 'TTFB (p50) لأحد عشر نوع صفحة', v: '266 – 324 ms' },
+        { k: 'ملفات CSS / JS لكل صفحة', v: '19–24 / 16–21' },
+        { k: 'منها مملوك للقالب', v: '7–10 / 6–8' },
+        { k: 'صفوف wp_options · منها autoload', v: '883 · 441 = 172.7 KB' },
+        { k: 'خيارات tahdheer_* بـ autoload=off', v: '77 من 79' },
+        { k: 'جداول قياس محلية', v: '7' },
+      ],
+
+      nomeasure: [
+        'حجم ترويسة الكوكيز الكلي، وعدد الكوكيز، وحجم كل واحد — لم يُقَس، وهو أول ما تحتاجه حاكمية حجم الكوكيز.',
+        'LCP و INP و CLS ميدانيًا — غير مقيسة قبل ولا بعد.',
+        'عدد استعلامات SQL والذاكرة لكل طلب — معلن صراحةً في خط أساس القالب أنهما لم يُقاسا.',
+        'طلبات الطرف الثالث الفعلية على الإنتاج تحت حالات موافقة مختلفة — تحتاج جلسة فحص حيّة.',
+        'أثر تهيئة الموافقة على الخيط الرئيسي — لا وجود لها بعد، فلا شيء ليُقاس اليوم.',
+      ],
+
+      good: [
+        'لا كوكي قياس ولا معرّف يُكتب قبل موافقة صريحة — محجوب في موضع واحد واضح.',
+        'HttpOnly مفعّل على كوكيَي القياس، وSameSite=Lax على الثلاثة، وpath وdomain من ثوابت ووردبريس لا من قيم مكتوبة يدويًا.',
+        'لا سلة ثانية ولا نظام مصادقة موازٍ ولا كوكي «تم الدفع» في أي موضع من القالب.',
+        'لا HTML ولا مصفوفات كبيرة ولا JSON ضخم داخل أي كوكي — أكبر قيمة مخزّنة رمز موقَّع قصير.',
+        'أدوات ووردبريس الرسمية للتصدير والمسح مسجَّلة فعلًا، والصفوف التجميعية بلا معرّف مستبعدة منها بوعي.',
+      ],
+
+      unknown: [
+        'من يكتب tahdheer_consent على الإنتاج فعلًا — سؤال يُجاب بفتح المتصفح لا بقراءة الشيفرة.',
+        'الجرد الحقيقي لكوكيز Elementor وWooPayments وTap وطبقة الكاش.',
+        'هل is_ssl() تعود true خلف البروكسي/CDN على الإنتاج.',
+        'هل ودجت «شوهد مؤخرًا» في ووكومرس مفعَّل فيكتب كوكيه الخاص.',
+      ],
+
+      pre: [
+        { n: '١ — من يكتب كوكي الموافقة؟', b: 'فتح الإنتاج بمتصفح نظيف، رصد tahdheer_consent قبل أي تفاعل وبعد كل زر في اللافتة. الإجابة تحدّد شكل P2 بالكامل.' },
+        { n: '٢ — جرد كوكيز حقيقي', b: 'تسجيل كل كوكي وكل مفتاح تخزين تحت خمس حالات موافقة، ومطابقته بالسجل. ما لا يُفحَص لا يُصنَّف.' },
+        { n: '٣ — إغلاق حقن البحث الحي', b: 'عيب P0 قائم في خط الأساس. توسيع تخزين المتصفح قبل إغلاقه يوسّع ما يمكن سرقته منه.' },
+        { n: '٤ — سلوك الكاش وis_ssl()', b: 'التأكد أن كوكي الموافقة مستثنى من مفتاح الكاش، وأن Secure تُطبَّق فعلًا على الإنتاج.' },
+      ],
+
+      plan: [
+        { id: 'P1', n: 'السجل وإصدار السياسة', files: 'CREATE inc/privacy/class-storage-registry.php\nCREATE inc/privacy/registry-defaults.php\nEDIT  inc/privacy-consent.php  (+version, 6 states, register API)\nEDIT  inc/language.php:207     (httponly => true)', gate: 'كل مفتاح مؤكَّد في هذه الوثيقة مسجَّل بمالك وغرض وعمر ومعالج تنظيف · صفر تغيير مرئي للزائر · الدخول والسلة والدفع والتنزيل بلا انحدار', rb: 'ملفان جديدان: إلغاء التحميل من functions.php. تعديل اللغة سطر واحد يُعكس. لا هجرة بيانات ولا كتابة في قاعدة البيانات.' },
+        { id: 'P2', n: 'كاتب واحد + مركز التفضيلات', files: 'CREATE inc/privacy/class-consent-writer.php\nCREATE assets/js/privacy-consent.js\nCREATE template-parts/components/privacy-preferences.php\nEDIT  footer.php (رابط دائم)', gate: 'لافتة واحدة فقط في الـ DOM · الرفض يُنهي شراء منتج رقمي كاملًا · سحب الموافقة يُنظّف كوكيَي القياس فعلًا · التشخيص يعلن المسار النشط', rb: 'مفتاح تشغيل واحد يعيد القالب إلى «يقرأ ولا يكتب» — أي إلى سلوك اليوم بالحرف. لافتة الإضافة تُعاد بنقرة.' },
+        { id: 'P3', n: 'المحمّل الواعي بالموافقة', files: 'CREATE inc/privacy/class-script-loader.php\nEDIT  inc/attention-heatmap.php (أول مستهلك حقيقي)\nEDIT  inc/enqueue.php (تهيئة مبكرة)', gate: 'اختبار آلي يفشل إذا ظهر أي سكربت اختياري في HTML قبل الإذن · المحمّل يُشحن بمستهلك واحد حقيقي لا بقائمة مزوّدين لا وجود لهم', rb: 'المحمّل يمرّر كل شيء فورًا عند تعطيله = سلوك اليوم. الخريطة الحرارية تعود لبوابتها المباشرة الحالية.' },
+        { id: 'P4', n: 'الفاحص ومركز الصحّة', files: 'CREATE inc/privacy/class-scanner.php\nCREATE inc/privacy/class-health.php\nCREATE assets/js/privacy-scan.js', gate: 'يكشف مفتاحًا مزروعًا يدويًا ويصنّفه «جديد» · لا يحذف أي مورد إنتاجي تلقائيًا · «الصحّة» مؤشّر تقني معلن، لا شهادة امتثال قانوني', rb: 'قراءة فقط بطبيعته — تعطيله لا يترك أثرًا. نتائج الفحص في جدول مخصّص يُحذف بأمان.' },
+        { id: 'P5', n: 'واجهة الإدارة — بسيط ومتقدّم', files: 'CREATE inc/privacy/admin/*\nCREATE assets/js/privacy-admin.js\nCREATE assets/css/privacy-admin.css', gate: 'صفر href="#" · صفر مفتاح تبديل بلا خلفية · صفر حالة «متصل» غير مثبتة · لا يُحمَّل أي أصل إداري في صفحة متسوّق واحدة', rb: 'صفحة إدارة واحدة تُزال من القائمة. لا أثر على الواجهة ولا على البوابة.' },
+        { id: 'P6', n: 'تفضيلات العميل و User Meta', files: 'EDIT  assets/js/theme.js (سقف · TTL · مسح)\nCREATE inc/privacy/class-preferences.php\nCREATE inc/privacy/rest-preferences.php', gate: 'تسجيل الخروج لا يترك تفضيلات مستخدم مسجّل على الجهاز · لكل مفتاح سقف وTTL ومسار مسح من الواجهة · REST بـ nonce وقدرة وتحقّق وحدّ معدّل', rb: 'المفاتيح تعود إلى سلوكها الحالي بلا سقف. لا حذف لبيانات عميل في التراجع.' },
+        { id: 'P7', n: 'E2E وأداء ووصولية', files: 'CREATE tests/e2e/privacy/*\nEDIT  docs/privacy-analytics.md (تحديث المصفوفة)', gate: '390/834/1280 · لوحة مفاتيح وقارئ شاشة وحركة مخفّضة · اللافتة لا تحجب زر الإضافة للسلة ولا زر الدفع ولا واتساب · أرقام قبل/بعد منشورة، وما لم يُقَس يُعلَن غير مقيس', rb: 'الاختبارات لا تُنشر إلى الإنتاج. أي انحدار يُوقف الإصدار قبل النشر لا بعده.' },
+      ],
+
+      mig: [
+        { i: '١', t: 'لقطة قبل أي كتابة: 79 خيار tahdheer_* + قائمة الإضافات المفعّلة + جرد الكوكيز الحي، محفوظة باسم صريح.' },
+        { i: '٢', t: 'وضع الظل: البوابة تسجّل ما كانت ستقرّره تحت المنطق الجديد بلا تطبيقه، لدورة كاملة، مع مقارنة بالقرار الحالي.' },
+        { i: '٣', t: 'التبديل بعد تصفير الفروق غير المبرَّرة بين الظل والواقع — لا قبله ولو كانت الفروق «مفهومة».' },
+        { i: '٤', t: 'لا حذف لأي كوكي أو مفتاح قبل مرور دورة تحقق كاملة عليه وهو مسجَّل ومصنَّف.' },
+        { i: '٥', t: 'consent_policy_version لا يُرفع إلا بعد قبول المرحلة — رفعه يعني إزعاج كل زائر بإعادة موافقة.' },
+      ],
+
+      rb: [
+        'كل مرحلة قابلة للتعطيل من نقطة تحميل واحدة، ولا مرحلة تعتمد على حذف شيفرة سابقة.',
+        'لا مرحلة تحتاج إعادة تعيين الموقع للتراجع عنها — هذا شرط قبول لا رغبة.',
+        'التراجع لا يحذف بيانات عميل ولا يمسح تفضيلات محفوظة على السيرفر.',
+        'قبل كل مرحلة: لقطة تهيئة مسمّاة قابلة للاستعادة، وبعدها: سجل بمن نشر وماذا تغيّر ومن أي حالة إلى أي حالة.',
+        'التقرير بعد كل مرحلة يفصل ما نُفِّذ فعلًا عمّا خُطِّط — ولا يُعلن اختبار ناجحًا لم يُشغَّل.',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

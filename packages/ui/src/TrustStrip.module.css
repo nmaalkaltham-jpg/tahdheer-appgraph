@@ -1,0 +1,376 @@
+/*
+UNIT: TRUSTSTRIP
+COMPONENT: TrustStrip.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * TrustStrip — the four TahTrustStrip.dc.html presets (classic · minimal ·
+ * glass · smart) plus the TahTrust.dc.html four-column trust band.
+ *
+ * Colour comes from a light/dark TOKEN PAIR resolved into local custom
+ * properties, exactly as the design's `tone` object does, so one component
+ * works on either surface. Tokens only; logical properties only (RTL-first).
+ */
+
+.strip {
+  /* light tone (TahTrustStrip.dc.html `tone` else-branch) */
+  --ts-fg: var(--sf-muted);
+  --ts-fg-strong: var(--ink);
+  --ts-accent: var(--teal-600);
+  --ts-rule: var(--border-hairline);
+  --ts-glass-bg: var(--glass-bg);
+  --ts-glass-edge: var(--glass-edge);
+  --ts-glass-hover: var(--bg);
+  --ts-glass-shadow: var(--shadow-glass);
+  --ts-smart-bg: var(--bg-soft);
+  --ts-smart-edge: var(--border);
+  --ts-smart-hover: var(--bg);
+  --ts-dot-primary: var(--teal-600);
+  --ts-dot-bright: var(--teal-600);
+  --ts-dot-gold: var(--gold-deep);
+  --ts-pad: 14px;
+  --ts-gap: 14px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* dark tone (TahTrustStrip.dc.html `tone` dark branch) */
+.dark {
+  --ts-fg: var(--chrome-text-muted);
+  --ts-fg-strong: var(--on-accent);
+  --ts-accent: var(--green-glow);
+  --ts-rule: var(--chrome-14);
+  --ts-glass-bg: var(--chrome-07);
+  --ts-glass-edge: var(--chrome-16);
+  --ts-glass-hover: var(--chrome-12);
+  --ts-glass-shadow: var(--shadow-glass-dark);
+  --ts-smart-bg: var(--chrome-05);
+  --ts-smart-edge: var(--chrome-14);
+  --ts-smart-hover: var(--chrome-09);
+  --ts-dot-primary: var(--green-glow);
+  --ts-dot-bright: var(--green-glow);
+  --ts-dot-gold: var(--gold-300);
+}
+
+.compact {
+  --ts-pad: 12px;
+  --ts-gap: 10px;
+}
+
+/*
+ * The label wrapper is transparent to layout everywhere except the band, where
+ * TahTrust.dc.html stacks the title over its sub-copy inside one flex child.
+ */
+.text {
+  display: contents;
+}
+
+/* ── Preset: band — TahTrust.dc.html ─────────────────────────────── */
+
+/*
+ * TahTrust.dc.html is a full-bleed <section> (background + hairline span the
+ * viewport) wrapping a centred `width:min(1200px, 100% - 64px)` measure with
+ * FOUR fixed columns. One element carries both here, so the measure is
+ * expressed as padding — that keeps the rule edge-to-edge while the columns
+ * stay inside the container, without an extra wrapper the <ul> cannot hold.
+ */
+.band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-inline: max(var(--space-6), (100% - var(--container-content)) / 2);
+  background: var(--bg);
+  border-block-end: 1px solid var(--border);
+}
+
+@media (min-width: 560px) {
+  .band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* A four-fact band never reflows on desktop. */
+@media (min-width: 760px) {
+  .band {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.band .item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: 20px;
+  padding-inline: var(--space-5);
+  border-inline-start: 1px solid var(--ts-rule);
+}
+
+.band .item:hover {
+  background: var(--bg-soft);
+}
+
+.band .icon {
+  display: grid;
+  place-items: center;
+  inline-size: 38px;
+  block-size: 38px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  background: var(--tint-green);
+  color: var(--ts-accent);
+}
+
+.band .icon > svg {
+  inline-size: 19px;
+  block-size: 19px;
+}
+
+.band .text {
+  display: block;
+  min-inline-size: 0;
+}
+
+.band .title {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ts-fg-strong);
+  line-height: 1.5;
+}
+
+.band .desc {
+  font-size: 12.5px;
+  color: var(--ts-fg);
+}
+
+/* ── Preset: classic — the row the theme has always shipped ──────── */
+
+.classic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ts-gap);
+  padding-block-start: var(--ts-pad);
+  border-block-start: 1px solid var(--ts-rule);
+  font-size: 12.5px;
+  color: var(--ts-fg);
+}
+
+.classic .item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.classic .icon > svg {
+  inline-size: 15px;
+  block-size: 15px;
+}
+
+.classic .desc {
+  color: var(--ts-fg);
+}
+
+/* ── Preset: minimal ─────────────────────────────────────────────── */
+
+.minimal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ts-gap);
+  padding-block-start: var(--ts-pad);
+  border-block-start: 1px solid var(--ts-rule);
+}
+
+.minimal .item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ts-fg);
+}
+
+.minimal .icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--ts-accent);
+}
+
+.minimal .icon > svg {
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.sep {
+  inline-size: 1px;
+  block-size: 11px;
+  background: var(--ts-rule);
+  margin-inline-start: var(--ts-gap);
+}
+
+.minimal .item:last-child .sep {
+  display: none;
+}
+
+/* ── Preset: glass ───────────────────────────────────────────────── */
+
+.glass {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid var(--ts-glass-edge);
+  border-radius: var(--r-md);
+  background: var(--ts-glass-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--ts-glass-shadow);
+}
+
+.glass .item {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-block-size: 30px;
+  padding-block: 0;
+  padding-inline: var(--space-3);
+  /* متداخلٌ: ‎--r-md − 4px‎ حشوة ⇒ ‎--r-xs‎. بندٌ ساكن لا يستجيب للتحويم. */
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ts-fg);
+}
+
+.glass .icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--ts-accent);
+}
+
+.glass .icon > svg {
+  inline-size: 13px;
+  block-size: 13px;
+}
+
+.glass .title {
+  white-space: nowrap;
+}
+
+/* ── Preset: smart ───────────────────────────────────────────────── */
+
+.smart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid var(--ts-smart-edge);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ts-smart-bg);
+}
+
+.smart .item {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 34px;
+  padding-block: 0;
+  padding-inline: var(--space-3);
+  border-inline-start: 1px solid var(--ts-smart-edge);
+}
+
+.smart .title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ts-fg-strong);
+  white-space: nowrap;
+}
+
+.smart .desc {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ts-fg);
+  white-space: nowrap;
+}
+
+.dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 7px;
+  block-size: 7px;
+  flex: 0 0 auto;
+}
+
+.dotCore {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: 50%;
+  background: var(--ts-dot-primary);
+}
+
+.dotRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--ts-dot-primary);
+  opacity: 0.45;
+}
+
+.live .dotRing {
+  animation: tahDotPulse var(--dot-pulse-duration) ease-in-out infinite;
+}
+
+.toneBright {
+  --ts-dot-primary: var(--ts-dot-bright);
+}
+
+.toneGold {
+  --ts-dot-primary: var(--ts-dot-gold);
+}
+
+@keyframes tahDotPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+
+  70% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Phone gutters: the 32px measure inset would eat the row's own padding. */
+  .band {
+    padding-inline: var(--space-4);
+  }
+
+  .band .item {
+    padding-inline: var(--space-4);
+  }
+}
+
+/*
+ * Reduced motion: the live ring stops pulsing and stays visible at its resting
+ * size — the state it communicates is never hidden behind the animation.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .dotRing {
+    animation: none;
+    transform: none;
+    opacity: 0.45;
+  }
+}

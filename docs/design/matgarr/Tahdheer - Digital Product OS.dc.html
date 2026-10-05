@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+::placeholder{color:rgba(0,0,0,.35)}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1440px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px;margin-bottom:14px">
+<div style="flex:1;min-width:260px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">DIGITAL PRODUCT OS</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">إضافة منتج رقمي — مركز التحكّم الكامل</span>
+<span style="font:700 10px Tajawal,sans-serif;padding:3px 7px;background:#fdf3d7;color:#7a5a00;border:1px solid #f0dca0;border-radius:4px">تصميم تنفيذي · ليس واجهة وهمية</span>
+</div>
+<p style="margin:0;font:400 11.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6);max-width:96ch">كل بطاقة أدناه تحمل حالتها الحقيقية من فحص القالب: <b style="color:#1e7355">موجود</b> = مبنيّ فعلًا في <code style="font-size:11px">inc/</code> · <b style="color:#8a5a00">جزئي</b> = يحتاج إكمالًا · <b style="color:#a5261b">ناقص</b> = لا كود له بعد. تكامل Google Drive <b style="color:#a5261b">ناقص بالكامل</b> — لكن نمط OAuth الحقيقي موجود في <code style="font-size:11px">seo/integrations/class-gsc-oauth.php</code> وهو المرجع المعماري لبنائه.</p>
+</div>
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:#fff;border:1px solid #dcdcde">
+<sc-for list="{{ modeBtns }}" as="m" hint-placeholder-count="2">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.pressed }}" style="min-height:36px;padding:0 15px;border:0;border-radius:7px;background:{{ m.bg }};color:{{ m.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">{{ m.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:#fff;border:1px solid #dcdcde">
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.55)">جهوزية الإعداد</span>
+<span style="font:900 15px ui-monospace,monospace;color:{{ ready.color }}">{{ ready.text }}</span>
+</div>
+</div>
+</header>
+
+<section style="display:{{ show.simple }};animation:tahFadeUp .25s ease both">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:16px;align-items:start">
+<div style="padding:22px;border:1px solid #dcdcde;border-radius:14px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;flex-wrap:wrap">
+<h2 style="margin:0;font:800 15px Tajawal,sans-serif;color:#1a1a1a">الوضع البسيط</h2>
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">٤ حقول · نشر مباشر</span>
+</div>
+<p style="margin:0 0 18px;font:400 11.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">اسم · سعر · ملف · نشر. كل الإعدادات المتقدّمة تأخذ قيمًا افتراضية آمنة: تسليم عبر مكتبة العميل + رابط موقّع، وصول دائم، تحميل غير محدود، تخزين محلي محمي.</p>
+
+<div style="display:flex;flex-direction:column;gap:14px">
+<label style="display:block">
+<span style="display:block;margin-bottom:6px;font:800 12px Tajawal,sans-serif;color:#1a1a1a">اسم المنتج <span style="color:#a5261b">*</span></span>
+<input type="text" value="{{ f.title }}" onChange="{{ setTitle }}" placeholder="مثال: تحضير الرياضيات — الصف السادس — الفصل الأول" style="width:100%;box-sizing:border-box;min-height:46px;padding:0 14px;border:1px solid #c9c9cd;border-radius:9px;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:700;color:#1a1a1a;background:#fff">
+</label>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
+<label style="display:block">
+<span style="display:block;margin-bottom:6px;font:800 12px Tajawal,sans-serif;color:#1a1a1a">السعر <span style="color:#a5261b">*</span></span>
+<div style="display:flex;align-items:center;gap:0;border:1px solid #c9c9cd;border-radius:9px;overflow:hidden;background:#fff">
+<input type="text" value="{{ f.price }}" onChange="{{ setPrice }}" placeholder="0.00" style="flex:1;min-width:0;min-height:44px;padding:0 12px;border:0;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;color:#1a1a1a">
+<span style="padding:0 12px;font:800 11.5px Tajawal,sans-serif;color:rgba(0,0,0,.55);background:#f6f7f7;align-self:stretch;display:grid;place-items:center;border-inline-start:1px solid #e4e4e7">ر.س</span>
+</div>
+</label>
+<label style="display:block">
+<span style="display:block;margin-bottom:6px;font:800 12px Tajawal,sans-serif;color:#1a1a1a">سعر التخفيض <span style="font-weight:600;color:rgba(0,0,0,.45)">(اختياري)</span></span>
+<input type="text" value="{{ f.sale }}" onChange="{{ setSale }}" placeholder="—" style="width:100%;box-sizing:border-box;min-height:46px;padding:0 12px;border:1px solid #c9c9cd;border-radius:9px;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;color:#1a1a1a;background:#fff">
+</label>
+</div>
+
+<div>
+<span style="display:block;margin-bottom:7px;font:800 12px Tajawal,sans-serif;color:#1a1a1a">الملف <span style="color:#a5261b">*</span></span>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px">
+<sc-for list="{{ sourceBtns }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" style="display:flex;align-items:center;gap:9px;min-height:56px;padding:0 12px;border:1.5px dashed {{ s.edge }};border-radius:10px;background:{{ s.bg }};cursor:pointer;text-align:start">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:{{ s.dot }};display:grid;place-items:center;font:900 11px ui-monospace,monospace;color:#fff">{{ s.mark }}</span>
+<span style="display:flex;flex-direction:column;gap:1px;min-width:0">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ s.label }}</span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ s.note }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#f6faf8;border:1px solid #cfe6dc">
+<span aria-hidden="true" style="flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:#1e7355;display:grid;place-items:center">
+<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+</span>
+<p style="margin:0;font:600 11px/1.6 Tajawal,sans-serif;color:#123d2f">الافتراضيات الذكية مُطبَّقة: <b>مكتبة العميل + رابط موقّع</b> · وصول دائم · تحميل غير محدود · تخزين محلي محمي. عدّلها من الوضع المتقدّم متى شئت.</p>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-top:4px">
+<button type="button" style="min-height:44px;padding:0 22px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:13px;font-weight:800;cursor:pointer">نشر المنتج</button>
+<button type="button" style="min-height:44px;padding:0 16px;border:1px solid #c9c9cd;border-radius:9px;background:#fff;color:#1a1a1a;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:700;cursor:pointer">حفظ كمسودة</button>
+<button type="button" onClick="{{ goAdvanced }}" style="min-height:44px;padding:0 16px;border:1px solid #cfe6dc;border-radius:9px;background:#f6faf8;color:#1e7355;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;cursor:pointer">فتح الوضع المتقدّم ←</button>
+</div>
+</div>
+</div>
+
+<aside style="display:flex;flex-direction:column;gap:12px">
+<div style="padding:16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 4px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">إنشاء سريع من Google Drive</h3>
+<p style="margin:0 0 12px;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">اختر مجلدًا أو ملفًا → يُقرأ الاسم والنوع والحجم تلقائيًا → سعر → نشر. لا نشر تلقائي بدون موافقتك.</p>
+<button type="button" onClick="{{ openDrive }}" style="width:100%;min-height:42px;border:1px solid #c9c9cd;border-radius:9px;background:#fff;color:#1a1a1a;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">استعراض Google Drive</button>
+<p style="margin:10px 0 0;font:700 10px Tajawal,sans-serif;color:#a5261b">يتطلّب ربط OAuth أولًا — غير مبنيّ بعد.</p>
+</div>
+<div style="padding:16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 10px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">قوالب المنتج</h3>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ templates }}" as="t" hint-placeholder-count="6">
+<button type="button" style="display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:38px;padding:0 11px;border:1px solid #e4e4e7;border-radius:8px;background:#fcfcfd;cursor:pointer;text-align:start">
+<span style="font:700 11px Tajawal,sans-serif;color:#1a1a1a">{{ t.label }}</span>
+<span style="font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ t.n }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</aside>
+</div>
+</section>
+
+<div style="display:{{ show.advanced }};grid-template-columns:minmax(0,214px) minmax(0,1fr) minmax(0,296px);gap:14px;align-items:start">
+
+<nav aria-label="أقسام المنتج" style="display:flex;flex-direction:column;gap:2px;padding:9px;border:1px solid #dcdcde;border-radius:12px;background:#fff;position:sticky;inset-block-start:14px">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="13">
+<button type="button" onClick="{{ s.onClick }}" aria-current="{{ s.current }}" style="display:flex;align-items:center;gap:8px;min-height:38px;padding:0 9px;border:0;border-inline-start:3px solid {{ s.edge }};border-radius:8px;background:{{ s.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:19px;height:19px;border-radius:6px;background:{{ s.dotBg }};color:{{ s.dotFg }};display:grid;place-items:center;font:900 8.5px ui-monospace,monospace">{{ s.n }}</span>
+<span dir="rtl" style="flex:1;min-width:0;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:{{ s.weight }};color:{{ s.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ s.label }}</span>
+<span aria-hidden="true" style="flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:{{ s.state }}"></span>
+</button>
+</sc-for>
+<div style="margin-top:7px;padding-top:9px;border-top:1px solid #ececef">
+<p style="margin:0;font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.45)"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#1e7355;vertical-align:middle"></span> موجود · <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#c99700;vertical-align:middle"></span> جزئي · <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#a5261b;vertical-align:middle"></span> ناقص</p>
+</div>
+</nav>
+
+<main style="display:flex;flex-direction:column;gap:13px;min-width:0">
+
+<section style="display:{{ sec.overview }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">صحّة المنتج</h2>
+<p style="margin:0 0 14px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">كل صف يقيس <b>إعدادًا</b> لا مقياسًا تحليليًا — لا أرقام مُختلَقة. اضغط أي صف للانتقال لموضع المشكلة.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ healthRows }}" as="h" hint-placeholder-count="8">
+<button type="button" onClick="{{ h.onClick }}" style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr) auto auto;align-items:center;gap:12px;min-height:44px;padding:0 12px;border:1px solid #ececef;border-radius:9px;background:{{ h.bg }};cursor:pointer;text-align:start;width:100%">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ h.label }}</span>
+<span style="font:500 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.detail }}</span>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ h.chipBg }};color:{{ h.chipFg }};white-space:nowrap">{{ h.status }}</span>
+<span aria-hidden="true" style="font:900 12px ui-monospace,monospace;color:rgba(0,0,0,.3)">←</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">فحص ما قبل النشر</h2>
+<span style="font:800 10.5px Tajawal,sans-serif;padding:4px 10px;border-radius:20px;background:#fdf3d7;color:#7a5a00">٣ تحذيرات لا تمنع النشر · ١ حاجب</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:7px">
+<sc-for list="{{ preflight }}" as="p" hint-placeholder-count="10">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 11px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<span aria-hidden="true" style="flex:0 0 auto;width:17px;height:17px;margin-top:1px;border-radius:5px;background:{{ p.mBg }};color:{{ p.mFg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ p.mark }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:700 11px Tajawal,sans-serif;color:#1a1a1a">{{ p.label }}</span>
+<span style="font:500 10px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ p.note }}</span>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.type }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">محرّك أنواع المنتجات</h2>
+<p style="margin:0 0 14px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">النوع يقود ما يظهر بعده: تفعيل «رقمي» يُخفي الشحن والوزن والأبعاد ويفتح مساحة العمل الرقمية. أنواع جديدة تُضاف عبر خطّاف <code style="font-size:10.5px">tahdheer_product_types</code> دون تعديل النواة.</p>
+<div style="display:flex;flex-direction:column;gap:13px">
+<sc-for list="{{ typeGroups }}" as="g" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ g.label }}</span>
+<span style="flex:1;height:1px;background:#ececef"></span>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ g.n }}</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ g.items }}" as="t" hint-placeholder-count="8">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="display:flex;align-items:center;gap:6px;min-height:34px;padding:0 11px;border:1px solid {{ t.edge }};border-radius:20px;background:{{ t.bg }};cursor:pointer">
+<span style="font-family:Tajawal,sans-serif;font-size:11px;font-weight:{{ t.weight }};color:{{ t.fg }}">{{ t.label }}</span>
+<sc-if value="{{ t.on }}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:3.4;stroke-linecap:round;color:#fff"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+</sc-if>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px">
+<sc-for list="{{ typeEffects }}" as="e" hint-placeholder-count="3">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:5px">{{ e.label }}</span>
+<span style="display:block;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ e.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ sec.price }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">السعر والتخفيض</h2>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">موجود · محرّك العروض مربوط</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+<sc-for list="{{ priceFields }}" as="p" hint-placeholder-count="4">
+<label style="display:block">
+<span style="display:block;margin-bottom:5px;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ p.label }}</span>
+<input type="text" value="{{ p.value }}" placeholder="{{ p.ph }}" style="width:100%;box-sizing:border-box;min-height:42px;padding:0 12px;border:1px solid #c9c9cd;border-radius:9px;font-family:ui-monospace,monospace;font-size:13px;font-weight:700;color:#1a1a1a;background:#fff">
+<span style="display:block;margin-top:5px;font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.48)">{{ p.meta }}</span>
+</label>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding:12px 14px;border-radius:10px;background:#f6faf8;border:1px solid #cfe6dc">
+<p style="margin:0;font:600 10.5px/1.7 Tajawal,sans-serif;color:#123d2f">مفاتيح حقيقية: <code style="font-size:10px">_sale_price_dates_from</code> / <code style="font-size:10px">_sale_price_dates_to</code> — نفس الحقول التي يقرأها محرّك العروض في الواجهة، فلا نظام سعر ثانٍ ولا تعارض. الشارة تنتهي تلقائيًا بانتهاء التاريخ.</p>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.files }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<div style="min-width:200px;flex:1">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">مدير الملفات الرقمية الشامل</h2>
+<p style="margin:0;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">ملفات غير محدودة لكل منتج · أي مزوّد تخزين · معرّف ثابت لكل ملف. الأسطر أدناه <b>نموذج عرض</b> لتوضيح البنية.</p>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button type="button" onClick="{{ openDrive }}" style="min-height:36px;padding:0 13px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#1a1a1a;cursor:pointer">+ من Drive</button>
+<button type="button" style="min-height:36px;padding:0 13px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer">+ رفع ملف</button>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #ececef">
+<sc-for list="{{ fileFilters }}" as="f2" hint-placeholder-count="6">
+<button type="button" onClick="{{ f2.onClick }}" aria-pressed="{{ f2.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ f2.edge }};border-radius:20px;background:{{ f2.bg }};color:{{ f2.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ f2.label }}</button>
+</sc-for>
+<span style="flex:1"></span>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ fileCount }}</span>
+</div>
+
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:34px minmax(0,1fr) 92px 74px 60px 108px 96px;gap:8px;align-items:center;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span aria-hidden="true"></span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الملف</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">النوع</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الحجم</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">إصدار</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">المصدر</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الحالة</span>
+</div>
+<sc-for list="{{ files }}" as="fl" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:34px minmax(0,1fr) 92px 74px 60px 108px 96px;gap:8px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6;background:{{ fl.bg }}">
+<button type="button" onClick="{{ fl.onClick }}" aria-label="تفاصيل الملف" style="width:24px;height:24px;border:1px solid #dcdcde;border-radius:6px;background:#fff;cursor:pointer;font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.45);display:grid;place-items:center">{{ fl.n }}</button>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ fl.name }}</span>
+<span style="font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ fl.id }}</span>
+</span>
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ fl.kind }}</span>
+<span style="font:700 10.5px ui-monospace,monospace;color:rgba(0,0,0,.62)">{{ fl.size }}</span>
+<span style="font:700 10.5px ui-monospace,monospace;color:rgba(0,0,0,.62)">{{ fl.ver }}</span>
+<span style="font:700 10px Tajawal,sans-serif;color:{{ fl.srcFg }}">{{ fl.src }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ fl.stBg }};color:{{ fl.stFg }};text-align:center">{{ fl.st }}</span>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ fileDetail }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;padding:14px;border:1px solid #cfe6dc;border-radius:11px;background:#f6faf8">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
+<span style="font:800 12px Tajawal,sans-serif;color:#123d2f">بيانات الملف الكاملة — {{ fileDetail.name }}</span>
+<button type="button" onClick="{{ closeFile }}" style="min-height:28px;padding:0 10px;border:1px solid #cfe6dc;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1e7355;cursor:pointer">إغلاق</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px">
+<sc-for list="{{ fileDetail.meta }}" as="m2" hint-placeholder-count="12">
+<div style="padding:8px 10px;border:1px solid #dfeee7;border-radius:8px;background:#fff">
+<span style="display:block;font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5);margin-bottom:2px">{{ m2.k }}</span>
+<span style="display:block;font:800 10.5px ui-monospace,monospace;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis">{{ m2.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:11px">
+<sc-for list="{{ fileOps }}" as="o" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ o.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ o.chipBg }};color:{{ o.chipFg }}">{{ o.chip }}</span>
+</div>
+<p style="margin:0;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ o.note }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ sec.drive }};flex-direction:column;gap:13px">
+<div style="padding:0;border:1px solid #dcdcde;border-radius:12px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;background:#1a1a1a">
+<span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:#fff;display:grid;place-items:center;font:900 11px ui-monospace,monospace;color:#1a1a1a">GD</span>
+<span style="flex:1;font:800 13.5px Tajawal,sans-serif;color:#fff">مركز تكامل Google Drive</span>
+<span style="font:800 10px Tajawal,sans-serif;padding:4px 10px;border-radius:20px;background:#3d1512;color:#ffb4ab;border:1px solid #6b2019">غير متصل — لا كود بعد</span>
+</div>
+<div style="padding:16px 18px">
+<p style="margin:0 0 14px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">Drive هنا <b>مزوّد تخزين من الدرجة الأولى</b> لا حقل رابط. المرجع المعماري جاهز: نفس دورة OAuth 2.0 المستخدمة فعليًا في <code style="font-size:10.5px">class-gsc-oauth.php</code> (تخزين مشفّر، تجديد refresh token، حالة اتصال، فحص صحّة) — يُستنسخ بنطاق <code style="font-size:10.5px">drive.readonly</code> + <code style="font-size:10.5px">drive.file</code> فقط، لا أكثر.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin-bottom:14px">
+<sc-for list="{{ driveSetup }}" as="d" hint-placeholder-count="5">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:11px 12px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<span aria-hidden="true" style="flex:0 0 auto;width:18px;height:18px;border-radius:5px;background:{{ d.mBg }};color:{{ d.mFg }};display:grid;place-items:center;font:900 9.5px ui-monospace,monospace">{{ d.n }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ d.label }}</span>
+<span style="font:500 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ d.note }}</span>
+</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<button type="button" style="min-height:40px;padding:0 18px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">الربط مع Google</button>
+<button type="button" onClick="{{ openDrive }}" style="min-height:40px;padding:0 14px;border:1px solid #c9c9cd;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#1a1a1a;cursor:pointer">معاينة متصفّح Drive</button>
+<button type="button" style="min-height:40px;padding:0 14px;border:1px solid #c9c9cd;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#1a1a1a;cursor:pointer">تشخيص الاتصال</button>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px">
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 3px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">وضع المزامنة</h3>
+<p style="margin:0 0 11px;font:500 10.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الكشف عبر <code style="font-size:10px">changes.list</code> + مصالحة دورية — لا مسح كامل للمجلد ولا تنزيل ملفات لقراءة بيانات وصفية.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ syncModes }}" as="s2" hint-placeholder-count="4">
+<button type="button" onClick="{{ s2.onClick }}" aria-pressed="{{ s2.on }}" style="display:flex;align-items:center;gap:9px;min-height:40px;padding:0 11px;border:1px solid {{ s2.edge }};border-radius:9px;background:{{ s2.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;border-radius:50%;border:2px solid {{ s2.ring }};background:{{ s2.fill }}"></span>
+<span style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ s2.label }}</span>
+<span style="font:500 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ s2.note }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 3px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">وضع التسليم من Drive</h3>
+<p style="margin:0 0 11px;font:500 10.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">قاعدة غير قابلة للتفاوض: لا ملف يُجعل عامًا دائمًا لتسهيل التنفيذ.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ deliveryModes }}" as="d2" hint-placeholder-count="3">
+<div style="padding:11px 12px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ d2.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ d2.chipBg }};color:{{ d2.chipFg }}">{{ d2.chip }}</span>
+</div>
+<p style="margin:0;font:500 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ d2.note }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:11px">
+<h3 style="margin:0;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">مجلد Drive كمنتج · ومراجعة التغييرات</h3>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#fdecea;color:#a5261b">ناقص</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:11px">
+<div style="padding:12px 13px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">خيارات نطاق المجلد</span>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ folderOpts }}" as="fo" hint-placeholder-count="6">
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;border-radius:4px;border:1.5px solid {{ fo.ring }};background:{{ fo.fill }};display:grid;place-items:center;color:#fff;font:900 9px ui-monospace,monospace">{{ fo.mark }}</span>
+<span style="font:600 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.7)">{{ fo.label }}</span>
+</label>
+</sc-for>
+</div>
+</div>
+<div style="padding:12px 13px;border:1px solid #f0dca0;border-radius:10px;background:#fdf9ef">
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#7a5a00;margin-bottom:7px">تغييرات مكتشفة — مراجعة قبل التطبيق</span>
+<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:9px">
+<sc-for list="{{ changeRows }}" as="c" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:7px;background:#fff;border:1px solid #f2e6c8">
+<span style="font:700 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ c.label }}</span>
+<span style="font:900 11px ui-monospace,monospace;color:{{ c.fg }}">{{ c.n }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:0 0 9px;font:600 9.5px/1.6 Tajawal,sans-serif;color:#7a5a00">حذف ملف من Drive <b>لا يسحب</b> وصول عميل اشترى — الإلغاء قرار صريح موثَّق فقط.</p>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<button type="button" style="min-height:32px;padding:0 11px;border:0;border-radius:7px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">مراجعة</button>
+<button type="button" style="min-height:32px;padding:0 11px;border:1px solid #dcdcde;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">تجاهل</button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 3px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">Google Workspace — تصدير ونسخ العميل</h3>
+<p style="margin:0 0 11px;font:500 10.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الملف الأصلي (Master) يبقى محميًا دائمًا. العميل يحصل على نسخة مشتقّة أو تصدير — لا وصول للأصل.</p>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,130px) minmax(0,1fr) 96px;gap:8px;padding:8px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">المصدر</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">صيغ التسليم المسموحة</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">نسخة للعميل</span>
+</div>
+<sc-for list="{{ exportRows }}" as="x" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:minmax(0,130px) minmax(0,1fr) 96px;gap:8px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ x.src }}</span>
+<span style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ x.fmts }}" as="fm" hint-placeholder-count="3">
+<span style="font:800 9.5px ui-monospace,monospace;padding:3px 8px;border-radius:6px;background:#eaf5ef;color:#1e7355">{{ fm }}</span>
+</sc-for>
+</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ x.copyBg }};color:{{ x.copyFg }};text-align:center">{{ x.copy }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px">
+<sc-for list="{{ driveChecks }}" as="g2" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:6px">{{ g2.label }}</span>
+<span style="display:block;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ g2.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ sec.delivery }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">طرق التسليم</h2>
+<p style="margin:0 0 13px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">كل طريقة مُفعَّلة تُنشئ <b>مهمّة تسليم</b> في الطابور بعد نجاح الدفع. فشل خطوة اختيارية لا يُفشل الطلب كله.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:7px">
+<sc-for list="{{ methods }}" as="mt" hint-placeholder-count="10">
+<button type="button" onClick="{{ mt.onClick }}" aria-pressed="{{ mt.on }}" style="display:flex;align-items:center;gap:9px;min-height:46px;padding:0 12px;border:1px solid {{ mt.edge }};border-radius:10px;background:{{ mt.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;border-radius:4px;border:1.5px solid {{ mt.ring }};background:{{ mt.fill }};display:grid;place-items:center;color:#fff;font:900 9px ui-monospace,monospace">{{ mt.mark }}</span>
+<span style="display:flex;flex-direction:column;gap:1px;min-width:0;flex:1">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ mt.label }}</span>
+<span style="font:700 9px Tajawal,sans-serif;color:{{ mt.stFg }}">{{ mt.st }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px">
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 10px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">قواعد التحميل والرمز الموقّع</h3>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ dlRules }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;padding:9px 11px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ r.k }}</span>
+<span style="font:800 10.5px ui-monospace,monospace;color:#1a1a1a">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.5)">كل تحميل يتحقّق في الخادم: هوية · دفع · استحقاق · تنويعة · صلاحية · حدّ · حالة استرجاع. لا اعتماد على أي تحقّق في المتصفّح.</p>
+</div>
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 3px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">مركز رسائل التسليم</h3>
+<p style="margin:0 0 10px;font:500 10.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">متغيّرات القالب المتاحة:</p>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px">
+<sc-for list="{{ mailVars }}" as="v" hint-placeholder-count="9">
+<span style="font:700 9.5px ui-monospace,monospace;padding:4px 8px;border-radius:6px;background:#f2f2f4;color:#333">{{ v }}</span>
+</sc-for>
+</div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<button type="button" style="min-height:32px;padding:0 11px;border:1px solid #c9c9cd;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">معاينة</button>
+<button type="button" style="min-height:32px;padding:0 11px;border:1px solid #c9c9cd;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">إرسال تجريبي</button>
+<button type="button" style="min-height:32px;padding:0 11px;border:1px solid #c9c9cd;border-radius:7px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">سجل الإرسال</button>
+</div>
+</div>
+</div>
+
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 10px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">مسار مهمّة التسليم بعد الدفع</h3>
+<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+<sc-for list="{{ jobChain }}" as="j" hint-placeholder-count="8">
+<span style="display:flex;align-items:center;gap:6px">
+<span style="font:800 10.5px Tajawal,sans-serif;padding:7px 11px;border-radius:8px;background:{{ j.bg }};color:{{ j.fg }};border:1px solid {{ j.edge }}">{{ j.label }}</span>
+<span aria-hidden="true" style="font:900 11px ui-monospace,monospace;color:rgba(0,0,0,.25)">←</span>
+</span>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.5)">حالات المهمّة: <b>مُجدولة · تعمل · نجحت · فشلت · تُعاد</b> — مع مُعرّف ارتباط واحد يتبع الطلب من الدفع حتى وصول البريد.</p>
+</div>
+</section>
+
+<section style="display:{{ sec.access }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">وصول العميل ومكتبته</h2>
+<p style="margin:0 0 13px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">الاستحقاق سجلّ مستقل عن الطلب — لأن الطلب يُغيَّر ويُسترجع، والوصول يجب أن يبقى قابلًا للتتبّع والتفسير.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:11px">
+<sc-for list="{{ accessCards }}" as="a" hint-placeholder-count="6">
+<div style="padding:13px 14px;border:1px solid #ececef;border-radius:11px;background:#fcfcfd">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ a.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ a.chipBg }};color:{{ a.chipFg }}">{{ a.chip }}</span>
+</div>
+<p style="margin:0;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ a.note }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 3px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">سياسة الاسترجاع والإلغاء</h3>
+<p style="margin:0 0 10px;font:500 10.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">مربوطة بصفحة سياسة الاسترجاع الرقمية — نفس النص لا نصّان.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ refundOpts }}" as="ro" hint-placeholder-count="5">
+<button type="button" onClick="{{ ro.onClick }}" aria-pressed="{{ ro.on }}" style="display:flex;align-items:center;gap:9px;min-height:38px;padding:0 11px;border:1px solid {{ ro.edge }};border-radius:9px;background:{{ ro.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;border-radius:50%;border:2px solid {{ ro.ring }};background:{{ ro.fill }}"></span>
+<span style="font:700 11px Tajawal,sans-serif;color:#1a1a1a">{{ ro.label }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.versions }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">الإصدارات وتوزيع التحديثات</h2>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#fdecea;color:#a5261b">ناقص · يحتاج جدول إصدارات</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ versions }}" as="v2" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 13px;border:1px solid {{ v2.edge }};border-radius:10px;background:{{ v2.bg }}">
+<span style="font:900 13px ui-monospace,monospace;color:{{ v2.vFg }}">{{ v2.v }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ v2.title }}</span>
+<span style="font:500 10px Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ v2.note }}</span>
+</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:4px 9px;border-radius:20px;background:{{ v2.stBg }};color:{{ v2.stFg }};white-space:nowrap">{{ v2.st }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">
+<div style="padding:15px 16px;border:1px solid #f0dca0;border-radius:12px;background:#fdf9ef">
+<h3 style="margin:0 0 6px;font:800 12px Tajawal,sans-serif;color:#7a5a00">تعديل جديد على ملف Drive</h3>
+<p style="margin:0 0 10px;font:500 10.5px/1.65 Tajawal,sans-serif;color:#7a5a00">لا استبدال أعمى للمحتوى المنشور. الخيارات المطروحة على المشرف:</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ revisionOpts }}" as="rv" hint-placeholder-count="4">
+<span style="font:700 10.5px Tajawal,sans-serif;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #f2e6c8;color:#1a1a1a">{{ rv }}</span>
+</sc-for>
+</div>
+</div>
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 10px;font:800 12px Tajawal,sans-serif;color:#1a1a1a">من يستحقّ التحديث</h3>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ audiences }}" as="au" hint-placeholder-count="5">
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:7px 9px;border-radius:8px;background:#fcfcfd;border:1px solid #ececef">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;border-radius:4px;border:1.5px solid {{ au.ring }};background:{{ au.fill }};display:grid;place-items:center;color:#fff;font:900 9px ui-monospace,monospace">{{ au.mark }}</span>
+<span style="font:600 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.7)">{{ au.label }}</span>
+</label>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.license }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">التراخيص والحماية الواقعية</h2>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#fdecea;color:#a5261b">ناقص</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:11px">
+<sc-for list="{{ licenseCards }}" as="lc" hint-placeholder-count="6">
+<div style="padding:13px 14px;border:1px solid #ececef;border-radius:11px;background:#fcfcfd">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:6px">{{ lc.label }}</span>
+<span style="display:block;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ lc.note }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:13px;padding:12px 14px;border-radius:10px;background:#f6f7f7;border:1px solid #e4e4e7">
+<p style="margin:0;font:600 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.62)"><b>صدق تقني:</b> لا ملف رقمي يُسلَّم للعميل يمكن جعل نسخه مستحيلًا. ما يُبنى هنا يرفع كلفة التسريب ويجعله قابلًا للتتبّع: علامة مائية مشتقّة (لا تُعدّل الأصل)، رمز موقّع، حدود تحميل، سجل تدقيق. أي وعد أكبر من هذا وعد كاذب.</p>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.automation }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">باني الأتمتة — متى / إذا / إذن</h2>
+<button type="button" style="min-height:34px;padding:0 13px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#1a1a1a;cursor:pointer">+ قاعدة</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ rules }}" as="ru" hint-placeholder-count="3">
+<div style="padding:12px 13px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ ru.name }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ ru.chipBg }};color:{{ ru.chipFg }}">{{ ru.chip }}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:7px">
+<sc-for list="{{ ru.parts }}" as="pt" hint-placeholder-count="3">
+<div style="padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #ececef">
+<span style="display:block;font:900 8.5px ui-monospace,monospace;color:{{ pt.kFg }};margin-bottom:3px">{{ pt.k }}</span>
+<span style="display:block;font:700 10.5px/1.5 Tajawal,sans-serif;color:#1a1a1a">{{ pt.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px">
+<sc-for list="{{ integrations }}" as="ig" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ ig.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ ig.chipBg }};color:{{ ig.chipFg }}">{{ ig.chip }}</span>
+</div>
+<p style="margin:0;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ ig.note }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ sec.search }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">مختبر نتائج البحث ومشتقّاتها</h2>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">منتج واحد يظهر في أشكال كثيرة. كل شكل يفتحه <b>حقل محدّد</b> — والبطاقة تقول لك ما ينقص لفتحه. لا نلفّق تقييمات ولا مبيعات ولا ندرة.</p>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">
+<sc-for list="{{ serpTabs }}" as="tb" hint-placeholder-count="9">
+<button type="button" onClick="{{ tb.onClick }}" aria-pressed="{{ tb.on }}" style="min-height:32px;padding:0 12px;border:1px solid {{ tb.edge }};border-radius:20px;background:{{ tb.bg }};color:{{ tb.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ tb.label }}</button>
+</sc-for>
+</div>
+
+<div style="padding:16px;border:1px solid #e4e4e7;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #f2f2f4">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ serp.title }}</span>
+<span style="flex:1"></span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ serp.chipBg }};color:{{ serp.chipFg }}">{{ serp.chip }}</span>
+</div>
+
+<div style="display:{{ serpShow.standard }};max-width:600px" dir="rtl">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+<span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:#1e7355;display:grid;place-items:center;font:900 9px ui-monospace,monospace;color:#fff">ت</span>
+<span style="display:flex;flex-direction:column;line-height:1.25">
+<span style="font:600 11.5px Tajawal,sans-serif;color:#202124">التحاضير الحديثة</span>
+<span style="font:400 10px ui-monospace,monospace;color:#5f6368" dir="ltr">althadeer.com › math › grade-6</span>
+</span>
+</div>
+<h3 style="margin:0 0 3px;font:400 19px/1.35 Tajawal,sans-serif;color:#1a0dab">تحضير الرياضيات الصف السادس الفصل الأول ١٤٤٧</h3>
+<p style="margin:0;font:400 12.5px/1.65 Tajawal,sans-serif;color:#4d5156">ملف تحضير جاهز للطبع وفق توزيع الوزارة — أهداف ومهارات وتقويم لكل درس. تحميل فوري بعد الدفع بصيغة PowerPoint وPDF.</p>
+</div>
+
+<div style="display:{{ serpShow.product }};max-width:600px" dir="rtl">
+<div style="display:flex;gap:14px;align-items:flex-start">
+<span aria-hidden="true" style="flex:0 0 auto;width:92px;height:92px;border-radius:9px;background:#f1f3f4;border:1px solid #e0e0e0;display:grid;place-items:center;font:700 9px Tajawal,sans-serif;color:#9aa0a6;text-align:center">صورة<br>المنتج</span>
+<div style="min-width:0">
+<span style="display:block;font:400 10px ui-monospace,monospace;color:#5f6368;margin-bottom:3px" dir="ltr">althadeer.com › math › grade-6</span>
+<h3 style="margin:0 0 5px;font:400 18px/1.35 Tajawal,sans-serif;color:#1a0dab">تحضير الرياضيات الصف السادس — الفصل الأول</h3>
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:5px">
+<span style="font:800 13.5px Tajawal,sans-serif;color:#202124">٣٥.٠٠ ر.س</span>
+<span style="font:700 11.5px Tajawal,sans-serif;color:#188038">متوفر · تحميل فوري</span>
+<span style="font:400 11.5px Tajawal,sans-serif;color:#5f6368">منتج رقمي</span>
+</div>
+<p style="margin:0;font:400 12.5px/1.6 Tajawal,sans-serif;color:#4d5156">Offer schema حقيقي من سعر ووكومرس — <b>بلا</b> aggregateRating لأن التقييمات غير موجودة فعلًا.</p>
+</div>
+</div>
+</div>
+
+<div style="display:{{ serpShow.ai }};max-width:640px" dir="rtl">
+<div style="padding:14px;border-radius:12px;background:linear-gradient(180deg,#f0f6ff,#fbfcff);border:1px solid #d7e3f8">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">
+<span aria-hidden="true" style="width:18px;height:18px;border-radius:50%;background:#4285f4;display:grid;place-items:center;font:900 9px ui-monospace,monospace;color:#fff">AI</span>
+<span style="font:800 11px Tajawal,sans-serif;color:#1f3d7a">نظرة عامة من الذكاء الاصطناعي</span>
+</div>
+<p style="margin:0 0 10px;font:400 12.5px/1.9 Tajawal,sans-serif;color:#202124">تحضير الرياضيات للصف السادس هو ملف يوثّق أهداف كل درس ومهاراته وأساليب تقويمه وفق توزيع المنهج المعتمد. يُسلَّم عادة بصيغة PowerPoint قابلة للتعديل وPDF جاهز للطبع، ويُحدَّث مع كل تحديث للتوزيع الوزاري.</p>
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font:700 10px Tajawal,sans-serif;color:#5f6368">المصادر:</span>
+<span style="display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:20px;background:#fff;border:1px solid #dadce0">
+<span aria-hidden="true" style="width:14px;height:14px;border-radius:50%;background:#1e7355"></span>
+<span style="font:700 10px Tajawal,sans-serif;color:#202124">althadeer.com</span>
+</span>
+</div>
+</div>
+<p style="margin:11px 0 0;font:600 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">ما يجعل الصفحة قابلة للاقتباس: <b>إجابة قصيرة ٤٠–٦٠ كلمة</b> في أعلى الصفحة، جدول مواصفات قابل للاستخراج، محتوى مُقدَّم من الخادم بلا JavaScript، وتواريخ تحديث صادقة.</p>
+</div>
+
+<div style="display:{{ serpShow.answer }};max-width:640px" dir="rtl">
+<div style="padding:14px;border-radius:12px;background:#0f1115;border:1px solid #262a33">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
+<span aria-hidden="true" style="width:18px;height:18px;border-radius:6px;background:#e9e9ec;display:grid;place-items:center;font:900 9px ui-monospace,monospace;color:#0f1115">∎</span>
+<span style="font:800 11px Tajawal,sans-serif;color:#e9e9ec">محرّك إجابة (ChatGPT · Perplexity · Gemini)</span>
+</div>
+<p style="margin:0 0 11px;font:400 12.5px/1.9 Tajawal,sans-serif;color:#c9ccd4">ملف التحضير للصف السادس متاح بصيغتي PowerPoint وPDF بسعر ٣٥ ريالًا، ويشمل أهداف الدروس ومهاراتها وأدوات التقويم <sup style="font:700 9px ui-monospace,monospace;color:#8ab4f8">[١]</sup>.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ answerLevers }}" as="al" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;background:#171a20;border:1px solid #262a33">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;border-radius:4px;background:{{ al.mBg }};display:grid;place-items:center;font:900 9px ui-monospace,monospace;color:#0f1115">{{ al.mark }}</span>
+<span style="flex:1;font:600 10.5px Tajawal,sans-serif;color:#c9ccd4">{{ al.label }}</span>
+<span style="font:700 9.5px ui-monospace,monospace;color:{{ al.fg }}">{{ al.st }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ serpShow.faq }};max-width:600px" dir="rtl">
+<h3 style="margin:0 0 3px;font:400 18px/1.35 Tajawal,sans-serif;color:#1a0dab">تحضير الرياضيات الصف السادس — أسئلة شائعة</h3>
+<span style="display:block;font:400 10px ui-monospace,monospace;color:#5f6368;margin-bottom:9px" dir="ltr">althadeer.com › math › grade-6</span>
+<div style="border-top:1px solid #ececef">
+<sc-for list="{{ faqRows }}" as="fq" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 2px;border-bottom:1px solid #ececef">
+<span style="font:400 12.5px Tajawal,sans-serif;color:#202124">{{ fq }}</span>
+<span aria-hidden="true" style="font:400 14px ui-monospace,monospace;color:#5f6368">⌄</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font:600 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">مصدرها FAQPage schema المبنيّ فعلًا في <code style="font-size:10px">product-education-schema.php</code> — الأسئلة تُحرّر من قسم الأسئلة في صفحة المنتج لا من هنا، فلا نصّان.</p>
+</div>
+
+<div style="display:{{ serpShow.shopping }};max-width:640px" dir="rtl">
+<div style="display:flex;gap:9px;overflow:hidden">
+<sc-for list="{{ shopCards }}" as="sc2" hint-placeholder-count="3">
+<div style="flex:0 0 150px;padding:11px;border:1px solid #dadce0;border-radius:11px;background:#fff">
+<span aria-hidden="true" style="display:block;height:76px;border-radius:7px;background:#f1f3f4;border:1px solid #e8eaed;margin-bottom:8px"></span>
+<span style="display:block;font:600 11px/1.45 Tajawal,sans-serif;color:#202124;margin-bottom:4px;height:32px;overflow:hidden">{{ sc2.title }}</span>
+<span style="display:block;font:800 12px Tajawal,sans-serif;color:#202124;margin-bottom:2px">{{ sc2.price }}</span>
+<span style="display:block;font:400 9.5px Tajawal,sans-serif;color:#5f6368">{{ sc2.store }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font:600 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">خلاصة Merchant مبنيّة فعلًا في <code style="font-size:10px">class-seo-analytics-merchant-feed.php</code> — لكن أهلية القناة للمنتجات الرقمية مقيَّدة، و<code style="font-size:10px">merchant-eligibility.php</code> يفحص ذلك ويمنع إرسال ما لا يُقبل.</p>
+</div>
+
+<div style="display:{{ serpShow.image }};max-width:640px" dir="rtl">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
+<sc-for list="{{ imgCells }}" as="ic" hint-placeholder-count="8">
+<span aria-hidden="true" style="display:block;height:{{ ic.h }};border-radius:8px;background:#f1f3f4;border:1px solid #e8eaed"></span>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font:600 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">يُفتح بـ: <b>alt عربي وصفي</b> + خريطة صور XML + أبعاد معلنة + اسم ملف دلالي. الثلاثة الأولى موجودة (<code style="font-size:10px">smart-image-seo.php</code> · <code style="font-size:10px">sitemap-writer</code>) — اسم الملف الدلالي عند الرفع هو الناقص.</p>
+</div>
+
+<div style="display:{{ serpShow.download }};max-width:600px" dir="rtl">
+<div style="padding:13px 14px;border-radius:11px;background:#fcfcfd;border:1px solid #e4e4e7">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">نيّة البحث: تحميل</span>
+<p style="margin:0 0 10px;font:500 11px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">محلّل النيّة موجود فعلًا (<code style="font-size:10px">class-search-intent-analyzer.php</code>) ويقرأ <code style="font-size:10px">is_downloadable()</code>: إذا كان استعلام الصفحة نيّته «تحميل» والمنتج ليس قابلًا للتحميل يرفع تحذيرًا. هذا أهم مشتقّ بحث للمتجر لأنه يربط النيّة بالملف مباشرة.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ intentRows }}" as="ir" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:9px;align-items:center;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #ececef">
+<span style="font:600 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.7)">{{ ir.label }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ ir.bg }};color:{{ ir.fg }};text-align:center">{{ ir.st }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ serpShow.internal }};max-width:640px" dir="rtl">
+<div style="padding:13px 14px;border-radius:11px;background:#fcfcfd;border:1px solid #e4e4e7">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:8px">البحث الداخلي للمتجر — ١٦ محرّك ترتيب</span>
+<p style="margin:0 0 10px;font:500 11px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">إضافة المنتج تُغذّي البحث الداخلي مباشرة: <code style="font-size:10px">class-tahdheer-search-service.php</code> يفهرس العنوان والمرحلة والمادة والفصل ويعلّم <code style="font-size:10px">downloadable</code>. الحقول أدناه هي ما يرفع ترتيب المنتج في البحث الداخلي.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px">
+<sc-for list="{{ rankFields }}" as="rf" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:7px;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #ececef">
+<span style="font:700 10px Tajawal,sans-serif;color:rgba(0,0,0,.7)">{{ rf.k }}</span>
+<span style="font:800 9.5px ui-monospace,monospace;color:{{ rf.fg }}">{{ rf.w }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+<h2 style="margin:0;font:800 14px Tajawal,sans-serif;color:#1a1a1a">جهوزية الذكاء الاصطناعي</h2>
+<span style="font:800 10px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٩ من ١٢ رافعة مبنيّة</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:7px">
+<sc-for list="{{ aiLevers }}" as="ai2" hint-placeholder-count="12">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 11px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<span aria-hidden="true" style="flex:0 0 auto;width:17px;height:17px;margin-top:1px;border-radius:5px;background:{{ ai2.mBg }};color:{{ ai2.mFg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ ai2.mark }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ ai2.label }}</span>
+<span style="font:500 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ ai2.note }}</span>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 12px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">حقول البحث لهذا المنتج</h2>
+<div style="display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ seoFields }}" as="sf" hint-placeholder-count="5">
+<label style="display:block">
+<span style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ sf.label }}</span>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ sf.key }}</span>
+<span style="flex:1"></span>
+<span style="font:800 9.5px ui-monospace,monospace;color:{{ sf.cFg }}">{{ sf.count }}</span>
+</span>
+<input type="text" value="{{ sf.value }}" placeholder="{{ sf.ph }}" style="width:100%;box-sizing:border-box;min-height:42px;padding:0 12px;border:1px solid #c9c9cd;border-radius:9px;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:600;color:#1a1a1a;background:#fff">
+<span style="display:block;margin-top:4px;font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ sf.help }}</span>
+</label>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="display:{{ sec.health }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">التشخيص والمراقبة</h2>
+<p style="margin:0 0 13px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">لا رسوم بيانية بأرقام مُختلَقة. كل صف يقول: المصدر · هل يوجد جدول قياس · ما ينقص لتشغيله.</p>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) 104px;gap:9px;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">المقياس</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">المصدر الحقيقي</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الحالة</span>
+</div>
+<sc-for list="{{ metrics }}" as="mx" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) 104px;gap:9px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ mx.label }}</span>
+<span style="font:600 10px ui-monospace,monospace;color:rgba(0,0,0,.55);overflow:hidden;text-overflow:ellipsis">{{ mx.src }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ mx.bg }};color:{{ mx.fg }};text-align:center">{{ mx.st }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:11px">
+<sc-for list="{{ diagCards }}" as="dc2" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:6px">{{ dc2.label }}</span>
+<span style="display:block;font:500 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ dc2.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:{{ sec.audit }};flex-direction:column;gap:13px">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">تدقيق قبل التنفيذ</h2>
+<p style="margin:0 0 13px;font:500 11px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.6)">تصنيف كل قدرة قبل كتابة سطر واحد — لأن أسوأ نتيجة هي بناء نظام ثانٍ فوق نظام يعمل.</p>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,168px) 104px minmax(0,1fr);gap:9px;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">القدرة</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">التصنيف</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الدليل من الكود</span>
+</div>
+<sc-for list="{{ auditRows }}" as="ar" hint-placeholder-count="14">
+<div style="display:grid;grid-template-columns:minmax(0,168px) 104px minmax(0,1fr);gap:9px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ ar.cap }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ ar.bg }};color:{{ ar.fg }};text-align:center">{{ ar.cls }}</span>
+<span style="font:600 10px ui-monospace,monospace;color:rgba(0,0,0,.58);overflow:hidden;text-overflow:ellipsis">{{ ar.ev }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 12px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">مراحل التنفيذ العشر</h2>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="10">
+<div style="display:grid;grid-template-columns:34px minmax(0,150px) minmax(0,1fr) 76px;gap:10px;align-items:center;padding:10px 11px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<span style="font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ ph.n }}</span>
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ ph.label }}</span>
+<span style="font:500 10px Tajawal,sans-serif;color:rgba(0,0,0,.55);overflow:hidden;text-overflow:ellipsis">{{ ph.note }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ ph.bg }};color:{{ ph.fg }};text-align:center">{{ ph.st }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+</main>
+
+<aside style="display:flex;flex-direction:column;gap:12px;position:sticky;inset-block-start:14px">
+<div style="padding:14px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 11px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">النشر</h3>
+<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+<sc-for list="{{ publishRows }}" as="pr" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span style="font:600 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ pr.k }}</span>
+<span style="font:800 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ pr.v }}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" style="width:100%;min-height:42px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;margin-bottom:6px">نشر</button>
+<button type="button" style="width:100%;min-height:38px;border:1px solid #c9c9cd;border-radius:9px;background:#fff;color:#1a1a1a;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:700;cursor:pointer">معاينة تجربة العميل</button>
+<p style="margin:9px 0 0;font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.48)">المعاينة لا تُنشئ استحقاقًا حقيقيًا ولا ترسل بريدًا.</p>
+</div>
+
+<div style="padding:14px 15px;border:1px solid #a5261b;border-radius:12px;background:#fdecea">
+<h3 style="margin:0 0 4px;font:800 12.5px Tajawal,sans-serif;color:#7d1c14">حواجب التشغيل</h3>
+<p style="margin:0 0 10px;font:600 10px/1.6 Tajawal,sans-serif;color:#7d1c14">أربعة عناصر لا يمكن للواجهة تعويضها — تحتاج كودًا وقرارًا منك.</p>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ blockers }}" as="bl" hint-placeholder-count="4">
+<div style="padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #f5c9c4">
+<span style="display:block;font:800 10.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:2px">{{ bl.label }}</span>
+<span style="display:block;font:600 9.5px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ bl.note }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:14px 15px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 10px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">توجيه التخزين</h3>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ storageChain }}" as="st2" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;background:#fcfcfd;border:1px solid #ececef">
+<span style="font:900 8.5px ui-monospace,monospace;color:rgba(0,0,0,.4);flex:0 0 auto">{{ st2.k }}</span>
+<span style="flex:1;font:800 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ st2.v }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ st2.bg }};color:{{ st2.fg }}">{{ st2.st }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.48)">واجهة <code style="font-size:9.5px">StorageProviderInterface</code> واحدة — منطق المنتج لا يعرف Drive ولا R2 بالاسم.</p>
+</div>
+</aside>
+</div>
+
+<sc-if value="{{ driveOpen }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-label="متصفّح Google Drive" style="position:fixed;inset:0;z-index:60;background:rgba(20,20,22,.55);display:grid;place-items:center;padding:22px;box-sizing:border-box">
+<div style="width:100%;max-width:860px;max-height:88vh;display:flex;flex-direction:column;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:tahFadeUp .2s ease both">
+<div style="display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid #ececef">
+<span aria-hidden="true" style="width:24px;height:24px;border-radius:7px;background:#1a1a1a;display:grid;place-items:center;font:900 10px ui-monospace,monospace;color:#fff">GD</span>
+<span style="flex:1;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">استعراض Google Drive</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#fdf3d7;color:#7a5a00">نموذج واجهة — يتطلّب ربط OAuth</span>
+<button type="button" onClick="{{ closeDrive }}" aria-label="إغلاق" style="width:30px;height:30px;border:1px solid #dcdcde;border-radius:8px;background:#fff;cursor:pointer;font:700 14px ui-monospace,monospace;color:rgba(0,0,0,.5)">×</button>
+</div>
+<div style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-bottom:1px solid #f2f2f4;flex-wrap:wrap">
+<sc-for list="{{ driveTabs }}" as="dt" hint-placeholder-count="4">
+<button type="button" onClick="{{ dt.onClick }}" aria-pressed="{{ dt.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ dt.edge }};border-radius:20px;background:{{ dt.bg }};color:{{ dt.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ dt.label }}</button>
+</sc-for>
+<span style="flex:1"></span>
+<input type="text" placeholder="بحث في Drive…" style="min-width:170px;min-height:32px;padding:0 11px;border:1px solid #dcdcde;border-radius:8px;font-family:Tajawal,sans-serif;font-size:11px;font-weight:600;color:#1a1a1a">
+</div>
+<div style="display:flex;align-items:center;gap:6px;padding:9px 16px;border-bottom:1px solid #f2f2f4;flex-wrap:wrap">
+<sc-for list="{{ crumbs }}" as="cb" hint-placeholder-count="3">
+<span style="display:flex;align-items:center;gap:6px">
+<span style="font:700 10.5px Tajawal,sans-serif;color:{{ cb.fg }}">{{ cb.label }}</span>
+<span aria-hidden="true" style="font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.25)">›</span>
+</span>
+</sc-for>
+</div>
+<div style="flex:1;overflow:auto;padding:12px 16px">
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ driveItems }}" as="di" hint-placeholder-count="8">
+<button type="button" onClick="{{ di.onClick }}" style="display:grid;grid-template-columns:22px 30px minmax(0,1fr) 92px 82px 92px;gap:10px;align-items:center;padding:10px 11px;border:1px solid {{ di.edge }};border-radius:9px;background:{{ di.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="width:16px;height:16px;border-radius:4px;border:1.5px solid {{ di.ring }};background:{{ di.fill }};display:grid;place-items:center;color:#fff;font:900 9px ui-monospace,monospace">{{ di.mark }}</span>
+<span aria-hidden="true" style="width:26px;height:26px;border-radius:7px;background:{{ di.icBg }};display:grid;place-items:center;font:900 8.5px ui-monospace,monospace;color:{{ di.icFg }}">{{ di.ic }}</span>
+<span style="display:flex;flex-direction:column;gap:1px;min-width:0">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ di.name }}</span>
+<span style="font:600 9px ui-monospace,monospace;color:rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ di.id }}</span>
+</span>
+<span style="font:700 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ di.kind }}</span>
+<span style="font:700 10px ui-monospace,monospace;color:rgba(0,0,0,.55)">{{ di.size }}</span>
+<span style="font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ di.mod }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:12px 16px;border-top:1px solid #ececef;background:#fcfcfd;flex-wrap:wrap">
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ selCount }}</span>
+<span style="flex:1"></span>
+<button type="button" onClick="{{ closeDrive }}" style="min-height:36px;padding:0 13px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#1a1a1a;cursor:pointer">إلغاء</button>
+<button type="button" style="min-height:36px;padding:0 13px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#1a1a1a;cursor:pointer">استخدام المجلد كمنتج</button>
+<button type="button" onClick="{{ closeDrive }}" style="min-height:36px;padding:0 16px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer">إضافة المحدَّد</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;simple&quot;,&quot;advanced&quot;],&quot;default&quot;:&quot;advanced&quot;,&quot;tsType&quot;:&quot;'simple' | 'advanced'&quot;,&quot;section&quot;:&quot;الوضع&quot;},&quot;showAuditEvidence&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الوضع&quot;},&quot;driveConnected&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Google Drive&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+
+const chip = (s) => s === 'ok' ? { bg: GBG, fg: G } : s === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+class Component extends DCLogic {
+  state = {
+    mode: null, sec: 'overview', driveOpen: false, driveTab: 'my',
+    serp: 'standard', sync: 'sched', refund: 'grace', fileSel: null,
+    types: { digital: true, presentation: true, edu: true },
+    methods: { library: true, secure: true, email: true, gslides: true },
+    filter: 'all', sel: { f2: true, f4: true },
+  };
+
+  m() { return this.state.mode || this.props.startMode || 'advanced'; }
+
+  go = (sec) => () => this.setState({ sec });
+  tog = (bag, k) => () => this.setState((s) => ({ [bag]: { ...s[bag], [k]: !s[bag][k] } }));
+
+  pill(on) {
+    return on
+      ? { bg: G, fg: '#fff', edge: G, weight: 800, ring: G, fill: G, mark: '✓' }
+      : { bg: '#fff', fg: 'rgba(0,0,0,.62)', edge: '#dcdcde', weight: 600, ring: '#c9c9cd', fill: 'transparent', mark: '' };
+  }
+
+  renderVals() {
+    const mode = this.m(), adv = mode === 'advanced', sec = this.state.sec;
+    const secs = ['overview', 'type', 'price', 'files', 'drive', 'delivery', 'access', 'versions', 'license', 'automation', 'search', 'health', 'audit'];
+    const secShow = {};
+    secs.forEach((k) => { secShow[k] = k === sec ? 'flex' : 'none'; });
+
+    const navDefs = [
+      ['overview', 'نظرة عامة', 'ok'], ['type', 'نوع المنتج', 'part'], ['price', 'السعر والتخفيض', 'ok'],
+      ['files', 'الملفات الرقمية', 'part'], ['drive', 'Google Drive', 'no'], ['delivery', 'التسليم', 'part'],
+      ['access', 'وصول العميل', 'part'], ['versions', 'الإصدارات', 'no'], ['license', 'التراخيص', 'no'],
+      ['automation', 'الأتمتة', 'no'], ['search', 'البحث والذكاء الاصطناعي', 'ok'], ['health', 'الصحة والتشخيص', 'part'],
+      ['audit', 'تدقيق قبل التنفيذ', 'ok'],
+    ];
+
+    const serpKeys = ['standard', 'product', 'ai', 'answer', 'faq', 'shopping', 'image', 'download', 'internal'];
+    const serpMeta = {
+      standard: ['النتيجة العادية', 'ok', 'العنوان والوصف موجودان'],
+      product: ['نتيجة المنتج الغنيّة', 'ok', 'Product + Offer schema مبنيّ'],
+      ai: ['نظرة عامة بالذكاء الاصطناعي', 'part', 'يحتاج إجابة قصيرة في كل منتج'],
+      answer: ['محرّكات الإجابة', 'part', 'llms.txt موجود · الاقتباس يحتاج بنية'],
+      faq: ['الأسئلة الشائعة', 'ok', 'FAQPage schema مبنيّ'],
+      shopping: ['نتيجة التسوّق', 'part', 'الخلاصة مبنيّة · الأهلية مقيَّدة'],
+      image: ['حزمة الصور', 'part', 'alt وخريطة الصور موجودة'],
+      download: ['نيّة التحميل', 'ok', 'محلّل النيّة مبنيّ'],
+      internal: ['البحث الداخلي', 'ok', '١٦ محرّك ترتيب مبنيّ'],
+    };
+    const serpShow = {};
+    serpKeys.forEach((k) => { serpShow[k] = k === this.state.serp ? 'block' : 'none'; });
+    const sm = serpMeta[this.state.serp] || serpMeta.standard;
+    const smc = chip(sm[1]);
+
+    const filesData = [
+      ['1', 'عرض الدرس الأول.pptx', 'drive:1x9Kd…', 'عرض تقديمي', '24.6 MB', 'v1.2', 'Google Drive', 'جاهز', 'ok'],
+      ['2', 'دليل المعلم.pdf', 'r2:tah/guide-6a', 'مستند', '8.1 MB', 'v1.0', 'R2 مرآة', 'جاهز', 'ok'],
+      ['3', 'أوراق العمل.zip', 'drive:folder/7Qm…', 'حزمة', '41.3 MB', 'v1.1', 'مجلد Drive', 'يحتاج مزامنة', 'part'],
+      ['4', 'قالب العرض — Google Slides', 'gslides:1ZpL…', 'قالب Slides', '—', 'rev 34', 'Drive أصلي', 'نسخة للعميل', 'ok'],
+      ['5', 'معاينة — ٣ صفحات.pdf', 'local:preview-6a', 'معاينة عامة', '1.2 MB', 'v1.0', 'محلي محمي', 'عام', 'ok'],
+    ];
+    const files = filesData.map((f) => {
+      const c = chip(f[8]);
+      return {
+        n: f[0], name: f[1], id: f[2], kind: f[3], size: f[4], ver: f[5], src: f[6], st: f[7],
+        stBg: c.bg, stFg: c.fg, srcFg: f[6].indexOf('Drive') >= 0 ? '#1a1a1a' : 'rgba(0,0,0,.6)',
+        bg: this.state.fileSel === f[0] ? '#f6faf8' : '#fff',
+        onClick: () => this.setState((s) => ({ fileSel: s.fileSel === f[0] ? null : f[0] })),
+      };
+    });
+    const selFile = filesData.find((f) => f[0] === this.state.fileSel);
+    const fileDetail = selFile ? {
+      name: selFile[1],
+      meta: [
+        ['المعرّف الداخلي', 'asset_' + selFile[0] + '84'], ['معرّف المزوّد', selFile[2]],
+        ['الاسم الأصلي', selFile[1]], ['التسمية للعميل', selFile[1]],
+        ['الإصدار', selFile[5]], ['اللغة', 'ar'], ['الحجم', selFile[4]], ['نوع MIME', 'application/…'],
+        ['البصمة', 'sha256:c4f1…'], ['المزوّد', selFile[6]], ['تاريخ الرفع', '2026-08-12'],
+        ['آخر تعديل', '2026-08-27'], ['تاريخ الإصدار', 'فوري'], ['الانتهاء', 'بلا'],
+        ['حدّ التحميل', 'غير محدود'], ['الظهور', selFile[7] === 'عام' ? 'عام' : 'مدفوع'],
+        ['سياسة الوصول', 'استحقاق مُتحقَّق'], ['حالة النسخ الاحتياطي', 'مرآة R2'],
+        ['حالة المزامنة', selFile[7]], ['مرات الاستخدام', '2 منتجات'],
+      ].map((x) => ({ k: x[0], v: x[1] })),
+    } : null;
+
+    return {
+      f: { title: 'تحضير الرياضيات — الصف السادس — الفصل الأول', price: '35.00', sale: '' },
+      setTitle: () => {}, setPrice: () => {}, setSale: () => {},
+      show: { simple: mode === 'simple' ? 'block' : 'none', advanced: adv ? 'grid' : 'none' },
+      sec: secShow,
+      ready: { text: '٦٤٪ إعداد', color: A },
+      goAdvanced: () => this.setState({ mode: 'advanced', sec: 'overview' }),
+      openDrive: () => this.setState({ driveOpen: true }),
+      closeDrive: () => this.setState({ driveOpen: false }),
+      closeFile: () => this.setState({ fileSel: null }),
+      driveOpen: this.state.driveOpen,
+
+      modeBtns: [['simple', 'بسيط'], ['advanced', 'متقدّم']].map((x) => ({
+        label: x[1], pressed: mode === x[0], onClick: () => this.setState({ mode: x[0] }),
+        bg: mode === x[0] ? '#1a1a1a' : 'transparent', fg: mode === x[0] ? '#fff' : 'rgba(0,0,0,.6)',
+      })),
+
+      steps: navDefs.map((d, i) => {
+        const on = d[0] === sec;
+        const dot = d[2] === 'ok' ? G : d[2] === 'part' ? A : R;
+        return {
+          n: String(i + 1).padStart(2, '0'), label: d[1], current: on ? 'true' : 'false',
+          onClick: this.go(d[0]), edge: on ? G : 'transparent', bg: on ? '#f6faf8' : 'transparent',
+          dotBg: on ? G : '#f2f2f4', dotFg: on ? '#fff' : 'rgba(0,0,0,.45)',
+          fg: on ? '#123d2f' : 'rgba(0,0,0,.66)', weight: on ? 800 : 600, state: dot,
+        };
+      }),
+
+      sourceBtns: [
+        ['رفع ملف', 'من الجهاز', G, '#f6faf8', G, '↑'],
+        ['مكتبة الوسائط', 'موجود في ووردبريس', '#dcdcde', '#fcfcfd', '#8a8a8e', 'WP'],
+        ['Google Drive', 'يحتاج ربط', R, '#fdecea', R, 'GD'],
+        ['رابط خارجي', 'HTTPS موقّع', '#dcdcde', '#fcfcfd', '#8a8a8e', '→'],
+      ].map((s) => ({ label: s[0], note: s[1], edge: s[2], bg: s[3], dot: s[4], mark: s[5], onClick: s[0] === 'Google Drive' ? () => this.setState({ driveOpen: true }) : () => {} })),
+
+      templates: [
+        ['منتج تحميل رقمي', '01'], ['منتج Google Slides', '02'], ['حزمة مجلد Drive', '03'],
+        ['مورد تعليمي (مرحلة×مادة)', '04'], ['دورة بمحتوى متدرّج', '05'], ['ترخيص برمجي', '06'],
+      ].map((t) => ({ label: t[0], n: t[1] })),
+
+      healthRows: [
+        ['الملفات', '٥ أصول · ١ يحتاج مزامنة · معاينة عامة موجودة', 'جاهز', 'ok', 'files'],
+        ['Google Drive', 'لا اتصال — لا كود OAuth للـ Drive في القالب', 'حاجب', 'no', 'drive'],
+        ['التسليم', 'مكتبة + رابط موقّع + بريد مفعّلة · لا طابور مهام', 'جزئي', 'part', 'delivery'],
+        ['وصول العميل', 'استحقاق ووكومرس الأساسي فقط · لا جدول مستقل', 'جزئي', 'part', 'access'],
+        ['الأمان', 'nonce + قدرات + تعقيم موجود · لا رمز تحميل موقّع', 'جزئي', 'part', 'delivery'],
+        ['البحث والذكاء', 'الحقول والمخططات مبنيّة · تنقص الإجابة القصيرة', 'جيّد', 'ok', 'search'],
+        ['الأتمتة', 'لا محرّك قواعد ولا webhook صادر', 'ناقص', 'no', 'automation'],
+        ['الإصدارات والتراخيص', 'لا جدول إصدارات ولا مخزون مفاتيح', 'ناقص', 'no', 'versions'],
+      ].map((h) => {
+        const c = chip(h[3]);
+        return { label: h[0], detail: h[1], status: h[2], chipBg: c.bg, chipFg: c.fg, bg: h[3] === 'no' ? '#fffafa' : '#fcfcfd', onClick: this.go(h[4]) };
+      }),
+
+      preflight: [
+        ['السعر موجود', '٣٥.٠٠ ر.س — مقروء من ووكومرس', 'ok'],
+        ['ملف واحد على الأقل', '٥ أصول مرتبطة', 'ok'],
+        ['معاينة عامة منفصلة', '٣ صفحات — لا تكشف المدفوع', 'ok'],
+        ['العنوان والوصف للبحث', 'مكتملان ضمن الحدود', 'ok'],
+        ['اتصال Drive يعمل', 'لا اتصال — الأصول المرتبطة بـ Drive لن تُسلَّم', 'no'],
+        ['قاعدة التحميل صالحة', 'غير محدود — قرار مقصود؟', 'part'],
+        ['قالب البريد صالح', 'يستخدم قالب ووكومرس الافتراضي', 'part'],
+        ['مخزون التراخيص', 'غير مطلوب لهذا النوع', 'ok'],
+        ['لا مراجع مكسورة', 'كل معرّف يشير لأصل موجود', 'ok'],
+        ['وصول ما بعد الاسترجاع', 'مهلة ٣ أيام — مطابق لصفحة السياسة', 'ok'],
+      ].map((p) => {
+        const c = chip(p[2]);
+        return { label: p[0], note: p[1], mark: p[2] === 'ok' ? '✓' : p[2] === 'part' ? '!' : '×', mBg: c.bg, mFg: c.fg };
+      }),
+
+      typeGroups: [
+        ['أساسي', '04', ['مادي', 'تحميل رقمي', 'رقمي + مادي', 'حزمة رقمية']],
+        ['ملفات ووسائط', '09', ['عرض تقديمي', 'PowerPoint', 'PDF', 'كتاب إلكتروني', 'مستند', 'جدول بيانات', 'قالب', 'حزمة صور', 'فيديو']],
+        ['Google', '05', ['ملف Drive', 'مجلد Drive', 'Google Slides', 'Google Docs', 'Google Sheets']],
+        ['تعليمي', '04', ['مورد تعليمي', 'مورد للمعلم', 'مورد للطالب', 'دورة']],
+        ['متقدّم', '06', ['اشتراك', 'عضوية', 'ترخيص برمجي', 'وصول API', 'منتج مُخصَّص', 'مورد خارجي']],
+      ].map((g) => ({
+        label: g[0], n: g[1],
+        items: g[2].map((label) => {
+          const on = (label === 'تحميل رقمي' && this.state.types.digital) || (label === 'عرض تقديمي' && this.state.types.presentation) || (label === 'مورد تعليمي' && this.state.types.edu);
+          const p = this.pill(on);
+          return { label, on, ...p, onClick: () => {} };
+        }),
+      })),
+
+      typeEffects: [
+        ['ما يُخفى', 'الشحن · الوزن · الأبعاد · المخزون المادي — لا سبب لعرضها على منتج رقمي.'],
+        ['ما يُفتح', 'مساحة العمل الرقمية: الملفات · Drive · التسليم · الوصول · الإصدارات · التراخيص.'],
+        ['التوسّع', 'نوع جديد = مصفوفة عبر خطّاف واحد. لا تعديل على النواة ولا فرع if جديد.'],
+      ].map((e) => ({ label: e[0], note: e[1] })),
+
+      priceFields: [
+        ['السعر العادي', '35.00', '0.00', 'ر.س · _regular_price'],
+        ['سعر التخفيض', '', '—', '_sale_price'],
+        ['يبدأ التخفيض', '', 'YYYY-MM-DD', '_sale_price_dates_from'],
+        ['ينتهي التخفيض', '', 'YYYY-MM-DD', '_sale_price_dates_to'],
+      ].map((p) => ({ label: p[0], value: p[1], ph: p[2], meta: p[3] })),
+
+      fileFilters: [['all', 'الكل'], ['paid', 'مدفوع'], ['prev', 'معاينة'], ['drive', 'Drive'], ['sync', 'يحتاج مزامنة'], ['arch', 'مؤرشف']].map((f) => {
+        const on = this.state.filter === f[0];
+        return { label: f[1], on, edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)', onClick: () => this.setState({ filter: f[0] }) };
+      }),
+      fileCount: '٥ أصول · ٧٥.٢ MB',
+      files, fileDetail,
+
+      fileOps: [
+        ['إعادة الترتيب والتحرير الجماعي', 'موجود جزئيًا', 'part', 'سحب لإعادة الترتيب · تحرير بيانات وصفية لعدة ملفات · استبدال ملف مع حفظ المعرّف.'],
+        ['كشف التكرار', 'ناقص', 'no', 'مقارنة البصمة لا الاسم. ملفان بنفس الاسم ليسا بالضرورة نفس الملف.'],
+        ['إعادة استخدام الأصل', 'ناقص', 'no', 'أصل واحد في عدة منتجات مع عدّاد مراجع — ولا حذف ما دام مرجعٌ قائمًا.'],
+        ['حذف آمن', 'ناقص', 'no', 'أرشفة افتراضية. لا حذف لمحتوى Drive الأصلي إلا بسياسة صريحة وتأكيد.'],
+      ].map((o) => { const c = chip(o[2]); return { label: o[0], chip: o[1], chipBg: c.bg, chipFg: c.fg, note: o[3] }; }),
+
+      driveSetup: [
+        ['01', 'مشروع Google Cloud', 'فعّل Drive API — نفس الخطوة المطلوبة اليوم لـ Search Console.', 'no'],
+        ['02', 'OAuth Client', 'Client ID + Secret يُخزَّنان مشفّرين، ولا يظهران في أي HTML.', 'no'],
+        ['03', 'رابط إعادة التوجيه', 'مسار ثابت واحد يُسجَّل في Google — نفس نمط GSC الحالي.', 'no'],
+        ['04', 'أقل نطاق ممكن', 'drive.readonly للقراءة · drive.file للنسخ للعميل. لا نطاق أوسع.', 'no'],
+        ['05', 'تجديد الجلسة', 'refresh token + فحص صحّة دوري + رسالة واضحة عند انتهاء الصلاحية.', 'no'],
+      ].map((d) => { const c = chip(d[3]); return { n: d[0], label: d[1], note: d[2], mBg: c.bg, mFg: c.fg }; }),
+
+      syncModes: [
+        ['man', 'يدوي', 'المشرف يضغط «زامِن». الأبسط والأكثر تحكّمًا.'],
+        ['sched', 'مجدول', 'كل ساعة / ٦ ساعات / يوميًا — عبر مهمّة كرون واحدة مع حرّاس.'],
+        ['event', 'بالأحداث', 'إشعارات تغيير Drive — أسرع لكنه يحتاج نقطة استقبال عامة.'],
+        ['hybrid', 'هجين', 'إشعارات + مصالحة دورية. الأصدق عمليًا لأن الإشعارات تُفقد.'],
+      ].map((s) => {
+        const on = this.state.sync === s[0];
+        return { label: s[1], note: s[2], on, edge: on ? G : '#dcdcde', bg: on ? '#f6faf8' : '#fcfcfd', ring: on ? G : '#c9c9cd', fill: on ? G : 'transparent', onClick: () => this.setState({ sync: s[0] }) };
+      }),
+
+      deliveryModes: [
+        ['وسيط آمن (الافتراضي)', 'موصى به', 'ok', 'الطلب يمرّ عبر المتجر: تحقّق دفع واستحقاق وصلاحية وحدّ، ثم يُبَثّ الملف. لا بيانات اعتماد تُكشف.'],
+        ['رابط وصول مؤقّت', 'بشروط', 'part', 'صلاحية قصيرة + ربط بالعميل + تتبّع. لا مشاركة عامة دائمة أبدًا.'],
+        ['نسخة إلى Drive العميل', 'متقدّم', 'part', 'العميل يربط حسابه ويأذن، فتُنشأ نسخة له. مناسب لقوالب Slides وDocs وSheets.'],
+      ].map((d) => { const c = chip(d[2]); return { label: d[0], chip: d[1], chipBg: c.bg, chipFg: c.fg, note: d[3] }; }),
+
+      folderOpts: [
+        ['كل الملفات الحالية', true], ['تضمين المجلدات الفرعية', true], ['استثناء مجلدات محدّدة', false],
+        ['استثناء أنماط أسماء', false], ['تضمين الملفات المستقبلية تلقائيًا', true], ['مزامنة يدوية فقط', false],
+      ].map((f) => ({ label: f[0], ring: f[1] ? G : '#c9c9cd', fill: f[1] ? G : 'transparent', mark: f[1] ? '✓' : '' })),
+
+      changeRows: [
+        ['ملفات مضافة', '5', G], ['ملفات محدّثة', '2', A], ['ملفات محذوفة', '1', R],
+      ].map((c) => ({ label: c[0], n: c[1], fg: c[2] })),
+
+      exportRows: [
+        ['Google Slides', ['PPTX', 'PDF'], 'مسموح', 'ok'],
+        ['Google Docs', ['DOCX', 'PDF', 'TXT'], 'مسموح', 'ok'],
+        ['Google Sheets', ['XLSX', 'CSV', 'PDF'], 'اختياري', 'part'],
+      ].map((x) => { const c = chip(x[3]); return { src: x[0], fmts: x[1], copy: x[2], copyBg: c.bg, copyFg: c.fg }; }),
+
+      driveChecks: [
+        ['إعادة التسمية والنقل', 'المفتاح هو معرّف الملف الثابت لا اسمه ولا مساره — فتغيير الاسم أو المجلد لا يكسر المنتج.'],
+        ['ملف في سلّة المهملات', 'يُعلَّم «المصدر غير متاح» ويُنبَّه المشرف. تاريخ العميل يبقى كما هو.'],
+        ['تغيّر الصلاحيات', 'تحذير حَرِج للمشرف، ورسالة مفهومة للعميل لا خطأ ٤٠٣ خام، مع تحوّل للمرآة إن كانت مُهيّأة.'],
+        ['حدود الـ API', 'تخزين مؤقت للبيانات الوصفية · مزامنة تفاضلية · طابور خلفي · تراجع تصاعدي عند 429.'],
+      ].map((g) => ({ label: g[0], note: g[1] })),
+
+      methods: [
+        ['library', 'مكتبة العميل', 'موجود جزئيًا', 'part'], ['secure', 'رابط موقّع', 'يحتاج بناء', 'no'],
+        ['email', 'بريد التسليم', 'موجود', 'ok'], ['gdrive', 'وصول Drive', 'يحتاج ربط', 'no'],
+        ['gslides', 'نسخة Slides للعميل', 'يحتاج ربط', 'no'], ['license', 'مفتاح ترخيص', 'ناقص', 'no'],
+        ['course', 'وصول دورة', 'ناقص', 'no'], ['telegram', 'تلجرام', 'ناقص', 'no'],
+        ['webhook', 'Webhook', 'ناقص', 'no'], ['n8n', 'n8n', 'ناقص', 'no'],
+      ].map((m) => {
+        const on = !!this.state.methods[m[0]];
+        const c = chip(m[3]);
+        const p = this.pill(on);
+        return { label: m[1], st: m[2], stFg: c.fg, on, edge: on ? G : '#dcdcde', bg: on ? '#f6faf8' : '#fcfcfd', ring: p.ring, fill: p.fill, mark: p.mark, onClick: this.tog('methods', m[0]) };
+      }),
+
+      dlRules: [
+        ['عدد التحميلات', 'غير محدود'], ['صلاحية الرابط', '٢٤ ساعة'], ['مدة الوصول', 'دائم'],
+        ['خوارزمية الرمز', 'HMAC-SHA256'], ['ربط الرمز', 'طلب + عميل + ملف'], ['إمكانية الإلغاء', 'نعم — سجل إلغاء'],
+      ].map((r) => ({ k: r[0], v: r[1] })),
+
+      mailVars: ['{{customer_name}}', '{{product_name}}', '{{order_number}}', '{{download_url}}', '{{library_url}}', '{{google_drive_action}}', '{{license_key}}', '{{expiry_date}}', '{{version}}'],
+
+      jobChain: [
+        ['الدفع نجح', 'ok'], ['تحقّق الاستحقاق', 'ok'], ['ربط الملفات', 'part'], ['توليد ترخيص', 'no'],
+        ['نسخة Slides', 'no'], ['إضافة للمكتبة', 'part'], ['إرسال البريد', 'ok'], ['إشعار n8n', 'no'],
+      ].map((j) => { const c = chip(j[1]); return { label: j[0], bg: c.bg, fg: c.fg, edge: c.bg === GBG ? '#cfe6dc' : c.bg === ABG ? '#f0dca0' : '#f5c9c4' }; }),
+
+      accessCards: [
+        ['مكتبة العميل', 'جزئي', 'part', 'صفحة «حسابي» موجودة وتعرض تحميلات ووكومرس — تحتاج تصفية وحالة تحديث وإشارة مصدر.'],
+        ['سجل الاستحقاق', 'ناقص', 'no', 'جدول مستقل عن الطلب: من يملك ماذا، من أي إصدار، ولماذا — قابل للتفسير عند أي نزاع.'],
+        ['انتهاء الوصول', 'ناقص', 'no', 'عدّاد واضح للعميل + تجديد. الاشتراك يوقف الوصول لا يمحو ما نسخه العميل لحسابه.'],
+        ['تسليم متدرّج', 'ناقص', 'no', 'فورًا · بعد X يومًا · بتاريخ · بعد تقدّم في الدورة · بعد فتح عنصر آخر.'],
+        ['بيع مسبق', 'ناقص', 'no', 'شراء الآن وإصدار لاحقًا: عند التاريخ يُمنح الأصل ويُرسل البريد وتنفَّذ الأتمتة.'],
+        ['تدقيق الوصول', 'ناقص', 'no', 'مُنح · عُرض · وُلِّد رابط · اكتمل تحميل · أُنشئت نسخة · أُلغي — بأقل بيانات شخصية ممكنة.'],
+      ].map((a) => { const c = chip(a[2]); return { label: a[0], chip: a[1], chipBg: c.bg, chipFg: c.fg, note: a[3] }; }),
+
+      refundOpts: [
+        ['imm', 'إلغاء الوصول فورًا'], ['grace', 'إلغاء بعد مهلة ٣ أيام'], ['keep', 'الإبقاء على الوصول'],
+        ['future', 'إلغاء التحديثات المستقبلية فقط'], ['lic', 'إلغاء الترخيص فقط'],
+      ].map((r) => {
+        const on = this.state.refund === r[0];
+        return { label: r[1], on, edge: on ? G : '#dcdcde', bg: on ? '#f6faf8' : '#fcfcfd', ring: on ? G : '#c9c9cd', fill: on ? G : 'transparent', onClick: () => this.setState({ refund: r[0] }) };
+      }),
+
+      versions: [
+        ['v2.0', 'إصدار ١٤٤٨ — توزيع محدَّث', 'يشمل ١٢ ملفًا · تغيير بنيوي في أوراق العمل', 'مسودة', 'part'],
+        ['v1.1', 'تصحيح أخطاء مطبعية', '٣ ملفات مستبدلة · نفس البنية', 'منشور', 'ok'],
+        ['v1.0', 'الإصدار الأول', '٥ ملفات', 'مؤرشف', 'part'],
+      ].map((v) => {
+        const c = chip(v[4]);
+        const cur = v[3] === 'منشور';
+        return { v: v[0], title: v[1], note: v[2], st: v[3], stBg: c.bg, stFg: c.fg, edge: cur ? '#cfe6dc' : '#ececef', bg: cur ? '#f6faf8' : '#fcfcfd', vFg: cur ? G : 'rgba(0,0,0,.55)' };
+      }),
+
+      revisionOpts: ['تحديث الملف الحالي في مكانه', 'إنشاء إصدار منتج جديد', 'تجاهل التعديل', 'فحص الفروق أولًا', 'جدولة الإصدار لتاريخ'],
+
+      audiences: [
+        ['كل من اشترى', true], ['من اشترى بعد تاريخ', false], ['أصحاب ترخيص دائم', true],
+        ['المشتركون النشطون', true], ['طبقة ترخيص محدّدة', false],
+      ].map((a) => ({ label: a[0], ring: a[1] ? G : '#c9c9cd', fill: a[1] ? G : 'transparent', mark: a[1] ? '✓' : '' })),
+
+      licenseCards: [
+        ['مصدر المفاتيح', 'توليد تلقائي · مخزون مستورد · API خارجي · يدوي — أربعة مسارات بواجهة واحدة.'],
+        ['حدود التفعيل', 'عدد التفعيلات · عدد الأجهزة · عدد النطاقات · انتهاء · تجديد · إلغاء.'],
+        ['نفاد المخزون', 'تنبيه قبل النفاد لا بعده — منتج بلا مفاتيح يبيع ولا يُسلِّم.'],
+        ['العلامة المائية', 'اسم العميل · رقم الطلب · الترخيص · معرّف غير مرئي — على نسخة مشتقّة لا على الأصل.'],
+        ['ربط الاسترجاع', 'إلغاء الترخيص خيار مستقل عن إلغاء التحميل — قرارك أنت لا افتراض منّا.'],
+        ['سجل التدقيق', 'كل تفعيل وإلغاء ونقل مسجَّل بمُعرّف ارتباط.'],
+      ].map((l) => ({ label: l[0], note: l[1] })),
+
+      rules: [
+        ['تسليم منتج رقمي', 'مقترح', 'part', [['متى', 'اكتمل الدفع'], ['إذا', 'المنتج رقمي · أي طريقة دفع'], ['إذن', 'منح وصول · إضافة للمكتبة · إرسال بريد']]],
+        ['قالب Slides للعميل', 'يحتاج Drive', 'no', [['متى', 'اكتمل الطلب'], ['إذا', 'المنتج يحتوي Google Slides'], ['إذن', 'إنشاء نسخة · نقلها لمجلد العميل · إرسال الرابط']]],
+        ['إصدار جديد', 'مقترح', 'part', [['متى', 'نُشر إصدار'], ['إذا', 'المشتري مستحقّ للتحديث'], ['إذن', 'تحديث المكتبة · إشعار · webhook']]],
+      ].map((r) => {
+        const c = chip(r[2]);
+        return { name: r[0], chip: r[1], chipBg: c.bg, chipFg: c.fg, parts: r[3].map((p) => ({ k: p[0], v: p[1], kFg: p[0] === 'متى' ? G : p[0] === 'إذا' ? '#7a5a00' : R })) };
+      }),
+
+      integrations: [
+        ['n8n', 'ناقص', 'no', 'أحداث موقّعة صادرة: نشر منتج · تغيّر ملف Drive · دفع · تسليم · فشل · استرجاع · إصدار.'],
+        ['باني Webhook', 'ناقص', 'no', 'رابط · طريقة · ترويسات · جسم · توقيع · مهلة · إعادات — لكل حدث ولكل منتج.'],
+        ['REST API', 'جزئي', 'part', 'نقاط للاستحقاق وحالة التسليم وإعادة التوليد — بقدرات ومعدّل وسجل.'],
+        ['تلجرام', 'ناقص', 'no', 'تأكيد · رابط · تحديث. اختياري بالكامل وببيانات اعتماد مخزّنة بأمان.'],
+      ].map((i) => { const c = chip(i[2]); return { label: i[0], chip: i[1], chipBg: c.bg, chipFg: c.fg, note: i[3] }; }),
+
+      serpTabs: serpKeys.map((k) => {
+        const on = k === this.state.serp;
+        return { label: serpMeta[k][0], on, edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)', onClick: () => this.setState({ serp: k }) };
+      }),
+      serp: { title: sm[0], chip: sm[2], chipBg: smc.bg, chipFg: smc.fg },
+      serpShow,
+
+      answerLevers: [
+        ['إجابة قصيرة قابلة للاقتباس', 'ناقص', 'no'], ['llms.txt يوجّه الزاحف', 'موجود', 'ok'],
+        ['محتوى بلا JavaScript', 'موجود', 'ok'], ['حقائق في جدول لا في صورة', 'جزئي', 'part'],
+      ].map((a) => { const c = chip(a[2]); return { label: a[0], st: a[1], mark: a[2] === 'ok' ? '✓' : a[2] === 'part' ? '!' : '×', mBg: a[2] === 'ok' ? '#8ab4f8' : a[2] === 'part' ? '#e8c56b' : '#f28b82', fg: a[2] === 'ok' ? '#8ab4f8' : a[2] === 'part' ? '#e8c56b' : '#f28b82' }; }),
+
+      faqRows: ['هل الملف قابل للتعديل؟', 'ما الصيغ المرفقة؟', 'هل يُحدَّث مع تحديث التوزيع؟', 'كم مرة يمكنني التحميل؟'],
+
+      shopCards: [
+        ['تحضير الرياضيات — سادس — ف١', '٣٥.٠٠ ر.س', 'التحاضير الحديثة'],
+        ['تحضير العلوم — سادس — ف١', '٣٥.٠٠ ر.س', 'التحاضير الحديثة'],
+        ['حزمة السادس كاملة', '١٤٠.٠٠ ر.س', 'التحاضير الحديثة'],
+      ].map((s) => ({ title: s[0], price: s[1], store: s[2] })),
+
+      imgCells: ['86px', '64px', '78px', '58px', '62px', '84px', '56px', '74px'].map((h) => ({ h })),
+
+      intentRows: [
+        ['المنتج قابل للتحميل', 'موجود', 'ok'], ['صيغة الملف معلنة في الصفحة', 'موجود', 'ok'],
+        ['حجم الملف معلن', 'جزئي', 'part'], ['عيّنة مجانية قابلة للفهرسة', 'موجود', 'ok'],
+      ].map((i) => { const c = chip(i[2]); return { label: i[0], st: i[1], bg: c.bg, fg: c.fg }; }),
+
+      rankFields: [
+        ['المرحلة', 'وزن ٣'], ['المادة', 'وزن ٣'], ['الفصل', 'وزن ٢'],
+        ['العنوان', 'وزن ٤'], ['المرادفات', 'وزن ٢'], ['قابل للتحميل', 'مرشِّح'],
+      ].map((r) => ({ k: r[0], w: r[1], fg: r[1] === 'مرشِّح' ? R : G })),
+
+      aiLevers: [
+        ['إجابة قصيرة ٤٠–٦٠ كلمة', 'ناقص — أهم رافعة واحدة للاقتباس في نظرة الذكاء الاصطناعي.', 'no'],
+        ['FAQPage schema', 'موجود — product-education-schema.php', 'ok'],
+        ['HowTo schema', 'موجود — لخطوات الاستخدام', 'ok'],
+        ['Product + Offer', 'موجود — سعر وتوفّر حقيقيان من ووكومرس', 'ok'],
+        ['llms.txt', 'موجود — seo-llms-txt.php يُخدَم افتراضيًا', 'ok'],
+        ['تقديم من الخادم', 'موجود — المحتوى لا يحتاج JavaScript ليُقرأ', 'ok'],
+        ['جدول مواصفات قابل للاستخراج', 'جزئي — بعض الحقائق داخل نص حرّ', 'part'],
+        ['كيانات ومرادفات', 'موجود — مراكز المرحلة×المادة تبني الكيان', 'ok'],
+        ['تواريخ تحديث صادقة', 'موجود — lastmod مبنيّ على تغيير فعلي', 'ok'],
+        ['روابط داخلية للمصطلحات', 'موجود — internal-linking.php', 'ok'],
+        ['مراسي ثابتة للأقسام', 'ناقص — يمنع الاقتباس الدقيق للقسم', 'no'],
+        ['سعر في HTML لا في JS', 'موجود — قابل للقراءة بلا تنفيذ', 'ok'],
+      ].map((a) => { const c = chip(a[2]); return { label: a[0], note: a[1], mark: a[2] === 'ok' ? '✓' : a[2] === 'part' ? '!' : '×', mBg: c.bg, mFg: c.fg }; }),
+
+      seoFields: [
+        ['عنوان البحث', '_tahdheer_seo_title', 'تحضير الرياضيات الصف السادس الفصل الأول ١٤٤٧', '', '٥٢ حرفًا', G, 'يظهر في النتيجة العادية ونتيجة المنتج. الحدّ العملي ٦٠ حرفًا.'],
+        ['وصف البحث', '_tahdheer_seo_desc', 'ملف تحضير جاهز للطبع وفق توزيع الوزارة — أهداف ومهارات وتقويم لكل درس.', '', '٨٧ حرفًا', G, 'بلا وصف يختار Google مقتطفًا عشوائيًا — الوصف هو تحكّمك الوحيد فيه.'],
+        ['الإجابة القصيرة', '_tahdheer_quick_answer', '', 'اكتب ٤٠–٦٠ كلمة تجيب «ما هذا الملف؟» مباشرة', 'فارغ', R, 'الرافعة الأقوى للظهور في نظرة الذكاء الاصطناعي ومحرّكات الإجابة. فارغة الآن.'],
+        ['المرادفات للبحث الداخلي', '_tahdheer_synonyms', 'تحضير · إعداد دروس · توزيع منهج', '', '٣ مرادفات', G, 'تُغذّي محرّكات الترتيب الـ١٦ في البحث الداخلي للمتجر.'],
+        ['الرابط القانوني', '_tahdheer_canonical', '', 'يُشتقّ تلقائيًا', 'تلقائي', G, 'اتركه فارغًا إلا عند وجود نسخة مكرّرة مقصودة.'],
+      ].map((s) => ({ label: s[0], key: s[1], value: s[2], ph: s[3], count: s[4], cFg: s[5], help: s[6] })),
+
+      metrics: [
+        ['مشتريات المنتج', 'WooCommerce order items', 'متاح', 'ok'],
+        ['نجاح التسليم', 'يحتاج جدول delivery_jobs', 'ناقص', 'no'],
+        ['فشل التسليم', 'يحتاج جدول delivery_jobs', 'ناقص', 'no'],
+        ['أول تحميل بعد الشراء', 'يحتاج سجل تحميلات موسّع', 'ناقص', 'no'],
+        ['تحميل التحديثات', 'يحتاج جدول versions', 'ناقص', 'no'],
+        ['أخطاء مزامنة Drive', 'يحتاج جدول sync_state', 'ناقص', 'no'],
+        ['زيارات صفحة المنتج', 'inc/seo-analytics — مبنيّ ويعمل', 'متاح', 'ok'],
+        ['ظهور ونقرات البحث', 'GSC OAuth — مبنيّ · يحتاج مفاتيح', 'محجوب', 'part'],
+      ].map((m) => { const c = chip(m[3]); return { label: m[0], src: m[1], st: m[2], bg: c.bg, fg: c.fg }; }),
+
+      diagCards: [
+        ['تقرير تشخيصي قابل للنسخ', 'حالة الـ API والطابور والكرون ومزوّدي التخزين والبريد والصلاحيات وحدود PHP — بلا أي سرّ.'],
+        ['رسائل العميل', 'لا خطأ خام أبدًا. «الملف غير متاح مؤقتًا ونعمل على استعادته» للعميل، والتفصيل التقني للمشرف فقط.'],
+        ['تنبيه الحوادث', 'ينبَّه المشرف عند: انقطاع Drive · انتهاء رمز · فشل تحميلات متكرر · اختفاء ملفات · نفاد مفاتيح.'],
+        ['حفظ السجلات', 'مدة احتفاظ قابلة للضبط. السجل لا ينمو للأبد ولا يحتفظ ببيانات شخصية بلا سبب.'],
+      ].map((d) => ({ label: d[0], note: d[1] })),
+
+      auditRows: [
+        ['منتج قابل للتحميل', 'موجود', 'ok', 'WooCommerce core · _downloadable_files'],
+        ['سلّة رقمية بالكامل', 'موجود', 'ok', 'inc/checkout-virtual.php'],
+        ['روابط تحميل بعد الشراء', 'موجود', 'ok', 'inc/order-thank-you.php'],
+        ['ثقة المتجر للرقمي', 'موجود', 'ok', 'inc/store-trust.php'],
+        ['خرائط الملفات المحمية', 'موجود', 'ok', 'sitemap-sources · يستثني الملفات المدفوعة'],
+        ['نيّة البحث «تحميل»', 'موجود', 'ok', 'analyzers/class-search-intent-analyzer.php'],
+        ['فهرسة البحث الداخلي', 'موجود', 'ok', 'search/class-tahdheer-search-service.php'],
+        ['أهلية القنوات للرقمي', 'موجود', 'ok', 'inc/merchant-eligibility.php'],
+        ['نمط OAuth 2.0', 'يُستنسخ', 'part', 'seo/integrations/class-gsc-oauth.php'],
+        ['جدول أصول مستقل', 'ناقص', 'no', 'لا جدول — الملفات داخل meta مُسلسل'],
+        ['جدول استحقاقات', 'ناقص', 'no', 'لا جدول — الوصول مشتقّ من الطلب'],
+        ['طابور مهام خلفي', 'ناقص', 'no', 'كرون فقط — لا محرّك مهام بحالات'],
+        ['تكامل Google Drive', 'ناقص', 'no', 'صفر مراجع لـ Drive API في القالب'],
+        ['إصدارات وتراخيص وأتمتة', 'ناقص', 'no', 'لا جداول ولا محرّك قواعد'],
+      ].map((a) => { const c = chip(a[2]); return { cap: a[0], cls: a[1], ev: a[3], bg: c.bg, fg: c.fg }; }),
+
+      phases: [
+        ['01', 'الأساس', 'وضع رقمي · نموذج أصول · استحقاق · تحميل موقّع · مكتبة', 'أولوية', 'part'],
+        ['02', 'نواة Drive', 'OAuth · اتصالات · متصفّح · ربط ملف ومجلد', 'أولوية', 'part'],
+        ['03', 'Workspace', 'Slides · Docs · Sheets · تصدير · نسخة العميل', 'لاحقًا', 'no'],
+        ['04', 'المزامنة', 'يدوي · مجدول · كشف تغيير · تعارض · صحّة', 'لاحقًا', 'no'],
+        ['05', 'التسليم', 'روابط · بريد · إعادات · سجلات', 'أولوية', 'part'],
+        ['06', 'منتجات متقدّمة', 'حزم · إصدارات · تدرّج · اشتراك · بيع مسبق · مُخصَّص', 'لاحقًا', 'no'],
+        ['07', 'الأتمتة', 'webhooks · n8n · تلجرام · باني قواعد', 'لاحقًا', 'no'],
+        ['08', 'الصلابة', 'نسخ احتياطي · بديل تخزين · ترحيل · استرداد', 'لاحقًا', 'no'],
+        ['09', 'الإدارة', 'لوحات · أدوات جماعية · مركز صحّة · تشخيص', 'لاحقًا', 'no'],
+        ['10', 'التقسية', 'أمان · أداء · طوابير · وصولية · RTL · اختبارات', 'إلزامي', 'part'],
+      ].map((p) => { const c = chip(p[4]); return { n: p[0], label: p[1], note: p[2], st: p[3], bg: c.bg, fg: c.fg }; }),
+
+      publishRows: [
+        ['الحالة', 'مسودة'], ['الظهور', 'عام'], ['النوع', 'رقمي — تحميل'], ['الوضع', adv ? 'متقدّم' : 'بسيط'],
+      ].map((p) => ({ k: p[0], v: p[1] })),
+
+      blockers: [
+        ['OAuth Client لـ Drive', 'بلا Client ID وSecret لا متصفّح Drive ولا نسخ للعميل ولا مزامنة.'],
+        ['جدول الأصول والاستحقاقات', 'بدونه يبقى كل شيء داخل meta مُسلسل — لا استعلام ولا تدقيق ولا نسخ احتياطي.'],
+        ['مشغّل طابور المهام', 'كرون ووردبريس مدفوع بالطلبات. النسخ والتصدير وتوليد الحزم تحتاج مشغّلًا حقيقيًا.'],
+        ['قرارك في سياسة الاسترجاع', 'إلغاء فوري أم مهلة؟ هذا قرار قانوني وتجاري لا يُفترض من الكود.'],
+      ].map((b) => ({ label: b[0], note: b[1] })),
+
+      storageChain: [
+        ['أساسي', 'Google Drive', 'ناقص', 'no'], ['تسليم', 'Cloudflare R2 مرآة', 'مقترح', 'part'],
+        ['احتياطي', 'حساب Drive ثانٍ', 'ناقص', 'no'], ['طارئ', 'محلي محمي', 'موجود', 'ok'],
+      ].map((s) => { const c = chip(s[3]); return { k: s[0], v: s[1], st: s[2], bg: c.bg, fg: c.fg }; }),
+
+      driveTabs: [['my', 'My Drive'], ['shared', 'Shared Drives'], ['recent', 'الأخيرة'], ['star', 'المميّزة']].map((t) => {
+        const on = this.state.driveTab === t[0];
+        return { label: t[1], on, edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)', onClick: () => this.setState({ driveTab: t[0] }) };
+      }),
+
+      crumbs: [['My Drive', 'rgba(0,0,0,.5)'], ['الموارد التعليمية', 'rgba(0,0,0,.5)'], ['الصف السادس', '#1a1a1a']].map((c) => ({ label: c[0], fg: c[1] })),
+
+      driveItems: [
+        ['f1', 'أوراق العمل', 'folder/7Qm2…', 'مجلد', '—', '٢٧ أغسطس', 'DIR'],
+        ['f2', 'عرض الدرس الأول.pptx', '1x9Kd8…', 'PowerPoint', '24.6 MB', '٢٦ أغسطس', 'PPT'],
+        ['f3', 'دليل المعلم.pdf', '1aB4Nq…', 'PDF', '8.1 MB', '٢٤ أغسطس', 'PDF'],
+        ['f4', 'قالب العرض', '1ZpLmv…', 'Google Slides', '—', '٢٧ أغسطس', 'GS'],
+        ['f5', 'التقويم.xlsx', '1kR9Tz…', 'Excel', '412 KB', '٢٠ أغسطس', 'XLS'],
+        ['f6', 'إجابات', 'folder/9Wm1…', 'مجلد', '—', '١٩ أغسطس', 'DIR'],
+        ['f7', 'صور الدروس', 'folder/3Kd8…', 'مجلد', '—', '١٨ أغسطس', 'DIR'],
+        ['f8', 'ملاحظات المراجعة.docx', '1nQ7Yv…', 'Word', '96 KB', '١٢ أغسطس', 'DOC'],
+      ].map((d) => {
+        const on = !!this.state.sel[d[0]];
+        const dir = d[6] === 'DIR';
+        return {
+          name: d[1], id: d[2], kind: d[3], size: d[4], mod: d[5], ic: d[6],
+          icBg: dir ? '#f2f2f4' : d[6] === 'GS' ? '#fdf3d7' : GBG, icFg: dir ? 'rgba(0,0,0,.5)' : d[6] === 'GS' ? '#7a5a00' : G,
+          edge: on ? G : '#ececef', bg: on ? '#f6faf8' : '#fff',
+          ring: on ? G : '#c9c9cd', fill: on ? G : 'transparent', mark: on ? '✓' : '',
+          onClick: this.tog('sel', d[0]),
+        };
+      }),
+      selCount: Object.keys(this.state.sel).filter((k) => this.state.sel[k]).length + ' عنصر محدَّد',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

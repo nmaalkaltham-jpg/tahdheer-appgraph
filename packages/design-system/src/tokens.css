@@ -1,0 +1,1477 @@
+/*
+UNIT: DESIGN-SYSTEM-TOKENS
+COMPONENT: layout.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/**
+ * @tahdheer/design-system — tokens.css
+ * The ONE design system (MIP §2.4, evidence-exact).
+ * Provenance: legacy inc/design-system/registry.php (registry defaults win)
+ * + handoff --t- / --tah- CSS bridge + handoff identity block.
+ * Never introduce raw colors in component CSS — add here, read the token.
+ */
+/* طبقة الحركة: أحد عشر مستوى + الدخول + التمرير + تقليل الحركة. */
+@import './motion.css';
+
+:root {
+  /* ── Colors: brand greens (VERIFIED hex, registry) ─────────────── */
+  --green-700: #1e7355;        /* primary — --t-color-primary */
+  --green-deep: #123d2f;
+  --green-hover: #185740;
+  --green-bright: #259b6f;
+
+  /* ── Colors: ink & text (muted #5f7167 is the ONLY light text gray) */
+  --ink: #14261d;              /* headings, header/footer chrome */
+  --text: #223129;
+  --text-secondary: #3b4d43;
+  --text-muted: #5f7167;       /* 5.19:1 on white */
+
+  /* ── Colors: gold accent (never carries text on light bg) ──────── */
+  --gold-500: #d8b56a;
+  --gold-text: #7a5d20;        /* text-safe gold */
+  --gold-light: #e6cd93;
+
+  /* ── Colors: surfaces ──────────────────────────────────────────── */
+  --bg: #ffffff;
+  --bg-page: #f7f9f6;
+  --bg-2: #f5f7f4;
+  --bg-soft: #fbfcfa;
+  --bg-mist: #f2f5f2;
+  --bg-green-light: #eaf5ef;
+
+  /* ── Colors: borders ───────────────────────────────────────────── */
+  --border: #e6e9e2;           /* theme border */
+  --border-hairline: #eef1ec;
+  --border-strong: #d3d8cf;    /* Tahdheer - Search Results.dc.html empty box + secondary button */
+
+  /* ── Colors: semantic (registry, first-hand: ds_color_*) ───────── */
+  --success: #35c98b;
+  --success-chip-fg: #146c4c;
+  --success-chip-bg: #e4f4ec;
+  --danger: #f2765f;           /* fills */
+  --danger-text: #b42318;      /* normalized single danger text/icon red */
+  --warning: #c99700;
+  --warning-text: #8a6500;
+  --warning-bg: #fff4d6;
+  --info: #1d5f9c;
+  --info-bg: #e8f2fc;
+  --ai: #6b3fa0;               /* AI/CTR purple */
+  --ai-bg: #f3eefb;
+  --whatsapp: #25d366;
+  --on-accent: #ffffff;
+  --topbar-bg: #000000;
+
+  /* ── Accents the corpus uses that the base ramp lacked ─────────── */
+  --green-glow: #5fd6a3;       /* TahTrustStrip.dc.html — accent on DARK surfaces */
+  --gold-deep: #b8944a;        /* TahTrustStrip.dc.html — «تحديث» dot on LIGHT surfaces */
+  --tint-green: rgba(37, 155, 111, 0.1);  /* TahTrust.dc.html icon tile (green-bright @10%) */
+  --glass-bg: rgba(247, 249, 246, 0.72);  /* TahTrustStrip.dc.html glass preset, light tone */
+  --glass-edge: rgba(255, 255, 255, 0.9); /* TahTrustStrip.dc.html glass preset, light tone */
+
+  /*
+   * White-overlay ramp for the DARK chrome (header, and the dark tone of the
+   * trust strip). Named by opacity because the corpus reuses the same alpha
+   * for different roles; every step below is a literal from the design.
+   * Sources: TahHeader.dc.html · TahTrustStrip.dc.html (dark tone).
+   */
+  --chrome-05: rgba(255, 255, 255, 0.05);  /* smart preset surface (dark) */
+  --chrome-06: rgba(255, 255, 255, 0.06);  /* nav link hover */
+  --chrome-07: rgba(255, 255, 255, 0.07);  /* search field · cart pill · account button */
+  --chrome-09: rgba(255, 255, 255, 0.09);  /* active nav pill · announcement row rule */
+  --chrome-10: rgba(255, 255, 255, 0.1);   /* cart pill + account button border */
+  --chrome-12: rgba(255, 255, 255, 0.12);  /* glass preset hover (dark) */
+  --chrome-13: rgba(255, 255, 255, 0.13);  /* search field border */
+  --chrome-14: rgba(255, 255, 255, 0.14);  /* rule + smart preset edge (dark) */
+  --chrome-16: rgba(255, 255, 255, 0.16);  /* glass preset edge (dark) */
+  --chrome-text: rgba(255, 255, 255, 0.82);       /* announcement text */
+  --chrome-text-muted: rgba(255, 255, 255, 0.72); /* idle nav link · dark-tone body */
+  --chrome-text-dim: rgba(255, 255, 255, 0.5);    /* tagline · search icon */
+  --chrome-gold-border: rgba(216, 181, 106, 0.42); /* offers pill border */
+
+  /* ── Typography (Tajawal, self-hosted 700/900 in production) ───── */
+  --font-family: "Tajawal", "SF Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /*
+   * ── رموز التيبوغرافيا: الطبقة الافتراضية ───────────────────────────
+   *
+   * هذه القيم هي ما يراه الزائر قبل أن يلمس أحدٌ اللوحة، وهي المرجع الذي
+   * يعود إليه «إعادة للموروث». تُبَثّ من App\Domain\Theme\ThemeDocument
+   * وتُترجَم في ThemeCss، ويحمّلها المتجر من /theme.css على :root:root
+   * فتفوز على ما هنا بالخصوصية لا بالترتيب.
+   *
+   * قبل هذه الكتلة كان في المستودع رمزان تيبوغرافيان فقط مقابل 666 إعلانًا
+   * دلاليًّا مكتوبًا حرفيًّا — والدور الواحد بثمانية عشر حجمًا مختلفًا عبر
+   * واحد وعشرين ملفًا. الرمز هنا هو الموضع الوحيد الذي يُغيَّر منه الحجم.
+   *
+   * الحجم سائل بـ clamp() بين 360px و1440px من عرض النافذة: قيمة واحدة
+   * تغطّي المدى كلّه بلا قفزة عند نقطة انكسار، والحدّان يمنعان الانفلات.
+   * الوحدة rem لا px حتى يحترم التصميم تكبير الخطّ في إعدادات المتصفّح.
+   */
+  --tp-font-base: var(--font-family);
+  --tp-font-heading: var(--font-family);
+  --tp-base-size: 16px;
+  --tp-ratio: 1.2;
+
+  --tp-h1-family: var(--tp-font-heading);
+  --tp-h1-size: clamp(1.625rem, 1.4583rem + 0.7407vw, 2.125rem);
+  --tp-h1-weight: 900;
+  --tp-h1-leading: 1.25;
+  --tp-h1-tracking: -0.01em;
+
+  --tp-h2-family: var(--tp-font-heading);
+  --tp-h2-size: clamp(1.3125rem, 1.198rem + 0.463vw, 1.625rem);
+  --tp-h2-weight: 900;
+  --tp-h2-leading: 1.3;
+  --tp-h2-tracking: -0.01em;
+
+  --tp-h3-family: var(--tp-font-heading);
+  --tp-h3-size: clamp(1.125rem, 1.0556rem + 0.2778vw, 1.3125rem);
+  --tp-h3-weight: 800;
+  --tp-h3-leading: 1.35;
+  --tp-h3-tracking: 0em;
+
+  --tp-h4-family: var(--tp-font-heading);
+  --tp-h4-size: clamp(1rem, 0.9537rem + 0.1852vw, 1.125rem);
+  --tp-h4-weight: 800;
+  --tp-h4-leading: 1.4;
+  --tp-h4-tracking: 0em;
+
+  --tp-h5-family: var(--tp-font-heading);
+  --tp-h5-size: clamp(0.9063rem, 0.8785rem + 0.1111vw, 1rem);
+  --tp-h5-weight: 800;
+  --tp-h5-leading: 1.45;
+  --tp-h5-tracking: 0em;
+
+  --tp-h6-family: var(--tp-font-heading);
+  --tp-h6-size: clamp(0.8125rem, 0.7894rem + 0.0926vw, 0.875rem);
+  --tp-h6-weight: 800;
+  --tp-h6-leading: 1.5;
+  --tp-h6-tracking: 0em;
+
+  --tp-body-family: var(--tp-font-base);
+  --tp-body-size: clamp(0.875rem, 0.8519rem + 0.0926vw, 0.9375rem);
+  --tp-body-weight: 500;
+  --tp-body-leading: 1.8;
+  --tp-body-tracking: 0em;
+
+  --tp-lead-family: var(--tp-font-base);
+  --tp-lead-size: clamp(0.9375rem, 0.9028rem + 0.1389vw, 1.0625rem);
+  --tp-lead-weight: 500;
+  --tp-lead-leading: 1.75;
+
+  --tp-nav-family: var(--tp-font-base);
+  --tp-nav-size: 0.8438rem;
+  --tp-nav-weight: 700;
+  --tp-nav-leading: 1.5;
+
+  --tp-button-family: var(--tp-font-base);
+  --tp-button-size: 0.8125rem;
+  --tp-button-weight: 800;
+  --tp-button-leading: 1.4;
+
+  --tp-product-title-family: var(--tp-font-base);
+  --tp-product-title-size: clamp(0.875rem, 0.8634rem + 0.0463vw, 0.9375rem);
+  --tp-product-title-weight: 800;
+  --tp-product-title-leading: 1.5;
+
+  --tp-product-description-family: var(--tp-font-base);
+  --tp-product-description-size: 0.7813rem;
+  --tp-product-description-weight: 500;
+  --tp-product-description-leading: 1.7;
+
+  --tp-price-family: var(--tp-font-base);
+  --tp-price-size: clamp(0.9688rem, 0.9398rem + 0.1157vw, 1.0625rem);
+  --tp-price-weight: 900;
+  --tp-price-leading: 1.3;
+
+  --tp-category-family: var(--tp-font-base);
+  --tp-category-size: 0.75rem;
+  --tp-category-weight: 700;
+  --tp-category-leading: 1.5;
+
+  --tp-input-family: var(--tp-font-base);
+  --tp-input-size: 0.8438rem;
+  --tp-input-weight: 500;
+  --tp-input-leading: 1.5;
+
+  --tp-label-family: var(--tp-font-base);
+  --tp-label-size: 0.75rem;
+  --tp-label-weight: 700;
+  --tp-label-leading: 1.5;
+
+  --tp-badge-family: var(--tp-font-base);
+  --tp-badge-size: 0.6563rem;
+  --tp-badge-weight: 800;
+  --tp-badge-leading: 1.4;
+  --tp-badge-tracking: 0.01em;
+
+  --tp-alert-family: var(--tp-font-base);
+  --tp-alert-size: 0.8125rem;
+  --tp-alert-weight: 700;
+  --tp-alert-leading: 1.65;
+
+  --tp-footer-family: var(--tp-font-base);
+  --tp-footer-size: 0.7813rem;
+  --tp-footer-weight: 500;
+  --tp-footer-leading: 1.9;
+
+  /*
+   * ‎--fs-sm‎ كان يُستعمل في Breadcrumbs.module.css ولم يُعرَّف في المستودع
+   * كلّه — الاستخدام الوحيد لـ var() في تيبوغرافيا المتجر، وكان مرجعًا
+   * معطوبًا يسقط بصمت إلى الحجم الموروث. يُربَط الآن بدور حقيقي.
+   */
+  --fs-sm: var(--tp-category-size);
+
+  /*
+   * ── نقاط الانكسار ──────────────────────────────────────────────────
+   * لم يكن في المستودع رمز نقطة انكسار واحد مقابل تسع عشرة قيمة عرض
+   * متمايزة عبر تسعة وخمسين استعلامًا — و900px مستعمل حدًّا أدنى ستّ عشرة
+   * مرّة وحدًّا أعلى خمسًا، أي نطاقان متداخلان عند العرض نفسه.
+   *
+   * ملاحظة تقنية: استعلامات @media لا تقرأ var()، فهذه الرموز مرجع مشترك
+   * للتوثيق ولجافاسكربت (matchMedia)، والاتّساق يفرضه حارس لا الأمنيات.
+   */
+  /*
+   * حدود الأجهزة — رموزٌ للقراءة لا للاستعمال في `@media`.
+   *
+   * CSS لا تقبل `var()` داخل شرط الوسائط، فهذه الثلاثة كانت **بصفر
+   * استعمال** منذ كُتبت: سُلَّمٌ مُعلَن لا يستطيع أحد أن يتبعه ولا أن يخالفه.
+   * ونتيجتُه المقيسة عشرون قيمةً مختلفة في المتجر، بعضها يفترق عن جاره
+   * ببكسلٍ واحد في ملفّين.
+   *
+   * فالعقد الفعليّ سقّاطةٌ لا تتوسّع:
+   * السُّلَّم ‎≤640 / 641–1024 / ≥1025‎، وما عداه دَينٌ مقيسٌ لا يزيد.
+   * وتبقى القيم هنا لتُقرأ من TypeScript ولتكون رقمًا واحدًا يُراجَع.
+   */
+  --bp-mobile: 640px;
+  --bp-tablet: 1024px;
+  --bp-desktop: 1280px;
+
+  /* ── Spacing scale 4/8/12/16/24/32/48/64/80 (MIP §2.4) ─────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;             /* --t-space-3 component gap default */
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+
+  /* ── Radii ─────────────────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 10px;           /* --t-radius-md component default */
+  --radius-card: 14px;         /* dialogs/cards */
+  --radius-lg: 16px;
+  --radius-hero: 24px;
+  --radius-pill: 999px;
+
+  /* Radii the corpus uses verbatim that the base scale above lacks. */
+  --radius-chip: 7px;          /* TahHomeBody.dc.html footer payment mark */
+  --radius-nav: 9px;           /* TahHeader.dc.html nav link */
+  --radius-control: 11px;      /* TahHeader.dc.html search field · cart pill · account button */
+  --radius-toast: 12px;        /* Tahdheer - Account Portal.dc.html toast card */
+  --radius-tile: 13px;         /* TahHeader.dc.html logo tile · empty-state icon tile */
+
+  /* ── Shadows: exactly two levels ───────────────────────────────── */
+  --shadow-card: 0 2px 12px rgba(20, 45, 33, 0.05);
+  --shadow-float: 0 12px 32px rgba(20, 45, 33, 0.14);
+  /* Surface-specific shadows quoted from the corpus. */
+  --shadow-chrome: 0 6px 20px rgba(8, 20, 15, 0.18);   /* Tahdheer - Hero Studio.dc.html sticky dark chrome */
+  --shadow-toast: 0 12px 32px rgba(10, 25, 18, 0.3);   /* Tahdheer - Account Portal.dc.html toast */
+  --shadow-glass: 0 1px 2px rgba(20, 45, 33, 0.08);    /* TahTrustStrip.dc.html glass, light tone */
+  --shadow-glass-dark: 0 1px 2px rgba(0, 0, 0, 0.3);   /* TahTrustStrip.dc.html glass, dark tone */
+
+  /* ── Gradients ─────────────────────────────────────────────────── */
+  --gradient-brand-tile: linear-gradient(150deg, var(--green-700), var(--green-deep));
+
+  /*
+   * الكحليّ — الطرف الثاني من تدرّج العلامة، مقيسٌ من الشعار نفسه.
+   *
+   * قراءة `public/brand/logo-full.png` تُظهر لونين غالبين ومزائجهما:
+   * `#36446d` كحليّ و`#2f917e` فيروزيّ. فالكحليّ ليس لونًا مستوردًا من
+   * لوحة تصميم، بل نصف هويّة العلامة الذي لم يكن له رمز.
+   *
+   * والقيمة من ملفّات التصميم (`#1E3A6E`) لا من الرَّستَرة: الأخيرة طرفُ
+   * تدرّجٍ مُصيَّر، والأولى ما يعلنه التصميم صراحةً في كلّ ملفّاته.
+   *
+   * **إضافةٌ محضة**: لا قيمة قائمة تتغيّر، ولا يُعاد طلاء شيء — يُستعمل
+   * حيث يطلبه التصميم صراحةً.
+   */
+  --navy-700: #1e3a6e;
+  --gradient-brand-bar: linear-gradient(90deg, var(--navy-700), var(--green-700));
+  /* Storefront Home Mobile.dc.html — icon tiles: lilac (kindergarten · support) and navy (secondary · secure pay). */
+  --lilac-600: #7e6aa3;
+  --tint-lilac: #efeaf5;
+  --tint-navy: #e8edf7;
+  /* ↑ TahHeader.dc.html / TahHomeBody.dc.html logo tile */
+
+  /* ── Layout: نظام الحاويات ──────────────────────────────────────── */
+  /*
+   * أربعة أصناف، ومصدرٌ واحد.
+   *
+   * ─── ما كان ───
+   *
+   * رمزٌ واحد `--container: 1200px` يحكم ‎٢٧‎ موضعًا في ‎٢٢‎ ملفًّا: صفحةَ
+   * سياسةٍ نصّية، وشبكةَ منتجاتٍ، وسلّةً، وتذييلًا. سياسةُ عرضٍ واحدة
+   * لأنواع محتوًى لا يجمعها شيء — وهي بالضبط ما تُنتج العطلين المتضادَّين
+   * المقيسين على شاشة ‎1920px‎:
+   *
+   *   · الشبكات تستعمل ‎63%‎ من العرض ويبقى ‎710px‎ هوامشَ فارغة.
+   *   · والنثر يمتدّ ‎1166px‎ في ‎/help‎ و‎950px‎ في السياسات — نحو ‎١٤٠‎
+   *     حرفًا في السطر، ضعفَ الحدّ المقروء.
+   *
+   * توسيعُ الرمز يُفاقم الثاني، وتضييقُه يُفاقم الأوّل. فالعلاج ليس رقمًا
+   * آخر بل **تصنيفَ السطح**.
+   *
+   * ─── ومحوران لا محور ───
+   *
+   * `--container-*` تحكم كم من الشاشة يشغله السطح، و`--measure` تحكم طول
+   * سطر النصّ داخله. خلطُهما هو ما جعل الاختيار بين مساحةٍ مهدورة ونصٍّ لا
+   * يُقرأ اختيارًا إجباريًّا.
+   */
+
+  /*
+   * الهامش الجانبيّ **مجموعًا** — ‎١٦px‎ لكلّ جانب على الجوّال و‎٤٨‎ على
+   * الشاشات الواسعة، بلا نقاط انكسار.
+   *
+   * والقيمة مجموعُ الجانبين لا جانبًا واحدًا، عمدًا: الاستعمال هو
+   * `100% - var(--container-inset)`، وكتابتُها `var(--gutter) * 2` تُدخل
+   * ضربًا في `var()` داخل `min()` — وهو ما **يُسقطه** مصغِّر CSS في البناء
+   * فتفقد الصفحة حدَّها كلّه وتمتدّ إلى حافّة الشاشة. وقع هذا ثمّ قيس:
+   * ‎1905px‎ في ‎/help‎ بدل ‎1200‎. التعبير الذي لا يُختبر في البناء لا
+   * يُكتب.
+   */
+  --container-inset: clamp(32px, 6vw, 96px);
+
+  /** NARROW — نموذجٌ أو طلبٌ واحد: سطحٌ لا يُقرأ فيه إلّا شيءٌ واحد. */
+  --container-narrow: 760px;
+
+  /** CONTENT — نثرٌ وبطاقاتٌ معًا: صفحة منتج، سلّة، صفحةُ شرحٍ فيها شبكة. */
+  --container-content: 1200px;
+
+  /**
+   * WIDE — الشبكات والقوائم والجداول: تنمو مع الشاشة ولا تنفلت.
+   *
+   * ‎88vw‎ لا ‎100%‎: الهوامش تبقى موجودة فلا يلتصق المحتوى بالحافّة.
+   * وسقف ‎2100px‎ لأنّ صفًّا أعرض منه يتجاوز مدى العين في مسحةٍ واحدة،
+   * فيصير الاتّساع كلفةً لا مكسبًا. والحدّ الأدنى ‎1200‎ يُبقي سلوك
+   * ‎1280px‎ كما كان — الطرف الذي لا شكوى فيه لا يُحرَّك.
+   */
+  --container-wide: clamp(1200px, 88vw, 2100px);
+
+  /** FULL — المحرّرات والكانفس: تستعيد كلّ العرض. */
+  --container-full: 100%;
+
+  /*
+   * استثناءٌ واحد مُبرَّر: قَمِيص الدفع مقطوعٌ على تصميمه الخاصّ
+   * (Tahdheer - Checkout.dc.html)، وهو مسارٌ واحد لا صنف. يبقى كما هو
+   * بدل أن يُقرَّب إلى صنفٍ فيتحرّك ‎80px‎ بلا سبب.
+   */
+  --container-checkout: 1120px;
+
+  /*
+   * ولا رمزَ لطول السطر — عمدًا.
+   *
+   * بحثتُ عنه ظنًّا أنّه ناقص، فوجدتُ ‎٤١‎ إعلان `max-inline-size` بوحدة
+   * `ch` في المتجر: ‎22ch‎ لشارة، و‎46–78ch‎ للنثر بحسب حجم خطّ كلّ سطح.
+   * وهي قيمٌ مقصودة لا انحراف. ورمزٌ واحد يجمعها كان سيسطّح ‎٤١‎ قرارًا
+   * طباعيًّا في رقمٍ واحد — وهو بالضبط العطل الذي عالجه نظام الحاويات أعلاه،
+   * مقلوبًا.
+   */
+
+  /* Site chrome geometry (TahHomeMobile.dc.html) — the desktop header uses --sf-gutter / --ctl-md. */
+  --header-pad-inline-mobile: 14px;     /* header row inline padding, mobile */
+
+  /* ── Stacking ──────────────────────────────────────────────────── */
+  --z-header: 50;              /* Tahdheer - Hero Studio.dc.html sticky chrome */
+  --z-toast: 100;              /* Tahdheer - Account Portal.dc.html toast viewport */
+
+  /* ── Focus ring (WCAG 2.2 AA — outline 2.5px primary, offset 2px) */
+  --focus-ring-width: 2.5px;
+  --focus-ring-color: var(--green-700);
+  --focus-ring-offset: 2px;
+  --focus-ring: var(--focus-ring-width) solid var(--focus-ring-color);
+  /*
+   * ما تحتاجه الحلقة خارج حدّ العنصر — عرضُها وإزاحتُها معًا.
+   *
+   * كلّ مسطح تمريرٍ يقصّ ما يتجاوز صندوقه، ولو لم يظهر له شريط. فأيّ عنصرٍ
+   * قابلٍ للتركيز داخل `overflow: auto|hidden|scroll` تُقطع حلقتُه عند
+   * الحافّة ما لم يُحجز له هذا القدر حشوًا وحشوَ تمرير — وهو ‎§2.4.7‎.
+   *
+   * وقد قيس على أربعة مساطح: ملاحة الترويسة، وعمود مرشّحات `/shop`،
+   * وشريط المراحل، وشريط المراجعات. رقمٌ واحد لأربعتها.
+   */
+  --focus-ring-reach: calc(var(--focus-ring-width) + var(--focus-ring-offset));
+
+  /* ── Motion (registry, first-hand: tahdheer_ds_easing_css / _speeds / mo_hover_*) */
+  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-custom: cubic-bezier(0.2, 1.4, 0.3, 1);
+  --speed-very-slow: 1400ms;
+  --speed-slow: 900ms;
+  --speed-normal: 600ms;
+  --speed-fast: 360ms;
+  --speed-very-fast: 200ms;
+  --hover-lift: 6px;           /* theme hover engine; card micro-hover -2px is per-component */
+  --hover-duration: 260ms;
+
+  /* Named loop durations quoted from the corpus (each is pausable / reduced-motion aware). */
+  --dot-pulse-duration: 2.4s;      /* TahTrustStrip.dc.html live dot */
+  --toast-enter-duration: 200ms;   /* Tahdheer - Account Portal.dc.html toast entrance */
+
+  /* ── Added by the product-card-cta run — TahProductCard.dc.html ──
+     The card's own hover treatment is lighter than the shared float level
+     (`--shadow-float`), so it gets its own literals from the design. */
+  --border-card-hover: #c9d4cd;                             /* article style-hover border-color */
+  --shadow-card-hover: 0 12px 28px rgba(20, 45, 33, 0.09);  /* article style-hover box-shadow */
+
+  /* ── Added by the reviews run — TahReviewsPremium.dc.html ──
+     The rating summary is the one dark-green gradient panel on a light page:
+     its gradient, its lift, and the two on-dark tones the artboard uses for
+     the empty star and the «بناءً على …» line. */
+  --gradient-review-hero: linear-gradient(155deg, var(--green-deep), var(--green-700));
+  --shadow-review-hero: 0 14px 34px rgba(18, 61, 47, 0.18);
+  --chrome-26: rgba(255, 255, 255, 0.26);           /* empty star on dark */
+  --chrome-text-bright: rgba(255, 255, 255, 0.92);  /* body text on dark */
+  /* TahHomeReviews.dc.html alternates the quote avatar between the existing
+     green tint and this gold one. */
+  --tint-gold: rgba(216, 181, 106, 0.18);
+
+  /* ── matgarr gap pass: account ──────────────────────────────────────── */
+  --tint-gold-07: rgba(216, 181, 106, 0.07);              /* Tahdheer - My Account.dc.html #acc-missing panel fill */
+  --tint-gold-16: rgba(216, 181, 106, 0.16);              /* Tahdheer - My Account.dc.html empty-state + gold stat icon tile */
+  --tint-gold-border: rgba(216, 181, 106, 0.4);           /* Tahdheer - My Account.dc.html #acc-missing panel border */
+  --tint-gold-border-soft: rgba(216, 181, 106, 0.3);      /* Tahdheer - My Account.dc.html #acc-missing item border */
+  --border-dashed: #c9d4cd;                               /* Tahdheer - My Account.dc.html empty-state dashed box */
+  --shadow-stat-hover: 0 8px 20px rgba(20, 45, 33, 0.06); /* Tahdheer - My Account.dc.html stat tile style-hover */
+  --glass-bar-bg: rgba(255, 255, 255, 0.97);              /* Tahdheer - My Account.dc.html block-end bar surface */
+  --glass-bar-edge: #e0e5dd;                              /* Tahdheer - My Account.dc.html block-end bar border-top */
+
+  /* ── matgarr gap pass: cart ─────────────────────────────────────────── */
+  --shadow-cta: 0 6px 18px rgba(30, 115, 85, 0.2); /* Tahdheer - Cart.dc.html — «إتمام الطلب» box-shadow (green-700 @20%) */
+  --border-hairline-card: #f0f3ef;                 /* Tahdheer - Cart.dc.html — line control-row rule + «ماذا يتضمن؟» panel border + summary group rule */
+  --border-mist: #e0e5dd;                          /* Tahdheer - Cart.dc.html — sticky mobile total bar border-top */
+
+  /* ── matgarr gap pass: category ─────────────────────────────────────── */
+  --shadow-segment: 0 1px 3px rgba(20, 45, 33, 0.12); /* Tahdheer - Category.dc.html — selected sort segment */
+  --border-mid: #c9d4cd;                              /* Tahdheer - Category.dc.html — unchecked facet box border (op.boxBorder off) */
+  --space-3-5: 14px;                                  /* Tahdheer - Category.dc.html — rail/results grid gap + sticky offset */
+
+  /* ── matgarr gap pass: checkout ─────────────────────────────────────── */
+  --tint-green-12: rgba(37, 155, 111, 0.12); /* Tahdheer - Checkout.dc.html section badge tint + «الطريقة الوحيدة» chip (green-bright @12%, distinct from --tint-green @10%) */
+  --border-muted: #c9d4cd;                   /* Tahdheer - Checkout.dc.html step dot border (not-done) */
+  --danger-bg: #fdf3f2;                      /* Tahdheer - Checkout.dc.html error-summary + declined alert surface */
+  --radius-xl: 18px;                         /* Tahdheer - Checkout.dc.html empty-cart 64px icon tile */
+  /* قميص الدفع صار `--container-checkout` في نظام الحاويات أعلاه. */
+
+  /* ── matgarr gap pass: login ────────────────────────────────────────── */
+  --glass-solid: rgba(255, 255, 255, 0.965);                                             /* TahAuthCard.dc.html card surface */
+  --glass-solid-edge: rgba(255, 255, 255, 0.7);                                          /* TahAuthCard.dc.html card border */
+  --shadow-overlay: 0 24px 64px rgba(20, 45, 33, 0.24), 0 2px 8px rgba(20, 45, 33, 0.1); /* TahAuthCard.dc.html card */
+  --shadow-cta-green: 0 4px 14px rgba(30, 115, 85, 0.22);                                /* TahAuthCard.dc.html guest CTA glow */
+  --danger-border: rgba(163, 58, 45, 0.24);                                              /* TahAuthCard.dc.html failed notice border */
+  --tint-gold-09: rgba(216, 181, 106, 0.09);                                             /* TahAuthCard.dc.html expired/limited notice fill */
+  --tint-gold-border-35: rgba(216, 181, 106, 0.35);                                      /* TahAuthCard.dc.html expired/limited notice border */
+  --tint-green-06: rgba(37, 155, 111, 0.06);                                             /* TahAuthCard.dc.html checkout notice fill */
+  --tint-green-border-18: rgba(37, 155, 111, 0.18);                                      /* TahAuthCard.dc.html checkout notice border */
+
+  /* ── matgarr gap pass: product-card ─────────────────────────────────── */
+  --hatch-line: #dde3dc; /* TahProductCard.dc.html empty-media hatch line stroke */
+
+  /* ── matgarr gap pass: purchase-bar ─────────────────────────────────── */
+  --shadow-bar: 0 10px 30px rgba(20, 45, 33, 0.16); /* TahPurchaseBar.dc.html — premium.shadow (the floating purchase-bar card) */
+  /* الظلّ يصعد لا ينزل: الشريط مثبَّتٌ على الحافّة السفلى، وظلٌّ هابطٌ منه
+     يسقط خارج الشاشة فلا يُرى أصلًا. «Storefront Product Mobile.dc.html» —
+     الشريط اللاصق يرفع نفسه عن المقال بظلٍّ إلى الأعلى. */
+  --shadow-bar-up: 0 -12px 30px rgba(20, 45, 33, 0.1); /* Storefront Product Mobile.dc.html — sticky buy bar lift */
+  --green-mist: #c8f2df;                            /* TahPurchaseBar.dc.html — brand.saveFg, the saving line on the green bar */
+
+  /* ── matgarr gap pass: reviews-trust ────────────────────────────────── */
+  --green-mid: #3fae86;                                                             /* TahReviewsPremium.dc.html — distribution rank 2 fill + category bar gradient end */
+  --gold-muted: #c9b489;                                                            /* TahReviewsPremium.dc.html — distribution ranks 3–5 fill */
+  --gradient-score-bar: linear-gradient(90deg, var(--green-700), var(--green-mid)); /* TahReviewsPremium.dc.html — category score bar fill */
+  --shadow-score-card-hover: var(--shadow-stat-hover);                     /* TahReviewsPremium.dc.html — category card style-hover */
+  --shadow-segment-on: 0 1px 3px rgba(20, 45, 33, 0.13);                            /* TahReviewsPremium.dc.html — selected segmented sort button */
+  --border-field: #dde3dc;                                                          /* TahReviewsPremium.dc.html — toolbar search field border */
+  --radius-button: 12px;                                                            /* TahReviewsPremium.dc.html — «اكتب تقييمك» header CTA + load-more button */
+
+  /* ── matgarr gap pass: dashboard ────────────────────────────────────── */
+  --console-edge: #dcdcde; /* Tahdheer - Unified Console.dc.html — حدود شريط التحكم وأزرار اللوحة */
+  --console-edge-soft: #ececef; /* Tahdheer - Unified Console.dc.html — فاصل رأس «مركز الاختصارات» */
+  --console-surface-dim: #fcfcfd; /* Tahdheer - Unified Console.dc.html — خلفية زر «مركز الاختصارات» */
+  --console-kbd-bg: #f0f0f1; /* Tahdheer - Unified Console.dc.html — خلفية شارة Ctrl K */
+  --console-text: #1a1a1a; /* Tahdheer - Unified Console.dc.html — نص حقل البحث وعناوين الخيارات */
+  --console-label: rgba(0, 0, 0, 0.6); /* Tahdheer - Unified Console.dc.html — عنوان زر الفاتح */
+  --console-dim: rgba(0, 0, 0, 0.5); /* Tahdheer - Unified Console.dc.html — نص شارة Ctrl K وزر الإغلاق */
+  --console-faint: rgba(0, 0, 0, 0.42); /* Tahdheer - Unified Console.dc.html — عناوين مجموعات اللوحة */
+  --console-hint: rgba(0, 0, 0, 0.35); /* Tahdheer - Unified Console.dc.html — تلميح mono في صف الخيار */
+  --console-icon: rgba(0, 0, 0, 0.4); /* Tahdheer - Unified Console.dc.html — أيقونة البحث */
+  --console-dot: #c9c9cd; /* Tahdheer - Unified Console.dc.html — نقطة صف الخيار المحايدة */
+  --console-active-bg: #f6faf8; /* Tahdheer - Unified Console.dc.html — خلفية الخيار النشط */
+  --console-overlay: rgba(20, 20, 22, 0.5); /* Tahdheer - Unified Console.dc.html — غشاء حوار Ctrl K */
+  --console-shadow: 0 24px 60px rgba(0, 0, 0, 0.28); /* Tahdheer - Unified Console.dc.html — ظل لوحة الحوار */
+
+  /* ── matgarr gap pass: heroes ───────────────────────────────────────── */
+  --warning-border: #e2b979; /* Tahdheer - Hero Studio.dc.html + Tahdheer - Customizer.dc.html — حدّ اللافتة الكهرمانية (identical in both groups) */
+  --hero-stage-bg: #dfe2df; /* Tahdheer - Hero Studio.dc.html — preview stage surface */
+  --hero-stage-border: #d0d4d0; /* Tahdheer - Hero Studio.dc.html — preview stage border */
+  --hero-strip-bar: #e3e8e4; /* Tahdheer - Hero Studio.dc.html — page-continuation first bar */
+  --hero-strip-text: #b6bfb9; /* Tahdheer - Hero Studio.dc.html — «بقية الصفحة الرئيسية…» */
+  --hero-h1-accent: #e8ce8f; /* Tahdheer - Hero Studio.dc.html — h1 highlighted headline word */
+  --hero-overlay-ink: #0a120e; /* Tahdheer - Hero Studio.dc.html — h1 overlay gradient base rgba(10,18,14,…) */
+  --hero-gold-deep: #a5813a; /* Tahdheer - Hero Studio.dc.html — h2 gold slab gradient end */
+  --hero-avatar-blue: #527a96; /* Tahdheer - Hero Studio.dc.html — h2 trust avatar */
+  --hero-preset-dark-bg: #101b15; /* Tahdheer - Hero Studio.dc.html — PRESETS.dark.bg, also h1 cinematic surface */
+  --hero-preset-dark-fg: #f2f7f4; /* Tahdheer - Hero Studio.dc.html — PRESETS.dark.fg */
+  --hero-preset-dark-card: #18261e; /* Tahdheer - Hero Studio.dc.html — PRESETS.dark.card */
+  --hero-preset-light-soft: #f2f6f3; /* Tahdheer - Hero Studio.dc.html — PRESETS.light.soft */
+  --hero-preset-light-line: #e6ebe7; /* Tahdheer - Hero Studio.dc.html — PRESETS.light.line */
+  --hero-preset-soft-bg: #f5f3ee; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.bg */
+  --hero-preset-soft-fg: #1f2a24; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.fg */
+  --hero-preset-soft-sub: #6a7269; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.sub */
+  --hero-preset-soft-accent: #8a6a35; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.accent */
+  --hero-preset-soft-soft: #ece8df; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.soft */
+  --hero-preset-soft-line: #e0dbd0; /* Tahdheer - Hero Studio.dc.html — PRESETS.soft.line */
+  --hero-preset-bold-bg: #0d1f17; /* Tahdheer - Hero Studio.dc.html — PRESETS.bold.bg */
+  --hero-preset-bold-card: #132a20; /* Tahdheer - Hero Studio.dc.html — PRESETS.bold.card */
+  --hero-preset-brand-bg: #eaf3ee; /* Tahdheer - Hero Studio.dc.html — PRESETS.brand.bg */
+  --hero-preset-brand-fg: #123527; /* Tahdheer - Hero Studio.dc.html — PRESETS.brand.fg */
+  --hero-preset-brand-sub: #41594d; /* Tahdheer - Hero Studio.dc.html — PRESETS.brand.sub */
+  --hero-preset-brand-soft: #dcebe2; /* Tahdheer - Hero Studio.dc.html — PRESETS.brand.soft */
+  --hero-preset-brand-line: #c9dfd2; /* Tahdheer - Hero Studio.dc.html — PRESETS.brand.line, also h2 avatar mint */
+  --hero-shadow-frame: 0 14px 44px rgba(10, 25, 18, 0.14); /* Tahdheer - Hero Studio.dc.html — device frame */
+  --hero-shadow-media: 0 22px 50px rgba(15, 30, 22, 0.2); /* Tahdheer - Hero Studio.dc.html — h2 media frame */
+  --hero-shadow-media-soft: 0 20px 46px rgba(15, 30, 22, 0.16); /* Tahdheer - Hero Studio.dc.html — h5 media frame */
+  --hero-shadow-chip: 0 10px 26px rgba(15, 30, 22, 0.2); /* Tahdheer - Hero Studio.dc.html — h3 floating trust chip */
+  --hero-shadow-cta: 0 4px 14px rgba(20, 60, 45, 0.22); /* Tahdheer - Hero Studio.dc.html — h2 primary CTA */
+  --hero-shadow-cta-strong: 0 5px 16px rgba(20, 60, 45, 0.24); /* Tahdheer - Hero Studio.dc.html — h5 primary CTA */
+  --hero-title-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); /* Tahdheer - Hero Studio.dc.html — h1 headline text-shadow */
+
+  /* ── matgarr gap pass: customizer ───────────────────────────────────── */
+  --border-row-hover: #e6ebe4; /* Tahdheer - Customizer.dc.html — حدّ صفّ ريل الإعدادات عند التحويم */
+  --bg-row-hover: #f4f7f3; /* Tahdheer - Customizer.dc.html — خلفية صفّ ريل الإعدادات عند التحويم */
+  --tint-green-border-16: rgba(37, 155, 111, 0.16); /* Tahdheer - Customizer.dc.html — حدّ لافتة المعلومات الخضراء */
+  --bg-canvas: #e9ece7; /* Tahdheer - Customizer.dc.html — خلفية لوحة المعاينة <main> */
+  --shadow-tab-active: var(--shadow-segment-on); /* Tahdheer - Customizer.dc.html — ظلّ التبويب النشط في لوحة القسم */
+
+  /* ── matgarr gap pass: widget-system ────────────────────────────────── */
+  --wire-dark-strong: rgba(255, 255, 255, 0.2); /* apps/admin design/_lib/preview.ts DARK.strong — wire bars on the dark preview stage (Tahdheer - Widget System 800.dc.html) */
+  --wire-dark-brand: rgba(120, 220, 180, 0.3); /* apps/admin design/_lib/preview.ts DARK.brand — brand bars on the dark preview stage (Tahdheer - Widget System 800.dc.html) */
+
+  /* ── matgarr gap pass: analytics ────────────────────────────────────── */
+  --chrome-08: rgba(255, 255, 255, 0.08); /* Tahdheer - Analytics Pro Suite.dc.html — خلفية زر الكروم الداكن */
+  --chrome-18: rgba(255, 255, 255, 0.18); /* Tahdheer - Analytics Pro Suite.dc.html — حدّ زر الكروم الداكن */
+
+  /* ── matgarr gap pass: media ────────────────────────────────────────── */
+  --border-neutral: #dcdcde;                      /* Tahdheer - Media Library.dc.html + Tahdheer - Image Ops.dc.html light t.border (nearest --border #e6e9e2 differs) */
+  --danger-strong: #a33a2d;                       /* Tahdheer - Media Library.dc.html + Tahdheer - Image Ops.dc.html badFg (solid base of --danger-border) */
+  --tint-danger-08: rgba(163, 58, 45, 0.08);      /* Tahdheer - Media Library.dc.html + Tahdheer - Image Ops.dc.html badBg (danger-strong @8%) */
+
+  /* ── matgarr gap pass: commerce-ui ──────────────────────────────────── */
+  --serp-rich-price: #202124; /* Tahdheer - Digital Product OS.dc.html — serpShow.product price figure */
+  --serp-rich-avail: #188038; /* Tahdheer - Digital Product OS.dc.html — serpShow.product «متوفر · تحميل فوري» */
+  --serp-thumb-bg: #f1f3f4; /* Tahdheer - Digital Product OS.dc.html — serpShow.product image placeholder fill */
+  --serp-thumb-edge: #e0e0e0; /* Tahdheer - Digital Product OS.dc.html — serpShow.product image placeholder border */
+  --serp-thumb-fg: #9aa0a6; /* Tahdheer - Digital Product OS.dc.html — serpShow.product image placeholder label */
+
+  /* ── matgarr gap pass: nav-seo-ui ───────────────────────────────────── */
+  --menu-pop-radius: 12px; /* Tahdheer - Visual Menu Studio.dc.html — لوح نتائج البحث عبر كل القوائم border-radius */
+  --menu-pop-shadow: 0 16px 40px rgba(10, 25, 18, 0.16); /* Tahdheer - Visual Menu Studio.dc.html — ظل لوح نتائج البحث */
+  --menu-pop-row-line: #f6f7f6; /* Tahdheer - Visual Menu Studio.dc.html — فاصل صفوف نتائج البحث */
+  --menu-json-line: #dde3dc; /* Tahdheer - Visual Menu Studio.dc.html — حدّ صندوق JSON في الحوار العام (~سطر 1412) */
+
+  /* ── three-products merge: .design-sync/tokens-3p (intl-seo · analytics · search-intel) ── */
+  /* intl-seo — registry + hreflang auditor (agent-A) */
+  --intl-edge: #dce2dd; /* حدود الألواح والصفوف */
+  --intl-green-edge: #cfe0d6; /* حدّ الصفّ النشط وقاعدة التفعيل */
+  --intl-row-active: #f6fbf8; /* خلفية الصفّ النشط */
+  --intl-gate-tint: #f8fbf9; /* خلفية صندوق قاعدة التفعيل */
+  --intl-rule: #f1f4f2; /* فواصل متقطّعة داخل الألواح */
+  --intl-dim: #7c8a82; /* نصّ سجلّ المهام الخافت */
+  --intl-body-2: #3d4f45; /* نصّ الشرح الثانوي */
+  --intl-chrome-light: #eaf2ee; /* نصّ الرأس الداكن وتبويبه النشط */
+  --intl-tab-ink: #0c1411; /* نصّ التبويب النشط فوق الفاتح */
+  --intl-tab-idle: rgba(234, 242, 238, 0.72); /* التبويب الخامل على الداكن */
+  --intl-tab-edge: rgba(255, 255, 255, 0.14); /* حدّ التبويب الخامل */
+  --intl-code-mint: #a8e2c5; /* رمز اللغة داخل الرقاقة الداكنة */
+  --intl-gold-text: #e8d3a6; /* نصّ شارة البوابة الذهبية */
+  --intl-gold-bg: rgba(216, 181, 106, 0.16); /* خلفية شارة البوابة */
+  --intl-gold-edge: rgba(216, 181, 106, 0.36); /* حدّ شارة البوابة */
+  --intl-danger-text: #b32d2e; /* فشل الفحص (لوح الاستوديو، لا #b42318) */
+  --intl-danger-chip: #fce8e8; /* خلفية رقاقة المخالفين */
+  --intl-neutral-chip: #f2f6f3; /* رقاقة الحياد «لا يُخدم مسارها» */
+
+  /* intl-seo — opportunities + preview/inheritance (agent-B) */
+  --intl-tint-green-14: rgba(37, 155, 111, 0.14); /* شارة «مؤهَّلة» */
+  --intl-tint-green-04: rgba(37, 155, 111, 0.04); /* خلفية صف مؤهَّل */
+  --intl-tint-green-border-22: rgba(37, 155, 111, 0.22); /* حدّ بند الميزانية الأخضر */
+  --intl-tint-gold-20: rgba(216, 181, 106, 0.2); /* شارة «مُحتملة» */
+  --intl-tint-gold-22: rgba(216, 181, 106, 0.22); /* خلفية شارة «عالٍ» */
+  --intl-tint-gold-border-34: rgba(216, 181, 106, 0.34); /* حدّ بطاقة شذوذ «عالٍ» */
+  --intl-danger-border-28: rgba(180, 35, 24, 0.28); /* حدّ لافتة «لا مصدر بيانات» */
+  --intl-danger-border-24: rgba(180, 35, 24, 0.24); /* حدّ بطاقة شذوذ «حرِج» */
+  --intl-tint-danger-12: rgba(180, 35, 24, 0.12); /* خلفية شارة «حرِج» */
+  --intl-border-soft: #dce2dd; /* حدود الأقسام والبطاقات */
+  --intl-bg-head: #f6f8f7; /* رأس جدول الوراثة */
+  --intl-bg-row: #fbfcfb; /* خلفية عمود «الحقل» */
+  --intl-border-row: #f4f6f4; /* فاصل صفوف جدول الوراثة */
+  --intl-border-mint: #cfe0d6; /* حدّ لوح «المبدأ» المتقطّع */
+  --intl-bg-mint: #f8fbf9; /* خلفية لوح «المبدأ» */
+  --intl-locked-bg: #fce8e8; /* شارة «مقفل من الأم» */
+  --intl-locked-fg: #b32d2e; /* نص «مقفل من الأم» */
+  --intl-body: #3d4f45; /* نصّ خلايا الجدول */
+  --intl-muted: #8b978f; /* السطر الثانوي بجوار العنوان */
+  --intl-danger-border-20: rgba(163, 58, 45, 0.2); /* حدّ شارة «النشر محجوب» */
+  --intl-tint-danger-10: rgba(163, 58, 45, 0.1); /* خلفية حالتي «قديم/ناقص» */
+
+  /* analytics — Analytics Pro OS (agent-B) */
+  --apb-border: #dce2dd; /* حدّ البطاقات في كل الشاشات */
+  --apb-hairline: #eef1ef; /* الفواصل المنقّطة داخل البطاقات وحدّ لوح الإجابة */
+  --apb-surface-soft: #fbfcfb; /* خلفية الألواح الرخوة وأزرار الأدلة */
+  --apb-neutral: #eef2ef; /* خلفية شارة المصدر ومسار التقدم */
+  --apb-neutral-2: #f2f6f3; /* خلفية شارات «فُحص واستُبعد» */
+  --apb-strong: #3d4f45; /* نصّ الصفوف القوي وأزرار الأدلة */
+  --apb-dim: #8b978f; /* النص الخافت في الترويسات والحواشي */
+  --apb-soft: #7c8a82; /* السطر الوصفي تحت عناوين الفرص */
+  --apb-faint: #a9b4ad; /* أخفت درجات النص — سطر «تنبؤ لا ضمان» */
+  --apb-danger: #b32d2e; /* نصّ الإشارات المُعلَّمة الحمراء */
+  --apb-danger-bg: #fce8e8; /* خلفية شارة «عالي الخطورة» والإشارة المُعلَّمة */
+  --apb-danger-border: #f0d3d3; /* حدّ لوح التحقيق الأحمر */
+  --apb-info-border: #cfe0f0; /* حدّ بطاقة «متفائل» في المحاكاة */
+  --apb-chrome-dim: rgba(234, 242, 238, 0.72); /* نص أزرار الشاشات غير النشطة على الكروم الداكن */
+  --apb-chrome-faint: rgba(234, 242, 238, 0.5); /* الحواشي على الكروم الداكن */
+  --apb-gold-chip-text: #e8d3a6; /* نص شارة الطبقة التنفيذية وحروف IF/AND الذهبية */
+  --apb-gold-chip-border: rgba(216, 181, 106, 0.36); /* حدّ شارة الطبقة التنفيذية */
+  --apb-green-chip-text: #a8e2c5; /* نص THEN الأخضر في منشئ القواعد */
+  --apb-green-chip-bg: rgba(43, 156, 114, 0.18); /* خلفية ذيل THEN في منشئ القواعد */
+  --apb-green-chip-border: rgba(43, 156, 114, 0.3); /* خلفية رأس THEN في منشئ القواعد */
+  --apb-switch-track: #cfd8d3; /* مسار المفتاح المُطفأ في صفوف الأتمتة */
+
+  /* search-intel — cover + dictionary (agent-A) */
+  --si-page: #eef0ee; /* خلفية جسم المركز */
+  --si-text: #17251d; /* نص الجسم الأساسي */
+  --si-chrome-fg: #eaf2ee; /* نص الشريط الداكن والحبة النشطة */
+  --si-chrome-fg-dim: rgba(234, 242, 238, 0.72); /* نص حبة المبدّل الخاملة */
+  --si-chrome-pill-bd: rgba(255, 255, 255, 0.14); /* حد حبة المبدّل الخاملة */
+  --si-chrome-on-fg: #0c1411; /* نص حبة المبدّل النشطة */
+  --si-border: #dce2dd; /* حدود بطاقات القاموس والأقسام */
+  --si-border-field: #d5dbd6; /* حد حقل بحث القاموس */
+  --si-border-pill: #dfe4df; /* حد حبة التصنيف الخاملة */
+  --si-chip-bg: #f2f6f3; /* خلفية شريحة تصنيف المفهوم */
+  --si-flag-bg: #f2f4f2; /* خلفية وسم «تاريخي» المحايد */
+  --si-def: #3d4f45; /* نص تعريف المفهوم */
+  --si-abbr-fg: #a8e2c5; /* نص شريحة الاختصار على الداكن */
+  --si-val-bg: #f8fbf9; /* خلفية صف «قيمتك الآن» */
+  --si-hint: #8b978f; /* تلميحات رمادية صغيرة */
+  --si-toast-shadow: var(--shadow-toast); /* ظل الإشعار */
+
+  /* search-intel — URL inspector + SERP/authority (agent-B) */
+  --sib-card-border: #dce2dd; /* حدود بطاقات المركز */
+  --sib-input-border: #d5dbd6; /* حدود مُحدِّد الرابط/الاستعلام */
+  --sib-hint: #8b978f; /* نص تلميح خافت */
+  --sib-body: #3d4f45; /* نص الفقرات داخل البطاقات */
+  --sib-well: #f8fbf9; /* خلفية صناديق القيمة والهوامش */
+  --sib-row: #fbfcfb; /* خلفية صف السلطة/الميزة */
+  --sib-action-border: #cfe0d6; /* حد زر الإجراء داخل اللوح */
+  --sib-action-bg: #f2f8f5; /* خلفية زر الإجراء داخل اللوح */
+  --sib-ring-track: #eef2ef; /* مسار حلقة الدرجة */
+  --sib-ring-mid: #c9a227; /* لون الحلقة بين 70 و79 */
+  --sib-danger: #b32d2e; /* أحمر التصميم (يختلف عن --danger-text) */
+  --sib-danger-bg: #fce8e8; /* خلفية الشارة الحمراء */
+  --sib-edge-measure: #527a96; /* حافة لوح «يُقاس» */
+  --sib-neutral-chip-bg: #f2f4f2; /* شارة الحالة الغائبة المحايدة */
+
+  /* ── product-desktop pass: Storefront Product.dc.html ───────────────── */
+  --shadow-rail: 0 18px 44px color-mix(in srgb, var(--ink) 8%, transparent); /* Storefront Product.dc.html — lift under the buy-panel rail */
+  /*
+   * Buy-panel «مواصفات المنتج» tiles: one fill/text pair per tile hue, literals
+   * from the design's tile grid. Two hues already had their pair here and are
+   * NOT redefined — الصف reads --tint-navy / --navy-700 and the النوع fill is
+   * --tint-lilac (both byte-identical to the design). The الفصل text keeps the
+   * house --gold-text: the design's own #8a6a24 measures 4.37:1 on the fill
+   * below, under AA for the 15px/800 value type; --gold-text measures 5.35:1.
+   */
+  --tint-teal: #e6f3f0;     /* المادة tile fill */
+  --tint-teal-fg: #0f5f52;  /* المادة tile text — 6.65:1 */
+  --tint-sand: #f6eedc;     /* الفصل tile fill (text: --gold-text) */
+  --tint-lilac-fg: #5f4c86; /* النوع tile text on --tint-lilac — 6.23:1 */
+  --tint-clay: #fbefe9;     /* الحجم tile fill */
+  --tint-clay-fg: #9a4a2e;  /* الحجم tile text — 5.49:1 */
+  --tint-steel: #e9f1f7;    /* الصيغ tile fill */
+  --tint-steel-fg: #22577a; /* الصيغ tile text — 6.80:1 */
+
+  /*
+   * ── Storefront redesign palette: Storefront Home / Product (.dc.html) ──
+   * Header, footer, home and PDP read these. Literals are the design's own,
+   * except where a TEXT pair measures under WCAG AA 4.5:1 — those three get
+   * the nearest passing shade of the same hue (measured values inline). The
+   * design literal stays in use for every non-text role (fills, borders,
+   * icons, gradient stops), so hue and layout are unchanged.
+   */
+  --teal-600: #178a78;      /* brand teal — fills, borders, icons, dots */
+  --teal-on: #168574;       /* teal under WHITE text (design #178a78 = 4.25:1 → 4.52:1) */
+  --teal-text: #157b6b;     /* teal TEXT on white/#e6f3f0 (design #178a78 = 3.73:1 on tint → 4.52:1) */
+  --sf-ink: #142a4e;        /* body text, headings */
+  --sf-ink-2: #2b4470;      /* nav, secondary text */
+  --sf-body: #4a5872;       /* paragraphs */
+  --sf-muted: #5e6b82;      /* labels, captions */
+  --sf-icon: #7c8aa3;       /* search glyph (non-text, 3.28:1 ≥ 3:1) */
+  --sf-faint: #677793;      /* dates (design #9aa5b8 = 2.49:1 → 4.53:1) */
+  --sf-sep: #b7c0cf;        /* breadcrumb › and · separators (decorative) */
+  --sf-sep-2: #c7d2e0;      /* mobile separators, unpicked stars */
+  --sf-line: #e3e8f0;       /* card + section borders */
+  --sf-control: #d5dde9;    /* control borders */
+  --sf-hair: #eef1f6;       /* in-card rules */
+  --sf-hair-2: #e9edf3;     /* mobile app-bar rule */
+  --sf-cool: #f6f8fb;       /* cool surfaces */
+  --sf-chip: #f1f4f8;       /* neutral chip */
+  --tint-teal-line: #dce9e6;/* page-label badge border */
+  --tint-butter: #fbf1dc;   /* PPT page tint */
+  --gold-400: #c9a55a;      /* stars, cart badge fill */
+  --gold-ink: #87672b;      /* gold TEXT (design #b58b3a = 3.13:1 white, 2.71:1 sand → 4.54:1) */
+  --gold-ink-deco: #b58b3a; /* gold for non-text marks only */
+  --danger-500: #b54a3a;    /* wished heart, form error (5.24:1) */
+  --sf-shadow-page: 0 24px 60px rgba(20, 42, 78, 0.14);
+  --sf-shadow-page-sm: 0 14px 34px rgba(20, 42, 78, 0.16);
+  --sf-shadow-rail: 0 18px 44px rgba(20, 42, 78, 0.08); /* + لوحة ملخّص السلّة/الدفع (كان --sf-shadow-summary) */
+  --sf-shadow-toast: 0 18px 44px rgba(20, 42, 78, 0.3);
+  --sf-shadow-bar: 0 -12px 30px rgba(20, 42, 78, 0.1);
+  --sf-gradient-bar: linear-gradient(90deg, var(--navy-700), var(--teal-600));
+  --sf-gradient-avatar: linear-gradient(135deg, var(--navy-700), var(--teal-600));
+  --sf-gradient-upsell: linear-gradient(115deg, var(--navy-700), var(--teal-600));
+  --sf-gradient-upsell-m: linear-gradient(130deg, var(--navy-700), var(--teal-600));
+  --sf-gradient-related: linear-gradient(180deg, #f1f6f5, #ffffff);
+  --sf-line-cool: #e9eef5;  /* home card placeholder lines / soft rules */
+  --sf-slate-soft: #697288; /* countdown captions + old price (design #7a8399 = 3.55:1 on #fbf7ef → 4.5:1) */
+  --sf-sand-line: #e6dcc4;  /* countdown tile border */
+  --sf-sand-bg: #fbf7ef;    /* offer slide surface */
+  --sf-mint-bg: #f2f8f7;    /* search slide surface */
+  --sf-mint-line: #cbddd9;  /* search slide field border */
+  --gold-300: #e8c97e;      /* hero accent word on navy */
+  --sf-navy-mid: #1a5e77;   /* hero gradient mid stop */
+  --sf-gradient-hero: linear-gradient(140deg, var(--navy-700), var(--sf-navy-mid) 58%, var(--teal-600));
+  --sf-on-dark-50: rgba(255, 255, 255, 0.5);  /* toast «عرض السلة» underline */
+  --sf-shadow-toast-sm: 0 14px 34px rgba(20, 42, 78, 0.35); /* mobile toast */
+  /* Storefront Home / Home Mobile .dc.html — overlays and shadows on the home surfaces. */
+  --hm-white-06: rgba(255, 255, 255, 0.06);   /* hero blob */
+  --hm-white-10: rgba(255, 255, 255, 0.1); /* mobile bar rule · + MobileBottomBar (كان --hm-bar-white-10) */
+  --hm-white-14: rgba(255, 255, 255, 0.14);   /* hero badge */
+  --hm-white-16: rgba(255, 255, 255, 0.16); /* mobile hero badge · + MobileBottomBar · أقراص إحصاء الهيرو الكتالوجيّ (كانا --hm-bar-white-16/--ct-on-dark-16) */
+  --hm-white-45: rgba(255, 255, 255, 0.45); /* ghost button border · + حدّ الزرّ الشبح على شرائط المحتوى (كان --ct-white-45) */
+  --hm-white-55: rgba(255, 255, 255, 0.55); /* mobile accent underline · + MobileBottomBar (كان --hm-bar-white-55) */
+  --hm-white-82: rgba(255, 255, 255, 0.82); /* lede on navy · + وصف حزمة PDP (كان --pdp-on-dark-82) */
+  --hm-white-85: rgba(255, 255, 255, 0.85); /* mobile lede on navy · + lede شرائط المحتوى وPromoBanner (كان --ct-white-85) */
+  --hm-gold-blob: rgba(201, 165, 90, 0.16);   /* offer slide blob */
+  --hm-teal-blob: rgba(23, 138, 120, 0.1);    /* search slide blob */
+  --hm-paper-line: rgba(30, 58, 110, 0.14);   /* card thumb lines (desktop) */
+  --hm-shadow-hero-card: 0 20px 50px rgba(10, 25, 60, 0.28);
+  --hm-shadow-paper: 0 14px 34px rgba(20, 42, 78, 0.14);
+  --hm-shadow-paper-lg: 0 18px 44px rgba(20, 42, 78, 0.18);
+  --hm-bar-shadow: 0 -14px 34px rgba(30, 58, 110, 0.28); /* design literal */
+  --sf-max: 1440px;         /* page frame */
+  --sf-gutter: 40px;        /* desktop side padding */
+}
+
+/*
+ * Universal reduced-motion kill block (MIP §2.4 — binding).
+ * prefers-reduced-motion forces motion level 0 and overrides every admin setting.
+ *
+ * RULE (checked in CI): reduced motion must REVEAL hidden content, never just
+ * freeze it — any content hidden behind max-block-size:0 / opacity:0 while
+ * awaiting an entrance animation MUST be explicitly un-hidden inside this
+ * block. Add each animation-hidden selector to the reveal rule below.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* REVEAL, don't freeze: entrance-hidden content becomes visible. */
+  [data-reveal],
+  .tah-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    max-block-size: none !important;
+    filter: none !important;
+    visibility: visible !important;
+  }
+}
+
+/*
+ * ── مركز القيادة (Ops Dashboard v4 Command Center.dc.html) ──────────────
+ * لوحةٌ دلاليّة: قيمةٌ واحدة لكلّ نطاق، وسطحان زجاجيّان داكنٌ وفاتح.
+ * تُقرأ في apps/admin/app/(workspaces)/dashboard وحدها.
+ */
+:root {
+  --cc-emerald: #10b981;
+  --cc-emerald-text: #34d399;
+  --cc-cyan: #06b6d4;
+  --cc-cyan-text: #22d3ee;
+  --cc-blue: #3b82f6;
+  --cc-blue-text: #60a5fa;
+  --cc-violet: #8b5cf6;
+  --cc-violet-text: #a78bfa;
+  --cc-purple: #a855f7;
+  --cc-magenta: #d946ef;
+  --cc-coral: #fb7185;
+  --cc-amber: #f59e0b;
+  --cc-lime: #84cc16;
+  --cc-rose: #f43f5e;
+  --cc-teal: #14b8a6;
+  --cc-red: #ef4444;
+  --cc-red-text: #f87171;
+  --cc-orange: #f97316;
+  --cc-orange-text: #fb923c;
+  --cc-slate: #94a3b8;
+  --cc-slate-light: #cbd5e1;
+
+  --cc-dark-bg0: #0a0f1e;
+  --cc-dark-text: #eef2f7;
+  --cc-dark-muted: #9aa7b8;
+  --cc-dark-mesh:
+    radial-gradient(900px 600px at 85% -10%, rgba(16, 185, 129, 0.16), transparent 60%),
+    radial-gradient(800px 600px at 10% 20%, rgba(139, 92, 246, 0.16), transparent 60%),
+    radial-gradient(700px 500px at 60% 110%, rgba(6, 182, 212, 0.12), transparent 60%);
+  --cc-dark-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035));
+  --cc-dark-glass-top: rgba(255, 255, 255, 0.12);
+  --cc-dark-edge: rgba(255, 255, 255, 0.1);
+  --cc-dark-hair: rgba(255, 255, 255, 0.07);
+  --cc-dark-well: rgba(255, 255, 255, 0.06);
+  --cc-dark-bar: rgba(10, 15, 30, 0.72);
+  --cc-dark-tip: rgba(14, 20, 38, 0.92);
+  --cc-dark-shadow: rgba(0, 0, 0, 0.7);
+
+  --cc-light-bg0: #eef2f7;
+  --cc-light-text: #0f1a2b;
+  --cc-light-muted: #5b6a7d;
+  --cc-light-mesh:
+    radial-gradient(900px 600px at 85% -10%, rgba(16, 185, 129, 0.18), transparent 60%),
+    radial-gradient(800px 600px at 10% 20%, rgba(139, 92, 246, 0.16), transparent 60%),
+    radial-gradient(700px 500px at 60% 110%, rgba(6, 182, 212, 0.16), transparent 60%);
+  --cc-light-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72));
+  --cc-light-glass-top: rgba(255, 255, 255, 0.95);
+  --cc-light-edge: rgba(15, 26, 43, 0.09);
+  --cc-light-hair: rgba(15, 26, 43, 0.07);
+  --cc-light-well: rgba(15, 26, 43, 0.05);
+  --cc-light-bar: rgba(255, 255, 255, 0.75);
+  --cc-light-tip: rgba(255, 255, 255, 0.94);
+  --cc-light-shadow: rgba(15, 26, 43, 0.25);
+
+  --cc-hero-gradient: linear-gradient(135deg, #059669 0%, #0d9488 45%, #0e7490 100%);
+  --cc-danger-gradient: linear-gradient(135deg, #fb7185, #ef4444);
+  --cc-on-tone: #ffffff;
+  --cc-white-14: rgba(255, 255, 255, 0.14);
+  --cc-white-18: rgba(255, 255, 255, 0.18);
+  --cc-white-22: rgba(255, 255, 255, 0.22);
+  --cc-white-35: rgba(255, 255, 255, 0.35);
+  --cc-white-45: rgba(255, 255, 255, 0.45);
+}
+
+/*
+ * ── لوحة الإدارة كلّها (Tahdheer Admin - All Screens.dc.html) ────────────
+ * الصبغة الرئيسة 165° تشتقّ الأساسيّ والرابط والتدرّج، للسطحين معًا.
+ */
+:root {
+  --cc-primary-dark: hsl(165 70% 52%);
+  --cc-primary-2-dark: hsl(195 75% 55%);
+  --cc-link-dark: hsl(165 80% 68%);
+  --cc-primary-light: hsl(165 70% 42%);
+  --cc-primary-2-light: hsl(195 75% 45%);
+  --cc-link-light: hsl(165 80% 38%);
+  --cc-admin-hero-gradient: linear-gradient(135deg, hsl(165 65% 40%), hsl(190 70% 36%) 50%, hsl(210 72% 34%));
+  --cc-dark-bg1: #111a2e;
+  --cc-dark-surface: rgba(255, 255, 255, 0.05);
+  --cc-dark-edge-strong: rgba(255, 255, 255, 0.18);
+  --cc-dark-rail: hsl(225 40% 7% / 0.72);
+  --cc-dark-kbd: rgba(255, 255, 255, 0.08);
+  --cc-dark-overlay: rgba(6, 10, 22, 0.6);
+  --cc-light-bg1: #ffffff;
+  --cc-light-surface: rgba(255, 255, 255, 0.78);
+  --cc-light-edge-strong: rgba(15, 26, 43, 0.18);
+  --cc-light-rail: rgba(255, 255, 255, 0.7);
+  --cc-light-kbd: rgba(15, 26, 43, 0.06);
+  --cc-light-overlay: rgba(15, 26, 43, 0.35);
+  --cc-orange-deep: #ea580c;
+}
+
+/* CHROME — header/footer/mobile bar */
+:root {
+  /* Storefront Home Mobile.dc.html — الشريط السفليّ اللاصق */
+  --ch-apple-bg: #000000; /* بلاطة Apple Pay · + PDP Apple Pay (كان --pdp-apple-bg) */
+  --ch-apple-hover: #111111;
+  --ch-checkout-hover: #147568;    /* الزرّ التركوازيّ الممتلئ عند التحويم — يُعتِم لا يُضيء: القالب #1a9b87 = 3.45:1 تحت الأبيض → 5.56:1 (كان أيضًا --ct-cta-hover) */
+  --ch-announce-sep: 0.35;         /* شفافيّة الفاصل «|» في شريط الإعلانات */
+  /* شريط الإعلانات — الافتراض من Storefront Home.dc.html؛ اللوحة تجاوزه لكلّ طلب عبر style على .announce (SiteHeader.tsx announceVars). */
+  --ch-bar-bg: linear-gradient(90deg, var(--navy-700), var(--teal-on)); /* طرفه التركوازيّ --teal-on لا --teal-600: نصّ الشريط أبيض 13px (4.25:1 → 4.52:1) */
+  --ch-bar-fg: var(--on-accent);
+  --ch-bar-h: 38px;
+  --ch-marquee-s: 28s;             /* barSpeed */
+}
+
+/* HOME — Storefront Home.dc.html + Home Components */
+:root {
+  --hm-ice: #eff3f9;                              /* HeroLessonBundle — خلفيّة معاينة PDF */
+  --hm-ink-12: rgba(20, 42, 78, 0.12);            /* خطوط الورقة الزخرفيّة في المعاينات والبطاقات */
+  --hm-shadow-bundle: 0 24px 60px rgba(20, 42, 78, 0.1);  /* HeroLessonBundle — ظلّ بطاقة الحزمة */
+  --hm-shadow-tile: 0 8px 20px rgba(20, 42, 78, 0.08);    /* ProductTypeWidget — ظلّ البلاطة عند التحويم */
+  --hm-white-70: rgba(255, 255, 255, 0.7); /* CurriculumNavigator — عدّاد الخيار المختار على الكحليّ · + السعر المشطوب على حزمة PDP (كان --pdp-on-dark-70) */
+  --hm-white-75: rgba(255, 255, 255, 0.75);   /* عنوان «وفّر أكثر» الصغير في PDP · عين الهيرو الكتالوجيّ (كانا --pdp-on-dark-75/--ct-on-dark-75) */
+}
+
+/* PDP — Storefront Product.dc.html */
+:root {
+  --pdp-apple-font: -apple-system, 'SF Pro', system-ui, sans-serif; /* كلمة «Pay» */
+}
+
+/* HOME — Storefront Home.dc.html + Home Components (HeroSmartFinder · HeroEducationStages) */
+:root {
+  --hm-white-05: rgba(255, 255, 255, 0.05);   /* حلقة الهيرو الزخرفيّة */
+  --hm-white-08: rgba(255, 255, 255, 0.08);   /* لوحة الوصول السريع */
+  --hm-white-18: rgba(255, 255, 255, 0.18);   /* حدّ لوحة الوصول السريع */
+  --hm-white-32: rgba(255, 255, 255, 0.32);   /* حدّ الرقاقة على الكحليّ */
+  --hm-white-40: rgba(255, 255, 255, 0.4);    /* حدّ الزرّ الشبح على الكحليّ */
+  --hm-white-84: rgba(255, 255, 255, 0.84);   /* الوصف على الكحليّ */
+  --hm-gold-12: rgba(201, 165, 90, 0.12);     /* حلقة الهيرو الذهبيّة */
+  --hm-shadow-open: 0 16px 40px rgba(20, 42, 78, 0.1); /* HeroEducationStages — ظلّ البطاقة المفتوحة */
+  --hm-navy-mid-2: #1b5473;                   /* HeroSmartFinder — الدرجة الوسطى في تدرّج الهيرو */
+}
+
+/* HOME — Storefront Home.dc.html + Home Components (Storefront Redesign.dc.html hero blocks 1a · 1b · 1c · 2a) */
+:root {
+  --hv-navy: #16356b;                 /* 1a — الحبر الكحليّ والأزرار */
+  --hv-ink: #0b1730;                  /* 1a — نصّ الصفحة */
+  --hv-line: #e2e6ed;                 /* 1a — المساطر */
+  --hv-body: #4a5569;                 /* 1a — الوصف */
+  --hv-muted: #6b7689;                /* 1a — التسميات (4.6:1 على الأبيض) */
+  --hv-panel: #f5f6f8;                /* 1a — عمود المعاينة */
+  --hv-panel-line: #dce2eb;           /* 1a — حدود بطاقات المعاينة */
+  --hv-badge: #edf1f7;                /* 1a — خلفيّة شارة الصيغة */
+  --hv-page-line: #e6eaf1;            /* 1a — خطوط الورقة */
+  --hv-hair: #edf0f5;                 /* 1a — الفواصل الشعريّة */
+  --hv-bold-bg: #0a1338;              /* 1b — الحبر الأزرق */
+  --hv-coral: #ff5a3c;                /* 1b — اللمسة القرمزيّة */
+  --hv-bold-eyebrow: #8fa0d8;         /* 1b — السطر العلويّ */
+  --hv-bold-lede: #c4ceea;            /* 1b — الوصف */
+  --hv-bold-ghost: rgba(255, 255, 255, 0.35); /* 1b — حدّ الزرّ الشبح */
+  --hv-luxe-bg: #070b16;              /* 1c — السطح الليليّ */
+  --hv-brass: #c9b27e;                /* 1c — اللمسة النحاسيّة */
+  --hv-brass-ink: #0a0f1c;            /* 1c — نصّ الزرّ النحاسيّ */
+  --hv-luxe-lede: #a9b6ce;            /* 1c — الوصف */
+  --hv-luxe-muted: #8794ad;           /* 1c — التسميات */
+  --hv-silver-14: rgba(190, 205, 235, 0.14);
+  --hv-silver-13: rgba(190, 205, 235, 0.13);
+  --hv-silver-20: rgba(190, 205, 235, 0.2);
+  --hv-silver-30: rgba(190, 205, 235, 0.3);
+  --hv-silver-07: rgba(190, 205, 235, 0.07);
+  --hv-silver-02: rgba(190, 205, 235, 0.02);
+  --hv-brass-40: rgba(201, 178, 126, 0.4);
+  --hv-luxe-glow: radial-gradient(90% 120% at 85% 0%, rgba(38, 72, 150, 0.34), rgba(7, 11, 22, 0) 60%);
+  --hv-gold-14: rgba(201, 165, 90, 0.14); /* 2a — الفقاعة الذهبيّة */
+  --hv-white-12: rgba(255, 255, 255, 0.12); /* 2a — رقاقة الثقة */
+  --hv-white-20: rgba(255, 255, 255, 0.2);  /* 2a — حدّ رقاقة الثقة */
+}
+
+/* COMMERCE — design language */
+:root {
+  --sf-danger: var(--danger-500);                 /* نصّ الخطأ في السلة/الدفع/الحساب (4.9:1 على الأبيض) */
+  --sf-danger-line: #f0cfc9;            /* حدّ رسالة الخطأ */
+}
+
+/* CONTENT — design language */
+/* صفحات المحتوى (المساعدة، كيف نعمل، الطلب، التواصل، من نحن، المدوّنة،
+   السياسات، طرق الدفع، 404) وبدائيّات packages/ui — لغة تصميم المتجر نفسها. */
+:root {
+  --ct-white-12: rgba(255, 255, 255, 0.12);   /* خلفيّة الزرّ الشبح عند التحويم */
+  --ct-scrim: rgba(20, 42, 78, 0.55);         /* غشاء المنبثقة */
+  --ct-shadow-popup: 0 24px 60px rgba(20, 42, 78, 0.18);
+  /* سهم المطويّات: قناع SVG يُلوَّن بـ background — واحدٌ في كلّ محرّك ويدور */
+  --ct-chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* CATALOG — design language */
+:root {
+  --ct-on-dark-28: rgba(255, 255, 255, 0.28);   /* حدّ أقراص الإحصاء */
+  --ct-media-ratio: 16 / 9;                     /* نسبة وسائط بطاقة المنتج المقفلة — غلافٌ عريض من حافّةٍ إلى حافّة (كان 4/3) */
+  --ct-shadow-heart: 0 4px 12px rgba(20, 42, 78, 0.14); /* زرّ المفضّلة فوق الوسائط */
+}
+
+/* CATALOG — certification */
+:root {
+  --pc-surface-warm: #fdf9ef;                          /* سطح ProductCollection الدافئ */
+  --pc-shadow-soft: 0 1px 3px rgba(20, 45, 33, 0.08);  /* ظلّ خليّة المجموعة الناعم */
+  --pc-shadow-lift: 0 6px 16px rgba(20, 45, 33, 0.14); /* ظلّ خليّة المجموعة المرفوعة */
+  --pc-shimmer-mid: #e9ece9;                           /* منتصف وميض هيكل المجموعة (بين --bg-mist) */
+}
+
+/* ADMIN SHELL — packages/ui/src/AdminShell.module.css (كانت حرفيّاتٍ في الوحدة؛ الأساس --chrome/--canvas/--primary/--text/--border من apps/admin/app/globals.css) */
+:root {
+  --ash-chrome-rule: #1e3d2c;     /* مساطر الشريط الجانبيّ الداكن */
+  --ash-chrome-deep: #0d2016;     /* سطح البند النشط/المنسدل على الشريط */
+  --ash-chrome-fg: #e8f1ea;       /* نصّ الشريط الجانبيّ */
+  --ash-chrome-accent: #7fd3a8;   /* اللمسة الخضراء على الشريط الداكن */
+  --ash-chrome-muted: #93a89b;    /* التسميات الباهتة على الشريط الداكن */
+  --ash-tint: #e7f1eb;            /* رقاقة/سطر مختار على الفاتح */
+  --ash-primary-deep: #33684f;    /* نصّ ولون أساسيّ أعمق على الفاتح (6.9:1) */
+  --ash-danger: #b23a3a;          /* شارة العدّاد الحمراء (القالب؛ ≠ --danger-500 #b54a3a) */
+}
+
+/* HOME — hero themes */
+/* مواضيع شرائح الهيرو الستّة (عقد الهيرو ٢٠٢٦-٠٩-٢٥ §1 `theme`). لكلّ موضوع سطحٌ ونصٌّ
+   ووصفٌ ولمسةٌ وسطرٌ علويّ؛ وكلّ نصٍّ ≥4.5:1 على كلّ درجةٍ من درجات سطحه —
+   apps/storefront/lib/__tests__/hero-themes.test.mjs يحسبها من هذه الكتلة. */
+:root {
+  --hero-teal-deep: #0e6a5d;                  /* نهاية التدرّج التركوازيّ — الأبيض 6.48:1، واللمسة 4.55:1 */
+  --hero-teal-deeper: #0b5a4f;                /* الموضوع التركوازيّ — الدرجة الثانية */
+  --hero-navy-deep: #15315f;                  /* الموضوع الكحليّ — الدرجة الثانية */
+  --hero-ink-deep: #0f203d;                   /* موضوع الحبر — الدرجة الثانية */
+  --hero-accent-light: #f0d690;               /* الكلمة الذهبيّة على الأسطح الداكنة (gold-300 = 4.50:1 على الدرجة الوسطى) */
+  --hero-glow: rgba(23, 138, 120, 0.42);      /* توهّج تركوازيّ داخليّ في طرف التدرّج البعيد عن النصّ */
+  --hero-sheen: rgba(255, 255, 255, 0.07);    /* لمعة علويّة ناعمة — عمقٌ بلا ضجيج */
+  --hero-scrim: rgba(15, 32, 61, 0.74);       /* حجاب النصّ فوق الصور — الأبيض ≥4.5:1 حتّى على صورةٍ بيضاء */
+  --hero-overlay-soft: rgba(15, 32, 61, 0.24);
+  --hero-overlay-strong: rgba(15, 32, 61, 0.5);
+
+  --hero-navy-teal-bg: linear-gradient(115deg, var(--navy-700) 0%, var(--sf-navy-mid) 55%, var(--hero-teal-deep) 100%);
+  --hero-navy-teal-bg-mobile: linear-gradient(140deg, var(--navy-700), var(--sf-navy-mid) 58%, var(--hero-teal-deep));
+  --hero-navy-teal-fg: #ffffff;
+  --hero-navy-teal-muted: var(--hm-white-85);
+  --hero-navy-teal-accent: var(--hero-accent-light);
+  --hero-navy-teal-eyebrow: var(--hero-accent-light);
+
+  --hero-navy-bg: linear-gradient(115deg, var(--navy-700) 0%, var(--hero-navy-deep) 100%);
+  --hero-navy-fg: #ffffff;
+  --hero-navy-muted: var(--hm-white-85);
+  --hero-navy-accent: var(--hero-accent-light);
+  --hero-navy-eyebrow: var(--hero-accent-light);
+
+  --hero-teal-bg: linear-gradient(115deg, var(--hero-teal-deep) 0%, var(--hero-teal-deeper) 100%);
+  --hero-teal-fg: #ffffff;
+  --hero-teal-muted: var(--hm-white-85);
+  --hero-teal-accent: var(--hero-accent-light);
+  --hero-teal-eyebrow: var(--hero-accent-light);
+
+  --hero-ink-bg: linear-gradient(115deg, var(--neutral-900) 0%, var(--hero-ink-deep) 100%);
+  --hero-ink-fg: #ffffff;
+  --hero-ink-muted: var(--hm-white-85);
+  --hero-ink-accent: var(--hero-accent-light);
+  --hero-ink-eyebrow: var(--hero-accent-light);
+
+  --hero-sand-bg: var(--sf-sand-bg);
+  --hero-sand-fg: var(--sf-ink);
+  --hero-sand-muted: var(--sf-body);
+  --hero-sand-accent: var(--gold-ink);
+  --hero-sand-eyebrow: var(--gold-ink);
+
+  --hero-mint-bg: var(--sf-mint-bg);
+  --hero-mint-fg: var(--sf-ink);
+  --hero-mint-muted: var(--sf-body);
+  --hero-mint-accent: var(--teal-text);
+  --hero-mint-eyebrow: var(--teal-text);
+}
+
+/* HOME/PDP — certification */
+:root {
+  --apple-pay-black: #000;                                /* زرّ Apple Pay — ثابتُ علامةٍ خارجيّ (Apple HIG)، لا لونُ سِمة */
+  --apple-pay-white: #fff;
+  --apple-pay-slot-on-black: rgba(255, 255, 255, 0.55);   /* حدّ خانة الزرّ الأسود */
+  --apple-pay-slot-on-white: rgba(0, 0, 0, 0.45);         /* حدّ خانة الزرّ الأبيض */
+  --z-sticky-bar: 30;                                     /* الشريط اللاصق أسفل صفحة المنتج/الرئيسة — تحت الترويسة (٥٠) وفوق التدفّق */
+  --shadow-faq-open: 0 8px 26px rgba(20, 38, 29, 0.07);  /* بند الأسئلة الشائعة المفتوح في الرئيسة */
+}
+
+/* COMMERCE — certification */
+:root {
+  --shadow-pay-bar: 0 -6px 22px rgba(20, 45, 33, 0.07);  /* شريط الدفع اللاصق أسفل الدفع (Tahdheer - Checkout.dc.html) */
+  --z-account-nav: 20;                                    /* شريط أقسام الحساب اللاصق (≤1279) — تحت الشريط اللاصق (٣٠) */
+}
+
+/*
+ * ── DS2 — السلالم والأدوار الدلاليّة (docs/architecture/DESIGN-SYSTEM-2026-09-25.md §9) ──
+ *
+ * ثلاث طبقات، ولكلٍّ عملٌ واحد:
+ *   ١) السلالم ‎--navy|teal|gold|neutral-50…950‎ — لوحةٌ **ثابتة** لا تنقلب في الداكن.
+ *      الأسماء القائمة (‎--navy-700 · --teal-600 · --gold-300/400/500‎) هي درجاتها كما هي.
+ *   ٢) الأدوار ‎--color-*‎ — ما يستهلكه المكوّن الجديد. تُحال إلى الرموز القائمة فتساويها
+ *      حرفًا في الفاتح (صفر تغيّر بصريّ)، وتنقلب في ‎:root[data-theme='dark']‎ أدناه.
+ *   ٣) لهجات المراحل والمسافة والطباعة والحركة — أسماءٌ فوق قيمٍ قائمة.
+ *
+ * ‎--gold-500‎ (‎#d8b56a‎، ذهبيّ السجلّ الموروث) أفتح من ‎--gold-400‎ — انقلابٌ في السُّلَّم
+ * يبقى لأنّ قيمته مستعملة؛ لا يُستعمل في شيءٍ جديد.
+ */
+:root {
+  /* السلالم — كحليّ */
+  --navy-50: #f3f6fb;
+  --navy-100: #e8edf7;
+  --navy-200: #cfdaee;
+  --navy-300: #a9bfe9;
+  --navy-400: #7d9bd3;
+  --navy-500: #5075b8;
+  --navy-600: #2f5294;
+  /* --navy-700: #1e3a6e — معرَّفٌ أعلاه */
+  --navy-800: #15315f;
+  --navy-900: #0f203d;
+  --navy-950: #0a1528;
+
+  /* تركوازيّ */
+  --teal-50: #f2f8f7;
+  --teal-100: #e6f3f0;
+  --teal-200: #c3e5de;
+  --teal-300: #8fdccc;
+  --teal-400: #5fc7b3;
+  --teal-500: #2aa892;
+  /* --teal-600: #178a78 — معرَّفٌ أعلاه */
+  --teal-700: #157b6b;
+  --teal-800: #0e6a5d;
+  --teal-900: #0b5a4f;
+  --teal-950: #073d36;
+
+  /* ذهبيّ — ‎300/400/500‎ معرَّفةٌ أعلاه */
+  --gold-50: #fbf7ef;
+  --gold-100: #f6eedc;
+  --gold-200: #efdcb0;
+  --gold-600: #b58b3a;
+  --gold-700: #87672b;
+  --gold-800: #7a5d20;
+  --gold-900: #5a4418;
+  --gold-950: #2e2410;
+
+  /* محايد باردٌ (‎--sf-*‎ الفاتحة درجاتٌ منه) */
+  --neutral-50: #f6f8fb;
+  --neutral-100: #eef1f6;
+  --neutral-200: #e3e8f0;
+  --neutral-300: #d5dde9;
+  --neutral-400: #b7c0cf;
+  --neutral-500: #7c8aa3;
+  --neutral-600: #5e6b82;
+  --neutral-700: #4a5872;
+  --neutral-800: #2a3650;
+  --neutral-900: #142a4e;
+  --neutral-950: #0b1426;
+
+  /* الأدوار — تعبئةٌ ونصُّها (‎-fg‎)؛ الثلاثيّات الناعمة للحالات هي ‎--st-*‎ */
+  --color-primary: var(--teal-on);
+  --color-primary-fg: var(--on-accent);
+  --color-primary-hover: var(--ch-checkout-hover);
+  --color-secondary: var(--navy-700);
+  --color-secondary-fg: var(--on-accent);
+  --color-secondary-hover: var(--neutral-900);
+  --color-secondary-text: var(--navy-700);   /* الكحليّ نصًّا (سعر، عنوانٌ بارز) — ينقلب فاتحًا في الداكن */
+  --color-inverse: var(--ink);               /* جزيرةٌ داكنة (إشعار، قسمٌ داكن) تبقى داكنة في المظهرين */
+  --color-accent: var(--gold-400);
+  --color-accent-fg: var(--neutral-900);
+  --color-success: var(--teal-on);
+  --color-success-fg: var(--on-accent);
+  --color-warning: var(--gold-400);
+  --color-warning-fg: var(--neutral-900);
+  --color-danger: var(--danger-text);
+  --color-danger-fg: var(--on-accent);
+  --color-info: var(--navy-700);
+  --color-info-fg: var(--on-accent);
+
+  /* الأسطح والنصّ والحدود */
+  --color-bg: var(--bg);                     /* خلفيّة الصفحة */
+  --color-surface: var(--bg);                /* البطاقات واللوحات */
+  --color-surface-muted: var(--sf-cool);     /* أسطح باردة، رؤوس، خانات */
+  --color-surface-elevated: var(--bg);       /* المنسدلات والحوارات والأدراج — ترتفع بالظلّ فاتحًا وباللون داكنًا */
+  --color-border: var(--sf-line);
+  --color-text: var(--sf-ink);
+  --color-text-2: var(--sf-body);
+  --color-text-muted: var(--sf-muted);
+  --color-interactive: var(--teal-text);     /* روابط ونصوص تفاعليّة */
+  --color-interactive-hover: var(--teal-800);
+  --color-focus: var(--teal-600);            /* حلقة التركيز ‎3px‎ */
+  --color-disabled: var(--sf-chip);
+  --color-disabled-fg: var(--sf-faint);
+  --color-scrim: color-mix(in srgb, var(--neutral-900) 48%, transparent);
+
+  /* لهجات المراحل — لون (نقطة/حدّ) · ناعم (خلفيّة) · حبر (نصّ ≥4.5:1 على الناعم) */
+  --stage-kg: var(--lilac-600);
+  --stage-kg-soft: var(--tint-lilac);
+  --stage-kg-ink: var(--tint-lilac-fg);
+  --stage-primary: var(--teal-on);
+  --stage-primary-soft: var(--tint-teal);
+  --stage-primary-ink: var(--teal-text);
+  --stage-middle: var(--gold-400);
+  --stage-middle-soft: var(--tint-sand);
+  --stage-middle-ink: var(--gold-text);
+  --stage-secondary: var(--navy-700);
+  --stage-secondary-soft: var(--tint-navy);
+  --stage-secondary-ink: var(--navy-700);
+
+  /*
+   * المسافة ‎4/8/12/16/20/24/32/40/48/64‎: ‎--space-1…9‎ قائمةٌ بقيمها (‎5 = 24‎) ومستعملةٌ
+   * ‎٥٠٠‎ مرّة، فالدرجتان الناقصتان نصفُ خطوة على عرف ‎--space-3-5‎ لا إعادةُ ترقيم.
+   */
+  --space-4-5: 20px;
+  --space-6-5: 40px;
+
+  /* أدوار الطباعة — حجم/سطر/وزن، و‎--type-X‎ مختصرٌ لـ‎font:‎ */
+  --type-h1-size: var(--tp-h1-size);
+  --type-h1-leading: var(--tp-h1-leading);
+  --type-h1-weight: var(--tp-h1-weight);
+  --type-h2-size: var(--tp-h2-size);
+  --type-h2-leading: var(--tp-h2-leading);
+  --type-h2-weight: var(--tp-h2-weight);
+  --type-h3-size: var(--tp-h3-size);
+  --type-h3-leading: var(--tp-h3-leading);
+  --type-h3-weight: var(--tp-h3-weight);
+  --type-body-size: var(--tp-body-size);
+  --type-body-leading: var(--tp-body-leading);
+  --type-body-weight: var(--tp-body-weight);
+  --type-label-size: 0.8125rem;              /* 13/700 — عقد الحقل §4 */
+  --type-label-leading: 1.5;
+  --type-label-weight: 700;
+  --type-caption-size: 0.75rem;              /* 12 — التلميح والشرح */
+  --type-caption-leading: 1.5;
+  --type-caption-weight: 500;
+  --type-meta-size: var(--tp-category-size); /* تواريخ، تصنيفات، عدّادات */
+  --type-meta-leading: var(--tp-category-leading);
+  --type-meta-weight: var(--tp-category-weight);
+  --type-price-size: var(--tp-price-size);
+  --type-price-leading: var(--tp-price-leading);
+  --type-price-weight: var(--tp-price-weight);
+  --type-kpi-size: clamp(1.5rem, 1.333rem + 0.7407vw, 2rem);
+  --type-kpi-leading: 1.2;
+  --type-kpi-weight: 900;
+  --type-h1: var(--type-h1-weight) var(--type-h1-size) / var(--type-h1-leading) var(--tp-font-heading);
+  --type-h2: var(--type-h2-weight) var(--type-h2-size) / var(--type-h2-leading) var(--tp-font-heading);
+  --type-h3: var(--type-h3-weight) var(--type-h3-size) / var(--type-h3-leading) var(--tp-font-heading);
+  --type-body: var(--type-body-weight) var(--type-body-size) / var(--type-body-leading) var(--tp-font-base);
+  --type-label: var(--type-label-weight) var(--type-label-size) / var(--type-label-leading) var(--tp-font-base);
+  --type-caption: var(--type-caption-weight) var(--type-caption-size) / var(--type-caption-leading) var(--tp-font-base);
+  --type-meta: var(--type-meta-weight) var(--type-meta-size) / var(--type-meta-leading) var(--tp-font-base);
+  --type-price: var(--type-price-weight) var(--type-price-size) / var(--type-price-leading) var(--tp-font-base);
+  --type-kpi: var(--type-kpi-weight) var(--type-kpi-size) / var(--type-kpi-leading) var(--tp-font-heading);
+
+  /* الحركة — أسماءٌ عامّة فوق ‎--dur-*‎ (§3) */
+  --dur-fast: var(--dur-press);
+  --dur-normal: var(--dur-hover);
+  --dur-slow: var(--dur-reveal);
+
+  /* تدرّج وسائط البطاقة (مكرَّرٌ حرفيًّا في ProductCard وQuickView) */
+  --sf-gradient-media: linear-gradient(135deg, var(--tint-navy), var(--tint-teal));
+}
+
+/*
+ * ── الوضع الداكن — المتجر (‎data-theme‎ على ‎<html>‎ من app/layout.tsx قبل الرسم) ──
+ *
+ * أسطحٌ كحليّة حقيقيّة لا انقلاب: الصفحة ‎neutral-950‎، والبطاقة أفتح منها، والمرفوع
+ * أفتح من البطاقة — الارتفاع يُقرأ باللون لأنّ الظلّ لا يُرى على الداكن. الحدود
+ * منخفضة التباين، والنصّ كلّه ≥4.5:1 على أفتح سطحٍ يقع عليه (المرفوع ‎#1b2a45‎):
+ * الحبر 12.3 · الوصف 7.9 · الباهت 6.3 · الخافت 5.6 · التركواز 7.0 · الذهبيّ 8.9 · الخطر 5.9.
+ *
+ * يُعاد هنا ما هو **دور** (نصّ، سطح، حدّ، ظلّ)؛ السلالم لا تُمسّ. رمزٌ قائم يُستعمل
+ * نصًّا وتعبئةً معًا (‎--navy-700‎) يبقى على قيمته: مستهلكه ينتقل إلى ‎--color-*‎.
+ * تعمل على المتجر وحده: اللوحة تكتب سمتها على ‎<body>‎ لا على الجذر.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* الأدوار */
+  --color-secondary: var(--navy-600);
+  --color-secondary-hover: var(--navy-500);
+  --color-secondary-text: var(--navy-300);
+  --color-inverse: var(--navy-800);
+  --color-danger: var(--danger-strong);      /* التعبئة لا تنقلب إلى الورديّ */
+  --color-info: var(--navy-600);
+  --color-bg: var(--neutral-950);
+  --color-surface-elevated: #1b2a45;
+  --color-interactive-hover: var(--teal-300);
+  --color-focus: var(--teal-400);
+  --color-scrim: rgba(3, 8, 18, 0.72);
+  --stage-secondary-ink: var(--navy-300);
+
+  /* الأسطح */
+  --bg: #111d33;
+  --bg-page: var(--neutral-950);
+  --bg-2: #16233b;
+  --bg-soft: #131f36;
+  --bg-mist: #16233b;
+  --bg-green-light: #10302e;
+  --sf-cool: #16233b;
+  --sf-chip: #1a2842;
+  --hm-ice: #16233b;
+  --pc-surface-warm: #1f1c16;
+  --sf-sand-bg: #1f1d19;
+  --sf-mint-bg: #0f2527;
+  --glass-bg: rgba(17, 29, 51, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.08);
+
+  /* الحدود — منخفضة التباين */
+  --sf-line: #243452;
+  --sf-control: #34466b;
+  --sf-hair: #1e2c47;
+  --sf-hair-2: #1e2c47;
+  --sf-line-cool: #1e2c47;
+  --sf-sep: #52627f;
+  --sf-sep-2: #3c4c6b;
+  --sf-sand-line: #4a3f25;
+  --sf-mint-line: #24474a;
+  --sf-danger-line: #5b2c27;
+  --border: #243452;
+  --border-hairline: #1e2c47;
+  --border-strong: #3a4d73;
+  --menu-pop-row-line: #1e2c47;
+  --hm-ink-12: rgba(200, 214, 240, 0.12);
+  --hm-paper-line: rgba(200, 214, 240, 0.14);
+
+  /* النصّ */
+  --sf-ink: #e9eef7;
+  --sf-ink-2: #c8d4ea;
+  --sf-body: #b4c1d8;
+  --sf-muted: #9eadc6;
+  --sf-faint: #93a3bf;
+  --sf-icon: #7d8eae;
+  --sf-slate-soft: #a3b0c6;
+  --ink: #e9eef7;
+  --text: #dbe3f0;
+  --text-secondary: #c2cde0;
+  --text-muted: #9eadc6;
+
+  /* الهويّة على الداكن — التركواز والذهبيّ بدرجاتهما الفاتحة للنصّ */
+  --teal-text: var(--teal-400);
+  --gold-ink: var(--gold-300);
+  --gold-text: var(--gold-300);
+  --lilac-600: #b3a2d8;
+  --focus-ring-color: var(--teal-400);
+
+  /* الصبغات: خلفيّةٌ داكنة من الهوى نفسه + حبرٌ فاتح */
+  --tint-navy: #1a2a4c;
+  --tint-teal: #10302e;
+  --tint-teal-fg: #72d8c4;
+  --tint-teal-line: #1d4a45;
+  --tint-sand: #2c2616;
+  --tint-butter: #2e2715;
+  --tint-lilac: #221d3a;
+  --tint-lilac-fg: #c7b9ea;
+  --tint-clay: #301d17;
+  --tint-clay-fg: #f2ab8f;
+  --tint-steel: #13283a;
+  --tint-steel-fg: #8fc6ec;
+  --tint-green: rgba(95, 199, 179, 0.12);
+  --tint-gold: rgba(216, 181, 106, 0.16);
+  --success-chip-fg: #72d8c4;
+  --success-chip-bg: #10302e;
+  --warning-text: var(--gold-300);
+  --warning-bg: #2e2715;
+  --warning-border: #5a4a28;
+  --danger-text: #f5a193;
+  --danger-500: #f08b79;
+  --danger-bg: #321a1a;
+
+  /* الأسطح المتدرّجة والهيرو — أعمق قليلًا فلا تتوهّج على صفحةٍ داكنة */
+  --sf-gradient-related: linear-gradient(180deg, #13233a, #111d33);
+  --sf-gradient-upsell: linear-gradient(115deg, var(--navy-800), var(--teal-800));
+  --sf-gradient-upsell-m: linear-gradient(130deg, var(--navy-800), var(--teal-800));
+  --hero-sheen: rgba(255, 255, 255, 0.04);
+  --hero-glow: rgba(23, 138, 120, 0.3);
+  --hero-scrim: rgba(7, 13, 26, 0.78);
+  --hero-overlay-soft: rgba(7, 13, 26, 0.32);
+  --hero-overlay-strong: rgba(7, 13, 26, 0.58);
+  --ct-scrim: rgba(3, 8, 18, 0.72);
+
+  /* الظلال — أخفّ حضورًا وسوداء: الارتفاع على الداكن يحمله لونُ السطح */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-toast: 0 12px 28px rgba(0, 0, 0, 0.42);
+  --shadow-glass: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-faq-open: 0 6px 18px rgba(0, 0, 0, 0.24);
+  --shadow-pay-bar: 0 -6px 18px rgba(0, 0, 0, 0.28);
+  --pc-shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.28);
+  --pc-shadow-lift: 0 6px 16px rgba(0, 0, 0, 0.32);
+  --menu-pop-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --sf-shadow-page: 0 20px 48px rgba(0, 0, 0, 0.32);
+  --sf-shadow-page-sm: 0 12px 28px rgba(0, 0, 0, 0.3);
+  --sf-shadow-rail: 0 12px 32px rgba(0, 0, 0, 0.24);
+  --sf-shadow-toast: 0 14px 36px rgba(0, 0, 0, 0.45);
+  --sf-shadow-toast-sm: 0 12px 28px rgba(0, 0, 0, 0.45);
+  --sf-shadow-bar: 0 -10px 24px rgba(0, 0, 0, 0.3);
+  --hm-shadow-hero-card: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --hm-shadow-paper: 0 10px 24px rgba(0, 0, 0, 0.28);
+  --hm-shadow-paper-lg: 0 14px 32px rgba(0, 0, 0, 0.32);
+  --hm-bar-shadow: 0 -10px 24px rgba(0, 0, 0, 0.35);
+  --hm-shadow-bundle: 0 16px 40px rgba(0, 0, 0, 0.28);
+  --hm-shadow-tile: 0 6px 16px rgba(0, 0, 0, 0.28);
+  --hm-shadow-open: 0 10px 28px rgba(0, 0, 0, 0.3);
+  --ct-shadow-popup: 0 20px 48px rgba(0, 0, 0, 0.42);
+  --ct-shadow-heart: 0 4px 12px rgba(0, 0, 0, 0.32);
+}
+
+/* DS — نظام موحّد (docs/architecture/DESIGN-SYSTEM-2026-09-25.md) */
+:root {
+  /* الزوايا — سلّمٌ واحد؛ ما وافق رمزًا قائمًا يُحال إليه ولا يُكرَّر */
+  --r-xs: var(--radius-sm);       /* 8px — رقائق، شارات */
+  --r-sm: var(--radius-md);       /* 10px — أزرار صغيرة، عناصر القوائم */
+  --r-md: var(--radius-button);   /* 12px — الأزرار، الحقول */
+  --r-lg: var(--radius-lg);       /* 16px — البطاقات، المنسدلات، التنبيهات */
+  --r-xl: 20px;                   /* الحوارات، لوحة الشراء، الأشرطة */
+  --r-2xl: var(--radius-hero);    /* 24px — أسطح الهيرو */
+  --r-round: var(--radius-pill);  /* 999px — النقاط والصور الرمزيّة فقط */
+
+  /* العمق — ظلالٌ كحليّة الصبغة متعدّدة الطبقات */
+  --e-0: none;
+  --e-1: 0 1px 2px rgba(20, 42, 78, 0.06);
+  --e-2: 0 2px 6px rgba(20, 42, 78, 0.06), 0 10px 24px -10px rgba(20, 42, 78, 0.18);
+  --e-3: 0 4px 10px rgba(20, 42, 78, 0.06), 0 18px 40px -14px rgba(20, 42, 78, 0.24);
+  --e-4: 0 8px 20px rgba(20, 42, 78, 0.08), 0 32px 72px -20px rgba(20, 42, 78, 0.32);
+
+  /* الأزرار الملموسة — لمعةٌ علويّة داخليّة + ظلٌّ مصبوغٌ بلون الزرّ */
+  --btn-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --btn-shadow-primary: 0 1px 2px rgba(22, 133, 116, 0.24), 0 6px 16px -6px rgba(22, 133, 116, 0.45);
+  --btn-shadow-primary-hover: 0 2px 4px rgba(22, 133, 116, 0.26), 0 12px 24px -8px rgba(22, 133, 116, 0.5);
+  --btn-shadow-secondary: 0 1px 2px rgba(20, 42, 78, 0.2), 0 6px 16px -6px rgba(20, 42, 78, 0.4);
+
+  /* هالة التركيز للحقول (٤px) — تركوازيّة، وخطريّةٌ للحقل الخاطئ */
+  --focus-halo: 0 0 0 4px rgba(23, 138, 120, 0.18);
+  --focus-halo-danger: 0 0 0 4px rgba(180, 35, 24, 0.16);
+
+  /* الحركة — تجيب فعل المستخدم فقط؛ منحنًى واحد */
+  --dur-press: 120ms;
+  --dur-hover: 180ms;
+  --dur-reveal: 260ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* أحجام التحكّم */
+  --ctl-sm: 36px;
+  --ctl-md: 46px;
+  --ctl-lg: 54px;
+  --field-h: 48px;
+  --chip-h: 44px;
+
+  /* الحالات الدلاليّة — خلفيّة/حدّ/نصّ؛ النصّ ≥4.5:1 على خلفيّته (يحسبه design-system.test.mjs) */
+  --st-info-bg: var(--tint-navy);          /* #e8edf7 */
+  --st-info-line: var(--sf-control);       /* #d5dde9 */
+  --st-info-fg: var(--navy-700);           /* 9.49:1 */
+  --st-success-bg: var(--tint-teal);       /* #e6f3f0 */
+  --st-success-line: var(--tint-teal-line);/* #dce9e6 */
+  --st-success-fg: var(--tint-teal-fg);    /* 6.64:1 */
+  --st-warning-bg: var(--tint-butter);     /* #fbf1dc */
+  --st-warning-line: var(--sf-sand-line);  /* #e6dcc4 */
+  --st-warning-fg: var(--gold-text);       /* 5.48:1 */
+  --st-danger-bg: var(--danger-bg);        /* #fdf3f2 */
+  --st-danger-line: var(--sf-danger-line); /* #f0cfc9 */
+  --st-danger-fg: var(--danger-text);      /* 6.04:1 */
+}
+
+/* DS — الداكن: ظلالٌ سوداء أخفّ، وهالةٌ بالتركواز الفاتح (الأسماء أعلاه؛ القيم الفاتحة لا تتغيّر) */
+:root[data-theme='dark'] {
+  --e-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --e-2: 0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 20px -10px rgba(0, 0, 0, 0.5);
+  --e-3: 0 2px 6px rgba(0, 0, 0, 0.3), 0 14px 32px -14px rgba(0, 0, 0, 0.55);
+  --e-4: 0 4px 12px rgba(0, 0, 0, 0.35), 0 24px 56px -20px rgba(0, 0, 0, 0.6);
+  --btn-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --btn-shadow-primary: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 14px -8px rgba(22, 133, 116, 0.5);
+  --btn-shadow-primary-hover: 0 2px 4px rgba(0, 0, 0, 0.3), 0 10px 20px -8px rgba(22, 133, 116, 0.55);
+  --btn-shadow-secondary: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  --focus-halo: 0 0 0 4px rgba(95, 199, 179, 0.28);
+  --focus-halo-danger: 0 0 0 4px rgba(245, 161, 147, 0.24);
+  --st-info-fg: var(--navy-300);
+}

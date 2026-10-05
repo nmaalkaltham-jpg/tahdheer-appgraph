@@ -1,0 +1,259 @@
+/**
+ * الشريط السفليّ اللاصق — Storefront Home Mobile.dc.html، مقاساته وألوانه من
+ * القالب. لا يظهر فوق ‎767px‎.
+ */
+
+.bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .bar {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    inset-block-end: var(--chrome-bottom-outflow, 0px);
+    z-index: var(--z-sticky-bar);
+    background: var(--color-secondary);
+    color: var(--on-accent);
+    box-shadow: var(--hm-bar-shadow);
+    font-family: var(--font-family);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .cartRow {
+    display: flex;
+    align-items: stretch;
+    block-size: 64px;
+  }
+
+  .cartTile {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 64px;
+    background: var(--hm-white-10);
+    color: var(--on-accent);
+    position: relative;
+    text-decoration: none;
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .cartTile:hover {
+      background: var(--hm-white-16);
+      color: var(--on-accent);
+    }
+  }
+
+  .cartTile:active {
+    background: var(--hm-white-16);
+  }
+
+  .cartTile:active > svg {
+    transform: translateY(1px);
+  }
+
+  .cartCount {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+    background: var(--teal-on);
+    color: var(--on-accent);
+    font-size: 11px;
+    font-weight: 800;
+    min-inline-size: 20px;
+    block-size: 20px;
+    padding: 0 5px;
+    border-radius: var(--r-round);
+    /* حلقةٌ بلون الشريط تفصل العدّاد عن أيقونة السلة تحته. */
+    box-shadow: 0 0 0 2px var(--color-secondary);
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .actions {
+    display: flex;
+    flex: 1 1 0;
+    min-inline-size: 0;
+    align-items: stretch;
+  }
+
+  .checkout,
+  .applePay {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    color: var(--on-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    transition: background-color var(--dur-hover) var(--ease-out);
+  }
+
+  .checkout {
+    background: var(--teal-on);
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  @media (hover: hover) {
+    .checkout:hover {
+      background: var(--ch-checkout-hover);
+      color: var(--on-accent);
+    }
+  }
+
+  .checkout:active {
+    background: var(--ch-checkout-hover);
+  }
+
+  .checkout:active > .checkoutLabel,
+  .applePay:active > .appleInner {
+    transform: translateY(1px);
+  }
+
+  .applePay {
+    background: var(--ch-apple-bg);
+    gap: 5px;
+  }
+
+  @media (hover: hover) {
+    .applePay:hover {
+      background: var(--ch-apple-hover);
+      color: var(--on-accent);
+    }
+  }
+
+  .applePay:active {
+    background: var(--ch-apple-hover);
+  }
+
+  .checkoutLabel {
+    position: relative;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .appleInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .appleWord {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-family: -apple-system, 'SF Pro', system-ui, sans-serif;
+  }
+
+  .tabs {
+    display: flex;
+    /* ‎8px‎ فوق مؤشّر المنزل حيث يوجد (‎viewport-fit=cover‎ يجعل ‎env()‎ حقيقيًّا)؛ كان ‎24‎ ثابتًا على كلّ جهاز. */
+    padding: 6px 6px max(8px, env(safe-area-inset-bottom));
+    border-block-start: 1px solid var(--hm-white-10);
+    /* globals.css :where(nav) يفرض 700 و1.5 — القالب 600/11px. */
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  /*
+   * اللسان: الحاليّ أبيض بمؤشّرٍ ذهبيّ ‎3px‎ فوقه (‎≥3:1‎ على الكحليّ — التركوازيّ
+   * دونها)، والضغط سطحٌ أبيض خافت وإزاحة ‎1px‎ للأيقونة.
+   */
+  .tab {
+    position: relative;
+    flex: 1;
+    min-block-size: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: var(--r-sm);
+    color: var(--hm-white-55);
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      color var(--dur-hover) var(--ease-out),
+      background-color var(--dur-hover) var(--ease-out);
+  }
+
+  .tab::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline: 0;
+    inline-size: 0;
+    block-size: 3px;
+    margin-inline: auto;
+    border-end-start-radius: var(--r-xs);
+    border-end-end-radius: var(--r-xs);
+    background: var(--gold-400);
+    transition: inline-size var(--dur-reveal) var(--ease-out);
+  }
+
+  .tab > svg {
+    transition: transform var(--dur-press) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .tab:hover {
+      color: var(--on-accent);
+    }
+  }
+
+  .tab:active {
+    background: var(--hm-white-10);
+    color: var(--on-accent);
+  }
+
+  .tab:active > svg {
+    transform: translateY(1px);
+  }
+
+  .tab[aria-current='page'] {
+    color: var(--on-accent);
+    font-weight: 700;
+  }
+
+  .tab[aria-current='page']::before {
+    inline-size: 24px;
+  }
+
+  .cartTile:focus-visible,
+  .checkout:focus-visible,
+  .applePay:focus-visible,
+  .tab:focus-visible {
+    outline: 2.5px solid var(--on-accent);
+    outline-offset: -3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cartTile,
+  .checkout,
+  .applePay,
+  .tab,
+  .tab::before,
+  .tab > svg {
+    transition: none;
+  }
+
+  .cartTile:active > svg,
+  .tab:active > svg,
+  .checkout:active > .checkoutLabel,
+  .applePay:active > .appleInner {
+    transform: none;
+  }
+}

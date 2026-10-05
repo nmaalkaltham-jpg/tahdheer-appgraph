@@ -1,0 +1,147 @@
+/*
+ * شاشة الخطأ — لغة تصميم المتجر: لوحة بيضاء بحدّ ‎--sf-line‎ ونصف قطر 16،
+ * بلاطة أيقونة كحليّة، وزرّ تركوازي بجانب زرٍّ شبح. Tokens only.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  }
+
+.panel {
+  margin-block-start: 32px;
+  padding: 28px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+/* رسم ‎EMPTY_ART‎ في صندوقٍ ثابت ‎120²‎ (‎88²‎ جوّالًا) — لا إزاحة. */
+.art {
+  flex: 0 0 auto;
+  display: block;
+  inline-size: 120px;
+  block-size: 120px;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .art {
+    inline-size: 88px;
+    block-size: 88px;
+  }
+}
+
+.main {
+  flex: 1;
+  min-inline-size: 200px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.body {
+  margin: 0 0 10px;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.body a {
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block-start: 20px;
+}
+
+.primary,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  padding-inline: 24px;
+  border-radius: var(--r-md);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out);
+}
+
+.primary {
+  border: 0;
+  background: var(--teal-on);
+  color: var(--on-accent);
+  font-family: inherit;
+}
+
+.primary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.ghost {
+  border: 1.5px solid var(--sf-control);
+  background: var(--bg);
+  color: var(--sf-ink);
+  font-weight: 700;
+}
+
+.ghost:hover {
+  border-color: var(--teal-600);
+}

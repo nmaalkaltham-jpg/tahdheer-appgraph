@@ -1,0 +1,588 @@
+/*
+ * صفحة البحث — بلغة القالب: نموذج البحث (‎46px‎ · ‎1.5px --sf-control‎ · ‎12px‎ ·
+ * خلفيّة ‎--sf-cool‎ · زرّ «بحث» كحليّ داخليّ ‎32px‎)، صفوف الأوجه شرائحَ،
+ * وشبكة البطاقات المشتركة. رموزٌ فقط، خصائص منطقيّة، الجوّال أوّلًا.
+ */
+
+.page {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 16px 16px 56px;
+  display: grid;
+  /*
+   * عمودٌ يقبل الانكماش. بلا قالبٍ كان المسار الضمنيّ يتّسع لأعرض ابن —
+   * شريط الترتيب بعرض `max-content` — فصار العمود 478px على شاشة 390px
+   * وانزلقت الصفحة كلّها أفقيًّا، والشريطُ نفسه مُعدٌّ ليُمرَّر داخل حدّه.
+   */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-content: start;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------- form */
+
+.form {
+  display: block;
+}
+
+.formLabel {
+  composes: label from '@tahdheer/ui/controls.module.css';
+  margin-block-end: 8px;
+}
+
+/*
+ * الحقل بلغة وصفة الحقل (DESIGN-SYSTEM §4): ‎48px‎ · حدّ ‎1.5px‎ · ‎--r-md‎ ·
+ * تحويمٌ بحدٍّ أغمق · تركيزٌ بحدٍّ تركوازيّ وهالة ‎4px‎. الحاوية هي الحقل
+ * المرئيّ لأنّ الأيقونة وزرّ «بحث» داخله، فالتركيز يُقرأ بـ`:focus-within`.
+ */
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: var(--field-h);
+  max-inline-size: 760px;
+  padding-inline: 14px 6px;
+  border: 1.5px solid var(--sf-control);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+.field:hover {
+  border-color: var(--sf-sep);
+}
+
+.field:focus-within {
+  border-color: var(--teal-600);
+  background: var(--bg);
+  box-shadow: var(--focus-halo);
+}
+
+.fieldIcon {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--sf-icon);
+}
+
+.field:focus-within .fieldIcon {
+  color: var(--teal-text);
+}
+
+.input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--sf-ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  outline: 0;
+}
+
+.input::placeholder {
+  color: var(--sf-faint);
+}
+
+.input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* زرّ «بحث» الداخليّ: وصفة الزرّ الثانويّ الصغير (‎36px‎، هدف لمس ‎44px‎). */
+.submit {
+  composes: btn btnSecondary btnSm from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+  font-size: 13px;
+}
+
+/* ‎36 + 2×5 = 46px‎ هدفًا — هامش بكسلٍ فوق حدّ الـ44 الحصريّ. */
+.submit::before {
+  inset-block: -5px;
+}
+
+/* ------------------------------------------------------------------- title */
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.hint {
+  margin: 0;
+  max-inline-size: 62ch;
+  font-size: 14px;
+  color: var(--sf-body);
+}
+
+/* --------------------------------------------------------------- correction */
+
+.correction {
+  composes: notice noticeWarning from '@tahdheer/ui/controls.module.css';
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.correctionIcon {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--gold-ink);
+}
+
+.correctionText {
+  flex: 1;
+  min-inline-size: 220px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--sf-ink);
+}
+
+.correctionAction {
+  composes: btn btnSecondary btnSm from '@tahdheer/ui/controls.module.css';
+  font-size: 13px;
+}
+
+/* ----------------------------------------------------------------- toolbar */
+
+/* صفّ رقائق النوع؛ تبويبات الترتيب تأتي بعد الأوجه كلّها، فوق النتائج مباشرةً. */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolbarLabel {
+  min-inline-size: 56px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* رقاقة الوجه: وصفة الرقاقة؛ المختارة كحليّة (‎aria-current‎ على رابطٍ لا ‎aria-pressed‎). */
+.segment {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  gap: 8px;
+  padding-inline: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.segmentActive,
+.segmentActive:hover {
+  border-color: var(--color-secondary-text);
+  background: var(--color-secondary);
+  color: var(--on-accent);
+}
+
+/* العدد شارة عدّ (‎--r-round‎ مشروعة) — رقم الخادم وحده. */
+.segmentCount {
+  min-inline-size: 22px;
+  padding-inline: 6px;
+  border-radius: var(--r-round);
+  background: var(--sf-chip);
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.segmentActive .segmentCount {
+  background: var(--bg);
+  color: var(--color-secondary-text);
+}
+
+.facetRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.facetRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+/* شريط الترتيب: قابلٌ للتمرير أفقيًّا، والحشوة والهامش السالب يحفظان حلقة التركيز. */
+.sortScroller {
+  min-inline-size: 0;
+  margin-inline: -8px;
+  padding-inline: 8px;
+  overflow-x: auto;
+  scroll-padding-inline: 8px;
+  scrollbar-width: none;
+  /* الخطّ الفاصل داخل صندوق المحتوى — لا يتجاوز حافّة الشبكة بقدر الحشوة. */
+  background: linear-gradient(var(--sf-line), var(--sf-line)) 0 100% / 100% 1px no-repeat;
+  background-origin: content-box;
+  background-clip: content-box;
+}
+
+.sortScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.sortTabs {
+  display: flex;
+  gap: 16px;
+  inline-size: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sortTab {
+  composes: tab from '@tahdheer/ui/controls.module.css';
+  min-block-size: 48px;
+  font-size: 14px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* داخل حاوية تمريرٍ أفقيّ يُقصّ ما يتجاوزها رأسيًّا — فالحلقة داخليّة (‎-3px‎) لا تُقصّ. */
+.sortTab:focus-visible {
+  outline-offset: -3px;
+}
+
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* رقاقة المرشّح النشط — صبغة المعلومات و× داخلها، كرقائق الأرشيف. */
+.activeFilter {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  gap: 8px;
+  padding-inline: 12px 10px;
+  border-color: var(--st-info-line);
+  background: var(--st-info-bg);
+  color: var(--st-info-fg);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.clearAll {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 32px;
+  padding-inline: 4px;
+  color: var(--sf-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clearAll:hover {
+  color: var(--sf-ink);
+}
+
+.activeFilter:hover {
+  border-color: var(--color-secondary-text);
+  background: var(--color-secondary);
+  color: var(--on-accent);
+}
+
+.chipIcon {
+  inline-size: 12px;
+  block-size: 12px;
+  flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------------------- grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid > li {
+  display: flex;
+  min-inline-size: 0;
+}
+
+/* غلاف تتبّع النقر (ResultClick) هو العنصر المرن لا البطاقة: بلا هذا الصفر يرث عرضَ المحتوى الأدنى فتفيض الشبكة على ‎320px‎. */
+.grid > li > * {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.pager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-block-start: 16px;
+}
+
+/* «الصفحة التالية»: وصفة الزرّ الثانويّ؛ الانشغال (‎aria-busy‎) من PendingLink. */
+.pagerLink {
+  composes: btn btnSecondary from '@tahdheer/ui/controls.module.css';
+  min-inline-size: 200px;
+}
+
+.pagerCount {
+  font-size: 13px;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------- recovery */
+
+.recovery {
+  padding: 32px 20px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+}
+
+.recoveryHead {
+  text-align: center;
+  margin-block-end: 24px;
+}
+
+.recoveryBadge {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: var(--r-lg);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  margin-block-end: 16px;
+}
+
+.recoveryIcon {
+  inline-size: 26px;
+  block-size: 26px;
+}
+
+.zeroTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.zeroText {
+  margin: 0 auto;
+  max-inline-size: 52ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  text-wrap: pretty;
+}
+
+.recoveryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+/* مسارات النجاة: وصفة البطاقة التفاعليّة — ترتفع ظلًّا ولا تتحرّك. */
+.recoveryCard {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recoveryCardIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--r-sm);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.cardIcon {
+  inline-size: 20px;
+  block-size: 20px;
+}
+
+.recoveryCardTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .recoveryCard:hover .recoveryCardTitle {
+    color: var(--teal-text);
+  }
+}
+
+.recoveryCardBody {
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.popular {
+  margin-block-start: 24px;
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.popularLabel {
+  display: block;
+  margin-block-end: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.popularChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* الكلمات الأكثر بحثًا: وصفة الرقاقة — ‎--r-sm‎ لا كبسولة. */
+.popularChip {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------- motion/a11y */
+
+@media (prefers-reduced-motion: reduce) {
+  .field,
+  .recoveryCardTitle {
+    transition: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------- breakpoints */
+
+@media (min-width: 640px) {
+  .recoveryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sf-gutter);
+    padding-block: 16px 72px;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 20px;
+  }
+
+  .recovery {
+    padding: 40px 32px;
+  }
+}
+
+/*
+ * صفوف الأوجه: عمودُ تسميةٍ ثابت فتبدأ الرقائق كلّها من خطٍّ واحد (كانت تبدأ حيث
+ * انتهت كلّ تسمية)، ومن ‎1024‎ تصطفّ الأبعاد عمودين بدل أربعة أسطرٍ نصفُها فارغ.
+ */
+@media (min-width: 640px) {
+  .facetRow {
+    display: grid;
+    grid-template-columns: 6em minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .facetRows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .recoveryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* الشرائح ‎36px‎ للمؤشّر الدقيق وحده (WCAG 2.5.8 ≥ 24px)؛ اللمس يبقى ‎44px‎ في كلّ عرض. */
+@media (min-width: 1200px) and (pointer: fine) {
+  /* المؤشّر الدقيق: الرقائق ‎36px‎ (من وصفتها)، فتتقارب صفوف الأوجه بالقدر نفسه. */
+  .facetRow {
+    row-gap: 8px;
+  }
+}

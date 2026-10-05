@@ -1,0 +1,56 @@
+/* لهجات المراحل — مرجعها الوحيد رموز `--stage-*` (tokens.css). */
+.kg {
+  --sa: var(--stage-kg);
+  --sa-soft: var(--stage-kg-soft);
+  --sa-ink: var(--stage-kg-ink);
+}
+
+.primary {
+  --sa: var(--stage-primary);
+  --sa-soft: var(--stage-primary-soft);
+  --sa-ink: var(--stage-primary-ink);
+}
+
+.middle {
+  --sa: var(--stage-middle);
+  --sa-soft: var(--stage-middle-soft);
+  --sa-ink: var(--stage-middle-ink);
+}
+
+.secondary {
+  --sa: var(--stage-secondary);
+  --sa-soft: var(--stage-secondary-soft);
+  --sa-ink: var(--stage-secondary-ink);
+}
+
+/* مربّعٌ ثابت: المقاس من `--tile`، والرسم ‎72%‎ منه بحشوةٍ متساوية. */
+.tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  inline-size: var(--tile, 64px);
+  aspect-ratio: 1;
+  background: var(--sa-soft, var(--color-surface-muted));
+  overflow: hidden;
+}
+
+.img {
+  display: block;
+  inline-size: 72%;
+  block-size: 72%;
+  object-fit: contain;
+}
+
+/* الزاوية الافتراضيّة بلا تخصيص (‎:where‎): صنف المستهلك يغلبها دائمًا أيًّا كان ترتيب التحميل. */
+:where(.tile) {
+  border-radius: var(--r-lg);
+}
+
+/* الحرف البديل: طباعةٌ لا أيقونة — بحبر اللهجة إن وُجدت، وإلّا نصّ الصفحة الثانويّ. */
+.mono {
+  font-size: calc(var(--tile, 64px) * 0.5);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--sa-ink, var(--color-text-2));
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}

@@ -1,0 +1,65 @@
+/*
+UNIT: EMPTYSTATE
+COMPONENT: EmptyState.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/* الحالة الفارغة بلغة القالب: شريطٌ بارد بحدّ ‎--sf-line‎، بلاطةٌ مصبوغة ‎56px‎، عنوانٌ ‎18/800‎. */
+.box {
+  padding-block: 40px;
+  padding-inline: 22px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+  color: var(--sf-ink);
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.icon {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 56px;
+  block-size: 56px;
+  margin-block-end: 14px;
+  border-radius: var(--r-lg);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+.icon > svg {
+  inline-size: 26px;
+  block-size: 26px;
+}
+
+.title {
+  margin-block: 0 8px;
+  margin-inline: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.hint {
+  margin-block: 0;
+  margin-inline: auto;
+  max-inline-size: 52ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+.action {
+  margin-block-start: 18px;
+}
+
+@media (max-width: 560px) {
+  .box {
+    padding-block: 28px;
+    padding-inline: 16px;
+  }
+}

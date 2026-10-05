@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:860px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:13px">
+<h1 style="margin:0;font-size:18px;font-weight:900;color:{{ t.text }}">خريطة الانتباه</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">تفاعل حقيقي من طرف أول — لا محاكاة ولا تقدير</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onEmpty }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ emptyBtnBorder }};border-radius:8px;background:{{ t.surface }};color:{{ emptyBtnFg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ emptyBtnLabel }}</button>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ t.darkLabel }}</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:11px 13px;border:1px solid {{ privacy.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:{{ privacy.fg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-lock"></use></svg>
+<span style="flex:1;min-width:220px;font-size:11px;line-height:1.75;color:{{ t.text }};text-align:start">{{ privacy.text }}</span>
+<sc-for list="{{ privacy.chips }}" as="pc" hint-placeholder-count="4">
+<span style="box-sizing:border-box;padding:3px 9px;border-radius:6px;background:{{ pc.bg }};font-size:9.5px;font-weight:900;color:{{ pc.fg }};white-space:nowrap">{{ pc.label }}</span>
+</sc-for>
+</div>
+
+<sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 13px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<span style="font-size:10.5px;font-weight:900;color:{{ t.muted }};white-space:nowrap">الخريطة</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ maps }}" as="m" hint-placeholder-count="5">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.pressed }}" style="display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border:0;border-radius:7px;background:{{ m.bg }};color:{{ m.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ m.shadow }};white-space:nowrap">{{ m.label }}</button>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ devices }}" as="dv" hint-placeholder-count="2">
+<button type="button" onClick="{{ dv.onClick }}" aria-pressed="{{ dv.pressed }}" style="min-height:30px;padding:0 11px;border:0;border-radius:7px;background:{{ dv.bg }};color:{{ dv.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ dv.shadow }};white-space:nowrap">{{ dv.label }}</button>
+</sc-for>
+</div>
+<span style="box-sizing:border-box;padding:4px 10px;border-radius:7px;background:{{ t.warnBg }};font-size:10px;font-weight:900;color:{{ t.warnFg }};white-space:nowrap">{{ sampleLabel }}</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:12px;border:1px solid {{ t.border }};border-radius:10px;background:{{ t.surface }}">
+<div style="font-size:10.5px;font-weight:800;color:{{ t.muted }};margin-bottom:6px;text-align:start">{{ k.label }}</div>
+<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px"><b dir="{{ k.valueDir }}" style="font-size:{{ k.valueSize }};font-weight:900;color:{{ k.fg }};line-height:1.25;text-align:start">{{ k.value }}</b><span style="font-size:10px;font-weight:800;color:{{ t.muted }}">{{ k.unit }}</span></div>
+<div style="padding-top:7px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.6;color:{{ t.muted }};text-align:start">{{ k.note }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:.62fr .38fr;gap:10px">
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">{{ overlay.title }}</h2>
+<span style="font-size:9.5px;color:{{ t.muted }};white-space:nowrap">{{ overlay.pageLabel }}</span>
+</div>
+<div style="position:relative;border:1px solid {{ t.hair }};border-radius:10px;background:{{ t.inset }};overflow:hidden">
+<div style="display:flex;flex-direction:column;gap:7px;padding:14px">
+<sc-for list="{{ overlay.blocks }}" as="b" hint-placeholder-count="6">
+<div style="position:relative;display:flex;align-items:center;gap:9px;min-height:{{ b.h }};padding:0 11px;border-radius:8px;background:{{ b.bg }};border:1px solid {{ b.border }}">
+<span dir="rtl" style="flex:1;min-width:0;font-size:10.5px;font-weight:800;color:{{ t.text }};text-align:start">{{ b.label }}</span>
+<span dir="{{ b.metricDir }}" style="flex:0 0 auto;font-size:10px;font-weight:900;font-family:{{ b.metricFont }};color:{{ b.metricFg }};white-space:nowrap">{{ b.metric }}</span>
+<span style="flex:0 0 auto;box-sizing:border-box;padding:2px 8px;border-radius:5px;background:{{ b.tagBg }};font-size:9px;font-weight:900;color:{{ b.tagFg }};white-space:nowrap">{{ b.tag }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<p style="margin:9px 0 0;font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ overlay.note }}</p>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<h2 style="margin:0 0 11px;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">قِمَع الشراء</h2>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ funnel }}" as="f" hint-placeholder-count="5">
+<div>
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;margin-bottom:4px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:10.5px;font-weight:800;color:{{ t.text }};text-align:start">{{ f.label }}</span>
+<span dir="ltr" style="font:900 10.5px ui-monospace,Menlo,monospace;color:{{ t.text }}">{{ f.value }}</span>
+<span dir="ltr" style="font:800 9.5px ui-monospace,Menlo,monospace;color:{{ f.dropFg }}">{{ f.drop }}</span>
+</div>
+<div style="height:8px;border-radius:5px;background:{{ t.inset }};overflow:hidden"><span aria-hidden="true" style="display:block;height:100%;width:{{ f.w }};background:{{ f.barFg }}"></span></div>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ funnelNote }}</p>
+</section>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<section style="padding:34px 24px;border:1px dashed {{ t.border }};border-radius:12px;background:{{ t.surface }};text-align:center">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:46px;height:46px;border-radius:13px;background:{{ t.inset }};color:{{ t.muted }};margin-bottom:12px"><svg style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-eye"></use></svg></span>
+<h2 style="margin:0 0 8px;font-size:14.5px;font-weight:900;color:{{ t.text }}">لا بيانات تفاعل بعد</h2>
+<p style="margin:0 auto 16px;max-width:56ch;font-size:11.5px;line-height:1.85;color:{{ t.muted }}">لن نعرض خريطة محاكاة مكان الخريطة الحقيقية. الجدول <code dir="ltr" style="font-size:10.5px">tahdheer_heatmap</code> موجود لكنه فارغ للمدى المحدّد — وهذا يعني أحد أمرين فقط.</p>
+<div style="display:flex;flex-direction:column;gap:6px;max-width:520px;margin:0 auto 16px">
+<sc-for list="{{ emptyReasons }}" as="er" hint-placeholder-count="3">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid {{ t.hair }};border-radius:9px;background:{{ t.inset }};text-align:start">
+<span aria-hidden="true" style="flex:0 0 auto;width:18px;height:18px;border-radius:5px;background:{{ er.bg }};color:{{ er.fg }};display:grid;place-items:center;font:900 9px ui-monospace,monospace">{{ er.n }}</span>
+<span dir="rtl" style="flex:1;font-size:10.5px;line-height:1.75;color:{{ t.text }}">{{ er.text }}</span>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{ onEmpty }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 18px;border:1px solid {{ t.okFg }};border-radius:9px;background:{{ t.okBg }};color:{{ t.okFg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:900;cursor:pointer">اعرض حالة وجود بيانات</button>
+</section>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { dark: false, empty: false, map: 'click', device: 'desktop' };
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.10)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.16)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.08)' };
+    return d
+      ? { ...sem, pageBg: '#14181a', surface: '#1c2225', inset: '#252d31', text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236', darkLabel: 'الوضع الفاتح' }
+      : { ...sem, pageBg: '#f0f0f1', surface: '#fff', inset: '#f2f5f2', text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec', darkLabel: 'الوضع الداكن' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+    const empty = st.empty;
+    const mobile = st.device === 'mobile';
+
+    const mapDefs = [['click', 'نقرات'], ['scroll', 'عمق التمرير'], ['dead', 'نقرات ميتة'], ['rage', 'نقرات غاضبة'], ['ignored', 'عناصر مُهمَلة']];
+
+    /*
+     * Overlay reads the SAME element set for every map; only the metric changes.
+     * That keeps a block's identity stable across maps, so a «dead click» row can
+     * be traced back to the element the click map already showed.
+     */
+    const blockDefs = [
+      ['عنوان المنتج', 54, 2, 0, 96],
+      ['معرض الصور', 231, 8, 1, 88],
+      ['السعر والخصم', 74, 1, 0, 81],
+      ['شارة «قابل للتعديل»', 12, 44, 6, 62],
+      ['أضف للسلة', 412, 3, 2, 58],
+      ['تفاصيل الترخيص', 6, 0, 0, 19]
+    ];
+
+    const metricFor = b => {
+      if (st.map === 'click') return [String(b[1]), 'نقرة', b[1] > 200 ? 'ok' : b[1] < 20 ? 'bad' : 'warn'];
+      if (st.map === 'scroll') return [b[4] + '%', 'وصلوا', b[4] > 80 ? 'ok' : b[4] > 50 ? 'warn' : 'bad'];
+      if (st.map === 'dead') return [String(b[2]), 'ميتة', b[2] > 20 ? 'bad' : b[2] > 5 ? 'warn' : 'ok'];
+      if (st.map === 'rage') return [String(b[3]), 'غاضبة', b[3] > 3 ? 'bad' : b[3] > 0 ? 'warn' : 'ok'];
+      return [b[1] < 20 ? 'مُهمَل' : 'مُستخدَم', '', b[1] < 20 ? 'bad' : 'ok'];
+    };
+
+    const KIND = {
+      ok: [t.okBg, t.okFg, 'عالٍ'],
+      warn: [t.warnBg, t.warnFg, 'متوسط'],
+      bad: [t.badBg, t.badFg, 'منخفض']
+    };
+
+    const blocks = blockDefs.map(b => {
+      const m = metricFor(b);
+      const k = KIND[m[2]];
+      const intensity = m[2] === 'ok' ? 1 : m[2] === 'warn' ? 0.55 : 0.28;
+      return {
+        label: b[0],
+        h: mobile ? '38px' : '42px',
+        metric: m[0],
+        /* The «ignored» map yields Arabic words where the others yield numbers. */
+        metricDir: /[\u0600-\u06FF]/.test(m[0]) ? 'rtl' : 'ltr',
+        metricFont: /[\u0600-\u06FF]/.test(m[0]) ? 'Tajawal,sans-serif' : 'ui-monospace,Menlo,monospace',
+        metricFg: k[1],
+        tag: st.map === 'dead' || st.map === 'rage'
+          ? (m[2] === 'bad' ? 'يحتاج فحصًا' : m[2] === 'warn' ? 'راقبه' : 'سليم')
+          : k[2],
+        tagBg: k[0], tagFg: k[1],
+        bg: t.inset,
+        border: m[2] === 'bad' && (st.map === 'dead' || st.map === 'rage' || st.map === 'ignored') ? t.badFg : t.hair
+      };
+    });
+
+    const overlayNote = {
+      click: 'النقرات مجمَّعة على مستوى العنصر لا على إحداثيات البكسل — فلا يمكن إعادة بناء مسار مؤشّر شخص بعينه.',
+      scroll: 'نسبة الزوّار الذين وصلوا إلى العنصر. «تفاصيل الترخيص» يراها 19% فقط — إن كانت مهمّة فموضعها خطأ.',
+      dead: 'نقرة ميتة = نقر على عنصر غير تفاعلي. شارة «قابل للتعديل» تُنقَر 44 مرة ولا تفعل شيئًا — إشارة إلى توقّع مشروع لم يُلبَّ.',
+      rage: 'نقر متكرّر سريع على العنصر نفسه. ستّ حالات على الشارة نفسها تؤكّد أن المشكلة توقّع لا خطأ عارض.',
+      ignored: 'عنصر ظاهر لأكثر من نصف الزوّار وتفاعله أقلّ من 20 حدثًا.'
+    }[st.map];
+
+    const kpiDefs = {
+      click: [['جلسات مسجَّلة', '1,842', 'جلسة', 'من أصل 18,420 زيارة — بمعاينة 10%'], ['متوسط النقرات', '14.2', 'نقرة', 'لكل جلسة على صفحة المنتج'], ['أعلى عنصر', 'أضف للسلة', '', '412 نقرة — 22% من الإجمالي'], ['أدنى عنصر', 'تفاصيل الترخيص', '', '6 نقرات — يراها 19% فقط']],
+      scroll: [['جلسات مسجَّلة', '1,842', 'جلسة', 'بمعاينة 10% معلَنة'], ['متوسط العمق', '68', '%', 'من ارتفاع الصفحة'], ['يصلون للسعر', '81', '%', 'موضعه سليم'], ['يصلون للترخيص', '19', '%', 'أدنى من أن يُعتمَد عليه']],
+      dead: [['نقرات ميتة', '58', 'نقرة', 'على عناصر غير تفاعلية'], ['العنصر الأول', 'شارة «قابل للتعديل»', '', '44 من 58 — 76%'], ['جلسات متأثّرة', '39', 'جلسة', '2.1% من المسجَّل'], ['الإجراء', 'اجعلها رابطًا', '', 'تفتح تفاصيل الصيغة']],
+      rage: [['نقرات غاضبة', '9', 'حدث', 'نقر متكرّر سريع'], ['العنصر الأول', 'شارة «قابل للتعديل»', '', '6 من 9'], ['جلسات متأثّرة', '7', 'جلسة', '0.4% — قليل لكن دالّ'], ['الإجراء', 'وضّح ما تعنيه', '', 'أو اجعلها قابلة للنقر']],
+      ignored: [['عناصر مُهمَلة', '2', 'عنصر', 'ظاهرة وتفاعلها ضعيف'], ['الأول', 'تفاصيل الترخيص', '', '6 نقرات فقط'], ['الثاني', 'شارة «قابل للتعديل»', '', 'تُنقَر ولا تستجيب'], ['ملاحظة', 'ليس بالضرورة عيبًا', '', 'قد يكون العنصر معلومة لا إجراء']]
+    }[st.map];
+
+    /*
+     * Several KPI "values" are element NAMES, not numbers — «أضف للسلة»,
+     * «تفاصيل الترخيص». Pinning dir="ltr" on the value reversed their runs, and
+     * a 20px numeral size crowded them. Both are derived from the content.
+     */
+    const kpis = kpiDefs.map(k => {
+      const isText = /[\u0600-\u06FF]/.test(k[1]);
+      return {
+        label: k[0], value: k[1], unit: k[2], note: k[3],
+        valueDir: isText ? 'rtl' : 'ltr',
+        valueSize: isText ? '13.5px' : '20px',
+        fg: t.text
+      };
+    });
+
+    const funnelDefs = [
+      ['زيارة صفحة منتج', '18,420', 100, '', 'ok'],
+      ['تفاعل مع المعرض', '9,860', 54, '−46%', 'warn'],
+      ['أضف للسلة', '1,308', 7.1, '−87%', 'bad'],
+      ['بدء الدفع', '640', 3.5, '−51%', 'warn'],
+      ['طلب مكتمل', '412', 2.2, '−36%', 'warn']
+    ];
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      onEmpty: () => this.setState(s => ({ empty: !s.empty })),
+      emptyBtnLabel: empty ? 'اعرض حالة وجود بيانات' : 'اعرض حالة الفراغ',
+      emptyBtnBorder: empty ? t.okFg : t.border,
+      emptyBtnFg: empty ? t.okFg : t.text,
+
+      hasData: !empty,
+      isEmpty: empty,
+
+      privacy: {
+        border: t.okFg, fg: t.okFg,
+        text: 'التسجيل مجمَّع على مستوى العنصر بلا إحداثيات بكسل ولا معرّف شخصي. لا تُسجَّل كلمات المرور ولا بيانات الدفع ولا محتوى الحقول ولا جلسات الإدارة، وصفحات الحساب والدفع مستبعَدة كليًّا.',
+        chips: [
+          { label: 'موافقة مطلوبة', bg: t.okBg, fg: t.okFg },
+          { label: 'مُجهَّل الهوية', bg: t.okBg, fg: t.okFg },
+          { label: 'حفظ 90 يومًا', bg: t.inset, fg: t.muted },
+          { label: 'الإدارة مستبعدة', bg: t.inset, fg: t.muted }
+        ]
+      },
+
+      maps: mapDefs.map(m => ({
+        label: m[1],
+        pressed: st.map === m[0] ? 'true' : 'false',
+        bg: st.map === m[0] ? t.surface : 'transparent',
+        fg: st.map === m[0] ? t.text : t.muted,
+        shadow: st.map === m[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ map: m[0] })
+      })),
+      devices: [['desktop', 'سطح المكتب'], ['mobile', 'جوال']].map(d => ({
+        label: d[1],
+        pressed: st.device === d[0] ? 'true' : 'false',
+        bg: st.device === d[0] ? t.surface : 'transparent',
+        fg: st.device === d[0] ? t.text : t.muted,
+        shadow: st.device === d[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ device: d[0] })
+      })),
+      sampleLabel: 'معاينة 10% — معلَنة لا مُضمَرة',
+
+      kpis,
+      overlay: {
+        title: 'تراكب الصفحة — ' + mapDefs.filter(m => m[0] === st.map)[0][1],
+        pageLabel: 'صفحة منتج · ' + (mobile ? 'جوال 390' : 'سطح المكتب'),
+        blocks,
+        note: overlayNote
+      },
+
+      funnel: funnelDefs.map(f => ({
+        label: f[0], value: f[1], w: f[2] + '%', drop: f[3],
+        barFg: f[4] === 'ok' ? t.okFg : f[4] === 'warn' ? t.warnFg : t.badFg,
+        dropFg: f[4] === 'bad' ? t.badFg : t.muted
+      })),
+      funnelNote: 'الزيارات وأحداث السلة من جدول الزيارات، والطلبات من WooCommerce. أكبر تسريب بين «تفاعل مع المعرض» و«أضف للسلة» — 87%.',
+
+      emptyReasons: [
+        { n: '١', text: 'التسجيل غير مفعَّل، أو الزوّار لم يمنحوا الموافقة — والموافقة شرط لا خيار.', bg: t.warnBg, fg: t.warnFg },
+        { n: '٢', text: 'لا زيارات في المدى المحدّد. جرّب مدى أوسع قبل أن تفترض خللًا.', bg: t.inset, fg: t.muted },
+        { n: '٣', text: 'المعاينة 10% تعني أن مواقع قليلة الزيارات تحتاج وقتًا أطول لتجميع بيانات دالّة.', bg: t.inset, fg: t.muted }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

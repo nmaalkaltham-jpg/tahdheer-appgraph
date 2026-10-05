@@ -1,0 +1,36 @@
+/*
+UNIT: CATALOG-LIST
+COMPONENT: list-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* سطرٌ ثانويّ تحت الخليّة — التصنيف والناقص. */
+.sub {
+  margin-block-start: 2px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.out {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-block-start: 2px;
+  font-size: 11px;
+  color: var(--primary-strong);
+}
+
+/* أفعال الصفّ تلتفّ ولا تمدّد العمود: خمسة أزرارٍ على ٣٩٠px لا تسع سطرًا. */
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+  align-items: center;
+}

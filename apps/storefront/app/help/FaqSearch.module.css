@@ -1,0 +1,137 @@
+/* لغة التصميم: حقل لوحة الشراء (48px، حدّ 1.5px ‎--sf-control‎، نصف قطر 12)
+   وبطاقات الأسئلة من شريط «قبل الشراء» في Storefront Product.dc.html. */
+.wrap {
+  display: block;
+}
+
+.label {
+  composes: label from '@tahdheer/ui/controls.module.css';
+}
+
+.input {
+  composes: field from '@tahdheer/ui/controls.module.css';
+  max-inline-size: 480px;
+}
+
+.wrap .status {
+  margin: 8px 0;
+  min-block-size: 1.4em;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  padding-inline: 16px;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .item:hover {
+    border-color: var(--sf-control);
+  }
+}
+
+.item[open] {
+  border-color: var(--sf-control);
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-block-size: 56px;
+  padding-block: 15px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+.question::after {
+  content: '';
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--teal-600);
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.item[open] .question::after {
+  transform: rotate(180deg);
+}
+
+.question:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+.item .answer {
+  margin: 0;
+  padding-block: 0 16px;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--sf-body);
+}
+
+.wrap .noMatch {
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-muted);
+}
+
+/* فتح البند: الجواب يظهر بانزلاقٍ قصير — إجابةٌ لفعل المستخدم وحده. */
+@media (prefers-reduced-motion: no-preference) {
+  .item[open] .answer {
+    animation: faqReveal var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes faqReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question::after,
+  .item {
+    transition: none;
+  }
+}
+
+/* تحت تقليل الحركة: لا انزلاق، والمحتوى ظاهرٌ فورًا. */
+@media (prefers-reduced-motion: reduce) {
+  .item[open] .answer {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

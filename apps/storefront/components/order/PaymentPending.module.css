@@ -1,0 +1,57 @@
+/* Payment pending/recovery — tokens only, logical properties only. */
+
+.wrap {
+  display: grid;
+  gap: var(--space-3);
+  margin-block-start: var(--space-3);
+}
+
+.notice,
+.noCharge {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.spinner {
+  display: inline-block;
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  margin-inline-end: var(--space-2);
+  border: 2px solid currentcolor;
+  border-inline-start-color: transparent;
+  border-radius: var(--r-round);
+  vertical-align: -0.1em;
+  animation: spin 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.button {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.secondary {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+.error {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+}

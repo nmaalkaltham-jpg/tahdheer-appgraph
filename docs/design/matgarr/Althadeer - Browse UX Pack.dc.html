@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes bxFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">التحاضير الحديثة — حزمة تيسير التصفح (١٠ ميزات)</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">كل ميزة: مفتاح إيقاف + تخصيص عميق — تُبنى على inc/ القائمة</span>
+<div style="flex:1"></div>
+<span style="font-size:9.5px;font-weight:900;color:#a8e2c5">{{ onN }} من ١٠ مفعلة</span>
+</div>
+</div>
+
+<main style="max-width:1280px;margin:0 auto;padding:14px 20px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:13px;align-items:start">
+
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#f7f8f7;overflow:hidden;animation:bxFade .25s ease">
+<div style="padding:11px 16px;background:#fff;border-bottom:1px solid #eef1ef;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:12px">معاينة حية — أرشيف رياضيات</b>
+<div style="position:relative;flex:1;min-width:200px;max-width:300px">
+<sc-if value="{{ f2.on }}" hint-placeholder-val="{{ true }}">
+<input type="search" value="{{ f2.q }}" onChange="{{ f2.onQ }}" placeholder="{{ f2.ph }}" aria-label="بحث فوري" style="width:100%;box-sizing:border-box;min-height:34px;padding:0 12px;border:1.5px solid #d5dbd6;border-radius:10px;font:800 11px Tajawal;outline:none">
+<sc-if value="{{ f2.open }}" hint-placeholder-val="{{ false }}">
+<div role="listbox" style="position:absolute;inset-inline:0;top:38px;z-index:30;background:#fff;border:1px solid #dce2dd;border-radius:12px;box-shadow:0 14px 36px rgba(10,25,18,.18);padding:6px;animation:bxFade .15s ease">
+<sc-for list="{{ f2.res }}" as="r" hint-placeholder-count="3">
+<button type="button" role="option" onClick="{{ r.onGo }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:34px;padding:0 9px;border:0;border-radius:8px;background:none;cursor:pointer;text-align:start">
+<span style="padding:1px 7px;border-radius:5px;background:#f2f6f3;font-size:8px;font-weight:900;color:#5f7167">{{ r.t }}</span>
+<span style="flex:1;font-size:10.5px;font-weight:800;color:#14261d">{{ r.n }}</span>
+<span style="font-size:9px;color:#146c4c;font-weight:900">{{ r.p }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</sc-if>
+</div>
+<sc-if value="{{ f9.on }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative">
+<button type="button" onClick="{{ f9.onTog }}" aria-expanded="{{ f9.open }}" aria-label="مكتبتي" style="min-height:34px;padding:0 12px;border:1px solid #cfe0d6;border-radius:10px;background:#f2f8f5;color:#146c4c;font-size:10.5px;font-weight:900;cursor:pointer">⤓ {{ f9.label }}</button>
+<sc-if value="{{ f9.open }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset-inline-end:0;top:40px;z-index:30;width:250px;background:#fff;border:1px solid #dce2dd;border-radius:12px;box-shadow:0 14px 36px rgba(10,25,18,.18);padding:8px;animation:bxFade .15s ease">
+<b style="display:block;padding:2px 5px 6px;font-size:10px">آخر مشترياتك — تنزيل مباشر</b>
+<sc-for list="{{ f9.items }}" as="d" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:7px;padding:6px 5px;border-top:1px dashed #f1f4f2">
+<span style="flex:1;font-size:9.5px;font-weight:800">{{ d }}</span>
+<button type="button" style="min-height:26px;padding:0 9px;border:0;border-radius:7px;background:#1e7355;color:#fff;font-size:8.5px;font-weight:900;cursor:pointer">تنزيل</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ f1.on }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 16px;background:linear-gradient(150deg,#f0f7f3,#fff);border-bottom:1px solid #e2ece5;flex-wrap:wrap">
+<span style="font-size:10px;font-weight:900;color:#146c4c">صفّك المحفوظ:</span>
+<sc-for list="{{ f1.grades }}" as="g" hint-placeholder-count="3">
+<button type="button" onClick="{{ g.onClick }}" aria-pressed="{{ g.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ g.bd }};border-radius:999px;background:{{ g.bg }};color:{{ g.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ g.n }}</button>
+</sc-for>
+<span style="margin-inline-start:auto;font-size:8.5px;color:#8b978f">{{ f1.note }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ f3.on }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;margin:10px 16px 0;padding:8px 12px;border:1px dashed #c9a869;border-radius:11px;background:#fffaf0;flex-wrap:wrap">
+<span style="font-size:10px;font-weight:900;color:#8a6500">كنت تتصفح {{ f3.ctx }} — أكمل من حيث توقفت:</span>
+<sc-for list="{{ f3.recent }}" as="r" hint-placeholder-count="2">
+<button type="button" style="min-height:26px;padding:0 10px;border:1px solid #e8d9b0;border-radius:999px;background:#fff;font-size:9px;font-weight:800;color:#5f4a12;cursor:pointer">{{ r }}</button>
+</sc-for>
+<button type="button" onClick="{{ f3.onX }}" aria-label="إخفاء" style="margin-inline-start:auto;width:22px;height:22px;border:0;border-radius:6px;background:none;color:#8a6500;cursor:pointer;font-weight:900">✕</button>
+</div>
+</sc-if>
+
+<div style="padding:10px 16px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<sc-if value="{{ f4.on }}" hint-placeholder-val="{{ true }}">
+<nav aria-label="مسار" style="display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800">
+<sc-for list="{{ f4.crumbs }}" as="c" hint-placeholder-count="4">
+<button type="button" style="border:0;background:none;padding:0;color:#1e7355;cursor:pointer;font:800 10px Tajawal">{{ c.n }}</button>
+<sc-if value="{{ c.sep }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="color:#b9c4bd">{{ f4.sep }}</span></sc-if>
+</sc-for>
+</nav>
+</sc-if>
+<sc-if value="{{ f6.on }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ f6.onTog }}" aria-pressed="{{ f6.act }}" style="margin-inline-start:auto;min-height:30px;padding:0 13px;border:1.5px solid {{ f6.bd }};border-radius:999px;background:{{ f6.bg }};color:{{ f6.fg }};font-size:10px;font-weight:900;cursor:pointer">{{ f6.label }}</button>
+</sc-if>
+</div>
+
+<sc-if value="{{ f7.on }}" hint-placeholder-val="{{ true }}">
+<div style="margin:10px 16px 0;padding:8px 12px;border:1px solid #e2ece5;border-radius:11px;background:#fff;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ f7.steps }}" as="s" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:900;color:{{ s.c }}"><span aria-hidden="true" style="width:16px;height:16px;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};display:inline-grid;place-items:center;font-size:8px">{{ s.i }}</span>{{ s.n }}</span>
+<sc-if value="{{ s.sep }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="flex:0 0 18px;height:2px;background:#dce6df;border-radius:2px"></span></sc-if>
+</sc-for>
+<sc-if value="{{ f7.eta }}" hint-placeholder-val="{{ true }}"><span style="margin-inline-start:auto;font-size:9px;color:#146c4c;font-weight:900">دقيقة واحدة تفصلك عن ملفاتك ⤓</span></sc-if>
+</div>
+</sc-if>
+
+<div style="padding:12px 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ prods }}" as="p" hint-placeholder-count="4">
+<article style="border:1px solid #dce2dd;border-radius:13px;background:#fff;overflow:hidden;opacity:{{ p.op }}">
+<div style="height:64px;background:{{ p.img }};position:relative">
+<sc-if value="{{ p.qvBtn }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ p.onQv }}" style="position:absolute;bottom:7px;inset-inline-start:8px;min-height:26px;padding:0 10px;border:0;border-radius:8px;background:rgba(255,255,255,.94);font-size:9px;font-weight:900;color:#14261d;cursor:pointer">👁 نظرة سريعة</button>
+</sc-if>
+</div>
+<div style="padding:9px 12px">
+<b style="font-size:11px;line-height:1.5">{{ p.n }}</b>
+<span style="display:block;font-size:8.5px;color:#8b978f">{{ p.meta }}</span>
+<sc-if value="{{ p.hint }}" hint-placeholder-val="{{ false }}">
+<span style="display:block;margin-top:4px;padding:4px 8px;border-radius:7px;background:#f2f6ff;border:1px solid #dbe4f5;font-size:8.5px;line-height:1.6;color:#33518a">⇄ {{ p.hint }}</span>
+</sc-if>
+<div style="display:flex;align-items:center;gap:7px;margin-top:6px"><b style="flex:1;font:900 12px Tajawal;color:#146c4c">{{ p.pr }}</b><button type="button" style="min-height:28px;padding:0 11px;border:1px solid #cfe0d6;border-radius:8px;background:#f2f8f5;color:#146c4c;font-size:9px;font-weight:900;cursor:pointer">أضف</button></div>
+</div>
+</article>
+</sc-for>
+</div>
+
+<sc-if value="{{ qv.open }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ qv.onClose }}" style="position:absolute;inset:0;z-index:40;background:rgba(10,20,15,.45);display:grid;place-items:center;padding:20px">
+<div role="dialog" aria-modal="true" aria-label="نظرة سريعة" onClick="{{ qv.stop }}" style="width:{{ qv.w }};max-width:94%;background:#fff;border-radius:15px;box-shadow:0 24px 60px rgba(6,16,11,.3);overflow:hidden;animation:bxFade .18s ease">
+<div style="height:110px;background:{{ qv.img }}"></div>
+<div style="padding:13px 16px">
+<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;font-size:13px">{{ qv.n }}</b><button type="button" onClick="{{ qv.onClose }}" aria-label="إغلاق" style="width:26px;height:26px;border:0;border-radius:8px;background:#f2f4f2;cursor:pointer;font-weight:900">✕</button></div>
+<sc-if value="{{ f8.on }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:9px;padding:9px 12px;border:1.5px solid #cfe0d6;border-radius:11px;background:#f8fbf9">
+<b style="font-size:10px;color:#146c4c">ماذا ستستلم؟</b>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">
+<sc-for list="{{ f8.fields }}" as="x" hint-placeholder-count="4">
+<span style="padding:3px 9px;border-radius:999px;background:#fff;border:1px solid #dceee4;font-size:8.5px;font-weight:800;color:#3d4f45">{{ x }}</span>
+</sc-for>
+</div>
+<span style="display:block;margin-top:5px;font-size:8px;color:#8b978f">يُقرأ آليًا من product-education-meta — لا كتابة يدوية</span>
+</div>
+</sc-if>
+<div style="display:flex;gap:7px;margin-top:10px"><b style="align-self:center;font:900 14px Tajawal;color:#146c4c">{{ qv.pr }}</b><button type="button" style="flex:1;min-height:38px;border:0;border-radius:10px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:11.5px;font-weight:900;cursor:pointer">أضف للسلة</button><button type="button" style="min-height:38px;padding:0 13px;border:1px solid #d5dbd6;border-radius:10px;background:#fff;font-size:10px;font-weight:800;cursor:pointer">الصفحة الكاملة</button></div>
+</div>
+</div>
+</div>
+</sc-if>
+</section>
+
+<aside style="display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 90px);overflow:auto;animation:bxFade .3s ease">
+<div style="padding:10px 14px;border:1px solid #1e7355;border-radius:13px;background:linear-gradient(170deg,#f4faf6,#fff 60%)"><b style="font-size:11.5px">الإعدادات — إيقاف وتخصيص لكل ميزة</b><span style="display:block;font-size:8.5px;color:#5f7167;margin-top:2px">تُخزن كـ theme_mods — والمعطلة لا تُحمّل أصولها إطلاقًا (تحميل شرطي)</span></div>
+<sc-for list="{{ feats }}" as="ft" hint-placeholder-count="10">
+<section style="border:1px solid {{ ft.bd }};border-radius:12px;background:#fff;padding:10px 13px">
+<div style="display:flex;align-items:center;gap:8px">
+<button type="button" onClick="{{ ft.onTog }}" role="switch" aria-checked="{{ ft.on }}" aria-label="{{ ft.n }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ ft.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ ft.knob }};width:13px;height:13px;border-radius:50%;background:#fff;transition:inset-inline-start .12s"></span></button>
+<b style="flex:1;font-size:10.5px">{{ ft.i }}. {{ ft.n }}</b>
+<span style="font-size:8px;color:#a9b4ad">{{ ft.src }}</span>
+</div>
+<sc-if value="{{ ft.on }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:7px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ ft.ctrls }}" as="c" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<span style="flex:0 0 82px;font-size:8.5px;font-weight:900;color:#5f7167">{{ c.l }}</span>
+<sc-for list="{{ c.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.onClick }}" aria-pressed="{{ o.on }}" style="min-height:24px;padding:0 9px;border:1px solid {{ o.bd }};border-radius:7px;background:{{ o.bg }};color:{{ o.fg }};font-size:8.5px;font-weight:900;cursor:pointer">{{ o.n }}</button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</aside>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+FEATS=[
+ ['grade','شريط صفّك المحفوظ','inc/curriculum',[['حفظ',['محليًا','بالحساب']],['الموضع',['شريط علوي','عائم']]]],
+ ['search','بحث فوري منسدل','ajax-search.php',[['أقل أحرف',['٢','٣']],['النطاق',['منتجات','+تصنيفات','+أدلة']]]],
+ ['resume','عودة لآخر مكان','جلسة محلية',[['الشكل',['شريط','بطاقة']],['العناصر',['٢','٣']]]],
+ ['crumbs','فتات خبز تعليمية','breadcrumbs.php',[['العمق',['كامل','مختصر']],['الفاصل',['‹','→']]]],
+ ['qv','نظرة سريعة','قالب modal',[['الحجم',['متوسط','كبير']],['المحتوى',['حقائق+سلة','معرض فقط']]]],
+ ['mine','مرشّح «لصفّي»','يقرأ من ١',[['الموضع',['أعلى الشبكة','مع الفلاتر']]]],
+ ['prog','شريط تقدم الطلب','cart/checkout',[['الخطوات',['٣','٤']],['سطر الطمأنة',['ظاهر','مخفي']]]],
+ ['receive','«ماذا سأستلم؟»','education-meta',[['الحقول',['٤ أساسية','كلها']],['الموضع',['فوق السعر','تحت الوصف']]]],
+ ['lib','مكتبتي من الهيدر','order-thank-you',[['التسمية',['مكتبتي','تنزيلاتي']],['العناصر',['٣','٥']]]],
+ ['diff','تلميح فروق المتشابهات','أزواج آلية',[['الشكل',['سطر','شارة']]]]
+];
+state={on:{grade:1,search:1,resume:1,crumbs:1,qv:1,mine:1,prog:1,receive:1,lib:1,diff:1},
+ cfg:{},q:'',grade:'ثاني ثانوي',mineAct:false,qvI:-1,libOpen:false,resumeX:false};
+cv(id,ci){ const c=this.state.cfg[id+ci]; return c===undefined?0:c; }
+renderVals(){
+ const st=this.state;
+ const on=(k)=>!!st.on[k];
+ const P=[
+  ['مذكرة الشرح المكثفة — رياضيات','٨٤ صفحة · ف١','٤٥ ر.س','linear-gradient(140deg,#2b9c72,#14603f)','هذه للشرح الكامل من الأساس',1],
+  ['مذكرة المراجعة المبسطة — رياضيات','٤٦ صفحة · ف١','٢٩ ر.س','linear-gradient(140deg,#527a96,#2d5471)','وهذه للمراجعة السريعة قبل الفترة',1],
+  ['اختبارات محلولة — رياضيات','٥٢ صفحة · ف١','٣٥ ر.س','linear-gradient(140deg,#d8b56a,#8a6a35)','',1],
+  ['ملزمة فيزياء','٦٨ صفحة · ف١','٥٥ ر.س','linear-gradient(140deg,#8f6b5a,#61403f)','',0]
+ ];
+ const q=st.q.trim();
+ const res=q?[['منتج','مذكرة الشرح المكثفة','٤٥ ر.س'],['منتج','اختبارات محلولة','٣٥ ر.س'],['دليل','كيف تختار الملزمة؟','']].filter(r=>r[1].indexOf(q)>=0||q.length>=Number(this.cv('search',0)?3:2)).slice(0,3):[];
+ const seg=(id,ci,opts)=>opts.map((o,oi)=>({n:o,on:this.cv(id,ci)===oi,
+  bd:this.cv(id,ci)===oi?'#1e7355':'#dfe4df',bg:this.cv(id,ci)===oi?'#f2f8f5':'#fff',fg:this.cv(id,ci)===oi?'#146c4c':'#5f7167',
+  onClick:()=>{const c=Object.assign({},st.cfg);c[id+ci]=oi;this.setState({cfg:c});}}));
+ return {
+  onN:'٠١٢٣٤٥٦٧٨٩'[Object.keys(st.on).filter(k=>st.on[k]).length]||'١٠',
+  feats:this.FEATS.map((f,i)=>({i:'٠١٢٣٤٥٦٧٨٩'[i+1]||'١٠',n:f[1],src:f[2],on:on(f[0]),
+   bd:on(f[0])?'#cfe0d6':'#e6eae7',swBg:on(f[0])?'#1e7355':'#cfd8d3',knob:on(f[0])?'15px':'2px',
+   onTog:()=>{const o=Object.assign({},st.on);o[f[0]]=o[f[0]]?0:1;this.setState({on:o});},
+   ctrls:f[3].map((c,ci)=>({l:c[0],opts:seg(f[0],ci,c[1])}))})),
+  f1:{on:on('grade'),note:this.cv('grade',0)===0?'يُحفظ محليًا — بلا حساب':'يُحفظ في حساب العميل',
+   grades:['أول ثانوي','ثاني ثانوي','ثالث ثانوي'].map(g=>({n:g,on:st.grade===g,
+    bd:st.grade===g?'#1e7355':'#cfe0d6',bg:st.grade===g?'#1e7355':'#fff',fg:st.grade===g?'#fff':'#146c4c',
+    onClick:()=>this.setState({grade:g})}))},
+  f2:{on:on('search'),q:st.q,onQ:(e)=>this.setState({q:e.target.value}),
+   ph:'ابحث فورًا ('+(this.cv('search',0)===0?'حرفان':'٣ أحرف')+')…',
+   open:res.length>0,res:res.map(r=>({t:r[0],n:r[1],p:r[2],onGo:()=>this.setState({q:''})}))},
+  f3:{on:on('resume')&&!st.resumeX,ctx:'رياضيات '+st.grade,
+   recent:['مذكرة الشرح المكثفة','اختبارات محلولة',this.cv('resume',1)===1?'المراجعة المبسطة':''].filter(Boolean),
+   onX:()=>this.setState({resumeX:true})},
+  f4:{on:on('crumbs'),sep:this.cv('crumbs',1)===0?'‹':'→',
+   crumbs:(this.cv('crumbs',0)===0?['الرئيسية','ثانوي',st.grade,'رياضيات','ف١']:['رياضيات','ف١']).map((n,i,a)=>({n:n,sep:i<a.length-1}))},
+  f6:{on:on('mine'),act:st.mineAct,label:st.mineAct?'✓ يعرض صفّك: '+st.grade:'اعرض ما يناسب صفّي فقط',
+   bd:st.mineAct?'#1e7355':'#c9a869',bg:st.mineAct?'#1e7355':'#fffaf0',fg:st.mineAct?'#fff':'#8a6500',
+   onTog:()=>this.setState({mineAct:!st.mineAct})},
+  f7:{on:on('prog'),eta:this.cv('prog',1)===0,
+   steps:(this.cv('prog',0)===0?['السلة','الدفع','التنزيل']:['السلة','البيانات','الدفع','التنزيل']).map((n,i,a)=>({n:n,i:'٠١٢٣٤٥٦٧٨٩'[i+1],sep:i<a.length-1,
+    c:i===0?'#146c4c':'#8b978f',bg:i===0?'#1e7355':'#eef2ef',fg:i===0?'#fff':'#8b978f'}))},
+  f8:{on:on('receive'),fields:this.cv('receive',0)===0?['١٤٦ مسألة محلولة','PDF + مطبوعة','قابلة للتعديل','تسليم فوري']:['١٤٦ مسألة','PDF+مطبوعة','قابلة للتعديل','تسليم فوري','٨٤ صفحة','بوربوينت متوافق']},
+  f9:{on:on('lib'),open:st.libOpen,label:this.cv('lib',0)===0?'مكتبتي':'تنزيلاتي',
+   onTog:()=>this.setState({libOpen:!st.libOpen}),
+   items:['مذكرة الرياضيات 2.1','حزمة المراجعة (٣ ملفات)','أوراق لغتي'].slice(0,this.cv('lib',1)===0?3:5)},
+  prods:P.map((p,i)=>({n:p[0],meta:p[1],pr:p[2],img:p[3],
+   qvBtn:on('qv'),
+   hint:on('diff')&&p[4]?p[4]:'',
+   op:st.mineAct&&!p[5]?'.35':'1',
+   onQv:()=>this.setState({qvI:i})})),
+  qv:{open:st.qvI>=0&&on('qv'),
+   n:st.qvI>=0?P[st.qvI][0]:'',pr:st.qvI>=0?P[st.qvI][2]:'',img:st.qvI>=0?P[st.qvI][3]:'',
+   w:this.cv('qv',0)===0?'420px':'520px',
+   onClose:()=>this.setState({qvI:-1}),stop:(e)=>e.stopPropagation()}
+ };
+}
+}
+</script>
+</body>
+</html>

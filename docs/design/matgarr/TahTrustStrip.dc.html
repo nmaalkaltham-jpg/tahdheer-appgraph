@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<sc-if value="{{ isMinimal }}" hint-placeholder-val="{{ true }}">
+<ul style="list-style:none;margin:0;padding:{{ pad }};display:flex;flex-wrap:wrap;align-items:center;gap:{{ gap }};border-top:1px solid {{ rule }}">
+<sc-for list="{{ items }}" as="t" hint-placeholder-count="3">
+<li style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:{{ fg }};position:relative;transition:.16s ease" style-hover="color:{{ fgStrong }}">
+<svg aria-hidden="true" style="width:14px;height:14px;flex:0 0 auto;color:{{ accent }};fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ t.iconRef }}"></use></svg>
+<span>{{ t.short }}</span>
+<span aria-hidden="true" style="display:{{ t.sepDisplay }};width:1px;height:11px;background:{{ rule }};margin-inline-start:{{ gap }}"></span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isGlass }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:5px;display:flex;flex-wrap:wrap;align-items:center;gap:3px;border:1px solid {{ glassEdge }};border-radius:999px;background:{{ glassBg }};backdrop-filter:blur(10px);box-shadow:0 1px 2px {{ glassShadow }}">
+<sc-for list="{{ items }}" as="t" hint-placeholder-count="3">
+<li style="flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:30px;padding:0 12px;border-radius:999px;font-size:11.5px;font-weight:800;color:{{ fg }};transition:.18s cubic-bezier(.22,1,.36,1)" style-hover="background:{{ glassHover }};color:{{ fgStrong }}">
+<svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:{{ accent }};fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s ease" style-hover="transform:translateY(-1px)"><use href="{{ t.iconRef }}"></use></svg>
+<span style="white-space:nowrap">{{ t.short }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isSmart }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch;border:1px solid {{ smartEdge }};border-radius:10px;overflow:hidden;background:{{ smartBg }}">
+<sc-for list="{{ items }}" as="t" hint-placeholder-count="3">
+<li style="flex:1 1 auto;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 12px;border-inline-start:1px solid {{ smartEdge }};transition:.16s ease" style-hover="background:{{ smartHover }}">
+<span aria-hidden="true" style="position:relative;display:grid;place-items:center;width:7px;height:7px;flex:0 0 auto"><span style="width:7px;height:7px;border-radius:50%;background:{{ t.dot }}"></span><span style="position:absolute;inset:0;border-radius:50%;border:1px solid {{ t.dot }};opacity:.45;animation:{{ t.pulse }}"></span></span>
+<span style="font-size:11.5px;font-weight:800;color:{{ fgStrong }};white-space:nowrap">{{ t.short }}</span>
+<span style="font-size:10px;font-weight:700;color:{{ fg }};white-space:nowrap">{{ t.state }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isClassic }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:{{ pad }};border-top:1px solid {{ rule }};font-size:12.5px;color:{{ fg }}">
+<sc-for list="{{ items }}" as="t" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:6px"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9"><use href="{{ t.iconRef }}"></use></svg>{{ t.long }}</span>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:90},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;classic&quot;,&quot;minimal&quot;,&quot;glass&quot;,&quot;smart&quot;],&quot;default&quot;:&quot;minimal&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Trust strip — four presets, all very low height. `classic` is the theme's
+   * current row kept verbatim so the old look is never lost; the other three are
+   * the new treatments. Colour comes from a light/dark token pair rather than
+   * hardcoded literals, so the strip works on either surface.
+   */
+  renderVals() {
+    const v = this.props.variant || 'minimal';
+    const dark = !!this.props.dark;
+    const motion = this.props.motion !== false;
+    const compact = !!this.props.compact;
+
+    const tone = dark
+      ? {
+          fg: 'rgba(255,255,255,.72)', fgStrong: '#fff', accent: '#5fd6a3',
+          rule: 'rgba(255,255,255,.14)',
+          glassBg: 'rgba(255,255,255,.07)', glassEdge: 'rgba(255,255,255,.16)',
+          glassHover: 'rgba(255,255,255,.12)', glassShadow: 'rgba(0,0,0,.3)',
+          smartBg: 'rgba(255,255,255,.05)', smartEdge: 'rgba(255,255,255,.14)',
+          smartHover: 'rgba(255,255,255,.09)'
+        }
+      : {
+          fg: '#5f7167', fgStrong: '#14261d', accent: '#1e7355',
+          rule: '#eef1ec',
+          glassBg: 'rgba(247,249,246,.72)', glassEdge: 'rgba(255,255,255,.9)',
+          glassHover: '#fff', glassShadow: 'rgba(20,45,33,.08)',
+          smartBg: '#fbfcfa', smartEdge: '#e6e9e2',
+          smartHover: '#fff'
+        };
+
+    const defs = [
+      { iconRef: '#i-shield', short: 'دفع آمن', long: 'دفع آمن', state: 'مُشفّر', dot: dark ? '#5fd6a3' : '#1e7355', live: false },
+      { iconRef: '#i-headset', short: 'واتساب', long: 'دعم واتساب', state: 'متصل', dot: dark ? '#5fd6a3' : '#259b6f', live: true },
+      { iconRef: '#i-refresh', short: 'تحديث مباشر', long: 'آخر تحديث: 12 أغسطس 2026', state: 'أغسطس', dot: dark ? '#e6cd93' : '#b8944a', live: false }
+    ];
+
+    const items = defs.map((d, i) => ({
+      ...d,
+      sepDisplay: i === defs.length - 1 ? 'none' : 'inline-block',
+      pulse: (motion && d.live) ? 'tahDotPulse 2.4s ease-in-out infinite' : 'none'
+    }));
+
+    return {
+      items, ...tone,
+      isMinimal: v === 'minimal', isGlass: v === 'glass',
+      isSmart: v === 'smart', isClassic: v === 'classic',
+      pad: compact ? '12px 0 0' : '14px 0 0',
+      gap: compact ? '10px' : '14px'
+    };
+  }
+}
+</script>
+</body>
+</html>

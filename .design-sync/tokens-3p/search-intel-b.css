@@ -1,0 +1,49 @@
+/*
+ * مركز ذكاء البحث — رموز شاشتي «مفتش URL» و«SERP والسلطة» (العميل ب).
+ *
+ * قيم حرفية من docs/design/matgarr/Tahdheer - Search Intelligence Center.dc.html
+ * غير الموجودة في packages/design-system/src/tokens.css. الموجود هناك يُستعمل
+ * باسمه القائم: --ink (#14261d) · --green-700 (#1e7355) · --text-muted (#5f7167)
+ * · --success-chip-fg/bg (#146c4c/#e4f4ec) · --warning-text/bg (#8a6500/#fff4d6).
+ */
+:root {
+  --sib-card-border: #dce2dd;      /* حدود بطاقات المركز */
+  --sib-input-border: #d5dbd6;     /* حدود مُحدِّد الرابط/الاستعلام */
+  --sib-hint: #8b978f;             /* نص تلميح خافت */
+  --sib-body: #3d4f45;             /* نص الفقرات داخل البطاقات */
+  --sib-well: #f8fbf9;             /* خلفية صناديق القيمة والهوامش */
+  --sib-row: #fbfcfb;              /* خلفية صف السلطة/الميزة */
+  --sib-action-border: #cfe0d6;    /* حد زر الإجراء داخل اللوح */
+  --sib-action-bg: #f2f8f5;        /* خلفية زر الإجراء داخل اللوح */
+  --sib-ring-track: #eef2ef;       /* مسار حلقة الدرجة */
+  --sib-ring-mid: #c9a227;         /* لون الحلقة بين 70 و79 */
+  --sib-danger: #b32d2e;           /* أحمر التصميم (يختلف عن --danger-text) */
+  --sib-danger-bg: #fce8e8;        /* خلفية الشارة الحمراء */
+  --sib-edge-measure: #527a96;     /* حافة لوح «يُقاس» */
+  --sib-neutral-chip-bg: #f2f4f2;  /* شارة الحالة الغائبة المحايدة */
+}
+
+/* دخول الشاشة — نظير siFade في التصميم. */
+@keyframes sibFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sib-fade {
+  animation: sibFade 0.25s ease;
+}
+
+/* تقليل الحركة يكشف ولا يجمّد: المحتوى ظاهر كاملًا بلا حركة. */
+@media (prefers-reduced-motion: reduce) {
+  .sib-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

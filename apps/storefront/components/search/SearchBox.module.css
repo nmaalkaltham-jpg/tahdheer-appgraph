@@ -1,0 +1,232 @@
+/*
+ * صندوق البحث الحيّ — يرث حقلَ الترويسة شكلًا (الأنماط المركّبة تأتي من
+ * SiteHeader.module.css عبر التركيب في الأب) ويضيف اللوح المنسدل فقط.
+ *
+ * الرموز من `--menu-pop-*` في نظام التصميم: هي بالنصّ مقاساتُ «لوح نتائج
+ * البحث» — فلا يُخترع لها نظير هنا.
+ */
+
+.root {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+/*
+ * لون النصّ كان `--on-accent` — أبيضَ ثابتًا وُضع حين كان صفّ الترويسة
+ * داكنًا. وقد صار الصفّ أبيض، فما يكتبه الزائر كان يُرسم **أبيض على
+ * ‎#f5f7f4‎**: نسبة تباينٍ ‎1.04:1‎، أي غير مرئيّ إطلاقًا. والحبر هو ما
+ * يقرأه على السطح الفاتح.
+ */
+.input {
+  flex: 1;
+  min-inline-size: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  /* Storefront Home/Product.dc.html: 14px, ink, the input's normal weight. */
+  color: var(--sf-ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* حقل `type="search"` يرسم صليبَ مسحٍ خاصًّا به بحجمٍ لا يتبع الخطّ — يُترك للمتصفّح ولا يُلوَّن. */
+.input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+/* ── اللوح المنسدل ───────────────────────────────────────────────── */
+
+/*
+ * لوحٌ واحد يحمل القائمة وسطرَ الطور. يتدلّى أوسع من الحقل قليلًا فيبدو
+ * امتدادًا للترويسة لا صندوقًا معلّقًا في وسطها.
+ */
+.pop {
+  position: absolute;
+  inset-block-start: calc(100% + 12px);
+  inset-inline: -40px;
+  z-index: 60;
+  overflow: hidden;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--sf-line);
+  border-radius: var(--menu-pop-radius);
+  box-shadow: var(--menu-pop-shadow);
+}
+
+/*
+ * خيطُ الانشغال: شريطٌ رفيع يمسح عرض اللوح ما دام الطلب جاريًا.
+ *
+ * مُزاح (`transform`) لا مُغيَّر العرض: تحريك `inline-size` يُعيد التخطيط في
+ * كلّ إطار فوق قائمةٍ يقرؤها الزائر. والكتلةُ في ذيل الورقة تُبطله.
+ */
+.pop[data-busy='true']::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal-600), transparent);
+  animation: tahSuggestSweep 900ms linear infinite;
+}
+
+@keyframes tahSuggestSweep {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* خطٌّ شعريّ بين الصفوف — الرمز المخصّص لفاصل صفوف لوح النتائج. */
+.item + .item {
+  border-block-start: 1px solid var(--menu-pop-row-line);
+}
+
+.item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-block-size: 44px;
+  padding-block: 9px;
+  padding-inline: 12px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--text);
+  transition: background-color 120ms var(--ease-smooth), color 120ms var(--ease-smooth);
+}
+
+.item a:hover {
+  background: var(--bg-2);
+}
+
+/*
+ * المُفعَّل بلوحة المفاتيح ليس المُحوَّم بالمؤشّر.
+ *
+ * كانا يتقاسمان خلفيّةً واحدة (`--bg-2`)، فمن ينزل بالأسهم فوق صفٍّ يمرّ
+ * عليه المؤشّر لا يرى أين هو — والتركيز باقٍ في الحقل فلا حلقةَ تدلّه
+ * (`aria-activedescendant`). فللمُفعَّل سطحٌ أخضر وعمودٌ في طرف البداية.
+ */
+.itemActive a {
+  background: var(--tint-teal);
+  color: var(--color-secondary-text);
+  border-inline-start: 3px solid var(--teal-text);
+  padding-inline-start: 9px;
+}
+
+.itemTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemPrice {
+  flex: 0 0 auto;
+  font-size: 12.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--teal-text);
+}
+
+/* ── أطوار الطلب ─────────────────────────────────────────────────── */
+
+/*
+ * سطرٌ واحد يسمّي الطور. الأطوار الثلاثة تتقاسم الشكل ويفرّقها اللون وحده
+ * في العطل — وما عداه رماديّ هادئ: الاقتراح كماليّ، فلا يُصرَخ بغيابه.
+ */
+.note {
+  margin: 0;
+  padding-block: 11px;
+  padding-inline: 12px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+.note[data-kind='error'] {
+  color: var(--danger-text);
+}
+
+/* دليل المفاتيح — ذيلُ اللوح، أخفتُ ما فيه، ولا يُزاحم الاقتراحات. */
+.keys {
+  margin: 0;
+  margin-block-start: 5px;
+  padding-block: 7px 3px;
+  padding-inline: 12px;
+  border-block-start: 1px solid var(--menu-pop-row-line);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
+ * تلميح «/» — مفتاحٌ صغير في طرف الحقل على سطح المكتب بمؤشّرٍ دقيق وحده
+ * (اللمس بلا لوحة مفاتيح لا يستفيد منه). يختفي حين يُركَّز الحقل.
+ * ‎22px‎ · ‎--r-xs‎ · حدّ الحقل نفسه — رقاقةٌ هادئة لا زرّ.
+ */
+.slashHint {
+  display: none;
+  flex: none;
+  align-self: center;
+  place-items: center;
+  min-inline-size: 22px;
+  block-size: 22px;
+  padding-inline: 6px;
+  border: 1px solid var(--sf-control);
+  border-block-end-width: 2px;
+  border-radius: var(--r-xs);
+  background: var(--bg);
+  color: var(--sf-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+  .slashHint {
+    display: inline-grid;
+  }
+
+  .input:focus ~ .slashHint {
+    display: none;
+  }
+}
+
+/* الحركة تسقط والدلالة تبقى: الخيط يثبت ممتدًّا، والصفوف تتبدّل بلا تدرّج. */
+@media (prefers-reduced-motion: reduce) {
+  .pop[data-busy='true']::before {
+    animation: none;
+    transform: none;
+    background: var(--teal-600);
+  }
+
+  .item a {
+    transition: none;
+  }
+}

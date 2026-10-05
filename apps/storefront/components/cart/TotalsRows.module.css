@@ -1,0 +1,110 @@
+/* Totals chain rows — tokens only, logical properties only. */
+
+.rows {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--sf-body);
+  font-size: 14px;
+}
+
+.row dt {
+  margin: 0;
+}
+
+.row dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.discount {
+  color: var(--teal-text);
+}
+
+.saving {
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+.grand {
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--sf-line);
+  color: var(--sf-ink);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+/*
+ * ── تشكيل «hero» (Tahdheer - Cart.dc.html) ─────────────────────────────
+ * مجموعة الصفوف تُقفل بخطّ خفيف، والإجمالي النهائي كتلة مستقلّة تحته: 26px
+ * على سطر واحد و«ر.س» 12px بجانبه. الافتراضي فوق لا يتغيّر، فصفحتا الطلب
+ * والدفع تحملان تصميمهما الخاص ولا يملك هذا الملف حقّ إعادة رسمهما.
+ */
+.hero .row {
+  gap: 9px;
+  color: var(--sf-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.hero .discount {
+  color: var(--sf-body);
+  font-weight: 800;
+}
+
+.hero .discount dd {
+  color: var(--teal-text);
+}
+
+.hero .vat {
+  font-size: 12px;
+}
+
+.hero .saving {
+  color: var(--sf-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hero .saving dd {
+  color: var(--teal-text);
+}
+
+.hero .grand {
+  margin-block-start: 4px;
+  padding-block: 13px;
+  border-block-start-color: var(--sf-hair);
+  color: var(--color-secondary-text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.hero .grand .money {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.hero .grand .currency {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.money {
+  white-space: nowrap;
+}
+
+.currency {
+  font-size: 0.85em;
+}

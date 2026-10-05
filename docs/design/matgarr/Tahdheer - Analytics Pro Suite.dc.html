@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1280px;background:#dcdad5;box-sizing:border-box;padding:14px">
+
+<div style="border:1px solid rgba(0,0,0,.12);border-radius:12px;overflow:hidden;background:#f0f0f1;box-shadow:0 4px 22px rgba(0,0,0,.1)">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px 16px;background:#1d2327;color:#fff">
+<span aria-hidden="true" style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:linear-gradient(150deg,#1e7355,#123d2f);display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-gauge"></use></svg></span>
+<b style="flex:0 0 auto;font-size:14px;font-weight:900">Analytics Pro</b>
+<span style="font-size:11px;color:rgba(255,255,255,.55)">لوحة تحكّم ووردبريس — التحاضير الحديثة</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:0 12px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(255,255,255,.08);color:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-sparkle"></use></svg>{{ darkLabel }}
+</button>
+<span style="box-sizing:border-box;padding:4px 11px;border-radius:7px;background:rgba(255,255,255,.1);font-size:10.5px;font-weight:800;color:rgba(255,255,255,.82);white-space:nowrap">{{ demoBadge }}</span>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;padding:13px 16px 0;background:{{ shellBg }}">
+<h1 style="margin:0;font-size:17px;font-weight:900;color:{{ shellText }}">{{ sectionTitle }}</h1>
+<span style="font-size:11.5px;color:{{ shellMuted }}">{{ sectionSub }}</span>
+</div>
+<nav aria-label="التنقّل بين أقسام Analytics Pro" style="display:flex;flex-wrap:wrap;gap:2px;padding:9px 14px 0;background:{{ shellBg }};border-bottom:1px solid {{ shellBorder }}">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+<button type="button" onClick="{{ t.onClick }}" aria-current="{{ t.current }}" style="display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 15px;border:1px solid {{ t.border }};border-bottom:0;border-radius:8px 8px 0 0;margin-bottom:-1px;background:{{ t.bg }};color:{{ t.fg }};font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:{{ t.weight }};cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ t.icon }}"></use></svg>{{ t.label }}
+<span style="display:{{ t.countDisplay }};box-sizing:border-box;padding:1px 6px;border-radius:5px;background:{{ t.countBg }};font-size:9px;font-weight:900;color:{{ t.countFg }}">{{ t.count }}</span>
+</button>
+</sc-for>
+</nav>
+
+<div style="padding:0;background:{{ bodyBg }};min-height:840px">
+<sc-if value="{{ is.overview }}" hint-placeholder-val="{{ true }}">
+<dc-import name="Tahdheer - Analytics Pro" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,900px"></dc-import>
+</sc-if>
+<sc-if value="{{ is.seo }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Tahdheer - SEO Center" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,860px"></dc-import>
+</sc-if>
+<sc-if value="{{ is.heatmap }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Tahdheer - Attention Map" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,860px"></dc-import>
+</sc-if>
+<sc-if value="{{ is.media }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Tahdheer - Media Library" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,840px"></dc-import>
+</sc-if>
+<sc-if value="{{ is.images }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Tahdheer - Image Ops" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,820px"></dc-import>
+</sc-if>
+<sc-if value="{{ is.cohorts }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Tahdheer - Cohorts" embedded="{{ true }}" dark="{{ dark }}" hint-size="100%,880px"></dc-import>
+</sc-if>
+</div>
+
+</div>
+
+<p style="margin:12px 4px 0;font-size:10.5px;line-height:1.8;color:rgba(0,0,0,.55);text-align:start">{{ note }}</p>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:960}}">
+class Component extends DCLogic {
+  /*
+   * The shell owns BOTH the tab bar and the theme. Sections used to carry their
+   * own nav, title and dark toggle — correct standalone, but embedding them
+   * stacked a second dead nav and reset the theme on every tab switch. Now each
+   * section receives `embedded` (suppress own chrome) and `dark` (read, not own).
+   */
+  state = { tab: 'overview', dark: false };
+
+  renderVals() {
+    const st = this.state;
+    /*
+     * One shell, five real sections. Each mounts through sc-if so the inactive
+     * ones hold no DOM — the same lazy-tab rule the sections themselves follow.
+     * Labels and order mirror analytics_pro_primary_tabs() in the theme.
+     */
+    const dark = st.dark;
+    const tabDefs = [
+      ['overview', 'الرئيسية', '#i-gauge', '', '', 'مركز الذكاء — يقرأ من بيانات المتجر لا من تقديرات'],
+      ['seo', 'SEO والتحليلات', '#i-search', '5', 'warn', 'كل رقم يحمل مصدره — وما لا مصدر له لا يُعرَض'],
+      ['heatmap', 'خريطة الانتباه', '#i-eye', '', '', 'تفاعل حقيقي من طرف أول — لا محاكاة ولا تقدير'],
+      ['media', 'مكتبة الوسائط', '#i-files', '3', 'bad', 'لا حذف تلقائي — كل إجراء هدّام يعرض مواضع الاستخدام أولًا'],
+      ['images', 'تحسين الصور', '#i-sparkle', '', '', 'الملف الأصلي لا يُمسّ — التحويل على المقاسات الفرعية وحدها'],
+      ['cohorts', 'الاحتفاظ والأفواج', '#i-chart', 'جديد', 'new', 'هل يعود المعلّم بعد أول ملف؟']
+    ];
+    const activeTab = tabDefs.filter(t => t[0] === st.tab)[0];
+
+    const is = {};
+    tabDefs.forEach(t => { is[t[0]] = st.tab === t[0]; });
+
+    return {
+      is, dark,
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      darkLabel: dark ? 'الوضع الفاتح' : 'الوضع الداكن',
+      bodyBg: dark ? '#14181a' : '#f0f0f1',
+      shellBg: dark ? '#1c2225' : '#f0f0f1',
+      shellText: dark ? '#eef2f0' : '#1d2327',
+      shellMuted: dark ? '#9fb0a8' : '#50575e',
+      shellBorder: dark ? '#333d41' : '#c3c4c7',
+      sectionTitle: activeTab[1],
+      sectionSub: activeTab[5],
+      demoBadge: 'محتوى معاينة — الأرقام توضيحية لا من متجرك',
+      tabs: tabDefs.map(t => {
+        const on = st.tab === t[0];
+        const kind = t[4];
+        return {
+          label: t[1], icon: t[2], count: t[3],
+          current: on ? 'page' : 'false',
+          bg: on ? (dark ? '#252d31' : '#f6f7f7') : 'transparent',
+          border: on ? (dark ? '#333d41' : '#c3c4c7') : 'transparent',
+          fg: on ? (dark ? '#eef2f0' : '#1d2327') : (dark ? '#9fb0a8' : '#50575e'),
+          weight: on ? '900' : '700',
+          countDisplay: t[3] ? 'inline-flex' : 'none',
+          countBg: kind === 'bad' ? 'rgba(163,58,45,.12)' : kind === 'new' ? 'rgba(37,155,111,.14)' : 'rgba(216,181,106,.2)',
+          countFg: kind === 'bad' ? '#a33a2d' : kind === 'new' ? '#1e7355' : '#7a5d20',
+          onClick: () => this.setState({ tab: t[0] })
+        };
+      }),
+      note: 'الأقسام الخمسة هي نفس الملفات المصمَّمة منفردة — تُركَّب هنا خلف شريط تبويبات واحد ليُرى النظام كوحدة. الأرقام محتوى معاينة كما اتفقنا؛ أمّا حالات الاتصال (Search Console مربوط · Merchant غير مربوط) فمبنية على ما يوجد في القالب فعلًا، لأن ادّعاء اتصال قائم يُضلّل حتى في المعاينة.'
+    };
+  }
+}
+</script>
+</body>
+</html>

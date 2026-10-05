@@ -1,0 +1,116 @@
+/*
+UNIT: HIGHLIGHTGRID
+COMPONENT: HighlightGrid.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لغة التصميم: بطاقات الثقة في Storefront Home.dc.html — بيضاء بحدّ
+ * ‎--sf-line‎ ونصف قطر 14، أيقونة في بلاطة ملوّنة 40px، عنوان 15/800 ووصف
+ * 13 خافت. الإبراز عند التحويم/التركيز سطحٌ بارد لا ظلّ.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .grid[data-columns='2'] { grid-template-columns: repeat(2, 1fr); }
+  .grid[data-columns='3'] { grid-template-columns: repeat(3, 1fr); }
+}
+
+.cell { margin: 0; }
+
+.link {
+  position: relative;
+  display: block;
+  block-size: 100%;
+  box-sizing: border-box;
+  padding: 16px 18px;
+  border: 1px solid var(--sf-line, var(--border));
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    box-shadow var(--dur-hover) var(--ease-out);
+}
+
+/* بطاقة تفاعليّة: ترتفع ظلًّا (e-2) ولا تتحرّك. */
+@media (hover: hover) {
+  a.link:hover {
+    border-color: var(--sf-control);
+    box-shadow: var(--e-2);
+  }
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* طبقة الإبراز — تحت المحتوى، تظهر بالتحويم أو التركيز. */
+.highlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--sf-cool, var(--bg-mist));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-hover) var(--ease-out);
+}
+
+.highlight[data-on] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .highlight {
+    transition: none;
+  }
+
+  /* الإبراز يظهر فورًا ولا يختفي: أوقفنا الحركة لا المحتوى. */
+  .highlight[data-on] {
+    opacity: 1;
+  }
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  margin-block-end: 4px;
+  border-radius: 10px;
+  background: var(--tint-teal, var(--bg-green-light));
+  color: var(--tint-teal-fg);
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--sf-ink, var(--ink));
+}
+
+.description {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-muted);
+}

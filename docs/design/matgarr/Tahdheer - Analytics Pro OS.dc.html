@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes apFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes apPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="a4-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="a4-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="a4-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="a4-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+<symbol id="a4-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 16H3z"></path><path d="M12 10v5M12 17.6v.1"></path></symbol>
+<symbol id="a4-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+<symbol id="a4-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V6M4 20h16"></path><path d="M8 20v-6M12 20v-9M16 20v-4M20 20v-11"></path></symbol>
+<symbol id="a4-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2"></path><path d="M4 4v5h5"></path></symbol>
+<symbol id="a4-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a3 3 0 0 0-3 3v10a3 3 0 0 0 6 0V7a3 3 0 0 0-3-3z"></path><path d="M9 8H7a3 3 0 0 0 0 6h2M15 8h2a3 3 0 0 1 0 6h-2"></path></symbol>
+<symbol id="a4-flow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="4" width="7" height="5" rx="1.5"></rect><rect x="14" y="15" width="7" height="5" rx="1.5"></rect><path d="M6.5 9v4a2 2 0 0 0 2 2H14"></path></symbol>
+<symbol id="a4-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#0c1411;color:#eaf2ee">
+<div style="max-width:1240px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:30px;height:30px;border-radius:9px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center"><svg style="width:15px;height:15px;color:#fff"><use href="#a4-loop"></use></svg></span><b style="font-size:13px">Analytics Pro — نظام تشغيل نمو البحث</b></span>
+<span style="padding:2px 9px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">طبقة تنفيذية فوق المحرك الحالي — لا شيء أُزيل</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="7">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#14261d;border-top:1px solid rgba(255,255,255,.06)">
+<div style="max-width:1240px;margin:0 auto;padding:7px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-size:9.5px;font-weight:900;color:rgba(234,242,238,.55)">مستوى التنفيذ:</span>
+<sc-for list="{{ levels }}" as="l" hint-placeholder-count="5">
+<button type="button" onClick="{{ l.onClick }}" aria-pressed="{{ l.on }}" title="{{ l.hint }}" style="min-height:26px;padding:0 10px;border:1px solid {{ l.bd }};border-radius:7px;background:{{ l.bg }};color:{{ l.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ l.n }}</button>
+</sc-for>
+<span style="flex:1"></span>
+<span style="font-size:9px;color:rgba(234,242,238,.5)">{{ levelHint }}</span>
+</div>
+</div>
+
+<main id="main" style="max-width:1240px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.home }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:16px 19px;animation:apFade .3s ease">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 18px Tajawal">منذ زيارتك الأخيرة (أمس ٧:١٤ م)</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">كل رقم موسوم بمصدره — لا قيم مختلقة</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:11px">
+<sc-for list="{{ home.stats }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onGo }}" style="padding:12px 13px;border:1px solid {{ s.bd }};border-radius:13px;background:{{ s.bg }};cursor:pointer;text-align:start">
+<span style="display:block;font:900 19px Tajawal;color:{{ s.c }}">{{ s.v }}</span>
+<span style="display:block;font-size:10.5px;font-weight:900;color:#14261d">{{ s.l }}</span>
+<span style="display:inline-block;margin-top:4px;padding:1px 7px;border-radius:5px;background:#eef2ef;font-size:8px;font-weight:900;color:#5f7167">{{ s.src }}</span>
+</button>
+</sc-for>
+</div>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:15px 19px">
+<h2 style="margin:0 0 9px;font-size:13.5px;font-weight:900">حلقة النمو الذاتية — تعمل الآن</h2>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ home.loop }}" as="st" hint-placeholder-count="13">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:{{ st.bg }};border:1px solid {{ st.bd }};font-size:10px;font-weight:900;color:{{ st.c }}">{{ st.n }}<sc-if value="{{ st.live }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="width:6px;height:6px;border-radius:50%;background:#1e7355;animation:apPulse 1.4s infinite"></span></sc-if></span>
+</sc-for>
+</div>
+<span style="display:block;margin-top:8px;font-size:9.5px;color:#8b978f">المرحلة النشطة: «تحقق» — يعاد فحص ١٢ رابطًا أُصلحت أمس ويقارن قبل/بعد تلقائيًا.</span>
+</section>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px">
+<sc-for list="{{ home.quads }}" as="q" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:{{ q.hbg }};color:#fff">
+<svg aria-hidden="true" style="width:14px;height:14px"><use href="{{ q.ic }}"></use></svg>
+<b style="font-size:12px">{{ q.n }}</b>
+</div>
+<div style="padding:11px 14px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ q.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:#3d4f45;font-weight:700">{{ r.l }}</span><b style="color:{{ r.c }}">{{ r.v }}</b></div>
+</sc-for>
+<button type="button" onClick="{{ q.onGo }}" style="min-height:30px;margin-top:3px;border:1px solid #dce2dd;border-radius:8px;background:#fbfcfb;font-size:10px;font-weight:900;color:#3d4f45;cursor:pointer">{{ q.cta }} ←</button>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.actions }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:apFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal">مركز الإجراءات</h1>
+<span style="font-size:10px;color:#8b978f">كل توصية: دليل ← أثر ← مخاطرة ← معاينة ← تنفيذ ← تحقق ← تراجع</span>
+<span style="margin-inline-start:auto;padding:4px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900">{{ ac.doneN }} نُفذ وتُحُقق منه هذا الأسبوع</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ ac.rows }}" as="a" hint-placeholder-count="4">
+<section style="border:1px solid {{ a.bd }};border-inline-start:4px solid {{ a.edge }};border-radius:14px;background:#fff;padding:13px 16px;animation:apFade .25s ease">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:13px">{{ a.t }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ a.riskBg }};color:{{ a.riskC }};font-size:9px;font-weight:900">{{ a.risk }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:#eef2ef;color:#5f7167;font-size:9px;font-weight:900">ثقة: {{ a.conf }}</span>
+<span style="margin-inline-start:auto;font-size:10px;font-weight:900;color:#146c4c">{{ a.impact }}</span>
+</div>
+<p style="margin:6px 0;font-size:11px;line-height:1.85;color:#5f7167"><b style="color:#3d4f45">الدليل:</b> {{ a.ev }}</p>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<code dir="ltr" style="padding:2px 8px;border-radius:6px;background:#f4f6f4;font-size:9px;color:#5f7167">{{ a.urls }}</code>
+<span style="flex:1"></span>
+<button type="button" onClick="{{ a.onDry }}" style="min-height:32px;padding:0 12px;border:1px solid #dce2dd;border-radius:9px;background:#fbfcfb;font-size:10.5px;font-weight:900;color:#3d4f45;cursor:pointer">معاينة Dry Run</button>
+<sc-if value="{{ a.needsOk }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ a.onOk }}" style="min-height:32px;padding:0 13px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">موافقة</button>
+</sc-if>
+<sc-if value="{{ a.canExec }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ a.onExec }}" style="min-height:32px;padding:0 15px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">تنفيذ</button>
+</sc-if>
+<sc-if value="{{ a.locked }}" hint-placeholder-val="{{ false }}">
+<span style="font-size:9.5px;font-weight:800;color:#8a6500">{{ a.lockWhy }}</span>
+</sc-if>
+<sc-if value="{{ a.done }}" hint-placeholder-val="{{ false }}">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900"><svg aria-hidden="true" style="width:11px;height:11px"><use href="#a4-check"></use></svg>نُفذ — تحقق تلقائي بعد الزحف</span>
+<button type="button" onClick="{{ a.onRb }}" style="min-height:32px;padding:0 12px;border:1px solid #f0d3d3;border-radius:9px;background:#fdf6f6;font-size:10.5px;font-weight:900;color:#b32d2e;cursor:pointer">تراجع</button>
+</sc-if>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.cause }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #f0d3d3;border-radius:16px;background:linear-gradient(170deg,#fdf7f7,#fff 55%);padding:16px 19px;animation:apFade .3s ease">
+<h1 style="margin:0;font:900 19px Tajawal;color:#8e2223">تحقيق آلي: الإيراد العضوي ↓٢٢٪ (٧ أيام)</h1>
+<span style="font-size:10px;color:#8b978f">فُحصت ١٤ إشارة تلقائيًا · الأسباب مرتبة بالثقة — ارتباط لا سببية حتى يُثبت</span>
+</section>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ rc.rows }}" as="r" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:3px 11px;border-radius:999px;background:{{ r.cbg }};color:{{ r.cc }};font-size:9.5px;font-weight:900">{{ r.conf }}</span>
+<b style="font-size:12.5px">{{ r.t }}</b>
+<span style="margin-inline-start:auto;font:900 13px Tajawal;color:#8e2223">{{ r.share }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:7px">
+<span aria-hidden="true" style="flex:1;height:8px;border-radius:6px;background:#f4e5e5;overflow:hidden"><span style="display:block;height:100%;width:{{ r.w }};background:{{ r.barC }};border-radius:6px"></span></span>
+</div>
+<p style="margin:7px 0 0;font-size:10.5px;line-height:1.8;color:#5f7167"><b style="color:#3d4f45">الدليل:</b> {{ r.ev }} <b style="color:#146c4c">— الإجراء:</b> {{ r.fix }}</p>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 7px;font-size:12.5px;font-weight:900">الإشارات التي فُحصت واستُبعدت</h2>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ rc.cleared }}" as="c" hint-placeholder-count="6">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;background:#f2f6f3;font-size:9.5px;font-weight:800;color:#5f7167"><svg aria-hidden="true" style="width:10px;height:10px;color:#146c4c"><use href="#a4-check"></use></svg>{{ c }}</span>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.opps }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:apFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal">محرك الفرص</h1>
+<span style="font-size:9.5px;color:#8b978f">الدرجة = طلب × إمكانية ترتيب × قيمة تجارية × تحويل × ثقة ÷ جهد — افتح أي درجة لتفكيكها</span>
+<div style="margin-inline-start:auto;display:flex;gap:5px">
+<sc-for list="{{ op.fs }}" as="f" hint-placeholder-count="2">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.on }}" style="min-height:30px;padding:0 12px;border:1px solid {{ f.bd }};border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ op.rows }}" as="o" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px;animation:apFade .25s ease">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="display:inline-grid;place-items:center;width:42px;height:42px;border-radius:12px;background:{{ o.sbg }};color:{{ o.sc }};font:900 14px Tajawal">{{ o.score }}</span>
+<span style="flex:1;min-width:220px"><b style="font-size:12.5px">{{ o.t }}</b><span style="display:block;font-size:10px;color:#7c8a82">{{ o.d }}</span></span>
+<sc-if value="{{ o.qw }}" hint-placeholder-val="{{ false }}"><span style="padding:3px 10px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:9px;font-weight:900">⚡ مكسب سريع</span></sc-if>
+<span style="font-size:10.5px;font-weight:900;color:#146c4c">{{ o.rev }}</span>
+<button type="button" onClick="{{ o.onBreak }}" style="min-height:32px;padding:0 12px;border:1px solid #dce2dd;border-radius:9px;background:#fbfcfb;font-size:10px;font-weight:900;color:#3d4f45;cursor:pointer">تفكيك الدرجة</button>
+<button type="button" onClick="{{ o.onWf }}" style="min-height:32px;padding:0 13px;border:0;border-radius:9px;background:#14261d;color:#fff;font-size:10px;font-weight:900;cursor:pointer">أنشئ Workflow</button>
+</div>
+<sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-top:10px;padding-top:9px;border-top:1px dashed #eef1ef">
+<sc-for list="{{ o.parts }}" as="p" hint-placeholder-count="6">
+<div style="padding:8px;border-radius:10px;background:#fbfcfb;text-align:center"><span style="display:block;font:900 13px Tajawal;color:#14261d">{{ p.v }}</span><span style="font-size:8.5px;color:#8b978f">{{ p.l }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.sim }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;animation:apFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal">محاكاة «ماذا لو» — قبل أي تنفيذ</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">نطاقات لا وعود — الافتراضات معلنة</span>
+</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<sc-for list="{{ sm.tabs }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:36px;padding:0 15px;border:1px solid {{ t.bd }};border-radius:11px;background:{{ t.bg }};color:{{ t.fg }};font-size:11.5px;font-weight:900;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ sm.cards }}" as="c" hint-placeholder-count="3">
+<section style="border:1px solid {{ c.bd }};border-radius:15px;background:#fff;padding:15px 17px;text-align:center">
+<span style="font-size:10.5px;font-weight:900;color:{{ c.lc }}">{{ c.l }}</span>
+<span style="display:block;margin:5px 0;font:900 25px Tajawal;color:#14261d">{{ c.clicks }}</span>
+<span style="font-size:10px;color:#7c8a82">نقرة إضافية/شهر</span>
+<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #eef1ef;display:flex;justify-content:space-between;font-size:10.5px"><span style="color:#5f7167">تحويلات: <b>{{ c.conv }}</b></span><span style="color:#146c4c;font-weight:900">{{ c.rev }}</span></div>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<h2 style="margin:0;font-size:12.5px;font-weight:900">الافتراضات — ثقة {{ sm.conf }}</h2>
+<span style="margin-inline-start:auto;font-size:9px;color:#a9b4ad">تنبؤ لا ضمان · يعاد المعايرة شهريًا من نتائجك الفعلية</span>
+</div>
+<sc-for list="{{ sm.assum }}" as="a" hint-placeholder-count="3">
+<span style="display:block;padding:4px 0;font-size:10.5px;line-height:1.7;color:#5f7167">• {{ a }}</span>
+</sc-for>
+<button type="button" onClick="{{ sm.onWf }}" style="min-height:36px;margin-top:8px;padding:0 16px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11px;font-weight:900;cursor:pointer">حوّل السيناريو إلى Workflow تنفيذي</button>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.flows }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;animation:apFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal">محرك الأتمتة — Workflows</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">المحرك الحالي نفسه + بوابات موافقة وقياس ROI — لم يُستبدل</span>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#14261d;color:#eaf2ee;padding:15px 18px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900;color:#d8b56a">منشئ القواعد — مثال حي</h2>
+<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;font:800 11px ui-monospace,monospace">
+<span style="padding:5px 11px;border-radius:8px;background:rgba(216,181,106,.16);color:#e8d3a6">IF</span><span style="padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08)">الانطباعات &gt; ١٠٬٠٠٠</span>
+<span style="padding:5px 11px;border-radius:8px;background:rgba(216,181,106,.16);color:#e8d3a6">AND</span><span style="padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08)">CTR &lt; ١٪</span>
+<span style="padding:5px 11px;border-radius:8px;background:rgba(216,181,106,.16);color:#e8d3a6">AND</span><span style="padding:5px 11px;border-radius:8px;background:rgba(255,255,255,.08)">المركز ≤ ٨</span>
+<span style="padding:5px 11px;border-radius:8px;background:rgba(43,156,114,.3);color:#a8e2c5">THEN</span><span style="padding:5px 11px;border-radius:8px;background:rgba(43,156,114,.18);color:#a8e2c5">Workflow تحسين CTR (بموافقة)</span>
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ wf.rows }}" as="w" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<button type="button" onClick="{{ w.onTog }}" role="switch" aria-checked="{{ w.on }}" aria-label="{{ w.n }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ w.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ w.knob }};width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:inset-inline-start .12s"></span></button>
+<b style="font-size:12.5px">{{ w.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ w.gbg }};color:{{ w.gc }};font-size:9px;font-weight:900">{{ w.gate }}</span>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">{{ w.last }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:7px;flex-wrap:wrap">
+<span aria-hidden="true" style="flex:1;min-width:160px;height:7px;border-radius:5px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ w.pw }};background:#1e7355;border-radius:5px"></span></span>
+<span style="font-size:10px;font-weight:800;color:#3d4f45">{{ w.stage }}</span>
+<span style="font-size:10.5px;font-weight:900;color:#146c4c">{{ w.roi }}</span>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.ai }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start;animation:apFade .3s ease">
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:16px 19px">
+<h1 style="margin:0 0 4px;font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:17px;height:17px;color:#146c4c"><use href="#a4-brain"></use></svg>اسأل Analytics Pro</h1>
+<span style="font-size:9.5px;color:#8b978f">يستعلم بياناتك الفعلية فقط — كل إجابة بمصدرها وثقتها</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin:11px 0">
+<sc-for list="{{ ai.qs }}" as="q" hint-placeholder-count="4">
+<button type="button" onClick="{{ q.onAsk }}" aria-pressed="{{ q.on }}" style="min-height:32px;padding:0 12px;border:1px solid {{ q.bd }};border-radius:999px;background:{{ q.bg }};color:{{ q.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ q.n }}</button>
+</sc-for>
+</div>
+<div style="padding:14px 16px;border:1px solid #eef1ef;border-radius:13px;background:#fbfcfb">
+<p style="margin:0 0 9px;font-size:12px;line-height:2;color:#14261d">{{ ai.answer }}</p>
+<sc-for list="{{ ai.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #eef1ef;flex-wrap:wrap">
+<span style="flex:1;min-width:180px;font-size:11px;font-weight:800;color:#3d4f45">{{ r.l }}</span>
+<b style="font:900 11.5px Tajawal;color:#146c4c">{{ r.v }}</b>
+<span style="padding:1px 7px;border-radius:5px;background:{{ r.sbg }};color:{{ r.sc }};font-size:8px;font-weight:900">{{ r.src }}</span>
+</div>
+</sc-for>
+<div style="display:flex;gap:6px;margin-top:9px;flex-wrap:wrap">
+<button type="button" onClick="{{ ai.onAct }}" style="min-height:34px;padding:0 14px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">{{ ai.actCta }}</button>
+<span style="align-self:center;font-size:9px;color:#a9b4ad">ثقة الإجابة: {{ ai.conf }} · آخر تحديث بيانات: قبل ٩ دقائق</span>
+</div>
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900">نظام التعلم — نتائج فعلية تعاير الأولويات</h2>
+<sc-for list="{{ ai.learn }}" as="l" hint-placeholder-count="3">
+<div style="padding:8px 0;border-top:1px dashed #f1f4f2">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><b style="font-size:11px">{{ l.issue }}</b><span style="margin-inline-start:auto;padding:2px 9px;border-radius:999px;background:{{ l.rbg }};color:{{ l.rc }};font-size:8.5px;font-weight:900">{{ l.res }}</span></div>
+<span style="display:block;margin-top:2px;font-size:9.5px;line-height:1.7;color:#7c8a82">{{ l.d }}</span>
+</div>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;line-height:1.7;color:#a9b4ad">ما فشل مرتين لا يُقترح ثالثة دون إعادة تقييم — والأوزان تُعاير من نتائجك لا من افتراضات عامة.</p>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 7px;font-size:13px;font-weight:900">الموجز اليومي</h2>
+<sc-for list="{{ ai.brief }}" as="b" hint-placeholder-count="4">
+<span style="display:flex;align-items:center;gap:7px;padding:3px 0;font-size:11px;color:#3d4f45"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ b.c }}"></span>{{ b.t }}</span>
+</sc-for>
+</section>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:apFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:920},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;actions&quot;,&quot;cause&quot;,&quot;opps&quot;,&quot;sim&quot;,&quot;flows&quot;,&quot;ai&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;},&quot;startLevel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;analytics&quot;,&quot;recs&quot;,&quot;assisted&quot;,&quot;controlled&quot;,&quot;auto&quot;],&quot;default&quot;:&quot;controlled&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الأمان&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+LV=[['analytics','تحليل فقط','لا عمليات كتابة إطلاقًا'],['recs','توصيات','تشخيص واقتراحات دون تجهيز'],['assisted','مُساعد','تجهيز التغييرات للموافقة'],['controlled','أتمتة منضبطة','تنفيذ الآمن المعتمد تلقائيًا'],['auto','طيار آلي','تنفيذ ما تجيزه السياسات — عالي الخطورة يبقى بموافقة']];
+ACTS=[
+ {id:1,t:'٣٤ صورة بلا alt في صفحات المنتجات',risk:'safe',conf:'٩٦٪',impact:'بحث الصور + وصولية',ev:'الزاحف وجدها في ١٢ منتجًا — اقتُرح alt من اسم المنتج والزاوية، جاهز للمراجعة.',urls:'12 products · 34 imgs',rb:true},
+ {id:2,t:'سلسلة تحويل ثلاثية على /old-offers',risk:'safe',conf:'٩٩٪',impact:'يحفظ Crawl Budget',ev:'301←301←200 — التسوية لقفزة واحدة مباشرة، والروابط الداخلية تُحدَّث معها.',urls:'/old-offers → /shop?on_sale=1',rb:true},
+ {id:3,t:'عناوين مقولبة في ٦ تصنيفات (CTR ٠٫٨٪)',risk:'review',conf:'٨٨٪',impact:'≈ +٣٢٠ نقرة/شهر',ev:'انطباعات عالية بمراكز ٤–٧ وCTR دون النظراء — وُلّدت ٣ صيغ لكل تصنيف بمعاينة SERP.',urls:'6 category pages',rb:true},
+ {id:4,t:'canonical خاطئ على صفحة الحزم',risk:'high',conf:'٩٤٪',impact:'يحمي صفحة مُدرّة',ev:'يشير لنسخة بمعامل تتبع — التصحيح ذاتي. صفحة محمية (Money Page): موافقة صريحة إلزامية مهما كان المستوى.',urls:'/bundles',rb:true}
+];
+OPPS=[
+ {id:1,score:94,t:'«حزمة المراجعة» — مركز ٦ بطلب ضخم',d:'٨٬٤٠٠ انطباع/شهر · تحويل الصفحة ٤٫١٪',rev:'≈ +٢٬٩٠٠ ر.س/شهر',qw:true,parts:[['طلب','٩٫٢'],['إمكانية','٨٫٥'],['قيمة','٩٫٦'],['تحويل','٨٫٨'],['ثقة','٨٫٩'],['جهد','منخفض']]},
+ {id:2,score:87,t:'بحث داخلي بلا صفحة: «ملازم تحفيظ»',d:'١٤٢ بحثًا داخليًا/شهر بلا نتائج — طلب حقيقي بلا هبوط',rev:'فئة جديدة محتملة',qw:true,parts:[['طلب','٨٫١'],['إمكانية','٩٫٠'],['قيمة','٧٫٨'],['تحويل','—'],['ثقة','٨٫٢'],['جهد','متوسط']]},
+ {id:3,score:81,t:'مقال متدهور: «خطة مراجعة ٤ أسابيع»',d:'نقراته ↓٤١٪ في ٩٠ يومًا — منافس حدّث محتواه',rev:'يستعيد ≈ ١٩٠ نقرة/شهر',qw:false,parts:[['طلب','٧٫٤'],['إمكانية','٨٫٦'],['قيمة','٦٫٩'],['تحويل','٥٫٢'],['ثقة','٧٫٧'],['جهد','منخفض']]},
+ {id:4,score:73,t:'٣ صفحات يتيمة مُدرّة',d:'تحويل عالٍ بلا روابط داخلية — عمق زحف ٥',rev:'رفع الظهور ≈ ٢٢٪',qw:false,parts:[['طلب','٦٫٨'],['إمكانية','٧٫٩'],['قيمة','٨٫٤'],['تحويل','٨٫١'],['ثقة','٩٫١'],['جهد','منخفض']]}
+];
+SIMS={
+ ctr:{n:'CTR +٢٠٪ للمراكز ١–١٠',low:['+٤١٠','+١٦','+٧٢٠ ر.س'],mid:['+٦٨٠','+٢٧','+١٬٢٠٠ ر.س'],high:['+٩٥٠','+٣٨','+١٬٧٠٠ ر.س'],conf:'٧٤٪',assum:['CTR الحالي من Search Console (٢٨ يومًا مُتحقق)','معدل التحويل ثابت عند متوسط الربع الأخير ٣٫٦٪','لا تغيّر في المنافسة أو الموسمية خلال فترة القياس']},
+ pos:{n:'مراكز ٤–١٠ تتقدم مركزين',low:['+٥٩٠','+٢١','+٩٤٠ ر.س'],mid:['+١٬٠٥٠','+٣٩','+١٬٧٥٠ ر.س'],high:['+١٬٦٠٠','+٥٩','+٢٬٦٠٠ ر.س'],conf:'٦١٪',assum:['منحنيات CTR بالمركز من بياناتك أنت لا متوسطات عامة','التقدم يتحقق خلال ٦–١٠ أسابيع من التنفيذ','١٨ كلمة مؤهلة فقط دخلت الحساب (طلب مُتحقق)']},
+ links:{n:'إصلاح كل الروابط المكسورة عالية الأولوية',low:['+١٢٠','+٤','+١٩٠ ر.س'],mid:['+٢١٠','+٨','+٣٤٠ ر.س'],high:['+٣٤٠','+١٣','+٥٦٠ ر.س'],conf:'٨٢٪',assum:['١٧ رابطًا مكسورًا في صفحات لها زيارات (زحف مُتحقق)','الأثر الأكبر من استعادة تدفق القوة الداخلية','يشمل خفض معدل الارتداد للصفحات المصلَّحة']}
+};
+state={scr:'home',level:'controlled',acts:{},opsF:'all',opOpen:0,sim:'ctr',aiQ:0,
+ wfs:{w1:true,w2:true,w3:false,w4:true},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3200));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['home','غرفة التحكم'],['actions','مركز الإجراءات'],['cause','السبب الجذري'],['opps','الفرص'],['sim','المحاكاة'],['flows','الأتمتة'],['ai','المساعد والتعلم']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  levels:this.LV.map(l=>({n:l[1],hint:l[2],on:st.level===l[0],
+   bg:st.level===l[0]?'#d8b56a':'rgba(255,255,255,.06)',fg:st.level===l[0]?'#2a1f08':'rgba(234,242,238,.7)',bd:st.level===l[0]?'#d8b56a':'rgba(255,255,255,.14)',
+   onClick:()=>{ this.setState({level:l[0]}); this.toast('مستوى التنفيذ: '+l[1]+' — '+l[2]); }})),
+  levelHint:this.LV.filter(l=>l[0]===st.level)[0][2],
+  is:{home:st.scr==='home',actions:st.scr==='actions',cause:st.scr==='cause',opps:st.scr==='opps',sim:st.scr==='sim',flows:st.scr==='flows',ai:st.scr==='ai',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ base.home={
+  stats:[
+   {v:'٢',l:'مشكلتان حرجتان',c:'#b32d2e',bg:'#fdf6f6',bd:'#f0d3d3',src:'مُتحقق',go:'actions'},
+   {v:'٨',l:'فرص عالية القيمة',c:'#8a6500',bg:'#fffdf5',bd:'#f0e2b8',src:'محسوب',go:'opps'},
+   {v:'٥',l:'Workflows اكتملت',c:'#146c4c',bg:'#f6fbf8',bd:'#cfe0d6',src:'مُتحقق',go:'flows'},
+   {v:'+٨٫٧٪',l:'الإيراد العضوي (٧ أيام)',c:'#146c4c',bg:'#f6fbf8',bd:'#cfe0d6',src:'مُتحقق',go:'cause'},
+   {v:'٤',l:'منتجات دخلت Top 10',c:'#1d5f9c',bg:'#f6f9fc',bd:'#cfe0f0',src:'GSC',go:'opps'}
+  ].map(s=>Object.assign(s,{onGo:()=>this.setState({scr:s.go})})),
+  loop:['رصد','فهم','كشف','تشخيص','ترتيب','محاكاة','موافقة','تنفيذ','تحقق','مراقبة','قياس','تعلم','تحسين'].map((n,i)=>({n:n,live:i===8,
+   bg:i===8?'#e4f4ec':(i<8?'#f2f6f3':'#fbfcfb'),bd:i===8?'#1e7355':'#e6ebe7',c:i===8?'#146c4c':'#5f7167'})),
+  quads:[
+   {n:'رصد',ic:'#a4-eye',hbg:'#1d5f9c',cta:'كل المؤشرات',go:'home',rows:[['الزيارات العضوية','٤٢٫١ ألف','#14261d'],['متوسط المركز','٨٫٢ ↑','#146c4c'],['CWV سليمة','٨٩٪','#146c4c']]},
+   {n:'كشف',ic:'#a4-warn',hbg:'#8a6500',cta:'كل الاكتشافات',go:'cause',rows:[['شذوذ نشط','١','#b32d2e'],['فرص جديدة','٨','#8a6500'],['تدهور محتوى','٣','#8a6500']]},
+   {n:'تنفيذ',ic:'#a4-bolt',hbg:'#1e7355',cta:'مركز الإجراءات',go:'actions',rows:[['بانتظار موافقتك','٢','#8a6500'],['قيد التنفيذ','١','#1d5f9c'],['آمن مؤتمت اليوم','٦','#146c4c']]},
+   {n:'تحقق',ic:'#a4-shield',hbg:'#14261d',cta:'سجل التحقق',go:'flows',rows:[['أعيد زحفها','١٢','#14261d'],['نجح التحقق','١١','#146c4c'],['تراجع تلقائي','١','#b32d2e']]}
+  ].map(q=>Object.assign(q,{rows:q.rows.map(r=>({l:r[0],v:r[1],c:r[2]})),onGo:()=>this.setState({scr:q.go})}))
+ };
+ // action center
+ const lvl=st.level;
+ base.ac={doneN:'١١',rows:this.ACTS.map(a=>{
+  const s=st.acts[a.id]||'new';
+  const R={safe:['آمن','#e4f4ec','#146c4c','#1e7355'],review:['يتطلب مراجعة','#fff4d6','#8a6500','#d8b56a'],high:['عالي الخطورة','#fce8e8','#b32d2e','#b32d2e']}[a.risk];
+  const okNeeded=a.risk!=='safe'||lvl==='assisted';
+  const approved=s==='ok'||s==='done';
+  const execAllowed=lvl!=='analytics'&&lvl!=='recs'&&(a.risk==='safe'?(lvl!=='assisted'||approved):approved);
+  return {t:a.t,ev:a.ev,urls:a.urls,conf:a.conf,impact:a.impact,
+   risk:R[0],riskBg:R[1],riskC:R[2],edge:R[3],bd:'#dce2dd',
+   needsOk:okNeeded&&s==='new',
+   canExec:s!=='done'&&execAllowed&&(!okNeeded||approved),
+   locked:s!=='done'&&!execAllowed&&!(okNeeded&&s==='new'),
+   lockWhy:lvl==='analytics'||lvl==='recs'?'التنفيذ معطل في هذا المستوى — ارفعه أو نفّذ يدويًا':'بانتظار الموافقة',
+   done:s==='done',
+   onDry:()=>this.toast('Dry Run: قبل/بعد لكل URL دون أي كتابة — درجة المخاطرة '+R[0]),
+   onOk:()=>{ const acts=Object.assign({},st.acts); acts[a.id]='ok'; this.setState({acts:acts}); this.toast('اعتُمد — جاهز للتنفيذ وفق مستواك'); },
+   onExec:()=>{ const acts=Object.assign({},st.acts); acts[a.id]='done'; this.setState({acts:acts}); this.toast('نُفذ «'+a.t+'» — أُدرج في سجل التدقيق وسيُتحقق منه بإعادة الزحف خلال ساعة'); },
+   onRb:()=>{ const acts=Object.assign({},st.acts); acts[a.id]='new'; this.setState({acts:acts}); this.toast('تراجع كامل من اللقطة — الحالة السابقة استُعيدت وتوثقت'); }};
+ })};
+ base.rc={rows:[
+  {conf:'مؤكد',cbg:'#fce8e8',cc:'#b32d2e',t:'نفاد مخزون «حزمة المراجعة» ٤ أيام',share:'≈ ٦١٪ من الهبوط',w:'61%',barC:'#b32d2e',ev:'انقطاع الإيراد يطابق نافذة النفاد بالساعة، والمركز لم يتغير.',fix:'تفعيل «النفاد الذكي» (بدائل + تنبيه) — Workflow جاهز.'},
+  {conf:'دليل قوي',cbg:'#fff4d6',cc:'#8a6500',t:'تحديث قالب أبطأ LCP الجوال ٣١٪',share:'≈ ٢٢٪',w:'22%',barC:'#d8842a',ev:'نشرة الثلاثاء تسبق تدهور CWV مباشرة — تحويل الجوال ↓١٤٪ بعدها.',fix:'أولوية تحميل صورة البطل + تأجيل سكربت الطرف الثالث.'},
+  {conf:'محتمل',cbg:'#e8f2fc',cc:'#1d5f9c',t:'منافس تصدّر «ملازم ثالث ثانوي»',share:'≈ ١١٪',w:'11%',barC:'#527a96',ev:'المركز ٣←٥ لكلمتين — يحتاج تتبعًا أسبوعًا إضافيًا قبل الجزم.',fix:'مراقبة + تحديث معلوماتي للمحتوى (Information Gain).'},
+  {conf:'دليل غير كافٍ',cbg:'#f2f4f2',cc:'#5f7167',t:'موسمية ما بعد العودة للمدارس',share:'غير محدد',w:'6%',barC:'#a9b4ad',ev:'نمط العام الماضي مشابه جزئيًا — البيانات لا تكفي للفصل عن السببين الأولين.',fix:'لا إجراء — يُعاد التقييم مع اكتمال بيانات الأسبوع.'}
+ ],cleared:['robots.txt سليم','لا noindex عرضي','Sitemap يعمل','لا انهيار 404','Canonicals سليمة','لا عقوبة يدوية في GSC','الفهرسة مستقرة','لا تغيير روابط داخلية']};
+ const ops=st.opsF==='qw'?this.OPPS.filter(o=>o.qw):this.OPPS;
+ base.op={
+  fs:[['all','كل الفرص'],['qw','⚡ مكاسب سريعة']].map(f=>({n:f[1],on:st.opsF===f[0],
+   bg:st.opsF===f[0]?'#14261d':'#fff',fg:st.opsF===f[0]?'#fff':'#3d4f45',bd:st.opsF===f[0]?'#14261d':'#dce2dd',
+   onClick:()=>this.setState({opsF:f[0]})})),
+  rows:ops.map(o=>({t:o.t,d:o.d,rev:o.rev,qw:o.qw,score:this.ar(o.score),
+   sbg:o.score>=90?'#14261d':(o.score>=80?'#1e7355':'#527a96'),sc:'#fff',
+   open:st.opOpen===o.id,
+   parts:o.parts.map(p=>({l:p[0],v:p[1]})),
+   onBreak:()=>this.setState({opOpen:st.opOpen===o.id?0:o.id}),
+   onWf:()=>this.toast('أُنشئ Workflow من الفرصة — يبدأ بالتشخيص وينتهي بالتحقق، بموافقتك عند أي كتابة')}))};
+ const S=this.SIMS[st.sim];
+ base.sm={
+  tabs:Object.keys(this.SIMS).map(k=>({n:this.SIMS[k].n,on:st.sim===k,
+   bg:st.sim===k?'#14261d':'#fff',fg:st.sim===k?'#fff':'#3d4f45',bd:st.sim===k?'#14261d':'#dce2dd',
+   onClick:()=>this.setState({sim:k})})),
+  cards:[['متحفظ',S.low,'#8b978f','#dce2dd'],['متوقع',S.mid,'#146c4c','#1e7355'],['متفائل',S.high,'#1d5f9c','#cfe0f0']].map(c=>({l:c[0],lc:c[2],bd:c[3],clicks:c[1][0],conv:c[1][1],rev:c[1][2]})),
+  conf:S.conf,assum:S.assum,
+  onWf:()=>this.toast('حُوّل السيناريو لـ Workflow — وسيقارن التوقع بالفعلي بعد التنفيذ ليعاير النموذج (التعلم)')};
+ base.wf={rows:[
+  {id:'w1',n:'تحسين CTR للصفحات عالية الانطباعات',gate:'بوابة موافقة',gbg:'#fff4d6',gc:'#8a6500',stage:'٤/٦ — معاينة SERP جاهزة',pw:'66%',roi:'ROI آخر تشغيل: +١٩٠ نقرة',last:'يعمل الآن'},
+  {id:'w2',n:'إصلاح الروابط المكسورة أسبوعيًا',gate:'آمن — مؤتمت',gbg:'#e4f4ec',gc:'#146c4c',stage:'مكتمل — التحقق نجح',pw:'100%',roi:'٣٤ رابطًا أُصلح هذا الشهر',last:'قبل ٣ ساعات'},
+  {id:'w3',n:'مراقبة تدهور المحتوى (٩٠ يومًا)',gate:'توصيات فقط',gbg:'#e8f2fc',gc:'#1d5f9c',stage:'متوقف — بانتظار تفعيلك',pw:'0%',roi:'—',last:'معطل'},
+  {id:'w4',n:'حارس ما بعد النشر (قبل/بعد)',gate:'حاجب — يوقف النشر',gbg:'#fce8e8',gc:'#b32d2e',stage:'خامل — يستيقظ مع كل نشر',pw:'100%',roi:'أوقف noindex عرضيًا مرة',last:'آخر نشر: الثلاثاء'}
+ ].map(w=>Object.assign(w,{on:st.wfs[w.id],swBg:st.wfs[w.id]?'#1e7355':'#cfd8d3',knob:st.wfs[w.id]?'17px':'2px',
+  onTog:()=>{ const wfs=Object.assign({},st.wfs); wfs[w.id]=!wfs[w.id]; this.setState({wfs:wfs});
+   this.toast((wfs[w.id]?'فُعّل':'أُوقف')+' «'+w.n+'» — التغيير في سجل التدقيق'); }}))};
+ const QS=[
+  {n:'لماذا هبط الإيراد العضوي؟',a:'٦١٪ من الهبوط يفسره نفاد «حزمة المراجعة» ٤ أيام (مؤكد — التوقيت متطابق بالساعة)، و٢٢٪ تدهور LCP الجوال بعد نشرة الثلاثاء (دليل قوي). التفاصيل الكاملة في شاشة السبب الجذري.',
+   rows:[['أثر النفاد المقدّر','− ١٬٨٤٠ ر.س','محسوب','#fff4d6','#8a6500'],['أثر LCP على تحويل الجوال','− ١٤٪','مُتحقق','#e4f4ec','#146c4c'],['المتبقي غير المفسَّر','≈ ٦٪','تقدير','#e8f2fc','#1d5f9c']],cta:'افتح تحقيق السبب الجذري',go:'cause',conf:'٨٤٪'},
+  {n:'أين أعلى فرص القيمة الآن؟',a:'الفرصة الأعلى (٩٤): «حزمة المراجعة» في المركز ٦ بطلب ٨٬٤٠٠ انطباع — تقدمها ثلاثة مراكز يعادل ≈ ٢٬٩٠٠ ر.س/شهر. تليها فجوة «ملازم تحفيظ» من البحث الداخلي (١٤٢ بحثًا بلا نتيجة).',
+   rows:[['فرص فوق درجة ٨٠','٣','محسوب','#fff4d6','#8a6500'],['قيمتها الشهرية مجتمعة','≈ ٥٬٤٠٠ ر.س','تقدير','#e8f2fc','#1d5f9c'],['منها مكاسب سريعة','٢','محسوب','#fff4d6','#8a6500']],cta:'افتح محرك الفرص',go:'opps',conf:'٧٦٪'},
+  {n:'ما الذي يمكن تنفيذه آليًا بأمان الآن؟',a:'إجراءان مصنفان «آمن»: توليد alt لـ ٣٤ صورة، وتسوية سلسلة تحويل ثلاثية — كلاهما بلقطة تراجع كاملة ولا يمسان صفحات محمية.',
+   rows:[['إجراءات آمنة جاهزة','٢','مُتحقق','#e4f4ec','#146c4c'],['تتطلب مراجعتك','١','مُتحقق','#e4f4ec','#146c4c'],['عالية الخطورة (موافقة إلزامية)','١','مُتحقق','#e4f4ec','#146c4c']],cta:'افتح مركز الإجراءات',go:'actions',conf:'٩٦٪'},
+  {n:'ماذا تغير بعد آخر نشر؟',a:'حارس ما بعد النشر قارن ٤٠ صفحة عيّنة: LCP الجوال تدهور ٣١٪ (السبب: سكربت طرف ثالث جديد يحجب العرض) — كل شيء آخر سليم: لا noindex، لا كسور canonical، الـ Schema صالح.',
+   rows:[['صفحات قورنت قبل/بعد','٤٠','مُتحقق','#e4f4ec','#146c4c'],['تراجعات مكتشفة','١ (LCP)','مُتحقق','#e4f4ec','#146c4c'],['فحوص سلامة اجتازت','١٢/١٣','مُتحقق','#e4f4ec','#146c4c']],cta:'أنشئ Workflow إصلاح LCP',go:'flows',conf:'٩١٪'}
+ ];
+ const Q=QS[st.aiQ];
+ base.ai={
+  qs:QS.map((q,i)=>({n:q.n,on:st.aiQ===i,
+   bg:st.aiQ===i?'#14261d':'#fff',fg:st.aiQ===i?'#fff':'#3d4f45',bd:st.aiQ===i?'#14261d':'#dce2dd',
+   onAsk:()=>this.setState({aiQ:i})})),
+  answer:Q.a,conf:Q.conf,
+  rows:Q.rows.map(r=>({l:r[0],v:r[1],src:r[2],sbg:r[3],sc:r[4]})),
+  actCta:Q.cta,onAct:()=>this.setState({scr:Q.go}),
+  learn:[
+   {issue:'عناوين CTR — دفعة يوليو',res:'نجح +٢٣٪',rbg:'#e4f4ec',rc:'#146c4c',d:'١٢ عنوانًا حُسّن؛ CTR من ١٫١٪ إلى ١٫٤٪ خلال ٢٨ يومًا — رفع النموذج وزن هذا النمط.'},
+   {issue:'إضافة FAQ schema للتصنيفات',res:'بلا أثر',rbg:'#f2f4f2',rc:'#5f7167',d:'لا ظهور غنيًا بعد ٦٠ يومًا (دعم جوجل محدود) — خُفض وزنه ولن يُقترح افتراضيًا.'},
+   {issue:'ضغط صور البطل — دفعة يونيو',res:'نجح LCP −٢٨٪',rbg:'#e4f4ec',rc:'#146c4c',d:'تحقق ميدانيًا في CrUX — عُمم النمط على القوالب الجديدة تلقائيًا.'}
+  ],
+  brief:[
+   {t:'مشكلتان حرجتان جديدتان — أولاهما canonical صفحة الحزم',c:'#b32d2e'},
+   {t:'٥ Workflows اكتملت وتحققت · واحد بانتظار موافقتك',c:'#146c4c'},
+   {t:'٤ منتجات دخلت Top 10 — منها «مذكرة الفيزياء»',c:'#1d5f9c'},
+   {t:'فرصة اليوم: «حزمة المراجعة» مركز ٦ (درجة ٩٤)',c:'#8a6500'}
+  ]};
+ return base;
+}
+}
+</script>
+</body>
+</html>

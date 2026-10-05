@@ -1,0 +1,272 @@
+/*
+UNIT: MASTER-TREE
+COMPONENT: master-tree.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * TahMasterTree — نسب اللوحة (إطار بالأساسيّ 28%، خلفية 4%، جذر متدرّج،
+ * بطاقات فروع 9px) بألوانٍ من الرموز: الصبغات `color-mix` من `--primary` /
+ * `--gold-500` / `--cc-red`، فتتبع السمة واللون الأساسيّ ولا لون خامّ هنا.
+ */
+
+.tree {
+  padding-block: 16px;
+  padding-inline: 18px;
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--primary) 4%, transparent);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 4px;
+}
+
+.title {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.tally {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 7px;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.help {
+  margin-block: 0 13px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--body);
+  text-align: start;
+}
+
+.body {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.root {
+  flex: 0 0 auto;
+  inline-size: 168px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 14px;
+  padding-inline: 13px;
+  border-radius: 11px;
+  /* تدرّج البطل المشتقّ لكلّ لونٍ أساسيّ — الأخضر العميق ← ‎--green-700‎ كان يبلغ
+   * التركواز الساطع في الداكن فيسقط الأبيض فوقه تحت 2:1. */
+  background: var(--cc-admin-hero-gradient);
+  color: var(--cc-on-tone);
+}
+
+.rootLabel {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 900;
+  line-height: 1.45;
+  margin-block-end: 3px;
+}
+
+.rootName {
+  display: block;
+  font-size: 10px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--cc-on-tone) 80%, transparent);
+  text-align: start;
+}
+
+.rootSku {
+  display: block;
+  margin-block-start: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  color: color-mix(in srgb, var(--cc-on-tone) 80%, transparent);
+}
+
+.connector {
+  flex: 0 0 auto;
+  inline-size: 22px;
+  align-self: center;
+  block-size: 2px;
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.branches {
+  flex: 1;
+  min-inline-size: 320px;
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.branch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-block: 9px;
+  padding-inline: 10px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 9px;
+  background: var(--surface);
+}
+
+.mark {
+  flex: 0 0 auto;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  font-weight: 900;
+}
+
+.branchText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.branchLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.branchSource {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 8.5px;
+  color: var(--body);
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.branchDetail {
+  display: block;
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: start;
+}
+
+.branchState {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 7px;
+  border-radius: 5px;
+  font-size: 8.5px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+/* ── حالات الفروع: القيم الأربع من STATE في التصميم ── */
+
+.complete .mark {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.complete .branchState {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary-strong);
+}
+
+.partial {
+  border-color: color-mix(in srgb, var(--gold-500) 32%, transparent);
+  /* الصبغة تُخلط في السطح لا في الشفّاف (كـ`.missing`): شفّافةً كانت البطاقة
+   * تُسقط تعبئة `.branch` فتظهر أرضُ الصفحة وإضاءتها تحت الرقاقة، فهبط
+   * «جزئية» في الفاتح إلى 3.98:1. على السطح: ≥5:1 في السمتين. */
+  background: color-mix(in srgb, var(--gold-500) 5%, var(--surface));
+}
+
+.partial .mark,
+.partial .branchState {
+  background: color-mix(in srgb, var(--gold-500) 20%, transparent);
+  color: var(--gold-text);
+}
+
+.missing {
+  border-color: color-mix(in srgb, var(--cc-red) 20%, transparent);
+  background: color-mix(in srgb, var(--cc-red) 4%, var(--surface));
+}
+
+.missing .mark,
+.missing .branchState {
+  background: color-mix(in srgb, var(--cc-red) 12%, transparent);
+  color: var(--danger-text);
+}
+
+.external {
+  background: var(--bg-soft);
+}
+
+.external .mark,
+.external .branchState {
+  background: var(--bg-mist);
+  color: var(--muted);
+}
+
+.footNote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-block: 11px 0;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px dashed color-mix(in srgb, var(--primary) 32%, transparent);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--body);
+  text-align: start;
+}
+
+.footNote > span:first-child {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.footTag {
+  flex: 0 0 auto;
+  padding-block: 3px;
+  padding-inline: 9px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--cc-red) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cc-red) 20%, transparent);
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--danger-text);
+  white-space: nowrap;
+}

@@ -1,0 +1,292 @@
+/**
+ * هيكلُ انتظارٍ يطابق هندسة الأرشيف.
+ *
+ * ─── لماذا المطابقة شرط ───
+ *
+ * هيكلٌ بأبعادٍ مختلفة عن المحتوى يُبدّل التخطيط مرّتين: مرّةً حين يظهر
+ * ومرّةً حين يُستبدل. وهذا `CLS` نصنعه نحن باسم «تحسين الإحساس بالسرعة» —
+ * أسوأ من شاشةٍ فارغة. فالإطار والفجوات والأعمدة وأنصاف الأقطار هنا هي
+ * نفسها في `catalog.module.css` بالأرقام ذاتها (‎16/40‎ حشوة، ‎20/24‎ فجوة،
+ * رفّ ‎264‎ من ‎1200‎، شبكة عمودين ثمّ ‎240px‎ من ‎768‎)، ونسبةُ البطاقة هي
+ * نسبةُ `ProductCard` نفسها.
+ *
+ * ─── والوميض من الوصفة ───
+ *
+ * كلّ مستطيلٍ يركّب وصفة `skeleton` (controls.module.css): وميضٌ خفيفٌ واحد
+ * يقول «ينتظر»، ويقف تحت `prefers-reduced-motion` في الوصفة نفسها.
+ */
+
+/*
+ * التذييل لا يُرى ما دام الهيكل قائمًا. كان الهيكل أقصر أو أطول من صفحته
+ * الحقيقيّة (عدد البلاطات والبطاقات من الخادم) فيظهر التذييل ثمّ يُدفع حين يصل
+ * المحتوى — إزاحةٌ حتّى ‎0.17‎ على /stages/primary و/subjects. التذييل المخفيّ
+ * (`visibility`، صندوقه باقٍ) لا يُحسب في CLS حين يتحرّك، ويظهر في موضعه
+ * الأخير. والهيكل بارتفاع الشاشة فلا يترك تحته فراغًا أبيض.
+ */
+:global(body:has([data-catalog-skeleton]) footer[data-theme-component='site-footer']) {
+  visibility: hidden;
+}
+
+.page {
+  max-inline-size: var(--sf-max);
+  min-block-size: 100vh;
+  margin-inline: auto;
+  padding: 16px 16px 56px;
+}
+
+.stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.bar {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+}
+
+/* سطر الفتات ‎13px/1.6‎. */
+.crumbs {
+  inline-size: 12rem;
+  block-size: 21px;
+}
+
+/* الهيرو: ‎--r-2xl‎ كالهيرو الحقيقيّ، وارتفاعه عنوانٌ وسطرا مقدّمة وصفّ رقائق. */
+.hero {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  block-size: 200px;
+  border-radius: var(--r-2xl);
+}
+
+/* نفس `.layout`: عمودٌ واحد، ثمّ رفّ ‎264‎ من ‎1200px‎. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.rail {
+  display: none;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+/* رأس اللوحة «تصفية» فوق خطّ فاصل، ثمّ مجموعاتٌ: عنوانٌ وخمسة صفوف. */
+.railHead {
+  inline-size: 5rem;
+  block-size: 20px;
+}
+
+.railGroup {
+  display: grid;
+  gap: 8px;
+  padding-block-start: 12px;
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.railTitle {
+  inline-size: 7rem;
+  block-size: 14px;
+}
+
+.railRow {
+  block-size: 28px;
+}
+
+.main {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  align-content: start;
+}
+
+/* شريط الأدوات: زرّ التصفية (دون ‎1200‎) وسطر العدد وتبويبات الترتيب ‎48px‎ فوق خطٍّ فاصل. */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-block-size: 48px;
+  border-block-end: 1px solid var(--sf-line);
+}
+
+.filterBtn {
+  inline-size: 104px;
+  block-size: 46px;
+  border-radius: var(--r-md);
+}
+
+/* أعراض القضبان نسبيّة على الضيّق فلا يتجاوز شريطُ الأدوات عرضَ الجوّال. */
+.count {
+  flex: 1;
+  max-inline-size: min(9rem, 35%);
+  block-size: 14px;
+}
+
+.sorts {
+  display: none;
+  inline-size: min(22rem, 55%);
+  block-size: 20px;
+}
+
+/* سطر النتائج للمجموعات بلا شريط أدوات. */
+.line {
+  inline-size: 9rem;
+  block-size: 14px;
+}
+
+/* نفس `.grid`: عمودان ‎12px‎، ثمّ ‎240px‎ تلقائيًّا ‎20px‎ من ‎768‎. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* نسبةُ وسائط `ProductCard` المقفلة نفسها (‎16:9‎) — فلا قفزة حين تصل الصورة. */
+.cardMedia {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  aspect-ratio: var(--ct-media-ratio, 16 / 9);
+  border-radius: 0;
+}
+
+/*
+ * جسم البطاقة بتسلسل `ProductCard` نفسه وارتفاعاته: العنوان سطران (‎15×1.4×2‎)،
+ * ثمّ سطر البيانات (‎18‎)، ثمّ رقاقة التسليم (‎22‎)، ثمّ السعر (‎21‎)، ثمّ صفّ
+ * الزرّين ‎40px‎ — بفجوة ‎6px‎ وحشوة ‎12/14‎.
+ */
+.cardBody {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px 14px;
+  container-type: inline-size;
+}
+
+.cardTitle {
+  block-size: 42px;
+}
+
+.cardLine {
+  block-size: 18px;
+}
+
+.cardLineShort {
+  inline-size: 70%;
+}
+
+.cardSignal {
+  inline-size: 55%;
+  block-size: 22px;
+}
+
+.cardPrice {
+  inline-size: 36%;
+  block-size: 21px;
+  margin-block-start: 4px;
+}
+
+/* صفّ الزرّين: «أضف للسلة» مرنًا و«معاينة» بعرضها — ويتراصّان في البطاقة الضيّقة. */
+.cardFoot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  gap: 8px;
+  margin-block-start: 4px;
+}
+
+.cardCta,
+.cardPreview {
+  block-size: 40px;
+  border-radius: var(--r-sm);
+}
+
+@container (max-width: 202px) {
+  .cardFoot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* بلاطات المحاور: نفس `.stageGrid` و`.stageCard` (‎24px‎ حشوة، أيقونة ‎48‎، اسم، تذييل). */
+.tiles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.tile {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  block-size: 173px;
+  border-radius: var(--r-lg);
+}
+
+@media (min-width: 600px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sf-gutter);
+    padding-block: 16px 72px;
+  }
+
+  .stack {
+    gap: 24px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 20px;
+  }
+
+  .tiles {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .layout {
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .rail {
+    display: grid;
+  }
+
+  .filterBtn {
+    display: none;
+  }
+
+  .sorts {
+    display: block;
+  }
+}
+
+/*
+ * إعلانٌ لقارئ الشاشة وحده. لا `.sr-only` عامّة في هذا المتجر — الأنماط
+ * وحداتٌ مُعمَّاة، فالصنف يُكتب هنا ويُستورَد كبقيّة أصناف الوحدة.
+ */
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

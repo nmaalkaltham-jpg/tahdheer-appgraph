@@ -1,0 +1,304 @@
+/*
+ * «ابدأ من مرحلتك» — بطاقات المراحل بكشفٍ تدريجيّ.
+ *
+ * الهندسة من «Home Components.dc.html · HeroEducationStages» حرفيًّا؛ الألوان
+ * رموزُ لوحة «Storefront redesign»، ونصوصُ الصبغات بالرمز الآمن حيث يلزم.
+ * الاتّجاه منطقيّ بالكامل: المتجر RTL، وأيّ `left`/`right` ينقلب عند أوّل
+ * عرضٍ لاتينيّ.
+ */
+
+.inner {
+  max-width: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+  padding-block-start: 64px;
+  color: var(--sf-ink);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* ‎:where()‎ يُبقي التخصيص صنفًا واحدًا: كان ‎(0,1,1)‎ يبتلع لون ‎.cta‎ (حبرٌ على التعبئة ‎3.04:1‎) و‎.allLink‎. */
+.inner :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-block-end: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: inherit;
+  color: var(--teal-text);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+}
+
+.lede {
+  margin: 0;
+  font-size: 14px;
+  line-height: inherit;
+  color: var(--sf-muted);
+  max-inline-size: 46ch;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.card {
+  border: 1.5px solid var(--sf-line);
+  border-radius: 20px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.card[open] {
+  border-color: var(--stage-color);
+  box-shadow: var(--hm-shadow-open);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .chevron {
+    transition: none;
+  }
+}
+
+/* الصبغات الثلاث بترتيب القالب: بنفسجيّ · بترولي · كحليّ — تُقرأ من TypeScript. */
+.tintLilac {
+  --stage-color: var(--lilac-600);
+  /* البنفسجيّ يفتح في الداكن ليُقرأ نصًّا، فالنصّ فوق تعبئته يأخذ لون السطح (أبيض فاتحًا، كحليّ داكنًا). */
+  --stage-on: var(--color-surface);
+  --stage-text: var(--tint-lilac-fg);
+  --stage-tint: var(--tint-lilac);
+}
+
+.tintTeal {
+  --stage-color: var(--teal-on);
+  --stage-text: var(--teal-text);
+  --stage-tint: var(--tint-teal);
+}
+
+.tintNavy {
+  --stage-color: var(--color-secondary);
+  --stage-text: var(--color-secondary-text);
+  --stage-tint: var(--tint-navy);
+}
+
+/* رأس البطاقة — زرّ الكشف بأكمله (‎<summary>‎ أصيل، يعمل بلا جافاسكربت). */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px 26px 22px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: -3px;
+  border-radius: 20px;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.icon {
+  inline-size: 54px;
+  block-size: 54px;
+  border-radius: var(--r-lg);
+  background: var(--stage-tint);
+  color: var(--stage-text);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--stage-on, var(--on-accent));
+  background: var(--stage-color);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: start;
+}
+
+.cardTitle {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.range {
+  font-size: 14px;
+  color: var(--sf-muted);
+}
+
+.stats {
+  display: flex;
+  gap: 22px;
+  padding-block-start: 14px;
+  border-block-start: 1px solid var(--sf-hair);
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.statValue {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.hint {
+  margin-inline-start: auto;
+  align-self: end;
+  color: var(--stage-text);
+  font-weight: 700;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.hintOpen,
+.card[open] .hintClosed {
+  display: none;
+}
+
+.card[open] .hintOpen {
+  display: inline;
+}
+
+/* رمز «chev» يشير إلى الأمام؛ يُدار ليصير سهمًا لأسفل، وينقلب عند الفتح. */
+.chevron {
+  transform: rotate(-90deg);
+  transition: transform 0.2s;
+}
+
+.card[open] .chevron {
+  transform: rotate(90deg);
+}
+
+/* ------------------------------------------------------- كشف الصفوف */
+
+.body {
+  padding: 0 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.grades {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.grade {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--sf-control);
+  background: var(--bg);
+  color: var(--sf-ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.gradeCount {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sf-faint);
+}
+
+.grade:focus-visible,
+.cta:focus-visible,
+.allLink:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
+.cta {
+  min-block-size: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  background: var(--stage-color);
+  color: var(--stage-on, var(--on-accent));
+}
+
+.allLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  margin-block-start: 16px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+@media (max-width: 767px) {
+  .inner {
+    padding-inline: 14px;
+    padding-block-start: 26px;
+  }
+}

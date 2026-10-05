@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+a:hover{color:inherit}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-sub{margin:0 0 22px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:78ch;text-wrap:pretty}
+.dv-opts{display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.4 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:60ch}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:#1e7355;color:#fff}
+.dv-next{margin:24px 0 0;font:12px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tahFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tahStarIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="logo-mark" viewBox="0 0 24 24"><path d="M3 5.5A1.5 1.5 0 0 1 4.5 4H10a3 3 0 0 1 2 .9A3 3 0 0 1 14 4h5.5A1.5 1.5 0 0 1 21 5.5V18a1 1 0 0 1-1 1h-6a2 2 0 0 0-2 2 2 2 0 0 0-2-2H4a1 1 0 0 1-1-1V5.5Z" fill="none" stroke="currentColor" stroke-width="1.8"></path><path d="M12 6v15" stroke="currentColor" stroke-width="1.6"></path><path d="M15.5 9.5c1.6 0 2.6 1.6 1.8 3-.5.9-1.8 1.3-1.8 2.5" stroke="#d8bd86" stroke-width="1.7" fill="none" stroke-linecap="round"></path><circle cx="15.6" cy="17.4" r=".9" fill="#d8bd86"></circle></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6z"></path><path d="M9.3 12l1.9 1.9 3.6-3.7"></path></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4.5L4 9"></path><path d="M4 4v5h5"></path><path d="M4 13a8 8 0 0 0 14 4.5L20 15"></path><path d="M20 20v-5h-5"></path></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1"></path><rect x="3" y="13" width="4" height="6" rx="1.4"></rect><rect x="17" y="13" width="4" height="6" rx="1.4"></rect><path d="M20 19a4 4 0 0 1-4 3h-2"></path></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><path d="M3.6 4.6h2l2.15 10.3a1.85 1.85 0 0 0 1.8 1.45h7.15a1.85 1.85 0 0 0 1.8-1.42L21.2 8.4H6.3"></path><circle cx="9.8" cy="19.6" r="1.4"></circle><circle cx="17.1" cy="19.6" r="1.4"></circle></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10"></path><path d="M8 11l4 4 4-4"></path><path d="M5 19h14"></path></symbol>
+<symbol id="i-files" viewBox="0 0 24 24"><path d="M8 3h6l4 4v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 7.6h.01"></path></symbol>
+<symbol id="i-blocks" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="8.5" y="13" width="7" height="7" rx="1.5"></rect></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M19 4H8a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h11z"></path><path d="M19 4v15"></path></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M3 9l9-4 9 4-9 4z"></path><path d="M7 11v4c0 1.2 2.2 2.6 5 2.6s5-1.4 5-2.6v-4"></path></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v4.5a4 4 0 0 1-8 0z"></path><path d="M8 6H5.5a2 2 0 0 0 2.2 3M16 6h2.5a2 2 0 0 1-2.2 3"></path><path d="M12 12.5V16M9 20h6M10 20l.6-4M14 20l-.6-4"></path></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M15 4l5 5L9 20l-5 1 1-5z"></path><path d="M13 6l5 5"></path></symbol>
+<symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.3 0 2-1 2-2 0-1.3-1-1.6-1-2.6 0-.8.7-1.4 1.6-1.4H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"></path><circle cx="7.5" cy="11" r="1"></circle><circle cx="10" cy="7.5" r="1"></circle><circle cx="14.5" cy="7.5" r="1"></circle></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"></path></symbol>
+<symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="10" r="5"></circle><path d="M9.5 14L8 21l4-2 4 2-1.5-7"></path></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"></path></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.8l5.9-.8z"></path></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 12l8-8h6a2 2 0 0 1 2 2v6l-8 8z"></path><circle cx="15.5" cy="8.5" r="1.3"></circle></symbol>
+</svg>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Homepage redesign — Clean Educational Commerce × Premium SaaS</span></div>
+<p class="dv-sub">Brand kept: green <code>#1e7355</code> / deep green <code>#123d2f</code> / gold <code>#d8b56a</code> — gold demoted to an accent, and the stray navy <code>#2f6f9e</code> and the red <code>#d76565</code> CTA from <code>home.css</code> are dropped. One 4/8/12/16/24/32/48/64/80 spacing scale, one card recipe, one icon set, fluid <code>clamp()</code> type. Above-the-fold air cut from ~508px of hero to ~430px, and the trust bar now peeks under the fold.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a><span><b>Hero A — Split + product stack.</b> Recommended default. Copy right, layered file cards left (PPT front, PDF + lesson-prep behind), floating badges. Real trust row instead of empty space.</span></div>
+<div class="dv-card" style="width:1280px">
+<dc-import name="TahHeader" hint-size="1280px,132px"></dc-import>
+<section style="direction:rtl;position:relative;overflow:hidden;background:linear-gradient(180deg,#f7f9f6 0%,#fff 78%);border-bottom:1px solid #e6e9e2;padding:56px 0 64px">
+<span style="position:absolute;inset-block-start:-140px;inset-inline-start:-100px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(37,155,111,.10),transparent 68%)"></span>
+<span style="position:absolute;inset-block-end:-160px;inset-inline-end:-60px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(216,181,106,.13),transparent 68%)"></span>
+<div style="position:relative;width:min(1200px,100% - 64px);margin-inline:auto;display:grid;grid-template-columns:1.06fr .94fr;align-items:center;gap:48px">
+<div>
+<span style="display:inline-flex;align-items:center;gap:7px;margin-bottom:20px;padding:5px 6px 5px 14px;border-radius:999px;border:1px solid rgba(216,181,106,.5);background:rgba(216,181,106,.12);color:#7a5d20;font-size:12.5px;font-weight:800"><span style="width:20px;height:20px;border-radius:50%;background:#d8b56a;color:#14261d;display:grid;place-items:center;font-size:11px;font-weight:900">1</span>متجر القوالب والملفات التعليمية الأول عربيًا</span>
+<h1 style="margin:0 0 16px;font-size:clamp(38px,4vw,54px);line-height:1.22;letter-spacing:-.01em;color:#14261d;font-weight:900;text-wrap:balance">كل ما تحتاجه لحصّة ناجحة<br><span style="color:#1e7355">في مكان واحد</span></h1>
+<p style="margin:0 0 24px;max-width:48ch;font-size:17px;line-height:1.85;color:#5f7167;text-wrap:pretty">عروض بوربوينت، ملفات تعليمية، تحاضير جاهزة، أنشطة صفّية، ووسائل قابلة للتعديل — يعدّها معلّمون، وتصلك فور الدفع.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px">
+<a href="#" style="display:inline-flex;align-items:center;gap:9px;padding:14px 28px;border-radius:12px;font-weight:800;font-size:15.5px;background:#1e7355;color:#fff;box-shadow:0 8px 20px rgba(30,115,85,.24)"><svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-grid"></use></svg>تصفّح المنتجات</a>
+<a href="#" style="display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:12px;font-weight:800;font-size:15.5px;background:#fff;color:#14261d;border:1px solid #d3d8cf">اكتشف المتجر<svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-chev"></use></svg></a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px 22px">
+<sc-for list="{{ heroTrust }}" as="t" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:#3b4d43"><svg aria-hidden="true" style="width:16px;height:16px;color:#259b6f;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="#i-check"></use></svg>{{ t }}</span>
+</sc-for>
+</div>
+</div>
+<div style="position:relative;height:392px">
+<div style="position:absolute;inset-block-start:36px;inset-inline-end:6px;width:236px;background:#fff;border:1px solid #e6e9e2;border-radius:16px;box-shadow:0 10px 30px rgba(20,45,33,.08);padding:14px;transform:rotate(-4deg)">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:26px;height:26px;border-radius:7px;background:rgba(216,181,106,.18);color:#7a5d20;display:grid;place-items:center"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-files"></use></svg></span><b style="font-size:12.5px;color:#14261d">ملف PDF</b></div>
+<div style="height:7px;border-radius:4px;background:#eef1ec;margin-bottom:6px"></div><div style="height:7px;border-radius:4px;background:#eef1ec;width:76%;margin-bottom:6px"></div><div style="height:7px;border-radius:4px;background:#eef1ec;width:54%"></div>
+</div>
+<div style="position:absolute;inset-block-end:18px;inset-inline-start:0;width:214px;background:#fff;border:1px solid #e6e9e2;border-radius:16px;box-shadow:0 10px 30px rgba(20,45,33,.08);padding:14px;transform:rotate(5deg)">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:26px;height:26px;border-radius:7px;background:rgba(37,155,111,.14);color:#1e7355;display:grid;place-items:center"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-pen"></use></svg></span><b style="font-size:12.5px;color:#14261d">تحضير درس</b></div>
+<div style="display:flex;gap:5px"><span style="flex:1;height:34px;border-radius:6px;background:#f2f5f2"></span><span style="flex:1;height:34px;border-radius:6px;background:#f2f5f2"></span><span style="flex:1;height:34px;border-radius:6px;background:#f2f5f2"></span></div>
+</div>
+<div style="position:absolute;inset-block-start:14px;inset-inline-start:26px;width:328px;background:#fff;border:1px solid #e6e9e2;border-radius:20px;box-shadow:0 24px 56px rgba(20,45,33,.14);overflow:hidden">
+<div style="display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid #eef1ec;background:#fbfcfa"><span style="width:9px;height:9px;border-radius:50%;background:#e06c5a"></span><span style="width:9px;height:9px;border-radius:50%;background:#d8b56a"></span><span style="width:9px;height:9px;border-radius:50%;background:#259b6f"></span><span style="margin-inline-start:auto;font:600 10.5px ui-monospace,Menlo,monospace;color:#5f7167">درس-الرياضيات.pptx</span></div>
+<div style="aspect-ratio:16/10;background:linear-gradient(150deg,#123d2f,#1e7355);padding:22px;display:flex;flex-direction:column;justify-content:center;gap:12px">
+<span style="width:44px;height:3px;border-radius:2px;background:#d8b56a"></span>
+<div style="font-size:21px;font-weight:900;color:#fff;line-height:1.4">الكسور العشرية<br>— الحصة الثالثة</div>
+<div style="display:flex;gap:7px;margin-top:4px"><span style="height:6px;flex:1;border-radius:3px;background:rgba(255,255,255,.26)"></span><span style="height:6px;flex:1;border-radius:3px;background:rgba(255,255,255,.16)"></span><span style="height:6px;flex:1;border-radius:3px;background:rgba(255,255,255,.16)"></span></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px"><span style="font-size:12px;color:#5f7167;font-weight:600">24 شريحة · قابلة للتعديل</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:#1e7355"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-download"></use></svg>تحميل</span></div>
+</div>
+<div style="position:absolute;inset-block-start:-4px;inset-inline-start:2px;display:inline-flex;align-items:center;gap:6px;background:#14261d;color:#fff;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;box-shadow:0 8px 20px rgba(20,45,33,.2);animation:tahFloat 9s ease-in-out infinite"><svg aria-hidden="true" style="width:14px;height:14px;color:#d8b56a;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-download"></use></svg>تحميل فوري</div>
+<div style="position:absolute;inset-block-end:78px;inset-inline-end:-6px;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e6e9e2;color:#14261d;border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;box-shadow:0 8px 20px rgba(20,45,33,.1);animation:tahFloat 9s ease-in-out 1.6s infinite"><svg aria-hidden="true" style="width:14px;height:14px;color:#259b6f;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-pen"></use></svg>قابل للتعديل</div>
+</div>
+</div>
+</section>
+<dc-import name="TahTrust" hint-size="1280px,96px"></dc-import>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a><span><b>Hero B — Search-first.</b> For a catalogue people arrive at knowing what they want. Centred, one big query field, live category chips, popular searches. Shortest hero of the three (~360px).</span></div>
+<div class="dv-card" style="width:1280px">
+<dc-import name="TahHeader" hint-size="1280px,132px"></dc-import>
+<section style="direction:rtl;position:relative;overflow:hidden;background:#123d2f;padding:52px 0 56px">
+<span style="position:absolute;inset:0;background:radial-gradient(680px 300px at 50% -10%,rgba(216,181,106,.16),transparent 70%)"></span>
+<div style="position:relative;width:min(880px,100% - 64px);margin-inline:auto;text-align:center">
+<span style="display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;padding:5px 14px;border-radius:999px;border:1px solid rgba(216,181,106,.42);background:rgba(216,181,106,.14);color:#e6cd93;font-size:12.5px;font-weight:800">أكثر من 4٬200 ملف تعليمي جاهز</span>
+<h1 style="margin:0 0 14px;font-size:clamp(34px,3.4vw,46px);line-height:1.26;color:#fff;font-weight:900;text-wrap:balance">ابحث عن تحضيرك، وحمّله خلال دقيقة</h1>
+<p style="margin:0 0 26px;font-size:16.5px;line-height:1.8;color:rgba(255,255,255,.74);max-width:56ch;margin-inline:auto">اكتب اسم المادة أو الصف أو نوع الملف — وسنعرض لك كل ما يطابقه.</p>
+<form style="display:flex;align-items:center;gap:8px;background:#fff;border-radius:14px;padding:7px;padding-inline-start:18px;box-shadow:0 18px 44px rgba(0,0,0,.3);max-width:660px;margin-inline:auto">
+<svg aria-hidden="true" style="width:20px;height:20px;flex:0 0 auto;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg>
+<input type="search" placeholder="مثال: تحضير رياضيات رابع ابتدائي" style="flex:1;min-width:0;background:none;border:0;outline:none;font:600 15.5px Tajawal,sans-serif;color:#14261d">
+<button type="button" style="flex:0 0 auto;padding:12px 26px;border:0;border-radius:10px;background:#1e7355;color:#fff;font:800 15px Tajawal,sans-serif;cursor:pointer">بحث</button>
+</form>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px">
+<span style="font-size:12.5px;font-weight:700;color:rgba(255,255,255,.5);align-self:center">الأكثر بحثًا:</span>
+<sc-for list="{{ popularSearches }}" as="q" hint-placeholder-count="5">
+<a href="#" style="padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff;font-size:12.5px;font-weight:700">{{ q }}</a>
+</sc-for>
+</div>
+</div>
+</section>
+<section style="direction:rtl;background:#fff;border-bottom:1px solid #e6e9e2;padding:18px 0">
+<div style="width:min(1200px,100% - 64px);margin-inline:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+<a href="#" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid #e6e9e2;background:#fbfcfa"><span style="width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:{{ s.tint }};color:{{ s.color }}"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg></span><span style="flex:1"><b style="display:block;font-size:13.5px;color:#14261d">{{ s.title }}</b><span style="font-size:11.5px;color:#5f7167">{{ s.count }}</span></span></a>
+</sc-for>
+</div>
+</section>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a><span><b>Hero C — Editorial offer.</b> Deep-green full-bleed panel with a live offer strip, gold rule, oversized numerals. Strongest for a campaign or seasonal push; heaviest of the three.</span></div>
+<div class="dv-card" style="width:1280px">
+<dc-import name="TahHeader" hint-size="1280px,132px"></dc-import>
+<section style="direction:rtl;position:relative;overflow:hidden;background:#14261d">
+<span style="position:absolute;inset-block-start:-120px;inset-inline-end:-80px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(30,115,85,.55),transparent 66%)"></span>
+<div style="position:relative;width:min(1200px,100% - 64px);margin-inline:auto;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;padding:54px 0 0">
+<div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px"><span style="width:40px;height:2px;background:#d8b56a"></span><span style="font-size:12px;font-weight:800;letter-spacing:.14em;color:#d8b56a">عروض الفصل الدراسي الأول</span></div>
+<h1 style="margin:0 0 18px;font-size:clamp(38px,4.2vw,58px);line-height:1.16;color:#fff;font-weight:900;letter-spacing:-.015em;text-wrap:balance">حضّر فصلك كاملًا<br>قبل أن يبدأ</h1>
+<p style="margin:0 0 30px;max-width:44ch;font-size:17px;line-height:1.85;color:rgba(255,255,255,.68)">حزم تحاضير وعروض وأنشطة لكل مرحلة — بخصم يصل إلى 40% حتى نهاية الشهر.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px">
+<a href="#" style="display:inline-flex;align-items:center;gap:9px;padding:14px 28px;border-radius:12px;font-weight:800;font-size:15.5px;background:#d8b56a;color:#14261d">تصفّح العروض</a>
+<a href="#" style="display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:12px;font-weight:800;font-size:15.5px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.26)">كل المنتجات</a>
+</div>
+<div style="display:flex;gap:44px;padding-block:22px;border-top:1px solid rgba(255,255,255,.12)">
+<sc-for list="{{ heroStats }}" as="st" hint-placeholder-count="3">
+<div><div style="font-size:30px;font-weight:900;color:#fff;line-height:1.1">{{ st.n }}</div><div style="font-size:12.5px;font-weight:600;color:rgba(255,255,255,.55);margin-top:3px">{{ st.label }}</div></div>
+</sc-for>
+</div>
+</div>
+<div style="position:relative;align-self:end;padding-bottom:34px">
+<div style="background:#fff;border-radius:20px 20px 0 0;overflow:hidden;box-shadow:0 -12px 50px rgba(0,0,0,.35)">
+<div style="padding:18px 20px;border-bottom:1px solid #eef1ec;display:flex;align-items:center;justify-content:space-between"><b style="font-size:14.5px;color:#14261d">الحزمة الأكثر طلبًا</b><span style="padding:4px 10px;border-radius:999px;background:rgba(216,181,106,.16);color:#7a5d20;font-size:11.5px;font-weight:800">خصم 40%</span></div>
+<div style="padding:20px">
+<div style="aspect-ratio:16/9;border-radius:12px;background:linear-gradient(150deg,#123d2f,#1e7355);display:grid;place-items:center;margin-bottom:16px"><svg style="width:56px;height:56px;color:rgba(255,255,255,.9);fill:none;stroke:currentColor;stroke-width:1.5"><use href="#logo-mark"></use></svg></div>
+<div style="font-size:16px;font-weight:800;color:#14261d;line-height:1.5;margin-bottom:6px">حزمة المرحلة الابتدائية — الفصل الأول كاملًا</div>
+<div style="font-size:12.5px;color:#5f7167;margin-bottom:14px">6 مواد · 340 ملف · تحديث مجاني</div>
+<div style="display:flex;align-items:center;justify-content:space-between"><div><span style="font-size:24px;font-weight:900;color:#1e7355">180</span> <span style="font-size:13px;font-weight:800;color:#1e7355">ر.س</span> <del style="font-size:13px;color:#5f7167;margin-inline-start:6px">300</del></div><button type="button" style="padding:11px 20px;border:0;border-radius:10px;background:#1e7355;color:#fff;font:800 13.5px Tajawal,sans-serif;cursor:pointer">أضف للسلة</button></div>
+</div>
+</div>
+</div>
+</div>
+<div style="position:relative;background:#d8b56a;color:#14261d;padding:11px 0;overflow:hidden"><div style="display:inline-flex;align-items:center;white-space:nowrap;animation:tahMarquee 34s linear infinite"><sc-for list="{{ offerStrip }}" as="o" hint-placeholder-count="6"><span style="display:inline-flex;align-items:center;gap:9px;padding-inline:22px;font-size:13px;font-weight:800">{{ o }}<span style="width:5px;height:5px;border-radius:50%;background:rgba(20,38,29,.42)"></span></span></sc-for></div></div>
+</section>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a><span><b>Full homepage — desktop, 1440.</b> Hero A committed, then the 11 remaining sections in the recommended order. Every section is toggleable and reorderable from the Section Manager.</span></div>
+<div class="dv-card" style="width:1440px">
+<dc-import name="TahHeader" hint-size="1440px,132px"></dc-import>
+<dc-import name="TahHomeBody" hint-size="1440px,5200px"></dc-import>
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a><span><b>Full homepage — mobile, 390.</b> Same sections, restacked: 4→2→1 columns, stages scroll horizontally, sticky search + cart bar, 44px minimum targets.</span></div>
+<div class="dv-card" style="width:390px">
+<dc-import name="TahHomeMobile" hint-size="390px,4200px"></dc-import>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "commit <a class="dv-oid" href="#1a">1a</a> but borrow the search field from <a class="dv-oid" href="#1b">1b</a>" · "make the stage cards darker like <a class="dv-oid" href="#1c">1c</a>" · "show me the Customizer that drives this"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      heroTrust: ['تحميل فوري', 'ملفات قابلة للتعديل', 'دعم عربي كامل', 'دفع آمن'],
+      popularSearches: ['تحضير رياضيات', 'أوراق عمل علوم', 'اختبارات نهائية', 'وسائل تعليمية', 'حقائب تدريبية'],
+      heroStats: [
+        { n: '4٬200+', label: 'ملف جاهز' },
+        { n: '18٬600', label: 'معلّم ومعلّمة' },
+        { n: '4.9/5', label: 'تقييم المتجر' }
+      ],
+      offerStrip: ['خصم 40% على حزم الفصل الأول', 'تحميل فوري بعد الدفع', 'ملفات Word و PowerPoint', 'تحديث مجاني مدى العام', 'دعم واتساب خلال ساعة', 'استرجاع خلال 7 أيام'],
+      stages: [
+        { title: 'المرحلة الابتدائية', count: '١٬٤٢٠ ملف', color: '#7a5d20', tint: 'rgba(216,181,106,.16)', iconRef: '#i-blocks' },
+        { title: 'المرحلة المتوسطة', count: '٩٨٦ ملف', color: '#1e7355', tint: 'rgba(37,155,111,.13)', iconRef: '#i-book' },
+        { title: 'المرحلة الثانوية', count: '١٬١٣٠ ملف', color: '#123d2f', tint: 'rgba(18,61,47,.10)', iconRef: '#i-files' },
+        { title: 'الدورات التدريبية', count: '٦٦٤ ملف', color: '#7a5d20', tint: 'rgba(216,181,106,.16)', iconRef: '#i-cap' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — مقترحات الاستقلالية الذاتية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes aFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1280px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — الاستقلالية الذاتية: إغلاق الحلقة لا بناء نظام</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">كل مقترح مبنيّ على ملف قائم في قالبك</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #146c4c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13.5px">الفكرة الحاكمة</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">الاستقلالية ليست ميزة تُضاف، بل <b>حلقة تُغلق</b>. عندك اليوم نصف الحلقة: محرك بحث بفهرس ومطبّع وإشارات (<code dir="ltr">tahdheer_search_signal_handler</code>)، ومحللات تكتشف وتقترح، و‎٩ مهام cron تعمل. الناقص هو النصف الثاني: <b>لا شيء ينفّذ من تلقاء نفسه، ولا شيء يقيس نتيجة ما نُفِّذ، ولا شيء يعدّل سلوكه بناءً على تلك النتيجة.</b> كل مقترح أدناه يغلق حلقة واحدة بعينها.</p>
+</section>
+
+<sc-if value="{{ is.search }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 البحث الذاتي" style="display:flex;flex-direction:column;gap:11px;animation:aFade .25s ease">
+<h1 style="margin:0;font:900 20px Tajawal">محرك بحث يحسّن نفسه</h1>
+<sc-for list="{{ search }}" as="p" hint-placeholder-count="6">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 24px;height:24px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<b style="flex:1;min-width:200px;font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.bg }};color:{{ p.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.lvl }}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:9px">
+<div style="border:1px dashed #e4e9e5;border-radius:11px;background:#fbfcfb;padding:10px 13px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8b978f">الموجود الآن</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#5f7167">{{ p.now }}</span>
+<code dir="ltr" style="display:block;margin-top:4px;font-size:9px;color:#a9b4ad;text-align:start;word-break:break-all">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;padding:10px 13px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#146c4c">الحلقة التي تُغلق</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#3d4f45">{{ p.loop }}</span>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:#8e2223;flex:0 0 auto">الحدّ / الخطر:</span>
+<span style="flex:1;min-width:220px;font-size:11px;line-height:1.8;color:#5f7167">{{ p.risk }}</span>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.an }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 المحللات الذاتية" style="display:flex;flex-direction:column;gap:11px;animation:aFade .25s ease">
+<h1 style="margin:0;font:900 20px Tajawal">محللات تعمل بلا أن تفتح لوحة</h1>
+<sc-for list="{{ analyzers }}" as="p" hint-placeholder-count="6">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ p.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 24px;height:24px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<b style="flex:1;min-width:200px;font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.bg }};color:{{ p.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ p.lvl }}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:9px">
+<div style="border:1px dashed #e4e9e5;border-radius:11px;background:#fbfcfb;padding:10px 13px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#8b978f">الموجود الآن</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#5f7167">{{ p.now }}</span>
+<code dir="ltr" style="display:block;margin-top:4px;font-size:9px;color:#a9b4ad;text-align:start;word-break:break-all">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;padding:10px 13px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#146c4c">الحلقة التي تُغلق</span>
+<span style="display:block;margin-top:3px;font-size:11px;line-height:1.85;color:#3d4f45">{{ p.loop }}</span>
+</div>
+</div>
+<div style="display:flex;align-items:flex-start;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:#8e2223;flex:0 0 auto">الحدّ / الخطر:</span>
+<span style="flex:1;min-width:220px;font-size:11px;line-height:1.8;color:#5f7167">{{ p.risk }}</span>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.gov }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 الحاكمية والحدود" style="display:flex;flex-direction:column;gap:13px;animation:aFade .25s ease">
+<h1 style="margin:0;font:900 20px Tajawal">حاكمية الاستقلالية — وحدود بياناتك الحقيقية</h1>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:15px 18px">
+<b style="font-size:13px;color:#8e2223">أهم جملة في هذه الوثيقة</b>
+<p style="margin:7px 0 0;font-size:12.5px;line-height:2;color:#5f4a4a">«بلا تدخّل منّي» ليست «بلا رؤية». نظام يتحرّك وحده وأنت لا ترى ما فعله ليس مستقلًا — بل غير قابل للمحاسبة. الاستقلالية الصحيحة = <b>يتحرّك وحده، ويسجّل كل حركة، ويُعكس بنقرة، ويصمت إلا عند الشذوذ.</b> تقرير أسبوعي واحد بما فعله النظام بنفسه يكفي، ولا يُطلب منك أكثر.</p>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:11px">
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+<section style="border:1px solid #dce2dd;border-top:4px solid {{ t.c }};border-radius:14px;background:#fff;padding:14px 17px">
+<b style="display:block;font-size:13px;color:{{ t.c }}">{{ t.n }}</b>
+<span style="display:block;margin-top:4px;font-size:11px;line-height:1.85;color:#5f7167">{{ t.d }}</span>
+<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #f1f4f2">
+<sc-for list="{{ t.items }}" as="x" hint-placeholder-count="4">
+<div style="display:flex;gap:7px;padding:3px 0;font-size:10.5px;line-height:1.75;color:#3d4f45"><span aria-hidden="true" style="color:{{ t.c }};font-weight:900">·</span><span>{{ x }}</span></div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:15px 18px">
+<b style="font-size:13px;color:#8a6500">حدّ إحصائي حقيقي في بياناتك — يجب أن يعرفه النظام عن نفسه</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#5f4f2f">خط أساس قالبك يسجّل <b>‎٩ منتجات منشورة</b>، و<code dir="ltr">wp_tahdheer_seo_searches</code> فيه <b>‎٥ صفوف</b>، و<code dir="ltr">wp_tahdheer_visitor_events</code> فيه <b>‎٢٣٩ صفًا</b>. أي حلقة تتعلّم من النقر أو الشراء أو تُدير تجارب A/B تحتاج حجمًا لا يوجد بعد — ولو شُغّلت الآن <b>ستتعلّم ضجيجًا وتقدّمه كثقة</b>. لذلك القاعدة: كل حلقة تعلّم تعلن حدًّا أدنى للعيّنة، وتبقى في وضع «اقتراح» حتى تبلغه، وتقول ذلك صراحةً في التقرير بدل الصمت. هذا وحده يفرق بين نظام ذكي ونظام يتظاهر.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px">ممنوع على الأتمتة — بلا استثناء</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px;margin-top:9px">
+<sc-for list="{{ forbidden }}" as="f" hint-placeholder-count="8">
+<div style="display:flex;gap:7px;align-items:flex-start;padding:7px 11px;border:1px solid #f2dede;border-radius:10px;background:#fdf7f7;font-size:10.5px;line-height:1.7;color:#8e2223;font-weight:700"><span aria-hidden="true">×</span><span>{{ f }}</span></div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font-size:11px;line-height:1.9;color:#5f7167">السبب واحد: هذه بنود إمّا لا تُعكس، أو أثرها يظهر بعد أسابيع، أو تلمس صحّة التجارة والدفع. تبقى «اقتراح» دائمًا مهما ارتفعت الثقة.</p>
+</section>
+
+<section style="border:1px dashed #cfe0d6;border-radius:14px;background:#f8fbf9;padding:15px 18px">
+<b style="font-size:13px;color:#146c4c">شرط تقني غير قابل للتفاوض</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">كل حلقة تعمل في <code dir="ltr">cron</code> أو <code dir="ltr">Action Scheduler</code>، وصفر كتابة داخل طلب الزائر. قالبك اليوم يكتب صفّ قياس داخل عرض الصفحة (<code dir="ltr">class-seo-analytics-tracker.php</code>) ويكتب <code dir="ltr">transient</code> لكل نبضة خريطة حرارية — إضافة حلقات تعلّم فوق هذا النمط تضاعف المشكلة. <b>تصحيح مسار الكتابة يسبق أي حلقة ذاتية</b>، وإلا صار «النظام الذكي» أثقل بند أداء في المتجر.</p>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320,&quot;height&quot;:900},&quot;autonomyFilter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;auto&quot;,&quot;threshold&quot;,&quot;suggest&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'auto' | 'threshold' | 'suggest'&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const LVL = {
+  full: { lvl: 'تلقائي كامل', bg: '#e4f4ec', fg: '#146c4c', c: '#146c4c' },
+  thr: { lvl: 'تلقائي بعتبة ثقة', bg: '#e8f2fc', fg: '#1d5f9c', c: '#1d5f9c' },
+  sug: { lvl: 'اقتراح فقط', bg: '#fff4d6', fg: '#8a6500', c: '#d99a00' },
+};
+
+const SEARCH = [
+  { i: '١', n: 'تعدين الاستعلامات صفرية النتائج → مرادفات تُولَد وحدها', k: 'thr',
+    now: 'الاستعلامات تُسجَّل فعلًا مع عدد النتائج عبر نقطة الإشارات، والجدول قائم. لا أحد يقرأها.',
+    src: 'search/bootstrap.php:319 · wp_tahdheer_seo_searches',
+    loop: 'مهمة ليلية تأخذ كل استعلام أعطى صفرًا، تطبّعه بمطبّعك نفسه، وتقيس مسافته من مفردات الفهرس الفعلية. الثقة = تقارب الحروف × تكرار المفردة في الكتالوج × تكرار الاستعلام. فوق العتبة: يُضاف المرادف ويُعاد الاستعلام تلقائيًا. تحتها: يدخل طابور أسبوعي.',
+    risk: 'مرادف خاطئ يجلب نتائج غير ذات صلة ويُفسد الثقة بالبحث. العلاج: كل مرادف مولَّد يُوسم بمصدره وتاريخه ويُقاس بعد أسبوع — إن لم يُنقر عليه أحد يُسحب تلقائيًا.' },
+  { i: '٢', n: 'أوزان ترتيب تتعلّم من النقر والإضافة والشراء', k: 'sug',
+    now: 'الإشارات تُرسل بعد البحث، والقياس يعرف حدث الشراء ويربطه بالطلب. لا يعود شيء من ذلك إلى الترتيب.',
+    src: 'search/bootstrap.php:319 · seo-analytics/*',
+    loop: 'لكل زوج (استعلام مطبَّع، منتج) وزن يتراكم من: نقرة صغيرة، إضافة للسلة أكبر، شراء أكبر — مع تلاشٍ زمني حتى لا تتجمّد النتائج على منتج قديم. يُحسب ليليًا ويُدمج في ترتيب المحرك.',
+    risk: 'هذه أوّل حلقة يمنعها حجم بياناتك الحالي (‎٥ صفوف بحث · ‎٢٣٩ حدثًا). تبقى «اقتراح» وتُعلن حدًّا أدنى للعيّنة لكل زوج، وإلا تعلّمت من نقرة واحدة.' },
+  { i: '٣', n: 'معجم المجال يُبنى من كتالوجك لا من قاموس عام', k: 'full',
+    now: 'الفهرس يراقب حقول التعليم فعلًا ويعيد الفهرسة عند تغيّرها. المفردات موجودة ولا تُستثمَر كمعجم.',
+    src: 'Tahdheer_Search_Index::education_meta_keys()',
+    loop: 'مهمة تستخرج المرحلة والصف والمادة والفصل من كل منتج، وتبني منها معجمًا تلقائيًا مع صيغه الشائعة (ثاني/الثاني/٢، رياضيات/الرياضيات). المعجم يتحدّث كلما أضفت منتجًا — بلا كتابة مرادف واحد بيدك.',
+    risk: 'خطر منخفض: المصدر بياناتك نفسها لا تخمين. الحدّ الوحيد أن المعجم لا يعرف مصطلحًا لا يوجد منتج له — وهذا سلوك مطلوب لا عيب.' },
+  { i: '٤', n: 'تصحيح إملائي من الكتالوج فقط — لا يخترع كلمة بلا منتج', k: 'full',
+    now: 'التطبيع العربي قوي في الطرفين (خادم وواجهة)، لكن لا «هل تعني» مبنيًا على المفردات الحقيقية.',
+    src: 'search/class-tahdheer-search-normalizer.php · theme.js:64',
+    loop: 'بناء شجرة مسافات من رموز الفهرس المطبَّعة، وعند فشل الاستعلام يُقترح أقرب رمز موجود فعلًا في الفهرس. النتيجة: كل اقتراح مضمون أنه يؤدي إلى منتج، فلا «هل تعني» يوصل إلى صفر.',
+    risk: 'يُعاد بناء الشجرة عند تغيّر جيل الفهرس فقط، لا في طلب الزائر. بلا ذلك تصبح ميزة بحث تُبطئ البحث.' },
+  { i: '٥', n: 'صيانة فهرس تُشفي نفسها', k: 'full',
+    now: 'الفهرس يحمل ترقيم أجيال وإعادة بناء تدريجية وأمر CLI — أساس ممتاز وناقصه المراقبة.',
+    src: 'Tahdheer_Search_Index::generation() · start_rebuild()',
+    loop: 'فحص ليلي: عدد صفوف الفهرس مقابل عدد المنشور، صفوف يتيمة لمنتجات محذوفة، صفوف أقدم من تاريخ تعديل منتجها. الفارق يُصلَح بتحديث تفاضلي للعناصر المتأثرة — لا إعادة بناء كاملة.',
+    risk: 'خطر شبه معدوم، وهو أول ما أُنفّذه لو كان القرار لي: يحمي كل الحلقات الأخرى، فأي منها يبني على فهرس مصدوع يعطي نتائج مضلّلة.' },
+  { i: '٦', n: 'توسيع تلقائي للاستعلام بدل شاشة «لا نتائج»', k: 'full',
+    now: 'المحرك يعيد نتائج أو لا يعيد. لا تدرّج بينهما.',
+    src: 'Tahdheer_Search_Service::search()',
+    loop: 'إن قلّت النتائج عن حدّ: يُسقط أقلّ الرموز تمييزًا، ثم يوسّع بالمعجم المولَّد، ثم يرتفع إلى مستوى المادة أو الصف — ويقول للزائر بأي توسّع وصل. صفر إعداد وصفر تدخّل.',
+    risk: 'التوسّع الصامت يُوهم الزائر أن نتيجة بعيدة هي ما طلبه. الشرط: يُعلن التوسّع بنصّ صريح فوق النتائج دائمًا.' },
+];
+
+const AN = [
+  { i: '٧', n: 'من لوحات تُفتح إلى شذوذ يُخبرك', k: 'full',
+    now: 'ملخّصات يومية وساعية تُبنى فعلًا بمهمة يومية، وتُحفظ ‎٧٣٠ يومًا. لكنها تنتظر أن تفتح اللوحة.',
+    src: 'tahdheer_seo_analytics_daily · جداول التلخيص',
+    loop: 'خط أساس متحرّك لكل مقياس (نسبة صفر النتائج، التحويل بعد البحث، زمن الاستجابة، الأخطاء) وانحراف معياري. لا شيء يُرسَل إلا عند خروج مقياس عن نطاقه. النتيجة: اللوحة تُفتح عند الحاجة لا كروتين.',
+    risk: 'إغراق بالتنبيهات يقتل الميزة أسرع من غيابها. الحدّ: تنبيه واحد مجمَّع كل ‎٢٤ ساعة كحدّ أقصى، وكل تنبيه بإجراء مقترح واحد لا بقائمة.' },
+  { i: '٨', n: 'تنفيذ تلقائي مصنَّف بقابلية العكس', k: 'thr',
+    now: 'محرك سير عمل وقواعد أتمتة ومنسّق — بنية التنفيذ موجودة، وما يُنفَّذ منها محدود.',
+    src: 'seo-workflow-engine.php · seo-automation-rules.php · seo-orchestrator.php',
+    loop: 'يُوسم كل إجراء بدرجتين: قابلية العكس ونطاق الأثر. الإجراء القابل للعكس محدود الأثر (نصّ بديل لصورة، رابط داخلي، إعادة بناء خريطة، إصلاح فهرس) يُنفَّذ وحده ويُسجَّل. غير القابل للعكس أو واسع الأثر يبقى اقتراحًا مهما ارتفعت الثقة.',
+    risk: 'التصنيف نفسه هو نقطة الفشل: إجراء يُوسم «قابلًا للعكس» وهو ليس كذلك. لذلك يُبدأ بقائمة بيضاء صغيرة تتوسّع بالدليل، لا بقائمة سوداء.' },
+  { i: '٩', n: 'أولوية المنتجات تتعلّم من نتائجها', k: 'sug',
+    now: 'وحدة أولوية منتجات قائمة، لكنها ترتّب بمعايير ثابتة ولا تعرف أيّ توصية من توصياتها نجحت.',
+    src: 'smart-product-priority.php',
+    loop: 'كل توصية تُختم بمعرّف وتاريخ. بعد فترة يُقاس ما حدث للمنتج (مشاهدات، إضافات، مبيعات) ويُعاد ترجيح المعايير التي سبقت النجاح. المحلّل يعدّل معاييره وحده.',
+    risk: 'يحتاج حجمًا وزمنًا. مع ‎٩ منتجات يقيس حظًّا لا سببًا — يبقى اقتراحًا ويُعلن ذلك بصراحة في مخرجه.' },
+  { i: '١٠', n: 'حلقة الروابط الداخلية: تُضاف وتُقاس وتُسحب', k: 'thr',
+    now: 'مقترحات ربط داخلي وخريطة روابط قائمة — والقرار كله عليك.',
+    src: 'smart-internal-linking-suggestions.php · seo-link-graph.php',
+    loop: 'الرابط المقترح عالي الثقة يُضاف تلقائيًا ويُسجَّل. تُقاس نقراته الفعلية بعد فترة: الناجح يبقى، وعديم النقر يُسحب وحده. الخريطة تتحسّن دون قائمة موافقات.',
+    risk: 'إضافة روابط تلقائيًا داخل نصّ منتج تعديل على محتوى. الشرط: الإضافة في مناطق مخصّصة للروابط لا داخل وصف كتبته بيدك، ولقطة نصّ قبل كل تغيير.' },
+  { i: '١١', n: 'كلب حراسة للمهام المجدولة', k: 'full',
+    now: '‎٩ مهام cron مؤكَّدة حيّة. فشل أي منها صامت تمامًا — لا تعرف إلا عند اكتشاف نتيجة ناقصة.',
+    src: 'خط الأساس §4 — جدول المهام',
+    loop: 'لكل مهمة توقيع: آخر تشغيل ناجح، والمدّة، والنطاق المتوقّع. تفويت نافذة يعني إعادة جدولة تلقائية ومحاولة واحدة، وتسجيلًا، وتنبيهًا فقط عند فشل محاولتين متتاليتين.',
+    risk: 'شبه معدوم. وهو أرخص مكسب استقلالية في القائمة كلها: بلا cron موثوق كل حلقة أخرى في هذه الوثيقة وهم.' },
+  { i: '١٢', n: 'تجارب ذاتية صغيرة — مع إعلان صريح لعدم الجدوى الآن', k: 'sug',
+    now: 'لا طبقة تجارب. والتعريف يطلبها.',
+    src: '—',
+    loop: 'المفهوم: النظام يقترح تجربة، يوزّع، يقيس، ويوقف الخاسر وحده. البنية تُبنى الآن جاهزة، لكن التشغيل يُقفل حتى يبلغ المرور حدًّا إحصائيًا.',
+    risk: 'أخطر بند في الوثيقة لو شُغّل الآن: بحجم مرورك الحالي «الفائز» عشوائي، والنظام سيعلن يقينًا لا يملكه. القرار الصادق: تُبنى وتبقى مقفلة، وتقول لك متى صار تشغيلها ذا معنى.' },
+];
+
+class Component extends DCLogic {
+  state = { s: 'search' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const only = this.props.autonomyFilter ?? 'all';
+    const pick = list => list
+      .filter(p => only === 'all' || (only === 'auto' ? p.k === 'full' : only === 'threshold' ? p.k === 'thr' : p.k === 'sug'))
+      .map(p => ({ ...p, ...LVL[p.k] }));
+
+    const screens = [
+      ['search', 'البحث الذاتي'], ['an', 'المحللات'], ['gov', 'الحاكمية والحدود'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    return {
+      screens,
+      is: { search: cur === 'search', an: cur === 'an', gov: cur === 'gov' },
+      search: pick(SEARCH),
+      analyzers: pick(AN),
+
+      tiers: [
+        { n: 'تلقائي كامل', c: '#146c4c', d: 'يُنفَّذ وحده دائمًا. الشرط: قابل للعكس آليًا، وأثره محصور، ولا يلمس محتوى كتبته بيدك.', items: ['إصلاح الفهرس التفاضلي', 'معجم المجال من الكتالوج', 'التصحيح الإملائي من المفردات', 'توسيع الاستعلام عند قلّة النتائج', 'إعادة جدولة مهمة فوّتت', 'كشف الشذوذ والتنبيه'] },
+        { n: 'تلقائي بعتبة ثقة', c: '#1d5f9c', d: 'يُنفَّذ فوق عتبة، ويُقاس بعد التنفيذ، ويُسحب وحده إن لم ينجح. لا يحتاج موافقتك لكن يحتاج ذاكرة نتائج.', items: ['مرادفات مولَّدة من صفر النتائج', 'روابط داخلية عالية الثقة', 'نصوص بديلة للصور', 'إجراءات سير العمل القابلة للعكس'] },
+        { n: 'اقتراح فقط — دائمًا', c: '#d99a00', d: 'يبقى اقتراحًا مهما ارتفعت الثقة، إمّا لأنه لا يُعكس، أو لأن بياناتك لا تكفي للحكم بعد.', items: ['أوزان الترتيب المتعلّمة (حتى بلوغ العيّنة)', 'أولوية المنتجات المتعلّمة', 'التجارب A/B', 'أي تغيير في العنوان أو الوصف'] },
+      ],
+
+      forbidden: [
+        'canonical و robots و noindex',
+        'أسعار أو خصومات أو كوبونات',
+        'حالة الطلب أو الدفع',
+        'استحقاق التنزيل',
+        'حقول الدفع وقواعدها',
+        'حذف أي كوكي أو مفتاح تخزين',
+        'رفع إصدار سياسة الموافقة',
+        'أي نصّ تجاري يراه العميل',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

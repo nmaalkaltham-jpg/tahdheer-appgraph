@@ -1,0 +1,412 @@
+/* App-level base styles — everything else comes from tokens.css + modules. */
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+ * حشوُ التمرير — الهيكل الملتصق لا يبتلع ما يُمرَّر إليه.
+ *
+ * ─── العطل المقيس ───
+ *
+ * الترويسة ملتصقة، وحين ينتقل التركيز بلوحة المفاتيح إلى عنصرٍ خارج الشاشة
+ * يمرّره المتصفّح إلى الحافّة — ولا يعلم شيئًا عن الطبقة الملتصقة فوقها،
+ * فيهبط العنصر **تحتها**. وهو معيار WCAG 2.2 AA §2.4.11 «التركيز غير محجوب».
+ *
+ * ─── ولماذا هنا لا في كلّ ملفّ ───
+ *
+ * في المتجر خمسة إعلانات `scroll-margin-block-start` متفرّقة، كلٌّ منها
+ * يعالج هذه المشكلة نفسها لعنصرٍ واحد: في صفحة المنتج، وفي الدفع (مرّتين)،
+ * وفي المراجعات (مرّتين). خمسةُ علاجاتٍ موضعيّة لسببٍ واحد — وأيّ عنصرٍ
+ * جديد يُضاف بلا سادس يقع في العطل صامتًا.
+ *
+ * وحشوُ حاوية التمرير يعالجه مرّة: كلّ تمريرٍ إلى عنصر — بالتركيز، أو
+ * بمرساة، أو بـ`scrollIntoView` — يترك المساحة تلقائيًّا.
+ *
+ * ─── والقيمة أطول حالات الترويسة ───
+ *
+ * ‎114px‎ مقيسة حين يظهر شريط الإعلانات (‎≤640‎ وَ‎≥1280‎)، و‎66‎ حين
+ * يختفي. والأطول يُتَّخذ: تجاوزُ الحشو بضعة بكسلات لا يُرى، ونقصُه يُخفي
+ * العنصر المُركَّز عليه.
+ */
+html {
+  scroll-padding-block-start: 120px;
+}
+
+/*
+ * ────────────────────── عقد الحافّة السفلى ──────────────────────
+ *
+ * مكانٌ واحد يعرف كلّ الطبقات السفليّة. والبديل مجرَّب: كان الحجز مكتوبًا
+ * في `consent.module.css` معلّقًا على صنفٍ موضعيّ، فكانت كلّ طبقةٍ أخرى
+ * تحتاج قاعدةً ثانية بالتخصيص نفسه — وآخرُها في الترتيب يطيح بالأولى.
+ *
+ * والقيم يقيسها `BottomChrome` في المتصفّح وينشرها هنا (انظره: فيه سببُ
+ * القياس، والأعطال الثلاثة المقيسة التي وُلد هذا العقد منها). صفرٌ حين لا
+ * طبقة — فالافتراضات أدناه هي الحالة الصادقة قبل ظهور أيّ شريط.
+ */
+:root {
+  /* الشريط العامّ (الموافقة) — في القاع. */
+  --chrome-bottom-base: 0px;
+  /* شريطٌ ثابت للصفحة فوقه (مجموع السلّة في الجوّال). */
+  --chrome-bottom-fixed: 0px;
+  /* أطول شريطٍ ملتصق في الصفحة — في التدفّق، فلا يقتطع من الشاشة. */
+  --chrome-bottom-sticky: 0px;
+
+  /* ما يقتطعه الخارج عن التدفّق من الشاشة فعلًا. */
+  --chrome-bottom-outflow: calc(var(--chrome-bottom-base) + var(--chrome-bottom-fixed));
+
+  /*
+   * حزّ الشاشة على المحور الأفقيّ — لكلّ شريطٍ يمتدّ بعرض النافذة.
+   *
+   * `viewport-fit=cover` (‏`app/layout.tsx`) يمدّ المستند تحت الحزّ، فشريطٌ
+   * ثابتٌ من حافّةٍ إلى حافّة يقع محتواه تحته في الوضع الأفقيّ.
+   *
+   * و`max()` للطرفين معًا لا `left` للبداية و`right` للنهاية: دالّات
+   * `env()` **ماديّة** والخصائص هنا **منطقيّة**، فربطُها يقلب في RTL —
+   * والخصائص الماديّة ممنوعة أصلًا. والتماثل يُفرِط قليلًا على الجانب
+   * السليم ويصحّ في الاتّجاهين بلا شرط.
+   *
+   * وصفرٌ على كلّ جهازٍ بلا حزّ، فلا حشو مزدوج.
+   */
+  --safe-inline: max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+}
+
+/*
+ * والعلاجان معًا لا أحدهما — وهو مقيسٌ بالتجربة في دورةٍ سابقة:
+ *
+ *  · حشوُ التمرير وحده ترك `/shop` محجوبًا: مرشّحاته في عمودٍ ملتصق، فهي
+ *    داخل الشاشة أصلًا ولا يقع تمريرٌ إليها. مرئيّة ومحجوبة في آنٍ واحد.
+ *  · وحشوُ الصفحة وحده أعاد الحجب في ثلاثة مسارات: يضمن ألّا يقع **آخرُ**
+ *    المحتوى تحت الشريط، ولا يمنع عنصرًا في الوسط أن يُمرَّر إلى الحافّة.
+ *
+ * فالأوّل للمُمرَّر إليه، والثاني لنهاية المستند. والملتصق يدخل حشو التمرير
+ * وحده: هو في التدفّق فنهايةُ المستند تقع فوقه أصلًا.
+ */
+/*
+ * حلقة تركيزٍ احتياطيّة — الجذر الذي بدونه كلّ سطحٍ جديد يبدأ بلا حلقة.
+ *
+ * في المتجر ‎131‎ قاعدة `:focus-visible` موضعيّة و**صفرٌ** عامّة: كلّ وحدةٍ
+ * تكتب حلقتها بنفسها، فمن ينساها — وقد وقع — يترك مستخدم لوحة المفاتيح بلا
+ * أثرٍ مرئيّ، ولا يكشفه فحصٌ يبحث عن حلقةٍ **مقصوصة** لا عن حلقةٍ غائبة.
+ *
+ * و`:where()` يُبقي الأولويّة **صفرًا**: قاعدتان في المستودع تستعملان إزاحةً
+ * **سالبة** عمدًا (معرض المنتج وتبويباته) لأنّ عنصرَيهما داخل صندوقٍ مقصوص،
+ * فحلقةٌ خارجيّة تُبتر. أولويّةٌ أعلى هنا كانت ستدهسهما وتُعيد الخرق.
+ */
+:where(a, button, [role='button'], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+html {
+  scroll-padding-block-end: calc(var(--chrome-bottom-outflow) + var(--chrome-bottom-sticky) + var(--space-3));
+}
+
+body {
+  padding-block-end: var(--chrome-bottom-outflow);
+}
+
+body {
+  margin: 0;
+  /*
+   * كلمةٌ لا فاصل فيها تُكسر حيث تقع — مرّةً واحدة للمستند كلّه.
+   *
+   * ─── العطل المقيس ───
+   *
+   * بضغط محتوًى متطرّف (رمز منتجٍ بأربعين محرفًا بلا فاصل، وهو ما تُدخله
+   * البيانات الحقيقيّة) فاضت `/cart` و`/products/[slug]` أفقيًّا ‎279px‎ عند
+   * ‎320‎، وقصّت بطاقةُ المنتج رابطَ عنوانها ‎55px‎ حتّى ‎2560‎. كلّ ذلك من
+   * خاصّيّةٍ واحدة غائبة.
+   *
+   * و`anywhere` لا `break-word`: الفرق أنّ الأولى تُصغّر **العرض الأدنى
+   * للمحتوى** أيضًا، فعنصر الشبكة لا يأخذ عرض أطول كلمةٍ فيه فيدفع الشبكة
+   * كلّها. والثانية تكسر السطر ولا تُصلح القياس.
+   *
+   * ─── ولماذا هنا ───
+   *
+   * كانت في المتجر خمسة إعلاناتٍ موضعيّة لهذه الخاصّيّة نفسها (اتّصل بنا،
+   * ومكتبتي، وتنزيلاتي، والمراجعات مرّتين) — وكلّ صندوقٍ جديد يُضاف بلا
+   * سادسٍ يقع في العطل صامتًا. وهي وراثيّة، فموضعُها الجذر.
+   */
+  overflow-wrap: anywhere;
+  font-family: var(--tp-body-family, var(--font-tajawal), var(--font-family));
+  /*
+   * حجم النصّ الأساسي لم يكن مضبوطًا هنا إطلاقًا قبل اليوم: كان الـ body
+   * يرث 16px من المتصفّح بينما كل مكوّن يكتب حجمه حرفيًّا. أي عنصر لا يضبط
+   * حجمه كان يظهر أكبر من كل ما حوله.
+   */
+  /*
+   * قاعدة النصّ للموقع كلّه من ملفّات التصميم (Storefront Home / Product .dc.html):
+   * ‎15px / 1.6 / 400‎ بلون ‎#142A4E‎ على أبيض. كانت ‎500 / 1.8‎ على خلفيّة
+   * مخضرّة، فاضطرّ كلّ سطح مُعاد تصميمه إلى إعادة ضبطها محليًّا.
+   */
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  text-align: start;
+}
+
+main {
+  min-block-size: 60vb;
+}
+
+/*
+ * هدف التخطّي والعودة إلى الأعلى: `main` يُركَّز برمجيًّا (‎tabindex=-1‎) فيبدأ
+ * Tab التالي من المحتوى. ليس عنصرًا تفاعليًّا، فلا حلقة حول الصفحة كلّها.
+ */
+main:focus {
+  outline: none;
+}
+
+/*
+ * رابط التخطّي — مخفيٌّ بصريًّا حتّى يُركَّز عليه، ثمّ شريطٌ كحليّ ‎44px‎ في
+ * التدفّق فوق الترويسة (لا طبقةٌ ثابتة فوقها: الترويسة ملتصقة على الجوّال،
+ * وطبقتان في الموضع نفسه تحجب إحداهما الأخرى — ‎§2.4.11‎).
+ */
+.skip-link {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  position: static;
+  inline-size: auto;
+  block-size: auto;
+  overflow: visible;
+  clip-path: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  margin: 8px;
+  padding-inline: 16px;
+  border-radius: var(--r-md);
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/*
+ * تقليل الحركة — قاعدةٌ واحدة لمحتوى الصفحة كلّه.
+ *
+ * كانت عشر صفحات محتوى (المساعدة، السياسات، تواصل، اطلب، من نحن، المدوّنة،
+ * كيف نعمل، طرق الدفع، 404، الخطأ) تكرّر الكتلة نفسها في وحدتها. الكروم
+ * (الترويسة والتذييل والشريط السفليّ) خارج `main` فيبقى على قراره.
+ */
+@media (prefers-reduced-motion: reduce) {
+  main *,
+  main *::before,
+  main *::after {
+    transition: none !important;
+  }
+}
+
+/* Storefront Home / Product .dc.html paint the page white (body bg #FFFFFF). */
+body[data-theme-page='home'],
+body[data-theme-page='product'] {
+  background: var(--color-bg);
+}
+
+/*
+ * ── ضبط الروابط العامّ ───────────────────────────────────────────────
+ *
+ * ستّ وحداتٍ تكتب `text-decoration: none` بنفسها، وما عداها يرث خطّ
+ * المتصفّح. فالجذر أولى. وتبقى الإعلانات الستّة كما هي: تكرارٌ غير ضارّ،
+ * وحذفها يوسّع دائرة الأثر إلى /help والسياسات ورقائق التصنيفات.
+ *
+ * والخطر المقابل حقيقيّ — WCAG 1.4.1: رابطٌ داخل فقرةٍ بلا خطٍّ لا يميّزه
+ * عن النصّ إلّا اللون. لذلك يُستثنى روابط النثر: أي `<a>` بلا صنف (فهو
+ * لم يُصمَّم موضعيًّا) داخل فقرةٍ أو عنصر قائمة يستعيد خطّه.
+ *
+ * والتحويم كذلك مقصورٌ على الروابط بلا صنف: الوحدةُ التي لوّنت رابطها
+ * (رقاقةُ السلّة البيضاء على أخضر مثلًا) لا يجوز أن يدهس الجذرُ لونَها
+ * فيهبط التباين عند التحويم.
+ */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:not([class]):hover {
+  color: var(--color-interactive);
+}
+
+:where(p, li, dd, blockquote, figcaption) a:not([class]) {
+  text-decoration: underline;
+}
+
+/*
+ * ── طبقة الأدوار الدلالية ───────────────────────────────────────────
+ *
+ * كل قاعدة داخل ‎:where()‎ فخصوصيتها صفر: أي وحدة CSS قائمة تفوز عليها،
+ * فإضافتها اليوم لا تكسر شيئًا. ومع تحويل كل وحدة إلى الرموز تنتقل السيطرة
+ * إلى وثيقة الثيم بلا لحظة يبدو فيها المتجر مكسورًا.
+ *
+ * هذا هو الفرق بين «رمز موجود» و«رمز مُستهلَك»: قبل اليوم كان في المستودع
+ * رمزان تيبوغرافيان واستخدام واحد لـ var() — وكان معطوبًا.
+ */
+:where(h1) {
+  font-family: var(--tp-h1-family);
+  font-size: var(--tp-h1-size);
+  font-weight: var(--tp-h1-weight);
+  line-height: var(--tp-h1-leading);
+  letter-spacing: var(--tp-h1-tracking, 0);
+  font-style: var(--tp-h1-style, normal);
+  text-transform: var(--tp-h1-transform, none);
+  text-decoration: var(--tp-h1-decoration, none);
+  margin-block: 0 0.5em;
+}
+
+:where(h2) {
+  font-family: var(--tp-h2-family);
+  font-size: var(--tp-h2-size);
+  font-weight: var(--tp-h2-weight);
+  line-height: var(--tp-h2-leading);
+  letter-spacing: var(--tp-h2-tracking, 0);
+  font-style: var(--tp-h2-style, normal);
+  text-transform: var(--tp-h2-transform, none);
+  margin-block: 0 0.5em;
+}
+
+:where(h3) {
+  font-family: var(--tp-h3-family);
+  font-size: var(--tp-h3-size);
+  font-weight: var(--tp-h3-weight);
+  line-height: var(--tp-h3-leading);
+  letter-spacing: var(--tp-h3-tracking, 0);
+  margin-block: 0 0.5em;
+}
+
+:where(h4) {
+  font-family: var(--tp-h4-family);
+  font-size: var(--tp-h4-size);
+  font-weight: var(--tp-h4-weight);
+  line-height: var(--tp-h4-leading);
+  margin-block: 0 0.5em;
+}
+
+:where(h5) {
+  font-family: var(--tp-h5-family);
+  font-size: var(--tp-h5-size);
+  font-weight: var(--tp-h5-weight);
+  line-height: var(--tp-h5-leading);
+  margin-block: 0 0.5em;
+}
+
+:where(h6) {
+  font-family: var(--tp-h6-family);
+  font-size: var(--tp-h6-size);
+  font-weight: var(--tp-h6-weight);
+  line-height: var(--tp-h6-leading);
+  margin-block: 0 0.5em;
+}
+
+:where(p) {
+  font-size: var(--tp-body-size);
+  line-height: var(--tp-body-leading);
+  margin-block: 0 1em;
+}
+
+:where(button) {
+  font-family: var(--tp-button-family);
+  font-size: var(--tp-button-size);
+  font-weight: var(--tp-button-weight);
+  line-height: var(--tp-button-leading);
+  letter-spacing: var(--tp-button-tracking, 0);
+}
+
+:where(input, select, textarea) {
+  font-family: var(--tp-input-family);
+  font-size: var(--tp-input-size);
+  font-weight: var(--tp-input-weight);
+  line-height: var(--tp-input-leading);
+}
+
+:where(label) {
+  font-family: var(--tp-label-family);
+  font-size: var(--tp-label-size);
+  font-weight: var(--tp-label-weight);
+  line-height: var(--tp-label-leading);
+}
+
+:where(nav) {
+  font-family: var(--tp-nav-family);
+  font-size: var(--tp-nav-size);
+  font-weight: var(--tp-nav-weight);
+  line-height: var(--tp-nav-leading);
+}
+
+:where(footer) {
+  font-family: var(--tp-footer-family);
+  font-size: var(--tp-footer-size);
+  font-weight: var(--tp-footer-weight);
+  line-height: var(--tp-footer-leading);
+}
+
+/*
+ * أصناف مساعدة للأدوار التي لا يقابلها وسم HTML. الوحدات تستعملها بدل كتابة
+ * الحجم حرفيًّا، فيصير الدور قابلًا للتحرير من اللوحة كبقيّة الأدوار.
+ */
+.tp-lead {
+  font-size: var(--tp-lead-size);
+  font-weight: var(--tp-lead-weight);
+  line-height: var(--tp-lead-leading);
+}
+
+.tp-product-title {
+  font-family: var(--tp-product-title-family);
+  font-size: var(--tp-product-title-size);
+  font-weight: var(--tp-product-title-weight);
+  line-height: var(--tp-product-title-leading);
+}
+
+.tp-product-description {
+  font-size: var(--tp-product-description-size);
+  font-weight: var(--tp-product-description-weight);
+  line-height: var(--tp-product-description-leading);
+}
+
+.tp-price {
+  font-family: var(--tp-price-family);
+  font-size: var(--tp-price-size);
+  font-weight: var(--tp-price-weight);
+  line-height: var(--tp-price-leading);
+}
+
+.tp-category {
+  font-size: var(--tp-category-size);
+  font-weight: var(--tp-category-weight);
+  line-height: var(--tp-category-leading);
+}
+
+.tp-badge {
+  font-size: var(--tp-badge-size);
+  font-weight: var(--tp-badge-weight);
+  line-height: var(--tp-badge-leading);
+  letter-spacing: var(--tp-badge-tracking, 0);
+}
+
+.tp-alert {
+  font-size: var(--tp-alert-size);
+  font-weight: var(--tp-alert-weight);
+  line-height: var(--tp-alert-leading);
+}
+
+/*
+ * ── الوضع الداكن: الشعار ────────────────────────────────────────────
+ * الشعار نقطيّ (‎/brand/logo-full.png‎) بكحليٍّ ‎#36446d‎ يغيب على السطح الكحليّ
+ * الداكن (‎≈1.6:1‎). لا نسخة داكنة منه، فيُرفع سطوعه بقدرٍ يُبقي الهوى —
+ * الكحليّ يصير أزرق فاتحًا والتركوازيّ يفتح — بدل تبييضه أحاديًّا.
+ */
+:root[data-theme='dark'] img[src*='logo-full'] {
+  filter: brightness(1.75) saturate(0.9);
+}

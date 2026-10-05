@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:880px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:13px">
+<h1 style="margin:0;font-size:18px;font-weight:900;color:{{ t.text }}">الاحتفاظ والأفواج</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">هل يعود المعلّم بعد أول ملف؟ — السؤال الذي لا يجيبه أي مؤشّر آخر</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ t.darkLabel }}</button>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 13px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<span style="font-size:10.5px;font-weight:900;color:{{ t.muted }};white-space:nowrap">المقياس</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ metrics }}" as="m" hint-placeholder-count="3">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.pressed }}" style="min-height:30px;padding:0 11px;border:0;border-radius:7px;background:{{ m.bg }};color:{{ m.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ m.shadow }};white-space:nowrap">{{ m.label }}</button>
+</sc-for>
+</div>
+<span style="width:1px;height:22px;background:{{ t.border }}"></span>
+<span style="font-size:10.5px;font-weight:900;color:{{ t.muted }};white-space:nowrap">الفوج</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ segments }}" as="sg" hint-placeholder-count="4">
+<button type="button" onClick="{{ sg.onClick }}" aria-pressed="{{ sg.pressed }}" style="min-height:30px;padding:0 11px;border:0;border-radius:7px;background:{{ sg.bg }};color:{{ sg.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ sg.shadow }};white-space:nowrap">{{ sg.label }}</button>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<span style="box-sizing:border-box;padding:4px 10px;border-radius:7px;background:{{ t.inset }};font-size:10px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ scopeLabel }}</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:12px;border:1px solid {{ t.border }};border-radius:10px;background:{{ t.surface }}">
+<div style="font-size:10.5px;font-weight:800;color:{{ t.muted }};margin-bottom:6px;text-align:start">{{ k.label }}</div>
+<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px"><b dir="{{ k.valueDir }}" style="font-size:{{ k.valueSize }};font-weight:900;color:{{ k.fg }};line-height:1.25;text-align:start">{{ k.value }}</b><span style="font-size:10px;font-weight:800;color:{{ t.muted }}">{{ k.unit }}</span></div>
+<div style="padding-top:7px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.65;color:{{ t.muted }};text-align:start">{{ k.note }}</div>
+</div>
+</sc-for>
+</div>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">{{ grid.title }}</h2>
+<span style="font-size:9.5px;color:{{ t.muted }};white-space:nowrap">{{ grid.legend }}</span>
+</div>
+
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:separate;border-spacing:3px;font-size:10px">
+<caption style="text-align:start;font-size:9.5px;color:{{ t.muted }};padding-bottom:8px">{{ grid.caption }}</caption>
+<thead>
+<tr>
+<th scope="col" style="text-align:start;padding:5px 7px;font-size:9px;font-weight:900;color:{{ t.muted }};white-space:nowrap">فوج الشراء</th>
+<th scope="col" style="text-align:start;padding:5px 7px;font-size:9px;font-weight:900;color:{{ t.muted }};white-space:nowrap">الحجم</th>
+<sc-for list="{{ grid.cols }}" as="c" hint-placeholder-count="7">
+<th scope="col" style="text-align:center;padding:5px 4px;font-size:9px;font-weight:900;color:{{ t.muted }};white-space:nowrap">{{ c }}</th>
+</sc-for>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{ grid.rows }}" as="r" hint-placeholder-count="8">
+<tr>
+<th scope="row" style="text-align:start;padding:5px 7px;font-size:10px;font-weight:800;color:{{ t.text }};white-space:nowrap">{{ r.label }}</th>
+<td dir="ltr" style="padding:5px 7px;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;font-weight:800;color:{{ t.muted }};text-align:start">{{ r.size }}</td>
+<sc-for list="{{ r.cells }}" as="cl" hint-placeholder-count="7">
+<td style="padding:0;text-align:center">
+<span title="{{ cl.tip }}" style="display:grid;place-items:center;min-height:30px;border-radius:6px;background:{{ cl.bg }};color:{{ cl.fg }};font-family:ui-monospace,Menlo,monospace;font-size:9.5px;font-weight:900;cursor:help">{{ cl.text }}</span>
+</td>
+</sc-for>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.75;color:{{ t.muted }};text-align:start">{{ grid.note }}</p>
+</section>
+
+<div style="display:grid;grid-template-columns:.56fr .44fr;gap:10px">
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">ماذا يشتري العائدون ثانيًا؟</h2>
+<p style="margin:0 0 12px;font-size:10.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ pathNote }}</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ paths }}" as="p" hint-placeholder-count="5">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ p.border }};border-radius:9px;background:{{ p.bg }}">
+<span dir="rtl" style="flex:1;min-width:130px;font-size:11px;font-weight:800;color:{{ t.text }};text-align:start">{{ p.label }}</span>
+<span dir="ltr" style="flex:0 0 46px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:900;color:{{ p.rateFg }};text-align:start">{{ p.rate }}</span>
+<span aria-hidden="true" style="flex:0 0 92px;height:6px;border-radius:4px;background:{{ t.inset }};overflow:hidden"><span style="display:block;height:100%;width:{{ p.w }};background:{{ p.barFg }}"></span></span>
+<span style="flex:0 0 auto;box-sizing:border-box;padding:2px 8px;border-radius:5px;background:{{ p.tagBg }};font-size:8.5px;font-weight:900;color:{{ p.tagFg }};white-space:nowrap">{{ p.tag }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">قيمة العميل على المدى</h2>
+<p style="margin:0 0 12px;font-size:10.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ ltvNote }}</p>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ ltv }}" as="l" hint-placeholder-count="4">
+<div>
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;margin-bottom:4px">
+<span dir="rtl" style="flex:1;min-width:0;font-size:10.5px;font-weight:800;color:{{ t.text }};text-align:start">{{ l.label }}</span>
+<span dir="ltr" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:900;color:{{ t.text }}">{{ l.value }}</span>
+<span style="font-size:9px;font-weight:800;color:{{ t.muted }}">ر.س</span>
+</div>
+<div style="height:7px;border-radius:4px;background:{{ t.inset }};overflow:hidden"><span aria-hidden="true" style="display:block;height:100%;width:{{ l.w }};background:{{ l.barFg }}"></span></div>
+<span style="display:block;margin-top:3px;font-size:9px;color:{{ t.muted }};text-align:start">{{ l.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<section style="margin-top:12px;padding:14px 16px;border:1px solid {{ t.warnFg }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:10px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:{{ t.warnFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<h2 style="margin:0;flex:1;min-width:0;font-size:12.5px;font-weight:900;color:{{ t.text }};text-align:start">كيف تُقرأ هذه اللوحة</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px">
+<sc-for list="{{ caveats }}" as="cv" hint-placeholder-count="4">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border:1px solid {{ t.hair }};border-radius:9px;background:{{ t.inset }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:17px;height:17px;border-radius:5px;background:{{ cv.bg }};color:{{ cv.fg }};display:grid;place-items:center;font-family:ui-monospace,monospace;font-size:9px;font-weight:900">{{ cv.n }}</span>
+<span dir="rtl" style="flex:1;font-size:10.5px;line-height:1.75;color:{{ t.text }};text-align:start">{{ cv.text }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880},&quot;embedded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;dark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { dark: false, metric: 'repeat', segment: 'all' };
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.10)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.16)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.08)' };
+    return d
+      ? { ...sem, pageBg: '#14181a', surface: '#1c2225', inset: '#252d31', text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236', darkLabel: 'الوضع الفاتح' }
+      : { ...sem, pageBg: '#f0f0f1', surface: '#fff', inset: '#f2f5f2', text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec', darkLabel: 'الوضع الداكن' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+    const metric = st.metric;
+
+    const metricDefs = [['repeat', 'معدّل الشراء المتكرّر'], ['revenue', 'الإيراد التراكمي'], ['files', 'ملفات لكل عميل']];
+    const segDefs = [['all', 'كل العملاء'], ['bundle', 'بدأ بحزمة'], ['single', 'بدأ بملف'], ['discount', 'بدأ بخصم']];
+
+    /*
+     * A cohort grid, not a KPI. Cohorts answer the one question a dashboard of
+     * totals cannot: is the store getting better at keeping teachers, or just at
+     * finding new ones? Rising totals with a falling diagonal means churn hidden
+     * by acquisition — so the diagonal is what this page exists to expose.
+     *
+     * Values are demo content (as agreed), but the STRUCTURE is honest: later
+     * cohorts have fewer observed months, so those cells read «—» not 0. A zero
+     * in an unobserved cell is the classic cohort-table lie.
+     */
+    const cohortDefs = [
+      ['فبراير 2026', 214, [100, 38, 29, 24, 22, 19, 18]],
+      ['مارس 2026', 268, [100, 41, 33, 27, 24, 22, null]],
+      ['أبريل 2026', 302, [100, 44, 35, 30, 27, null, null]],
+      ['مايو 2026', 341, [100, 47, 38, 33, null, null, null]],
+      ['يونيو 2026', 388, [100, 51, 42, null, null, null, null]],
+      ['يوليو 2026', 412, [100, 54, null, null, null, null, null]],
+      ['أغسطس 2026', 186, [100, null, null, null, null, null, null]]
+    ];
+
+    const seg = st.segment;
+    const segLift = { all: 1, bundle: 1.34, single: 0.82, discount: 0.68 }[seg];
+
+    const scale = v => {
+      if (v === null) return { text: '—', bg: t.inset, fg: t.muted, tip: 'لم يمرّ هذا الشهر بعد على هذا الفوج' };
+      const adj = Math.min(100, Math.round(v * (v === 100 ? 1 : segLift)));
+      const label = metric === 'repeat' ? adj + '%'
+        : metric === 'revenue' ? String(Math.round(adj * 4.6))
+        : (adj / 100 * 3.4).toFixed(1);
+      /* Colour scale keyed to retention strength, with a text value in every cell. */
+      const band = adj >= 45 ? 'ok' : adj >= 28 ? 'warn' : adj >= 100 ? 'ok' : 'bad';
+      const map = {
+        ok: [t.okBg, t.okFg], warn: [t.warnBg, t.warnFg], bad: [t.badBg, t.badFg]
+      };
+      const m = adj === 100 ? [t.okFg, st.dark ? '#14181a' : '#fff'] : map[band];
+      return {
+        text: label, bg: m[0], fg: m[1],
+        tip: adj + '% من هذا الفوج اشتروا مرة أخرى في هذا الشهر'
+      };
+    };
+
+    const rows = cohortDefs.map(c => ({
+      label: c[0],
+      size: c[1].toLocaleString('en-US'),
+      cells: c[2].map(scale)
+    }));
+
+    const kpiDefs = {
+      repeat: [
+        ['الشراء المتكرّر — 30 يومًا', Math.round(47 * segLift) + '%', '', 'من فوج يوليو اشتروا مرة ثانية'],
+        ['الشراء المتكرّر — 90 يومًا', Math.round(33 * segLift) + '%', '', 'يستقرّ عند هذا الحدّ تقريبًا'],
+        ['متوسط الفجوة', '24', 'يومًا', 'بين الشراء الأول والثاني'],
+        ['أفواج تتحسّن', '5 من 6', '', 'كل فوج أفضل من سابقه']
+      ],
+      revenue: [
+        ['إيراد لكل عميل — 90 يومًا', Math.round(152 * segLift) + '', 'ر.س', 'تراكمي لا شهري'],
+        ['نسبة الإيراد المتكرّر', Math.round(38 * segLift) + '%', '', 'من إجمالي الإيراد'],
+        ['متوسط الطلب الثاني', '84', 'ر.س', 'أقلّ من الأول بـ12%'],
+        ['أعلى فوج', 'يونيو', '', 'إيراد تراكمي لكل عميل']
+      ],
+      files: [
+        ['ملفات لكل عميل — 90 يومًا', (3.4 * segLift).toFixed(1), 'ملفًا', 'تراكمي'],
+        ['من يشتري 5+ ملفات', Math.round(18 * segLift) + '%', '', 'هؤلاء نصف الإيراد'],
+        ['ملف واحد فقط', Math.round(54 / segLift) + '%', '', 'لم يعودوا بعده'],
+        ['أكثر مادة تكرارًا', 'الرياضيات', '', '38% من الطلبات الثانية']
+      ]
+    }[metric];
+
+    /*
+     * Some KPI values are words, not numbers — «الرياضيات», «5 من 6», «يونيو».
+     * Direction and size are derived from content: an Arabic phrase must not
+     * inherit an LTR base, nor a 20px numeral scale built for digits.
+     */
+    const kpis = kpiDefs.map(k => {
+      const isText = /[\u0600-\u06FF]/.test(k[1]);
+      return {
+        label: k[0], value: k[1], unit: k[2], note: k[3], fg: t.text,
+        valueDir: isText ? 'rtl' : 'ltr',
+        valueSize: isText ? '14px' : '20px'
+      };
+    });
+
+    const pathDefs = [
+      ['نفس المادة — صفّ أعلى', 34, 'ok', 'الأقوى'],
+      ['مادة أخرى — نفس الصفّ', 27, 'ok', 'قوي'],
+      ['حزمة بعد ملف منفرد', 19, 'warn', 'فرصة'],
+      ['اختبارات بعد تحاضير', 14, 'warn', 'مكمّل'],
+      ['وسائل تعليمية', 6, 'bad', 'ضعيف']
+    ];
+
+    const ltvDefs = [
+      ['بدأ بحزمة', 412, 100, 'أعلى قيمة — والأقلّ عددًا'],
+      ['بدأ بملف كامل السعر', 268, 65, 'الفوج الأكبر'],
+      ['بدأ بملف مخفَّض', 148, 36, 'يعود أقلّ بمرّتين'],
+      ['بدأ بملف مجاني', 62, 15, 'التحويل ضعيف — راجِع الجدوى']
+    ];
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+
+      metrics: metricDefs.map(m => ({
+        label: m[1],
+        pressed: metric === m[0] ? 'true' : 'false',
+        bg: metric === m[0] ? t.surface : 'transparent',
+        fg: metric === m[0] ? t.text : t.muted,
+        shadow: metric === m[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ metric: m[0] })
+      })),
+      segments: segDefs.map(s => ({
+        label: s[1],
+        pressed: seg === s[0] ? 'true' : 'false',
+        bg: seg === s[0] ? t.surface : 'transparent',
+        fg: seg === s[0] ? t.text : t.muted,
+        shadow: seg === s[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ segment: s[0] })
+      })),
+      scopeLabel: 'فبراير — أغسطس 2026 · 2٬111 عميلًا',
+
+      kpis,
+
+      grid: {
+        title: 'شبكة الأفواج — ' + metricDefs.filter(m => m[0] === metric)[0][1],
+        legend: 'الصفّ فوج · العمود شهر بعد الشراء الأول',
+        caption: 'كل صفّ فوج عملاء اشتروا أول مرة في ذلك الشهر، وكل عمود ما فعلوه بعده.',
+        cols: ['الشهر 0', '+1', '+2', '+3', '+4', '+5', '+6'],
+        rows,
+        note: 'الخلايا الفارغة «—» أشهر لم تمرّ بعد على ذلك الفوج — لا صفر. الصفر في خلية غير مرصودة هو أشهر أكاذيب جداول الأفواج، لأنه يقرأ كتسرّب وهو في الحقيقة غياب بيانات.'
+      },
+
+      pathNote: 'الطلب الثاني لا يكون عشوائيًا: 61% منه في نفس المادة أو نفس الصفّ — وهذا يحدّد ما تُقترحه بعد الشراء.',
+      paths: pathDefs.map(p => {
+        const m = { ok: [t.okFg, t.okBg], warn: [t.warnFg, t.warnBg], bad: [t.badFg, t.badBg] }[p[2]];
+        return {
+          label: p[0], rate: p[1] + '%', w: p[1] * 2.6 + '%',
+          rateFg: m[0], barFg: m[0], tag: p[3], tagBg: m[1], tagFg: m[0],
+          border: t.hair, bg: t.inset
+        };
+      }),
+
+      ltvNote: 'الإيراد التراكمي لكل عميل بعد 180 يومًا، مقسومًا بحسب أول شراء.',
+      ltv: ltvDefs.map(l => ({
+        label: l[0], value: l[1].toLocaleString('en-US'), w: l[2] + '%',
+        barFg: l[2] >= 65 ? t.okFg : l[2] >= 36 ? t.warnFg : t.badFg,
+        note: l[3]
+      })),
+
+      caveats: [
+        { n: '١', text: 'الفوج يُحدَّد بتاريخ أول شراء لا بتاريخ التسجيل — فحساب بلا شراء لا يدخل أي فوج.', bg: t.inset, fg: t.muted },
+        { n: '٢', text: 'الأفواج الحديثة تبدو أفضل لأن أشهرها الأولى فقط مرصودة. لا تقارن فوجًا عمره شهر بآخر عمره ستّة.', bg: t.warnBg, fg: t.warnFg },
+        { n: '٣', text: 'فوج أغسطس ناقص — الشهر لم ينتهِ. حجمه 186 وليس رقمًا نهائيًا.', bg: t.warnBg, fg: t.warnFg },
+        { n: '٤', text: 'مقاطع «بدأ بخصم» و«بدأ بمجاني» صغيرة العدد، فتقلّبها أعلى ولا تُبنى عليها قرارات تسعير وحدها.', bg: t.badBg, fg: t.badFg }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

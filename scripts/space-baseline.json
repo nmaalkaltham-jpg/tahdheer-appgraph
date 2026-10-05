@@ -1,0 +1,82 @@
+{
+  "/@1440": {
+    "ratio": 100,
+    "gap": 139
+  },
+  "/shop@1440": {
+    "ratio": 100,
+    "gap": 62
+  },
+  "/cart@1440": {
+    "ratio": 83,
+    "gap": 145
+  },
+  "/checkout@1440": {
+    "ratio": 78,
+    "gap": 168
+  },
+  "/blog@1440": {
+    "ratio": 100,
+    "gap": 145
+  },
+  "/help@1440": {
+    "ratio": 100,
+    "gap": 130
+  },
+  "/about@1440": {
+    "ratio": 100,
+    "gap": 103
+  },
+  "/how-it-works@1440": {
+    "ratio": 100,
+    "gap": 103
+  },
+  "/bundles@1440": {
+    "ratio": 100,
+    "gap": 57
+  },
+  "/payment-methods@1440": {
+    "ratio": 100,
+    "gap": 45
+  },
+  "/@2560": {
+    "ratio": 100,
+    "gap": 139
+  },
+  "/shop@2560": {
+    "ratio": 56,
+    "gap": 62
+  },
+  "/cart@2560": {
+    "ratio": 47,
+    "gap": 145
+  },
+  "/checkout@2560": {
+    "ratio": 44,
+    "gap": 168
+  },
+  "/blog@2560": {
+    "ratio": 100,
+    "gap": 145
+  },
+  "/help@2560": {
+    "ratio": 100,
+    "gap": 130
+  },
+  "/about@2560": {
+    "ratio": 100,
+    "gap": 103
+  },
+  "/how-it-works@2560": {
+    "ratio": 100,
+    "gap": 103
+  },
+  "/bundles@2560": {
+    "ratio": 56,
+    "gap": 57
+  },
+  "/payment-methods@2560": {
+    "ratio": 100,
+    "gap": 45
+  }
+}

@@ -1,0 +1,30 @@
+/*
+ * رموز شاشات التحليل — Analytics Pro OS (الوكيل B).
+ * المصدر: docs/design/matgarr/Tahdheer - Analytics Pro OS.dc.html — القيم الحرفية
+ * من التصميم التي لا يغطيها packages/design-system/src/tokens.css.
+ * الموجود هناك يُعاد استعماله ولا يُكرَّر هنا (--chrome-08 · --chrome-14 ·
+ * --tint-gold-16 · --warning-bg/-text · --info/-bg · --success-chip-bg/-fg).
+ */
+:root {
+  --apb-border: #dce2dd; /* حدّ البطاقات في كل الشاشات (أقرب رمز قائم --border #e6e9e2 يختلف) */
+  --apb-hairline: #eef1ef; /* الفواصل المنقّطة داخل البطاقات وحدّ لوح الإجابة */
+  --apb-surface-soft: #fbfcfb; /* خلفية الألواح الرخوة وأزرار الأدلة (--bg-soft #fbfcfa يختلف حرفيًا) */
+  --apb-neutral: #eef2ef; /* خلفية شارة المصدر ومسار التقدم */
+  --apb-neutral-2: #f2f6f3; /* خلفية شارات «فُحص واستُبعد» */
+  --apb-strong: #3d4f45; /* نصّ الصفوف القوي وأزرار الأدلة */
+  --apb-dim: #8b978f; /* النص الخافت في الترويسات والحواشي */
+  --apb-soft: #7c8a82; /* السطر الوصفي تحت عناوين الفرص */
+  --apb-faint: #a9b4ad; /* أخفت درجات النص — سطر «تنبؤ لا ضمان» */
+  --apb-danger: #b32d2e; /* نصّ الإشارات المُعلَّمة الحمراء */
+  --apb-danger-bg: #fce8e8; /* خلفية شارة «عالي الخطورة» والإشارة المُعلَّمة */
+  --apb-danger-border: #f0d3d3; /* حدّ لوح التحقيق الأحمر */
+  --apb-info-border: #cfe0f0; /* حدّ بطاقة «متفائل» في المحاكاة */
+  --apb-chrome-dim: rgba(234, 242, 238, 0.72); /* نص أزرار الشاشات غير النشطة على الكروم الداكن */
+  --apb-chrome-faint: rgba(234, 242, 238, 0.5); /* الحواشي على الكروم الداكن */
+  --apb-gold-chip-text: #e8d3a6; /* نص شارة الطبقة التنفيذية وحروف IF/AND الذهبية */
+  --apb-gold-chip-border: rgba(216, 181, 106, 0.36); /* حدّ شارة الطبقة التنفيذية */
+  --apb-green-chip-text: #a8e2c5; /* نص THEN الأخضر في منشئ القواعد */
+  --apb-green-chip-bg: rgba(43, 156, 114, 0.18); /* خلفية ذيل THEN في منشئ القواعد */
+  --apb-green-chip-border: rgba(43, 156, 114, 0.3); /* خلفية رأس THEN في منشئ القواعد */
+  --apb-switch-track: #cfd8d3; /* مسار المفتاح المُطفأ في صفوف الأتمتة */
+}

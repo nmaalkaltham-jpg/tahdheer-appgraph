@@ -1,0 +1,120 @@
+# =============================================================================
+# Tahdheer — Prometheus alert rules (MIP §11.4 alert list)
+# Metric names follow the app instrumentation contract (tahdheer_* emitted by
+# Laravel api/worker via OTLP → collector prometheus exporter). Each rule is a
+# real PromQL template; thresholds marked TODO are tuned after baseline
+# measurement. SEO/business alerts that need GSC/GA4 data (organic traffic
+# −25%, organic revenue −20%/7d, indexed-products drop) live in the SEO
+# platform's own detectors, not Prometheus.
+# =============================================================================
+
+groups:
+  - name: tahdheer-reliability
+    rules:
+      - alert: OutboxDeadLetters
+        # Any DEAD outbox event = a lost critical business event candidate.
+        expr: tahdheer_outbox_events{status="dead"} > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Transactional outbox has DEAD events"
+          description: "{{ $value }} outbox event(s) in DEAD state — investigate the outbox publisher and the failing consumer immediately (MIP §4.10)."
+
+      - alert: OutboxPublishLagHigh
+        expr: tahdheer_outbox_oldest_unpublished_age_seconds > 300 # TODO: tune after baseline
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Outbox publish lag above 5m"
+          description: "Oldest unpublished outbox event is {{ $value }}s old."
+
+      - alert: QueueJobMissedWindow
+        # A scheduled job missed its expected window twice in a row (§11.4).
+        # Apps emit tahdheer_job_last_success_timestamp{job=...} and the
+        # expected interval tahdheer_job_expected_interval_seconds{job=...}.
+        expr: >
+          (time() - tahdheer_job_last_success_timestamp)
+            > 2 * tahdheer_job_expected_interval_seconds
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Scheduled job {{ $labels.job }} missed its window x2"
+          description: "Last success {{ $value }}s ago — more than twice the expected interval."
+
+      - alert: QueueDepthGrowing
+        expr: tahdheer_queue_depth > 1000 # TODO: per-queue thresholds after baseline
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue {{ $labels.queue }} depth sustained above threshold"
+
+      - alert: StaleBackup
+        # Emitted by the backup verify step (see infrastructure/backups/README.md).
+        expr: time() - tahdheer_backup_last_success_timestamp > 26 * 3600
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backup job {{ $labels.job }} is stale (>26h)"
+          description: "A backup is not reliable until restored — and not present at all if stale (MIP §11.6)."
+
+      - alert: StaleIncrementalBackup
+        expr: time() - tahdheer_backup_last_success_timestamp{job="pgbackrest_incr"} > 2 * 3600
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Hourly pgBackRest incremental is stale (>2h) — RPO ≤1h at risk"
+
+  - name: tahdheer-seo
+    rules:
+      - alert: SitemapFreshnessExceeded
+        # Sitemap build jobs emit last-success + max allowed staleness.
+        expr: >
+          (time() - tahdheer_sitemap_last_build_timestamp)
+            > tahdheer_sitemap_freshness_limit_seconds
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Sitemap shard {{ $labels.shard }} exceeded its freshness window"
+
+      - alert: SitemapBuildFailures
+        expr: increase(tahdheer_sitemap_build_failures_total[1h]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Sitemap build failures in the last hour"
+
+      - alert: NotFoundSpike
+        # §11.4: 404 spike +50/h. Edge truth from Caddy metrics.
+        expr: >
+          sum(increase(caddy_http_request_duration_seconds_count{code="404"}[1h]))
+            > 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "404 spike: more than 50 in the last hour at the edge"
+          description: "Check RedirectService and recent slug/URL changes (MIP §7.7)."
+
+  - name: tahdheer-performance
+    rules:
+      - alert: ApiP95LatencyHigh
+        # Histogram from OTLP http.server metrics for the api service.
+        expr: >
+          histogram_quantile(0.95,
+            sum by (le) (
+              rate(http_server_request_duration_seconds_bucket{service_name="tahdheer-api"}[5m])
+            )
+          ) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API p95 latency above 500ms for 10m" # TODO: tune threshold after baseline

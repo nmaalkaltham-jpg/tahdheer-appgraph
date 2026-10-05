@@ -1,0 +1,59 @@
+/*
+UNIT: SECTIONHEADING
+COMPONENT: SectionHeading.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/* رأس القسم بلغة القالب: عينٌ تركوازيّة ‎13/800‎، عنوانٌ ‎28–32/800‎ بتضييق ‎-.01em‎. */
+.wrap {
+  text-align: start;
+  color: var(--sf-ink);
+}
+
+.center {
+  text-align: center;
+}
+
+.eyebrow {
+  display: block;
+  margin-block: 0 6px;
+  margin-inline: 0;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.6;
+  color: var(--teal-text);
+}
+
+.center .eyebrow {
+  margin-block-end: 8px;
+}
+
+.title {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(28px, 2.4vw, 32px);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.center .title {
+  margin-inline: auto;
+  max-inline-size: 24ch;
+}
+
+.desc {
+  margin-block: 10px 0;
+  margin-inline: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  max-inline-size: 72ch;
+  text-wrap: pretty;
+}
+
+.center .desc {
+  margin-inline: auto;
+}

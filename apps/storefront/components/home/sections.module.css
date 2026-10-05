@@ -1,0 +1,1481 @@
+/**
+ * Homepage sections — port of TahHomeBody (1440) · TahHomeMobile (390) ·
+ * TahTrust · TahHomeReviews.
+ *
+ * Colour, motion and the 4/8/12/16/24/32/48/64/80 spacing steps come from
+ * tokens.css. Where an artboard uses an off-scale literal (56px hero padding,
+ * 22px card padding, 12px button radius, 13.5px labels…) the literal is kept
+ * verbatim — the artboard is the spec — and every such gap is listed in the
+ * handover notes so the token scale can absorb it later.
+ *
+ * Logical properties only (RTL-first): no left/right anywhere.
+ */
+
+/* ─────────────────────────────────────────── shell ───────────────────────── */
+
+.section {
+  padding-block-start: var(--space-8); /* 64px */
+}
+
+/* A section whose data is absent renders nothing at all — no dead band. */
+.section:empty {
+  display: none;
+}
+
+/* إطار الصفحة نفسه الذي تمشي عليه أقسام القالب (`design.module.css` ‎.wrap‎):
+   حافّتا كلّ الأقسام على خطٍّ واحد، لا ‎1270‎ هنا و‎1360‎ هناك. */
+.inner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+@media (max-width: 767px) {
+  .inner {
+    padding-inline: var(--space-4);
+  }
+}
+
+/*
+ * الهيرو يملك مسرحه كاملًا.
+ *
+ * كان هذا الغلاف يرسم التدرّج والحشو للهيرو القديم. وصار `heroes.tsx`
+ * يرسم مسرحه بنفسه — حقلًا لونيًّا أو وسيطًا مُحرَّرًا بحجابه — فبقاءُ
+ * التدرّج هنا يضع خلفيّتين فوق بعضهما، والحشو يضاعف حشو المسرح.
+ * فالغلاف يصير شفّافًا بلا حشو، والحدّ السفليّ وحده يبقى: هو ما يفصل
+ * الهيرو عمّا تحته.
+ */
+.section[data-section='hero'] {
+  position: relative;
+  padding-block: 0;
+  border-block-end: 1px solid var(--border);
+}
+
+.section[data-section='trust'] {
+  padding-block: 0;
+  background: var(--bg);
+  border-block-end: 1px solid var(--border);
+}
+
+/*
+ * إيقاعٌ رأسيّ لا حشوٌ واحد.
+ *
+ * كانت كلّ الأقسام تحمل ٦٤ بكسل علويّة، فتقرأ الصفحةُ قائمةً متساوية
+ * النبض بلا تجميع. والأقسام ثلاثُ أوزان:
+ *   · تصفّحٌ وتسوّق (المراحل · المواد · المختارات · الأكثر مبيعًا) —
+ *     متتابعة، فتتقارب.
+ *   · إقناعٌ (لماذا نحن · التقييمات · الأسئلة) — كلٌّ منها وقفة، فتتباعد.
+ *   · وأسطحٌ ملوّنة تُعلّم حدودَ الفصول بدل خطٍّ رمادي متكرّر.
+ */
+.section[data-section='subjects'],
+.section[data-section='featured'],
+.section[data-section='best'] {
+  padding-block-start: var(--space-7);
+}
+
+.section[data-section='why'],
+.section[data-section='reviews'],
+.section[data-section='faq'] {
+  padding-block-start: var(--space-9);
+}
+
+.section[data-section='why'],
+.section[data-section='faq'] {
+  background: var(--bg-page);
+  padding-block-end: var(--space-9);
+}
+
+/* سطحان متجاوران بالخلفيّة نفسها يلتحمان — الخيط يفصلهما. */
+.section[data-section='why'] + .section[data-section='benefits'],
+.section[data-section='reviews'] + .section[data-section='faq'] {
+  border-block-start: 1px solid var(--border-hairline);
+}
+
+.section[data-section='faq'] .inner {
+  inline-size: min(880px, 100% - var(--space-8));
+}
+
+/* ────────────────────────────────────── section head ─────────────────────── */
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-5);
+}
+
+.headCenter {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-6);
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The 1440 artboards write the head payload (action link / tabs / stat tiles)
+   FIRST in source order, so under `direction:rtl` it sits at the inline-start
+   edge and the h2 lands at the inline-end one. The DOM here stays heading-first
+   — correct Arabic reading and tab order — and the flip is visual only, exactly
+   what TahHomeReviews spells out with `statsOrder: compact ? '2' : '0'`. */
+.head > .headText {
+  order: 2;
+}
+
+.headCenter .headText {
+  align-items: center;
+}
+
+.eyebrow {
+  display: block;
+  margin-block-end: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+/* رابط الإجراء نصٌّ بسهم لا حبّة مؤطَّرة — كما يرسمه القالب على كلّ عرض. */
+.headLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 0;
+  color: var(--color-secondary-text);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color var(--speed-very-fast) var(--ease-smooth);
+}
+
+.headLink:hover {
+  color: var(--teal-text);
+}
+
+/* The 1440 artboard spells the action out; the 390 one shortens it to «الكل». */
+.headLinkShort {
+  display: none;
+}
+
+/* ──────────────────────────────────── trust band ─────────────────────────── */
+
+/*
+ * شريط الطمأنة يُحدّ ولا يُمطّ — وهذا استثناءٌ مقصود عن قاعدة `auto-fill`.
+ *
+ * عناصره أربعةٌ ثابتة (`TRUST_ITEMS` في الملفّ المجاور) لا قائمةٌ من الخادم.
+ * و`auto-fill` كان سيفتح مساراتٍ فارغة، و`auto-fit` يُطبقها ثمّ يمطّ
+ * الأربعة كما هي. فالصحيح لعددٍ ثابت أن يُحدّ عرض الشريط: أربع شاراتٍ
+ * بعرض ‎297px‎ كما تُرى اليوم عند ‎1280‎، متوسّطةً في الشاشات الأوسع، بدل
+ * شارةٍ واحدة تُمدّ إلى ‎525px‎ أغلبها فراغ.
+ */
+/*
+ * بطاقاتٌ محاطة بحدّ كما يرسمها التصميم — لا خلايا يفصلها خطُّ شعرة.
+ *
+ * والأعمدة تُشتقّ من العرض (`auto-fit` + `minmax`) لا تُعدّ: عددٌ ثابت
+ * يوجب نقطة انكسارٍ لكلّ تغيّر، وقد كان هنا ثلاثٌ منها. والاشتقاق يغنيها
+ * كلّها ويصحّ عند كلّ عرضٍ بينها.
+ */
+.trustBand {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-3);
+  max-inline-size: var(--container-content);
+  /*
+   * `margin: 0` بعد `margin-inline: auto` كان يلغيه — الاختصار يعيد كلّ
+   * الجهات إلى الصفر — فلا يتوسّط الشريط حين يضيق عن حاويته.
+   */
+  margin-block: 0;
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * شريطٌ واحد لا أربع بطاقات.
+ *
+ * كان كلّ بندٍ محاطًا بإطارٍ ونصف قطر، فيقرأ الصفُّ أربع بطاقاتٍ متطابقة
+ * تحت الهيرو مباشرةً — وهو أوّل ما يُقال للزائر بعد العنوان، فيقوله بأكثر
+ * شكلٍ عامٍّ ممكن. والفاصل الرأسيّ الرفيع يربط البنود في شريطٍ واحد بدل
+ * أن يعزلها، ويُسقط أربعة إطاراتٍ من أعلى الصفحة.
+ *
+ * والبند ليس تفاعليًّا — `<li>` بلا رابط — فلا حالة تحويمٍ تَعِد بنقرة.
+ */
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-5);
+  padding-inline: var(--space-4);
+  border-inline-start: 1px solid var(--border-hairline);
+}
+
+/* أوّل بندٍ في الصفّ بلا فاصل: الفاصل يفصل ولا يفتتح. */
+.trustItem:first-child {
+  border-inline-start: 0;
+}
+
+/*
+ * الشبكة تلتفّ عند الضيق، فالبند الأوّل في كلّ صفٍّ جديد يرث فاصلًا
+ * يفتتح سطرًا. و`auto-fit` لا يُعلم الورقةَ أين ينكسر الصفّ — فدون
+ * الحدّ الذي يضمن عمودًا واحدًا تُلغى الفواصل الرأسيّة وتُستبدل بأفقيّة.
+ */
+@media (max-width: 760px) {
+  .trustItem {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--border-hairline);
+    padding-inline: 0;
+  }
+
+  .trustItem:first-child {
+    border-block-start: 0;
+  }
+}
+
+.trustIcon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--radius-md);
+  background: var(--tint-green);
+  color: var(--teal-text);
+}
+
+/* لكلّ بندٍ لونه في القالب: أخضر · ذهبيّ · كحليّ · بنفسجيّ. */
+.toneGold {
+  background: var(--tint-gold);
+  color: var(--gold-text);
+}
+
+.toneNavy {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.toneLilac {
+  background: var(--tint-lilac);
+  color: var(--lilac-600);
+}
+
+.trustText {
+  display: flex;
+  flex-direction: column;
+}
+
+.trustTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.trustDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ───────────────────────────────── stage cards ───────────────────────────── */
+
+/*
+ * أعمدةٌ تُشتقّ من العرض لا عددٌ مكتوب — قاعدة سطح المكتب وحدها.
+ *
+ * ─── المقيس قبل التصحيح ───
+ *
+ * بعد أن صار عمود الصفحة من صنف WIDE (حتّى ‎2100px‎)، بقيت شبكات الواجهة
+ * على عددٍ ثابت فصارت تمطّ بطاقاتها بدل أن تعرض أكثر:
+ *
+ *   العرض        1280      1920      2560
+ *   المنتجات     4×285     4×410     4×513
+ *   «لماذا»      3×385     3×553     3×689
+ *   المواد       6×188     6×272     6×340
+ *
+ * بطاقةُ منتجٍ صُمّمت عند ‎285px‎ تُعرض عند ‎513‎، وبطاقةُ نصٍّ عند ‎689‎.
+ * الشاشة الأكبر كانت تعرض العدد نفسه مكبَّرًا — وهو عكس المقصود.
+ *
+ * ─── والحدود الدنيا محسوبة لا مذوقة ───
+ *
+ * كلٌّ منها عرضُ البطاقة الحاليّ عند ‎1280px‎ بالضبط، فيثبت عدد الأعمدة
+ * عند العروض القائمة (‎1280‎ و‎1440‎) ولا يزيد إلّا حين يتّسع مكانٌ حقيقيّ
+ * لعمودٍ كامل. مكسبٌ فوق، وصفرُ تغيير تحت.
+ *
+ * وطبقتا اللوح والجوّال أدناه تتجاوزان هذه القاعدة كما كانتا — الأعداد
+ * الصريحة هناك مقصودة (شريط تمريرٍ أفقيّ للمراحل، وعمودان للمنتجات).
+ */
+.stageScroller {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stageScroller li {
+  display: flex;
+}
+
+.stageCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color var(--speed-very-fast) var(--ease-smooth),
+    box-shadow var(--speed-very-fast) var(--ease-smooth);
+}
+
+/* القالب يُبرز البطاقة بحدٍّ أخضر واسمٍ أخضر — لا برفعها. */
+.stageCard:hover {
+  border-color: var(--teal-600);
+  box-shadow: 0 8px 24px color-mix(in oklab, var(--ink) 8%, transparent);
+}
+
+.stageCard:hover .stageName {
+  color: var(--teal-text);
+}
+
+.stageIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 46px;
+  block-size: 46px;
+  border-radius: 12px;
+}
+
+.stageName {
+  display: block;
+  margin-block-end: 3px;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.stageSub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/*
+ * أرقامٌ جدوليّة حيث تُصفّ الأرقام فوق بعضها.
+ *
+ * عدّادات المراحل والمواد وأثمان قائمة الأكثر مبيعًا تقع في أعمدة، والرقم
+ * النسبيّ يجعل «١١» أضيق من «٤٤» فيتذبذب طرف العمود سطرًا بعد سطر. وهو
+ * ما يفعله المتجر أصلًا في شارة السلّة وشريط الشراء وشريط الآراء — فهذه
+ * إتمامٌ للقاعدة لا استثناءٌ جديد.
+ */
+.stageCount {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ───────────────────────────── featured segmented control ────────────────── */
+
+/*
+ * شريط التبويبات يمرّر أفقيًّا في كلّ عرض — لا في الجوّال وحده.
+ *
+ * ─── العطل المقيس ───
+ *
+ * كان علاج الفيض (`overflow-x: auto`) مكتوبًا داخل استعلام وسائط الجوّال
+ * فقط. وبستّين تبويبًا — وهو عدد تصنيفاتٍ واقعيّ لمتجرٍ ناضج — قيس على
+ * ‎1440‎: الشريط ‎2784px‎ داخل نافذةٍ ‎1440‎، فدفع المستند كلّه إلى
+ * ‎2870px‎ عرضًا. وكلّ زرٍّ فيه ‎42px‎ — أي مسحوقٌ ومقصوصٌ معًا.
+ *
+ * والعدد هو ما كشفه: ببيانات البذرة (أربعة تبويبات) لا يظهر شيء.
+ *
+ * ─── ولماذا في القاعدة ───
+ *
+ * الفيض دالّةُ عدد التبويبات وطول أسمائها، لا دالّةُ عرض الشاشة. وتعليقُ
+ * العلاج على نقطة انكسارٍ يجعله يعمل حيث لا يلزم ويغيب حيث يلزم — وهو
+ * النمط نفسه الذي أنتج عطل حجز الحافّة السفلى. و`AdminShell` يكتبها في
+ * قاعدتها منذ البداية: تطبيقان للضابط نفسه، أحدهما كان مصيبًا.
+ *
+ * وشريط التمرير يظهر هنا ويُخفى في الجوّال وحده: الإخفاء على سطح المكتب
+ * يمحو الدليل الوحيد على وجود ما هو أبعد، ولا لمسَ يعوّضه.
+ */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--bg-mist);
+  max-inline-size: 100%;
+  overflow-x: auto;
+}
+
+.tab {
+  /* لا ينسحق: العرض من المحتوى، والفائض يُمرَّر إليه. */
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-block: 8px;
+  padding-inline: var(--space-4);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color var(--speed-very-fast) var(--ease-smooth),
+    color var(--speed-very-fast) var(--ease-smooth);
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-pressed='true'] {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-card);
+}
+
+/* ────────────────────────────────── product grids ────────────────────────── */
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 285px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ──────────────────────────────── promo pair ─────────────────────────────── */
+
+.promoPair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: var(--space-4);
+}
+
+/*
+ * قسيمةٌ بلا حملة: لا نصفُ صفٍّ فارغ بجانبها — شريطٌ بعرض الإطار، الأيقونة
+ * والعنوان والوصف في البداية ولوحة الرمز في النهاية. (الجوّال يبقى عموديًّا.)
+ */
+@media (min-width: 768px) {
+  .promoPair > .coupon:only-child {
+    grid-column: 1 / -1;
+    min-block-size: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 420px);
+    grid-template-areas:
+      'icon title plate'
+      'icon desc plate';
+    column-gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .promoPair > .coupon:only-child .couponIcon {
+    grid-area: icon;
+    margin: 0;
+  }
+
+  .promoPair > .coupon:only-child .couponTitle {
+    grid-area: title;
+    align-self: end;
+    margin: 0;
+  }
+
+  .promoPair > .coupon:only-child .couponDesc {
+    grid-area: desc;
+    align-self: start;
+    margin: 0;
+  }
+
+  .promoPair > .coupon:only-child .couponPlate {
+    grid-area: plate;
+  }
+}
+
+.promoPanel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-block-size: 236px;
+  padding: 40px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, var(--navy-700), var(--teal-600));
+  color: var(--on-accent);
+  text-decoration: none;
+}
+
+.promoBlob {
+  position: absolute;
+  inset-block-start: -60px;
+  inset-inline-start: -40px;
+  inline-size: 260px;
+  block-size: 260px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--gold-400) 14%, transparent);
+}
+
+.promoEnds {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-block-end: 14px;
+  padding-block: 5px;
+  padding-inline: 13px;
+  border-radius: var(--radius-pill);
+  /*
+   * الشارة تحمل خلفيّتها الداكنة — ولا تتّكل على موضعها من التدرّج.
+   *
+   * ─── المقيس ───
+   *
+   * النصّ ‎12px‎ بوزن ‎800‎، دون حدّ «الكبير» في ‎§1.4.3‎ (‎18.66px‎
+   * غليظًا)، فيلزمه ‎4.5:1‎. والمقيس من البكسلات المرسومة: **‎3.98:1‎** —
+   * ذهبٌ فاتح `[230,205,147]` على أخضر متوسّط `[52,108,76]`.
+   *
+   * ─── ولماذا لم يكفِ خفض الوشاح ───
+   *
+   * جرّبتُ ‎20%‎ ← ‎10%‎ فلم تتحرّك النسبة بكسلًا واحدًا: الخلفيّة الفعليّة
+   * ليست الوشاح بل **التدرّج تحته** عند موضع الشارة، والوشاح شفّافٌ يكشفه.
+   * أي أنّ مقروئيّة النصّ كانت معلّقةً بمكان وقوع الشارة على تدرّجٍ يتغيّر
+   * لونه على طوله — وهو عطلٌ بنيويّ لا نقصُ بضعة أعشار.
+   *
+   * فالشارة تُعطى قاعدةً داكنة من لون المتجر نفسه، فتقرأ حيثما وقعت.
+   */
+  background: color-mix(in oklab, var(--navy-700) 70%, transparent);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.promoTitle {
+  position: relative;
+  display: block;
+  margin-block-end: 10px;
+  max-inline-size: 22ch;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.promoDesc {
+  position: relative;
+  display: block;
+  margin-block-end: 22px;
+  max-inline-size: 46ch;
+  font-size: 15px;
+  color: color-mix(in oklab, var(--on-accent) 72%, transparent);
+}
+
+.promoCta {
+  position: relative;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-block-size: 44px;
+  padding-block: 13px;
+  padding-inline: 26px;
+  border-radius: var(--r-md);
+  background: var(--gold-400);
+  color: var(--color-accent-fg);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.coupon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-block-size: 236px;
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-page);
+}
+
+.couponIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 46px;
+  block-size: 46px;
+  margin-block-end: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--teal-text);
+}
+
+.couponTitle {
+  margin: 0 0 var(--space-2);
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.couponDesc {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.couponPlate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: 11px;
+  padding-inline: 14px;
+  /* Artboard #c9b489 — a muted gold with no token of its own. */
+  border: 1px dashed color-mix(in oklab, var(--gold-400) 85%, var(--text-muted));
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+.couponCode {
+  flex: 1;
+  min-inline-size: 0;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--gold-text);
+}
+
+.couponCopy {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-block: 7px;
+  padding-inline: 13px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  /* سطح النصّ وحبر الصفحة: كحليٌّ بأبيض فاتحًا، وفاتحٌ بداكن في الداكن. */
+  background: var(--color-text);
+  color: var(--color-bg);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color var(--speed-very-fast) var(--ease-smooth);
+}
+
+.couponCopy:hover {
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+}
+
+/* ──────────────────────────────── why / benefits ─────────────────────────── */
+
+.whyGrid {
+  counter-reset: why;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.whyCard {
+  counter-increment: why;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+}
+
+.whyNum {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: 14px;
+}
+
+.whyNum::before {
+  content: counter(why, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--gold-text);
+}
+
+.whyNum::after {
+  content: '';
+  flex: 1;
+  block-size: 1px;
+  background: var(--border-hairline);
+}
+
+.whyTitle {
+  display: block;
+  margin-block-end: var(--space-2);
+  font-size: 17.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.whyDesc {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* ───────────────────── «لماذا يختار المعلّمون» — سجلٌّ تحريريّ ───────────────
+ *
+ * قسمُ الثقة الرئيس كان يستعمل شبكة `whyGrid` نفسها التي يستعملها قسم
+ * «المزايا»: بطاقتان متطابقتان في الشكل تحت عنوانين مختلفين، فلا يقرأ
+ * الزائر فرقًا بين «لماذا نحن» و«ماذا نقدّم». وتكرارُ الشكل يُسطّح الأهمّ.
+ *
+ * فهذا سجلٌّ لا شبكة: رقمٌ كبير مفرّغ، وعنوانٌ قويّ، ونصٌّ بمقياسِ قراءة —
+ * وخيطٌ يفصل المُدخلات. يقرأ صفحةَ مجلّة لا رفَّ بطاقات.
+ */
+
+.whyLedger {
+  counter-reset: ledger;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: 0 clamp(var(--space-6), 5vw, var(--space-9));
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ledgerItem {
+  counter-increment: ledger;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+  padding-block: var(--space-5);
+  border-block-start: 1px solid var(--border-hairline);
+}
+
+/* أوّل مُدخلٍ في كلّ عمود بلا خيطٍ علويّ: الخيط يفصل ولا يفتتح. */
+.ledgerItem:first-child {
+  border-block-start: 0;
+}
+
+.ledgerNum {
+  font-family: var(--font-mono);
+  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  /*
+   * رقمٌ مفرّغ لا مصمت: يعطي الإيقاع البصريّ بلا أن ينافس العنوان على
+   * الانتباه. و`-webkit-text-stroke` مدعومٌ في كلّ المحرّكات الحيّة، ومن
+   * لا يدعمه يرى رقمًا ذهبيًّا مصمتًا — تدهورٌ مقبول.
+   */
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--gold-400);
+}
+
+.ledgerNum::before {
+  content: counter(ledger, decimal-leading-zero);
+}
+
+.ledgerTitle {
+  margin: 0;
+  font-size: var(--tp-h5-size);
+  font-weight: var(--tp-h5-weight);
+  line-height: var(--tp-h5-leading);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.ledgerDesc {
+  margin: var(--space-2) 0 0;
+  max-inline-size: 52ch;
+  font-size: var(--tp-body-size);
+  font-weight: var(--tp-body-weight);
+  line-height: var(--tp-body-leading);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* ───────────────────────────────────── faq ───────────────────────────────── */
+
+/*
+ * أكورديون أصليّ (`<details name>`): مفتوحٌ واحدٌ في كلّ مرّة بلا سطر
+ * جافاسكربت، والجواب يبقى في الشجرة دائمًا فيجده البحث والطباعة والرابط
+ * العميق. لا يُستبدل بمكوّنٍ مكتوب — يُرفَع شكلُه وحده.
+ */
+
+.faqList {
+  display: grid;
+  gap: var(--space-3);
+  /*
+   * `interpolate-size` يجعل `block-size: auto` قابلةً للانتقال، فينفتح
+   * الجواب انسيابًا بدل قفزة. ومن لا يدعمه يفتح فورًا — وهو سلوكُ
+   * `<details>` الأصليّ نفسه، لا عطل.
+   */
+  interpolate-size: allow-keywords;
+}
+
+.faqItem {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  transition: border-color var(--speed-fast) var(--ease-smooth),
+    box-shadow var(--speed-fast) var(--ease-smooth);
+}
+
+.faqItem:hover {
+  border-color: var(--border-strong);
+}
+
+.faqItem[open] {
+  border-color: var(--teal-600);
+  box-shadow: var(--shadow-faq-open);
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
+  font-size: var(--tp-h6-size);
+  font-weight: var(--tp-h6-weight);
+  line-height: var(--tp-h6-leading);
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+/*
+ * حلقةُ التركيز على الملخّص نفسه: هو العنصر الذي يبلغه `Tab`، وإخفاؤها
+ * يجعل الأكورديون كلّه غير قابلٍ للتتبّع بلوحة المفاتيح.
+ */
+.faqQuestion:focus-visible {
+  outline: 2px solid var(--teal-600);
+  outline-offset: -3px;
+  border-radius: var(--r-lg);
+}
+
+.faqMark {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-mist);
+  color: var(--text-muted);
+  transition:
+    transform var(--speed-fast) var(--ease-smooth),
+    background-color var(--speed-fast) var(--ease-smooth),
+    color var(--speed-fast) var(--ease-smooth);
+}
+
+.faqItem[open] .faqMark {
+  background: var(--teal-on);
+  color: var(--on-accent);
+  transform: rotate(45deg);
+}
+
+.faqAnswer {
+  margin: 0;
+  padding-block: 0 var(--space-5);
+  padding-inline: var(--space-5);
+  max-inline-size: 66ch;
+  font-size: var(--tp-body-size);
+  font-weight: var(--tp-body-weight);
+  line-height: var(--tp-body-leading);
+  color: var(--text-secondary);
+}
+
+@supports selector(::details-content) {
+  .faqItem::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: block-size var(--speed-normal) var(--ease-smooth),
+      opacity var(--speed-normal) var(--ease-smooth),
+      content-visibility var(--speed-normal) allow-discrete;
+    content-visibility: hidden;
+  }
+
+  .faqItem[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    content-visibility: visible;
+  }}
+
+@media (prefers-reduced-motion: reduce) {
+  .faqItem,
+  .faqMark {
+    transition: none;
+  }
+
+  .faqItem[open] .faqMark {
+    transform: none;
+  }
+
+  .faqItem::details-content,
+  .faqItem[open]::details-content {
+    transition: none;
+  }}
+
+/* ───────────────────────────── dark panel (cta) ──────────────────────────── */
+
+.darkPanel {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 40px;
+  padding-block: 52px;
+  padding-inline: 48px;
+  border-radius: var(--r-xl);
+  background: var(--ink);
+  color: var(--on-accent);
+}
+
+.darkPanel :is(h2, h3) {
+  color: inherit;
+}
+
+.darkBlob {
+  position: absolute;
+  inset-block-end: -140px;
+  inset-inline-start: -80px;
+  inline-size: 400px;
+  block-size: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--teal-600) 50%, transparent), transparent 68%);
+}
+
+.darkCopy,
+.darkSide {
+  position: relative;
+}
+
+.darkLead {
+  margin: var(--space-3) 0 0;
+  max-inline-size: 44ch;
+  font-size: 16px;
+  line-height: 1.85;
+  color: color-mix(in oklab, var(--on-accent) 75%, transparent);
+}
+
+.ctaGold {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 44px;
+  padding-inline: 22px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--gold-400);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--speed-very-fast) var(--ease-smooth);
+}
+
+.ctaGold:hover {
+  background: var(--gold-light);
+}
+
+/* ─────────────────────────────── sticky mobile bar ───────────────────────── */
+
+.stickyBar {
+  display: none;
+}
+
+/* ──────────────────────────── shared tints & utils ───────────────────────── */
+
+.tintGreen {
+  background: color-mix(in oklab, var(--teal-600) 10%, transparent);
+  color: var(--teal-text);
+}
+
+.tintGold {
+  background: color-mix(in oklab, var(--gold-400) 18%, transparent);
+  color: var(--gold-text);
+}
+
+.tintNavy {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.tintLilac {
+  background: var(--tint-lilac);
+  color: var(--lilac-600);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ───────────────────────────────────── focus ─────────────────────────────── */
+
+:is(
+    .headLink,
+    .stageCard,
+    .tab,
+    .promoPanel,
+    .couponCopy,
+    .faqQuestion
+  ):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* On the ink panels the green ring would vanish — gold clears 3:1 there. */
+.samplesLede {
+  margin: 0;
+  max-inline-size: 56ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.samplesTypes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.samplesType {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.samplesType:hover {
+  border-color: var(--teal-600);
+}
+
+/* ═════════════════════ الطبقة التجاوبيّة وتقليل الحركة ═════════════════════
+ *
+ * استُعيدت في ٢٠٢٦-٠٩-٢٠ بعد أن حذفتُها بالخطأ: تنظيفُ قواعد النشرة قسّم
+ * الورقة على `\n.` فامتدّ كلُّ «صنف» حتى الصنف التالي — وكتل `@media` تبدأ
+ * بـ`@` لا بنقطة، فابتُلعت معه ثلاثُ كتل ليست من النشرة.
+ *
+ * الدرس: لا تُقسّم CSS بمُطابِقٍ نصّيّ على بداية الصنف. احذف بالقاعدة كاملةً
+ * بموازنة الأقواس، أو احذف بيدك وأنت ترى.
+ */
+
+@media (max-width: 1024px) {
+  .stageScroller, .productGrid, .whyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .promoPair, .darkPanel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .darkPanel {
+    padding-block: 40px;
+    padding-inline: var(--space-6);
+    gap: var(--space-5);
+  }
+  .section {
+    padding-block-start: var(--space-7);
+  }
+  .section[data-section="hero"] {
+    padding-block: 44px var(--space-7);
+  }}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block-start: var(--space-6);
+  }
+  .section[data-section="hero"] {
+    padding-block: 28px var(--space-6);
+  }
+  /* الحاشية ‎16‎ من ‎.inner‎ نفسه (أعلى الملفّ) — لا عرضٌ منقوصٌ فوقها. */
+  .section[data-section="faq"] .inner {
+    inline-size: auto;
+  }
+  .head {
+    align-items: baseline;
+    gap: 10px;
+    margin-block-end: 12px;
+  }
+  .head > .headText {
+    order: 0;
+  }
+  .head h2 {
+    font-size: 19px;
+  }
+  .eyebrow {
+    display: none;
+  }
+  .head:has(.headLink) {
+    flex-wrap: nowrap;
+  }
+  .head:has(.headLink) > .headText {
+    min-inline-size: 0;
+  }
+  .headCenter {
+    margin-block-end: var(--space-5);
+  }
+  .headLink {
+    min-block-size: 44px;
+    color: var(--teal-text);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .headLinkFull {
+    display: none;
+  }
+  .headLinkShort {
+    display: inline;
+  }
+  .trustBand {
+    scrollbar-width: none;
+    inline-size: 100%;
+    scroll-padding: var(--focus-ring-reach);
+    padding-block: var(--focus-ring-reach);
+    gap: 8px;
+    margin-inline: 0;
+    padding-inline: 14px;
+    display: flex;
+    overflow-x: auto;
+  }
+  .trustBand::-webkit-scrollbar {
+    display: none;
+  }
+  .trustItem {
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    flex: none;
+    gap: 8px;
+    padding-block: 9px;
+    padding-inline: 12px;
+  }
+  .trustIcon, .toneGold, .toneNavy, .toneLilac {
+    background: none;
+    border-radius: 0;
+    block-size: auto;
+    inline-size: auto;
+  }
+  .trustIcon svg {
+    stroke-width: 2px;
+    block-size: 16px;
+    inline-size: 16px;
+  }
+  .trustTitle {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .trustDesc {
+    display: none;
+  }
+  .stageScroller {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .stageCard {
+    border-radius: var(--r-lg);
+    gap: 8px;
+    padding: 14px;
+  }
+  .stageIcon {
+    border-radius: var(--r-md);
+    block-size: 38px;
+    inline-size: 38px;
+  }
+  .stageIcon svg {
+    block-size: 19px;
+    inline-size: 19px;
+  }
+  .stageName {
+    margin-block-end: 0;
+    font-size: 15px;
+  }
+  .stageSub, .stageCount {
+    font-size: 12px;
+  }
+  .tabs {
+    scrollbar-width: none;
+    border-radius: var(--r-md);
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    border-radius: var(--radius-sm);
+    flex: none;
+    min-block-size: 44px;
+    padding-block: 0;
+    padding-inline: 15px;
+    font-size: 12.5px;
+  }
+  .productGrid {
+    gap: var(--space-3);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .section[data-section="best"] .productGrid {
+    scrollbar-width: none;
+    scroll-padding: var(--focus-ring-reach);
+    padding-block: var(--focus-ring-reach) 4px;
+    gap: 12px;
+    margin-inline: -14px;
+    padding-inline: 14px;
+    display: flex;
+    overflow-x: auto;
+  }
+  .section[data-section="best"] .productGrid::-webkit-scrollbar {
+    display: none;
+  }
+  .section[data-section="best"] .productGrid > li {
+    flex: none;
+    inline-size: 200px;
+  }
+  .promoPanel {
+    border-radius: var(--r-xl);
+    min-block-size: 0;
+    padding: 26px;
+  }
+  .promoTitle {
+    font-size: 22px;
+    line-height: 1.4;
+  }
+  .promoDesc {
+    margin-block-end: 18px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+  .promoCta {
+    align-self: stretch;
+    min-block-size: 46px;
+    padding-block: 0;
+    font-size: 14.5px;
+  }
+  .coupon {
+    min-block-size: 0;
+    padding: var(--space-5);
+    border-radius: var(--r-xl);
+  }
+  .couponCopy {
+    min-block-size: 44px;
+    padding-inline: var(--space-4);
+  }
+  .whyGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .whyCard {
+    border-radius: var(--r-lg);
+    padding: 20px;
+  }
+  .whyTitle {
+    font-size: 15.5px;
+  }
+  .whyDesc {
+    font-size: 13.5px;
+  }
+  .faqList {
+    border-radius: var(--r-lg);
+  }
+  .faqQuestion {
+    min-block-size: 52px;
+    padding-block: 14px;
+    padding-inline: var(--space-4);
+    gap: var(--space-3);
+    font-size: 13.5px;
+  }
+  .faqMark {
+    border-radius: var(--r-xs);
+    block-size: 24px;
+    inline-size: 24px;
+  }
+  .faqAnswer {
+    padding-block: 0 var(--space-4);
+    padding-inline: var(--space-4);
+    font-size: 13px;
+  }
+  .darkPanel {
+    border-radius: var(--r-xl);
+    padding-block: 28px;
+    padding-inline: 22px;
+  }
+  .stickyBar {
+    z-index: var(--z-sticky-bar);
+    background: var(--navy-700);
+    color: var(--on-accent);
+    box-shadow: 0 -14px 34px color-mix(in oklab, var(--navy-700) 28%, transparent);
+    flex-direction: column;
+    margin-block-start: var(--space-6);
+    display: flex;
+    position: sticky;
+    inset-block-end: var(--chrome-bottom-outflow, 0px);
+  }
+  .stickyCartRow {
+    align-items: stretch;
+    block-size: 64px;
+    display: flex;
+  }
+  .stickyCart {
+    background: color-mix(in oklab, var(--on-accent) 10%, transparent);
+    inline-size: 64px;
+    color: var(--on-accent);
+    transition: background-color var(--speed-very-fast) var(--ease-smooth);
+    flex: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+  }
+  .stickyCart:hover {
+    background: color-mix(in oklab, var(--on-accent) 16%, transparent);
+  }
+  .stickyCartCount {
+    background: var(--teal-on);
+    font-variant-numeric: tabular-nums;
+    place-items: center;
+    block-size: 20px;
+    min-inline-size: 20px;
+    padding-inline: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    display: grid;
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+  }
+  .stickyCheckout {
+    background: var(--teal-on);
+    min-inline-size: 0;
+    color: var(--on-accent);
+    transition: background-color var(--speed-very-fast) var(--ease-smooth);
+    flex: 1 1 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+  }
+  .stickyCheckout:hover {
+    background: var(--ch-checkout-hover);
+  }
+  .stickyTabs {
+    padding-block: 6px max(24px, env(safe-area-inset-bottom));
+    border-block-start: 1px solid color-mix(in oklab, var(--on-accent) 10%, transparent);
+    padding-inline: 6px;
+    display: flex;
+  }
+  .stickyTab {
+    min-block-size: 44px;
+    color: color-mix(in oklab, var(--on-accent) 72%, transparent);
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+  }
+  .stickyTab[aria-current="page"] {
+    color: var(--on-accent);
+    font-weight: 700;
+  }
+  .stickyCart:focus-visible, .stickyCheckout:focus-visible, .stickyTab:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: -3px;
+  }}
+
+@media (prefers-reduced-motion: reduce) {
+  .faqMark, .stageCard {
+    transition: none;
+  }
+  .stageCard:hover {
+    transform: none;
+  }}
+
+/* ─────────────────────────────────── فشل التحميل ────────────────────────────
+ * عطلُ الخادم ليس فراغًا.
+ *
+ * كان `LOAD_FAILED` يُمرَّر إلى `EmptyState audience="visitor"` التي تُعيد
+ * `null` عمدًا، فيبتلع الشرطُ نفسه رسالته: تسقط الواجهة البرمجية فتُصيَّر
+ * الرئيسة صفحةً فارغة برمز ٢٠٠ — بلا خبر ولا سبيل. وقاعدة «الزائر لا يرى
+ * صندوق الفراغ» تخصّ «لم يُنشر بعد» وحدها، لا العطل.
+ *
+ * ولا سكربت هنا: القسم يُصيَّر على الخادم، فالإخبار نصٌّ يصل مع أوّل بايت.
+ */
+.failure {
+  inline-size: min(var(--container-wide), 100% - var(--container-inset));
+  margin-inline: auto;
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--warning-border);
+  border-radius: var(--r-lg);
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.failureIcon {
+  flex: none;
+  inline-size: 20px;
+  block-size: 20px;
+  margin-block-start: 2px;
+}
+
+.failureTitle {
+  margin: 0;
+  font-size: var(--tp-alert-size);
+  font-weight: var(--tp-alert-weight);
+  line-height: var(--tp-alert-leading);
+}
+
+.failureHint {
+  margin: var(--space-1) 0 0;
+  font-size: var(--tp-product-description-size);
+  font-weight: var(--tp-product-description-weight);
+  line-height: var(--tp-product-description-leading);
+  color: var(--text-secondary);
+}

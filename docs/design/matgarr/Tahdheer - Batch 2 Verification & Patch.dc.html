@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — الدفعة ٢: إعادة التحقّق والرقعة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d;-webkit-font-smoothing:antialiased}
+a{color:#146c4c;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#0d4f37}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #d8b56a;outline-offset:2px;border-radius:6px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes b2Fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#eef0ee">
+
+<div style="background:#14261d;color:#eaf2ee;position:sticky;top:0;z-index:9">
+<div style="max-width:1240px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:14px">التحاضير الحديثة — الدفعة ٢: إعادة التحقّق ثم رقعة واحدة</b>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:10px;font-weight:900">١٣ بندًا أُعيد فحصها في الشيفرة · لا نقل عن تدقيق</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.go }}" style="border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ s.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:18px 22px 60px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.res }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="01 نتيجة إعادة التحقّق" style="display:flex;flex-direction:column;gap:13px;animation:b2Fade .25s ease">
+
+<h1 style="margin:0;font:900 21px Tajawal">نتيجة إعادة التحقّق — والاعتراف بخطأ في حكمي</h1>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px">
+<sc-for list="{{ tally }}" as="t" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid {{ t.c }};border-radius:13px;background:#fff;padding:13px 16px">
+<b dir="ltr" style="display:block;font-size:26px;line-height:1;color:{{ t.c }};text-align:start">{{ t.n }}</b>
+<span style="display:block;margin-top:5px;font-size:11.5px;font-weight:800">{{ t.t }}</span>
+<span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.7;color:#5f7167">{{ t.d }}</span>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:15px 18px">
+<b style="font-size:13px;color:#8a6500">تصحيح ذاتي — البند الذي أخطأت فيه في الدفعة ١</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#5f4f2f">أعلنت «المعالج المكرّر» بندًا قائمًا بناءً على بحث نصّي أظهر تسجيلَين لنفس الإجراء. القراءة المباشرة للسطر ‎658 في <code dir="ltr">seo-dashboard-ui.php</code> أظهرت أن التسجيل الثاني <b>داخل حاجز</b> <code dir="ltr">! function_exists( 'tahdheer_seo_ajax_run_workflow' )</code>، وفوقه تعليق يشرح النية: وحدة الأساس تملك الإجراء، وواجهة اللوحة تتولّاه فقط عند غيابها. هذا احتياطي سليم لا تكرار. <b>الدرس ينطبق عليّ كما ينطبق على أي تدقيق: البحث النصّي يكشف مواضع، والقراءة وحدها تكشف نيّة.</b></p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:900px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">البند في خط الأساس</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الحكم بعد الفحص</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الدليل</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الإجراء</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="13">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11.5px;font-weight:800;line-height:1.55;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top">{{ r.n }}</th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 10px;border-radius:999px;background:{{ r.bg }};color:{{ r.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.v }}</span></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top">
+<code dir="ltr" style="display:block;font-size:9px;color:#8b978f;text-align:start;word-break:break-all">{{ r.src }}</code>
+<span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.8;color:#5f7167">{{ r.e }}</span>
+</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;font-weight:800;line-height:1.7;color:{{ r.aC }};vertical-align:top">{{ r.a }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.patch }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="02 الرقعة" style="display:flex;flex-direction:column;gap:13px;animation:b2Fade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">الدفعة ٢ — سطر واحد</h1>
+<span style="font-size:11px;color:#7d8a83">الإصلاح الحتمي الوحيد المتبقّي بلا قرار مالك</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #146c4c;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px">لماذا سطر واحد فقط، ولماذا هذا صحيح</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">من ‎١٣ بندًا: ثمانية مُصلَحة، واثنان يحتاجان قرار مالك (معدّل عيّنة الخريطة الحرارية، وسياسة async)، وبند يحتاج قياسًا قبل أي لمس، واثنان لم يُفحصا. المتبقّي القابل للتنفيذ فورًا بلا قرار ولا قياس ولا مخاطرة: <b>خصيصة HttpOnly على كوكي اللغة</b>. أي دفعة أكبر من هذا اليوم تكون اختراع عمل لا هندسة.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:0;overflow:hidden">
+<div style="padding:12px 17px;background:#f6f8f7;border-bottom:1px solid #eef1ef;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<code dir="ltr" style="font-size:11px;font-weight:700">inc/language.php</code>
+<span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">سطر واحد · حتمي · قابل للعكس</span>
+</div>
+<pre dir="ltr" style="margin:0;padding:14px 17px;font-size:11.5px;line-height:2;overflow:auto;text-align:start;background:#fff">  setcookie(
+    TAHDHEER_LANG_COOKIE,
+    $requested,
+    array(
+      'expires'  =&gt; time() + YEAR_IN_SECONDS,
+      'path'     =&gt; '' !== (string) constant( 'COOKIEPATH' ) ? (string) constant( 'COOKIEPATH' ) : '/',
+      'domain'   =&gt; (string) COOKIE_DOMAIN,
+      'secure'   =&gt; is_ssl(),
+<span style="display:block;background:#fdecec;color:#8e2223;margin-inline:-17px;padding-inline:17px">-     'httponly' =&gt; false,</span><span style="display:block;background:#e9f7ef;color:#146c4c;margin-inline:-17px;padding-inline:17px">+     'httponly' =&gt; true,</span>      'samesite' =&gt; 'Lax',
+    )
+  );</pre>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px;color:#146c4c">دليل السلامة — مُثبَت لا مفترض</b>
+<sc-for list="{{ safety }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;gap:8px;padding:7px 0;border-top:1px dashed #f1f4f2;font-size:11.5px;line-height:1.85;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span><span>{{ s }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<b style="font-size:12.5px">الاختبار والتراجع</b>
+<sc-for list="{{ testrb }}" as="t" hint-placeholder-count="4">
+<div style="padding:7px 0;border-top:1px dashed #f1f4f2">
+<b style="font-size:11px;color:#5f7167">{{ t.k }}</b>
+<span style="display:block;margin-top:2px;font-size:11.5px;line-height:1.85;color:#3d4f45">{{ t.v }}</span>
+</div>
+</sc-for>
+</section>
+</div>
+
+<section style="border:1px solid #f2e2be;border-radius:14px;background:#fffdf6;padding:14px 18px">
+<b style="font-size:12.5px;color:#8a6500">بندان ينتظران قرارك — لا أنفّذهما وحدي</b>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:10px">
+<sc-for list="{{ pending }}" as="p" hint-placeholder-count="2">
+<div style="border:1px solid #f2e2be;border-radius:11px;background:#fff;padding:12px 14px">
+<code dir="ltr" style="font-size:9.5px;color:#8b978f;display:block;text-align:start">{{ p.src }}</code>
+<b style="display:block;margin-top:4px;font-size:11.5px;line-height:1.5">{{ p.n }}</b>
+<span style="display:block;margin-top:4px;font-size:10.5px;line-height:1.85;color:#5f4f2f">{{ p.b }}</span>
+<span style="display:block;margin-top:6px;padding-top:6px;border-top:1px dashed #f4ecd8;font-size:10.5px;line-height:1.8;color:#17251d"><b>السؤال:</b> {{ p.q }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.tests }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="03 اختبارات الحماية" style="display:flex;flex-direction:column;gap:13px;animation:b2Fade .25s ease">
+
+<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 21px Tajawal">اختبارات تحمي ثمانية إصلاحات منجزة</h1>
+<span style="font-size:11px;color:#7d8a83">القيمة الحقيقية للدفعة — لا شيء منها يلمس شيفرة إنتاج</span>
+</div>
+
+<section style="border:1px solid #dce2dd;border-inline-start:4px solid #b42318;border-radius:14px;background:#fff;padding:15px 18px">
+<b style="font-size:13px;color:#8e2223">المخاطرة التي تعالجها هذه الشاشة</b>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">ثمانية عيوب أُصلحت، وصفر بوابة تمنع رجوعها. أي مطوّر — أو أي وكيل يقرأ خط الأساس القديم — قادر على إعادة أيٍّ منها بحسن نية. أخطرها بندان: عودة <code dir="ltr">innerHTML</code> إلى عرض نتائج البحث، وعودة الكبت الشامل لمخرجات مزوّد SEO. كل صف أدناه اختبار واحد صغير، يفشل عند رجوع العيب بعينه.</p>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:920px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">الاختبار</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">النوع</th>
+<th style="padding:10px 8px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">يفشل عندما</th>
+<th style="padding:10px 16px;text-align:start;font-size:10.5px;font-weight:900;color:#5f7167">يحمي</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ tests }}" as="t" hint-placeholder-count="9">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;background:#fbfcfb;border-top:1px solid #f4f6f4;vertical-align:top"><code dir="ltr" style="font-size:10px;font-weight:700;display:block;text-align:start;word-break:break-all">{{ t.id }}</code></th>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;vertical-align:top"><span style="padding:2px 9px;border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:9px;font-weight:900;white-space:nowrap">{{ t.kind }}</span></td>
+<td style="padding:9px 8px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.85;color:#3d4f45;vertical-align:top">{{ t.fail }}</td>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4;font-size:10.5px;line-height:1.8;color:#5f7167;vertical-align:top">{{ t.prot }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<section style="border:1px dashed #cfe0d6;border-radius:13px;background:#f8fbf9;padding:14px 18px">
+<b style="font-size:12.5px;color:#146c4c">شرط تنفيذي</b>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">أدوات JS في المشروع غير مثبّتة (لا <code dir="ltr">node_modules/.bin</code> بحسب خط الأساس)، وPHPStan لم يُشغَّل بعد. لذلك: <b>لا أعلن أي اختبار من هذه ناجحًا</b> — هي مواصفات جاهزة للتنفيذ، وحالتها الآن <span dir="ltr">NOT RUN</span>. أول أمر في الدفعة ٣ هو <code dir="ltr">npm install</code> ثم تشغيلها، ونشر النتيجة صفًا صفًا.</p>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.report }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="04 التقرير" style="display:flex;flex-direction:column;gap:13px;animation:b2Fade .25s ease">
+
+<h1 style="margin:0;font:900 21px Tajawal">تقرير الدفعة — بالصيغة المطلوبة</h1>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ report }}" as="r" hint-placeholder-count="10">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:13px 17px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+<span style="flex:0 0 22px;height:22px;border-radius:999px;background:#14261d;color:#eaf2ee;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ r.i }}</span>
+<b style="font-size:12.5px">{{ r.k }}</b>
+</div>
+<p style="margin:6px 0 0;font-size:11.5px;line-height:1.95;color:#3d4f45">{{ r.v }}</p>
+</section>
+</sc-for>
+</div>
+
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:15px 18px">
+<b style="font-size:13px;color:#8e2223">الخطوة التالية الأعلى قيمة — بترتيب صارم</b>
+<sc-for list="{{ nextsteps }}" as="n" hint-placeholder-count="4">
+<div style="display:flex;gap:10px;padding:8px 0;border-top:1px dashed #f2dede">
+<span style="flex:0 0 20px;font-size:11px;font-weight:900;color:#8e2223">{{ n.i }}</span>
+<div style="flex:1;min-width:0">
+<b style="font-size:11.5px;line-height:1.55">{{ n.t }}</b>
+<span style="display:block;margin-top:2px;font-size:11px;line-height:1.85;color:#5f4a4a">{{ n.b }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;showOnly&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;open&quot;,&quot;fixed&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;'all' | 'open' | 'fixed'&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const V = {
+  fixed: { v: '✓ مُصلَح', bg: '#e4f4ec', fg: '#146c4c' },
+  open: { v: '● قائم', bg: '#fdecec', fg: '#8e2223' },
+  owner: { v: '◐ قرار مالك', bg: '#fff4d6', fg: '#8a6500' },
+  measure: { v: '◇ يحتاج قياسًا', bg: '#e8f2fc', fg: '#1d5f9c' },
+  unchecked: { v: '؟ لم يُفحص', bg: '#f1f4f2', fg: '#5f7167' },
+};
+
+const ROWS = [
+  { n: 'سقوط فاتل على PHP 7.4 (نوع mixed)', k: 'fixed', src: 'helpers.php:257', e: 'المعامل بلا إعلان نوع، وتعليق فوقه يشرح العيب القديم وإزالته.', a: 'لا شيء — اختبار حماية' },
+  { n: 'حقن HTML في نتائج البحث الحي', k: 'fixed', src: 'theme.js:171-440', e: 'صفر innerHTML في الملف؛ createElement + textContent، وتعليق صريح بذلك.', a: 'لا شيء — اختبار حماية' },
+  { n: 'مسح شامل لكل مخرجات Yoast', k: 'fixed', src: 'seo-ownership-manager.php:549,650', e: 'كبت لكل قدرة على حدة؛ وما لا يُصنَّف يُترك. مفتاح Rank Math يشترط كل قدرات الرأس.', a: 'لا شيء — اختبار حماية' },
+  { n: 'بحث AJAX ساذج بلا تطبيع ولا حدّ معدّل', k: 'fixed', src: 'ajax-search.php:31,47', e: 'تفويض إلى Tahdheer_Search_Service بعد allow_request، مع مسار احتياطي.', a: 'لا شيء — اختبار حماية' },
+  { n: 'غياب التطبيع العربي في الواجهة', k: 'fixed', src: 'theme.js:31-73', e: 'جدول طيّ كامل + إزالة تشكيل وتطويل ومحارف صفرية + أرقام عربية وفارسية.', a: 'لا شيء — اختبار حماية' },
+  { n: 'critical.css يُقرأ من القرص في كل طلب', k: 'fixed', src: 'enqueue.php:168-175', e: 'wp_cache_get/set بمدة ساعة. ملاحظة: بلا object cache دائم يبقى التخزين لكل طلب — تحسّن حقيقي وغير مكتمل.', a: 'يُراجع مع طبقة الكاش' },
+  { n: 'لا مربع بحث في الهيدر', k: 'fixed', src: 'header.php:253', e: 'يُحمَّل template-parts/components/search-form بمعرّف tah-search-header.', a: 'لا شيء' },
+  { n: 'إجراء AJAX واحد بمعالجَين', k: 'fixed', src: 'seo-dashboard-ui.php:658', e: 'التسجيل الثاني داخل حاجز ! function_exists، وتعليق يوثّق أنه احتياطي عند غياب وحدة الأساس.', a: 'لا شيء — تصحيح حكمي السابق' },
+  { n: 'كوكي اللغة مكشوف لـ JavaScript', k: 'open', src: 'language.php:207', e: 'httponly => false، وصفر قارئ JS للكوكيز في كل assets/.', a: 'رقعة الدفعة ٢' },
+  { n: 'الخريطة الحرارية تلتقط 100%', k: 'owner', src: 'attention-heatmap.php:82', e: "sample => 1. مربوط بالموافقة فلا خطر امتثال — القرار تجاري/تحليلي لا تقني.", a: 'ينتظر قرارك' },
+  { n: 'async على أنماط الواجهة البنيوية', k: 'owner', src: 'enqueue.php:202', e: 'القائمة تشمل theme/components/responsive، لكن critical.css مضمَّن في wp_head:2 — نمط مقصود لا سهو.', a: 'ينتظر قرارك' },
+  { n: 'بناء خريطة XML داخل طلب الزائر', k: 'measure', src: 'seo-sitemaps.php:324', e: 'لم أقرأ الملف في هذه الجلسة. وأي تغيير هنا بلا قياس قبل/بعد ادعاء لا هندسة.', a: 'قياس ثم قرار' },
+  { n: 'IndexNow و llms.txt في تركيب فرعي', k: 'unchecked', src: 'seo-instant-indexing.php:109 · seo-llms-txt.php:219', e: 'لم يُفحص. أثره صفر إن كان الإنتاج على جذر النطاق — والسؤال يُحسم بسطر واحد من المالك.', a: 'تأكيد شكل التركيب' },
+];
+
+const TESTS = [
+  { id: 'no-inner-html.spec', kind: 'ساكن', fail: 'ظهور innerHTML أو insertAdjacentHTML في assets/js/theme.js', prot: 'أخطر بند في التدقيق كله — حقن HTML من عنوان منتج', k: 0 },
+  { id: 'php-min-signature.spec', kind: 'ساكن', fail: 'ظهور إعلان نوع mixed مع قيمة افتراضية غير فارغة في inc/', prot: 'سقوط فاتل على أدنى PHP معلن', k: 0 },
+  { id: 'seo-granular-suppression.test', kind: 'وحدة', fail: 'كبت أكثر من القدرة المتعارضة، أو كبت presenter غير مصنَّف', prot: 'ضياع العناوين والروبوتس بسبب تعارض قدرة واحدة', k: 1 },
+  { id: 'search-delegation.test', kind: 'تكامل', fail: 'نقطة AJAX تستعلم مباشرة بدل Tahdheer_Search_Service، أو تتجاوز allow_request', prot: 'رجوع البحث الساذج وفقد حدّ المعدّل', k: 2 },
+  { id: 'arabic-fold.test', kind: 'وحدة', fail: 'اختلاف نتيجة normalizeAr على مجموعة الحالات العربية المرجعية', prot: 'انحدار صامت في جودة البحث العربي', k: 1 },
+  { id: 'single-ajax-registration.test', kind: 'وحدة', fail: 'تسجيل أي wp_ajax_* من موضعين بلا حاجز function_exists', prot: 'معالج ميت يصعب تشخيصه — والنمط الذي أخطأت في قراءته', k: 1 },
+  { id: 'cookie-attributes.test', kind: 'وحدة', fail: 'كوكي يكتبه القالب بلا HttpOnly مع عدم وجود قارئ JS له', prot: 'رقعة هذه الدفعة نفسها', k: 1 },
+  { id: 'consent-before-identity.test', kind: 'تكامل', fail: 'كتابة كوكي زائر أو جلسة قياس قبل موافقة صريحة', prot: 'أقوى ضمانة خصوصية في القالب', k: 2 },
+  { id: 'no-third-party-tag.spec', kind: 'ساكن', fail: 'ظهور gtag أو fbq أو googletagmanager أو clarity في القالب بلا مروره على المحمّل', prot: 'حالة «صفر وسم طرف ثالث» المُثبَتة', k: 0 },
+];
+
+const KIND = [
+  { bg: '#e8f2fc', fg: '#1d5f9c' },
+  { bg: '#f0ecfb', fg: '#5b3ea8' },
+  { bg: '#fdf3e0', fg: '#8a5a00' },
+];
+
+class Component extends DCLogic {
+  state = { s: 'res' };
+
+  renderVals() {
+    const cur = this.state.s;
+    const filter = this.props.showOnly ?? 'all';
+
+    const screens = [
+      ['res', 'النتيجة'], ['patch', 'الرقعة'], ['tests', 'الاختبارات'], ['report', 'التقرير'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ s: id }),
+      bg: cur === id ? '#d8b56a' : 'rgba(255,255,255,.06)',
+      fg: cur === id ? '#14261d' : '#c8d5cd',
+      bd: cur === id ? '#d8b56a' : 'rgba(255,255,255,.16)',
+    }));
+
+    const rows = ROWS
+      .filter(r => filter === 'all' || (filter === 'open' ? r.k !== 'fixed' : r.k === 'fixed'))
+      .map(r => ({ ...r, ...V[r.k], aC: r.k === 'fixed' ? '#5f7167' : '#17251d' }));
+
+    return {
+      screens,
+      is: { res: cur === 'res', patch: cur === 'patch', tests: cur === 'tests', report: cur === 'report' },
+      rows,
+      tests: TESTS.map(t => ({ ...t, ...KIND[t.k] })),
+
+      tally: [
+        { n: '8', t: 'مُصلَح أصلًا', d: 'ثمانية من ثلاثة عشر — بدليل بالملف والسطر', c: '#146c4c' },
+        { n: '1', t: 'قابل للتنفيذ الآن', d: 'سطر واحد حتمي بلا قرار ولا قياس', c: '#b42318' },
+        { n: '2', t: 'ينتظر قرارك', d: 'معدّل العيّنة وسياسة async — قرار مالك لا خطأ', c: '#8a6500' },
+        { n: '2', t: 'قياس أو تأكيد', d: 'خريطة XML تحتاج قياسًا · التركيب يحتاج تأكيدًا', c: '#1d5f9c' },
+      ],
+
+      safety: [
+        'صفر document.cookie في كل assets/ — لا سكربت واحد يقرأ الكوكي، فلا وظيفة تُفقد.',
+        'قراءة الكوكي كلها في PHP: language.php:83 يقرأ من $_COOKIE مباشرة، وهو غير متأثر بالخصيصة.',
+        'التبديل يمرّ بـ nonce وقائمة لغات مسموحة قبل الكتابة (language.php:189-196) — لا يتغيّر شيء من ذلك.',
+        'لا هجرة بيانات ولا كتابة في قاعدة البيانات ولا تغيير في اسم الكوكي أو مدّته أو نطاقه.',
+      ],
+
+      testrb: [
+        { k: 'اختبار وظيفي', v: 'تبديل اللغة من الواجهة ثم تحديث الصفحة: اللغة تبقى. ثم فحص الكوكي في المتصفح: HttpOnly مؤشَّرة.' },
+        { k: 'اختبار انحدار', v: 'الدخول والسلة والدفع والتنزيل الرقمي — لا علاقة لأيٍّ منها بالكوكي، والتحقّق شكلي لكنه إلزامي.' },
+        { k: 'التراجع', v: 'عكس الكلمة الواحدة. لا لقطة تهيئة مطلوبة ولا استعادة بيانات.' },
+        { k: 'الأثر على الزائر', v: 'صفر. الكوكي يبقى بنفس الاسم والقيمة والمدّة؛ يتغيّر فقط منع قراءته من JavaScript.' },
+      ],
+
+      pending: [
+        { src: 'attention-heatmap.php:82', n: 'معدّل عيّنة الخريطة الحرارية', b: 'اليوم كل زيارة تُسجَّل. تقليل المعدّل يخفّف الكتابة وحجم الجدول، لكنه يقلّل دقّة الخرائط على الصفحات قليلة الزيارات — وهي غالبًا أهم صفحات المنتجات الجديدة.', q: 'أيهما أهم لك الآن: دقّة الخرائط على المنتجات الجديدة، أم خفض حمل الكتابة؟' },
+        { src: 'enqueue.php:202', n: 'سياسة async على الأنماط البنيوية', b: 'النمط مقصود: critical.css مضمَّن أعلى الطيّة والباقي غير محجوب. الخطر أن responsive.css غير المتزامن قد يُنتج إزاحة تخطيط على شبكة بطيئة — وهذا لا يُثبَت إلا بقياس ميداني.', q: 'أتسمح بقياس CLS ميداني على الرئيسية وصفحة المنتج قبل أي تغيير هنا؟' },
+      ],
+
+      report: [
+        { i: '١', k: 'الحالة قبل الدفعة', v: 'وثيقة خط أساس بتاريخ ‎2026-08-17 تُستخدم كمصدر حقيقة، وتعريف مشروع يطلب معالجة بنودها دون إعادة اكتشافها. صفر بوابة اختبار تحمي أي إصلاح.' },
+        { i: '٢', k: 'الدليل', v: 'قراءة مباشرة: helpers.php · assets/js/theme.js · seo-ownership-manager.php · ajax-search.php · search/bootstrap.php · enqueue.php · header.php · seo-dashboard-core.php · seo-dashboard-ui.php · language.php · attention-heatmap.php · privacy-consent.php · payments/tap-integration.php · checkout-virtual.php · design-system/.' },
+        { i: '٣', k: 'المشاكل بترتيب الخطورة', v: 'الأولى ليست في الشيفرة: مصدر الحقيقة المرجعي قديم بنسبة ‎8 من ‎13 على البنود المفحوصة، والبناء عليه يُنتج انحدارًا في شيفرة سليمة. الثانية: ثمانية إصلاحات بلا حماية. الثالثة والوحيدة الفعلية في الشيفرة: خصيصة كوكي واحدة.' },
+        { i: '٤', k: 'قرار المعمارية', v: 'الجرد يسبق العلاج، والاختبار يسبق التوسّع. تُحوَّل الإصلاحات المُثبَتة إلى بوابات، ويُصحَّح خط الأساس، وتُنفَّذ الرقعة الحتمية الوحيدة. لا مركز إدارة ولا محرك دفع ولا استبدال بحث في هذه الدفعة.' },
+        { i: '٥', k: 'الملفات المتغيّرة', v: 'مقترح للتنفيذ: inc/language.php (سطر واحد) · docs/audit-phase-0-baseline.md (وسم حالة وتاريخ لكل بند) · tests/regression/* (تسعة ملفات جديدة). صفر ملف إنتاجي آخر.' },
+        { i: '٦', k: 'ما نُفِّذ فعلًا في هذه الجلسة', v: 'إعادة تحقّق ‎13 بندًا، وتصحيح حكم خاطئ من الدفعة ١، وإنتاج ثلاث وثائق قرار: تدقيق الخصوصية P0، جرد المعمارية، وهذا التقرير. لم تُعدَّل شيفرة القالب — لا صلاحية كتابة على المجلد المرفق من هنا.' },
+        { i: '٧', k: 'الاختبارات', v: 'تسع مواصفات جاهزة (شاشة الاختبارات). أدوات JS غير مثبّتة وPHPStan لم يُشغَّل، لذا حالتها الحقيقية الآن: NOT RUN.' },
+        { i: '٨', k: 'النتائج', v: 'لا أُعلن نجاح أي اختبار لم يُشغَّل. النتائج المؤكَّدة في هذه الجلسة كلها نتائج قراءة شيفرة، وكل صف يحمل ملفه وسطره للتحقّق المستقل.' },
+        { i: '٩', k: 'المخاطر المتبقية', v: 'كاتب كوكي الموافقة مجهول (حاجز في وثيقة الخصوصية) · خريطة XML وIndexNow وllms.txt غير مفحوصة · تشتّت ‎45 ملف إدارة يبقى قائمًا · ‎45 إجراء AJAX و‎9 مسارات REST عقود يجب حفظها في أي دمج قادم.' },
+        { i: '١٠', k: 'التراجع', v: 'الرقعة: عكس كلمة واحدة. الوثائق: عكس نصّي. الاختبارات: حذف مجلد. لا شيء في هذه الدفعة يحتاج لقطة قاعدة بيانات ولا استعادة تهيئة.' },
+      ],
+
+      nextsteps: [
+        { i: '١', t: 'تطبيق الرقعة + تصحيح خط الأساس', b: 'أرخص عمل بأعلى أثر: يُغلق البند الحتمي الوحيد، ويمنع أن يقود التدقيق القديم أي جهد قادم إلى انحدار.' },
+        { i: '٢', t: 'npm install ثم تشغيل التسعة', b: 'بلا هذا تبقى كل بوابات الجودة في التعريف حبرًا. ونشر النتيجة صفًا صفًا: نجاح أو فشل، لا ملخّص.' },
+        { i: '٣', t: 'حسم كاتب كوكي الموافقة', b: 'الحاجز الوحيد ذو أثر امتثالي حقيقي. فحص حي واحد على الإنتاج يفتح كل مسار الخصوصية P1←P5.' },
+        { i: '٤', t: 'قياس قبل أي بند أداء', b: 'خريطة XML وasync وميزانية الأصول: رقم قبل، ثم تغيير، ثم رقم بعد. وبلا رقم لا يُعلن تحسّن.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

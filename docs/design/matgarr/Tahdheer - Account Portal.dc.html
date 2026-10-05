@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input,select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes acFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="a-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="a-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v10l-8 4-8-4V7z"></path><path d="M4 7l8 4 8-4M12 11v10"></path></symbol>
+<symbol id="a-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10M8 11l4 4 4-4M5 19h14"></path></symbol>
+<symbol id="a-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6-5.5 6-10a6 6 0 1 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="12" cy="11" r="2.2"></circle></symbol>
+<symbol id="a-cog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"></path></symbol>
+<symbol id="a-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.6-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.4-9 9-9 9z"></path></symbol>
+<symbol id="a-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="a-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="17.6" r="1.7"></circle><circle cx="16.5" cy="17.6" r="1.7"></circle></symbol>
+<symbol id="a-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="a-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5v16h4M14 8l4 4-4 4M8 12h10"></path></symbol>
+<symbol id="a-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="a-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="1.5"></rect><path d="M12 10v10M4 13h16M12 10c-4 0-5-2-5-3.5A2 2 0 0 1 10.5 5C12 5 12 7 12 10zm0 0c4 0 5-2 5-3.5A2 2 0 0 0 13.5 5C12 5 12 7 12 10z"></path></symbol>
+<symbol id="a-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+<symbol id="a-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">بوابة الحساب — المرحلة ٤</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="7">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">noindex · خاص · تحقق ملكية لكل طلب</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1120px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:12px">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><span style="font:900 16px Tajawal;color:#14261d">تذكير</span></span>
+<div style="flex:1"></div>
+<sc-if value="{{ is.authed }}" hint-placeholder-val="{{ true }}">
+<span style="display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border-radius:999px;background:#f2f6f3;font-size:11px;font-weight:900;color:#14261d">نورة السالم<span aria-hidden="true" style="width:26px;height:26px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;font:900 11px Tajawal;color:#2a1f08">ن</span></span>
+</sc-if>
+</div>
+</header>
+
+<main id="main" style="max-width:1120px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+
+<sc-if value="{{ is.login }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:460px;margin:20px auto;width:100%;animation:acFade .3s ease">
+<div style="border:1px solid #e2e8e4;border-radius:18px;background:#fff;overflow:hidden">
+<div style="display:flex">
+<sc-for list="{{ lg.tabs }}" as="t" hint-placeholder-count="2">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="flex:1;min-height:48px;border:0;border-bottom:2.5px solid {{ t.bd }};background:{{ t.bg }};font-size:13px;font-weight:900;color:{{ t.fg }};cursor:pointer">{{ t.n }}</button>
+</sc-for>
+</div>
+<div style="padding:20px 22px;display:flex;flex-direction:column;gap:11px">
+<label><span style="display:block;font-size:10.5px;font-weight:900;color:#5f7167;margin-bottom:4px">البريد الإلكتروني</span>
+<input type="email" dir="ltr" value="n.alsalem@gmail.com" style="width:100%;box-sizing:border-box;min-height:44px;padding:0 13px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 13px Tajawal;outline:none;text-align:start"></label>
+<sc-if value="{{ lg.reg }}" hint-placeholder-val="{{ false }}">
+<label><span style="display:block;font-size:10.5px;font-weight:900;color:#5f7167;margin-bottom:4px">الاسم الكامل</span>
+<input type="text" value="" placeholder="مثال: نورة السالم" style="width:100%;box-sizing:border-box;min-height:44px;padding:0 13px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 13px Tajawal;outline:none"></label>
+</sc-if>
+<label><span style="display:block;font-size:10.5px;font-weight:900;color:#5f7167;margin-bottom:4px">كلمة المرور</span>
+<input type="password" value="password" style="width:100%;box-sizing:border-box;min-height:44px;padding:0 13px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 13px Tajawal;outline:none;text-align:start" dir="ltr"></label>
+<button type="button" onClick="{{ lg.onGo }}" style="min-height:46px;border:0;border-radius:12px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,100,73,.28)">{{ lg.cta }}</button>
+<a href="#" style="text-align:center;font-size:11px;font-weight:800">نسيت كلمة المرور؟</a>
+</div>
+</div>
+<div style="margin-top:12px;padding:13px 16px;border:1px dashed #d7ddd8;border-radius:13px;background:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<svg aria-hidden="true" style="width:16px;height:16px;color:#8a6500"><use href="#a-box"></use></svg>
+<span style="flex:1;min-width:200px;font-size:11px;font-weight:800;color:#5f7167">طلبت كزائر؟ تتبع طلبك برقمه وبريدك — بلا حساب.</span>
+<button type="button" onClick="{{ lg.onGuest }}" style="min-height:34px;padding:0 13px;border:1px solid #d7ddd8;border-radius:9px;background:#fbfcfb;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer">تتبع طلب زائر</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.authed }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px;align-items:start">
+
+<aside style="position:sticky;top:14px;border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<div style="padding:14px 16px;border-bottom:1px solid #f1f4f2;background:linear-gradient(170deg,#f0f7f3,#fff)">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);color:#2a1f08;font:900 17px Tajawal">ن</span>
+<span style="display:block;margin-top:6px;font-size:13px;font-weight:900">نورة السالم</span>
+<span style="font-size:9.5px;color:#8b978f">عضوة منذ مارس ٢٠٢٥ · المستوى الفضي</span>
+</div>
+<nav aria-label="أقسام الحساب" style="padding:7px">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+<button type="button" onClick="{{ n.onClick }}" aria-current="{{ n.on }}" style="display:flex;align-items:center;gap:9px;width:100%;min-height:40px;padding:0 11px;border:0;border-radius:10px;background:{{ n.bg }};color:{{ n.fg }};font-size:12px;font-weight:900;cursor:pointer;text-align:start">
+<svg aria-hidden="true" style="width:15px;height:15px"><use href="{{ n.ic }}"></use></svg>{{ n.n }}
+<sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}"><span style="margin-inline-start:auto;padding:1px 7px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">{{ n.badge }}</span></sc-if>
+</button>
+</sc-for>
+<button type="button" onClick="{{ onOut }}" style="display:flex;align-items:center;gap:9px;width:100%;min-height:40px;padding:0 11px;margin-top:4px;border:0;border-top:1px solid #f1f4f2;border-radius:0;background:none;color:#b32d2e;font-size:12px;font-weight:900;cursor:pointer;text-align:start"><svg aria-hidden="true" style="width:15px;height:15px"><use href="#a-out"></use></svg>تسجيل الخروج</button>
+</nav>
+</aside>
+
+<div style="min-width:0;animation:acFade .3s ease">
+<sc-if value="{{ is.dash }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:13px">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{ dash.stats }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid #e2e8e4;border-radius:14px;background:#fff">
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:11px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><svg style="width:17px;height:17px"><use href="{{ s.ic }}"></use></svg></span>
+<span><span style="display:block;font:900 17px Tajawal;color:#14261d">{{ s.v }}</span><span style="font-size:10px;color:#7c8a82">{{ s.l }}</span></span>
+</div>
+</sc-for>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 18px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<h2 style="margin:0;font-size:14px;font-weight:900">آخر طلب — {{ dash.last.id }}</h2>
+<span style="padding:2px 10px;border-radius:999px;background:{{ dash.last.stBg }};color:{{ dash.last.stC }};font-size:10px;font-weight:900">{{ dash.last.stN }}</span>
+<span style="font-size:10px;color:#8b978f">{{ dash.last.d }}</span>
+<span style="margin-inline-start:auto;font:900 15px Tajawal;color:#146c4c">{{ dash.last.total }}</span>
+</div>
+<p style="margin:6px 0 10px;font-size:11.5px;color:#5f7167">{{ dash.last.items }}</p>
+<div style="display:flex;gap:7px;flex-wrap:wrap">
+<button type="button" onClick="{{ dash.last.onTrack }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px"><use href="#a-truck"></use></svg>تتبع الشحنة</button>
+<button type="button" onClick="{{ dash.last.onView }}" style="min-height:38px;padding:0 14px;border:1px solid #d7ddd8;border-radius:10px;background:#fff;font-size:11.5px;font-weight:900;color:#3d4f45;cursor:pointer">تفاصيل الطلب</button>
+</div>
+</section>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #e6ddc8;border-radius:15px;background:linear-gradient(170deg,#fdfaf2,#fff 60%);padding:15px 18px">
+<div style="display:flex;align-items:center;gap:9px"><span style="font:900 19px Tajawal;color:#8a6500">{{ dash.loyalty.pts }}</span><span style="font-size:12px;font-weight:900">نقطة ولاء · مستواك: {{ dash.loyalty.tier }}</span></div>
+<span style="display:block;margin-top:3px;font-size:10.5px;color:#5f7167">يفصلك {{ dash.loyalty.need }} نقطة عن {{ dash.loyalty.next }}</span>
+<span aria-hidden="true" style="display:block;height:8px;margin-top:8px;border-radius:6px;background:#f0e9d8;overflow:hidden"><span style="display:block;height:100%;width:{{ dash.loyalty.w }};border-radius:6px;background:linear-gradient(90deg,#d8b56a,#a5813a)"></span></span>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:13px 15px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900">إجراءات سريعة</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+<sc-for list="{{ dash.acts }}" as="a" hint-placeholder-count="4">
+<button type="button" onClick="{{ a.onGo }}" style="display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px;border:1px solid #e2e8e4;border-radius:11px;background:#fbfcfb;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer;text-align:start"><svg aria-hidden="true" style="width:14px;height:14px;color:#146c4c"><use href="{{ a.ic }}"></use></svg>{{ a.n }}</button>
+</sc-for>
+</div>
+</section>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ is.orders }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:6px;padding:13px 17px;border-bottom:1px solid #f1f4f2;flex-wrap:wrap">
+<h1 style="margin:0;font-size:15px;font-weight:900">طلباتي <span style="font-size:10.5px;font-weight:700;color:#8b978f">({{ ord.n }})</span></h1>
+<div style="flex:1"></div>
+<sc-for list="{{ ord.fs }}" as="f" hint-placeholder-count="4">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.on }}" style="min-height:30px;padding:0 12px;border:1px solid {{ f.bd }};border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:10.5px;font-weight:800;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+</div>
+<sc-for list="{{ ord.rows }}" as="o" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:13px 17px;border-bottom:1px solid #f6f8f6;flex-wrap:wrap">
+<span style="min-width:0;flex:1"><span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:12.5px">{{ o.id }}</b><span style="padding:2px 9px;border-radius:999px;background:{{ o.stBg }};color:{{ o.stC }};font-size:9.5px;font-weight:900">{{ o.stN }}</span><span style="font-size:10px;color:#8b978f">{{ o.d }} · {{ o.n }}</span></span>
+<span style="display:block;margin-top:3px;font-size:11px;color:#5f7167">{{ o.items }}</span></span>
+<span style="font:900 14px Tajawal;color:#14261d">{{ o.total }}</span>
+<div style="display:flex;gap:6px">
+<button type="button" onClick="{{ o.onView }}" style="min-height:34px;padding:0 12px;border:0;border-radius:9px;background:#14261d;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">التفاصيل</button>
+<button type="button" onClick="{{ o.onInv }}" style="min-height:34px;padding:0 11px;border:1px solid #d7ddd8;border-radius:9px;background:#fff;font-size:10.5px;font-weight:800;color:#3d4f45;cursor:pointer">الفاتورة</button>
+<button type="button" onClick="{{ o.onRe }}" style="min-height:34px;padding:0 11px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">أعد الطلب</button>
+</div>
+</div>
+</sc-for>
+</section>
+</sc-if>
+<sc-if value="{{ is.order }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<button type="button" onClick="{{ od.onBack }}" style="min-height:32px;padding:0 12px;border:1px solid #d7ddd8;border-radius:9px;background:#fff;font-size:11px;font-weight:800;color:#5f7167;cursor:pointer">← طلباتي</button>
+<h1 style="margin:0;font-size:15px;font-weight:900">الطلب {{ od.id }}</h1>
+<span style="font-size:10.5px;color:#8b978f">{{ od.d }} · {{ od.pay }}</span>
+</div>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:16px 18px">
+<ol style="list-style:none;margin:0;padding:0;display:flex">
+<sc-for list="{{ od.stages }}" as="s" hint-placeholder-count="5">
+<li style="flex:1;position:relative;text-align:center">
+<span aria-hidden="true" style="position:absolute;top:13px;inset-inline-start:50%;width:100%;height:2.5px;background:{{ s.bar }}"></span>
+<span style="position:relative;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:{{ s.dotBg }};border:2px solid {{ s.dotBd }};color:{{ s.dotFg }}">
+<sc-if value="{{ s.done }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:12px;height:12px"><use href="#a-check"></use></svg></sc-if>
+</span>
+<span style="display:block;margin-top:5px;font-size:10px;font-weight:900;color:{{ s.tC }}">{{ s.n }}</span>
+</li>
+</sc-for>
+</ol>
+</section>
+<div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 6px;font-size:13px;font-weight:900">المنتجات</h2>
+<sc-for list="{{ od.items }}" as="i" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px dashed #f1f4f2"><span aria-hidden="true" style="width:36px;height:36px;border-radius:9px;background:linear-gradient(140deg,#2b9c72,#14603f)"></span><span style="flex:1;font-size:11.5px;font-weight:800">{{ i.n }}</span><span style="font-size:10.5px;color:#8b978f">{{ i.q }}</span><span style="font:900 11.5px Tajawal">{{ i.p }}</span></div>
+</sc-for>
+<sc-for list="{{ od.totals }}" as="t" hint-placeholder-count="4">
+<sc-if value="{{ t.big }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;padding-top:9px;margin-top:7px;border-top:1.5px solid #e6ebe7"><b style="font-size:12.5px">{{ t.l }}</b><span style="font:900 15px Tajawal;color:#146c4c">{{ t.v }}</span></div></sc-if>
+<sc-if value="{{ t.sm }}" hint-placeholder-val="{{ true }}"><div style="display:flex;justify-content:space-between;padding:3px 0"><span style="font-size:11px;color:#5f7167">{{ t.l }}</span><span style="font-size:11px;font-weight:800">{{ t.v }}</span></div></sc-if>
+</sc-for>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 5px;font-size:13px;font-weight:900">التوصيل</h2>
+<span style="font-size:11px;line-height:1.8;color:#3d4f45">{{ od.addr }}</span>
+<span style="display:block;margin-top:5px;font-size:10.5px;color:#5f7167">رقم التتبع: <bdi dir="ltr" style="font:700 10px ui-monospace,monospace">{{ od.track }}</bdi></span>
+<button type="button" onClick="{{ od.onTrack }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;margin-top:8px;padding:0 14px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px"><use href="#a-truck"></use></svg>تتبع الشحنة</button>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:13px 16px;display:flex;gap:7px;flex-wrap:wrap">
+<button type="button" onClick="{{ od.onInv }}" style="display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 13px;border:1px solid #d7ddd8;border-radius:10px;background:#fbfcfb;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px"><use href="#a-doc"></use></svg>الفاتورة PDF</button>
+<button type="button" onClick="{{ od.onSupport }}" style="min-height:36px;padding:0 13px;border:1px solid #d7ddd8;border-radius:10px;background:#fbfcfb;font-size:11px;font-weight:900;color:#3d4f45;cursor:pointer">مساعدة في هذا الطلب</button>
+</section>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ is.downloads }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden">
+<h1 style="margin:0;padding:14px 17px;font-size:15px;font-weight:900;border-bottom:1px solid #f1f4f2">تنزيلاتي</h1>
+<sc-for list="{{ dl.rows }}" as="d" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 17px;border-bottom:1px solid #f6f8f6;flex-wrap:wrap">
+<span aria-hidden="true" style="width:38px;height:38px;border-radius:10px;background:#f0f6f2;color:#146c4c;display:grid;place-items:center"><svg style="width:17px;height:17px"><use href="#a-doc"></use></svg></span>
+<span style="flex:1;min-width:200px"><b style="font-size:12px">{{ d.n }}</b><span style="display:block;font-size:10px;color:#8b978f">{{ d.o }} · {{ d.meta }}</span></span>
+<button type="button" onClick="{{ d.onDl }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px"><use href="#a-dl"></use></svg>تنزيل</button>
+</div>
+</sc-for>
+<p style="margin:0;padding:11px 17px;background:#fbfcfb;font-size:9.5px;line-height:1.7;color:#8b978f">{{ dl.note }}</p>
+</section>
+</sc-if>
+<sc-if value="{{ is.addresses }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:10px"><h1 style="margin:0;font-size:15px;font-weight:900">عناويني</h1><button type="button" onClick="{{ ad.onAdd }}" style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border:0;border-radius:10px;background:#14261d;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px"><use href="#a-plus"></use></svg>عنوان جديد</button></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<sc-for list="{{ ad.rows }}" as="a" hint-placeholder-count="2">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 17px">
+<div style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:15px;height:15px;color:#146c4c"><use href="#a-pin"></use></svg><b style="font-size:13px">{{ a.n }}</b>
+<sc-if value="{{ a.def }}" hint-placeholder-val="{{ false }}"><span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">الافتراضي</span></sc-if>
+</div>
+<p style="margin:7px 0;font-size:11.5px;line-height:1.8;color:#3d4f45">{{ a.d }}<br><span style="color:#7c8a82">{{ a.ph }}</span></p>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button type="button" onClick="{{ a.onEdit }}" style="min-height:32px;padding:0 12px;border:1px solid #d7ddd8;border-radius:9px;background:#fbfcfb;font-size:10.5px;font-weight:800;color:#3d4f45;cursor:pointer">تحرير</button>
+<sc-if value="{{ a.notDef }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ a.onDef }}" style="min-height:32px;padding:0 12px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">اجعله الافتراضي</button></sc-if>
+<button type="button" onClick="{{ a.onDel }}" style="min-height:32px;padding:0 12px;border:1px solid #f0d3d3;border-radius:9px;background:#fdf6f6;font-size:10.5px;font-weight:800;color:#b32d2e;cursor:pointer">حذف</button>
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ is.settings }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:16px 18px">
+<h1 style="margin:0 0 11px;font-size:15px;font-weight:900">الملف الشخصي</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<label><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">الاسم</span><input type="text" value="نورة السالم" style="width:100%;box-sizing:border-box;min-height:40px;padding:0 12px;border:1.5px solid #d7ddd8;border-radius:10px;font:800 12px Tajawal;outline:none"></label>
+<label><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">الجوال</span><input type="tel" dir="ltr" value="05512344xx" style="width:100%;box-sizing:border-box;min-height:40px;padding:0 12px;border:1.5px solid #d7ddd8;border-radius:10px;font:800 12px Tajawal;outline:none;text-align:start"></label>
+<label style="grid-column:1/-1"><span style="display:block;font-size:10px;font-weight:900;color:#5f7167;margin-bottom:4px">البريد الإلكتروني</span><input type="email" dir="ltr" value="n.alsalem@gmail.com" style="width:100%;box-sizing:border-box;min-height:40px;padding:0 12px;border:1.5px solid #d7ddd8;border-radius:10px;font:800 12px Tajawal;outline:none;text-align:start"></label>
+</div>
+<div style="display:flex;gap:7px;margin-top:11px;flex-wrap:wrap">
+<button type="button" onClick="{{ se.onSave }}" style="min-height:40px;padding:0 18px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:12px;font-weight:900;cursor:pointer">حفظ التغييرات</button>
+<button type="button" onClick="{{ se.onPass }}" style="min-height:40px;padding:0 14px;border:1px solid #d7ddd8;border-radius:10px;background:#fff;font-size:11.5px;font-weight:800;color:#3d4f45;cursor:pointer">تغيير كلمة المرور</button>
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 17px">
+<h2 style="margin:0 0 9px;font-size:13px;font-weight:900">الإشعارات</h2>
+<sc-for list="{{ se.notifs }}" as="t" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:9px;padding:5px 0">
+<button type="button" onClick="{{ t.onToggle }}" role="switch" aria-checked="{{ t.on }}" aria-label="{{ t.l }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ t.bg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ t.knob }};width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+<span style="font-size:11px;font-weight:800;color:#3d4f45">{{ t.l }}</span>
+</div>
+</sc-for>
+</section>
+<section style="border:1px solid #f0d3d3;border-radius:15px;background:#fdf6f6;padding:14px 16px">
+<h2 style="margin:0 0 5px;font-size:12.5px;font-weight:900;color:#8e2223">منطقة حساسة</h2>
+<span style="font-size:10.5px;line-height:1.7;color:#5f7167">حذف الحساب يمسح بياناتك بعد مهلة تراجع ٣٠ يومًا.</span>
+<button type="button" onClick="{{ se.onDel }}" style="display:block;min-height:34px;margin-top:8px;padding:0 13px;border:1px solid #e8c9c9;border-radius:9px;background:#fff;font-size:11px;font-weight:900;color:#b32d2e;cursor:pointer">طلب حذف الحساب</button>
+</section>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:acFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;dash&quot;,&quot;orders&quot;,&quot;order&quot;,&quot;downloads&quot;,&quot;addresses&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;dash&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+sr(n){ return this.ar(n)+' ر.س'; }
+
+ORDERS=[
+ {id:'TD-48213',d:'٢٩ أغسطس ٢٠٢٦',st:'processing',total:239,items:'حزمة المراجعة + مذكرة رياضيات + أوراق عمل ×٢',n:4},
+ {id:'TD-47106',d:'١٢ أغسطس ٢٠٢٦',st:'delivered',total:99,items:'حزمة أحياء — ثالث ثانوي',n:1},
+ {id:'TD-45890',d:'٢٨ يوليو ٢٠٢٦',st:'delivered',total:64,items:'ملزمة فيزياء + دفتر تمارين',n:2},
+ {id:'TD-44012',d:'٩ يونيو ٢٠٢٦',st:'refunded',total:25,items:'أوراق عمل — لغتي الرابع',n:1}
+];
+ST={processing:{n:'قيد التجهيز',c:'#8a6500',bg:'#fff4d6'},shipped:{n:'في الطريق',c:'#1d5f9c',bg:'#e8f2fc'},delivered:{n:'تم التسليم',c:'#146c4c',bg:'#e4f4ec'},refunded:{n:'مسترجَع',c:'#8b978f',bg:'#f2f4f2'}};
+DLS=[
+ {n:'حزمة المراجعة الشاملة — PDF',o:'TD-48213',left:5,exp:'٢٩ أغسطس ٢٠٢٧',size:'٢٨ م.ب'},
+ {n:'مذكرة رياضيات — ملف الإجابات',o:'TD-48213',left:5,exp:'٢٩ أغسطس ٢٠٢٧',size:'٣ م.ب'},
+ {n:'حزمة أحياء — PDF',o:'TD-47106',left:3,exp:'١٢ أغسطس ٢٠٢٧',size:'٢٤ م.ب'}
+];
+ADDRS=[
+ {n:'المنزل',d:'حي النرجس، شارع العليا، الرياض ١٣٣٢٥',ph:'٠٥٥ *** **٤٢',def:true},
+ {n:'العمل',d:'حي العليا، طريق الملك فهد، الرياض',ph:'٠٥٥ *** **٤٢',def:false}
+];
+state={scr:'dash',authed:true,reg:false,ordF:'all',notif:{email:true,sms:true,offers:false},toasts:[]};
+
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+go(s){ this.setState({scr:s,authed:s!=='login'}); }
+
+renderVals(){
+ const st=this.state;
+ const SC=[['login','الدخول'],['dash','لوحة الحساب'],['orders','طلباتي'],['order','تفاصيل طلب'],['downloads','التنزيلات'],['addresses','العناوين'],['settings','الإعدادات']];
+ const NAV=[['dash','لوحة الحساب','#a-user',''],['orders','طلباتي','#a-box','٤'],['downloads','التنزيلات','#a-dl','٣'],['addresses','العناوين','#a-pin',''],['settings','الإعدادات','#a-cog','']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.go(s[0])})),
+  onOut:()=>{ this.go('login'); this.toast('سُجّل خروجك بأمان — الجلسة أُنهيت من الخادم'); },
+  is:{login:st.scr==='login',authed:st.scr!=='login',dash:st.scr==='dash',orders:st.scr==='orders',order:st.scr==='order',downloads:st.scr==='downloads',addresses:st.scr==='addresses',settings:st.scr==='settings',toasts:st.toasts.length>0},
+  lg:{tabs:[['in','تسجيل الدخول'],['up','حساب جديد']].map(t=>({n:t[1],on:(t[0]==='up')===st.reg,
+    bg:(t[0]==='up')===st.reg?'#fff':'#fbfcfb',fg:(t[0]==='up')===st.reg?'#146c4c':'#5f7167',bd:(t[0]==='up')===st.reg?'#1e7355':'transparent',
+    onClick:()=>this.setState({reg:t[0]==='up'})})),
+   reg:st.reg,cta:st.reg?'إنشاء الحساب':'دخول',
+   onGo:()=>{ this.go('dash'); this.toast(st.reg?'أُنشئ حسابك — رابط تعيين كلمة المرور بالبريد':'أهلًا نورة! سُجّل دخولك'); },
+   onGuest:()=>this.toast('نموذج: رقم الطلب + البريد ← صفحة تتبع بمفتاح Order Key آمن — بلا كشف بيانات')},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ base.nav=NAV.map(n=>({n:n[1],ic:n[2],badge:n[3],on:st.scr===n[0]||(st.scr==='order'&&n[0]==='orders'),
+  bg:(st.scr===n[0]||(st.scr==='order'&&n[0]==='orders'))?'#eaf3ee':'transparent',
+  fg:(st.scr===n[0]||(st.scr==='order'&&n[0]==='orders'))?'#146c4c':'#3d4f45',
+  onClick:()=>this.go(n[0])}));
+ return Object.assign(base,this.rvDash(),this.rvOrders(),this.rvOrder(),this.rvDl(),this.rvAddr(),this.rvSet());
+}
+rvDash(){
+ const o=this.ORDERS[0], s=this.ST[o.st];
+ return {dash:{
+  stats:[['طلباتك','٤','#a-box'],['تنزيلات نشطة','٣','#a-dl'],['نقاط الولاء','٤٨٠','#a-star'],['المفضلة','٦','#a-heart']].map(x=>({l:x[0],v:x[1],ic:x[2]})),
+  last:{id:'#'+o.id,d:o.d,items:o.items,total:this.sr(o.total),stN:s.n,stC:s.c,stBg:s.bg,
+   onView:()=>this.go('order'),onTrack:()=>this.toast('فتح تتبع سمسا — SMSA-٩٨٤٤١٢٧٧٠٥')},
+  loyalty:{pts:'٤٨٠',tier:'فضي',next:'ذهبي',need:'١٢٠',w:'80%'},
+  acts:[['أعد طلبًا سابقًا','#a-box',()=>this.toast('المنتجات المتوفرة أُضيفت بأسعار اليوم')],['حمّل مشترياتك','#a-dl',()=>this.go('downloads')],['حدّث عنوانك','#a-pin',()=>this.go('addresses')],['كوبون THANKS10','#a-gift',()=>this.toast('نُسخ THANKS10 — خصم ١٠٪ على طلبك القادم')]].map(a=>({n:a[0],ic:a[1],onGo:a[2]}))
+ }};
+}
+rvOrders(){
+ const st=this.state;
+ const fs=[['all','الكل'],['processing','قيد التجهيز'],['delivered','مُسلَّمة'],['refunded','مسترجَعة']];
+ const list=this.ORDERS.filter(o=>st.ordF==='all'||o.st===st.ordF);
+ return {ord:{
+  fs:fs.map(f=>({n:f[1],on:st.ordF===f[0],
+   bg:st.ordF===f[0]?'#14261d':'#fff',fg:st.ordF===f[0]?'#fff':'#3d4f45',bd:st.ordF===f[0]?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({ordF:f[0]})})),
+  rows:list.map(o=>{const s=this.ST[o.st];return {id:'#'+o.id,d:o.d,items:o.items,n:this.ar(o.n)+' منتجات',total:this.sr(o.total),
+   stN:s.n,stC:s.c,stBg:s.bg,
+   onView:()=>this.go('order'),
+   onInv:()=>this.toast('تنزيل فاتورة '+o.id+' — PDF ضريبية مبسطة'),
+   onRe:()=>this.toast('أُعيد الطلب — المتوفر فقط وبأسعار اليوم')};}),
+  n:this.ar(list.length)
+ }};
+}
+rvOrder(){
+ return {od:{
+  id:'#TD-48213',d:'٢٩ أغسطس ٢٠٢٦ · ٢:١٤ م',pay:'مدى **** ٤٨٢١',
+  stages:[['استلمنا الطلب',1],['تأكيد الدفع',1],['قيد التجهيز',2],['في الطريق',0],['تم التسليم',0]].map(s=>({n:s[0],done:s[1]===1,cur:s[1]===2,
+   dotBg:s[1]===1?'#1e7355':(s[1]===2?'#fff':'#fff'),dotBd:s[1]?'#1e7355':'#d5dcd7',dotFg:s[1]===1?'#fff':(s[1]===2?'#1e7355':'#a9b4ad'),
+   bar:s[1]===1?'#1e7355':'#e3e8e4',tC:s[1]?'#14261d':'#a9b4ad'})),
+  items:[['حزمة المراجعة الشاملة — PDF','١','١٤٩'],['مذكرة رياضيات — مطبوعة','١','٤٥'],['أوراق عمل لغتي — مطبوعة','٢','٥٠']].map(i=>({n:i[0],q:'×'+i[1],p:i[2]+' ر.س'})),
+  totals:[['المجموع الفرعي','٢٤٤ ر.س'],['الخصم — WELCOME','− ٢٠ ر.س'],['الشحن','١٥ ر.س'],['الإجمالي','٢٣٩ ر.س']].map((t,i)=>({l:t[0],v:t[1],big:i===3,sm:i!==3})),
+  addr:'نورة السالم · حي النرجس، الرياض · ٠٥٥ *** **٤٢',
+  track:'SMSA-٩٨٤٤١٢٧٧٠٥',
+  onTrack:()=>this.toast('فتح تتبع سمسا في تبويب جديد'),
+  onInv:()=>this.toast('تنزيل الفاتورة PDF'),
+  onSupport:()=>this.toast('واتساب الدعم مع رقم الطلب مرفقًا تلقائيًا'),
+  onBack:()=>this.go('orders')
+ }};
+}
+rvDl(){
+ return {dl:{rows:this.DLS.map(d=>({n:d.n,o:'من الطلب #'+d.o,meta:d.size+' · '+this.ar(d.left)+' تنزيلات متبقية · صالح حتى '+d.exp,
+  onDl:()=>this.toast('بدأ تنزيل «'+d.n+'» — رابط موقَّع مؤقت، وخُصم تنزيل واحد')})),
+  note:'روابط التنزيل موقَّعة ومؤقتة وتُصرف من الخادم بعد تحقق الملكية — لا روابط ملفات مباشرة قابلة للتخمين.'
+ }};
+}
+rvAddr(){
+ return {ad:{rows:this.ADDRS.map(a=>({n:a.n,d:a.d,ph:a.ph,def:a.def,notDef:!a.def,
+  onEdit:()=>this.toast('تحرير عنوان «'+a.n+'»'),
+  onDef:()=>this.toast('أصبح «'+a.n+'» العنوان الافتراضي'),
+  onDel:()=>this.toast(a.def?'لا يمكن حذف الافتراضي — عيّن غيره أولًا':'حُذف العنوان')})),
+  onAdd:()=>this.toast('نموذج عنوان جديد — بتحقق من صيغة الجوال والمدينة')
+ }};
+}
+rvSet(){
+ const st=this.state;
+ const T=(k,l)=>({l:l,on:st.notif[k],bg:st.notif[k]?'#1e7355':'#cfd8d3',knob:st.notif[k]?'16px':'2px',
+  onToggle:()=>{const n=Object.assign({},st.notif);n[k]=!n[k];this.setState({notif:n});
+   this.toast((n[k]?'فُعِّلت':'أُوقفت')+' إشعارات '+l);}});
+ return {se:{
+  notifs:[T('email','البريد (الطلبات والتنزيلات)'),T('sms','الرسائل النصية (الشحن)'),T('offers','العروض والتخفيضات')],
+  onSave:()=>this.toast('حُفظ الملف الشخصي — تغيير البريد يتطلب تأكيدًا من البريدين'),
+  onPass:()=>this.toast('رابط تغيير كلمة المرور أُرسل لبريدك — لا تغيير مباشر بلا تحقق'),
+  onDel:()=>this.toast('طلب حذف الحساب: تأكيد بالبريد + مهلة ٣٠ يومًا للتراجع — وفق نظام حماية البيانات')
+ }};
+}
+}
+</script>
+</body>
+</html>

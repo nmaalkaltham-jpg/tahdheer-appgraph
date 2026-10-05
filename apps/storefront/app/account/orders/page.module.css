@@ -1,0 +1,26 @@
+/* Order row internals — the design's line list and totals block inside the
+   «أحدث الطلبات» card. Tokens only, logical properties only. */
+
+.lines {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-body);
+}
+
+.totals {
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--sf-hair);
+  margin-block-end: var(--space-3);
+}

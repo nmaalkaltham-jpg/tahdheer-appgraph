@@ -1,0 +1,114 @@
+/*
+ * مفتاح المظهر — مقطّعٌ من ثلاثة خيارات (عقد نظام التصميم §4: خيارات المقطّع ‎--r-md‎).
+ * الصندوق بحدٍّ واحد وبلا حشو: ارتفاعه ‎44 + 2 = --ctl-md‎ فيجاور أزرار الصفّ على خطٍّ واحد،
+ * وزاوية الخيار ‎--r-sm‎ = زاوية الخارج − الحدّ.
+ */
+.group {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+/* صفّ الترويسة — زرّ الأيقونة المحيطيّ نفسه الذي يجاوره (حسابي/المفضلة). */
+.cycle {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+}
+
+/* الدرج (‎≤767‎) يحمل النسخة المسمّاة؛ صفّ الترويسة هناك مزدحمٌ أصلًا. */
+@media (max-width: 767px) {
+  .cycle {
+    display: none;
+  }
+}
+
+.panel {
+  display: grid;
+  gap: 8px;
+  padding-block: 16px;
+  padding-inline: 16px;
+}
+
+.legend {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--sf-muted);
+}
+
+.option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  border-radius: var(--r-sm);
+  color: var(--sf-ink-2);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-out);
+}
+
+.segments .option {
+  flex: 1 1 0;
+  gap: 6px;
+  padding-inline: 6px;
+}
+
+/* الحقل يغطّي خياره: هدف اللمس المقيس هو الحقل نفسه. */
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option:has(.input:checked) {
+  background: var(--st-success-bg);
+  color: var(--teal-text);
+}
+
+.option:has(.input:focus-visible) {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.option:active {
+  transform: translateY(1px);
+}
+
+@media (hover: hover) {
+  .option:hover:not(:has(.input:checked)) {
+    background: var(--sf-cool);
+    color: var(--sf-ink);
+  }
+}
+
+.text {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+
+  .option:active {
+    transform: none;
+  }
+}

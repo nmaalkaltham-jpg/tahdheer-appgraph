@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes gwFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="g2-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h2l2.2 9.4a1.6 1.6 0 0 0 1.6 1.3h7a1.6 1.6 0 0 0 1.6-1.3L20 8H6.4"></path><circle cx="10" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></symbol>
+<symbol id="g2-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"></path></symbol>
+<symbol id="g2-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="g2-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M19 19v2H6a2 2 0 0 1-2-2"></path><path d="M8 7h7"></path></symbol>
+<symbol id="g2-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></symbol>
+<symbol id="g2-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="1.5"></rect><path d="M12 10v10M4 13h16M12 10c-4 0-5-2-5-3.5A2 2 0 0 1 10.5 5C12 5 12 7 12 10zm0 0c4 0 5-2 5-3.5A2 2 0 0 0 13.5 5C12 5 12 7 12 10z"></path></symbol>
+<symbol id="g2-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.9 19.4a6.2 6.2 0 0 1 12.2 0"></path></symbol>
+<symbol id="g2-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="g2-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.4 8.5-8 9.9C7.4 20.5 4 17 4 12V6z"></path><path d="M8.8 12.3l2.2 2.2 4.2-4.4"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">صفحات النمو — مرحلة ٦</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="7">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">{{ seoNote }}</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1120px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:12px">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><span style="font:900 16px Tajawal;color:#14261d">تذكير</span></span>
+<nav aria-label="التنقل" style="display:flex;gap:2px"><a href="#" style="padding:8px 12px;font-size:12.5px;font-weight:800;color:#3d4f45">المتجر</a><a href="#" style="padding:8px 12px;font-size:12.5px;font-weight:800;color:#3d4f45">المناهج</a><a href="#" style="padding:8px 12px;font-size:12.5px;font-weight:800;color:#3d4f45">المدونة</a></nav>
+<div style="flex:1"></div>
+<span aria-hidden="true" style="width:36px;height:36px;border-radius:10px;background:#1e7355;color:#fff;display:grid;place-items:center"><svg style="width:16px;height:16px"><use href="#g2-cart"></use></svg></span>
+</div>
+</header>
+
+<main id="main" style="max-width:1120px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+
+<nav aria-label="مسار التنقل" style="display:flex;align-items:center;gap:6px;font-size:11px;flex-wrap:wrap">
+<sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="3">
+<a href="#" style="font-weight:800;color:{{ c.c }}">{{ c.n }}</a>
+<sc-if value="{{ c.sep }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:10px;height:10px;color:#b9c4bd"><use href="#g2-chev"></use></svg></sc-if>
+</sc-for>
+</nav>
+
+<sc-if value="{{ is.tax }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:22px 24px;animation:gwFade .3s ease">
+<div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+<div style="flex:1;min-width:280px">
+<h1 style="margin:0 0 7px;font:900 24px/1.4 Tajawal;color:#14261d">{{ tax.h1 }}</h1>
+<p style="margin:0;max-width:720px;font-size:12.5px;line-height:1.95;color:#5f7167">{{ tax.intro }}</p>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ tax.stats }}" as="st" hint-placeholder-count="3">
+<span style="padding:9px 14px;border-radius:12px;background:#f2f6f3;text-align:center"><span style="display:block;font:900 16px Tajawal;color:#146c4c">{{ st.v }}</span><span style="font-size:9.5px;color:#5f7167">{{ st.l }}</span></span>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:13px">
+<sc-for list="{{ tax.children }}" as="c" hint-placeholder-count="5">
+<a href="#" onClick="{{ c.onGo }}" style="min-height:34px;display:inline-flex;align-items:center;gap:6px;padding:0 14px;border:1px solid #cfe0d6;border-radius:999px;background:#f2f8f5;font-size:11.5px;font-weight:900;color:#146c4c">{{ c.n }} <span style="opacity:.6;font-size:9.5px">{{ c.count }}</span></a>
+</sc-for>
+</div>
+</section>
+
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font-size:11px;font-weight:900;color:#5f7167">تصفية:</span>
+<sc-for list="{{ tax.filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.on }}" style="min-height:32px;padding:0 13px;border:1px solid {{ f.bd }};border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-size:11px;font-weight:800;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+<span style="margin-inline-start:auto;font-size:10.5px;color:#8b978f">{{ tax.n }}</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+<sc-for list="{{ tax.prods }}" as="p" hint-placeholder-count="6">
+<div style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden;display:flex;flex-direction:column;animation:gwFade .25s ease">
+<a href="#" onClick="{{ p.onView }}" aria-label="عرض {{ p.n }}" style="position:relative;display:block;height:108px;background:{{ p.img }}">
+<sc-if value="{{ p.badge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:9px;inset-inline-start:9px;padding:3px 9px;border-radius:999px;background:{{ p.badgeBg }};color:{{ p.badgeFg }};font:900 9.5px Tajawal">{{ p.badge }}</span></sc-if>
+</a>
+<div style="padding:11px 13px;display:flex;flex-direction:column;gap:5px;flex:1">
+<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;color:#8a6500"><svg aria-hidden="true" style="width:10px;height:10px;color:#d8a723"><use href="#g2-star"></use></svg>{{ p.rate }}</span>
+<a href="#" onClick="{{ p.onView }}" style="font-size:12.5px;font-weight:900;color:#14261d;line-height:1.5">{{ p.n }}</a>
+<span style="font-size:10px;color:#7c8a82">{{ p.meta }}</span>
+<div style="display:flex;align-items:center;gap:7px;margin-top:auto">
+<span style="flex:1;font:900 14px Tajawal;color:#146c4c">{{ p.price }}</span>
+<button type="button" onClick="{{ p.onAdd }}" style="min-height:34px;padding:0 12px;border:1px solid #cfe0d6;border-radius:10px;background:#f2f8f5;color:#146c4c;font-size:11px;font-weight:900;cursor:pointer">أضف للسلة</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 6px;font-size:14px;font-weight:900">{{ tax.guideT }}</h2>
+<p style="margin:0 0 9px;font-size:11.5px;line-height:1.95;color:#5f7167">{{ tax.guideD }}</p>
+<a href="#" style="font-size:11.5px;font-weight:900">اقرأ الدليل الكامل ←</a>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:15px 18px">
+<h2 style="margin:0 0 7px;font-size:13px;font-weight:900">أسئلة شائعة</h2>
+<sc-for list="{{ tax.faq }}" as="f" hint-placeholder-count="2">
+<div style="padding:7px 0;border-top:1px dashed #eef1ef"><span style="display:block;font-size:11.5px;font-weight:900;color:#14261d">{{ f.q }}</span><span style="display:block;margin-top:2px;font-size:10.5px;line-height:1.8;color:#5f7167">{{ f.a }}</span></div>
+</sc-for>
+</section>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;padding:11px 15px;border:1px dashed #cfe0d6;border-radius:13px;background:#f8fbf9">
+<svg aria-hidden="true" style="width:15px;height:15px;color:#146c4c"><use href="#g2-shield"></use></svg>
+<span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">بوابة الجودة البرمجية:</b> {{ tax.gate }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.bundles }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:6px 0"><h1 style="margin:0 0 6px;font:900 25px Tajawal">حزم توفّر عليك</h1><p style="margin:0 auto;max-width:560px;font-size:12.5px;line-height:1.9;color:#5f7167">كل حزمة تجمع منتجات تُشترى معًا فعلًا — السعر الفردي ظاهر بجانب سعر الحزمة، والتوفير حقيقي محسوب أمامك.</p></section>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px">
+<sc-for list="{{ bundles }}" as="b" hint-placeholder-count="3">
+<section style="position:relative;border:1px solid {{ b.bd }};border-radius:16px;background:#fff;padding:17px 18px;display:flex;flex-direction:column;animation:gwFade .3s ease">
+<sc-if value="{{ b.tag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-11px;inset-inline-start:16px;padding:3px 12px;border-radius:999px;background:#d8b56a;color:#2a1f08;font:900 10px Tajawal">{{ b.tag }}</span></sc-if>
+<h2 style="margin:2px 0 3px;font-size:15px;font-weight:900">{{ b.n }}</h2>
+<span style="font-size:10.5px;color:#7c8a82">{{ b.use }}</span>
+<div style="margin:11px 0;padding:11px 0;border-block:1px dashed #eef1ef;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ b.items }}" as="i" hint-placeholder-count="3">
+<span style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;color:#3d4f45"><svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:#146c4c"><use href="#g2-check"></use></svg>{{ i.n }}<span style="margin-inline-start:auto;font-size:10px;color:#a9b4ad">{{ i.p }}</span></span>
+</sc-for>
+</div>
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font:900 21px Tajawal;color:#146c4c">{{ b.price }}</span><span style="font-size:11px;color:#a9b4ad;text-decoration:line-through">{{ b.old }}</span><span style="padding:2px 8px;border-radius:6px;background:#e4f4ec;color:#146c4c;font-size:9.5px;font-weight:900">{{ b.save }}</span></div>
+<button type="button" onClick="{{ b.onAdd }}" style="min-height:42px;margin-top:11px;border:0;border-radius:11px;background:linear-gradient(180deg,#26805f,#1a6449);color:#fff;font-size:12.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(26,100,73,.25)">أضف الحزمة للسلة</button>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.coll }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:20px 22px">
+<h1 style="margin:0 0 5px;font:900 23px Tajawal">{{ coll.h1 }}</h1>
+<p style="margin:0;font-size:11.5px;line-height:1.9;color:#5f7167">{{ coll.note }}</p>
+</section>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+<sc-for list="{{ coll.rows }}" as="p" hint-placeholder-count="6">
+<div style="position:relative;border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden;display:flex;flex-direction:column">
+<span style="position:absolute;top:9px;inset-inline-start:9px;z-index:2;padding:3px 10px;border-radius:999px;background:#14261d;color:#fff;font:900 10px Tajawal">{{ p.tag }}</span>
+<a href="#" onClick="{{ p.onView }}" aria-label="عرض {{ p.n }}" style="display:block;height:104px;background:{{ p.img }}"></a>
+<div style="padding:11px 13px;display:flex;flex-direction:column;gap:5px;flex:1">
+<a href="#" onClick="{{ p.onView }}" style="font-size:12.5px;font-weight:900;color:#14261d;line-height:1.5">{{ p.n }}</a>
+<span style="font-size:10px;color:#7c8a82">{{ p.meta }}</span>
+<div style="display:flex;align-items:center;gap:7px;margin-top:auto"><span style="flex:1;font:900 13.5px Tajawal;color:#146c4c">{{ p.price }}</span>
+<button type="button" onClick="{{ p.onAdd }}" style="min-height:32px;padding:0 12px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;color:#146c4c;font-size:10.5px;font-weight:900;cursor:pointer">أضف</button></div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.brand }}" hint-placeholder-val="{{ false }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:linear-gradient(170deg,#f0f7f3,#fff 55%);padding:22px 24px;animation:gwFade .3s ease">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<span aria-hidden="true" style="width:74px;height:74px;border-radius:50%;background:linear-gradient(140deg,#d8b56a,#a5813a);display:grid;place-items:center;color:#fff"><svg style="width:34px;height:34px"><use href="#g2-user"></use></svg></span>
+<div style="flex:1;min-width:280px">
+<h1 style="margin:0 0 4px;font:900 21px Tajawal">أ. سارة القحطاني</h1>
+<span style="font-size:11px;font-weight:800;color:#8a6500">معلمة رياضيات — ١٢ عامًا في الميدان · معتمدة من فريق تذكير التحريري</span>
+<p style="margin:8px 0 0;max-width:640px;font-size:12px;line-height:1.95;color:#3d4f45">أُعِدّ موادي من داخل الفصل: كل ملزمة تُجرَّب على طلابي فصلًا كاملًا قبل نشرها، وأحدّثها كلما تغيّر المنهج. أومن أن الطالب يفهم حين يرى «لماذا» قبل «كيف».</p>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ brand.stats }}" as="s" hint-placeholder-count="3">
+<span style="padding:10px 15px;border-radius:12px;background:#fff;border:1px solid #e2e8e4;text-align:center"><span style="display:block;font:900 16px Tajawal;color:#146c4c">{{ s.v }}</span><span style="font-size:9.5px;color:#5f7167">{{ s.l }}</span></span>
+</sc-for>
+</div>
+</div>
+</section>
+<blockquote style="margin:0;padding:14px 18px;border-inline-start:3px solid #d8b56a;border-radius:12px;background:#fffaf0"><p style="margin:0;font-size:12.5px;font-weight:800;line-height:1.9">«موادها السبب المباشر في تحسن درجات فصلي كاملًا هذا العام»</p><cite style="display:block;margin-top:4px;font-size:10px;font-style:normal;color:#8a7040">قائدة مدرسة — الرياض · شهادة موثقة</cite></blockquote>
+<h2 style="margin:4px 0 0;font-size:15px;font-weight:900">موارد سارة ({{ brand.n }})</h2>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+<sc-for list="{{ brand.prods }}" as="p" hint-placeholder-count="3">
+<div style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;overflow:hidden;display:flex;flex-direction:column">
+<a href="#" onClick="{{ p.onView }}" aria-label="عرض {{ p.n }}" style="display:block;height:100px;background:{{ p.img }}"></a>
+<div style="padding:11px 13px;display:flex;flex-direction:column;gap:5px;flex:1">
+<a href="#" onClick="{{ p.onView }}" style="font-size:12.5px;font-weight:900;color:#14261d;line-height:1.5">{{ p.n }}</a>
+<div style="display:flex;align-items:center;gap:7px;margin-top:auto"><span style="flex:1;font:900 13.5px Tajawal;color:#146c4c">{{ p.price }}</span>
+<button type="button" onClick="{{ p.onAdd }}" style="min-height:32px;padding:0 12px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;color:#146c4c;font-size:10.5px;font-weight:900;cursor:pointer">أضف</button></div>
+</div>
+</div>
+</sc-for>
+</div>
+<span style="font-size:9.5px;color:#a9b4ad">ProfilePage + Person schema · الشهادة حقيقية بموافقة صاحبتها · لا أرقام مصطنعة — E-E-A-T</span>
+</sc-if>
+
+</main>
+
+<footer style="background:#14261d;color:rgba(234,242,238,.75)">
+<div style="max-width:1120px;margin:0 auto;padding:18px 20px;display:flex;gap:14px;flex-wrap:wrap;font-size:11px"><span style="font-weight:900;color:#fff">تذكير</span><a href="#" style="color:rgba(234,242,238,.75)">المتجر</a><a href="#" style="color:rgba(234,242,238,.75)">المدونة</a><span style="margin-inline-start:auto;opacity:.55">© ٢٠٢٦</span></div>
+</footer>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:400px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;animation:gwFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grade&quot;,&quot;subject&quot;,&quot;semester&quot;,&quot;bundles&quot;,&quot;best&quot;,&quot;new&quot;,&quot;brand&quot;],&quot;default&quot;:&quot;grade&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+sr(n){ return this.ar(n)+' ر.س'; }
+G=['linear-gradient(140deg,#2b9c72,#14603f)','linear-gradient(140deg,#d8b56a,#8a6a35)','linear-gradient(140deg,#527a96,#2d5471)','linear-gradient(140deg,#6b8f5a,#3f6132)','linear-gradient(140deg,#8f6b5a,#61403f)','linear-gradient(140deg,#2b9c72,#0f4d33)'];
+P=[
+ {n:'مذكرة رياضيات — أول ثانوي',price:45,rate:'٤٫٨',grade:'أول ثانوي',sub:'رياضيات',sem:'ف١',badge:'الأكثر مبيعًا',bBg:'#d8b56a',bFg:'#2a1f08'},
+ {n:'اختبارات رياضيات محلولة',price:35,rate:'٤٫٧',grade:'ثاني ثانوي',sub:'رياضيات',sem:'ف١',badge:'جديد',bBg:'#1d5f9c',bFg:'#fff'},
+ {n:'ملزمة فيزياء — ثاني ثانوي',price:55,rate:'٤٫٧',grade:'ثاني ثانوي',sub:'فيزياء',sem:'ف١',badge:''},
+ {n:'حزمة أحياء — ثالث ثانوي',price:99,rate:'٤٫٨',grade:'ثالث ثانوي',sub:'أحياء',sem:'ف١+ف٢',badge:'عرض',bBg:'#b32d2e',bFg:'#fff'},
+ {n:'ملزمة كيمياء — ثالث ثانوي',price:59,rate:'٤٫٦',grade:'ثالث ثانوي',sub:'كيمياء',sem:'ف٢',badge:''},
+ {n:'دفتر تمارين الرياضيات',price:29,rate:'٤٫٦',grade:'أول ثانوي',sub:'رياضيات',sem:'ف١',badge:''}
+];
+state={scr:'grade',filter:'all',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+card(p,i){
+ return {n:p.n,price:this.sr(p.price),rate:p.rate,img:this.G[i%6],meta:p.grade+' · '+p.sub+' · '+p.sem,
+  badge:p.badge,badgeBg:p.bBg||'#14261d',badgeFg:p.bFg||'#fff',
+  onView:(e)=>{e&&e.preventDefault&&e.preventDefault();this.toast('فتح صفحة «'+p.n+'» — رابط داخلي حقيقي');},
+  onAdd:()=>this.toast('أُضيف «'+p.n+'» للسلة')};
+}
+TAX={
+ grade:{h1:'ملازم أول ثانوي — السنة المشتركة',intro:'كل مواد أول ثانوي في مكان واحد: ملازم شرح، اختبارات محلولة، ودفاتر تمارين — محدثة لمنهج المسارات الحالي ومن إعداد معلمين يدرّسون الصف فعليًا. ابدأ بمادة ابنك من الروابط أدناه، وكل ملزمة معها نموذج مجاني تطّلع عليه قبل الشراء.',
+  stats:[['٦','مواد'],['٤٫٨','متوسط التقييم']],
+  children:[['رياضيات','٨'],['فيزياء','٤'],['كيمياء','٣'],['أحياء','٢'],['لغتي','١']],
+  guideT:'كيف تختار لطالب أول ثانوي؟',guideD:'السنة المشتركة تؤسس لكل المسارات — ابدأ بملزمة الشرح للمواد العلمية، وأضف الاختبارات المحلولة قبل الفترة بأسبوعين. الحزم توفر ٢٠–٣٠٪ عن الشراء المتفرق.',
+  faq:[['هل الملازم محدثة لمنهج المسارات؟','نعم — تُراجع كل فصل دراسي وتاريخ آخر تحديث ظاهر على كل منتج.'],['رقمية أم مطبوعة؟','أغلبها بالنسختين: PDF فوري أو مطبوعة تصلك خلال ١–٣ أيام.']],
+  gate:'هذه الصفحة مفهرسة لأنها تحمل منتجات فعلية ومقدمة وأسئلة فريدة. أي تركيبة صف/مادة/فصل بلا منتجات كافية تبقى noindex تلقائيًا — لا صفحات فارغة تتضخم في الفهرس.',
+  crumb:'أول ثانوي',filters:['all','ف١','ف٢'],fk:'sem',match:(p)=>p.grade==='أول ثانوي'||p.sub==='رياضيات'},
+ subject:{h1:'ملازم الرياضيات — أول ثانوي',intro:'رياضيات أول ثانوي كاملة: مذكرة الشرح بخرائط المفاهيم، الاختبارات المحلولة بنمط الأسئلة الفعلية، ودفتر التمارين اليومي. رتّبناها بترتيب الاستخدام الأمثل خلال الفصل.',
+  stats:[['١٤٦','مسألة محلولة'],['٤٫٨','متوسط التقييم']],
+  children:[['الفصل الأول','٥'],['الفصل الثاني','٣'],['حزمة المادة كاملة','١']],
+  guideT:'ترتيب الاستخدام الأمثل',guideD:'مذكرة الشرح من أول الفصل ← دفتر التمارين يوميًا ← الاختبارات المحلولة قبل كل فترة. هذا الترتيب جرّبه معلمونا على فصول حقيقية.',
+  faq:[['ما الفرق بين المذكرة والاختبارات؟','المذكرة شرح وتأسيس؛ الاختبارات تدريب بنمط الأسئلة الوزارية بحلول مفصلة.'],['هل توجد حزمة توفير؟','نعم — المذكرة + الاختبارات معًا بـ ٥٩ ر.س بدل ٨٠.']],
+  gate:'مفهرسة: منتجات فعلية + محتوى إرشادي فريد. تركيبات المواد الفارغة تبقى noindex.',
+  crumb:'رياضيات — أول ثانوي',filters:['all','ف١','ف٢'],fk:'sem',match:(p)=>p.sub==='رياضيات'},
+ semester:{h1:'ملازم الفصل الدراسي الأول — ثانوي',intro:'كل ما يخص الفصل الأول للمرحلة الثانوية بصفوفها الثلاثة — مرتّب حسب الأسابيع الدراسية، مع جداول مذاكرة مجانية لكل مادة.',
+  stats:[['٣','صفوف'],['٤٫٧','متوسط التقييم']],
+  children:[['أول ثانوي','٥'],['ثاني ثانوي','٤'],['ثالث ثانوي','٣']],
+  guideT:'خطة الفصل الأول',guideD:'الأسابيع ١–٤ تأسيس بالمذكرات، ٥–١٢ تمارين يومية، ١٣–١٦ اختبارات محلولة ومراجعة. حمّل الجدول المجاني من أي صفحة منتج.',
+  faq:[['متى تصدر ملازم الفصل الثاني؟','قبل بداية الفصل الثاني بثلاثة أسابيع — اشترِ حزمة العام ويصلك الجديد تلقائيًا.'],['هل تتغير الأسعار بين الفصلين؟','لا — التسعير ثابت طوال العام الدراسي.']],
+  gate:'مفهرسة: منتجات فعلية وخطة فريدة. «الفصل الثالث» مثلًا لا وجود له = لا صفحة له أصلًا.',
+  crumb:'الفصل الأول',filters:['all','أول ثانوي','ثاني ثانوي','ثالث ثانوي'],fk:'grade',match:(p)=>p.sem.indexOf('ف١')>=0}
+};
+renderVals(){
+ const st=this.state;
+ const SC=[['grade','صفحة الصف'],['subject','صفحة المادة'],['semester','صفحة الفصل'],['bundles','الحزم'],['best','الأكثر مبيعًا'],['new','وصل حديثًا'],['brand','صفحة المُعِدّ']];
+ const NOTES={grade:'index مشروط بالقيمة · canonical ذاتي',subject:'index مشروط · hub-and-spoke',semester:'index مشروط',bundles:'index · محتوى تجاري فريد',best:'index · بيانات مبيعات حقيقية',new:'قاعدة ٣٠ يومًا · index مشروط',brand:'ProfilePage + Person schema'};
+ const isTax=['grade','subject','semester'].indexOf(st.scr)>=0;
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.setState({scr:s[0],filter:'all'})})),
+  seoNote:NOTES[st.scr],
+  is:{tax:isTax,bundles:st.scr==='bundles',coll:st.scr==='best'||st.scr==='new',brand:st.scr==='brand',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const crumbLast=isTax?this.TAX[st.scr].crumb:(st.scr==='bundles'?'الحزم':(st.scr==='best'?'الأكثر مبيعًا':(st.scr==='new'?'وصل حديثًا':'أ. سارة القحطاني')));
+ base.crumbs=[['الرئيسية'],['المتجر'],[crumbLast]].map((c,i,arr)=>({n:c[0],sep:i<arr.length-1,c:i===arr.length-1?'#14261d':'#1e7355'}));
+ if(isTax){
+  const T=this.TAX[st.scr];
+  const pool=this.P.filter(T.match);
+  const list=pool.filter(p=>st.filter==='all'||String(p[T.fk]).indexOf(st.filter)>=0);
+  base.tax={h1:T.h1,intro:T.intro,guideT:T.guideT,guideD:T.guideD,
+   gate:T.gate+' عدّادات الروابط الفرعية من الكتالوج الكامل — الشبكة أدناه عيّنة عرض مطابقة ('+this.ar(pool.length)+' منتجات).',
+   stats:[{v:this.ar(pool.length),l:'منتجات معروضة'}].concat(T.stats.map(s=>({v:s[0],l:s[1]}))),
+   children:T.children.map(c=>({n:c[0],count:c[1],onGo:(e)=>{e.preventDefault();this.toast('فتح تصنيف «'+c[0]+'» — رابط زحف حقيقي');}})),
+   filters:T.filters.map(f=>({n:f==='all'?'الكل':f,on:st.filter===f,
+    bg:st.filter===f?'#14261d':'#fff',fg:st.filter===f?'#fff':'#3d4f45',bd:st.filter===f?'#14261d':'#dcdcde',
+    onClick:()=>this.setState({filter:f})})),
+   n:this.ar(list.length)+' من '+this.ar(pool.length)+' منتجات',
+   prods:list.map((p,i)=>this.card(p,i)),
+   faq:T.faq.map(f=>({q:f[0],a:f[1]}))};
+ } else { base.tax={stats:[],children:[],filters:[],prods:[],faq:[]}; }
+ base.bundles=st.scr==='bundles'?[
+  {n:'حزمة رياضيات أول ثانوي',use:'التأسيس والتدريب لمادة واحدة',tag:'الأكثر طلبًا',bd:'#d8b56a',
+   items:[['مذكرة الشرح','٤٥'],['الاختبارات المحلولة','٣٥']],price:this.sr(59),old:this.sr(80),save:'وفّر ٢١ ر.س'},
+  {n:'حزمة المراجعة الشاملة — ثالث ثانوي',use:'ثلاث مواد علمية لموسم الاختبارات',tag:'',bd:'#e2e8e4',
+   items:[['رياضيات','٥٩'],['فيزياء','٥٥'],['كيمياء','٥٩']],price:this.sr(149),old:this.sr(173),save:'وفّر ٢٤ ر.س'},
+  {n:'حزمة العام الكامل — أول ثانوي',use:'الفصلان + كل التحديثات تلقائيًا',tag:'أفضل قيمة',bd:'#1e7355',
+   items:[['ملازم الفصل الأول','٨٠'],['ملازم الفصل الثاني','٨٠'],['جداول وتحديثات','مجانًا']],price:this.sr(119),old:this.sr(160),save:'وفّر ٤١ ر.س'}
+ ].map(b=>Object.assign(b,{items:b.items.map(i=>({n:i[0],p:i[1]+(i[1]==='مجانًا'?'':' ر.س')})),onAdd:()=>this.toast('أُضيفت «'+b.n+'» — التوفير محسوب في السلة')})):[];
+ if(st.scr==='best'||st.scr==='new'){
+  const best=st.scr==='best';
+  base.coll={h1:best?'الأكثر مبيعًا':'وصل حديثًا',
+   note:best?'الترتيب من بيانات المبيعات الفعلية آخر ٩٠ يومًا — يتحدث أسبوعيًا، ولا شعبية مصطنعة أبدًا.':'كل منتج نُشر خلال آخر ٣٠ يومًا — القاعدة آلية، والصفحة تبقى noindex في المواسم الخالية من إصدارات.',
+   rows:this.P.slice(0,6).map((p,i)=>Object.assign(this.card(p,i),{tag:best?('#'+this.ar(i+1)):'جديد'}))};
+ } else base.coll={rows:[]};
+ base.brand=st.scr==='brand'?{n:'٣٤',
+  stats:[['٣٤','موردًا'],['٤٫٩','متوسط تقييم'],['+٤ آلاف','معلم يعتمدها']].map(s=>({v:s[0],l:s[1]})),
+  prods:this.P.slice(0,3).map((p,i)=>this.card(p,i))}:{stats:[],prods:[]};
+ return base;
+}
+}
+</script>
+</body>
+</html>

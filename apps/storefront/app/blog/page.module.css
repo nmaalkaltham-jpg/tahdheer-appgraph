@@ -1,0 +1,188 @@
+/*
+ * المدوّنة — لغة تصميم المتجر: رأس بسيط، وحالة فارغة صادقة على سطحٍ بارد
+ * ببلاطة أيقونة ملوّنة وزرٍّ تركوازي. Tokens only, logical properties only.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+/* رأس الصفحة: عنوان ووصف بلا شريطٍ داكن. */
+.head {
+  padding-block: 20px 8px;
+}
+
+.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.emptyIcon {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 54px;
+  block-size: 54px;
+  margin-block-end: 14px;
+  border-radius: var(--r-lg);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.emptyTitle {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.emptyHint {
+  margin: 0 auto;
+  max-inline-size: 56ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.emptyAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  margin-block-start: 20px;
+  padding-inline: 26px;
+  border-radius: var(--r-md);
+  background: var(--teal-on);
+  color: var(--on-accent);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.emptyAction:hover {
+  background: var(--color-secondary-hover);
+}
+
+/* ── الجوّال — في آخر الورقة كي تعلو قواعدُه على ما قبلها ───────────── */
+@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  }
+
+.empty {
+  margin-block-start: 28px;
+  padding: 40px 26px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xl);
+  background: var(--sf-cool);
+  text-align: center;
+
+  .empty {
+    padding: 28px 16px;
+    border-radius: var(--r-lg);
+  }
+
+  .emptyTitle {
+    font-size: 20px;
+  }
+}

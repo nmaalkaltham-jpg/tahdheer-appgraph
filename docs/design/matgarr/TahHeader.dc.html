@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;background:#14261d;font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+<div style="display:flex;align-items:center;gap:12px;height:42px;padding-inline:24px;border-bottom:1px solid rgba(255,255,255,.09)">
+<div style="flex:1 1 auto;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)">
+<div style="display:inline-flex;align-items:center;white-space:nowrap;animation:tahMarquee 40s linear infinite">
+<sc-for list="{{ ann }}" as="a" hint-placeholder-count="6">
+<span style="display:inline-flex;align-items:center;gap:8px;padding-inline:18px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.82)">{{ a }}<span style="width:4px;height:4px;border-radius:50%;background:#d8b56a"></span></span>
+</sc-for>
+</div>
+</div>
+<a href="#" style="flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border:1px solid rgba(216,181,106,.42);border-radius:999px;color:#e6cd93;font-size:12px;font-weight:800">عرض جميع العروض<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-chev"></use></svg></a>
+</div>
+<div style="display:flex;align-items:center;gap:24px;padding:13px 24px">
+<a href="#" style="display:flex;align-items:center;gap:11px;flex:0 0 auto;order:-1">
+<span style="display:flex;flex-direction:column;line-height:1.3"><b style="color:#fff;font-size:18px;font-weight:800;letter-spacing:-.01em">التحاضير الحديثة</b><span style="color:rgba(255,255,255,.5);font-size:11px;font-weight:600">تعلّم أفضل .. مستقبل أفضل</span></span>
+<span style="width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg aria-hidden="true" style="width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span>
+</a>
+<nav style="flex:0 0 auto">
+<ul style="display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0">
+<li><a href="#" style="display:block;padding:8px 13px;border-radius:9px;color:#fff;font-size:14px;font-weight:700;background:rgba(255,255,255,.09)">الرئيسية</a></li>
+<li><a href="#" style="display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:9px;color:rgba(255,255,255,.72);font-size:14px;font-weight:600" style-hover="color:#fff;background:rgba(255,255,255,.06)">المراحل التعليمية<svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2;transform:rotate(-90deg)"><use href="#i-chev"></use></svg></a></li>
+<li><a href="#" style="display:block;padding:8px 13px;border-radius:9px;color:rgba(255,255,255,.72);font-size:14px;font-weight:600" style-hover="color:#fff;background:rgba(255,255,255,.06)">المتجر</a></li>
+<li><a href="#" style="display:block;padding:8px 13px;border-radius:9px;color:rgba(255,255,255,.72);font-size:14px;font-weight:600" style-hover="color:#fff;background:rgba(255,255,255,.06)">المدونة</a></li>
+<li><a href="#" style="display:block;padding:8px 13px;border-radius:9px;color:rgba(255,255,255,.72);font-size:14px;font-weight:600" style-hover="color:#fff;background:rgba(255,255,255,.06)">تواصل معنا</a></li>
+</ul>
+</nav>
+<form style="flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:11px;padding:0 6px;padding-inline-start:14px;height:44px">
+<svg aria-hidden="true" style="width:17px;height:17px;flex:0 0 auto;color:rgba(255,255,255,.5);fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg>
+<input type="search" placeholder="ابحث عن تحضير، عرض، اختبار…" style="flex:1;min-width:0;background:none;border:0;outline:none;color:#fff;font:600 13.5px Tajawal,sans-serif">
+<button type="button" style="flex:0 0 auto;height:32px;padding:0 16px;border:0;border-radius:8px;background:#1e7355;color:#fff;font:800 13px Tajawal,sans-serif;cursor:pointer">بحث</button>
+</form>
+<div style="display:flex;align-items:center;gap:6px;flex:0 0 auto">
+<a href="#" style="display:flex;align-items:center;gap:9px;height:44px;padding:0 13px;border-radius:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">
+<span style="position:relative;display:grid;place-items:center;color:#fff"><svg aria-hidden="true" style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-cart"></use></svg><span style="position:absolute;inset-block-start:-5px;inset-inline-end:-7px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#d8b56a;color:#14261d;font-size:10.5px;font-weight:900;display:grid;place-items:center">2</span></span>
+<span style="color:#fff;font-size:13px;font-weight:800">75.00 ر.س</span>
+</a>
+<a href="#" style="display:grid;place-items:center;width:44px;height:44px;border-radius:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff"><svg aria-hidden="true" style="width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-user"></use></svg></a>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return { ann: ['🎁 خصم 20% على تحاضير الفصل الأول', '⚡ تحميل فوري بعد الدفع مباشرة', '📚 ملفات Word و PowerPoint قابلة للتعديل', '🎁 خصم 20% على تحاضير الفصل الأول', '⚡ تحميل فوري بعد الدفع مباشرة', '📚 ملفات Word و PowerPoint قابلة للتعديل'] };
+  }
+}
+</script>
+</body>
+</html>

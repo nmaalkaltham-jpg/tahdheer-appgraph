@@ -1,0 +1,207 @@
+/*
+UNIT: PAGE-TABS
+COMPONENT: page-tabs.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-inline-size: 0;
+}
+
+/*
+ * الشريط يمرّر أفقيًّا ولا يلتفّ: ستّة تبويباتٍ ملتفّة على ٣٩٠px تصير
+ * ثلاثة أسطر تدفع المحتوى خارج الشاشة الأولى.
+ */
+.bar {
+  display: flex;
+  gap: var(--sp-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-block-end: 1px solid var(--border);
+}
+
+.bar::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 38px;
+  padding-inline: var(--sp-4);
+  border: 0;
+  border-block-end: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+/* النشط يُقال بالحدّ واللون والوزن — ثلاث إشارات لا لونٌ وحده. */
+.tab[aria-selected='true'] {
+  color: var(--primary-strong);
+  border-block-end-color: var(--primary);
+  font-weight: 800;
+}
+
+.badge {
+  min-inline-size: 18px;
+  padding-inline: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--adm-danger-fill);
+  color: var(--adm-on-danger);
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.panel {
+  min-inline-size: 0;
+}
+
+.panel:focus-visible {
+  outline: 2.5px solid var(--primary);
+  outline-offset: 4px;
+}
+
+/* ───── وضع الترتيب ───── */
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  border-block-end: 1px solid var(--border);
+}
+
+/* الحدّ انتقل إلى الصفّ: شريطٌ يحمل حدًّا وأدواتٌ بجانبه تُنتجان خطّين. */
+.barRow > .bar {
+  border-block-end: 0;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.barTools {
+  flex: none;
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: 30px;
+  padding-inline: var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tool:hover {
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.tool[aria-pressed='true'] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: 32px;
+  padding-inline: var(--sp-2);
+  margin-block-end: 4px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* المخفيّ يبقى مرئيًّا في وضع الترتيب — وإلّا تعذّر إرجاعه. */
+.chip[data-hidden] {
+  opacity: 0.55;
+}
+
+.chip[data-hidden] .chipLabel {
+  text-decoration: line-through;
+}
+
+.chip[data-dragging] {
+  border-style: solid;
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* موضع الإفلات يُقال بخطٍّ جانبيّ — لا بلونٍ وحده. */
+.chip[data-over] {
+  border-inline-start: 3px solid var(--primary);
+}
+
+.chipLabel {
+  padding-inline: 2px;
+}
+
+.grip,
+.eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+}
+
+.grip {
+  cursor: grab;
+  /* لمسُ المقبض يسحب ولا يُمرّر الشريط تحته. */
+  touch-action: none;
+}
+
+.grip:active {
+  cursor: grabbing;
+}
+
+.grip:hover,
+.eye:hover {
+  background: var(--canvas);
+  color: var(--text);
+}
+
+.eye[aria-pressed='false'] {
+  color: var(--state-warning);
+}
+
+.editNote {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}

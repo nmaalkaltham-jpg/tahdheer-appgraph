@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#e9ebe9;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes mhFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#0c1411;color:#eaf2ee;position:sticky;top:0;z-index:80;box-shadow:0 6px 20px rgba(8,20,15,.2)">
+<div style="max-width:1560px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:9px"><span aria-hidden="true" style="width:32px;height:32px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><b style="font-size:14px">المركز الموحد — نمو البحث</b></span>
+<span style="padding:2px 10px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">٢١ أداة ← مساحة واحدة · صفر فقد · تحميل الوحدة النشطة فقط</span>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">#m={{ activeKey }} · deep-link محفوظ</span>
+</div>
+</div>
+
+<div style="max-width:1560px;margin:0 auto;padding:14px 18px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px;align-items:start">
+
+<aside style="position:sticky;top:64px;border:1px solid #d5dbd6;border-radius:14px;background:#fff;overflow:hidden;max-height:calc(100vh - 84px);overflow-y:auto">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+<div style="padding:9px 10px 4px">
+<span style="display:flex;align-items:center;gap:7px;padding:0 6px 5px;font-size:9.5px;font-weight:900;color:#8b978f"><span aria-hidden="true" style="width:7px;height:7px;border-radius:2px;background:{{ g.c }}"></span>{{ g.n }}</span>
+<sc-for list="{{ g.items }}" as="m" hint-placeholder-count="3">
+<button type="button" onClick="{{ m.onClick }}" aria-current="{{ m.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:38px;padding:0 10px;border:0;border-radius:9px;background:{{ m.bg }};color:{{ m.fg }};font-size:11.5px;font-weight:900;cursor:pointer;text-align:start">
+{{ m.n }}
+<sc-if value="{{ m.badge }}" hint-placeholder-val="{{ false }}"><span style="margin-inline-start:auto;padding:1px 7px;border-radius:999px;background:{{ m.bBg }};color:{{ m.bFg }};font-size:8px;font-weight:900">{{ m.badge }}</span></sc-if>
+</button>
+</sc-for>
+</div>
+</sc-for>
+<div style="padding:10px 14px;border-top:1px solid #f1f4f2;background:#fbfcfb">
+<span style="font-size:8.5px;line-height:1.7;color:#a9b4ad">الملفات الأصلية تبقى تعمل بروابطها — المركز يركّبها ذاتها، فلا نسختان ولا فقد. القوالب العامة (متجر/منتج/محتوى) خارج الدمج عمدًا: لكلٍّ URL يُرتَّب باسمه.</span>
+</div>
+</aside>
+
+<main id="main" style="min-width:0">
+
+<sc-if value="{{ is.matrix }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #d5dbd6;border-radius:15px;background:#fff;overflow:hidden;animation:mhFade .25s ease">
+<div style="padding:14px 18px;border-bottom:1px solid #f1f4f2">
+<h1 style="margin:0;font-size:16px;font-weight:900">مصفوفة الدمج — كل عائلة وقرارها وسببه</h1>
+<span style="font-size:10px;color:#8b978f">القاعدة: يُدمج ما اتحد غرضه وبياناته؛ ويبقى مستقلًا ما تحتاج استقلاله محركاتُ البحث أو الصلاحيات</span>
+</div>
+<div style="overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:860px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:9px 18px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">العائلة (الصفحات المتشابهة)</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">القرار</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الوجهة الموحدة</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">حفظ الروابط</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">السبب</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ mx }}" as="r" hint-placeholder-count="9">
+<tr>
+<td style="padding:9px 18px;border-top:1px solid #f4f6f4"><b style="font-size:11px">{{ r.fam }}</b><span style="display:block;font-size:9px;color:#8b978f;line-height:1.6">{{ r.pages }}</span></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4"><span style="padding:2px 10px;border-radius:999px;background:{{ r.dBg }};color:{{ r.dFg }};font-size:9px;font-weight:900;white-space:nowrap">{{ r.dec }}</span></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:10.5px;font-weight:800;color:#146c4c">{{ r.dest }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;color:#5f7167">{{ r.url }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;line-height:1.7;color:#5f7167">{{ r.why }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section style="margin-top:12px;border:1px solid #1e7355;border-radius:15px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:15px 19px">
+<h2 style="margin:0 0 9px;font-size:13.5px;font-weight:900">جرد صفر-فقد — قدرات الأدوات المدمجة كلها بعد الدمج</h2>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px">
+<sc-for list="{{ inv.stats }}" as="s" hint-placeholder-count="4">
+<div style="padding:11px 13px;border:1px solid #cfe0d6;border-radius:12px;background:#fff;text-align:center"><span style="display:block;font:900 18px Tajawal;color:#146c4c">{{ s.v }}</span><span style="font-size:9.5px;color:#5f7167">{{ s.l }}</span></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px">
+<sc-for list="{{ inv.checks }}" as="c" hint-placeholder-count="8">
+<span style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ c }}</span>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ mount.os }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Analytics Pro OS" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.sic }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Search Intelligence Center" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.maps }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Diagnostic Maps" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.funnel }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Search Funnel" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.pilot }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Autopilot Pack" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.grow }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Self-Growth Pack" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.isai }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Internal Search AI" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.cpack }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Customer Completion Pack" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.intl }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - International SEO Studio" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.opsint }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Ops Intelligence Pack" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.jauth }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Journey & Auth Pack" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.chub }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Contact Hub" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.engine }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - SEO Growth Engine" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.levers }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - No-New-Pages Levers" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.fixes }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Production Fixes" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.rich }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Rich Results Kit" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.assets }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Search Assets" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.intent }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Deep Intent" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.embeds }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Embeds &amp; PR" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.legacyAp }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - Analytics Pro" hint-size="100%,860px"></dc-import></sc-if>
+<sc-if value="{{ mount.seoc }}" hint-placeholder-val="{{ false }}"><dc-import name="Tahdheer - SEO Center" hint-size="100%,860px"></dc-import></sc-if>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1560,&quot;height&quot;:940},&quot;startModule&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;matrix&quot;,&quot;os&quot;,&quot;engine&quot;,&quot;levers&quot;,&quot;fixes&quot;,&quot;rich&quot;,&quot;assets&quot;,&quot;intent&quot;,&quot;embeds&quot;],&quot;default&quot;:&quot;matrix&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;البداية&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+MODS=[
+ ['matrix','مصفوفة الدمج والجرد','hub','لوحة المركز',''],
+ ['os','غرفة التحكم OS','ops','التشغيل الذاتي','الأحدث'],
+ ['sic','مركز ذكاء البحث','ops','التشغيل الذاتي','جديد'],
+ ['maps','الخرائط والتنبيهات والتقارير','ops','التشغيل الذاتي','جديد'],
+ ['funnel','قمع البحث ← الإيراد','ops','التشغيل الذاتي','جديد'],
+ ['pilot','الطيار الآلي','ops','التشغيل الذاتي','يعمل وحده'],
+ ['grow','النمو الذاتي','ops','التشغيل الذاتي','يعمل وحده'],
+ ['isai','ذكاء البحث الداخلي','ops','التشغيل الذاتي','يتعلم'],
+ ['cpack','إكمال تجربة العميل','ops','التشغيل الذاتي','جديد'],
+ ['intl','استوديو SEO الدولي','ops','التشغيل الذاتي','جديد'],
+ ['opsint','ذكاء العمليات','ops','التشغيل الذاتي','جديد'],
+ ['jauth','الرحلة والدخول','ops','التشغيل الذاتي','جديد'],
+ ['chub','مركز التواصل العائم','ops','التشغيل الذاتي','جديد'],
+ ['engine','محرك SEO الشامل','ops','التشغيل الذاتي',''],
+ ['levers','رافعات بلا صفحات','ops','التشغيل الذاتي',''],
+ ['fixes','إصلاحات الإنتاج','ops','التشغيل الذاتي','١٥ بندًا'],
+ ['rich','عدة النتائج الغنية','fact','مصانع الأصول',''],
+ ['assets','أصول البحث','fact','مصانع الأصول',''],
+ ['intent','النية العميقة','fact','مصانع الأصول',''],
+ ['embeds','التضمين والعلاقات','fact','مصانع الأصول',''],
+ ['legacyAp','Analytics Pro (الأصل)','legacy','الإرث — محفوظ كما هو',''],
+ ['seoc','مركز SEO (الأصل)','legacy','الإرث — محفوظ كما هو','']
+];
+state={m:'matrix'};
+componentDidMount(){
+ try{ const h=(location.hash.match(/m=([a-zA-Z]+)/)||[])[1];
+  if(h&&this.MODS.some(x=>x[0]===h)) this.setState({m:h}); }catch(e){}
+}
+go(k){ this.setState({m:k}); try{ history.replaceState(null,'','#m='+k); }catch(e){} }
+renderVals(){
+ const st=this.state;
+ const GC={hub:'#d8b56a',ops:'#1e7355',fact:'#527a96',legacy:'#8b978f'};
+ const groups=[];
+ this.MODS.forEach(m=>{
+  let g=groups.filter(x=>x.k===m[2])[0];
+  if(!g){ g={k:m[2],n:m[3],c:GC[m[2]],items:[]}; groups.push(g); }
+  g.items.push({n:m[1],badge:m[4],on:st.m===m[0],
+   bg:st.m===m[0]?'#eaf3ee':'transparent',fg:st.m===m[0]?'#146c4c':'#3d4f45',
+   bBg:st.m===m[0]?'#1e7355':'#f2f4f2',bFg:st.m===m[0]?'#fff':'#5f7167',
+   onClick:()=>this.go(m[0])});
+ });
+ const mount={};
+ this.MODS.forEach(m=>{ if(m[0]!=='matrix') mount[m[0]]=st.m===m[0]; });
+ const D={m:['دُمجت هنا','#e4f4ec','#146c4c'],k:['تبقى مستقلة','#e8f2fc','#1d5f9c'],v:['تتحول أنماط عرض','#fff4d6','#8a6500']};
+ const mx=[
+  ['أدوات تشغيل البحث (١٠)','Analytics Pro OS · SEO Growth Engine · Levers · Fixes · Rich Results · Search Assets · Deep Intent · Embeds · Analytics Pro · SEO Center','m','هذا المركز — وحدات كسولة','الأصلية تعمل + تحويل روابطها للمركز #m=…','غرض واحد (تشغيل النمو)، بيانات واحدة، مستخدم واحد (المدير) — الدمج يرفع الاكتشاف ويوحّد الحالة'],
+  ['السلة × السلة المتجاوبة','Cart + Cart Responsive','v','صفحة سلة واحدة','رابط واحد /cart — 301 للقديم','نفس الوظيفة والبيانات؛ التجاوب سلوك CSS لا صفحة ثانية'],
+  ['الدفع × الدفع المتجاوب','Checkout + Checkout Responsive','v','صفحة دفع واحدة','/checkout — 301','المنطق التجاري واحد؛ لا يجوز مساران لعملية دفع'],
+  ['الدخول × الدخول المتجاوب','Login + Login Responsive','v','صفحة دخول واحدة','/login — 301','نموذج واحد بصلاحيات واحدة'],
+  ['حسابي (٣ ملفات)','My Account + Responsive + Spec + Account Portal','m','بوابة الحساب (الأحدث)','/my-account — 301 من القديمة','البوابة الأحدث تتضمن كل قدرات الثلاثة وتزيد (تنزيلات، ولاء، خصوصية)'],
+  ['التقييمات (٤ تصاميم)','Reviews Simple · Premium · Editorial · Dashboard','v','مكوّن تقييمات واحد بـ ٤ أنماط عرض','لا URLs عامة تتأثر','نفس البيانات والأفعال؛ الاختلاف عرض فقط — تصبح View Modes قابلة للاختيار'],
+  ['صفحة المنتج (عائلة)','Product Page Pro + PDP Engine/Presets/Spec + Product Studio + Product Builder','v','صفحة عرض واحدة + المنشئ أداة إدارتها','/product/{slug} ثابت؛ المنشئ noindex','العرض قالب عام يُرتَّب؛ المنشئ والمواصفات أدوات إدارة له — علاقة أداة/ناتج لا تكرار'],
+  ['قوالب الواجهة العامة','Storefront · Category · Content Hub · Growth Pages · Discovery · 404 · Thank You…','k','تبقى مستقلة','كل قالب على URL قانوني خاص','قاعدة SEO: كل نية بحث تحتاج صفحة تُرتَّب باسمها — دمجها يمحو الذيل الطويل كله'],
+  ['المواصفات والتدقيقات','Specs · Audits · Current State · IA Migration','k','أرشيف مرجعي موحّد التصنيف','بلا روابط عامة أصلًا','وثائق قرار لا صفحات منتج — تُجمع في مجلد مرجعي دون دمج واجهات']
+ ].map(r=>({fam:r[0],pages:r[1],dec:D[r[2]][0],dBg:D[r[2]][1],dFg:D[r[2]][2],dest:r[3],url:r[4],why:r[5]}));
+ return {
+  activeKey:st.m,
+  groups:groups,mount:mount,
+  is:{matrix:st.m==='matrix'},
+  mx:mx,
+  inv:{stats:[['٧٨','شاشة عمل مُركَّبة كما هي'],['+٢٦٠','فعل تفاعلي محفوظ'],[this.ar(this.MODS.length-1),'أداة في مساحة واحدة — محسوبة من السجل'],['١','وحدة تُحمَّل في اللحظة']].map(s=>({v:s[0],l:s[1]})),
+   checks:['كل وحدة هي الملف الأصلي نفسه — لا نسخ ولا إعادة كتابة','التحميل الكسول: الوحدة النشطة وحدها تُركَّب (صفر ثقل زائد)','حالة كل وحدة (فلاتر، مفاتيح، مستويات) تعمل كما كانت','deep-link ‏#m= يفتح الوحدة مباشرة ويحفظ المشاركة','الملفات الأصلية تبقى صالحة الفتح المباشر — لا رابط ينكسر','القوالب العامة خارج الدمج بقرار SEO موثق أعلاه','لوحات الإدارة كلها noindex خلف صلاحيات في الإنتاج','أي وحدة مستقبلية تُضاف سطرًا واحدًا في السجل']}
+ };
+}
+}
+</script>
+</body>
+</html>

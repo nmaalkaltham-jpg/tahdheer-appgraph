@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1440px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">VISUAL COMMERCE ENGINE</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">المرحلة الأولى — التدقيق العميق قبل أي بناء</span>
+</div>
+<div style="padding:13px 15px;border-radius:11px;background:#f6faf8;border:1px solid #cfe6dc">
+<p style="margin:0 0 7px;font:700 11.5px/1.7 Tajawal,sans-serif;color:#123d2f">أمرك الأخير في الطلب كان: «افحص المشروع الحقيقي، واعتبر معماريّته مصدر الحقيقة، ولا تُعِد بناء ما يعمل». فعلتُ ذلك أولًا — والنتيجة تغيّر الخطة.</p>
+<p style="margin:0;font:500 11px/1.85 Tajawal,sans-serif;color:rgba(0,0,0,.65)">القالب يملك <b>ثلاثة أنظمة بلوكات معزولة</b> بمعرّفات نطاق منفصلة (<code style="font-size:10.5px">[data-t-hero]</code> · <code style="font-size:10.5px">[data-tsec]</code> · <code style="font-size:10.5px">[data-tm]</code>)، و<b>سجل رموز تصميم من ٨٩٢ سطرًا</b> يوثّق لكل رمز: النوع، الافتراضي، المتغيّرات، النطاق، الوحدة، الاستجابة التلقائية للتابلت والجوال، الشرطية، ووضع «متقدّم». وبلوك الهيرو وحده يعرض <b>٧٥ خاصية</b>. أي أن «العقد المشترك للمكوّنات» الذي يطلبه الطلب <b>موجود ويعمل</b> — الفجوة في مكان آخر تمامًا.</p>
+</div>
+</header>
+
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
+<button type="button" onClick="{{ tb.onClick }}" aria-pressed="{{ tb.on }}" style="min-height:38px;padding:0 15px;border:1px solid {{ tb.edge }};border-radius:9px;background:{{ tb.bg }};color:{{ tb.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">{{ tb.label }}</button>
+</sc-for>
+</div>
+
+<section style="display:{{ show.audit }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(292px,1fr));gap:12px">
+<sc-for list="{{ systems }}" as="sy" hint-placeholder-count="3">
+<div style="padding:15px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+<span style="font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">{{ sy.label }}</span>
+<span style="font:700 9px ui-monospace,monospace;padding:3px 7px;border-radius:5px;background:#f2f2f4;color:rgba(0,0,0,.55)">{{ sy.scope }}</span>
+</div>
+<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:9px">
+<span style="font:900 26px ui-monospace,monospace;color:#1e7355">{{ sy.n }}</span>
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">{{ sy.nLabel }}</span>
+</div>
+<p style="margin:0 0 10px;font:500 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ sy.note }}</p>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ sy.files }}" as="fl" hint-placeholder-count="4">
+<span style="font:600 9px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ fl }}</span>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">ما يطلبه الطلب مقابل ما يفعله سجل الرموز اليوم</h2>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">كل سطر هنا مقروء من الوثيقة داخل <code style="font-size:10.5px">inc/design-system/registry.php</code> — لا تقدير ولا تخمين.</p>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,176px) 96px minmax(0,1fr);gap:9px;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">القدرة المطلوبة</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الحالة</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الدليل</span>
+</div>
+<sc-for list="{{ capRows }}" as="cp" hint-placeholder-count="14">
+<div style="display:grid;grid-template-columns:minmax(0,176px) 96px minmax(0,1fr);gap:9px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6;background:{{ cp.bg }}">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ cp.cap }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ cp.sBg }};color:{{ cp.sFg }};text-align:center">{{ cp.st }}</span>
+<span style="font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ cp.ev }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:15px 17px;border:1px solid #a5261b;border-radius:12px;background:#fdecea">
+<h2 style="margin:0 0 4px;font:800 13px Tajawal,sans-serif;color:#7d1c14">ثلاثة عيوب حقيقية وجدتها في الكود القائم</h2>
+<p style="margin:0 0 12px;font:600 10.5px/1.7 Tajawal,sans-serif;color:#7d1c14">لم يطلبها الطلب، لكنها تخصّ قواعده الصريحة — وإصلاحها أرخص الآن من إصلاحها بعد إضافة ٣٠٠ عنصر فوقها.</p>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ defects }}" as="df" hint-placeholder-count="3">
+<div style="padding:12px 13px;border-radius:10px;background:#fff;border:1px solid #f5c9c4">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ df.label }}</span>
+<span style="font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ df.where }}</span>
+</div>
+<p style="margin:0 0 6px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.65)">{{ df.what }}</p>
+<span style="display:block;font:700 10px/1.65 Tajawal,sans-serif;color:#1e7355">الإصلاح: {{ df.fix }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="display:{{ show.math }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">حساب الـ٣٠٠ — كيف تحصل على ٣٠٠ اختيار من ٤٥ مكوّنًا</h2>
+<p style="margin:0 0 12px;font:500 11px/1.85 Tajawal,sans-serif;color:rgba(0,0,0,.62)">الطلب نفسه يحلّ التوتّر في بنده ١٠٢: «فضّل أساسات قابلة لإعادة الاستخدام بتهيئات متمايزة بقوّة، مع إظهار ٣٠٠ اختيار حقيقي للمستخدم». والقالب يفعل هذا فعلًا: الأقسام مكتوبة كـ<b>٧ بلوكات × تصميمين</b>، والحركة <b>٤ بلوكات × ٣ تصاميم</b>. هذا ليس ١٤ ولا ١٢ مكوّنًا — بل ٧ و٤ بخاصية <code style="font-size:10.5px">design</code>. نفس النمط يحمل الـ٣٠٠.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:13px">
+<sc-for list="{{ mathCards }}" as="mc" hint-placeholder-count="4">
+<div style="padding:12px 13px;border-radius:10px;background:{{ mc.bg }};border:1px solid {{ mc.edge }}">
+<span style="display:block;font:900 24px ui-monospace,monospace;color:{{ mc.fg }};margin-bottom:2px">{{ mc.n }}</span>
+<span style="display:block;font:800 10.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:3px">{{ mc.label }}</span>
+<span style="display:block;font:500 9.5px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ mc.note }}</span>
+</div>
+</sc-for>
+</div>
+<div style="padding:12px 14px;border-radius:10px;background:#fdf9ef;border:1px solid #f0dca0">
+<p style="margin:0;font:600 10.5px/1.8 Tajawal,sans-serif;color:#7a5a00">أوضح مثال في الطلب نفسه: عائلة المنتجات تطلب «Product Grid» و«Product Carousel» و«Product Slider» كثلاثة عناصر. هذه <b>مكوّن واحد</b> باستعلام واحد وخاصية <code style="font-size:10px">layout</code>. ولو بُنيت ثلاثة ملفات فستنسخ معها ثلاث مرات: منطق الاستعلام، بطاقة المنتج، حالة الفراغ، الاستجابة، والحركة — ثم يُصلَح عيبٌ في واحدة وتُنسى الأخريان. هذا بالضبط ما حذّرتَ منه في رسالتك السابقة عن دمج المتشابه.</p>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);gap:13px;align-items:start">
+<nav aria-label="عائلات العناصر" style="display:flex;flex-direction:column;gap:2px;padding:10px;border:1px solid #dcdcde;border-radius:12px;background:#fff;position:sticky;inset-block-start:14px">
+<sc-for list="{{ famNav }}" as="fn" hint-placeholder-count="20">
+<button type="button" onClick="{{ fn.onClick }}" aria-current="{{ fn.current }}" style="display:grid;grid-template-columns:24px minmax(0,1fr) 34px;gap:7px;align-items:center;min-height:34px;padding:0 8px;border:0;border-inline-start:3px solid {{ fn.edge }};border-radius:7px;background:{{ fn.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="font:900 8.5px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ fn.n }}</span>
+<span dir="rtl" style="min-width:0;font-family:Tajawal,sans-serif;font-size:11px;font-weight:{{ fn.weight }};color:{{ fn.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ fn.label }}</span>
+<span style="font:800 8.5px ui-monospace,monospace;padding:2px 5px;border-radius:20px;background:{{ fn.cBg }};color:{{ fn.cFg }};text-align:center">{{ fn.c }}</span>
+</sc-for>
+</nav>
+
+<div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<div style="min-width:200px;flex:1">
+<h3 style="margin:0 0 3px;font:800 14px Tajawal,sans-serif;color:#1a1a1a">{{ fam.label }}</h3>
+<p style="margin:0;font:500 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">١٥ اختيارًا في متصفّح العناصر · تُخدَم بـ<b>{{ fam.comps }}</b> مكوّنًا حقيقيًا</p>
+</div>
+<span style="font:900 22px ui-monospace,monospace;color:#1e7355">١٥ ← {{ fam.comps }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ fam.groups }}" as="gr" hint-placeholder-count="4">
+<div style="padding:12px 13px;border:1px solid #ececef;border-inline-start:3px solid {{ gr.edge }};border-radius:10px;background:#fcfcfd">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ gr.comp }}</span>
+<span style="font:700 8.5px ui-monospace,monospace;padding:2px 7px;border-radius:5px;background:#f2f2f4;color:rgba(0,0,0,.5)">{{ gr.id }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ gr.sBg }};color:{{ gr.sFg }}">{{ gr.st }}</span>
+<span style="flex:1"></span>
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">{{ gr.n }} اختيارات</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ gr.items }}" as="im" hint-placeholder-count="4">
+<span style="font:700 10px Tajawal,sans-serif;padding:5px 10px;border-radius:7px;background:#fff;border:1px solid #e4e4e7;color:rgba(0,0,0,.68)">{{ im }}</span>
+</sc-for>
+</div>
+<p style="margin:8px 0 0;font:500 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ gr.how }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="display:{{ show.motion }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">سلّم الحركة ٠ ← ١٠</h2>
+<p style="margin:0 0 13px;font:500 11px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.6)">المفردات موجودة فعلًا: <b>١٠ منحنيات تسارع</b> (منها spring و soft-spring و cubic-bezier مخصّص مُتحقَّق منه بتعبير نمطي) و<b>٥ سرعات مسمّاة</b>. الناقص هو المقبض الواحد الذي يحرّك كل شيء معًا. المستوى لا يكون رقمًا في القائمة — بل جدولًا يشتقّ منه كل رمز حركي قيمته.</p>
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px">
+<sc-for list="{{ levels }}" as="lv" hint-placeholder-count="11">
+<button type="button" onClick="{{ lv.onClick }}" aria-pressed="{{ lv.on }}" style="min-width:56px;min-height:52px;padding:0 8px;border:1px solid {{ lv.edge }};border-radius:9px;background:{{ lv.bg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+<span style="font-family:ui-monospace,monospace;font-size:14px;font-weight:900;color:{{ lv.nFg }}">{{ lv.n }}</span>
+<span style="font-family:Tajawal,sans-serif;font-size:8.5px;font-weight:800;color:{{ lv.fg }};white-space:nowrap">{{ lv.label }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:8px">
+<sc-for list="{{ lvVals }}" as="vl" hint-placeholder-count="9">
+<div style="padding:11px 12px;border-radius:9px;background:#fcfcfd;border:1px solid #ececef">
+<span style="display:block;font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5);margin-bottom:3px">{{ vl.k }}</span>
+<span style="display:block;font:900 13px ui-monospace,monospace;color:#1a1a1a">{{ vl.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px">
+<div style="padding:15px 16px;border:1px solid #cfe6dc;border-radius:12px;background:#f6faf8">
+<h3 style="margin:0 0 9px;font:800 12.5px Tajawal,sans-serif;color:#123d2f">السياسة الافتراضية</h3>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ policy }}" as="pl" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;padding:9px 11px;border-radius:8px;background:#fff;border:1px solid #dfeee7">
+<span style="font:700 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ pl.k }}</span>
+<span style="font:800 11px ui-monospace,monospace;color:{{ pl.fg }}">{{ pl.v }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;font:700 10px/1.7 Tajawal,sans-serif;color:#123d2f">‏<code style="font-size:9.5px">prefers-reduced-motion</code> يفرض المستوى ٠ ويتجاوز كل إعداد — لا استثناء ولا تجاوز إداري. هذا شرط وصولية لا تفضيل ذوق.</p>
+</div>
+<div style="padding:15px 16px;border:1px solid #f0dca0;border-radius:12px;background:#fdf9ef">
+<h3 style="margin:0 0 9px;font:800 12.5px Tajawal,sans-serif;color:#7a5a00">مؤشّر كلفة الحركة</h3>
+<p style="margin:0 0 10px;font:500 10.5px/1.7 Tajawal,sans-serif;color:#7a5a00">يُحسَب في المحرّر فقط، من عدّ حقيقي لا من تقدير: عدد العناصر المتحرّكة × التكرار × الضباب × ثلاثية الأبعاد × الجزيئات × البارالاكس.</p>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ costRows }}" as="cs" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:64px minmax(0,1fr);gap:9px;align-items:center;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #f2e6c8">
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ cs.bg }};color:{{ cs.fg }};text-align:center">{{ cs.label }}</span>
+<span style="font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ cs.note }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section style="display:{{ show.hero }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">الثلاثون هيرو — ٣٠ هدفًا تجاريًا، ١٠ هياكل تخطيط</h2>
+<p style="margin:0 0 13px;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">الطلب محقّ في أن الثلاثين يجب ألّا تكون تنويعات تجميلية — لكن الفرق بينها في <b>الهدف والمحتوى</b> لا في هيكل التخطيط. «هيرو الأكثر مبيعًا» و«هيرو الوصول الجديد» نفس الهيكل حرفيًا: استعلام مختلف وعنوان مختلف. بناؤهما كبلوكين يعني نسخ ٧٥ خاصية مرتين. وبلوك الهيرو الحالي يحمل خاصية <code style="font-size:10.5px">variant</code> افتراضها <code style="font-size:10.5px">bento</code> — فالطريق مفتوح أصلًا.</p>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ heroSkeletons }}" as="hs" hint-placeholder-count="10">
+<div style="padding:12px 13px;border:1px solid #ececef;border-inline-start:3px solid {{ hs.edge }};border-radius:10px;background:#fcfcfd">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ hs.label }}</span>
+<span style="font:700 8.5px ui-monospace,monospace;padding:2px 7px;border-radius:5px;background:#f2f2f4;color:rgba(0,0,0,.5)">{{ hs.id }}</span>
+<span style="flex:1"></span>
+<span style="font:800 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">{{ hs.n }} أهداف</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px">
+<sc-for list="{{ hs.items }}" as="hi" hint-placeholder-count="3">
+<span style="font:700 10px Tajawal,sans-serif;padding:5px 10px;border-radius:7px;background:#fff;border:1px solid #e4e4e7;color:rgba(0,0,0,.68)">{{ hi }}</span>
+</sc-for>
+</div>
+<span style="display:block;font:500 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ hs.how }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="display:{{ show.decide }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">القرارات التي لا أستطيع أخذها بدلًا عنك</h2>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">كل واحد منها يغيّر شكل التنفيذ كلّه، والاختيار الخاطئ فيها يُهدر أسابيع.</p>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ decisions }}" as="dc" hint-placeholder-count="5">
+<div style="padding:13px 14px;border:1px solid {{ dc.edge }};border-radius:11px;background:{{ dc.bg }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:900 9px ui-monospace,monospace;padding:3px 7px;border-radius:5px;background:#1a1a1a;color:#fff">{{ dc.n }}</span>
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">{{ dc.q }}</span>
+</div>
+<p style="margin:0 0 8px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.65)">{{ dc.why }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ dc.opts }}" as="op" hint-placeholder-count="2">
+<span style="font:700 10px Tajawal,sans-serif;padding:6px 11px;border-radius:8px;background:#fff;border:1px solid {{ op.edge }};color:{{ op.fg }}">{{ op.label }}</span>
+</sc-for>
+</div>
+<span style="display:block;margin-top:8px;font:700 10px/1.65 Tajawal,sans-serif;color:#1e7355">توصيتي: {{ dc.rec }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding:15px 17px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 11px;font:800 13px Tajawal,sans-serif;color:#1a1a1a">الترتيب الذي أقترحه للتنفيذ</h2>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ order }}" as="od" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:30px minmax(0,158px) minmax(0,1fr) 84px;gap:10px;align-items:center;padding:10px 11px;border:1px solid #ececef;border-radius:9px;background:#fcfcfd">
+<span style="font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ od.n }}</span>
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ od.label }}</span>
+<span style="font:500 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ od.note }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ od.bg }};color:{{ od.fg }};text-align:center">{{ od.tag }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:12px 0 0;font:600 10.5px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.6)">لاحظ أن العناصر الثلاثمئة تأتي <b>أخيرًا</b> لا أولًا. لأن كل عنصر يُبنى قبل استقرار سلّم الحركة وسجل المكوّنات سيُعاد بناؤه بعدهما. بناء الأساس أولًا يجعل العنصر الثلاثمئة أرخص من العنصر العاشر.</p>
+</div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;audit&quot;,&quot;math&quot;,&quot;motion&quot;,&quot;hero&quot;,&quot;decide&quot;],&quot;default&quot;:&quot;audit&quot;,&quot;tsType&quot;:&quot;'audit' | 'math' | 'motion' | 'hero' | 'decide'&quot;,&quot;section&quot;:&quot;العرض&quot;},&quot;defaultMotionLevel&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5,&quot;min&quot;:0,&quot;max&quot;:10,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;الحركة&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+const chip = (s) => s === 'ok' ? { bg: GBG, fg: G } : s === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+const COMPS = {
+  collection: ['مجموعة مُستعلَمة', 'part'], card: ['بطاقة منتج', 'part'], compare: ['جدول مقارنة', 'no'],
+  bundle: ['حزمة', 'no'], disclosure: ['كشف/تبويب/أكورديون', 'part'], preview: ['معاينة سريعة', 'no'],
+  searchField: ['حقل بحث', 'ok'], termChips: ['شرائح مصطلحات', 'part'], filterSet: ['طقم مرشّحات', 'part'],
+  countdown: ['عدّاد تنازلي', 'part'], promo: ['شارة/شريط عرض', 'ok'], coupon: ['قسيمة', 'no'],
+  cta: ['نداء لإجراء', 'ok'], benefits: ['قائمة فوائد', 'part'], helper: ['مساعد قرار', 'no'],
+  trust: ['شارات ثقة', 'ok'], reviews: ['تقييمات', 'ok'], policy: ['كتلة سياسة', 'part'],
+  mediaOne: ['وسيط مفرد', 'part'], gallery: ['معرض وسائط', 'no'], mediaFx: ['وسيط تفاعلي', 'no'],
+  mediaBg: ['خلفية وسائطية', 'part'], richText: ['نص غني', 'ok'], contentCards: ['بطاقات محتوى', 'part'],
+  split: ['نص + صورة', 'part'], quote: ['اقتباس', 'no'], faq: ['أسئلة شائعة', 'ok'],
+  answer: ['كتلة إجابة', 'no'], facts: ['لوح حقائق', 'part'], linkCluster: ['عنقود روابط', 'ok'],
+  toc: ['فهرس محتوى', 'no'], glossary: ['مسرد', 'no'], navBar: ['شريط تنقّل', 'part'],
+  crumbs: ['مسار تنقّل', 'ok'], quickLinks: ['روابط سريعة', 'part'], social: ['روابط اجتماعية', 'ok'],
+  ugc: ['معرض العملاء', 'no'], story: ['كتلة قصّة', 'no'], timeline: ['خط زمني/خطوات', 'no'],
+  people: ['أشخاص', 'no'], filePreview: ['معاينة ملف', 'no'], form: ['نموذج', 'part'],
+  notice: ['تنبيه', 'part'], stats: ['أرقام ومقاييس', 'part'], smart: ['فتحة ذكية', 'no'],
+};
+
+const FAMS = [
+  ['المنتجات', 'شبكة منتجات|collection,كاروسيل منتجات|collection,سلايدر منتجات|collection,منتج مُبرَز|collection,منتج مميّز|collection,الأكثر مبيعًا|collection,الجديد|collection,الرائج|collection,شوهد مؤخّرًا|collection,منتجات ذات صلة|collection,يُشترى معًا|bundle,حزم المنتجات|bundle,مقارنة المنتجات|compare,تبويبات المنتج|disclosure,معاينة سريعة|preview'],
+  ['التصنيفات', 'شبكة تصنيفات|collection,بطاقات تصنيف|collection,كاروسيل تصنيفات|collection,أقراص تصنيف|collection,أيقونات تصنيف|collection,بانرات تصنيف|collection,فسيفساء تصنيفات|collection,بينتو تصنيفات|collection,تصنيفات مميّزة|collection,تصنيفات شائعة|collection,مستكشف فرعي|collection,مستكشف تصنيفي|collection,شجرة التصنيفات|collection,تبويبات تصنيف|disclosure,استكشاف ذكي|smart'],
+  ['المجموعات', 'مجموعات منسّقة|collection,مجموعات موسمية|collection,الأفضل قيمة|collection,مجموعات مواضيعية|collection,مجموعات تعليمية|collection,موصى بها|collection,مجموعات بصرية|collection,سلايدر مجموعات|collection,بطاقات مجموعة|collection,تبويبات مجموعة|disclosure,بانر مجموعة|promo,عرض مجموعة|collection,حزم مجموعات|bundle,تنقّل المجموعات|navBar,مجموعات ذكية|smart'],
+  ['البحث', 'شريط بحث|searchField,بحث ذكي|searchField,بحث فوري|searchField,اقتراحات البحث|termChips,بحوث رائجة|termChips,بحوث شائعة|termChips,سجل البحث|termChips,شرائح كلمات|termChips,بحث بالتصنيف|searchField,بحث بالمنتج|searchField,بحث بالخصائص|filterSet,تصفّح بالحاجة|termChips,بطاقات النيّة|termChips,كتلة هبوط البحث|answer,مساعد البحث|smart'],
+  ['التصفية', 'مرشّح السعر|filterSet,مرشّح تصنيفي|filterSet,مرشّح التصنيف|filterSet,مرشّح الخصائص|filterSet,مرشّح الوسوم|filterSet,مرشّح التقييم|filterSet,مرشّح نوع المنتج|filterSet,مرشّح التوفّر|filterSet,مرشّحات ديناميكية|filterSet,شرائح مرشّحات|filterSet,دُرج مرشّحات|filterSet,شريط مرشّحات|filterSet,مرشّحات بصرية|filterSet,مرشّحات مجمّعة|filterSet,مرشّحات ذكية|smart'],
+  ['العروض', 'تخفيض سريع|promo,عدّاد العرض|countdown,شريط ترويجي|promo,كتلة قسيمة|coupon,بانر حملة|promo,بطاقات صفقة|collection,كاروسيل صفقات|collection,عرض محدود|countdown,إبراز الخصم|promo,خصم الحزمة|bundle,خصم التصنيف|promo,ترويج مجموعة|promo,ترويج إطلاق|promo,ترويج موسمي|promo,جدول العروض|timeline'],
+  ['التحويل', 'كتلة نداء|cta,نداء ملتصق|cta,بطاقة اشتر الآن|cta,بطاقة أضف للسلة|cta,شريط التحويل|cta,فوائد المنتج|benefits,أسباب الشراء|benefits,كتلة ضمان|policy,مساعد القرار|helper,مقارنة الميزات|compare,مساعد الاختيار|helper,ملخّص العرض|facts,عرض القيمة|benefits,ترقية البيع|collection,بيع متقاطع|collection'],
+  ['الثقة', 'شارات ثقة|trust,ملخّص التقييمات|reviews,حائط التقييمات|reviews,شهادات العملاء|reviews,مشترٍ موثَّق|reviews,كتلة الضمان|policy,سياسة الاسترجاع|policy,دفع آمن|policy,توفّر الدعم|policy,ضمان التواصل|policy,ثقة العلامة|story,مزايا المتجر|benefits,مؤشّرات الخبرة|stats,مؤشّرات الجودة|facts,وعد العميل|story'],
+  ['الوسائط', 'صورة مفردة|mediaOne,شبكة صور|gallery,معرض صور|gallery,معرض متراصّ|gallery,سلايدر صور|gallery,كاروسيل صور|gallery,صورة تفاعلية|mediaFx,صورة بنقاط|mediaFx,قبل/بعد|mediaFx,كتلة فيديو|mediaOne,معرض فيديو|gallery,فيديو خلفي|mediaBg,فيديو المنتج|mediaOne,رسم متحرّك|mediaOne,كولاج وسائط|gallery'],
+  ['المحتوى', 'نص غني|richText,بطاقات محتوى|contentCards,شبكة مقالات|contentCards,كاروسيل مدوّنة|contentCards,قسم دليل|contentCards,مقال مُبرَز|contentCards,كتلة كيف|answer,قسم تعليمي|split,نص/صورة|split,تبويبات محتوى|disclosure,أكورديون محتوى|disclosure,كتلة اقتباس|quote,مقال رئيسي|contentCards,بطاقات موارد|linkCluster,مركز معرفة|contentCards'],
+  ['بنية البحث', 'قسم أسئلة|faq,عنقود موضوعي|linkCluster,روابط داخلية|linkCluster,مواضيع ذات صلة|linkCluster,منتجات ذات صلة|collection,تصنيفات ذات صلة|collection,مقدّمة مُهيكلة|answer,فهرس المحتوى|toc,قائمة ميزات دلالية|facts,سؤال وجواب|faq,مسرد|glossary,ملخّص الكيان|facts,جدول مقارنة|compare,قسم نيّة البحث|answer,موارد مفيدة|linkCluster'],
+  ['الإجابة والذكاء', 'كتلة إجابة مباشرة|answer,كتلة تعريف|answer,حقائق مُهيكلة|facts,أجوبة الأسئلة|faq,خصائص الكيان|facts,لوح حقائق المنتج|facts,ملخّص المقارنة|compare,توصية موجزة|answer,ملخّص كيف|answer,مشكلة/حل|answer,معلومة سياقية|notice,مراجع مُهيكلة|linkCluster,إيجابيات/سلبيات|facts,ملخّص اعتبارات الشراء|facts,ملخّص خبير|answer'],
+  ['التنقّل', 'مسار تنقّل|crumbs,تنقّل بالمراسي|navBar,تنقّل ملتصق|navBar,تنقّل الأقسام|navBar,تنقّل التصنيفات|navBar,تنقّل المجموعات|navBar,تنقّل بصري|collection,روابط سريعة|quickLinks,فهرس الصفحة|toc,قفز الصفحة|toc,تنقّل ضخم|navBar,تنقّل عائم|navBar,تنقّل سفلي للجوال|navBar,صفحات ذات صلة|linkCluster,تنقّل ذكي|smart'],
+  ['الاجتماعي', 'أيقونات اجتماعية|social,مشاركة|social,دليل اجتماعي|reviews,معرض اجتماعي|ugc,بطاقات منشئين|people,كتلة مجتمع|story,صور العملاء|ugc,عرض محتوى العملاء|ugc,تقييمات اجتماعية|reviews,كتلة إحالة|cta,نداء المشاركة|social,كتلة متابعة|social,خلاصة فيديو|gallery,عدّادات اجتماعية|stats,أبرز المجتمع|ugc'],
+  ['قصّة العلامة', 'قصّة العلامة|story,من نحن|story,القيم|story,الرسالة|story,الرؤية|story,خط زمني|timeline,محطّات|timeline,كلمة المؤسّس|story,الفريق|people,العملية|timeline,فلسفة الجودة|story,وعد العلامة|story,ما وراء الكواليس|gallery,لماذا نحن|benefits,معرض القصّة|gallery'],
+  ['المنتج الرقمي', 'نوع الملف|facts,الصيغ|facts,معلومات التحميل|facts,معلومات الوصول|facts,التوافق|facts,متطلّبات البرنامج|facts,الأجهزة المدعومة|facts,معلومات الإصدار|facts,معلومات التحديث|facts,نوع الترخيص|facts,عدد الملفات|facts,معاينة الملف|filePreview,محتوى تجريبي|filePreview,دليل الاستخدام|answer,طريقة التسليم|facts'],
+  ['النماذج', 'النشرة البريدية|form,تواصل|form,جذب عميل|form,قائمة انتظار|form,تعليق|form,استفسار|form,طلب دعم|form,استبيان سريع|form,سؤال عن المنتج|form,تصويت|form,تنبيه إشعار|form,تنبيه إطلاق|form,جمع بريد|form,طلب معلومات|form,نموذج مخصّص|form'],
+  ['المعلومات', 'صندوق معلومة|notice,ملاحظة|notice,تحذير|notice,نصيحة|notice,رسالة نجاح|notice,قائمة تحقّق|benefits,خطوات|timeline,عملية|timeline,أسئلة شائعة|faq,خط زمني|timeline,إحصائيات|stats,مقاييس|stats,صندوق إبراز|notice,مقارنة|compare,حقائق أساسية|facts'],
+  ['التفاعلي', 'تبويبات|disclosure,أكورديون|disclosure,مفتاح تبديل|disclosure,بطاقات تفاعلية|card,بطاقات مقلوبة|card,بطاقات تمرير|card,بطاقات قابلة للتوسّع|disclosure,خط زمني تفاعلي|timeline,معرض بالتمرير|mediaFx,مُحدِّد منتج|helper,اختبار منتج|helper,مُحدِّد بصري|helper,منتقي خيارات|helper,رحلة موجّهة|helper,مقارنة تفاعلية|compare'],
+  ['الذكي', 'توصيات ذكية|smart,مساعد بحث|smart,استكشاف ذكي|smart,اقتراح تصنيفات|smart,ذات صلة ذكية|smart,أسئلة ذكية|smart,اقتراح محتوى|smart,عرض تجاري ذكي|smart,تخصيص|smart,كشف النيّة|smart,توصية الجلسة|smart,نداء سياقي|smart,محتوى ديناميكي|smart,كتلة رؤية|smart,مساعد شراء|smart'],
+];
+
+const LEVELS = [
+  ['٠', 'معطّل', '0', '0ms', '—', '0ms', '0', '1.00', '0°', 'لا', 'لا'],
+  ['١', 'دقيق', '4px', '200ms', 'ease-out', '20ms', '0', '1.005', '0°', 'لا', 'لا'],
+  ['٢', 'خفيف جدًا', '8px', '260ms', 'ease-out', '30ms', '0', '1.01', '0°', 'لا', 'لا'],
+  ['٣', 'خفيف', '12px', '320ms', 'smooth', '40ms', '0', '1.02', '0°', 'لا', 'لا'],
+  ['٤', 'معتدل', '18px', '400ms', 'smooth', '50ms', '2px', '1.03', '0.5°', 'لا', 'لا'],
+  ['٥', 'متوسط', '24px', '480ms', 'smooth', '60ms', '4px', '1.04', '1°', 'طفيف', 'اختياري'],
+  ['٦', 'قوي', '34px', '560ms', 'soft-spring', '80ms', '6px', '1.06', '2°', 'نعم', 'اختياري'],
+  ['٧', 'قوي جدًا', '46px', '640ms', 'soft-spring', '100ms', '8px', '1.08', '3°', 'نعم', 'نعم'],
+  ['٨', 'أقصى', '62px', '760ms', 'spring', '120ms', '12px', '1.12', '5°', 'قوي', 'نعم'],
+  ['٩', 'عنيف', '84px', '880ms', 'spring', '150ms', '16px', '1.18', '8°', 'قوي', 'نعم'],
+  ['١٠', 'سينمائي', '110px', '1200ms', 'مخصّص', '200ms', '24px', '1.25', '12°', 'أقصى', 'نعم'],
+];
+
+class Component extends DCLogic {
+  state = { tab: 'audit', fam: 0, lv: 5 };
+
+  renderVals() {
+    const t = this.state.tab;
+    const famRaw = FAMS[this.state.fam];
+    const items = famRaw[1].split(',').map((s) => s.split('|'));
+    const byComp = {};
+    items.forEach((it) => { (byComp[it[1]] = byComp[it[1]] || []).push(it[0]); });
+    const groups = Object.keys(byComp).map((cid) => {
+      const c = COMPS[cid] || ['—', 'no'], ch = chip(c[1]);
+      const n = byComp[cid].length;
+      return {
+        comp: c[0], id: cid, st: c[1] === 'ok' ? 'موجود' : c[1] === 'part' ? 'جزئي' : 'ناقص',
+        sBg: ch.bg, sFg: ch.fg, n: String(n), items: byComp[cid],
+        edge: n >= 5 ? G : n >= 3 ? A : '#dcdcde',
+        how: n === 1 ? 'اختيار واحد — مكوّن مستقل فعلًا، لا دمج ممكن.' : 'الاختيارات الـ' + n + ' أعلاه تهيئات لمكوّن واحد: نفس الاستعلام ونفس البطاقة ونفس حالة الفراغ، ويتغيّر التخطيط والمصدر فقط. كل واحدة تبقى مدخلًا مستقلًا في متصفّح العناصر بأيقونتها ومعاينتها.',
+      };
+    }).sort((a, b) => Number(b.n) - Number(a.n));
+
+    const lv = LEVELS[this.state.lv];
+    const keys = ['المسافة', 'المدّة', 'المنحنى', 'التتالي', 'الضباب', 'التكبير', 'الدوران', 'التجاوز', 'التكرار'];
+
+    return {
+      tabs: [['audit', 'الجرد الحقيقي'], ['math', 'حساب الـ٣٠٠'], ['motion', 'سلّم الحركة'], ['hero', 'الثلاثون هيرو'], ['decide', 'القرارات والترتيب']].map((x) => {
+        const on = t === x[0];
+        return { label: x[1], on, onClick: () => this.setState({ tab: x[0] }), edge: on ? '#1a1a1a' : '#dcdcde', bg: on ? '#1a1a1a' : '#fff', fg: on ? '#fff' : 'rgba(0,0,0,.6)' };
+      }),
+      show: { audit: t === 'audit' ? 'flex' : 'none', math: t === 'math' ? 'flex' : 'none', motion: t === 'motion' ? 'flex' : 'none', hero: t === 'hero' ? 'flex' : 'none', decide: t === 'decide' ? 'flex' : 'none' },
+
+      systems: [
+        ['نظام الهيرو', '[data-t-hero]', '75', 'خاصية في بلوك واحد', 'بلوك Gutenberg حقيقي: apiVersion 3، multiple و reusable مفعّلان، خاصية variant افتراضها bento، مصفوفة cards قابلة للتكرار، وإخفاء منفصل لكل مقاس. هذا عقد مكوّنات ناضج لا نقطة بداية.', ['inc/hero/block.json', 'inc/hero/render.php', 'assets/hero-editor.js', 'assets/hero.js']],
+        ['أقسام المتجر', '[data-tsec]', '7×2', 'بلوك × تصميم = ١٤', 'مكتوب صراحة في رأس الملف: «٧ بلوكات × ٢ تصاميم». مخطّط خصائص مشترك عبر tsec_shared_attrs، وعزل كل نسخة بمعرّف فريد ومتغيّرات inline، وتحميل الأصول مرّة واحدة.', ['inc/sections/sections-loader.php', 'render/ — 7 ملفات', 'assets/sections.js']],
+        ['حركة التجارة', '[data-tm]', '4×3', 'بلوك × تصميم = ١٢', 'نفس النمط: «٤ بلوكات × ٣ تصاميم». يحمل مفردات الحركة الحقيقية: ١٠ منحنيات، تحقّق نمطي من cubic-bezier المخصّص، وقارئ آمن لبيانات ووكومرس.', ['inc/motion/motion-loader.php', 'render/ — 4 ملفات', 'assets/motion.js']],
+      ].map((s) => ({ label: s[0], scope: s[1], n: s[2], nLabel: s[3], note: s[4], files: s[5] })),
+
+      capRows: [
+        ['عقد مكوّنات مشترك', 'موجود', 'ok', 'tsec_shared_attrs + 75 خاصية في block.json + شكل رمز موثّق بـ١٧ مفتاحًا'],
+        ['رموز تصميم عامة', 'موجود', 'ok', 'registry.php — ٨٩٢ سطرًا، مصدر حقيقة واحد يُولّد الضوابط والـCSS والمعاينة والتصدير'],
+        ['استجابة لكل مقاس', 'جزئي', 'part', 'مفتاح responsive يسجّل _tablet و _mobile تلقائيًا — لكن مقاسان فقط (١٠٢٤ · ٧٦٧) والطلب يريد ستة'],
+        ['معاينة حيّة', 'موجود', 'ok', 'transport: postMessage افتراضيًا لكل رمز CSS، و refresh عند الحاجة'],
+        ['وضع متقدّم', 'موجود', 'ok', 'مفتاح advanced في شكل الرمز — «يُعرض في الوضع المتقدّم فقط»'],
+        ['ضوابط شرطية', 'موجود', 'ok', 'مفتاح requires — عرض شرطي وCSS شرطي معًا'],
+        ['قوالب جاهزة', 'موجود', 'ok', 'design-system/presets.php + خاصية preset على كل بلوك'],
+        ['تدرّج عام ← محلي', 'موجود', 'ok', 'رموز :root ثم متغيّرات inline لكل نسخة، مع مفتاح important لتجاوز الـinline'],
+        ['بلا انحدار بصري', 'موجود', 'ok', 'قاعدة معلنة: الافتراضي يساوي القيمة المثبّتة حاليًا، ولا يُصدَر إلا ما اختلف عنها'],
+        ['منحنيات وسرعات', 'موجود', 'ok', '١٠ منحنيات + ٥ سرعات مسمّاة + cubic-bezier مخصّص مُتحقَّق منه'],
+        ['سلّم شدّة ٠–١٠', 'ناقص', 'no', 'الموجود motionPreset نصّي + parallax و floating منطقيان — لا مقبض واحد يحرّك كل الرموز'],
+        ['خطّ زمني للحركة', 'ناقص', 'no', 'لا مراحل ولا تتالٍ ولا علاقة أب/ابن زمنية'],
+        ['مُركِّب عناصر الهيرو', 'جزئي', 'part', 'مصفوفة cards موجودة كمُكرِّر — لكن لا سحب ولا تعشيش ولا موضع حر'],
+        ['متصفّح عناصر بصري', 'ناقص', 'no', 'لا مكتبة عناصر بمعاينة حيّة ولا بحث ولا مفضّلة ولا مستخدم حديثًا'],
+        ['تراجع/إعادة وتاريخ', 'جزئي', 'part', 'محرّر التخطيط في الكونسول يملك تراجعًا بثلاثين خطوة — البلوكات تعتمد تراجع Gutenberg فقط'],
+      ].map((c) => {
+        const ch = chip(c[2]);
+        return { cap: c[0], st: c[1], ev: c[3], sBg: ch.bg, sFg: ch.fg, bg: c[2] === 'no' ? '#fffafa' : '#fff' };
+      }),
+
+      defects: [
+        ['تقييم يُكتب يدويًا في الهيرو', 'block.json — rating · ratingCount', 'الخاصيتان من نوع string يكتبهما المشرف بحرّية. الطلب يمنع تلفيق التقييمات صراحة، والقالب يملك القارئ الحقيقي جاهزًا: tsec_product() و tmo_product() يجلبان get_average_rating() و get_review_count() من ووكومرس.', 'اربط الحقلين بالمنتج المحدَّد عبر productId، واحصر الإدخال اليدوي بوضع يظهر فيه تنبيه صريح — أو أزله.'],
+        ['قارئ منتج مكرّر حرفيًا', 'tsec_product() · tmo_product()', 'الدالّتان تفعلان الشيء ذاته بفرق طفيف: إحداهما تُرجع medium_large والأخرى large وتضيف stock و add_url. أي إصلاح لمنطق السعر أو الخصم يجب أن يُكتب مرّتين — وهذا مصدر عيوب مؤجّلة مضمون.', 'دالّة واحدة مشتركة بمعامل للمقاس، تستدعيها المنظومتان. وهذا شرط قبل الـ٣٠٠ لا بعدها.'],
+        ['طقم أيقونات مكرّر', 'tsec_icon() · tmo_icon()', 'مسارات SVG متطابقة في الملفّين: السلّة والسهم والصح والصاعقة والدرع والشاحنة والتشغيل والزائد والناقص والنجمة. الطلب يمنع تكرار التعريفات في بند معمارية الـCSS.', 'سجل أيقونات واحد يقرأ منه النظامان — وهو أيضًا ما سيحتاجه متصفّح العناصر لعرض ٣٠٠ أيقونة.'],
+      ].map((d) => ({ label: d[0], where: d[1], what: d[2], fix: d[3] })),
+
+      mathCards: [
+        ['٣٠٠', 'اختيار معروض', 'مدخل في متصفّح العناصر: اسم وأيقونة ومعاينة وحمولة تهيئة', GBG, '#cfe6dc', G],
+        ['٤٥', 'مكوّنًا حقيقيًا', 'ملف واحد لكل مكوّن، بمخطّط خصائص واحد وحالة فراغ واحدة', '#fff', '#dcdcde', '#1a1a1a'],
+        ['١٢', 'موجود اليوم', 'من الـ٤٥ — كليًا أو جزئيًا داخل الأنظمة الثلاثة القائمة', ABG, '#f0dca0', '#7a5a00'],
+        ['٦.٧×', 'معامل التوفير', 'كل مكوّن يخدم ٦.٧ اختيارات وسطيًا — والصيانة تُكتب مرّة', '#fff', '#dcdcde', '#1a1a1a'],
+      ].map((m) => ({ n: m[0], label: m[1], note: m[2], bg: m[3], edge: m[4], fg: m[5] })),
+
+      famNav: FAMS.map((f, i) => {
+        const on = this.state.fam === i;
+        const cnt = new Set(f[1].split(',').map((s) => s.split('|')[1])).size;
+        return {
+          n: String(i + 1).padStart(2, '0'), label: f[0], current: on ? 'true' : 'false',
+          onClick: () => this.setState({ fam: i }),
+          edge: on ? G : 'transparent', bg: on ? '#f6faf8' : 'transparent',
+          fg: on ? '#123d2f' : 'rgba(0,0,0,.68)', weight: on ? 800 : 600,
+          c: String(cnt), cBg: on ? G : '#f2f2f4', cFg: on ? '#fff' : 'rgba(0,0,0,.45)',
+        };
+      }),
+      fam: { label: 'عائلة ' + String(this.state.fam + 1).padStart(2, '0') + ' — ' + famRaw[0], comps: String(groups.length), groups },
+
+      levels: LEVELS.map((l, i) => {
+        const on = this.state.lv === i;
+        const hot = i >= 8 ? R : i >= 6 ? A : G;
+        return { n: l[0], label: l[1], on, onClick: () => this.setState({ lv: i }), edge: on ? hot : '#dcdcde', bg: on ? (i >= 8 ? RBG : i >= 6 ? ABG : GBG) : '#fff', nFg: on ? hot : 'rgba(0,0,0,.5)', fg: on ? hot : 'rgba(0,0,0,.5)' };
+      }),
+      lvVals: keys.map((k, i) => ({ k, v: lv[i + 2] })),
+
+      policy: [
+        ['سطح المكتب', 'المستوى ٥', G], ['التابلت', 'المستوى ٣', G], ['الجوال', 'المستوى ٢', G], ['تقليل الحركة', 'المستوى ٠ — إلزامي', R],
+      ].map((p) => ({ k: p[0], v: p[1], fg: p[2] })),
+
+      costRows: [
+        ['منخفضة', 'حتى ٦ عناصر متحرّكة، بلا تكرار ولا ضباب ولا بارالاكس.', 'ok'],
+        ['متوسطة', 'حتى ١٢ عنصرًا، أو تكرار واحد، أو ضباب ≤ ٤px.', 'ok'],
+        ['مرتفعة', 'أكثر من ١٢ عنصرًا، أو تكرارَين، أو بارالاكس مع ضباب.', 'part'],
+        ['أقصى', 'ثلاثية أبعاد + جزيئات + تكرار لانهائي معًا. يُحذَّر ولا يُمنَع.', 'no'],
+      ].map((c) => { const ch = chip(c[2]); return { label: c[0], note: c[1], bg: ch.bg, fg: ch.fg }; }),
+
+      heroSkeletons: [
+        ['منقسم — محتوى ↔ وسيط', 'split', ['هيرو منتج منقسم', 'إبراز منتج', 'منتج غنيّ بالميزات', 'المنتج الرقمي', 'مقارنة', 'فيديو تجاري'], 'نفس الشبكة: عمود محتوى وعمود وسيط، وخاصية layoutReverse موجودة أصلًا. الفرق في نوع الوسيط ومصدر البيانات.'],
+        ['مركزي مُكدَّس', 'centered', ['كلاسيكي مركزي', 'ترويج موسمي', 'فخم بسيط', 'شاشة كاملة'], 'محتوى مركزي فوق خلفية. bgMode و overlayOpacity و glow و grain كلها موجودة في العقد الحالي.'],
+        ['شبكي / بينتو', 'grid', ['استكشاف التصنيفات', 'مجموعة ضخمة', 'بينتو تجاري', 'عرض عدّة منتجات', 'مستكشف السوق'], 'هذا هو variant الافتراضي اليوم — bento مع bentoPreset و mBentoCols ومصفوفة cards. جاهز تقريبًا.'],
+        ['كاروسيل', 'carousel', ['كاروسيل تجاري', 'معرض منتجات تفاعلي'], 'يحتاج زمن تشغيل كاروسيل واحدًا مشتركًا — وهو نفسه الذي ستحتاجه عائلات المنتجات والتصنيفات والوسائط.'],
+        ['البحث أولًا', 'search', ['البحث أولًا', 'تصفّح بالحاجة'], 'حقل البحث موجود فعلًا في inc/sections/render/search.php و ajax-search.php — يُستدعى لا يُعاد بناؤه.'],
+        ['تحريري', 'editorial', ['قصّة تحريرية', 'شهادات تجارية', 'تعليمي تجاري'], 'تخطيط نصّي بإيقاع طباعي مختلف. يحتاج رموز طباعة أوسع لا هيكلًا جديدًا.'],
+        ['حملة بعدّاد', 'campaign', ['تخفيض سريع', 'حملة بعدّاد'], 'يحتاج عدّادًا واحدًا مشتركًا يقرأ تواريخ ووكومرس الحقيقية — نفس العدّاد الذي تحتاجه عائلة العروض.'],
+        ['طبقي / بارالاكس', 'layered', ['بارالاكس طبقي'], 'الهيكل الوحيد الذي يحتاج طبقات زخرفية وعمقًا. parallax و floating موجودان كمنطقيَّين.'],
+        ['قائم على قائمة', 'listed', ['الأكثر مبيعًا', 'الوصول الجديد'], 'هذان ليسا هيكلين: كلاهما «منقسم» أو «شبكي» باستعلام مختلف وعنوان مختلف. أوضح مثال على أن الفرق في الهدف لا في التخطيط.'],
+        ['ثقة / تكيّفي', 'adaptive', ['مدفوع بالثقة', 'شخصي ديناميكي', 'تكيّفي ذكي'], 'فتحات محتوى تُملأ من مصدر بيانات. التكيّفي والشخصي يبقيان معطّلين حتى يوجد مصدر حقيقي — لا ذكاء مُلفَّق.'],
+      ].map((h, i) => ({ label: h[0], id: h[1], items: h[2], n: String(h[2].length), how: h[3], edge: h[2].length >= 5 ? G : h[2].length >= 3 ? A : '#dcdcde' })),
+
+      decisions: [
+        ['01', 'أين يسكن نظام العناصر: بلوكات Gutenberg أم باني مستقل؟', 'الهيرو مبنيّ كبلوك Gutenberg حقيقي، والأقسام والحركة نفس النمط. الطلب يصف باني صفحات بسحب وإفلات وتراجع ومكتبة عناصر — وهذا يقترب من إعادة بناء ما يفعله محرّر ووردبريس أصلًا. المسار الأول أسرع وأكثر توافقًا؛ الثاني يعطي تحكّمًا كاملًا بثمن صيانة دائم.',
+          [['البناء على البلوكات — موصى به', G], ['باني مستقل', '#dcdcde']], 'ابقَ على البلوكات وأضِف مكتبة عناصر وقوالب فوقها. الفرق للمستخدم شكلي، وللصيانة جوهري.'],
+        ['02', 'المقاسات: ثلاثة أم ستّة؟', 'الطلب يريد ستّة (مكتب · لابتوب · تابلت أفقي · تابلت رأسي · جوال كبير · جوال صغير). القالب يملك ثلاثة. كل مقاس جديد يضاعف عدد الرموز المسجّلة وحقول قاعدة البيانات وسطح الاختبار — والمكسب الحقيقي في مقاسين منهما فقط.',
+          [['ثلاثة + تجاوز نقطي — موصى به', G], ['ستّة كاملة', '#dcdcde']], 'أبقِ الثلاثة، وأضِف تجاوزًا نقطيًا لخصائص التخطيط الحرجة وحدها عند ١٤٤٠ و ٣٩٠.'],
+        ['03', 'الحركة العنيفة: هل تُتاح أصلًا؟', 'المستويات ٨ و٩ و١٠ تعني إزاحات تفوق ٦٠px وضبابًا وتجاوزًا. على متجر تعليمي يُشترى فيه ملف بسرعة، هذه المستويات تُبطئ القرار ولا تُسرّعه. الطلب يسمح بها بشرط ألّا تكون افتراضية.',
+          [['تُتاح بتحذير في المحرّر — موصى به', A], ['تُتاح بلا تحذير', '#dcdcde'], ['تُحجَب فوق ٧', '#dcdcde']], 'أتِحها مع مؤشّر كلفة ظاهر عند تجاوز ٧، ولا تدخل أي قالب جاهز.'],
+        ['04', 'العناصر الذكية: تُبنى الآن أم تُترك فتحات؟', 'عائلة الذكاء كلها (١٥ اختيارًا) تحتاج مصدرًا حقيقيًا غير موجود. الطلب صريح: لا ذكاء مُلفَّق، وإذا غاب الـAPI تُعطَّل السلوكيات مع بقاء المعمارية جاهزة.',
+          [['فتحة واحدة معطّلة — موصى به', G], ['١٥ عنصرًا معطّلًا', '#dcdcde']], 'مكوّن واحد smart بمُهيّئ مصدر، يظهر في المتصفّح مرّة واحدة موسومًا «يتطلّب مصدر بيانات». خمسة عشر مدخلًا معطّلًا ضجيج.'],
+        ['05', 'ما الذي يُقاس نجاحًا؟', 'الطلب يعدّ المهمّة مكتملة عندما «تعمل المكوّنات والضوابط وتُحفظ الإعدادات ولا يوجد انحدار». هذا يحتاج شبكة اختبار — والقالب لا يملك أي تغطية اختبار اليوم. بلا ذلك، الـ٣٠٠ عنصر لا يمكن إثبات سلامتها.',
+          [['اختبارات على الأساس أولًا — موصى به', G], ['اختبارات يدوية', '#dcdcde']], 'اختبارات على سجل الرموز وتوليد الـCSS وحفظ الخصائص قبل العنصر الأول. ثلاثة ملفات تحمي ٣٠٠.'],
+      ].map((d) => ({ n: d[0], q: d[1], why: d[2], opts: d[3].map((o) => ({ label: o[0], edge: o[1] === G ? '#cfe6dc' : o[1] === A ? '#f0dca0' : '#e4e4e7', fg: o[1] === '#dcdcde' ? 'rgba(0,0,0,.6)' : o[1] })), rec: d[4], edge: '#ececef', bg: '#fcfcfd' })),
+
+      order: [
+        ['01', 'إزالة التكرار', 'قارئ منتج واحد · سجل أيقونات واحد · إصلاح التقييم اليدوي', 'أساس', 'ok'],
+        ['02', 'سلّم الحركة ٠–١٠', 'جدول واحد يشتقّ منه كل رمز قيمته، فوق المنحنيات والسرعات الموجودة', 'أساس', 'ok'],
+        ['03', 'سجل المكوّنات', 'المعرّف والتسمية والعائلة والأيقونة والمعاينة والمخطّط والأصول والإصدار', 'أساس', 'ok'],
+        ['04', 'الاختبارات', 'سجل الرموز · توليد CSS · حفظ الخصائص · بلا انحدار بصري', 'أساس', 'ok'],
+        ['05', 'أعلى ١٢ مكوّنًا', 'المجموعة المُستعلَمة · البطاقة · الكشف · الحقائق · النموذج · العدّاد وما يليها', 'قيمة', 'part'],
+        ['06', 'متصفّح العناصر', 'المكتبة والمعاينة والبحث والمفضّلة — عندها تظهر الـ٣٠٠ اختيارًا', 'قيمة', 'part'],
+      ].map((o) => { const c = chip(o[4]); return { n: o[0], label: o[1], note: o[2], tag: o[3], bg: c.bg, fg: c.fg }; }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

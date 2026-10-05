@@ -1,0 +1,449 @@
+/*
+UNIT: COMMAND-PALETTE
+COMPONENT: command-palette.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * «مركز الاختصارات» — القيم الحرفية من Tahdheer - Unified Console.dc.html.
+ * المتغيّرات المحلية أدناه مُلحقة أيضًا بـ .design-sync/.cache/tokens/dashboard.css
+ * (عرف الوحدات في اللوحة: seo.module.css يفعل الشيء نفسه).
+ * ارتفاعات التفاعل 44px لا 30/34px التصميمية — حد اللمس المُلزم في اللوحة.
+ */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  /*
+   * البطاقة البيضاء كاملة العرض أُلغيت.
+   *
+   * كانت صفًّا مستقلًّا بارتفاع ٦٨px لا يحمل إلا زرًّا واحدًا — أي أنّ ١٢٪ من
+   * ارتفاع شاشة 1080 كان يخدم زرًّا. المشغّل الآن داخل الرأس الموحّد، فالحدود
+   * والحشو والهامش زالت معه؛ ولولا إزالتها لبقي الرأس ٨١px بدل ٥٦ (قِسته).
+   */
+}
+
+.opener {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 11px;
+  border: 1px solid var(--console-edge);
+  border-radius: 8px;
+  background: var(--console-surface-dim);
+  cursor: pointer;
+  margin-inline-start: auto;
+  font: inherit;
+}
+
+.openerLabel {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--console-label);
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding-block: 2px;
+  padding-inline: 6px;
+  border-radius: 4px;
+  background: var(--console-kbd-bg);
+  color: var(--console-dim);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--console-overlay);
+  display: grid;
+  place-items: start center;
+  padding-block: 64px 22px;
+  padding-inline: 22px;
+}
+
+.panel {
+  inline-size: 100%;
+  max-inline-size: 540px;
+  border-radius: 14px;
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--console-shadow);
+  animation: paletteIn 0.18s ease both;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-block: 12px;
+  padding-inline: 14px;
+  border-block-end: 1px solid var(--console-edge-soft);
+}
+
+.searchIcon {
+  inline-size: 15px;
+  block-size: 15px;
+  fill: none;
+  stroke: var(--console-icon);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  flex: none;
+}
+
+.input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 44px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--console-text);
+}
+
+.close {
+  inline-size: 44px;
+  block-size: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--console-edge);
+  border-radius: 7px;
+  background: var(--surface);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--console-dim);
+}
+
+.list {
+  max-block-size: 52vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-block: 9px;
+  padding-inline: 9px;
+}
+
+.group {
+  margin-block-end: 9px;
+}
+
+.groupLabel {
+  display: block;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--console-faint);
+  padding-block: 5px;
+  padding-inline: 8px;
+}
+
+.groupItems {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 9px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+  font: inherit;
+}
+
+.option[aria-selected='true'] {
+  background: var(--console-active-bg);
+}
+
+.dot {
+  flex: none;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--console-dot);
+}
+
+.dotCurrent {
+  background: var(--primary);
+}
+
+.optionLabel {
+  flex: 1;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--console-text);
+  text-align: start;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--console-hint);
+}
+
+.empty {
+  margin-block: 0;
+  padding-block: 14px;
+  padding-inline: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@keyframes paletteIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    /* كشفٌ صريح لا تعطيل فحسب: الحالة النهائية للحركة هي حالة السكون. */
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ═══ طبقة مركز القيادة — المُشغّل حقلُ بحثٍ في الرأس، واللوح زجاجيّ ═══ */
+
+.bar,
+.overlay,
+.panel {
+  --console-edge: var(--adm-field-line, var(--cc-edge));
+  --console-edge-soft: var(--cc-hair);
+  --console-surface-dim: var(--cc-well);
+  --console-kbd-bg: var(--cc-kbd);
+  --console-text: var(--cc-text);
+  --console-label: var(--cc-muted);
+  --console-dim: var(--cc-muted);
+  --console-faint: var(--cc-muted);
+  --console-hint: var(--cc-muted);
+  --console-icon: var(--cc-muted);
+  --console-dot: var(--cc-edge);
+  --console-active-bg: color-mix(in srgb, var(--cc-primary) 12%, transparent);
+  --console-overlay: var(--cc-overlay);
+  --console-shadow: var(--e-4);
+}
+
+/*
+ * المُشغّل حقلُ بحثٍ لا زرّ.
+ *
+ * الشكل وعدٌ: صندوقٌ عريض بعدسةٍ يقول «اكتب هنا»، وزرٌّ صغير يقول «افتح
+ * شيئًا». والقائمة تفهرس المنتجات والطلبات والعملاء إلى جانب الوجهات، وهو
+ * ما لا يخطر لمن رأى زرًّا.
+ */
+.opener {
+  min-block-size: var(--d-tool, 36px);
+  inline-size: 260px;
+  max-inline-size: 30vw;
+  gap: 8px;
+  padding-inline: 10px;
+  border-radius: 10px;
+  margin-inline-start: 0;
+  justify-content: flex-start;
+  color: var(--cc-muted);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.opener:hover {
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+  background: color-mix(in srgb, var(--cc-primary) 10%, transparent);
+}
+
+.opener .searchIcon {
+  stroke: currentColor;
+}
+
+.openerLabel {
+  font-size: 12px;
+  font-weight: 600;
+  flex: 1;
+  text-align: start;
+  color: var(--cc-muted);
+}
+
+.kbd {
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid var(--cc-edge);
+  border-radius: 5px;
+  color: var(--cc-muted);
+}
+
+/* ───── اللوح ───── */
+.panel {
+  max-inline-size: 580px;
+  background: var(--cc-tip);
+  border: 1px solid var(--cc-edge);
+  border-radius: 16px;
+  backdrop-filter: blur(calc(18px * var(--fx-k, 1))) saturate(140%);
+}
+
+.head {
+  padding-block: 10px;
+  padding-inline: 14px;
+  gap: 10px;
+}
+
+.input {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.input::placeholder {
+  color: var(--cc-muted);
+  font-weight: 500;
+}
+
+.close {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 9px;
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  font-size: 16px;
+}
+
+.close:hover {
+  background: color-mix(in srgb, var(--cc-red) 16%, transparent);
+  color: var(--cc-danger);
+}
+
+.groupLabel {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--cc-muted);
+}
+
+.option {
+  position: relative;
+  min-block-size: 38px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+}
+
+/*
+ * الخيار النشط: خلفيّةٌ **و**حدٌّ **و**شريطٌ جانبيّ.
+ *
+ * اللوحة تُساق بالأسهم، فموضع «أين أنا» هو كلّ ما يُمكّن من الضغط على Enter
+ * بثقة. وخلفيّةٌ باهتة وحدها تضيع فوق سطحٍ زجاجيّ مموّه.
+ */
+.option[aria-selected='true'] {
+  background: var(--console-active-bg);
+  border-color: color-mix(in srgb, var(--cc-primary) 32%, transparent);
+}
+
+.option[aria-selected='true']::before {
+  content: '';
+  position: absolute;
+  inset-block: 8px;
+  inset-inline-start: 0;
+  inline-size: 3px;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--cc-primary);
+}
+
+.optionLabel {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--cc-text);
+}
+
+.option[aria-selected='true'] .optionLabel {
+  color: var(--cc-text);
+}
+
+.dot {
+  background: var(--cc-edge-strong);
+}
+
+.dotCurrent {
+  background: var(--cc-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cc-primary) 22%, transparent);
+}
+
+.hint {
+  font-size: 10px;
+  color: var(--cc-muted);
+}
+
+/* ───── ذيل مفاتيح ───── */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-block: 8px;
+  padding-inline: 14px;
+  border-block-start: 1px solid var(--cc-hair);
+  background: var(--cc-well);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--cc-muted);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opener {
+    transition: none;
+  }
+}
+
+/*
+ * تحت 900px: المُشغّل أيقونةٌ بعرض هدف اللمس — لا حقلٌ يزاحم عنوان الصفحة.
+ *
+ * والنصّ يُخفى هنا، فالزرّ يحمل `aria-label` بالتسمية نفسها في الترميز: زرٌّ
+ * محتواه أيقونةٌ `aria-hidden` بلا تسمية يُقرأ «زرّ» فحسب.
+ */
+@media (max-width: 900px) {
+  .opener {
+    inline-size: auto;
+    justify-content: center;
+    padding-inline: 8px;
+  }
+
+  .openerLabel,
+  .opener .kbd {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .option {
+    min-block-size: 44px;
+  }
+
+  .close {
+    inline-size: 44px;
+    block-size: 44px;
+  }
+}

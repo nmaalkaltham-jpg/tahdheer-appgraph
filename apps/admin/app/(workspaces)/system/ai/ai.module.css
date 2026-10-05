@@ -1,0 +1,254 @@
+/*
+UNIT: AI
+COMPONENT: page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * مركز تحكّم الذكاء.
+ *
+ * خصائص منطقيّة فقط (قاعدة RTL). والحالة تُقرأ من `data-bad` لا من صنفٍ ثانٍ:
+ * قيمةٌ واحدة تُلوّن وتُوصَف فلا يفترقان.
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4, 16px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--sp-3, 12px);
+  align-items: start;
+}
+
+.grid > :global([data-span='2']) {
+  grid-column: 1 / -1;
+}
+
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+  margin: 0;
+  padding: var(--sp-2, 8px) var(--sp-3, 12px);
+  border: 1px solid var(--state-danger);
+  border-radius: var(--radius-card, 12px);
+  background: var(--state-danger-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.note > button {
+  margin-inline-start: auto;
+}
+
+/* ───── صفوف الحال ───── */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+  min-block-size: 44px;
+  padding-inline: var(--sp-2, 8px);
+  border-radius: 10px;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  font-size: 13px;
+}
+
+.rowText em {
+  font-style: normal;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.rowValue {
+  margin-inline-start: auto;
+  flex: none;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.row[data-bad='true'] .rowValue {
+  color: var(--state-danger);
+}
+
+.alertIcon {
+  flex: none;
+  color: var(--state-danger);
+}
+
+.calmIcon {
+  flex: none;
+  color: var(--state-success, var(--green-700));
+}
+
+/* ───── الرايات ───── */
+
+.flags {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flags li {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2, 8px);
+  min-block-size: 36px;
+  padding-inline: var(--sp-2, 8px);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.flags li[data-on='true'] {
+  color: var(--body);
+}
+
+.flags li em {
+  margin-inline-start: auto;
+  font-style: normal;
+  font-size: 11.5px;
+}
+
+.hint {
+  margin: var(--sp-2, 8px) 0 0;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-inline-size: 70ch;
+}
+
+/* ───── الأفعال ───── */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2, 8px);
+}
+
+.actions > p {
+  flex: 1 1 100%;
+}
+
+/* ───── الاقتراحات ───── */
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3, 12px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestions > li {
+  padding: var(--sp-3, 12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card, 12px);
+  background: var(--bg-soft);
+}
+
+.sugHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2, 8px) var(--sp-3, 12px);
+  font-size: 13px;
+}
+
+/* رابطٌ بلا صنف كان يأخذ لون المتصفّح الافتراضيّ للمخطّط الداكن (‎#9e9eff‎، 4.2:1). */
+.sugHead a {
+  color: var(--cc-link);
+}
+
+.sugField {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--primary-soft, var(--bg-green-light));
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.sugConf,
+.sugMeta {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.sugMeta {
+  margin-inline-start: auto;
+}
+
+/*
+ * القيمة تُعرض كما هي: المشرف يعتمد ما يراه حرفيًّا، وتنسيقٌ يُجمّلها قد
+ * يُخفي حقلًا. و`dir="auto"` لأنّ المفاتيح لاتينيّة والقيم عربيّة.
+ */
+.sugValue {
+  margin: var(--sp-2, 8px) 0;
+  padding: var(--sp-2, 8px);
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-block-size: 16rem;
+  overflow: auto;
+}
+
+.sugActions {
+  display: flex;
+  gap: var(--sp-2, 8px);
+}
+
+/* ───── الجدول ───── */
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.table th,
+.table td {
+  padding: var(--sp-2, 8px);
+  text-align: start;
+  border-block-end: 1px solid var(--border);
+}
+
+.table th {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.reason {
+  max-inline-size: 40ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

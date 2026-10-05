@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:{{ pageW }};background:#fff;color:#223129;box-sizing:border-box">
+
+<dc-import name="TahHeader" hint-size="100%,132px"></dc-import>
+
+<div style="padding:{{ pad }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:14px">
+<sc-for list="{{ scenarios }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.pressed }}" style="display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border:1px solid {{ s.border }};border-radius:8px;background:{{ s.bg }};color:{{ s.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ s.label }}</button>
+</sc-for>
+</div>
+
+<form role="search" style="margin-bottom:14px">
+<label for="tah-q" style="display:block;font-size:12px;font-weight:800;color:#5f7167;margin-bottom:7px">ابحث في المتجر</label>
+<div style="display:flex;align-items:center;gap:8px;border:1.5px solid #d3d8cf;border-radius:13px;background:#fff;padding:0 6px;padding-inline-start:15px;min-height:{{ fieldH }}">
+<svg aria-hidden="true" style="flex:0 0 auto;width:19px;height:19px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg>
+<input id="tah-q" type="search" dir="auto" value="{{ query }}" onChange="{{ onQuery }}" placeholder="مثال: تحضير رياضيات رابع" style="flex:1;min-width:0;border:0;outline:none;background:none;font:700 {{ fieldFs }} Tajawal,sans-serif;color:#14261d">
+<button type="submit" style="flex:0 0 auto;min-height:{{ btnH }};padding:0 20px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:13px;font-weight:900;cursor:pointer">بحث</button>
+</div>
+</form>
+
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:14px">
+<h1 dir="rtl" style="margin:0;flex:1;min-width:180px;font-size:{{ h1 }};font-weight:900;color:#14261d;line-height:1.35;text-align:start">{{ heading }}</h1>
+<span style="font-size:11.5px;color:#5f7167;white-space:nowrap">{{ timing }}</span>
+</div>
+
+<div role="status" aria-live="polite" style="display:{{ correction.display }};margin-bottom:14px;padding:12px 14px;border-radius:12px;background:rgba(216,181,106,.1);border:1px solid rgba(216,181,106,.4)">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<span dir="rtl" style="flex:1;min-width:200px;font-size:12px;line-height:1.8;color:#3b4d43;text-align:start">{{ correction.text }}</span>
+<button type="button" onClick="{{ correction.onClick }}" style="min-height:34px;padding:0 13px;border:1px solid rgba(216,181,106,.5);border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:900;color:#7a5d20;cursor:pointer;white-space:nowrap">{{ correction.action }}</button>
+</div>
+</div>
+
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 13px;border:1px solid #e6e9e2;border-radius:12px;background:#fbfcfa;margin-bottom:12px">
+<span style="font-size:10.5px;font-weight:900;color:#5f7167;white-space:nowrap">النوع</span>
+<div style="display:flex;flex-wrap:wrap;gap:3px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ types }}" as="ty" hint-placeholder-count="4">
+<button type="button" onClick="{{ ty.onClick }}" aria-pressed="{{ ty.pressed }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:0;border-radius:7px;background:{{ ty.bg }};color:{{ ty.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ ty.shadow }};white-space:nowrap">{{ ty.label }}<span dir="ltr" style="font-family:ui-monospace,Menlo,monospace;font-size:9.5px;opacity:.75">{{ ty.count }}</span></button>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ sorts }}" as="so" hint-placeholder-count="2">
+<button type="button" onClick="{{ so.onClick }}" aria-pressed="{{ so.pressed }}" style="min-height:32px;padding:0 11px;border:0;border-radius:7px;background:{{ so.bg }};color:{{ so.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ so.shadow }};white-space:nowrap">{{ so.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<ul style="display:grid;grid-template-columns:{{ cardCols }};gap:12px;list-style:none;margin:0 0 16px;padding:0">
+<sc-for list="{{ products }}" as="p" hint-placeholder-count="6">
+<li><dc-import name="TahProductCard" p="{{ p }}" hint-size="100%,360px"></dc-import></li>
+</sc-for>
+</ul>
+
+<section style="display:{{ othersDisplay }};padding:15px 17px;border:1px solid #e6e9e2;border-radius:14px;background:#fbfcfa;margin-bottom:14px">
+<h2 style="margin:0 0 4px;font-size:13.5px;font-weight:900;color:#14261d;text-align:start">نتائج غير منتجات</h2>
+<p style="margin:0 0 11px;font-size:11.5px;line-height:1.75;color:#5f7167;text-align:start">مقالات وصفحات تطابق بحثك — مفصولة عن المنتجات كي لا تزحمها.</p>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ others }}" as="o" hint-placeholder-count="3">
+<a href="#" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px 12px;border:1px solid #eef1ec;border-radius:10px;background:#fff">
+<span aria-hidden="true" style="flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:#f2f5f2;color:#5f7167;display:grid;place-items:center"><svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ o.icon }}"></use></svg></span>
+<span style="flex:1;min-width:140px">
+<b dir="auto" style="display:block;font-size:12.5px;font-weight:800;color:#14261d;line-height:1.5;text-align:start">{{ o.title }}</b>
+<span dir="rtl" style="display:block;margin-top:2px;font-size:10.5px;color:#5f7167;text-align:start">{{ o.excerpt }}</span>
+</span>
+<span style="flex:0 0 auto;box-sizing:border-box;padding:3px 9px;border-radius:6px;background:#f2f5f2;font-size:9.5px;font-weight:800;color:#5f7167;white-space:nowrap">{{ o.kind }}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+</sc-if>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<section style="padding:{{ emptyPad }};border:1px dashed #d3d8cf;border-radius:16px;background:#fbfcfa">
+<div style="text-align:center;margin-bottom:18px">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:46px;height:46px;border-radius:13px;background:#f2f5f2;color:#5f7167;margin-bottom:12px"><svg style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg></span>
+<h2 style="margin:0 0 8px;font-size:{{ emptyH }};font-weight:900;color:#14261d">لا نتائج لـ «{{ query }}»</h2>
+<p style="margin:0 auto;max-width:52ch;font-size:12.5px;line-height:1.85;color:#5f7167">لم نجد ملفًا بهذه الكلمات. هذا لا يعني أن ما تبحث عنه غير موجود — قد يكون باسم مختلف. جرّب واحدة من هذه المسارات.</p>
+</div>
+<div style="display:grid;grid-template-columns:{{ recoverCols }};gap:9px;margin-bottom:16px">
+<sc-for list="{{ recovery }}" as="rc" hint-placeholder-count="3">
+<a href="#" style="display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid #e6e9e2;border-radius:12px;background:#fff">
+<span aria-hidden="true" style="width:32px;height:32px;border-radius:9px;background:rgba(37,155,111,.10);color:#1e7355;display:grid;place-items:center"><svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ rc.icon }}"></use></svg></span>
+<b style="font-size:12.5px;font-weight:900;color:#14261d;text-align:start">{{ rc.title }}</b>
+<span style="font-size:11px;line-height:1.7;color:#5f7167;text-align:start">{{ rc.body }}</span>
+</a>
+</sc-for>
+</div>
+<div style="padding-top:14px;border-top:1px solid #eef1ec">
+<span style="display:block;font-size:11px;font-weight:900;color:#5f7167;margin-bottom:8px;text-align:start">أو ابحث بهذه الكلمات — وهي الأكثر بحثًا فعلًا في المتجر</span>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ suggestions }}" as="sg" hint-placeholder-count="5">
+<button type="button" onClick="{{ sg.onClick }}" style="display:inline-flex;align-items:center;min-height:{{ tapSm }};padding:0 13px;border:1px solid #d3d8cf;border-radius:999px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#14261d;cursor:pointer;white-space:nowrap">{{ sg.label }}</button>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:1000},&quot;mobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { scenario: 'results', query: 'تحضير رياضيات رابع', type: 'all', sort: 'relevance', corrected: false };
+
+  renderVals() {
+    const mobile = !!this.props.mobile;
+    const pick = (m, d) => (mobile ? m : d);
+    const st = this.state;
+
+    const scenDefs = [
+      ['results', 'نتائج موجودة'],
+      ['typo', 'خطأ إملائي'],
+      ['empty', 'لا نتائج']
+    ];
+
+    const isEmpty = st.scenario === 'empty';
+    const isTypo = st.scenario === 'typo' && !st.corrected;
+
+    /*
+     * Arabic search fails on orthography far more than on vocabulary: همزة,
+     * ألف مقصورة, تاء مربوطة. The correction offers the normalised form and keeps
+     * the shopper's own words visible — it never silently replaces the query.
+     */
+    const queryFor = {
+      results: 'تحضير رياضيات رابع',
+      typo: 'تحظير رياضيات رابع',
+      empty: 'ملفات الفلك للصف الثاني'
+    };
+    const query = st.scenario === 'typo' && st.corrected ? 'تحضير رياضيات رابع' : queryFor[st.scenario];
+
+    const typeDefs = [['all', 'الكل', 42], ['ppt', 'عروض', 18], ['pdf', 'ملفات PDF', 14], ['doc', 'Word', 10]];
+    const sortDefs = [['relevance', 'الأكثر مطابقة'], ['best', 'الأكثر مبيعًا']];
+
+    const prodDefs = [
+      ['تحضير مادة الرياضيات — الصف الرابع، الفصل الأول', 'المرحلة الابتدائية · الرياضيات', 'PowerPoint', '4.9', '128', '45.00', '', 'الأكثر مطابقة', '#14261d', '#fff'],
+      ['أوراق عمل الرياضيات — الصف الرابع', 'المرحلة الابتدائية · الرياضيات', 'PDF', '4.8', '86', '28.00', '', '', '', ''],
+      ['حزمة تحاضير الرياضيات — الفصلان', 'المرحلة الابتدائية · الرياضيات', 'Word', '4.9', '204', '95.00', '120.00', 'خصم 21%', '#d8b56a', '#14261d'],
+      ['اختبارات الرياضيات المحلولة — رابع', 'المرحلة الابتدائية · الرياضيات', 'PDF', '4.7', '64', '32.00', '', '', '', ''],
+      ['وسائل تعليمية للرياضيات — الكسور', 'وسائل تعليمية · الرياضيات', 'PDF', '4.9', '117', '38.00', '', '', '', ''],
+      ['تحضير الرياضيات — الصف الخامس', 'المرحلة الابتدائية · الرياضيات', 'PowerPoint', '4.8', '95', '45.00', '', '', '', '']
+    ];
+
+    return {
+      pageW: pick('390px', '1180px'),
+      pad: pick('16px 16px 28px', '20px 26px 34px'),
+      fieldH: pick('52px', '54px'),
+      fieldFs: pick('14px', '15px'),
+      btnH: pick('42px', '42px'),
+      h1: pick('19px', '23px'),
+      emptyH: pick('18px', '21px'),
+      emptyPad: pick('22px 16px', '30px 26px'),
+      cardCols: pick('1fr 1fr', 'repeat(3,minmax(0,1fr))'),
+      recoverCols: pick('1fr', 'repeat(3,minmax(0,1fr))'),
+      tapSm: pick('44px', '36px'),
+
+      scenarios: scenDefs.map(s => ({
+        label: s[1],
+        pressed: st.scenario === s[0] ? 'true' : 'false',
+        border: st.scenario === s[0] ? '#1e7355' : '#dde3dc',
+        bg: st.scenario === s[0] ? 'rgba(37,155,111,.07)' : '#fbfcfa',
+        fg: st.scenario === s[0] ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ scenario: s[0], corrected: false })
+      })),
+
+      query,
+      onQuery: e => this.setState({ query: e.target.value }),
+
+      heading: isEmpty
+        ? 'لا نتائج'
+        : (st.scenario === 'typo' && st.corrected
+            ? '42 نتيجة لـ «تحضير رياضيات رابع»'
+            : isTypo ? '3 نتائج ضعيفة المطابقة' : '42 نتيجة لـ «تحضير رياضيات رابع»'),
+      timing: isEmpty ? '' : 'بحث في 4٬218 ملفًا',
+
+      correction: {
+        display: isTypo ? 'block' : 'none',
+        text: 'هل تقصد «تحضير» بالضاد؟ نتائجك الحالية ضعيفة المطابقة لأن «تحظير» بالظاء كلمة أخرى.',
+        action: 'ابحث عن «تحضير»',
+        onClick: () => this.setState({ corrected: true })
+      },
+
+      hasResults: !isEmpty,
+      isEmpty,
+
+      types: typeDefs.map(t => ({
+        label: t[1], count: String(t[2]),
+        pressed: st.type === t[0] ? 'true' : 'false',
+        bg: st.type === t[0] ? '#fff' : 'transparent',
+        fg: st.type === t[0] ? '#14261d' : '#5f7167',
+        shadow: st.type === t[0] ? '0 1px 3px rgba(20,45,33,.12)' : 'none',
+        onClick: () => this.setState({ type: t[0] })
+      })),
+      sorts: sortDefs.map(s => ({
+        label: s[1],
+        pressed: st.sort === s[0] ? 'true' : 'false',
+        bg: st.sort === s[0] ? '#fff' : 'transparent',
+        fg: st.sort === s[0] ? '#14261d' : '#5f7167',
+        shadow: st.sort === s[0] ? '0 1px 3px rgba(20,45,33,.12)' : 'none',
+        onClick: () => this.setState({ sort: s[0] })
+      })),
+
+      products: (isTypo ? prodDefs.slice(0, 3) : prodDefs).map(p => ({
+        title: p[0], cat: p[1], format: p[2], rating: p[3], reviews: p[4],
+        price: p[5], was: p[6], badge: p[7], badgeBg: p[8], badgeFg: p[9]
+      })),
+
+      othersDisplay: isTypo ? 'none' : 'block',
+      others: [
+        { title: 'كيف تُعدّ تحضيرًا أسبوعيًا في نصف الوقت؟', excerpt: 'مقال — خطوات عملية وقوالب جاهزة', kind: 'مقال', icon: '#i-book' },
+        { title: 'المرحلة الابتدائية — الرياضيات', excerpt: 'صفحة تصنيف — 420 ملفًا', kind: 'تصنيف', icon: '#i-blocks' },
+        { title: 'سياسة الاسترجاع للمنتجات الرقمية', excerpt: 'صفحة — الشروط والمدّة', kind: 'صفحة', icon: '#i-files' }
+      ],
+
+      recovery: [
+        { title: 'تصفّح حسب المرحلة', body: 'ابتدائي · متوسط · ثانوي · دورات — كل مرحلة بموادّها.', icon: '#i-cap' },
+        { title: 'تصفّح حسب المادة', body: 'اثنتا عشرة مادة، ولكل واحدة عدد ملفاتها ظاهر قبل الدخول.', icon: '#i-book' },
+        { title: 'اطلبه منّا', body: 'لا يوجد الملف؟ راسلنا على واتساب — نُعدّ ملفات بالطلب.', icon: '#i-headset' }
+      ],
+      suggestions: ['تحضير رياضيات', 'أوراق عمل علوم', 'اختبارات نهائية', 'وسائل تعليمية', 'حقائب تدريبية']
+        .map(s => ({ label: s, onClick: () => this.setState({ scenario: 'results', corrected: false }) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

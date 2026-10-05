@@ -1,0 +1,3094 @@
+/**
+ * الرئيسة — نقلٌ حرفيّ لـ«Storefront Home.dc.html» (مكتب، مرنٌ حتّى ‎1440‎
+ * بحواشٍ ‎40px‎) و«Storefront Home Mobile.dc.html» (‎390‎) تحت ‎767px‎.
+ *
+ * المقاسات والحشوات والاستدارات والأوزان من القالب كما هي. الألوان رموزٌ من
+ * كتلة «Storefront redesign palette»؛ وحيث يسقط زوجُ نصٍّ/خلفيّة تحت ‎4.5:1‎
+ * يُستعمل الرمز الآمن (‎--teal-text‎، ‎--teal-on‎، ‎--gold-ink‎، ‎--sf-faint‎،
+ * ‎--sf-slate-soft‎). Tajawal بلا ‎600‎: ما كتبه القالب ‎600‎ يُكتب ‎700‎.
+ */
+
+.section:empty {
+  display: none;
+}
+
+.section a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.section a:hover {
+  color: var(--teal-text);
+}
+
+/* الأزرار-الروابط لا تأخذ لون الرابط عند التحويم: تركوازيّ على ذهبيّ ‎2.2:1‎
+   وعلى التدرّج الكحليّ دون ‎4.5:1‎. يبقى لون النصّ ويُعتِم السطح قليلًا. */
+/*
+ * أزرار الهيرو وشريط الدعوة — هندسة وحالات وصفة الزرّ (‎btn btnLg‎: ‎54px‎ ·
+ * ‎--r-md‎ · ضغط ‎1px‎ · حلقة تركيز)، والألوان هنا: ذهبيّ ممتلئ، ومحيطيّ أبيض
+ * على الداكن، وكحليّ على الرمليّ. التحويم يُعمِّق السطح ولا يغيّر لون النصّ
+ * (تركوازيّ على ذهبيّ ‎2.2:1‎).
+ */
+.btnGold {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.btnGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.btnNavy {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+/* الثانويّ على الأسطح الفاتحة: محيطيٌّ كحليّ ‎1.5px‎ — الهرم: ممتلئٌ واحد ثمّ محيطيّ. */
+.btnOutlineInk {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.ctaPrimary {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.ctaGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+@media (hover: hover) {
+  .heroOuter .btnGold:hover,
+  .section .ctaPrimary:hover {
+    color: var(--color-accent-fg);
+    background: var(--gold-300);
+    box-shadow: var(--e-2);
+  }
+
+  .heroOuter .btnGhost:hover,
+  .section .ctaGhost:hover {
+    color: var(--on-accent);
+    border-color: var(--on-accent);
+    background: var(--hm-white-10);
+  }
+
+  .heroOuter .btnNavy:hover {
+    color: var(--color-secondary-fg);
+    background: var(--color-secondary-hover);
+    box-shadow: var(--e-2);
+  }
+
+  .heroOuter .btnOutlineInk:hover {
+    color: var(--sf-ink);
+    border-color: var(--sf-ink);
+    background: var(--bg);
+  }
+}
+
+.section :is(h1, h2, p, blockquote) {
+  margin: 0;
+}
+
+.wrap {
+  max-width: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.mobOnly {
+  display: none;
+}
+
+ul.trust,
+.stageGrid,
+.bestGrid,
+.sampleGrid,
+.quoteGrid {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+/* ─────────────────────────────── tones ─────────────────────────────────── */
+
+.toneTeal {
+  background: var(--tint-teal);
+  color: var(--teal-600);
+}
+
+.toneGold {
+  background: var(--tint-sand);
+  color: var(--gold-ink-deco);
+}
+
+.toneNavy {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.toneLilac {
+  background: var(--tint-lilac);
+  color: var(--lilac-600);
+}
+
+/* ─────────────────────────────── section head ──────────────────────────── */
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-block-end: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  /* ‎:where(p)‎ العامّ يفرض ‎1.8‎؛ القالب يورّث ‎1.6‎. */
+  line-height: inherit;
+  color: var(--teal-text);
+}
+
+.section .eyebrow {
+  margin: 0 0 6px;
+}
+
+.h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: inherit;
+}
+
+/*
+ * رابط رأس القسم («جميع المراحل»، «القائمة كاملة») — زرّ ‎ghost sm‎ من الوصفة:
+ * ‎36px‎ بهدف لمسٍ ‎44‎، سطحٌ بارد بالتحويم، إزاحة ‎1px‎ بالضغط، وحلقة التركيز.
+ * الهامش السالب يُبقي النصّ على حافّة الشبكة كما كان.
+ */
+.headLink {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  gap: 6px;
+  /* ‎44px‎ صندوقًا لا بالامتداد وحده: رابطٌ منفرد في رأس القسم يستحقّ هدفًا كاملًا. */
+  min-block-size: 44px;
+  margin-block: -4px;
+  margin-inline-end: -14px;
+  font-size: 14px;
+}
+
+.section .headLink {
+  color: var(--color-secondary-text);
+}
+
+.headLink svg {
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .headLink:hover svg {
+    transform: translateX(-3px);
+  }
+
+  .headLink:hover svg:dir(ltr) {
+    transform: translateX(3px);
+  }
+}
+
+/* ─────────────────────────────── hero slider ───────────────────────────── */
+
+.heroOuter {
+  max-width: var(--sf-max);
+  margin: 0 auto;
+  padding: 20px 40px 0;
+}
+
+.heroOuter a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.heroOuter :is(h1, h2, p) {
+  margin: 0;
+}
+
+.heroStage {
+  position: relative;
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+  min-height: var(--hs-h);
+  /* السحب الأفقيّ للمسرح، والعموديّ للصفحة. */
+  touch-action: pan-y;
+}
+
+/* ارتفاعٌ ثابت لكلّ `height` — والشرائح كلّها في خليّةٍ واحدة (ارتفاعها أطولها) فلا إزاحة بينها. */
+.heroRoot {
+  --hs-h: 472px;
+}
+
+.heroRoot[data-height='compact'] {
+  --hs-h: 380px;
+}
+
+.heroRoot[data-height='tall'] {
+  --hs-h: 560px;
+}
+
+.heroTrack {
+  display: grid;
+}
+
+.heroSlot {
+  grid-area: 1 / 1;
+  display: flex;
+  min-inline-size: 0;
+}
+
+.heroSlot > * {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+/* الشريحة تتلقّى التركيز حين تغادر شريحتُه تحته — حلقةٌ داخليّة لا يقصّها المسرح. */
+.heroSlot:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: -3px;
+}
+
+/*
+ * «slide»: لا يتحرّك إلّا اثنتان — الحاضرة ومن تغادر (أو الجارة تحت الإصبع)؛
+ * الانتقال ضعف ‎--dur-reveal‎ بالمنحنى الواحد. والمركونة خفيّة بلا انتقال،
+ * فالعبور من الأخيرة إلى الأولى تقدّمٌ كغيره لا لفٌّ عكسيّ.
+ */
+.heroRoot[data-transition='slide'] .heroSlot {
+  transition: transform calc(var(--dur-reveal) * 2) var(--ease-out);
+}
+
+.heroRoot[data-transition='slide'] .heroSlot[data-role='parked'] {
+  position: relative;
+  /* خارج المسرح في جهة «التالية» بخاصّيّةٍ منطقيّة — تنعكس مع الاتّجاه بلا تحويل. */
+  inset-inline-start: 100%;
+  visibility: hidden;
+  transition: none;
+}
+
+/* طور التحضير وأثناء السحب: المواضع فوريّة (تتبع الإصبع بلا تأخير)، ثمّ تنطبق بالانتقال. */
+.heroStage:is([data-dragging='true'], [data-prep='true']) .heroSlot {
+  transition: none;
+}
+
+/* «fade»: الشرائح تتلاشى متقاطعة. */
+.heroRoot[data-transition='fade'] .heroSlot {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity calc(var(--dur-reveal) * 2) var(--ease-out),
+    visibility 0s linear calc(var(--dur-reveal) * 2);
+}
+
+.heroRoot[data-transition='fade'] .heroSlot[data-active='true'] {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* الساعة: حركةٌ خفيّة مدّتها `intervalMs`؛ نهايتها تُقدّم الشريحة (HeroSlider). */
+.heroClock {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+  pointer-events: none;
+  animation-name: heroClock;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+.heroRoot[data-running='true'] .heroClock,
+.heroRoot[data-running='true'] .heroDotFill {
+  animation-play-state: running;
+}
+
+@keyframes heroClock {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.01;
+  }
+}
+
+/* ── الضوابط: السابق · النقاط (والتقدّم في النشطة) · التالي · إيقاف — عنقودٌ واحد ── */
+
+.heroControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-block: 12px 0;
+}
+
+.heroArrow {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  border-color: var(--sf-line);
+  color: var(--sf-ink);
+  box-shadow: var(--e-1);
+}
+
+.heroPause {
+  composes: btn btnGhost btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  margin-inline-start: 8px;
+  color: var(--sf-ink);
+}
+
+/* «متوقّف» حالةٌ مختارة تُرى: سطحٌ تركوازيّ خافت وأيقونة التشغيل بلونه. */
+.heroPause[aria-pressed='true'] {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+.heroDots {
+  display: flex;
+  align-items: center;
+}
+
+/* هدف لمسٍ ‎44×44‎ لكلّ نقطة؛ والمرسوم داخله: قرص ‎8px‎، والنشطة شريطٌ ‎32px‎ يمتلئ بالتقدّم. */
+.heroDot {
+  position: relative;
+  flex: none;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-md);
+}
+
+.heroDot::before {
+  content: '';
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--r-round);
+  background: var(--sf-sep-2);
+  transition:
+    inline-size var(--dur-reveal) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.heroDot[aria-current='true']::before {
+  inline-size: 32px;
+  background: var(--tint-teal-line);
+}
+
+/* بلا شريط تقدّم (أو متوقّف بلا ساعة) تمتلئ النشطة كاملة. */
+.heroDot[aria-current='true']:not(:has(.heroDotFill))::before {
+  background: var(--teal-600);
+}
+
+.heroDotFill {
+  position: absolute;
+  inset-block-start: 18px;
+  inset-inline-start: 6px;
+  block-size: 8px;
+  inline-size: 0;
+  border-radius: var(--r-round);
+  background: var(--teal-600);
+  pointer-events: none;
+  animation-name: heroFill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+@keyframes heroFill {
+  from {
+    inline-size: 0;
+  }
+
+  to {
+    inline-size: 32px;
+  }
+}
+
+@media (hover: hover) {
+  .heroDot:not([aria-current='true']):hover::before {
+    background: var(--sf-muted);
+  }
+}
+
+.heroDot:active::before {
+  transform: scale(0.92);
+}
+
+.heroDot:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* على الأسطح الداكنة الحلقة بيضاء — التركوازيّة لا تُرى عليها. */
+.slide[data-tone='dark'] :focus-visible,
+.cta :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+/* ── الشريحة: الموضوع (رموز «HOME — hero themes») والطبقة الزخرفيّة ── */
+
+.slide {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: var(--hs-h);
+  background: var(--hs-bg);
+  color: var(--hs-fg);
+}
+
+.slide[data-theme='navy-teal'] {
+  --hs-bg: var(--hero-navy-teal-bg);
+  --hs-fg: var(--hero-navy-teal-fg);
+  --hs-muted: var(--hero-navy-teal-muted);
+  --hs-accent: var(--hero-navy-teal-accent);
+  --hs-eyebrow: var(--hero-navy-teal-eyebrow);
+}
+
+.slide[data-theme='navy'] {
+  --hs-bg: var(--hero-navy-bg);
+  --hs-fg: var(--hero-navy-fg);
+  --hs-muted: var(--hero-navy-muted);
+  --hs-accent: var(--hero-navy-accent);
+  --hs-eyebrow: var(--hero-navy-eyebrow);
+}
+
+.slide[data-theme='teal'] {
+  --hs-bg: var(--hero-teal-bg);
+  --hs-fg: var(--hero-teal-fg);
+  --hs-muted: var(--hero-teal-muted);
+  --hs-accent: var(--hero-teal-accent);
+  --hs-eyebrow: var(--hero-teal-eyebrow);
+}
+
+.slide[data-theme='ink'] {
+  --hs-bg: var(--hero-ink-bg);
+  --hs-fg: var(--hero-ink-fg);
+  --hs-muted: var(--hero-ink-muted);
+  --hs-accent: var(--hero-ink-accent);
+  --hs-eyebrow: var(--hero-ink-eyebrow);
+}
+
+.slide[data-theme='sand'] {
+  --hs-bg: var(--hero-sand-bg);
+  --hs-fg: var(--hero-sand-fg);
+  --hs-muted: var(--hero-sand-muted);
+  --hs-accent: var(--hero-sand-accent);
+  --hs-eyebrow: var(--hero-sand-eyebrow);
+}
+
+.slide[data-theme='mint'] {
+  --hs-bg: var(--hero-mint-bg);
+  --hs-fg: var(--hero-mint-fg);
+  --hs-muted: var(--hero-mint-muted);
+  --hs-accent: var(--hero-mint-accent);
+  --hs-eyebrow: var(--hero-mint-eyebrow);
+}
+
+/* فوق الوسيط (نوع «image» أو أيّ شريحةٍ بصورة): النصّ أبيض على الحجاب أيًّا كان الموضوع. */
+.slide[data-media='true'] {
+  --hs-fg: var(--on-accent);
+  --hs-muted: var(--hm-white-85);
+  --hs-accent: var(--hero-accent-light);
+  --hs-eyebrow: var(--hero-accent-light);
+}
+
+/* الطبقة الزخرفيّة خلف المحتوى (`isolation` على الشريحة). */
+.slideAmbient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* «drift»: الكتل تنجرف ببطءٍ شديد (‎22s‎ للدورة، العقد ≥‎18s‎) في الشريحة الحاضرة وحدها. */
+.heroRoot[data-ambient='drift'] .slideAmbient > * {
+  animation: heroDrift 22s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.heroRoot[data-ambient='drift'][data-ambient-running='true'] .heroSlot[data-active='true'] .slideAmbient > * {
+  animation-play-state: running;
+}
+
+/*
+ * انجرافٌ رأسيّ مع تنفّس: الإزاحة الأفقيّة الفيزيائيّة (‎-28px‎) لا تنعكس مع
+ * الاتّجاه، وكان ‎sweep:rtl‎ يلتقطها منتصفَ الدورة خرقًا متقلّبًا.
+ */
+@keyframes heroDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, 22px, 0) scale(1.08);
+  }
+}
+
+/* «kenburns»: تكبيرٌ وانزياحٌ بطيئان للصورة (‎26s‎ ذهابًا وإيابًا). */
+.heroRoot[data-ambient='kenburns'] .slideMediaImg {
+  animation: heroKen 26s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+
+.heroRoot[data-ambient='kenburns'][data-ambient-running='true'] .heroSlot[data-active='true'] .slideMediaImg {
+  animation-play-state: running;
+}
+
+@keyframes heroKen {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+
+  /* رأسيٌّ كالانجراف: لا إزاحة أفقيّة فيزيائيّة لا تنعكس مع الاتّجاه. */
+  to {
+    transform: scale(1.08) translate3d(0, -1%, 0);
+  }
+}
+
+/* ── النوع «image»: وسيطٌ بنقطة تركيزه + حجابٌ بدرجته + حجاب النصّ ── */
+
+.slideImage {
+  display: flex;
+  align-items: center;
+  padding: 48px;
+}
+
+.slideImage[data-align='center'] {
+  justify-content: center;
+  text-align: center;
+}
+
+.slideMedia {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.slideMediaImg {
+  object-fit: cover;
+  object-position: center;
+}
+
+.slideMedia[data-focal='top'] .slideMediaImg {
+  object-position: center top;
+}
+
+.slideMedia[data-focal='bottom'] .slideMediaImg {
+  object-position: center bottom;
+}
+
+/* حجاب النصّ دائمًا (حتّى مع `overlay: none`): الأبيض ≥4.5:1 ولو كانت الصورة بيضاء. */
+.slideOverlay {
+  --_ov: transparent;
+  --_scrim: linear-gradient(270deg, var(--hero-scrim) 0%, var(--hero-scrim) 48%, transparent 86%);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--_ov), var(--_ov)), var(--_scrim);
+}
+
+.slideOverlay[data-overlay='soft'] {
+  --_ov: var(--hero-overlay-soft);
+}
+
+.slideOverlay[data-overlay='strong'] {
+  --_ov: var(--hero-overlay-strong);
+}
+
+.slide[data-align='center'] .slideOverlay {
+  --_scrim: radial-gradient(ellipse 62% 78% at 50% 50%, var(--hero-scrim) 0%, var(--hero-scrim) 55%, transparent 100%);
+}
+
+.slideImage[data-align='center'] .slideCopy {
+  flex: 0 1 720px;
+}
+
+.slideImage[data-align='center'] :is(.brandTitle, .brandLede) {
+  margin-inline: auto;
+}
+
+.slideImage[data-align='center'] .brandCtas {
+  justify-content: center;
+}
+
+/* الضوابط تحت المسرح لا فوقه، فالحشوة ‎64px‎ إيقاعٌ لا ملجأٌ من السهمين. */
+.heroSlot > .slideBrand,
+.heroSlot > .slideOffer,
+.heroSlot > .slideSearch,
+.heroSlot > .slideImage {
+  padding-inline: 64px;
+}
+
+/* ── العمق على الأسطح الداكنة: لمعةٌ علويّة ناعمة وحدٌّ داخليّ شعريّ، وتوهّجٌ تركوازيّ في الطرف البعيد عن النصّ ── */
+.slide[data-tone='dark']:not([data-media])::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--hero-sheen), transparent 42%);
+  box-shadow: inset 0 0 0 1px var(--hm-white-06);
+  pointer-events: none;
+}
+
+.slideGlow {
+  display: none;
+}
+
+.slide[data-tone='dark'] .slideGlow {
+  display: block;
+  position: absolute;
+  inset-inline-end: -12%;
+  inset-block-end: -38%;
+  inline-size: 62%;
+  block-size: 110%;
+  border-radius: var(--r-round);
+  background: radial-gradient(closest-side, var(--hero-glow), transparent);
+}
+
+/* ── slide 1: brand ── */
+
+.slideBrand {
+  padding: 48px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 44px;
+  align-items: center;
+}
+
+.slideBrand[data-align='center'] {
+  justify-content: center;
+  text-align: center;
+}
+
+.slideBrand[data-align='center'] .slideCopy {
+  flex: 0 1 760px;
+}
+
+.slideBrand[data-align='center'] :is(.brandTitle, .brandLede) {
+  margin-inline: auto;
+}
+
+.slideBrand[data-align='center'] .brandCtas {
+  justify-content: center;
+}
+
+.slideBrandBlob {
+  position: absolute;
+  inset-inline-end: -120px;
+  top: -140px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: var(--hm-white-06);
+}
+
+.slideCopy {
+  position: relative;
+  flex: 1 1 360px;
+  min-width: 0;
+}
+
+.heroOuter .brandBadge {
+  line-height: inherit;
+  margin: 0 0 16px;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  /* سطحٌ داكنٌ شفّاف بحدٍّ أبيض خافت: الأبيض عليه ≥4.5:1 أينما وقع من التدرّج. */
+  background: color-mix(in srgb, var(--neutral-900) 30%, transparent); /* ثابتٌ داكن: ‎--sf-ink‎ ينقلب فاتحًا في الداكن */
+  box-shadow: inset 0 0 0 1px var(--hm-white-14);
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+}
+
+.heroOuter .brandTitle {
+  margin: 0 0 16px;
+  /* لحظة الصفحة الجريئة الوحيدة: درجةٌ أكبر، وسطرٌ أشدّ تماسكًا. */
+  font-size: clamp(36px, 3.9vw, 56px);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+  text-wrap: pretty;
+  color: inherit;
+}
+
+.brandAccent {
+  color: var(--hs-accent);
+}
+
+/* شارة العلامة على الأسطح الفاتحة: حبرٌ على سطحٍ بارد بحدٍّ شعريّ. */
+.heroOuter .slide[data-tone='light'] .brandBadge {
+  background: var(--bg);
+  color: var(--sf-ink);
+  box-shadow: inset 0 0 0 1px var(--sf-line);
+}
+
+.heroOuter .brandLede {
+  margin: 0 0 24px;
+  font-size: 17px;
+  color: var(--hs-muted);
+  max-width: 44ch;
+  line-height: 1.75;
+}
+
+.brandCtas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.heroOuter .btnGold {
+  padding-inline: 28px;
+  background: var(--gold-400);
+  /* الذهبيّ سطحٌ ثابت في الوضعين — حبره ثابتٌ داكن (‎--color-accent-fg‎) لا ‎--sf-ink‎ الذي ينقلب فاتحًا. */
+  color: var(--color-accent-fg);
+  box-shadow: var(--btn-highlight), var(--e-2);
+}
+
+.heroOuter .btnGhost {
+  padding-inline: 24px;
+  border-color: var(--hm-white-45);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+/* بطاقة المنتج في الهيرو رابطٌ حقيقيّ — عمقها ‎--e-3‎، وترتفع بالتحويم إلى ‎--e-4‎ ولا تتحرّك. */
+.heroOuter .brandCard {
+  position: relative;
+  flex: 1 1 320px;
+  max-width: 400px;
+  background: var(--bg);
+  color: var(--sf-ink);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--e-3);
+  display: block;
+  transition: box-shadow var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .heroOuter .brandCard:hover {
+    color: var(--sf-ink);
+    box-shadow: var(--e-4);
+  }
+
+  .heroOuter .brandCard:hover .brandCardTitle {
+    color: var(--teal-text);
+  }
+}
+
+.brandCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 10px;
+}
+
+.brandCardTitle {
+  font-size: 15px;
+}
+
+.fmtBadge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  flex: none;
+}
+
+.paperLines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.paperLines > span {
+  height: 8px;
+  border-radius: var(--r-xs);
+  background: var(--sf-line-cool);
+}
+
+.paperLines > span:nth-child(2) {
+  width: 86%;
+}
+
+.paperLines > span:nth-child(3) {
+  width: 60%;
+}
+
+.paperLines > span:nth-child(4) {
+  width: 74%;
+}
+
+.brandCardFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--sf-line);
+}
+
+.brandCardPrice .price {
+  font-size: 20px;
+}
+
+.brandCardNote {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal-text);
+}
+
+/* ── مسرح رسم العلامة: رفوف المختبر على لوح، والكرة خلفه، والبطاقة الحيّة أمامهما ── */
+
+/* صندوقٌ ثابت: ارتفاع المسرح ناقصَ الحشوتين، فلا يتغيّر بتحميل الرسم (صفر إزاحة). */
+.brandStage {
+  position: relative;
+  flex: 0 1 460px;
+  align-self: center;
+  min-inline-size: 0;
+  block-size: min(376px, calc(var(--hs-h) - 96px));
+}
+
+.brandArt {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* لوحٌ هادئ يعطي الرسم الخطّيّ أرضيّةً مقروءة على التدرّج — لا توهّج ولا زجاج. */
+.brandPlate {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: min(340px, 74%);
+  max-block-size: 100%;
+  aspect-ratio: 600 / 584;
+  padding: 16px;
+  border-radius: var(--r-xl);
+  background: var(--hm-white-06);
+  box-shadow: inset 0 0 0 1px var(--hm-white-10);
+}
+
+.slide[data-tone='light'] .brandPlate {
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--sf-line);
+}
+
+.brandGlobe {
+  position: absolute;
+  inset-block-start: 4%;
+  inset-inline-start: 4%;
+  inline-size: 32%;
+  aspect-ratio: 1;
+}
+
+.brandPlate img,
+.brandGlobe img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* البطاقة تتقدّم الرسم في زاويته القريبة من النصّ. */
+.heroOuter .brandStage .brandCard {
+  position: absolute;
+  z-index: 1;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: min(300px, 72%);
+  max-width: none;
+}
+
+/* الرسم يحمل التوضيح الآن: خطوط الورقة الزخرفيّة داخل البطاقة تُسقط فتقصر ولا تزاحمه. */
+.brandStage .paperLines {
+  display: none;
+}
+
+.brandStage .brandCardTop {
+  margin-bottom: 0;
+}
+
+/* بلا بطاقة: اللوح يتوسّط المسرح والكرة تجاوره. */
+.brandStage:not([data-card]) .brandPlate {
+  inset-block-start: 50%;
+  translate: 0 -50%;
+}
+
+/* ── slide 2: offer ── */
+
+.slideOffer {
+  padding: 40px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 40px;
+  align-items: center;
+}
+
+.slideOffer[data-align='center'] {
+  justify-content: center;
+  text-align: center;
+}
+
+.slideOffer[data-align='center'] .slideCopy {
+  flex: 0 1 720px;
+}
+
+.slideOffer[data-align='center'] :is(.offerTitle, .offerLede) {
+  margin-inline: auto;
+}
+
+.slideOffer[data-align='center'] :is(.offerCtas, .countdown) {
+  justify-content: center;
+}
+
+.slideOfferBlob {
+  position: absolute;
+  inset-inline-start: -80px;
+  bottom: -160px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: var(--hm-gold-blob);
+}
+
+.heroOuter .offerBadge {
+  line-height: inherit;
+  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  padding: 7px 14px;
+  border-radius: var(--r-sm);
+}
+
+.heroOuter .offerEyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--hs-eyebrow);
+}
+
+.heroOuter .offerTitle {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.14;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 15ch;
+  color: inherit;
+}
+
+.heroOuter .offerLede {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: var(--hs-muted);
+  max-width: 44ch;
+  line-height: 1.7;
+}
+
+.offerMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 24px;
+  margin-bottom: 22px;
+}
+
+.offerMeta .countWrap,
+.offerMeta .countdown {
+  margin-bottom: 0;
+}
+
+.countWrap {
+  margin-bottom: 22px;
+}
+
+/* «ينتهي خلال» — تسميةٌ تقول ما تعدّه الخانات قبل أن تُقرأ أرقامها. */
+.countLabel {
+  display: block;
+  margin-block-end: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--hs-muted);
+}
+
+.countdown {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  align-items: center;
+}
+
+.countWrap .countdown {
+  margin-bottom: 0;
+}
+
+.countCell {
+  min-inline-size: 64px;
+  background: var(--bg);
+  border: 1px solid var(--sf-sand-line);
+  border-radius: var(--r-md);
+  padding: 8px 14px;
+  text-align: center;
+  box-shadow: var(--e-1);
+}
+
+.countValue {
+  display: block;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  font-family: inherit;
+}
+
+.countUnit {
+  font-size: 11px;
+  color: var(--sf-slate-soft);
+}
+
+/* «نسخ الرمز» — زرّ محيطيّ من الوصفة؛ وبعد النسخ حالة نجاحٍ تركوازيّة ثلاثيّة. */
+.copyBtn {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  border-color: var(--sf-sand-line);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.copyBtn[data-copied='true'] {
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+}
+
+.offerCtas {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.heroOuter .btnOutlineInk {
+  padding-inline: 24px;
+  border-color: var(--color-secondary-text);
+  color: var(--color-secondary-text);
+  background: transparent;
+}
+
+.heroOuter .btnNavy {
+  padding-inline: 28px;
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+  box-shadow: var(--btn-highlight), var(--btn-shadow-secondary);
+}
+
+.papers {
+  position: relative;
+  flex: 1 1 300px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.paper {
+  width: 128px;
+  height: 176px;
+  background: var(--bg);
+  border-radius: var(--r-lg);
+  box-shadow: var(--hm-shadow-paper);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.paperA {
+  transform: rotate(-7deg);
+}
+
+.paperB {
+  width: 142px;
+  height: 200px;
+  box-shadow: var(--hm-shadow-paper-lg);
+  z-index: 1;
+}
+
+.paperC {
+  transform: rotate(7deg);
+}
+
+.paperKind {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.paperTeal {
+  color: var(--teal-text);
+}
+
+.paperGold {
+  color: var(--gold-ink);
+}
+
+.paperNavy {
+  color: var(--color-secondary-text);
+}
+
+.paperLine {
+  height: 6px;
+  border-radius: var(--r-xs);
+  background: var(--sf-line-cool);
+}
+
+/* ── slide 3: search ── */
+
+.slideSearch {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.slideSearch[data-align='start'] {
+  align-items: flex-start;
+}
+
+.slideSearch[data-align='start'] :is(.searchTitle, .searchLede) {
+  text-align: start;
+}
+
+.slideSearch[data-align='start'] .searchChips {
+  justify-content: flex-start;
+}
+
+.slideSearchBlob {
+  position: absolute;
+  inset-inline-end: -140px;
+  top: -120px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: var(--hm-teal-blob);
+}
+
+.heroOuter .searchEyebrow {
+  line-height: inherit;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--hs-eyebrow);
+  letter-spacing: 0.04em;
+}
+
+.heroOuter .searchTitle {
+  margin: 0;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: center;
+  max-width: 20ch;
+  text-wrap: balance;
+  color: inherit;
+}
+
+.heroOuter .searchLede {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--hs-muted);
+  text-align: center;
+  max-width: 52ch;
+}
+
+.searchForm {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  height: 64px;
+  margin-top: 4px;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: 1.5px solid var(--sf-mint-line);
+  border-inline-end: 0;
+  border-start-start-radius: var(--r-lg);
+  border-end-start-radius: var(--r-lg);
+  padding: 0 20px;
+  font-family: inherit;
+  font-size: 17px;
+  background: var(--bg);
+  outline: 0;
+  color: var(--sf-ink);
+  appearance: none;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+.searchInput::placeholder {
+  color: var(--sf-faint);
+}
+
+@media (hover: hover) {
+  .searchInput:hover {
+    border-color: var(--sf-sep);
+  }
+}
+
+/* الحقل والزرّ قطعةٌ واحدة؛ التركيز هالةٌ على الصدفة كلّها (‎--focus-halo‎). */
+.searchForm:has(.searchInput:focus) {
+  border-radius: var(--r-lg);
+  box-shadow: var(--focus-halo);
+}
+
+.searchInput:focus {
+  border-color: var(--teal-600);
+}
+
+.searchBtn {
+  width: 140px;
+  flex: none;
+  background: var(--teal-on);
+  color: var(--on-accent);
+  border: 0;
+  border-start-end-radius: var(--r-lg);
+  border-end-end-radius: var(--r-lg);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--btn-highlight);
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .searchBtn:hover {
+    background: var(--ch-checkout-hover);
+  }
+}
+
+.searchBtn:active {
+  box-shadow: none;
+}
+
+.searchBtn:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.searchChips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+}
+
+/* اختصارات البحث رقائقُ الوصفة (‎--r-sm‎ · ‎44/36‎) لا كبسولات. */
+.searchChip {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+}
+
+.heroOuter .searchChip {
+  border-color: var(--tint-teal-line);
+  padding-inline: 16px;
+}
+
+/* رقاقةٌ معكوسة: حبرُ الصفحة تعبئةً وسطحُها نصًّا — تبقى الأبرز في المظهرين. */
+.heroOuter .searchChipDark {
+  background: var(--color-text);
+  color: var(--color-surface);
+  border: 0;
+  font-weight: 700;
+}
+
+/* ─────────────────────────────── trust ─────────────────────────────────── */
+
+ul.trust {
+  max-width: var(--sf-max);
+  margin: 0 auto;
+  padding: 64px 40px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+/* ملاصقًا للهيرو (ترتيبٌ ينشره المالك) يبقى شريطًا تابعًا له ‎16px‎؛ وفي غيره قسمٌ بإيقاع ‎64‎. */
+:global(#hero) + .section ul.trust {
+  padding-block-start: 16px;
+}
+
+/*
+ * بطاقة الثقة ساكنة (لا ترتفع): حدٌّ وسطحٌ بارد متدرّج خفيف، وأيقونةٌ أكبر
+ * (‎48‎ · ‎--r-md‎) وعنوانٌ ‎15/800‎ فوق وصفٍ ‎13‎ — كتلةٌ تُقرأ لا سطرٌ مزدحم.
+ */
+.trustCard {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  min-block-size: 88px;
+  padding: 18px 20px;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--sf-cool) 100%);
+}
+
+.trustIcon {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: var(--r-md);
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.trustTitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.trustDesc {
+  display: block;
+  margin-block-start: 2px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--sf-muted);
+}
+
+/* ─────────────────────────────── stages ────────────────────────────────── */
+
+.stages {
+  padding-top: 64px;
+}
+
+.stageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* بطاقة المرحلة تفاعليّة: ترتفع ظلًّا (‎--e-2‎) بالتحويم ولا تتحرّك. */
+/*
+ * بطاقة المرحلة تفاعليّة: ترتفع ظلًّا (‎--e-2‎) بالتحويم ولا تتحرّك، وحدُّها يأخذ
+ * لهجة المرحلة (`--sa` من ArtTile). الرسم على ‎--sa-soft‎، والدعوة بحبر اللهجة.
+ */
+.stageCard {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  --tile: 88px;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  height: 100%;
+}
+
+.section .stageCard:hover {
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .stageCard:hover {
+    border-color: var(--sa, var(--color-border));
+  }
+}
+
+.stageTile {
+  border-radius: var(--r-lg);
+}
+
+@media (max-width: 767px) {
+  .stageTile {
+    border-radius: var(--r-md);
+  }
+}
+
+.stageText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.stageName {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.stageSub {
+  font-size: 14px;
+  color: var(--color-text-2);
+}
+
+.stageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-block-start: var(--space-1);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+/* فاصلٌ نقطيّ بين الحقيقتين — زخرفة لا نصّ. */
+.stageMeta > bdi + bdi::before {
+  content: '·';
+  margin-inline-end: var(--space-3);
+  color: var(--color-border);
+}
+
+.stageGo {
+  margin-block-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sa-ink, var(--color-interactive));
+}
+
+.subjectRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.subjectLabel {
+  font-size: 13px;
+  color: var(--sf-muted);
+  margin-inline-end: 6px;
+}
+
+/* المواد رقائقُ الوصفة (‎chip‎ · ‎--r-sm‎) لا كبسولات؛ «كل المواد» رقاقةٌ تركوازيّة خافتة. */
+.subjectPill {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  font-weight: 500;
+}
+
+.section .subjectAll {
+  border-color: var(--tint-teal-line);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+.section .subjectAll:hover {
+  border-color: var(--teal-600);
+}
+
+/* ─────────────────────────────── bestsellers ───────────────────────────── */
+
+.bestBand {
+  margin-top: 64px;
+  background: var(--sf-cool);
+}
+
+/* الشريط الملوّن: ‎64‎ قبله (إيقاع الأقسام) و‎48‎ داخله — الفراغ بين المحتويين ‎112‎ لا ‎120+‎. */
+.bestInner {
+  padding-block: 48px;
+}
+
+.bestGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.bestGrid > li {
+  display: flex;
+}
+
+.priceBox {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.price {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--gold-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.priceCur {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sf-muted);
+}
+
+.priceWas {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sf-faint);
+  text-decoration: line-through;
+}
+
+/* «أضف للسلة» — ‎btn btnPrimary btnSm‎ (‎36px‎ · هدف ‎44‎ · دوّار ‎aria-busy‎ والعرض ثابت). */
+.addBtn {
+  composes: btn btnPrimary btnSm from '@tahdheer/ui/controls.module.css';
+  font-size: 13px;
+  font-weight: 700;
+  flex: none;
+}
+
+.addIcon {
+  display: none;
+}
+
+/* ─────────────────────────────── samples ───────────────────────────────── */
+
+/*
+ * العيّنات: النصّ عمودٌ ثابت (‎340px‎) والبطاقات صفٌّ واحد بعددها الفعليّ
+ * (‎--samples‎ = ١..٣ من الخادم) — لا ثلاث بطاقات في شبكة عمودين تترك فجوة.
+ * تحت ‎1100px‎ يعلو النصّ ويبقى صفّ البطاقات كاملًا.
+ */
+.samples {
+  padding-top: 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px 40px;
+  align-items: start;
+}
+
+.samplesCopy {
+  max-width: 560px;
+}
+
+@media (min-width: 1100px) {
+  .samples {
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  }
+}
+
+.section .samplesTitle {
+  margin: 0 0 14px;
+  line-height: 1.3;
+}
+
+.samplesLede {
+  font-size: 15px;
+  color: var(--sf-muted);
+  line-height: 1.8;
+}
+
+.sampleGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--samples, 3), minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* بطاقة العيّنة رابط تحميلٍ حقيقيّ — تفاعليّة: ترتفع ظلًّا، و«تحميل مجاني» يتلوّن. */
+.sampleCard {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.section .sampleCard:hover {
+  color: inherit;
+}
+
+.sampleFmt {
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+/* صبغة الصيغة على المكتب والجوّال معًا. */
+.sampleTone0 {
+  background: var(--tint-teal);
+}
+
+.sampleTone1 {
+  background: var(--tint-sand);
+  color: var(--gold-ink);
+}
+
+.sampleTone2 {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.sampleText {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sampleName {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.sampleDesc {
+  font-size: 13px;
+  color: var(--sf-muted);
+  line-height: 1.7;
+}
+
+.sampleCta {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-secondary-text);
+  margin-top: auto;
+  padding-top: 6px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .sampleCard:hover .sampleCta {
+    color: var(--teal-text);
+  }
+}
+
+/* ─────────────────────────────── reviews ───────────────────────────────── */
+
+.reviews {
+  padding-top: 64px;
+}
+
+.rateRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.rateBig {
+  font-size: 46px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-secondary-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.rateSide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rateStars {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.rateTrack,
+.rateFill {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rateTrack {
+  color: var(--sf-sep-2);
+}
+
+.rateFill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  overflow: hidden;
+  color: var(--gold-400);
+}
+
+.rateFill > svg {
+  flex: none;
+}
+
+.rateCount {
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.rateSpacer {
+  flex: 1;
+}
+
+.rateAll {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  min-block-size: 44px;
+  margin-inline-end: -14px;
+}
+
+.section .rateAll {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-secondary-text);
+}
+
+.quoteGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/*
+ * الاقتباس بطاقةٌ ساكنة بتسلسلٍ واضح: علامة اقتباسٍ ذهبيّة · النصّ ‎16‎ بالحبر ·
+ * فاصل · صاحب الرأي (اسمه ‎14/800‎ + «شراء موثّق» حين يقوله الخادم ‎verified‎) ·
+ * صفته ومدينته إن كتبهما · ثمّ الملفّ الذي قيّمه رابطًا إلى صفحته. لا تقييم
+ * بالنجوم لكلّ اقتباس: الواجهة لا تُعيده، والمتوسّط الحقيقيّ في الصفّ أعلاه.
+ */
+.quote {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.quoteMark {
+  display: block;
+  margin-block-end: 8px;
+  color: var(--gold-400);
+}
+
+.section .quoteText {
+  flex: 1;
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--sf-ink);
+}
+
+.quoteBy {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.quoteWho {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.quoteNameRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.quoteVerified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border: 1px solid var(--st-success-line);
+  border-radius: var(--r-xs);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.section .quoteProduct {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  /* هدف لمسٍ ‎44px‎ (سطرٌ ‎21px‎ ممدود) — كان أصغر من ‎24‎ (sweep:targets). */
+  min-block-size: 44px;
+  margin-block: 4px -10px;
+  max-inline-size: 100%;
+  color: var(--teal-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--dur-hover) var(--ease-out);
+}
+
+.quoteProduct > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+  .section .quoteProduct:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+.quoteProduct:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--sf-gradient-avatar);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.quoteName {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.quoteRole {
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+/* ─────────────────────────────── cta ───────────────────────────────────── */
+
+.ctaOuter {
+  margin-top: 64px;
+}
+
+.cta {
+  border-radius: 20px;
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+  padding: 48px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.ctaCopy {
+  max-width: 52ch;
+}
+
+.section .ctaTitle {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.6;
+  /* بلا تضييقٍ في القالب — ‎:where(h2)‎ العامّ يضيف ‎-0.01em‎. */
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.ctaLede {
+  font-size: 16px;
+  color: var(--hm-white-82);
+  line-height: 1.8;
+}
+
+.ctaBtns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.section .ctaPrimary {
+  padding-inline: 30px;
+  background: var(--gold-400);
+  color: var(--color-accent-fg);
+  box-shadow: var(--e-1);
+}
+
+.section .ctaGhost {
+  padding-inline: 26px;
+  border-color: var(--hm-white-45);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+/* ─────────────────────────────── recently viewed ───────────────────────── */
+
+/* المرساة الثابتة (تبقى بعد المسح لتتلقّى التركيز) — بلا أثرٍ في التخطيط. */
+.recentHost:focus {
+  outline: none;
+}
+
+.recent {
+  padding-block-start: 64px;
+}
+
+/* الرأس والزرّ الشبحيّ في سطرٍ واحد: «امسح السجلّ» في مقابل العنوان. */
+.recentHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-end: 24px;
+}
+
+.recentHead > .head {
+  margin-block-end: 0;
+}
+
+.recentClear {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  color: var(--teal-text);
+}
+
+/*
+ * رفٌّ أفقيّ ببطاقات ‎compact‎: عمودٌ لكلّ بطاقة، لا يقلّ عن ‎188px‎ ولا يزيد على
+ * سُدس الصفّ — ستّ بطاقات تملأ العرض، وما زاد يتمرّر، وما قلّ لا يتضخّم.
+ * الحشو والهامش السالب يحفظان حلقة التركيز والظلّ من القصّ.
+ */
+.recentRail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(188px, calc((100% - 5 * 16px) / 6));
+  gap: 16px;
+  margin: -8px;
+  padding: 8px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-padding-inline: 8px;
+  scrollbar-width: thin;
+}
+
+.recentRail > li {
+  display: flex;
+}
+
+.recentRail > li > * {
+  inline-size: 100%;
+}
+
+/* ─────────────────────────────── all products ──────────────────────────── */
+
+/* شبكة الكتالوج نفسها (‎ProductGrid‎) بأعمدة الرئيسة: ٢ · ٣ من ‎768‎ · ٤ من ‎1100‎. */
+.allProducts {
+  padding-top: 64px;
+}
+
+.section .allLede {
+  margin-block: -12px 24px;
+  font-size: 15px;
+  color: var(--sf-muted);
+}
+
+.allGrid > ul,
+ul.allGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/*
+ * المرشّحات السريعة: رقائق الوصفة (‎chip‎ · ‎aria-pressed‎) في صفٍّ يلتفّ على
+ * المكتب ويتمرّر أفقيًّا على الجوّال، و«امسح» زرٌّ شبحيّ في طرفه.
+ */
+.allFilterBar {
+  display: flex;
+  align-items: center;
+  gap: 8px 16px;
+  margin-block-end: 24px;
+}
+
+.allFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.allChip {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  text-decoration: none;
+}
+
+/* «الكل» قبل الإماهة رابطٌ حاضر — بمظهر المختار نفسه. */
+.section a.allChip[aria-current='true'] {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+}
+
+.section a.allChip:hover {
+  color: var(--sf-ink-2);
+}
+
+.allChipCount {
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--sf-muted);
+}
+
+.allChip:is([aria-pressed='true'], [aria-current='true']) .allChipCount {
+  color: inherit;
+}
+
+.allClear {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  color: var(--teal-text);
+}
+
+.allRetry {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+  flex: none;
+}
+
+/* تبديل المرشّح: الشبكة السابقة تبقى خافتةً حتّى تصل الجديدة (بلا حركة). */
+.allGrid[aria-busy='true'] {
+  opacity: 0.55;
+}
+
+.section .allEmpty {
+  padding: 32px 16px;
+  border: 1px dashed var(--sf-line);
+  border-radius: var(--r-lg);
+  text-align: center;
+  font-size: 15px;
+  color: var(--sf-body);
+}
+
+ul.allSkeletons {
+  display: grid;
+  margin-block: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.allSkeleton {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.allSkeletonMedia {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-xs);
+}
+
+.allSkeletonLine {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  block-size: 12px;
+}
+
+.allSkeletonShort {
+  inline-size: 60%;
+}
+
+.allFoot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-block-start: 32px;
+  text-align: center;
+}
+
+.allCount {
+  font-size: 13px;
+  color: var(--sf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.allMore {
+  composes: btn btnOutline btnLg from '@tahdheer/ui/controls.module.css';
+  min-inline-size: 240px;
+}
+
+.section .allMore:hover {
+  color: var(--sf-ink);
+}
+
+.allDone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 16px;
+  font-size: 14px;
+  color: var(--sf-body);
+}
+
+.section .allShopLink {
+  color: var(--teal-text);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.allError {
+  composes: notice noticeDanger from '@tahdheer/ui/controls.module.css';
+  max-inline-size: 520px;
+}
+
+.allBody > .allError {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  max-inline-size: none;
+  margin-block-end: 16px;
+}
+
+@media (min-width: 768px) {
+  .allGrid > ul,
+  ul.allGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  ul.allSkeletons {
+    margin-block-start: 16px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .allGrid > ul,
+  ul.allGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  ul.allSkeletons {
+    margin-block-start: 20px;
+  }
+}
+
+/*
+ * اللوحيّ (‎768–1099‎): شريحتا العلامة والعرض كانتا تلتفّان فتنزل البطاقة/الأوراق
+ * تحت النصّ، فيطول المسرح (كلّ الشرائح بطول أطولها) إلى ‎~700px‎ ونصفه فارغ. عمودان متجاوران بحواشٍ ‎40‎
+ * وبطاقةٍ أضيق يملآن العرض والارتفاع القياسيّ.
+ */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .heroSlot > .slideBrand,
+  .heroSlot > .slideOffer,
+  .heroSlot > .slideSearch,
+  .heroSlot > .slideImage {
+    padding-inline: 40px;
+  }
+
+  .slideBrand {
+    flex-wrap: nowrap;
+    gap: 32px;
+  }
+
+  .slideBrand .slideCopy {
+    flex: 1 1 0;
+  }
+
+  .heroOuter .brandCard {
+    flex: 0 1 260px;
+    padding: 16px;
+  }
+
+  .brandStage {
+    flex: 0 1 300px;
+    block-size: min(300px, calc(var(--hs-h) - 96px));
+  }
+
+  .heroOuter .brandStage .brandCard {
+    inline-size: min(236px, 80%);
+  }
+
+  .brandStage .brandGlobe {
+    display: none;
+  }
+
+  .brandStage .brandPlate {
+    inline-size: 88%;
+  }
+
+  /* أوراق العرض الزخرفيّة (يُسقطها الجوّال أيضًا) كانت تنزل تحت النصّ فتضيف ‎~220px‎. */
+  .papers {
+    display: none;
+  }
+}
+
+/* ═════════════════════════════ mobile (390 artboard) ═════════════════════ */
+
+/* The arrows sit 18–62px from each edge, over the slide's own 48px padding —
+   exactly as the design draws them (the arrow floats above the card edge). */
+
+@media (max-width: 767px) {
+  .section,
+  .heroOuter {
+    line-height: 1.55;
+  }
+
+  /* تخصيصٌ مضاعف بدل `!important`: يغلب أيّ قاعدة عرضٍ بصنفٍ واحد. */
+  .deskOnly.deskOnly {
+    display: none;
+  }
+
+  .mobOnly {
+    display: revert;
+  }
+
+  svg.mobOnly {
+    display: block;
+  }
+
+  /* حواشي الجوّال ‎16‎ في كلّ الأقسام (إيقاع ‎8pt‎). */
+  .wrap {
+    padding-inline: 16px;
+  }
+
+  .head {
+    align-items: baseline;
+    margin-bottom: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .head .eyebrow {
+    display: none;
+  }
+
+  .h2 {
+    font-size: 19px;
+    line-height: 1.55;
+  }
+
+  .section .headLink {
+    font-size: 13px;
+    color: var(--teal-text);
+  }
+
+  /* hero */
+  .heroOuter {
+    padding: 12px 16px 0;
+  }
+
+  .heroStage {
+    border-radius: var(--r-xl);
+  }
+
+  .heroControls {
+    padding-block: 8px 0;
+    gap: 0;
+  }
+
+  /* الجوّال: المحتوى يحدّد الارتفاع (أطول الشرائح)، و«tall» يضع له أرضيّة. */
+  .heroRoot,
+  .heroRoot[data-height='compact'] {
+    --hs-h: 0px;
+  }
+
+  .heroRoot[data-height='tall'] {
+    --hs-h: 440px;
+  }
+
+  /* الضوابط تحت الإبهام: أكثر من أربع شرائح ⇒ النقاط والسحب يكفيان، فيسقط السهمان. */
+  .heroRoot[data-many='true'] .heroArrow {
+    display: none;
+  }
+
+  .slide[data-theme='navy-teal'] {
+    --hs-bg: var(--hero-navy-teal-bg-mobile);
+  }
+
+  .slideImage {
+    padding: 22px 20px 20px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+  }
+
+  /* الشرائح بارتفاع أطولها: المحتوى الأقصر يتوسّط بدل فراغٍ ميّتٍ أسفله. */
+  .slideBrand,
+  .slideOffer {
+    justify-content: center;
+  }
+
+  /* النصّ في أسفل الشريحة: الحجاب يبدأ شفّافًا فتظهر الصورة، ويكتمل قبل أوّل سطر. */
+  .slideOverlay,
+  .slide[data-align='center'] .slideOverlay {
+    --_scrim: linear-gradient(180deg, transparent 0%, var(--hero-scrim) 30%, var(--hero-scrim) 100%);
+  }
+
+  .heroSlot > .slideBrand,
+  .heroSlot > .slideOffer,
+  .heroSlot > .slideSearch,
+  .heroSlot > .slideImage {
+    padding-inline: 20px;
+  }
+
+  .slideBrand {
+    padding: 22px 20px 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .slideBrandBlob,
+  .slideOfferBlob,
+  .slideSearchBlob,
+  .heroOuter .brandCard,
+  .papers {
+    display: none;
+  }
+
+  /* الجوّال: النصّ أوّلًا — الرسم صغيرٌ خافتٌ خلف العنوان في الزاوية الختاميّة، بلا كرةٍ ولا لوح. */
+  .brandStage {
+    position: absolute;
+    z-index: -1;
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+    flex: none;
+    inline-size: 132px;
+    block-size: 128px;
+    opacity: 0.3;
+  }
+
+  .brandGlobe {
+    display: none;
+  }
+
+  .brandPlate,
+  .brandStage:not([data-card]) .brandPlate,
+  .slide[data-tone='light'] .brandPlate {
+    inset: 0;
+    translate: none;
+    inline-size: 100%;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .slideCopy {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .heroOuter .brandBadge {
+    margin: 0;
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--hm-white-16);
+    padding: 5px 11px;
+    /* The design's nowrap overflowed the slide with longer real copy
+       (cardinality sweep): one line while it fits, wrapped inside the slide
+       beyond that. */
+    max-inline-size: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .heroOuter .brandTitle {
+    margin: 0;
+    font-size: 29px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: none;
+  }
+
+  .brandAccent {
+    color: inherit;
+    border-bottom: 3px solid var(--hm-white-55);
+  }
+
+  .slide[data-tone='light'] .brandAccent {
+    border-bottom-color: var(--hs-accent);
+  }
+
+  .heroOuter .brandLede {
+    margin: 0;
+    font-size: 14px;
+    color: var(--hs-muted);
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  .brandCtas {
+    gap: 8px;
+    margin-top: 2px;
+    flex-wrap: nowrap;
+  }
+
+  .heroOuter .btnGold {
+    flex: 1;
+    height: auto;
+    min-height: 46px;
+    padding: 0;
+    /* فوق تدرّجٍ داكنٍ ثابت: أبيضُ ثابت بحبرٍ كحليٍّ ثابت — ‎--bg‎ كان يقلبه لوحًا داكنًا في الداكن. */
+    background: var(--on-accent);
+    color: var(--navy-700);
+    font-size: 15px;
+    justify-content: center;
+  }
+
+  .heroOuter .btnGhost,
+  .heroOuter .btnOutlineInk {
+    height: auto;
+    min-height: 46px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+
+  .slideOffer {
+    padding: 22px 20px 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .slideOffer .slideCopy {
+    gap: 12px;
+  }
+
+  .heroOuter .offerBadge {
+    margin: 0;
+    align-self: flex-start;
+    font-size: 11px;
+    background: var(--color-secondary);
+    color: var(--color-secondary-fg);
+    padding: 5px 11px;
+    white-space: nowrap;
+  }
+
+  .heroOuter .offerTitle {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.24;
+    max-width: none;
+  }
+
+  .heroOuter .offerLede {
+    display: none;
+  }
+
+  .offerMeta {
+    margin: 0;
+    gap: 10px 16px;
+  }
+
+  .countWrap {
+    margin: 0;
+  }
+
+  .countLabel {
+    margin-block-end: 6px;
+    font-size: 12px;
+  }
+
+  .countdown {
+    direction: ltr;
+    gap: 7px;
+    justify-content: flex-end;
+    margin: 0;
+  }
+
+  .countCell {
+    border-radius: 10px;
+    padding: 6px 10px;
+    min-width: 52px;
+  }
+
+  .countValue {
+    font-size: 17px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countUnit {
+    font-size: 10px;
+  }
+
+  .offerCtas {
+    gap: 10px;
+    margin-top: 2px;
+    flex-wrap: nowrap;
+  }
+
+  .heroOuter .btnNavy {
+    flex: 1;
+    height: auto;
+    min-height: 46px;
+    padding: 0;
+    font-size: 15px;
+    justify-content: center;
+  }
+
+  .slideSearch {
+    padding: 24px 20px;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .heroOuter .searchEyebrow {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  .heroOuter .searchTitle {
+    font-size: 25px;
+    line-height: 1.26;
+    max-width: none;
+  }
+
+  .searchForm {
+    height: 48px;
+    margin-top: 2px;
+    max-width: none;
+  }
+
+  .searchInput {
+    border-start-start-radius: var(--r-md);
+    border-end-start-radius: var(--r-md);
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  .searchForm:has(.searchInput:focus) {
+    border-radius: var(--r-md);
+  }
+
+  .searchBtn {
+    width: 78px;
+    border-start-end-radius: var(--r-md);
+    border-end-end-radius: var(--r-md);
+    font-size: 15px;
+  }
+
+  .searchChips {
+    gap: 7px;
+  }
+
+  .heroOuter .searchChip {
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+
+  .heroOuter .searchChipDark {
+    font-weight: 700;
+  }
+
+  /* trust → pills */
+  ul.trust {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 32px 16px 0;
+    scrollbar-width: none;
+  }
+
+  :global(#hero) + .section ul.trust {
+    padding-block-start: 16px;
+  }
+
+  ul.trust::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trustCard {
+    flex: none;
+    gap: 8px;
+    min-block-size: 40px;
+    padding: 8px 12px;
+    border-radius: var(--r-sm);
+    background: var(--sf-cool);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .trustIcon {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    display: flex;
+  }
+
+  .trustTitle {
+    display: inline;
+    font-size: 13px;
+    /* قرص الجوّال في القالب ٦٠٠ لا ٧٠٠/٩٠٠. */
+    font-weight: 600;
+  }
+
+  .trustDesc {
+    display: none;
+  }
+
+  /* stages */
+  /* إيقاع الأقسام على الجوّال ‎32‎. */
+  .stages {
+    padding-top: 32px;
+  }
+
+  .stageGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* عددٌ فرديّ من المراحل: الأخيرة تملأ صفّها بدل فجوةٍ في العمود الثاني. */
+  .stageGrid > li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  /* الجوّال: البلاطة والاسم والأرقام، والسهم وحده في الزاوية الختاميّة. */
+  .stageCard {
+    --tile: 52px;
+    position: relative;
+    padding: var(--space-3-5);
+    gap: var(--space-2);
+  }
+
+  .stageName {
+    font-size: 16px;
+  }
+
+  .stageSub {
+    display: none;
+  }
+
+  .stageMeta {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .stageMeta > bdi + bdi::before {
+    content: none;
+  }
+
+  .stageGo {
+    position: absolute;
+    inset-block-start: var(--space-3-5);
+    inset-inline-end: var(--space-3);
+    margin: 0;
+  }
+
+  .subjectRow {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 7px;
+    /* حشوٌ عموديّ يُقابله هامشٌ سالب: حلقة التركيز لا يقصّها المتصفّح الأفقيّ (‎§2.4.7‎)، والهندسة كما هي. */
+    padding: 6px;
+    margin: 4px -6px -6px;
+    /* التمرير إلى المُركَّز عليه يقف عند الحشو لا عند حافّة المتصفّح — فلا تُقصّ حلقته. */
+    scroll-padding-inline: 6px;
+    scrollbar-width: none;
+  }
+
+  .subjectRow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .subjectLabel {
+    display: none;
+  }
+
+  .subjectPill {
+    flex: none;
+    font-size: 13px;
+  }
+
+  /* bestsellers → rail */
+  .bestBand {
+    margin-top: 0;
+    background: none;
+  }
+
+  .bestInner {
+    padding: 32px 0 0;
+  }
+
+  .bestInner > .head {
+    padding: 0 16px;
+  }
+
+  .bestGrid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    /* ‎6px‎ فوق وتحت يُقابلهما هامشٌ سالب: حلقة التركيز داخل المتصفّح الأفقيّ لا تُقصّ (‎§2.4.7‎). */
+    padding: 6px 16px 6px;
+    margin-block: -6px -2px;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+  }
+
+  .bestGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bestGrid > li {
+    flex: none;
+    width: 200px;
+  }
+
+  .price {
+    font-size: 16px;
+  }
+
+  .priceCur {
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .priceBox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .priceWas {
+    font-size: 10px;
+  }
+
+  .addBtn {
+    width: 36px;
+    padding: 0;
+  }
+
+  /* مساحة لمسٍ ‎46px‎ حول زرّ ‎36px‎ — في الاتّجاهين (‎btnSm‎ يمدّها رأسيًّا فقط)؛ ‎44‎ بالضبط يضع نقطة القياس على الحافّة فتخطئها. */
+  .addBtn::before {
+    inset: -5px;
+  }
+
+  .addLabel {
+    display: none;
+  }
+
+  .addIcon {
+    display: block;
+  }
+
+  /* recently viewed — رفٌّ يتمرّر بلا شريط، والإيقاع ‎32‎ */
+  .recent {
+    padding-block-start: 32px;
+  }
+
+  .recentHead {
+    align-items: center;
+    margin-block-end: 12px;
+  }
+
+  .recentRail {
+    grid-auto-columns: 188px;
+    gap: 12px;
+    scrollbar-width: none;
+  }
+
+  .recentRail::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* all products — شبكةٌ من عمودين لا شريط: الزائر يتصفّح الكلّ */
+  .allProducts {
+    padding-top: 32px;
+  }
+
+  .section .allLede {
+    margin-block: -4px 12px;
+    font-size: 13px;
+  }
+
+  .allFoot {
+    margin-block-start: 24px;
+  }
+
+  /* الرقائق صفٌّ واحد يتمرّر؛ الحشو والهامش السالب يحفظان حلقة التركيز من القصّ. */
+  .allFilterBar {
+    margin-block-end: 12px;
+    gap: 8px;
+  }
+
+  .allFilters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 6px;
+    margin: -6px;
+    scroll-padding-inline: 6px;
+    scrollbar-width: none;
+  }
+
+  .allFilters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .allMore {
+    inline-size: 100%;
+  }
+
+  /* samples → list */
+  .samples {
+    padding-top: 32px;
+    display: block;
+  }
+
+  .samplesCopy {
+    max-width: none;
+  }
+
+  .samplesCopy .eyebrow {
+    display: none;
+  }
+
+  .section .samplesTitle {
+    margin: 0 0 4px;
+    line-height: 1.55;
+  }
+
+  .section .samplesLede {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: inherit;
+  }
+
+  .sampleGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sampleCard {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    min-height: 60px;
+    padding: 12px 14px;
+  }
+
+  .sampleFmt {
+    width: 38px;
+    height: 38px;
+    flex: none;
+    align-self: center;
+    padding: 0;
+    border-radius: var(--r-md);
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+  }
+
+  .sampleText {
+    /* كتلةٌ لا عمود: سطر الوصف داخل صندوق سطرٍ بحجم ‎15px‎ كالقالب. */
+    display: block;
+    flex: 1;
+    min-width: 0;
+    gap: 0;
+  }
+
+  .sampleName {
+    display: block;
+    font-size: 14px;
+  }
+
+  .sampleDesc {
+    display: block;
+    font-size: 12px;
+    line-height: 23.25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sampleCta {
+    color: var(--teal-600);
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* reviews → rating tile */
+  .reviews {
+    padding-top: 32px;
+  }
+
+  .rateRow {
+    border: 1px solid var(--sf-line);
+    border-radius: 16px;
+    background: var(--sf-cool);
+    padding: 16px;
+    gap: 14px;
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+  }
+
+  .rateBig {
+    font-size: 34px;
+  }
+
+  .rateSide {
+    gap: 3px;
+  }
+
+  .rateFill {
+    color: var(--color-secondary-text);
+  }
+
+  .rateStars svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .rateCount {
+    font-size: 12px;
+  }
+
+  .rateSpacer,
+  .section .rateAll,
+  .quoteGrid {
+    display: none;
+  }
+
+  /* cta */
+  .ctaOuter {
+    margin-top: 0;
+    padding-top: 32px;
+  }
+
+  .cta {
+    border-radius: 16px;
+    background: var(--sf-gradient-upsell-m);
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .ctaCopy {
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .section .ctaTitle {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .ctaLede {
+    font-size: 13px;
+    color: var(--hm-white-85);
+    line-height: 1.7;
+  }
+
+  .section .ctaPrimary {
+    height: auto;
+    min-height: 46px;
+    padding: 0;
+    /* فوق تدرّجٍ داكنٍ ثابت: أبيضُ ثابت بحبرٍ كحليٍّ ثابت — ‎--bg‎ كان يقلبه لوحًا داكنًا في الداكن. */
+    background: var(--on-accent);
+    color: var(--navy-700);
+    font-size: 15px;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .section .ctaGhost {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroPause {
+    display: none;
+  }
+
+  .heroSlot,
+  .heroRoot[data-transition] .heroSlot,
+  .heroDot,
+  .heroDot::before,
+  .heroArrow,
+  .heroPause,
+  .headLink svg,
+  .brandCard,
+  .searchInput,
+  .searchBtn,
+  .sampleCta,
+  .quoteProduct {
+    transition: none;
+  }
+
+  .heroArrow:active,
+  .heroPause:active,
+  .heroDot:active::before,
+  .headLink:hover svg {
+    transform: none;
+  }
+
+  /* العقد §2: لا دوران ولا حركة خلفيّة — الساعة والتقدّم والانجراف وKen Burns تسكن. */
+  .heroClock,
+  .heroDotFill,
+  .heroRoot[data-ambient] .slideAmbient > *,
+  .heroRoot[data-ambient] .slideMediaImg {
+    animation: none;
+  }
+}

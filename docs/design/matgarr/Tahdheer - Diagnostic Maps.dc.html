@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes dmFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes dmPulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:12.5px">الخرائط التشخيصية · التنبيهات · التقارير</b>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.maps }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;animation:dmFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">{{ mp.title }}</h1>
+<span style="font-size:9.5px;color:#8b978f">{{ mp.sub }}</span>
+<div style="margin-inline-start:auto;display:flex;gap:5px">
+<sc-for list="{{ mp.tabs }}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:30px;padding:0 12px;border:1px solid {{ t.bd }};border-radius:9px;background:{{ t.bg }};color:{{ t.fg }};font-size:10px;font-weight:900;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+</div>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:hidden">
+<div dir="ltr" style="position:relative;height:430px;background-color:#fbfcfb;background-image:radial-gradient(#e3e9e4 1px,transparent 1px);background-size:22px 22px">
+<svg width="100%" height="430" style="position:absolute;inset:0">
+<sc-for list="{{ mp.edges }}" as="e" hint-placeholder-count="12">
+<line x1="{{ e.x1 }}" y1="{{ e.y1 }}" x2="{{ e.x2 }}" y2="{{ e.y2 }}" stroke="{{ e.c }}" stroke-width="{{ e.w }}" stroke-dasharray="{{ e.d }}" stroke-linecap="round"></line>
+</sc-for>
+</svg>
+<sc-for list="{{ mp.nodes }}" as="n" hint-placeholder-count="12">
+<button type="button" onClick="{{ n.onSel }}" aria-pressed="{{ n.on }}" style="position:absolute;left:{{ n.x }};top:{{ n.y }}px;transform:translate(-50%,-50%);min-width:{{ n.s }}px;min-height:{{ n.s }}px;padding:4px 10px;border:2px solid {{ n.bd }};border-radius:999px;background:{{ n.bg }};color:{{ n.fg }};font:900 9.5px Tajawal;cursor:pointer;box-shadow:{{ n.sh }};white-space:nowrap">{{ n.n }}</button>
+</sc-for>
+<div style="position:absolute;inset-inline-start:12px;bottom:12px;display:flex;gap:6px;flex-wrap:wrap" dir="rtl">
+<sc-for list="{{ mp.legend }}" as="l" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #e2e8e4;font-size:8.5px;font-weight:900;color:#3d4f45"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ l.c }}"></span>{{ l.n }}</span>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:11px 16px;border-top:1px solid #f1f4f2;background:#fbfcfb;flex-wrap:wrap">
+<b style="font-size:11px">{{ mp.selN }}</b>
+<span style="flex:1;min-width:220px;font-size:10px;line-height:1.7;color:#5f7167">{{ mp.selD }}</span>
+<button type="button" onClick="{{ mp.onAct }}" style="min-height:32px;padding:0 13px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10px;font-weight:900;cursor:pointer">{{ mp.act }}</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.alerts }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:dmFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">مركز التنبيهات الذكي</h1>
+<sc-for list="{{ al.counts }}" as="c" hint-placeholder-count="4">
+<span style="padding:3px 10px;border-radius:999px;background:{{ c.bg }};color:{{ c.c }};font-size:9.5px;font-weight:900">{{ c.n }}</span>
+</sc-for>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">قواعد قابلة للتهيئة — التفعيل يعمل فعليًا</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ al.rows }}" as="a" hint-placeholder-count="6">
+<section style="display:flex;align-items:center;gap:11px;border:1px solid #dce2dd;border-inline-start:4px solid {{ a.c }};border-radius:13px;background:#fff;padding:11px 15px;flex-wrap:wrap">
+<span style="padding:2px 9px;border-radius:999px;background:{{ a.sBg }};color:{{ a.c }};font-size:9px;font-weight:900">{{ a.sev }}</span>
+<span style="flex:1;min-width:230px"><b style="font-size:11.5px">{{ a.t }}</b><span style="display:block;font-size:9.5px;line-height:1.7;color:#5f7167">{{ a.d }}</span></span>
+<span style="font-size:9px;color:#8b978f">{{ a.when }}</span>
+<button type="button" onClick="{{ a.onGo }}" style="min-height:30px;padding:0 11px;border:1px solid #cfe0d6;border-radius:8px;background:#f2f8f5;font-size:9.5px;font-weight:900;color:#146c4c;cursor:pointer">{{ a.act }}</button>
+<button type="button" onClick="{{ a.onTog }}" role="switch" aria-checked="{{ a.on }}" aria-label="قاعدة {{ a.t }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ a.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ a.knob }};width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.reports }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:dmFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">التقارير — تصدير وجدولة</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">كل رقم في التقرير يحمل مصدره وتاريخه — التجريبي يُوسم</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<sc-for list="{{ rp.rows }}" as="r" hint-placeholder-count="9">
+<section style="border:1px solid #dce2dd;border-radius:13px;background:#fff;padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+<b style="font-size:11.5px">{{ r.n }}</b>
+<span style="font-size:9.5px;line-height:1.7;color:#5f7167">{{ r.d }}</span>
+<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:auto">
+<sc-for list="{{ r.fmts }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.onGo }}" style="min-height:28px;padding:0 10px;border:1px solid #d5dbd6;border-radius:8px;background:#fbfcfb;font:800 9px ui-monospace,monospace;color:#3d4f45;cursor:pointer">{{ f.n }}</button>
+</sc-for>
+<button type="button" onClick="{{ r.onSch }}" style="min-height:28px;padding:0 10px;border:0;border-radius:8px;background:#14261d;color:#fff;font-size:9px;font-weight:900;cursor:pointer">{{ r.sch }}</button>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:dmFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;maps&quot;,&quot;alerts&quot;,&quot;reports&quot;],&quot;default&quot;:&quot;maps&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+MAPS={
+ crawl:{title:'خريطة الزحف — العمق والمسارات',sub:'العقدة الحمراء يتيمة: الزاحف لا يصلها',act:'أنشئ روابط للصفحة اليتيمة',
+  legend:[['عمق ١','#1e7355'],['عمق ٢','#527a96'],['عمق ٣','#c9a227'],['يتيمة','#b32d2e']],
+  nodes:[['الرئيسية',480,60,'#1e7355',1],['المتجر',260,150,'#1e7355',1],['المدونة',700,150,'#1e7355',1],['أول ثانوي',140,250,'#527a96',2],['ثاني ثانوي',300,250,'#527a96',2],['الحزم',460,250,'#527a96',2],['مقال الخطة',700,250,'#527a96',2],['منتج math-101',140,350,'#c9a227',3],['منتج physics',300,350,'#c9a227',3],['القاموس',600,350,'#c9a227',3],['صفحة قديمة يتيمة',860,330,'#b32d2e',0]],
+  edges:[[0,1],[0,2],[1,3],[1,4],[1,5],[2,6],[3,7],[4,8],[2,9]],
+  sel:{n:'صفحة قديمة يتيمة',d:'/old-guide-2024 — بلا أي رابط داخلي وارد؛ الزاحف اكتشفها من Sitemap فقط. الحل: رابط من مقال الخطة أو دمجها 301.'}},
+ links:{title:'تدفق قوة الروابط الداخلية',sub:'سماكة الخط = عدد الروابط ونصوصها',act:'طبّق اقتراحات الرافعات (٤)',
+  legend:[['مصدر قوة','#1e7355'],['مُدرّة تستقبل','#8a6500'],['تحتاج دعمًا','#b32d2e']],
+  nodes:[['الرئيسية',480,70,'#1e7355',1],['الأكثر مبيعًا',250,180,'#1e7355',1],['مقال الخطة',710,180,'#1e7355',1],['حزمة المراجعة',360,300,'#8a6500',2],['math-101',560,300,'#8a6500',2],['اختبارات الفيزياء',820,300,'#b32d2e',2],['ملزمة الكيمياء',150,320,'#b32d2e',2]],
+  edges:[[0,1,3],[0,2,3],[0,4,2],[1,3,3],[2,4,2],[2,5,1],[1,6,1]],
+  sel:{n:'اختبارات الفيزياء',d:'مركز ٨ بواردين اثنين فقط — اقتراح الرافعات: رابط من مقال الخطة (خطوة الأسبوع الثالث) بمرساة وصفية.'}},
+ entity:{title:'خريطة الكيانات — العلاقات الدلالية',sub:'@id ثابت يمنع تشظي الكيان عبر الصفحات',act:'افحص اتساق الكيانات',
+  legend:[['المنظمة','#1e7355'],['أشخاص','#8a6500'],['منتجات','#527a96'],['مفاهيم','#6b3fa0']],
+  nodes:[['تذكير (Organization)',480,80,'#1e7355',1],['أ. سارة (Person)',250,190,'#8a6500',2],['أ. محمد (Person)',710,190,'#8a6500',2],['مذكرة الرياضيات',180,310,'#527a96',3],['حزمة المراجعة',420,310,'#527a96',3],['التقرير السنوي',660,310,'#527a96',3],['منهج المسارات',880,300,'#6b3fa0',3]],
+  edges:[[0,1],[0,2],[1,3],[1,4],[0,5],[3,6],[4,6]],
+  sel:{n:'تذكير (Organization)',d:'@id موحد في كل الصفحات + sameAs لحساباتك وGBP — كيان واحد لا نسخًا متشظية، وهو ما تعتمده محركات الإجابة.'}}
+};
+state={scr:'maps',map:'crawl',sel:-1,rules:{r1:true,r2:true,r3:true,r4:false,r5:true,r6:true},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['maps','الخرائط التشخيصية'],['alerts','مركز التنبيهات'],['reports','التقارير']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{maps:st.scr==='maps',alerts:st.scr==='alerts',reports:st.scr==='reports',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const M=this.MAPS[st.map];
+ const selIdx=st.sel>=0&&st.sel<M.nodes.length?st.sel:-1;
+ const sel=selIdx>=0?{n:M.nodes[selIdx][0],d:'عقدة «'+M.nodes[selIdx][0]+'» — انقر «'+M.act+'» أو اختر عقدة أخرى.'}:M.sel;
+ base.mp={title:M.title,sub:M.sub,act:M.act,
+  tabs:[['crawl','الزحف'],['links','قوة الروابط'],['entity','الكيانات']].map(t=>({n:t[1],on:st.map===t[0],
+   bd:st.map===t[0]?'#14261d':'#dfe4df',bg:st.map===t[0]?'#14261d':'#fff',fg:st.map===t[0]?'#fff':'#5f7167',
+   onClick:()=>this.setState({map:t[0],sel:-1})})),
+  legend:M.legend.map(l=>({n:l[0],c:l[1]})),
+  nodes:M.nodes.map((n,i)=>({n:n[0],x:(n[1]/960*100).toFixed(2)+'%',y:n[2],s:n[4]===1?46:38,
+   bd:n[3],bg:st.sel===i?n[3]:'#fff',fg:st.sel===i?'#fff':'#14261d',
+   on:st.sel===i,sh:st.sel===i?'0 0 0 5px '+n[3]+'33':'0 2px 8px rgba(10,20,15,.1)',
+   onSel:()=>this.setState({sel:i})})),
+  edges:M.edges.map(e=>{const a=M.nodes[e[0]],b=M.nodes[e[1]];
+   const hot=st.sel===e[0]||st.sel===e[1];
+   return {x1:(a[1]/960*100).toFixed(2)+'%',y1:a[2],x2:(b[1]/960*100).toFixed(2)+'%',y2:b[2],
+    c:hot?'#1e7355':'#c9d3cc',w:hot?3:(e[2]||1.5),d:b[3]==='#b32d2e'?'5 5':'0'};}),
+  selN:sel.n,selD:sel.d,
+  onAct:()=>this.toast('«'+M.act+'» — يفتح في وحدته داخل المركز الموحد مع تراجع وتحقق')};
+ const SEV={c:['حرج','#b32d2e','#fce8e8'],w:['تحذير','#8a6500','#fff4d6'],o:['فرصة','#1d5f9c','#e8f2fc'],i:['معلومة','#5f7167','#f2f4f2']};
+ const RULES=[
+  ['r1','c','صفحة مُدرّة أصبحت noindex','حارس الصفحات المحمية — يوقف النشر فورًا','فوري','افتح الحارس'],
+  ['r2','c','انهيار 404 (+٥٠ خلال ساعة)','قد يعني كسر مسارات بعد نشر','فوري','السبب الجذري'],
+  ['r3','w','هبوط CTR >٢٠٪ لقالب','يشغّل Workflow تحسين العناوين بموافقتك','يومي','افتح الـ Workflow'],
+  ['r4','w','منافس تجاوزك في Top 3','مراقبة كلمات العلامة والمال فقط — معطلة افتراضيًا لتجنب الضجيج','أسبوعي','فعّل بحدود'],
+  ['r5','o','كلمة دخلت المسافة القريبة (٤–١٠)','فرصة جديدة تُضاف تلقائيًا لمحرك الفرص','يومي','محرك الفرص'],
+  ['r6','i','اكتمل تحقق إصلاح (قبل/بعد)','ملخص النتيجة المقاسة في الموجز اليومي','عند الحدوث','الموجز']
+ ];
+ base.al={
+  counts:[['حرجة ٢','#fce8e8','#b32d2e'],['تحذير ٢','#fff4d6','#8a6500'],['فرص ١','#e8f2fc','#1d5f9c'],['معلومات ١','#f2f4f2','#5f7167']].map(c=>({n:c[0],bg:c[1],c:c[2]})),
+  rows:RULES.map(r=>{const S=SEV[r[1]];const on=st.rules[r[0]];
+   return {sev:S[0],c:S[1],sBg:S[2],t:r[2],d:r[3],when:'الفحص: '+r[4],act:r[5],
+    on:on,swBg:on?'#1e7355':'#cfd8d3',knob:on?'17px':'2px',
+    onGo:()=>this.toast('«'+r[5]+'» — يفتح وحدته في المركز'),
+    onTog:()=>{const o=Object.assign({},st.rules);o[r[0]]=!o[r[0]];this.setState({rules:o});
+     this.toast((o[r[0]]?'فُعّلت':'أُوقفت')+' قاعدة «'+r[2]+'» — في سجل التدقيق');}};})};
+ base.rp={rows:[
+  ['التقرير التنفيذي','صحة البحث، الإيراد العضوي، أهم ٣ مخاطر و٣ فرص — صفحة واحدة للإدارة'],
+  ['التقني الشامل','الزحف والفهرسة وCWV وSchema — بقائمة إصلاحات مرتبة'],
+  ['المحتوى','التدهور والفجوات والتنافس الذاتي وتقويم التحديث'],
+  ['الكلمات والمراكز','المسافة القريبة، الرابحة/الخاسرة، وحركة Top 10'],
+  ['تجارة SEO','صحة الـ Feed، المنتجات الغنية، والنافد المحفوظ ترتيبه'],
+  ['الروابط والسلطة','الجديدة والمفقودة والاستصلاح — بتمييز المصدر'],
+  ['AI والبحث التوليدي','جاهزية الاقتباس، الكتل المباشرة، وظهور Overview'],
+  ['ما قبل/بعد الإصلاحات','كل تغيير مُنفَّذ ونتيجته المقاسة بعد ٢٨ يومًا'],
+  ['سجل التدقيق الكامل','كل فعل: مَن ومتى وماذا — للتسليم والمحاسبة']
+ ].map(r=>({n:r[0],d:r[1],
+  fmts:['PDF','CSV','XLSX'].map(f=>({n:f,onGo:()=>this.toast('تصدير «'+r[0]+'» '+f+' — الأرقام بمصادرها والتجريبي موسوم')})),
+  sch:'جدولة أسبوعية',onSch:()=>this.toast('جُدول «'+r[0]+'» أسبوعيًا — يصل الاثنين ٧ صباحًا للبريد المحدد')}))};
+ return base;
+}
+}
+</script>
+</body>
+</html>

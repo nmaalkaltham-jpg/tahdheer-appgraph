@@ -1,0 +1,49 @@
+/*
+UNIT: SPOTLIGHTLAYER
+COMPONENT: SpotlightLayer.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الضوء طبقة مطلقة خلف المحتوى، وإحداثيّاته نسبة مئويّة فلا تنقلب مع الاتجاه.
+ * القيم الافتراضيّة هنا لا في JavaScript: العنصر يبدو صحيحًا قبل الترطيب.
+ */
+
+.root {
+  --sl-x: 50%;
+  --sl-y: 50%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    var(--sl-size) circle at var(--sl-x) var(--sl-y),
+    color-mix(in oklab, var(--sl-color) calc(var(--sl-opacity) * 100%), transparent),
+    transparent 70%
+  );
+  transition: background 120ms linear;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow {
+    /* يثبت في المنتصف: الضوء جزء من التصميم، والحركة وحدها هي ما يُلغى. */
+    background: radial-gradient(
+      var(--sl-size) circle at 50% 50%,
+      color-mix(in oklab, var(--sl-color) calc(var(--sl-opacity) * 100%), transparent),
+      transparent 70%
+    );
+    transition: none;
+  }
+}

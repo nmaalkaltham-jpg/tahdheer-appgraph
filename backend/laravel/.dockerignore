@@ -1,0 +1,30 @@
+# Laravel API build-context exclusions.
+#
+# NOTE: the real image builds from the MONOREPO ROOT context
+# (`docker build -f backend/laravel/Dockerfile .`), so Docker reads
+# /.dockerignore. This file applies only to a backend/laravel-scoped build.
+#
+# vendor/ is the big one: it is reinstalled inside the image from composer.lock,
+# so it must never be shipped in the context.
+vendor
+node_modules
+public/build
+storage/logs
+storage/framework/cache/data
+storage/framework/sessions
+storage/framework/views
+storage/framework/testing
+storage/app/public
+storage/*.key
+*.sqlite
+*.sqlite3
+*.log
+.env
+.env.*
+!.env.example
+.phpunit.cache
+.phpunit.result.cache
+tests
+.DS_Store
+Dockerfile
+.dockerignore

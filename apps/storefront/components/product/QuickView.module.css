@@ -1,0 +1,515 @@
+/*
+ * «معاينة سريعة» — الزرّ في فتحة `actions` بجوار القلب، والنافذة.
+ *
+ * الزرّ توأمُ القلب (CardWishlist.module.css): قرصٌ أبيض ‎32px‎ وهدفُ لمسٍ ‎46px‎
+ * بعنصرٍ زائف، فوق رابط العنوان الممدود. القرص ‎--r-round‎ مشروع (زرّ أيقونةٍ دائريّ
+ * توأمٌ لمفتاح القلب).
+ * النافذة: وصفتا `dialog` و`scrim`، وأزرارها من وصفة الزرّ، والصيغ رقائق `chip`.
+ */
+
+/* ------------------------------------------------------------ زرّ الفتح */
+
+.trigger {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--r-round);
+  background: var(--bg);
+  color: var(--color-secondary-text);
+  box-shadow: var(--ct-shadow-heart);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.trigger::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+}
+
+.trigger > svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+@media (hover: hover) {
+  .trigger:hover {
+    background: var(--sf-cool);
+    color: var(--teal-text);
+  }
+}
+
+.trigger:active {
+  transform: scale(0.92);
+}
+
+.trigger:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.trigger[aria-expanded='true'] {
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+/* --------------------------------------------------------------- النافذة */
+
+/* الحاوية تملأ الشاشة شفّافةً (كدرج الترشيح)، والستارة واللوحة بداخلها. */
+.host {
+  position: fixed;
+  inset: 0;
+  inline-size: 100%;
+  max-inline-size: none;
+  block-size: 100%;
+  max-block-size: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  font-family: var(--font-family);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--sf-ink);
+}
+
+.host[open] {
+  display: grid;
+  place-items: center;
+}
+
+.host::backdrop {
+  background: transparent;
+}
+
+.scrim {
+  composes: scrim from '@tahdheer/ui/controls.module.css';
+}
+
+.panel {
+  composes: dialog from '@tahdheer/ui/controls.module.css';
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(760px, 100%);
+  max-block-size: calc(100dvh - 32px);
+  overflow: hidden;
+  outline: none;
+}
+
+/* التركيز البرمجيّ على اللوحة يُسمِع العنوان؛ لا حلقة حول النافذة كلّها. */
+.panel:focus-visible {
+  outline: none;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-block: 16px 12px;
+  padding-inline: 24px 12px;
+  border-block-end: 1px solid var(--sf-line);
+}
+
+.title {
+  flex: 1;
+  margin: 0;
+  padding-block-start: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--sf-ink);
+  text-align: start;
+  text-wrap: balance;
+}
+
+.close {
+  composes: btn btnGhost btnIcon from '@tahdheer/ui/controls.module.css';
+  flex: none;
+  color: var(--color-secondary-text);
+}
+
+.close > svg {
+  inline-size: 20px;
+  block-size: 20px;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---------------------------------------------------------------- الغلاف */
+
+/* سطحٌ ساكن داخل لوحةٍ ‎--r-xl‎ بحشوة ‎16‎ ⇒ ‎--r-xs‎ (قاعدة التداخل، حدّ أدنى ‎8‎). */
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--sf-hair);
+  border-radius: var(--r-xs);
+  background: var(--sf-gradient-media);
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* الداكن: الغلاف يُعتَّم كغلاف البطاقة — لا يلمع أبيضَ داخل نافذةٍ داكنة. */
+:global(:root[data-theme='dark']) .img {
+  filter: brightness(0.82) contrast(1.05);
+}
+
+/* ورقة القالب المصبوغة حين لا صورة — خطوطٌ زخرفيّة، لا صورةٌ مدّعاة. */
+.paper {
+  position: absolute;
+  inset: 20% 24%;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--r-xs);
+  background: var(--bg);
+  box-shadow: var(--e-1);
+}
+
+.paper > span {
+  block-size: 6px;
+  border-radius: var(--r-round);
+  background: var(--sf-chip);
+}
+
+.paper > span:nth-child(2) {
+  inline-size: 80%;
+}
+
+.paper > span:nth-child(3) {
+  inline-size: 60%;
+}
+
+/* --------------------------------------------------------------- التفاصيل */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-inline-size: 0;
+  text-align: start;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal-text);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-ink-2);
+}
+
+.star {
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--gold-400);
+}
+
+.ratingCount {
+  font-weight: 400;
+  color: var(--sf-muted);
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 8px;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-secondary-text);
+}
+
+.currency {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.was {
+  font-size: 14px;
+  color: var(--sf-muted);
+}
+
+.discount {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+  padding-inline: 8px;
+  border: 1px solid var(--st-danger-line);
+  border-radius: var(--r-xs);
+  background: var(--st-danger-bg);
+  color: var(--st-danger-fg);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.unpriced {
+  font-size: 14px;
+  color: var(--sf-muted);
+}
+
+.desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* الصيغ: رقائق اختيارٍ مفرد (`aria-checked`) من الوصفة. */
+.formats {
+  display: grid;
+  gap: 8px;
+}
+
+.formatsLabel {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-ink-2);
+}
+
+.formatList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.format {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  min-block-size: 44px;
+  gap: 8px;
+}
+
+.formatNote {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------ التحميل والخطأ */
+
+.loading {
+  display: grid;
+  gap: 10px;
+}
+
+.skel {
+  composes: skeleton from '@tahdheer/ui/controls.module.css';
+  display: block;
+  block-size: 14px;
+}
+
+.skel[data-w='s'] {
+  inline-size: 40%;
+  block-size: 36px;
+}
+
+.skel[data-w='l'] {
+  inline-size: 100%;
+}
+
+.skel[data-w='m'] {
+  inline-size: 80%;
+}
+
+.failure {
+  composes: notice noticeDanger from '@tahdheer/ui/controls.module.css';
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.failureText {
+  margin: 0;
+}
+
+.retry {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+}
+
+/* ------------------------------------------------------------------ الأفعال */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 4px;
+}
+
+.add {
+  composes: btn btnPrimary btnLg from '@tahdheer/ui/controls.module.css';
+  flex: 1 1 180px;
+}
+
+.full {
+  composes: btn btnOutline btnLg from '@tahdheer/ui/controls.module.css';
+  flex: 1 1 180px;
+}
+
+/* التسميتان مكدّستان: العرض بعرض أطولهما فلا يقفز عند «أُضيف ✓». */
+.labels {
+  display: grid;
+  justify-items: center;
+}
+
+.labels > span {
+  grid-area: 1 / 1;
+}
+
+.labels > span:not([data-on]) {
+  visibility: hidden;
+}
+
+.status:empty {
+  display: none;
+}
+
+.success {
+  composes: notice noticeSuccess from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+}
+
+.cartLink {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.error {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+  margin: 0;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------- الحركة */
+
+@media (prefers-reduced-motion: no-preference) {
+  .host[open] .panel {
+    animation: qvIn var(--dur-reveal) var(--ease-out);
+  }
+
+  .host[open] .scrim {
+    animation: qvFade var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes qvIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes qvFade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger {
+    transition: none;
+  }
+
+  /* النافذة والستارة تظهران في مكانهما فورًا. */
+  .panel,
+  .scrim {
+    animation: none;
+  }
+
+  .trigger:active {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------ العريض */
+
+@media (min-width: 640px) {
+  .body {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 24px;
+    padding: 24px;
+  }
+
+  /* لوحة ‎--r-xl‎ بحشوة ‎24‎ ⇒ الداخل ‎--r-xs‎ (الحدّ الأدنى). */
+  .media {
+    align-self: start;
+  }
+}
+
+/* الجوّال: حافّةٌ أنحف حول اللوحة. */
+@media (max-width: 639.98px) {
+  .host {
+    padding: 8px;
+  }
+
+  .panel {
+    max-block-size: calc(100dvh - 16px);
+  }
+
+  .head {
+    padding-inline: 16px 8px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  /* الغلاف شريطٌ أقصر على الجوّال: السعر والصيغ والزرّ في الشاشة الأولى. */
+  .media {
+    aspect-ratio: 16 / 7;
+  }
+}

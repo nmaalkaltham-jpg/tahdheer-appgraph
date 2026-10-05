@@ -1,0 +1,7 @@
+{
+  "_note": "سقّاطة guard-raw-colour — عدد الألوان الخامّة لكلّ ملفّ خارج tokens.css (٢٠٢٦-٠٩-٢٥). أنزِل العدد أو احذف المدخل عند الهجرة إلى الرموز؛ لا تُرفع أبدًا.",
+  "files": {
+    "apps/storefront/app/login/icons.tsx": 4,
+    "apps/admin/app/globals.css": 8
+  }
+}

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+::placeholder{color:rgba(0,0,0,.35)}
+@keyframes tahIn{from{opacity:0;transform:translateY(var(--tahD,24px)) scale(var(--tahS,1));filter:blur(var(--tahB,0px))}to{opacity:1;transform:none;filter:none}}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1440px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:13px">
+<div style="flex:1;min-width:250px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">COMPONENT BROWSER</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">متصفّح العناصر — ٣٠٠ اختيار على ٤٥ مكوّنًا</span>
+</div>
+<p style="margin:0;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">كل بطاقة أدناه <b>مدخل سجل حقيقي</b>: معرّف · عائلة · مكوّن مُنفِّذ · تخطيط · مصدر بيانات · أصول · إصدار مخطّط. المعاينة مرسومة من وصف هيكلي واحد — لا ٣٠٠ رسم، بل ٢٦ هيكلًا × تهيئات، وهو نفس مبدأ المعمارية.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px;align-items:flex-end">
+<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:10px;background:#fff;border:1px solid #dcdcde">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:rgba(0,0,0,.4);stroke-width:2.2;stroke-linecap:round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+<input type="text" value="{{ q }}" onChange="{{ setQ }}" placeholder="ابحث بالاسم أو العائلة أو المكوّن…" style="min-width:216px;min-height:28px;border:0;font-family:Tajawal,sans-serif;font-size:12px;font-weight:600;color:#1a1a1a">
+</div>
+<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">المقاس</span>
+<sc-for list="{{ devices }}" as="dv" hint-placeholder-count="3">
+<button type="button" onClick="{{ dv.onClick }}" aria-pressed="{{ dv.on }}" style="min-height:28px;padding:0 10px;border:1px solid {{ dv.edge }};border-radius:7px;background:{{ dv.bg }};color:{{ dv.fg }};font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;cursor:pointer">{{ dv.label }}</button>
+</sc-for>
+</div>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:minmax(0,212px) minmax(0,1fr) minmax(0,320px);gap:13px;align-items:start">
+
+<nav aria-label="تصفية العناصر" style="display:flex;flex-direction:column;gap:11px;padding:10px;border:1px solid #dcdcde;border-radius:12px;background:#fff;position:sticky;inset-block-start:14px">
+<div>
+<span style="display:block;font:800 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.42);padding:2px 8px 6px">مجموعات</span>
+<div style="display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{ colls }}" as="cl" hint-placeholder-count="5">
+<button type="button" onClick="{{ cl.onClick }}" aria-current="{{ cl.current }}" style="display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:7px;align-items:center;min-height:32px;padding:0 8px;border:0;border-inline-start:3px solid {{ cl.edge }};border-radius:7px;background:{{ cl.bg }};cursor:pointer;text-align:start;width:100%">
+<span dir="rtl" style="min-width:0;font-family:Tajawal,sans-serif;font-size:11px;font-weight:{{ cl.weight }};color:{{ cl.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ cl.label }}</span>
+<span style="font:800 8.5px ui-monospace,monospace;padding:2px 5px;border-radius:20px;background:{{ cl.cBg }};color:{{ cl.cFg }};text-align:center">{{ cl.n }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<div style="display:{{ recShow }};flex-direction:column;gap:5px;padding:9px 10px;border-radius:9px;background:#f6faf8;border:1px solid #cfe6dc">
+<span style="font:800 9.5px Tajawal,sans-serif;color:#123d2f">نوع الصفحة</span>
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ pageTypes }}" as="pt" hint-placeholder-count="6">
+<button type="button" onClick="{{ pt.onClick }}" aria-pressed="{{ pt.on }}" style="min-height:26px;padding:0 8px;border:1px solid {{ pt.edge }};border-radius:20px;background:{{ pt.bg }};color:{{ pt.fg }};font-family:Tajawal,sans-serif;font-size:9.5px;font-weight:800;cursor:pointer">{{ pt.label }}</button>
+</sc-for>
+</div>
+<p style="margin:2px 0 0;font:600 8.5px/1.6 Tajawal,sans-serif;color:#123d2f">توصيات بقواعد لا بذكاء — مسموح صراحة في بند ٩١.</p>
+</div>
+<div>
+<span style="display:block;font:800 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.42);padding:2px 8px 6px">العائلات</span>
+<div style="display:flex;flex-direction:column;gap:1px">
+<sc-for list="{{ famNav }}" as="fn" hint-placeholder-count="20">
+<button type="button" onClick="{{ fn.onClick }}" aria-current="{{ fn.current }}" style="display:grid;grid-template-columns:22px minmax(0,1fr) 22px;gap:6px;align-items:center;min-height:29px;padding:0 8px;border:0;border-inline-start:3px solid {{ fn.edge }};border-radius:6px;background:{{ fn.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="font:900 8px ui-monospace,monospace;color:rgba(0,0,0,.35)">{{ fn.n }}</span>
+<span dir="rtl" style="min-width:0;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:{{ fn.weight }};color:{{ fn.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ fn.label }}</span>
+<span style="font:700 8px ui-monospace,monospace;color:rgba(0,0,0,.3);text-align:center">{{ fn.c }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</nav>
+
+<main style="display:flex;flex-direction:column;gap:12px;min-width:0">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 13px;border:1px solid #dcdcde;border-radius:11px;background:#fff">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a">{{ resultLabel }}</span>
+<span style="flex:1"></span>
+<span style="font:700 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.45)">شدّة الحركة</span>
+<div style="display:flex;gap:2px">
+<sc-for list="{{ levelBtns }}" as="lb" hint-placeholder-count="11">
+<button type="button" onClick="{{ lb.onClick }}" aria-pressed="{{ lb.on }}" aria-label="{{ lb.aria }}" style="width:24px;height:26px;border:1px solid {{ lb.edge }};border-radius:6px;background:{{ lb.bg }};color:{{ lb.fg }};font-family:ui-monospace,monospace;font-size:9.5px;font-weight:900;cursor:pointer;padding:0">{{ lb.n }}</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{ replay }}" style="min-height:26px;padding:0 10px;border:1px solid #c9c9cd;border-radius:7px;background:#fcfcfd;font-family:Tajawal,sans-serif;font-size:10px;font-weight:800;color:#1a1a1a;cursor:pointer">تشغيل المعاينة</button>
+</div>
+
+<div style="display:{{ warnShow }};align-items:flex-start;gap:9px;padding:11px 13px;border-radius:10px;background:#fdecea;border:1px solid #f5c9c4">
+<span aria-hidden="true" style="flex:0 0 auto;width:17px;height:17px;margin-top:1px;border-radius:5px;background:#a5261b;color:#fff;display:grid;place-items:center;font:900 10px ui-monospace,monospace">!</span>
+<p style="margin:0;font:600 10.5px/1.7 Tajawal,sans-serif;color:#7d1c14">المستوى {{ lvNum }} فوق حدّ الأمان. الإزاحة {{ lvDist }} والمدّة {{ lvDur }} — على متجر تعليمي يُشترى فيه ملف بسرعة، هذا يؤجّل القرار لا يدعمه. متاح كما طلبت، ولا يدخل أي قالب جاهز.</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(206px,1fr));gap:10px">
+<sc-for list="{{ cards }}" as="cd" hint-placeholder-count="9">
+<button type="button" onClick="{{ cd.onClick }}" aria-pressed="{{ cd.on }}" style="display:flex;flex-direction:column;gap:0;padding:0;border:1px solid {{ cd.edge }};border-radius:11px;background:#fff;cursor:pointer;text-align:start;overflow:hidden" style-hover="border-color:#1e7355">
+<span style="display:block;padding:11px;background:{{ cd.pvBg }};border-bottom:1px solid #f2f2f4">
+<span style="display:flex;flex-direction:column;gap:4px;min-height:76px;justify-content:center">
+<sc-for list="{{ cd.rows }}" as="rw" hint-placeholder-count="3">
+<span style="display:flex;gap:4px;align-items:stretch">
+<sc-for list="{{ rw.cells }}" as="ce" hint-placeholder-count="3">
+<span style="flex:{{ ce.f }};height:{{ ce.h }};border-radius:{{ ce.r }};background:{{ ce.bg }};display:block"></span>
+</sc-for>
+</span>
+</sc-for>
+</span>
+</span>
+<span style="display:flex;flex-direction:column;gap:5px;padding:10px 11px 11px">
+<span style="display:flex;align-items:center;gap:6px">
+<span style="flex:1;min-width:0;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cd.label }}</span>
+<span style="font:800 8.5px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:{{ cd.sBg }};color:{{ cd.sFg }};white-space:nowrap">{{ cd.st }}</span>
+</span>
+<span style="display:flex;align-items:center;gap:5px;min-width:0">
+<span style="font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.42);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cd.comp }}</span>
+<span style="flex:1"></span>
+<span style="font:700 8.5px Tajawal,sans-serif;color:rgba(0,0,0,.38);white-space:nowrap">{{ cd.fam }}</span>
+</span>
+</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display:{{ moreShow }};padding:12px 14px;border-radius:10px;background:#fff;border:1px solid #dcdcde">
+<p style="margin:0;font:600 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ moreLabel }} — المتصفّح لا يُصيّر ٣٠٠ بطاقة في طلب واحد أبدًا. صفِّ بالعائلة أو ابحث. هذا نفس شرط الأداء في بند ٥٢: وجود ٣٠٠ عنصر لا يعني تحميل ٣٠٠ عنصر.</p>
+</div>
+</main>
+
+<aside style="display:flex;flex-direction:column;gap:11px;position:sticky;inset-block-start:14px">
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px">
+<div style="flex:1;min-width:0">
+<span style="display:block;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:2px">{{ sel.label }}</span>
+<span style="display:block;font:600 9px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ sel.id }}</span>
+</div>
+<button type="button" onClick="{{ toggleFav }}" aria-pressed="{{ sel.fav }}" aria-label="مفضّلة" style="flex:0 0 auto;width:28px;height:28px;border:1px solid {{ sel.favEdge }};border-radius:7px;background:{{ sel.favBg }};cursor:pointer;display:grid;place-items:center">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px;fill:{{ sel.favFill }};stroke:{{ sel.favStroke }};stroke-width:2"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8L6.6 19.6l1-6L3.3 9.4l6-.9L12 3Z"></path></svg>
+</button>
+</div>
+
+<div style="padding:11px;border-radius:10px;background:#fcfcfd;border:1px solid #ececef;margin-bottom:11px">
+<div style="width:{{ sel.pvW }};margin:0 auto;transition:width .2s ease">
+<div style="display:flex;flex-direction:column;gap:5px;--tahD:{{ sel.d }};--tahB:{{ sel.b }};--tahS:{{ sel.s }};animation:{{ sel.anim }}">
+<sc-for list="{{ sel.rows }}" as="sr" hint-placeholder-count="3">
+<span style="display:flex;gap:5px;align-items:stretch">
+<sc-for list="{{ sr.cells }}" as="sc2" hint-placeholder-count="3">
+<span style="flex:{{ sc2.f }};height:{{ sc2.h2 }};border-radius:{{ sc2.r }};background:{{ sc2.bg }};display:block"></span>
+</sc-for>
+</span>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:11px">
+<sc-for list="{{ sel.spec }}" as="sp" hint-placeholder-count="7">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;padding:7px 9px;border-radius:7px;background:#fcfcfd;border:1px solid #ececef">
+<span style="font:700 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ sp.k }}</span>
+<span style="font:800 10px ui-monospace,monospace;color:{{ sp.fg }};text-align:end">{{ sp.v }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:5px">
+<button type="button" style="width:100%;min-height:38px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">إضافة إلى الصفحة</button>
+<div style="display:flex;gap:5px">
+<button type="button" style="flex:1;min-height:34px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">إضافة وتحرير</button>
+<button type="button" style="flex:1;min-height:34px;border:1px solid #c9c9cd;border-radius:8px;background:#fff;font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:#1a1a1a;cursor:pointer">حفظ كقالب</button>
+</div>
+</div>
+</div>
+
+<div style="padding:13px 14px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:8px">مدخل السجل</span>
+<div style="padding:10px;border-radius:9px;background:#0f1115;overflow:auto">
+<pre dir="ltr" style="margin:0;font:600 9px/1.75 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ sel.json }}</pre>
+</div>
+<p style="margin:9px 0 0;font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.5)">‏<code style="font-size:9px">schema</code> يحمل رقم إصدار — فأي تغيير في البنية لاحقًا يحتاج ترحيلًا لا تخمينًا. هذا بند ٨٤.</p>
+</div>
+
+<div style="padding:13px 14px;border:1px solid {{ sel.depEdge }};border-radius:12px;background:{{ sel.depBg }}">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:7px">التبعيات والأصول</span>
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+<sc-for list="{{ sel.deps }}" as="dp" hint-placeholder-count="2">
+<span style="font:700 9.5px ui-monospace,monospace;padding:4px 8px;border-radius:6px;background:#fff;border:1px solid #e4e4e7;color:rgba(0,0,0,.62)">{{ dp }}</span>
+</sc-for>
+</div>
+<p style="margin:0;font:600 9.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ sel.depNote }}</p>
+</div>
+</aside>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultMotionLevel&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5,&quot;min&quot;:0,&quot;max&quot;:10,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;الحركة&quot;},&quot;defaultDevice&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desk&quot;,&quot;tab&quot;,&quot;mob&quot;],&quot;default&quot;:&quot;desk&quot;,&quot;tsType&quot;:&quot;'desk' | 'tab' | 'mob'&quot;,&quot;section&quot;:&quot;العرض&quot;},&quot;cardsPerPage&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:24,&quot;min&quot;:8,&quot;max&quot;:60,&quot;step&quot;:4,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;الأداء&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+const chip = (s) => s === 'ok' ? { bg: GBG, fg: G } : s === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+const COMPS = {
+  collection: ['مجموعة مُستعلَمة', 'part', ['استعلام', 'بطاقة']], card: ['بطاقة منتج', 'part', ['بيانات منتج']],
+  compare: ['جدول مقارنة', 'no', ['بيانات منتج']], bundle: ['حزمة', 'no', ['بيانات منتج', 'سلّة']],
+  disclosure: ['كشف وتبويب', 'part', ['زمن تشغيل الكشف']], preview: ['معاينة سريعة', 'no', ['حوار', 'بيانات منتج']],
+  searchField: ['حقل بحث', 'ok', ['ajax-search']], termChips: ['شرائح مصطلحات', 'part', ['سجل البحث']],
+  filterSet: ['طقم مرشّحات', 'part', ['استعلام']], countdown: ['عدّاد تنازلي', 'part', ['تواريخ التخفيض']],
+  promo: ['شارة وشريط عرض', 'ok', ['محرّك العروض']], coupon: ['قسيمة', 'no', ['قسائم ووكومرس']],
+  cta: ['نداء لإجراء', 'ok', []], benefits: ['قائمة فوائد', 'part', []], helper: ['مساعد قرار', 'no', ['حالة محلية']],
+  trust: ['شارات ثقة', 'ok', ['store-trust']], reviews: ['تقييمات', 'ok', ['تقييمات ووكومرس']],
+  policy: ['كتلة سياسة', 'part', ['صفحات السياسات']], mediaOne: ['وسيط مفرد', 'part', ['مكتبة الوسائط']],
+  gallery: ['معرض وسائط', 'no', ['زمن تشغيل المعرض']], mediaFx: ['وسيط تفاعلي', 'no', ['مؤشّر']],
+  mediaBg: ['خلفية وسائطية', 'part', []], richText: ['نص غني', 'ok', []],
+  contentCards: ['بطاقات محتوى', 'part', ['استعلام مقالات']], split: ['نص وصورة', 'part', []],
+  quote: ['اقتباس', 'no', []], faq: ['أسئلة شائعة', 'ok', ['FAQPage schema', 'الكشف']],
+  answer: ['كتلة إجابة', 'no', []], facts: ['لوح حقائق', 'part', ['حقول المنتج']],
+  linkCluster: ['عنقود روابط', 'ok', ['internal-linking']], toc: ['فهرس محتوى', 'no', ['مراسي الأقسام']],
+  glossary: ['مسرد', 'no', []], navBar: ['شريط تنقّل', 'part', ['مراقب التقاطع']],
+  crumbs: ['مسار تنقّل', 'ok', ['breadcrumbs', 'BreadcrumbList']], quickLinks: ['روابط سريعة', 'part', []],
+  social: ['روابط اجتماعية', 'ok', ['share']], ugc: ['معرض العملاء', 'no', ['مكتبة الوسائط']],
+  story: ['كتلة قصّة', 'no', []], timeline: ['خط زمني', 'no', []], people: ['أشخاص', 'no', []],
+  filePreview: ['معاينة ملف', 'no', ['الأصول الرقمية']], form: ['نموذج', 'part', ['تحقّق', 'nonce']],
+  notice: ['تنبيه', 'part', []], stats: ['أرقام ومقاييس', 'part', ['مصدر رقم حقيقي']],
+  smart: ['فتحة ذكية', 'no', ['مصدر بيانات خارجي']],
+};
+
+const FAMS = [
+  ['المنتجات', 'شبكة منتجات|collection,كاروسيل منتجات|collection,سلايدر منتجات|collection,منتج مُبرَز|collection,منتج مميّز|collection,الأكثر مبيعًا|collection,الجديد|collection,الرائج|collection,شوهد مؤخّرًا|collection,منتجات ذات صلة|collection,يُشترى معًا|bundle,حزم المنتجات|bundle,مقارنة المنتجات|compare,تبويبات المنتج|disclosure,معاينة سريعة|preview'],
+  ['التصنيفات', 'شبكة تصنيفات|collection,بطاقات تصنيف|collection,كاروسيل تصنيفات|collection,أقراص تصنيف|collection,أيقونات تصنيف|collection,بانرات تصنيف|collection,فسيفساء تصنيفات|collection,بينتو تصنيفات|collection,تصنيفات مميّزة|collection,تصنيفات شائعة|collection,مستكشف فرعي|collection,مستكشف تصنيفي|collection,شجرة التصنيفات|collection,تبويبات تصنيف|disclosure,استكشاف ذكي|smart'],
+  ['المجموعات', 'مجموعات منسّقة|collection,مجموعات موسمية|collection,الأفضل قيمة|collection,مجموعات مواضيعية|collection,مجموعات تعليمية|collection,موصى بها|collection,مجموعات بصرية|collection,سلايدر مجموعات|collection,بطاقات مجموعة|collection,تبويبات مجموعة|disclosure,بانر مجموعة|promo,عرض مجموعة|collection,حزم مجموعات|bundle,تنقّل المجموعات|navBar,مجموعات ذكية|smart'],
+  ['البحث', 'شريط بحث|searchField,بحث ذكي|searchField,بحث فوري|searchField,اقتراحات البحث|termChips,بحوث رائجة|termChips,بحوث شائعة|termChips,سجل البحث|termChips,شرائح كلمات|termChips,بحث بالتصنيف|searchField,بحث بالمنتج|searchField,بحث بالخصائص|filterSet,تصفّح بالحاجة|termChips,بطاقات النيّة|termChips,كتلة هبوط البحث|answer,مساعد البحث|smart'],
+  ['التصفية', 'مرشّح السعر|filterSet,مرشّح تصنيفي|filterSet,مرشّح التصنيف|filterSet,مرشّح الخصائص|filterSet,مرشّح الوسوم|filterSet,مرشّح التقييم|filterSet,مرشّح نوع المنتج|filterSet,مرشّح التوفّر|filterSet,مرشّحات ديناميكية|filterSet,شرائح مرشّحات|filterSet,دُرج مرشّحات|filterSet,شريط مرشّحات|filterSet,مرشّحات بصرية|filterSet,مرشّحات مجمّعة|filterSet,مرشّحات ذكية|smart'],
+  ['العروض', 'تخفيض سريع|promo,عدّاد العرض|countdown,شريط ترويجي|promo,كتلة قسيمة|coupon,بانر حملة|promo,بطاقات صفقة|collection,كاروسيل صفقات|collection,عرض محدود|countdown,إبراز الخصم|promo,خصم الحزمة|bundle,خصم التصنيف|promo,ترويج مجموعة|promo,ترويج إطلاق|promo,ترويج موسمي|promo,جدول العروض|timeline'],
+  ['التحويل', 'كتلة نداء|cta,نداء ملتصق|cta,بطاقة اشتر الآن|cta,بطاقة أضف للسلة|cta,شريط التحويل|cta,فوائد المنتج|benefits,أسباب الشراء|benefits,كتلة ضمان|policy,مساعد القرار|helper,مقارنة الميزات|compare,مساعد الاختيار|helper,ملخّص العرض|facts,عرض القيمة|benefits,ترقية البيع|collection,بيع متقاطع|collection'],
+  ['الثقة', 'شارات ثقة|trust,ملخّص التقييمات|reviews,حائط التقييمات|reviews,شهادات العملاء|reviews,مشترٍ موثَّق|reviews,كتلة الضمان|policy,سياسة الاسترجاع|policy,دفع آمن|policy,توفّر الدعم|policy,ضمان التواصل|policy,ثقة العلامة|story,مزايا المتجر|benefits,مؤشّرات الخبرة|stats,مؤشّرات الجودة|facts,وعد العميل|story'],
+  ['الوسائط', 'صورة مفردة|mediaOne,شبكة صور|gallery,معرض صور|gallery,معرض متراصّ|gallery,سلايدر صور|gallery,كاروسيل صور|gallery,صورة تفاعلية|mediaFx,صورة بنقاط|mediaFx,قبل وبعد|mediaFx,كتلة فيديو|mediaOne,معرض فيديو|gallery,فيديو خلفي|mediaBg,فيديو المنتج|mediaOne,رسم متحرّك|mediaOne,كولاج وسائط|gallery'],
+  ['المحتوى', 'نص غني|richText,بطاقات محتوى|contentCards,شبكة مقالات|contentCards,كاروسيل مدوّنة|contentCards,قسم دليل|contentCards,مقال مُبرَز|contentCards,كتلة كيف|answer,قسم تعليمي|split,نص وصورة|split,تبويبات محتوى|disclosure,أكورديون محتوى|disclosure,كتلة اقتباس|quote,مقال رئيسي|contentCards,بطاقات موارد|linkCluster,مركز معرفة|contentCards'],
+  ['بنية البحث', 'قسم أسئلة|faq,عنقود موضوعي|linkCluster,روابط داخلية|linkCluster,مواضيع ذات صلة|linkCluster,منتجات ذات صلة|collection,تصنيفات ذات صلة|collection,مقدّمة مُهيكلة|answer,فهرس المحتوى|toc,ميزات دلالية|facts,سؤال وجواب|faq,مسرد|glossary,ملخّص الكيان|facts,جدول مقارنة|compare,قسم نيّة البحث|answer,موارد مفيدة|linkCluster'],
+  ['الإجابة والذكاء', 'إجابة مباشرة|answer,كتلة تعريف|answer,حقائق مُهيكلة|facts,أجوبة الأسئلة|faq,خصائص الكيان|facts,حقائق المنتج|facts,ملخّص المقارنة|compare,توصية موجزة|answer,ملخّص كيف|answer,مشكلة وحل|answer,معلومة سياقية|notice,مراجع مُهيكلة|linkCluster,إيجابيات وسلبيات|facts,اعتبارات الشراء|facts,ملخّص خبير|answer'],
+  ['التنقّل', 'مسار تنقّل|crumbs,تنقّل بالمراسي|navBar,تنقّل ملتصق|navBar,تنقّل الأقسام|navBar,تنقّل التصنيفات|navBar,تنقّل المجموعات|navBar,تنقّل بصري|collection,روابط سريعة|quickLinks,فهرس الصفحة|toc,قفز الصفحة|toc,تنقّل ضخم|navBar,تنقّل عائم|navBar,تنقّل سفلي|navBar,صفحات ذات صلة|linkCluster,تنقّل ذكي|smart'],
+  ['الاجتماعي', 'أيقونات اجتماعية|social,مشاركة|social,دليل اجتماعي|reviews,معرض اجتماعي|ugc,بطاقات منشئين|people,كتلة مجتمع|story,صور العملاء|ugc,محتوى العملاء|ugc,تقييمات اجتماعية|reviews,كتلة إحالة|cta,نداء المشاركة|social,كتلة متابعة|social,خلاصة فيديو|gallery,عدّادات اجتماعية|stats,أبرز المجتمع|ugc'],
+  ['قصّة العلامة', 'قصّة العلامة|story,من نحن|story,القيم|story,الرسالة|story,الرؤية|story,خط زمني|timeline,محطّات|timeline,كلمة المؤسّس|story,الفريق|people,العملية|timeline,فلسفة الجودة|story,وعد العلامة|story,وراء الكواليس|gallery,لماذا نحن|benefits,معرض القصّة|gallery'],
+  ['المنتج الرقمي', 'نوع الملف|facts,الصيغ|facts,معلومات التحميل|facts,معلومات الوصول|facts,التوافق|facts,متطلّبات البرنامج|facts,الأجهزة المدعومة|facts,معلومات الإصدار|facts,معلومات التحديث|facts,نوع الترخيص|facts,عدد الملفات|facts,معاينة الملف|filePreview,محتوى تجريبي|filePreview,دليل الاستخدام|answer,طريقة التسليم|facts'],
+  ['النماذج', 'النشرة البريدية|form,تواصل|form,جذب عميل|form,قائمة انتظار|form,تعليق|form,استفسار|form,طلب دعم|form,استبيان سريع|form,سؤال عن المنتج|form,تصويت|form,تنبيه إشعار|form,تنبيه إطلاق|form,جمع بريد|form,طلب معلومات|form,نموذج مخصّص|form'],
+  ['المعلومات', 'صندوق معلومة|notice,ملاحظة|notice,تحذير|notice,نصيحة|notice,رسالة نجاح|notice,قائمة تحقّق|benefits,خطوات|timeline,عملية|timeline,أسئلة شائعة|faq,خط زمني|timeline,إحصائيات|stats,مقاييس|stats,صندوق إبراز|notice,مقارنة|compare,حقائق أساسية|facts'],
+  ['التفاعلي', 'تبويبات|disclosure,أكورديون|disclosure,مفتاح تبديل|disclosure,بطاقات تفاعلية|card,بطاقات مقلوبة|card,بطاقات تمرير|card,بطاقات موسّعة|disclosure,خط زمني تفاعلي|timeline,معرض بالتمرير|mediaFx,مُحدِّد منتج|helper,اختبار منتج|helper,مُحدِّد بصري|helper,منتقي خيارات|helper,رحلة موجّهة|helper,مقارنة تفاعلية|compare'],
+  ['الذكي', 'توصيات ذكية|smart,مساعد بحث|smart,استكشاف ذكي|smart,اقتراح تصنيفات|smart,ذات صلة ذكية|smart,أسئلة ذكية|smart,اقتراح محتوى|smart,عرض تجاري ذكي|smart,تخصيص|smart,كشف النيّة|smart,توصية الجلسة|smart,نداء سياقي|smart,محتوى ديناميكي|smart,كتلة رؤية|smart,مساعد شراء|smart'],
+];
+
+const LV = [
+  ['0px', '0ms', '—', '0ms', '0px', '1'], ['4px', '200ms', 'ease-out', '20ms', '0px', '1'],
+  ['8px', '260ms', 'ease-out', '30ms', '0px', '1'], ['12px', '320ms', 'smooth', '40ms', '0px', '1'],
+  ['18px', '400ms', 'smooth', '50ms', '2px', '1'], ['24px', '480ms', 'smooth', '60ms', '4px', '1'],
+  ['34px', '560ms', 'soft-spring', '80ms', '6px', '.98'], ['46px', '640ms', 'soft-spring', '100ms', '8px', '.96'],
+  ['62px', '760ms', 'spring', '120ms', '12px', '.94'], ['84px', '880ms', 'spring', '150ms', '16px', '.9'],
+  ['110px', '1200ms', 'مخصّص', '200ms', '24px', '.86'],
+];
+const EASE = { '—': 'linear', 'ease-out': 'ease-out', smooth: 'cubic-bezier(.22,.61,.36,1)', 'soft-spring': 'cubic-bezier(.16,1,.3,1)', spring: 'cubic-bezier(.34,1.56,.64,1)', 'مخصّص': 'cubic-bezier(.2,1.4,.3,1)' };
+
+const T1 = 'rgba(0,0,0,.13)', T2 = 'rgba(0,0,0,.07)', TG = 'rgba(30,115,85,.22)';
+const c = (f, h, r, bg) => ({ f, h, r, bg: bg || T2 });
+const WIRE = {
+  grid: [[c(1, '26px', '5px', T1), c(1, '26px', '5px', T1), c(1, '26px', '5px', T1)], [c(1, '26px', '5px', T1), c(1, '26px', '5px', T1), c(1, '26px', '5px', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  carou: [[c(1.6, '44px', '6px', T1), c(1.6, '44px', '6px', T1), c(.4, '44px', '6px', T2)], [c(1, '5px', '3px'), c(3, '5px', '3px', 'transparent'), c(1, '5px', '3px')]],
+  slider: [[c(1, '52px', '6px', T1)], [c(1, '4px', '3px', TG), c(3, '4px', '3px')]],
+  spot: [[c(1.3, '48px', '6px', T1), c(1, '48px', '6px', 'transparent')], [c(1.5, '6px', '3px'), c(1.5, '6px', '3px', 'transparent')], [c(1, '6px', '3px'), c(2, '6px', '3px', 'transparent')]],
+  split: [[c(1, '46px', '6px'), c(1, '46px', '6px', T1)], [c(1.2, '6px', '3px'), c(1, '6px', '3px', 'transparent')]],
+  bento: [[c(2, '44px', '6px', T1), c(1, '44px', '6px')], [c(1, '20px', '5px'), c(1, '20px', '5px'), c(1, '20px', '5px', T1)]],
+  mosaic: [[c(1, '30px', '5px', T1), c(2, '30px', '5px')], [c(2, '22px', '5px'), c(1, '22px', '5px', T1)]],
+  tree: [[c(1, '8px', '3px', T1)], [c(.2, '8px', '3px', 'transparent'), c(1, '8px', '3px')], [c(.2, '8px', '3px', 'transparent'), c(1, '8px', '3px')], [c(1, '8px', '3px', T1)]],
+  icons: [[c(1, '22px', '50%', T1), c(1, '22px', '50%', T1), c(1, '22px', '50%', T1), c(1, '22px', '50%', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  chips: [[c(1.2, '16px', '20px', T1), c(1, '16px', '20px'), c(1.4, '16px', '20px')], [c(1, '16px', '20px'), c(1.3, '16px', '20px', T1), c(1, '16px', '20px')]],
+  bar: [[c(1, '30px', '8px', T1)], [c(1, '5px', '3px'), c(2, '5px', '3px', 'transparent')]],
+  drawer: [[c(1, '9px', '3px', T1), c(1.4, '9px', '3px', 'transparent')], [c(1, '18px', '4px')], [c(1, '18px', '4px')], [c(1, '18px', '4px', TG)]],
+  banner: [[c(1, '40px', '7px', TG)], [c(1.6, '6px', '3px'), c(1, '6px', '3px', 'transparent')]],
+  count: [[c(1, '26px', '6px', T1), c(1, '26px', '6px', T1), c(1, '26px', '6px', T1), c(1, '26px', '6px', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  cta: [[c(1, '7px', '3px'), c(1.2, '7px', '3px', 'transparent')], [c(1, '7px', '3px'), c(2, '7px', '3px', 'transparent')], [c(1, '24px', '7px', TG), c(.8, '24px', '7px'), c(1, '24px', '7px', 'transparent')]],
+  cards: [[c(1, '36px', '6px', T1), c(1, '36px', '6px', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px')], [c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  table: [[c(1, '10px', '3px', T1), c(1, '10px', '3px', T1), c(1, '10px', '3px', T1)], [c(1, '9px', '3px'), c(1, '9px', '3px'), c(1, '9px', '3px')], [c(1, '9px', '3px'), c(1, '9px', '3px'), c(1, '9px', '3px')], [c(1, '9px', '3px'), c(1, '9px', '3px'), c(1, '9px', '3px')]],
+  gal: [[c(1, '34px', '5px', T1), c(1, '34px', '5px'), c(1, '34px', '5px', T1)], [c(1, '20px', '5px'), c(1, '20px', '5px', T1), c(1, '20px', '5px')]],
+  form: [[c(1, '7px', '3px'), c(1.6, '7px', '3px', 'transparent')], [c(1, '20px', '6px', T1)], [c(1, '20px', '6px', T1)], [c(1, '22px', '6px', TG)]],
+  notice: [[c(.14, '38px', '3px', TG), c(1, '38px', '5px')], [c(1, '5px', '3px'), c(1.4, '5px', '3px', 'transparent')]],
+  stats: [[c(1, '22px', '5px', T1), c(1, '22px', '5px', T1), c(1, '22px', '5px', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  faq: [[c(1, '16px', '5px', T1), c(.12, '16px', '5px')], [c(1, '16px', '5px'), c(.12, '16px', '5px')], [c(1, '16px', '5px'), c(.12, '16px', '5px')], [c(1, '16px', '5px'), c(.12, '16px', '5px')]],
+  tabs: [[c(1, '14px', '5px', T1), c(1, '14px', '5px'), c(1, '14px', '5px')], [c(1, '34px', '5px')]],
+  tline: [[c(.1, '9px', '50%', TG), c(1, '9px', '3px')], [c(.1, '9px', '50%', T1), c(1.3, '9px', '3px')], [c(.1, '9px', '50%', T1), c(1, '9px', '3px')], [c(.1, '9px', '50%', T1), c(1.5, '9px', '3px')]],
+  quote: [[c(.16, '34px', '3px', TG), c(1, '9px', '3px')], [c(.16, '9px', '3px', 'transparent'), c(1.2, '9px', '3px')], [c(.16, '9px', '3px', 'transparent'), c(.7, '9px', '3px')]],
+  toc: [[c(1, '6px', '3px', T1), c(1.6, '6px', '3px', 'transparent')], [c(.8, '6px', '3px'), c(2, '6px', '3px', 'transparent')], [c(1.1, '6px', '3px'), c(1.6, '6px', '3px', 'transparent')], [c(.9, '6px', '3px'), c(2, '6px', '3px', 'transparent')]],
+  badge: [[c(1, '22px', '6px', T1), c(1, '22px', '6px', T1), c(1, '22px', '6px', T1), c(1, '22px', '6px', T1)]],
+  person: [[c(1, '24px', '50%', T1), c(1, '24px', '50%', T1), c(1, '24px', '50%', T1)], [c(1, '5px', '3px'), c(1, '5px', '3px'), c(1, '5px', '3px')]],
+  file: [[c(.4, '40px', '4px', T1), c(1, '8px', '3px')], [c(.4, '8px', '3px', 'transparent'), c(.8, '8px', '3px')]],
+  nav: [[c(1, '9px', '3px', T1), c(1, '9px', '3px'), c(1, '9px', '3px'), c(1, '9px', '3px')]],
+  list: [[c(.12, '8px', '50%', TG), c(1, '8px', '3px')], [c(.12, '8px', '50%', TG), c(1.3, '8px', '3px')], [c(.12, '8px', '50%', TG), c(1, '8px', '3px')], [c(.12, '8px', '50%', TG), c(1.4, '8px', '3px')]],
+  text: [[c(1, '7px', '3px', T1)], [c(1, '6px', '3px')], [c(1, '6px', '3px')], [c(.6, '6px', '3px')]],
+  card: [[c(1, '40px', '6px', T1)], [c(1.4, '6px', '3px'), c(1, '6px', '3px', 'transparent')], [c(1, '6px', '3px'), c(2, '6px', '3px', 'transparent')]],
+  smart: [[c(1, '9px', '3px', TG), c(1.2, '9px', '3px', 'transparent')], [c(1, '30px', '6px')], [c(1, '30px', '6px')]],
+};
+const BASE = {
+  collection: 'grid', card: 'card', compare: 'table', bundle: 'cards', disclosure: 'tabs', preview: 'spot',
+  searchField: 'bar', termChips: 'chips', filterSet: 'drawer', countdown: 'count', promo: 'banner', coupon: 'banner',
+  cta: 'cta', benefits: 'list', helper: 'cards', trust: 'badge', reviews: 'list', policy: 'notice',
+  mediaOne: 'spot', gallery: 'gal', mediaFx: 'spot', mediaBg: 'spot', richText: 'text', contentCards: 'cards',
+  split: 'split', quote: 'quote', faq: 'faq', answer: 'text', facts: 'table', linkCluster: 'list', toc: 'toc',
+  glossary: 'list', navBar: 'nav', crumbs: 'nav', quickLinks: 'chips', social: 'badge', ugc: 'gal',
+  story: 'split', timeline: 'tline', people: 'person', filePreview: 'file', form: 'form', notice: 'notice',
+  stats: 'stats', smart: 'smart',
+};
+const KEY = [['كاروسيل', 'carou'], ['سلايدر', 'slider'], ['بينتو', 'bento'], ['فسيفساء', 'mosaic'], ['متراصّ', 'mosaic'], ['حائط', 'mosaic'], ['شجرة', 'tree'], ['أيقونات', 'icons'], ['أقراص', 'chips'], ['شرائح', 'chips'], ['بانر', 'banner'], ['شبكة', 'grid'], ['جدول', 'table'], ['دُرج', 'drawer'], ['شريط', 'bar'], ['ملتصق', 'bar'], ['تبويبات', 'tabs'], ['أكورديون', 'faq'], ['عدّاد', 'count'], ['خط زمني', 'tline'], ['معرض', 'gal'], ['مُبرَز', 'spot'], ['مميّز', 'spot'], ['رئيسي', 'spot'], ['كتلة فيديو', 'spot'], ['قائمة', 'list']];
+
+const PAGES = [['home', 'الرئيسية', ['شبكة تصنيفات', 'الأكثر مبيعًا', 'تخفيض سريع', 'مجموعات منسّقة', 'شارات ثقة', 'ملخّص التقييمات', 'قسم دليل', 'النشرة البريدية']],
+  ['product', 'المنتج', ['إجابة مباشرة', 'حقائق المنتج', 'قسم أسئلة', 'ملخّص التقييمات', 'شارات ثقة', 'فوائد المنتج', 'منتجات ذات صلة', 'يُشترى معًا']],
+  ['cat', 'التصنيف', ['مرشّحات مجمّعة', 'شبكة منتجات', 'مستكشف فرعي', 'مسار تنقّل', 'مقدّمة مُهيكلة', 'روابط داخلية']],
+  ['search', 'البحث', ['شريط بحث', 'بحوث رائجة', 'بطاقات النيّة', 'شبكة منتجات', 'مرشّحات ديناميكية', 'كتلة هبوط البحث']],
+  ['offers', 'العروض', ['عدّاد العرض', 'بطاقات صفقة', 'إبراز الخصم', 'خصم الحزمة', 'جدول العروض']],
+  ['digital', 'الرقمي', ['نوع الملف', 'الصيغ', 'معلومات التحميل', 'معاينة الملف', 'نوع الترخيص', 'طريقة التسليم', 'دليل الاستخدام']]];
+
+const ALL = [];
+FAMS.forEach((f, fi) => {
+  f[1].split(',').forEach((s, i) => {
+    const p = s.split('|'), name = p[0], comp = p[1];
+    let sk = BASE[comp] || 'text';
+    for (let k = 0; k < KEY.length; k++) { if (name.indexOf(KEY[k][0]) !== -1) { sk = KEY[k][1]; break; } }
+    ALL.push({ name, comp, sk, fam: f[0], fi, id: 'tah/' + comp + '.' + String(fi + 1).padStart(2, '0') + String(i + 1).padStart(2, '0') });
+  });
+});
+
+class Component extends DCLogic {
+  state = { q: '', fam: 0, coll: 'fam', page: 'home', dev: 'desk', lv: 5, sel: 0, fav: {}, recent: [], play: true };
+
+  choose = (i) => () => this.setState((s) => ({ sel: i, recent: [i].concat(s.recent.filter((x) => x !== i)).slice(0, 12) }));
+
+  renderVals() {
+    const q = this.state.q.trim(), coll = this.state.coll;
+    const favIdx = Object.keys(this.state.fav).filter((k) => this.state.fav[k]).map(Number);
+    const pageDef = PAGES.find((p) => p[0] === this.state.page) || PAGES[0];
+
+    let pool;
+    if (q) pool = ALL.map((x, i) => i).filter((i) => (ALL[i].name + ' ' + ALL[i].fam + ' ' + ALL[i].comp).indexOf(q) !== -1);
+    else if (coll === 'fav') pool = favIdx;
+    else if (coll === 'recent') pool = this.state.recent.slice();
+    else if (coll === 'exists') pool = ALL.map((x, i) => i).filter((i) => (COMPS[ALL[i].comp] || [])[1] === 'ok');
+    else if (coll === 'rec') pool = ALL.map((x, i) => i).filter((i) => pageDef[2].indexOf(ALL[i].name) !== -1);
+    else pool = ALL.map((x, i) => i).filter((i) => ALL[i].fi === this.state.fam);
+
+    const total = pool.length;
+    const shown = pool.slice(0, 24);
+    const lv = LV[this.state.lv];
+    const easeCss = EASE[lv[2]] || 'ease-out';
+    const anim = this.state.play && this.state.lv > 0 ? 'tahIn ' + lv[1] + ' ' + easeCss + ' both' : 'none';
+
+    const sIdx = pool.indexOf(this.state.sel) !== -1 ? this.state.sel : (shown[0] !== undefined ? shown[0] : 0);
+    const s = ALL[sIdx], sc = COMPS[s.comp] || ['—', 'no', []];
+    const scChip = chip(sc[1]);
+    const wire = (k) => (WIRE[k] || WIRE.text).map((row) => ({ cells: row.map((x) => ({ f: x.f, h: x.h, h2: x.h, r: x.r, bg: x.bg })) }));
+    const bigWire = (WIRE[s.sk] || WIRE.text).map((row) => ({ cells: row.map((x) => ({ f: x.f, h2: 'calc(' + x.h + ' * 1.5)', r: x.r, bg: x.bg })) }));
+
+    return {
+      q: this.state.q, setQ: (e) => this.setState({ q: e && e.target ? e.target.value : '' }),
+      devices: [['desk', 'مكتب'], ['tab', 'تابلت'], ['mob', 'جوال']].map((d) => {
+        const on = this.state.dev === d[0];
+        return { label: d[1], on, onClick: () => this.setState({ dev: d[0] }), edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)' };
+      }),
+
+      colls: [['fam', 'بالعائلة', String(ALL.filter((x) => x.fi === this.state.fam).length)], ['rec', 'الموصى بها', String(pageDef[2].length)], ['exists', 'موجود فعلًا', String(ALL.filter((x) => (COMPS[x.comp] || [])[1] === 'ok').length)], ['fav', 'المفضّلة', String(favIdx.length)], ['recent', 'مستخدم حديثًا', String(this.state.recent.length)]].map((x) => {
+        const on = coll === x[0] && !q;
+        return { label: x[1], n: x[2], current: on ? 'true' : 'false', onClick: () => this.setState({ coll: x[0], q: '' }), edge: on ? G : 'transparent', bg: on ? '#f6faf8' : 'transparent', fg: on ? '#123d2f' : 'rgba(0,0,0,.68)', weight: on ? 800 : 600, cBg: on ? G : '#f2f2f4', cFg: on ? '#fff' : 'rgba(0,0,0,.45)' };
+      }),
+      recShow: coll === 'rec' && !q ? 'flex' : 'none',
+      pageTypes: PAGES.map((p) => {
+        const on = this.state.page === p[0];
+        return { label: p[1], on, onClick: () => this.setState({ page: p[0], coll: 'rec', q: '' }), edge: on ? G : '#cfe6dc', bg: on ? G : '#fff', fg: on ? '#fff' : G };
+      }),
+
+      famNav: FAMS.map((f, i) => {
+        const on = this.state.fam === i && coll === 'fam' && !q;
+        return { n: String(i + 1).padStart(2, '0'), label: f[0], c: '15', current: on ? 'true' : 'false', onClick: () => this.setState({ fam: i, coll: 'fam', q: '' }), edge: on ? G : 'transparent', bg: on ? '#f6faf8' : 'transparent', fg: on ? '#123d2f' : 'rgba(0,0,0,.66)', weight: on ? 800 : 600 };
+      }),
+
+      resultLabel: q ? 'نتائج البحث «' + q + '» — ' + total : (coll === 'fam' ? FAMS[this.state.fam][0] + ' — ' + total + ' اختيارًا' : (coll === 'rec' ? 'موصى بها لصفحة ' + pageDef[1] + ' — ' + total : total + ' اختيارًا')),
+      moreShow: total > 24 ? 'block' : 'none',
+      moreLabel: 'معروض ٢٤ من ' + total,
+
+      levelBtns: LV.map((l, i) => {
+        const on = this.state.lv === i;
+        const hot = i >= 8 ? R : i >= 6 ? A : G;
+        return { n: String(i), aria: 'مستوى ' + i, on, onClick: () => this.setState({ lv: i, play: true }), edge: on ? hot : '#e4e4e7', bg: on ? (i >= 8 ? RBG : i >= 6 ? ABG : GBG) : '#fff', fg: on ? hot : 'rgba(0,0,0,.4)' };
+      }),
+      replay: () => { this.setState({ play: false }); window.setTimeout(() => this.setState({ play: true }), 40); },
+      warnShow: this.state.lv >= 8 ? 'flex' : 'none',
+      lvNum: String(this.state.lv), lvDist: lv[0], lvDur: lv[1],
+
+      cards: shown.map((i) => {
+        const x = ALL[i], cc = COMPS[x.comp] || ['—', 'no'], ch = chip(cc[1]);
+        return {
+          label: x.name, comp: x.comp + ' · ' + x.sk, fam: x.fam, on: i === sIdx,
+          st: cc[1] === 'ok' ? 'موجود' : cc[1] === 'part' ? 'جزئي' : 'ناقص', sBg: ch.bg, sFg: ch.fg,
+          edge: i === sIdx ? G : '#dcdcde', pvBg: i === sIdx ? '#f6faf8' : '#fcfcfd',
+          rows: wire(x.sk), onClick: this.choose(i),
+        };
+      }),
+
+      sel: {
+        label: s.name, id: s.id, rows: bigWire, anim,
+        d: lv[0], b: lv[4], s: lv[5],
+        pvW: this.state.dev === 'desk' ? '100%' : this.state.dev === 'tab' ? '72%' : '48%',
+        fav: !!this.state.fav[sIdx],
+        favEdge: this.state.fav[sIdx] ? '#f0dca0' : '#dcdcde', favBg: this.state.fav[sIdx] ? ABG : '#fff',
+        favFill: this.state.fav[sIdx] ? '#c99700' : 'none', favStroke: this.state.fav[sIdx] ? '#c99700' : 'rgba(0,0,0,.35)',
+        spec: [
+          { k: 'المكوّن المُنفِّذ', v: sc[0], fg: '#1a1a1a' },
+          { k: 'الحالة', v: sc[1] === 'ok' ? 'موجود' : sc[1] === 'part' ? 'جزئي' : 'ناقص', fg: scChip.fg },
+          { k: 'الهيكل', v: s.sk, fg: '#1a1a1a' },
+          { k: 'المسافة', v: lv[0], fg: G }, { k: 'المدّة', v: lv[1], fg: G },
+          { k: 'المنحنى', v: lv[2], fg: G }, { k: 'التتالي', v: lv[3], fg: G },
+        ],
+        json: '{\n  "id": "' + s.id + '",\n  "label": "' + s.name + '",\n  "family": "' + s.fam + '",\n  "component": "' + s.comp + '",\n  "layout": "' + s.sk + '",\n  "status": "' + sc[1] + '",\n  "motion": { "level": "inherit", "entrance": "fade-up" },\n  "schema": 1\n}',
+        deps: sc[2].length ? sc[2] : ['لا تبعيات'],
+        depNote: sc[2].length ? 'تُحمَّل عند وجود هذا العنصر في الصفحة فقط — لا حزمة عامة. بند ١٠٧.' : 'مكوّن مكتفٍ بذاته: لا زمن تشغيل ولا استعلام. الأرخص أداءً.',
+        depEdge: sc[2].length ? '#f0dca0' : '#cfe6dc', depBg: sc[2].length ? '#fdf9ef' : '#f6faf8',
+      },
+      toggleFav: () => this.setState((st) => ({ fav: { ...st.fav, [sIdx]: !st.fav[sIdx] } })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

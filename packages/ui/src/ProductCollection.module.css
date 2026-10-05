@@ -1,0 +1,257 @@
+/*
+UNIT: PRODUCTCOLLECTION
+COMPONENT: ProductCollection.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * ProductCollection — التخطيطات الخمسة كفروع عرض لمكوّن واحد.
+ *
+ * كل قياس يقرأ متغيّرًا يضبطه المكوّن من الضوابط، فلا رقم مكتوب هنا يخالف ما
+ * يراه المشرف. وكل خاصية منطقية لا فيزيائية: هذا متجر عربي، والاتجاه ينعكس
+ * بلا نسخة ثانية من الأنماط.
+ */
+
+.collection {
+  display: block;
+  container-type: inline-size;
+}
+
+.heading {
+  margin-block: 0 var(--pc-gap);
+  font-size: var(--pc-h-size);
+  font-weight: var(--pc-h-weight);
+  color: var(--ink);
+}
+
+.track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--pc-gap);
+}
+
+.cell {
+  min-inline-size: 0;
+  border-radius: var(--r-pc);
+  border: var(--pc-border) solid var(--border);
+  overflow: hidden;
+}
+
+/* ── grid ─────────────────────────────────────────────────────────── */
+.layout_grid .track {
+  display: grid;
+  /* minmax(0,1fr) لا 1fr عاريًا: مسار عارٍ يقف عند عرض المحتوى الأدنى،
+     فبطاقة باسم طويل تدفع الشبكة خارج حاويتها. */
+  grid-template-columns: repeat(var(--pc-cols), minmax(0, 1fr));
+}
+
+/* ── list ─────────────────────────────────────────────────────────── */
+.layout_list .track {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * كان صفّ القائمة بطاقة رأسية بعرض الحاوية كاملًا، فتتضخّم صورته إلى عرض
+ * الصفحة ويبلغ ارتفاع الصفّ ~950px (عيب مقيس — WP-R). هنا يصير الصفّ
+ * «كائن وسائط» أفقيًّا: عمود صورة محدود العرض والمحتوى بجانبه.
+ * محدِّدات العناصر (article/div) تقرأ بنية ProductCard — الحزمتان ملفّان
+ * متجاوران في نفس الحزمة وعقد بنيتهما واحد.
+ */
+.layout_list .cell article {
+  display: grid;
+  grid-template-columns: clamp(96px, 28cqi, 200px) minmax(0, 1fr);
+  column-gap: var(--pc-pad);
+  align-items: center;
+}
+
+/* الوسائط (أوّل div) تمتدّ على كل صفوف المحتوى — ٦ أقصى عدد لأبناء البطاقة. */
+.layout_list .cell article > div:first-of-type {
+  grid-row: 1 / span 6;
+  margin: 0;
+  align-self: center;
+}
+
+/* ── carousel ─────────────────────────────────────────────────────── */
+.layout_carousel .track {
+  display: grid;
+  grid-auto-flow: column;
+  /* عرض الخليّة مشتقّ من عدد الأعمدة، فيبقى ضابط الأعمدة فعّالًا في
+     الكاروسيل أيضًا بدل أن يصير بلا أثر. */
+  grid-auto-columns: calc((100% - (var(--pc-cols) - 1) * var(--pc-gap)) / var(--pc-cols));
+  overflow-x: auto;
+  scroll-snap-type: inline mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.layout_carousel .cell {
+  scroll-snap-align: start;
+}
+
+/* ── slider ───────────────────────────────────────────────────────── */
+.layout_slider .track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: inline mandatory;
+}
+
+.layout_slider .cell {
+  scroll-snap-align: center;
+}
+
+/* ── bento ────────────────────────────────────────────────────────── */
+.layout_bento .track {
+  display: grid;
+  grid-template-columns: repeat(var(--pc-cols), minmax(0, 1fr));
+  grid-auto-rows: auto;
+}
+
+/* إيقاع بينتو: الأوّل ضِعف العرض، وكل ثالث أعرض — كسرٌ منتظم لا عشوائي. */
+.layout_bento .cell:first-child {
+  grid-column: span min(2, var(--pc-cols));
+}
+
+.layout_bento .cell:nth-child(3n + 4) {
+  grid-column: span min(2, var(--pc-cols));
+}
+
+/* ── الأسطح ───────────────────────────────────────────────────────── */
+.surface_plain { background: transparent; }
+.surface_soft  { background: var(--bg-soft); }
+.surface_warm  { background: var(--pc-surface-warm); }
+
+.surface_dark {
+  background: var(--color-inverse);
+  color: var(--chrome-text);
+}
+
+.surface_dark .heading {
+  color: var(--chrome-text);
+}
+
+/* ── الظلال ───────────────────────────────────────────────────────── */
+.shadow_none .cell { box-shadow: none; }
+.shadow_soft .cell { box-shadow: var(--pc-shadow-soft); }
+.shadow_lift .cell { box-shadow: var(--pc-shadow-lift); }
+
+/* ── نسبة الصورة وملاءمتها ────────────────────────────────────────── */
+.cell :global(img) {
+  aspect-ratio: var(--pc-ratio);
+  object-fit: var(--pc-fit);
+  inline-size: 100%;
+  display: block;
+}
+
+/* ── إخفاء العنوان والسعر (مفتاحا parts.title/parts.price) ───────────
+ * الخاصيتان إلزاميّتان في بيانات البطاقة فلا تُحذفان كبيانات كبقيّة
+ * الأجزاء؛ display:none يخرجهما من العرض ومن شجرة الوصول معًا.
+ * كان المفتاحان بلا أثر — عيب مقيس (WP-R). */
+.noTitle .cell article h3 {
+  display: none;
+}
+
+/* التذييل > صفّ السعر — البنية تتبع ProductCard.tsx. */
+.noPrice .cell article > div:last-of-type > p:first-of-type {
+  display: none;
+}
+
+/* ── صندوق حالتي الفراغ والخطأ ────────────────────────────────────────
+ * كانت الحالتان تُصيَّران EmptyState بجمهور «زائر» فتعودان null — لا رسالة
+ * إطلاقًا (عيب مقيس — WP-R). الصندوق هنا مرئي ويحمل رسالة المشرف. */
+.stateBox {
+  display: grid;
+  gap: var(--space-2, 8px);
+  place-items: center;
+  padding-block: var(--space-6, 32px);
+  padding-inline: var(--space-4, 16px);
+  border: 1px dashed var(--border);
+  border-radius: var(--r-pc);
+  background: var(--bg-soft);
+  text-align: center;
+}
+
+.stateTitle {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.stateHint {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+
+.surface_dark .stateBox {
+  background: transparent;
+}
+
+.surface_dark .stateTitle,
+.surface_dark .stateHint {
+  color: var(--chrome-text);
+}
+
+/* ── الإخفاء بالجهاز ──────────────────────────────────────────────── */
+@media (min-width: 1025px) {
+  .hideDesk { display: none; }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hideTab { display: none; }
+}
+
+@media (max-width: 640px) {
+  .hideMob { display: none; }
+
+  /* أعمدة الجوال ضابط مستقلّ: الشبكة تتبعه لا تشتقّه من أعمدة المكتب. */
+  .layout_grid .track,
+  .layout_bento .track {
+    grid-template-columns: repeat(var(--pc-cols-mob), minmax(0, 1fr));
+  }
+
+  .layout_carousel .track {
+    grid-auto-columns: calc((100% - (var(--pc-cols-mob) - 1) * var(--pc-gap)) / var(--pc-cols-mob));
+  }
+}
+
+/* ── بؤرة المؤشّر ─────────────────────────────────────────────────── */
+.spotlight .track:hover .cell {
+  opacity: 0.55;
+  transition: opacity var(--mo-duration, 320ms) var(--mo-easing, ease);
+}
+
+.spotlight .track .cell:hover {
+  opacity: 1;
+}
+
+/* ── هيكل التحميل ────────────────────────────────────────────────── */
+.skeleton {
+  block-size: 180px;
+  border-radius: var(--r-pc);
+  background: linear-gradient(90deg, var(--bg-mist) 25%, var(--pc-shimmer-mid) 37%, var(--bg-mist) 63%);
+  background-size: 400% 100%;
+  animation: pcShimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes pcShimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--bg-mist);
+  }
+
+  /* كشف [data-reveal] عند تقليل الحركة تتكفّل به قاعدة النظام العامّة في tokens.css. */
+
+  .spotlight .track:hover .cell {
+    opacity: 1;
+    transition: none;
+  }
+}

@@ -1,0 +1,365 @@
+/*
+ * SiteFooter — Storefront Home.dc.html, the one site footer. Below 768px it
+ * becomes the link footer of Storefront Home Mobile.dc.html.
+ */
+
+.footer {
+  /* Design base type (Storefront *.dc.html root): 15px / 1.6 / 400. */
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  margin-block-start: 64px;
+  border-block-start: 1px solid var(--sf-line);
+  background: var(--sf-cool);
+  color: var(--sf-muted);
+}
+
+/* ── full (desktop) ─────────────────────────────────────────────── */
+.inner {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 48px var(--sf-gutter) 28px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+/*
+ * ‎768–1023‎: العلامة صفٌّ كامل (الشعار بجانب الفقرة) وأعمدة الروابط صفٌّ واحد
+ * تحتها — كانت شبكة ‎2×2‎ تترك تحت فقرة العلامة فراغًا بطول عمود «التسوّق».
+ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .columns {
+    grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    gap: 32px;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+  }
+
+  .brand .brandRow {
+    margin-block-end: 0;
+  }
+
+  .brand .about {
+    flex: 1 1 280px;
+    margin-block-end: 0;
+    max-inline-size: 60ch;
+  }
+}
+
+/* من ‎1024‎: عمود العلامة أعرض، وأعمدة الروابط (أيًّا كان عددها المنشور) متساوية. */
+@media (min-width: 1024px) {
+  .columns {
+    grid-template-columns: minmax(0, 1.5fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
+/* العمود الطويل: مساران وقائمةٌ بعمودين متوازنين (الترتيب يبقى نزولًا ثمّ العمود التالي). */
+@media (min-width: 768px) {
+  .colLong {
+    grid-column: span 2;
+  }
+
+  .colLong .colList {
+    display: block;
+    columns: 2;
+    column-gap: 24px;
+  }
+
+  .colLong .colList > li {
+    break-inside: avoid;
+    margin-block-end: 12px;
+  }
+}
+
+.brandLink {
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brandRow {
+  display: block;
+  margin-block-end: 14px;
+}
+
+.brandLogo {
+  block-size: 64px;
+  inline-size: auto;
+  display: block;
+}
+
+.about {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--sf-muted);
+  line-height: 1.85;
+  max-inline-size: 34ch;
+}
+
+/* بلا صفّ شبكات: لا هامشٌ يتيم أسفل الفقرة. */
+.about:last-child {
+  margin-block-end: 0;
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* بلاطات الشبكات — زرّ أيقونةٍ محيطيّ من الوصفة: ‎44px‎ (هدف لمس) · ‎--r-md‎ · تحويم وضغط. */
+.social {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  inline-size: 44px;
+  min-block-size: 44px;
+  border-width: 1px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.colTitle {
+  display: block;
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-secondary-text);
+}
+
+.colList {
+  line-height: 1.6;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--sf-body);
+}
+
+/* رابط العمود: يتلوّن تركوازيًّا ويظهر خطّه تحته بالتحويم — إشارةٌ لا تعتمد اللون وحده. */
+.colLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    text-decoration-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .colLink:hover {
+    color: var(--teal-text);
+    text-decoration-color: currentColor;
+  }
+}
+
+.colButton {
+  composes: colLink;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: start;
+}
+
+.bottomBar {
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.bottom {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 18px var(--sf-gutter) 24px;
+  /* القالب: سطرا حقوق (‎46px‎) بين حشوَي ‎18/24‎ = ‎88px‎؛ يثبت الارتفاع ولو غاب سطر الوثيقة. */
+  min-block-size: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+/* سطر الحقوق في الطرف الختاميّ لا يقع تحت زرّ «العودة إلى الأعلى» (‎24 + 44 + 16‎) حين يلامس الإطارُ حافّة الشاشة. */
+@media (min-width: 768px) {
+  .bottom {
+    padding-inline-end: max(var(--sf-gutter), 84px);
+  }
+}
+
+.payments {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* شارات وسائل الدفع — رقائق ثابتة متساوية الارتفاع (‎28‎ · ‎--r-xs‎)، ليست أزرارًا. */
+.paymentMark {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 28px;
+  min-inline-size: 48px;
+  justify-content: center;
+  border: 1px solid var(--sf-control);
+  background: var(--bg);
+  border-radius: var(--r-xs);
+  padding-inline: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--sf-ink-2);
+}
+
+.copy {
+  margin: 0;
+  /* قاعدة ‎:where(p)‎ العامّة ترفع الفقرة إلى ‎15px/27px‎؛ سطر الحقوق في القالب ‎13px/1.6‎ كأبيه. */
+  font-size: inherit;
+  line-height: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: end;
+}
+
+/* «وثيقة … رقم …» — Storefront Product.dc.html: inline-flex · gap 6 · أيقونة بترولية. */
+.docLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* الأيقونة في طرف البداية (اليمين) والنصّ بعدها — كما يرسمها Storefront Product.dc.html. */
+  justify-content: flex-start;
+}
+
+.docIcon {
+  flex: none;
+  color: var(--teal-600);
+}
+
+.docText {
+  font-variant-numeric: tabular-nums;
+}
+
+.adminLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── mobile footer (Storefront Home Mobile.dc.html) ────────────────────────── */
+.mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /*
+   * قالبا الجوّال يختلفان في كتلة التذييل: الرئيسة ‎margin 26 · padding 26 14 20 · gap 10px 18px‎،
+   * والمنتج ‎margin 24 · padding 24 14 18 · gap 10px 16px‎. القرار: قيم الرئيسة على الموقع كلّه
+   * (تذييلٌ واحدٌ لا يتبدّل بين الصفحات)؛ قيم المنتج مذكورة هنا لا تُطبَّق.
+   */
+  .footer {
+    margin-block-start: 26px;
+    border-block-start-color: var(--sf-hair-2);
+    background: var(--bg);
+  }
+
+  .full {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    padding: 26px 14px 20px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--sf-muted);
+  }
+
+  .mobileLinks {
+    display: contents;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+
+  /*
+   * الروابط نصٌّ ارتفاعه 20 على صفوفٍ خطوتها 30 (فجوة 10). حاشيةٌ رأسيّة تُلغى
+   * بهامشٍ سالب فيكبر الهدف ولا يتغيّر الرسم. كانت 12px فصار الهدف 44 على
+   * خطوة 30 — أهدافُ الصفّين متراكبة 14px، فلمسةٌ بينهما تصيب أحدهما اعتباطًا
+   * (sweep:viewports «overlap»). 5px = نصف الفجوة: هدفٌ 30 (≥ 24، WCAG 2.5.8)
+   * يلامس جاره ولا يركبه. الـ44 هنا يحتاج فجوة 24 أي تغيير الرسم.
+   */
+  .mobileLinks a,
+  .mobileButton {
+    padding-block: 5px;
+    margin-block: -5px;
+  }
+
+  .mobileLinks a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .mobileLinks a:hover,
+  .mobileButton:hover {
+    color: var(--teal-text);
+  }
+
+  .mobileButton {
+    background: none;
+    border: 0;
+    /* الحاشية الرأسيّة أعلاه تبقى — `padding: 0` كان يمحوها فيضيق الزرّ وحده. */
+    padding-inline: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .mobileCopy {
+    inline-size: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: inherit;
+    color: var(--sf-faint);
+    text-align: start;
+  }
+
+}
+
+:is(.colLink, .colButton, .social, .brandLink, .adminLink, .mobileLinks a, .mobileButton):focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .colLink {
+    transition: none;
+  }
+}

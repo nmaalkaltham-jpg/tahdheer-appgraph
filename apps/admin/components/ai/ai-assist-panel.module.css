@@ -1,0 +1,406 @@
+/*
+UNIT: AI-ASSIST-PANEL
+COMPONENT: ai-assist-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لوح المساعدة الكتابية — أنماط حرفية من لوح «TahQwenPanel.dc.html».
+ * الحالة المعروضة هنا هي حالة «الخادم غير متاح» لأنها الحالة الحقيقية:
+ * لا نقطة نهاية توليد في هذا النظام. القيم خارج سلّم الرموز مثبتة حرفيًا.
+ *
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة §2.4).
+ */
+
+.panel {
+  /*
+   * أسماءٌ محلّيّة فوق رموز السمة. كان اللوح يعيد تعريف ‎--gold-text/--danger-text‎
+   * بقيمٍ فاتحة ثابتة فيحجب نظيرَيهما المشتقَّين للسمة: نصٌّ بنّيّ داكن على الأرض
+   * الداكنة. يرثهما الآن من ‎globals.css‎ (≥4.5:1 في السمتين).
+   */
+  --edge: var(--cc-edge);
+  --edge-soft: var(--cc-hair);
+  --soft: var(--cc-well);
+  --body-2: var(--text-secondary);
+  --gold-edge: color-mix(in srgb, var(--gold-500) 40%, transparent);
+
+  padding-block: 16px;
+  padding-inline: 18px;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  /* سطح البطاقة الزجاجيّ في السمتين (كان ‎#fbfcfa‎ ثابتًا يُبيّض اللوح في الداكن). */
+  background: var(--cc-glass);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 12px;
+}
+
+.badge {
+  flex: 0 0 auto;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: 8px;
+  background: var(--cc-well);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.badge svg {
+  inline-size: 15px;
+  block-size: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.title {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 7px;
+  background: var(--surface);
+  border: 1px solid var(--gold-edge);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--gold-text);
+}
+
+.statusdot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.model {
+  flex: 0 0 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--body-2);
+}
+
+/* ───── إعلان التعطيل ───── */
+.offline {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding-block: 11px;
+  padding-inline: 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--gold-500) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold-500) 35%, transparent);
+  margin-block-end: 12px;
+}
+
+.offline svg {
+  flex: 0 0 auto;
+  inline-size: 15px;
+  block-size: 15px;
+  margin-block-start: 1px;
+  color: var(--gold-text);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.offlinetitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--gold-text);
+  margin-block-end: 3px;
+}
+
+.offlinebody {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--body-2);
+}
+
+.needs {
+  list-style: none;
+  margin-block: 8px 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.needs li {
+  padding-block: 3px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--edge-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  color: var(--body-2);
+}
+
+/* ───── الإجراءات ───── */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-end: 13px;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 1px solid var(--edge);
+  border-radius: 9px;
+  background: var(--soft);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.action svg {
+  inline-size: 13px;
+  block-size: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ───── العقد ───── */
+.contract {
+  border: 1px solid var(--edge);
+  border-radius: 11px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.contracthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-block-end: 1px solid var(--edge-soft);
+  background: var(--soft);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.contractmeta {
+  padding-block: 3px;
+  padding-inline: 9px;
+  border-radius: 6px;
+  background: var(--cc-well);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.col {
+  padding-block: 12px;
+  padding-inline: 12px;
+  border-inline-end: 1px solid var(--edge-soft);
+}
+
+.col:last-child {
+  border-inline-end: 0;
+}
+
+.collabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--primary);
+  margin-block-end: 6px;
+}
+
+.collabel svg {
+  inline-size: 12px;
+  block-size: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+}
+
+.collabel.missing {
+  color: var(--danger-text);
+}
+
+.facts {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding-block: 3px;
+  padding-inline: 9px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--cc-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cc-primary) 22%, transparent);
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.facts li b {
+  color: var(--ink);
+}
+
+.facts li.locked {
+  background: color-mix(in srgb, var(--gold-500) 12%, transparent);
+  border-color: var(--gold-edge);
+  color: var(--gold-text);
+}
+
+.lockmark {
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold-500) 28%, transparent);
+  font-size: 8.5px;
+  font-weight: 900;
+  color: var(--gold-text);
+}
+
+.unknowns {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.unknowns li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: var(--body-2);
+  text-align: start;
+}
+
+.unknowns li::before {
+  content: '؟';
+  flex: 0 0 auto;
+  color: var(--danger-text);
+  font-weight: 900;
+}
+
+/* ───── بنود العقد ───── */
+.rules {
+  list-style: none;
+  margin-block: 0;
+  padding-block: 12px;
+  padding-inline: 12px;
+  border-block-start: 1px solid var(--edge-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.rules li {
+  display: flex;
+  gap: 8px;
+  font-size: 10.5px;
+  line-height: 1.75;
+  color: var(--body-2);
+}
+
+.rulekey {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  background: var(--cc-well);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--ink);
+  white-space: nowrap;
+  block-size: fit-content;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding-block: 12px;
+  padding-inline: 12px;
+  border-block-start: 1px solid var(--edge-soft);
+  align-items: center;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border: 1px solid var(--edge);
+  border-radius: 9px;
+  background: var(--soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.steps p {
+  flex: 1;
+  min-inline-size: 200px;
+  margin-block: 0;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: start;
+}
+
+.empty {
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--muted);
+}

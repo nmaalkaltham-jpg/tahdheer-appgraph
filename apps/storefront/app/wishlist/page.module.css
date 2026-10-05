@@ -1,0 +1,97 @@
+/* /wishlist — زرّ الإزالة على البطاقة، والصفّ الرقيق قبل التهيئة أو عند فشلها. */
+
+.remove {
+  position: relative;
+  /* فوق رابط العنوان الممدود في البطاقة (كقلب CardWishlist) — وإلّا ابتلع الهدف الممدود. */
+  z-index: 1;
+  inline-size: 36px;
+  block-size: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--sf-control);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--sf-danger);
+  cursor: pointer;
+}
+
+/* ‎36px‎ مرئيّة · هدف اللمس ‎44px‎ بعنصرٍ زائف لا بتكبير الرسم — نمط `.cta::before` في ProductCard. */
+.remove::before {
+  /* الإزاحة تُحسب من حافّة الحشو لا الحدّ: (44 − (المرئيّ − 2×الحدّ)) ÷ 2. */
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+
+.remove:hover {
+  border-color: var(--sf-danger);
+}
+
+.remove:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.thin {
+  /*
+   * صفٌّ بعرض الشبكة كلّها: الشبكة عمودان عند ٣٢٠، فكان العنوان الطويل يُحشر
+   * في عمود ٢٢px ويُكسر حرفًا حرفًا. الصفّ الرقيق ليس بطاقةً فلا يُقاس بها.
+   */
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--sf-line);
+  border-radius: 16px;
+  background: var(--sf-cool);
+}
+
+.thin .remove {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+}
+
+.thinTitle {
+  /* رابطٌ بعرض الخليّة وهدف لمسٍ ٤٤. */
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  text-decoration: none;
+}
+
+.thinPrice {
+  font-size: 14px;
+  color: var(--sf-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.thinNote {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+/* أساس 15/1.6/400 وحبر --sf-ink يأتي من body (globals.css)؛ هنا يُلغى ضبط :where(h2,h3)/p العامّ محليًّا فقط. */
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}

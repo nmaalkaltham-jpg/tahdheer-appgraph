@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+.tt,.ttsub,.olab,.spec{direction:rtl}
+.wlab{direction:ltr}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahBarUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+.tt{padding:40px 44px 34px;border-bottom:1px solid rgba(0,0,0,.08)}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 24px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:86ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.58)}
+.opt{display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.phone{width:390px;border-radius:22px;overflow:hidden;background:#fff;border:1px solid #dde3dc;box-shadow:0 8px 28px rgba(20,45,33,.14);display:flex;flex-direction:column}
+.frame{border-radius:12px;overflow:hidden;background:#fff;border:1px solid #dde3dc;box-shadow:0 6px 22px rgba(20,45,33,.10);display:flex;flex-direction:column}
+.spec{font:600 10px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.5);line-height:1.7}
+.wlab{font:600 10px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.45);padding:6px 10px;background:rgba(0,0,0,.04);border-bottom:1px solid #eef1ec;direction:ltr}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t7">
+<div class="tthd"><a class="ttid" href="#t7">7</a><span class="ttname">Purchase bar — responsive across devices</span></div>
+<p class="ttsub">The same six designs at 390 / 834 / 1280. One change makes this work: the bar still spans the device, but its <b>content</b> is capped and centred (<code dir="ltr">contentMax</code>), so a 1280px desktop no longer stretches three buttons across the whole screen — it reads as a deliberate action group. Mobile passes <code dir="ltr">100%</code> and behaves exactly as before. Every row is a real render at that width, not a scaled-down mock, and RTL — cart sits <b>rightmost</b>, as it will in the store. Note the price and Apple Pay are mutually exclusive by design: three actions plus a price leaves no reliable target, so the last desktop row drops Apple Pay to show the price instead.</p>
+
+<div style="display:flex;flex-direction:column;gap:26px">
+
+<div class="opt" id="7a">
+<div class="olab"><a class="oid" href="#7a">7a</a><span><b>Tablet — 834px.</b> Content capped at 560px and centred. Buttons keep their real proportions instead of ballooning.</span></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="frame" style="width:834px"><div class="wlab">834 · minimal · contentMax 560px</div><dc-import name="TahPurchaseBar" preset="minimal" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" content-max="560px" hint-size="834px,76px"></dc-import></div>
+<div class="frame" style="width:834px"><div class="wlab">834 · premium · contentMax 560px</div><dc-import name="TahPurchaseBar" preset="premium" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" content-max="560px" hint-size="834px,80px"></dc-import></div>
+<div class="frame" style="width:834px"><div class="wlab">834 · segmented · contentMax 560px</div><dc-import name="TahPurchaseBar" preset="segmented" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" content-max="560px" hint-size="834px,80px"></dc-import></div>
+</div>
+</div>
+
+<div class="opt" id="7b">
+<div class="olab"><a class="oid" href="#7b">7b</a><span><b>Desktop — 1280px.</b> Content capped at 680px. On desktop this doubles as a scroll-triggered action bar rather than a permanent fixture.</span></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="frame" style="width:1280px"><div class="wlab">1280 · integrated · contentMax 680px</div><dc-import name="TahPurchaseBar" preset="integrated" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" content-max="680px" hint-size="1280px,76px"></dc-import></div>
+<div class="frame" style="width:1280px"><div class="wlab">1280 · brand · contentMax 680px</div><dc-import name="TahPurchaseBar" preset="brand" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" content-max="680px" hint-size="1280px,76px"></dc-import></div>
+<div class="frame" style="width:1280px"><div class="wlab">1280 · outlined · no Apple Pay → price shown</div><dc-import name="TahPurchaseBar" preset="outlined" cart-icon-only="{{ true }}" show-price="{{ true }}" content-max="680px" hint-size="1280px,76px"></dc-import></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="tt" id="t6">
+<div class="tthd"><a class="ttid" href="#t6">6</a><span class="ttname">Purchase bar — six designs on mobile</span></div>
+<p class="ttsub">Same three actions in every design — cart as an icon, «اشتر الآن» with a wallet, Apple Pay third — so the choice is purely visual. Shown at a true 390px above real page content, because a bar can only be judged against what it sits on. Apple Pay is simulated so all three are visible; in production it renders only when <code dir="ltr">ApplePaySession</code> is genuinely available, which is what row <a class="oid" href="#6g">6g</a> shows.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start">
+
+<div class="opt" id="6a">
+<div class="olab"><a class="oid" href="#6a">6a</a><span><b>1 — Minimal.</b> Flat white, hairline rule, 10px corners.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="minimal" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,76px"></dc-import>
+</div>
+<div class="spec">bg #fff · border-top #e0e5dd<br>radius 10px · blur 8px</div>
+</div>
+
+<div class="opt" id="6b">
+<div class="olab"><a class="oid" href="#6b">6b</a><span><b>2 — Premium.</b> Floating card, full pill buttons, circular cart.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="premium" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,80px"></dc-import>
+</div>
+<div class="spec">floating · radius 999px<br>shadow 0 10px 30px</div>
+</div>
+
+<div class="opt" id="6c">
+<div class="olab"><a class="oid" href="#6c">6c</a><span><b>3 — Integrated.</b> Dark full-bleed shell; Apple's white variant.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="integrated" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,76px"></dc-import>
+</div>
+<div class="spec">bg #14261d · radius 13px<br>white Apple variant</div>
+</div>
+
+<div class="opt" id="6d">
+<div class="olab"><a class="oid" href="#6d">6d</a><span><b>4 — Outlined.</b> No solid fills but the payment button. Quietest.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="outlined" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,76px"></dc-import>
+</div>
+<div class="spec">outlined buttons · radius 12px<br>buy 1.5px #123d2f</div>
+</div>
+
+<div class="opt" id="6e">
+<div class="olab"><a class="oid" href="#6e">6e</a><span><b>5 — Brand.</b> Green surface. Buy Now takes a white outline — its dark fill alone is 2.75:1 here.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="brand" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,76px"></dc-import>
+</div>
+<div class="spec">bg #1e7355 · radius 12px<br>buy outlined #fff</div>
+</div>
+
+<div class="opt" id="6f">
+<div class="olab"><a class="oid" href="#6f">6f</a><span><b>6 — Segmented.</b> The three actions joined into one control, zero gaps.</span></div>
+<div class="phone">
+<dc-import name="TahBarFiller" hint-size="390px,300px"></dc-import>
+<dc-import name="TahPurchaseBar" preset="segmented" cart-icon-only="{{ true }}" show-price="{{ false }}" simulate-apple="{{ true }}" dev-note="{{ true }}" hint-size="390px,80px"></dc-import>
+</div>
+<div class="spec">joined · gap 0 · outer 1.5px #123d2f<br>overflow hidden</div>
+</div>
+
+<div class="opt" id="6g">
+<div class="olab"><a class="oid" href="#6g">6g</a><span><b>Real-world state.</b> No Apple Pay on the device — two actions, no empty slot, nothing explained to the shopper.</span></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="width:390px;border-radius:14px;overflow:hidden;border:1px solid #dde3dc"><dc-import name="TahPurchaseBar" preset="minimal" cart-icon-only="{{ true }}" show-price="{{ true }}" hint-size="390px,76px"></dc-import></div>
+<div style="width:390px;border-radius:14px;overflow:hidden;border:1px solid #dde3dc;background:#f7f9f6"><dc-import name="TahPurchaseBar" preset="premium" cart-icon-only="{{ true }}" show-price="{{ true }}" hint-size="390px,80px"></dc-import></div>
+<div style="width:390px;border-radius:14px;overflow:hidden;border:1px solid #dde3dc"><dc-import name="TahPurchaseBar" preset="segmented" cart-icon-only="{{ true }}" show-price="{{ true }}" hint-size="390px,80px"></dc-import></div>
+</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+</body>
+</html>

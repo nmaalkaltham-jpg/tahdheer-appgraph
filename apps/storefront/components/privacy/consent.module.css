@@ -1,0 +1,90 @@
+/*
+ * شريط الموافقة — لغة تصميم المتجر: بطاقة بيضاء عائمة بحدّ ‎--sf-line‎ ونصف
+ * قطر 16 وظلّ كحلي، عنوان 15/800، نصّ 13، «أوافق» تركوازي و«أرفض» شبح.
+ * السلوك والسمات (data-bottom-chrome، role، aria) كما هي.
+ */
+
+.bar {
+  position: fixed;
+  /* حزّ الشاشة أفقيًّا — صفرٌ حيث لا حزّ. */
+  padding-inline: var(--safe-inline);
+  inset-inline: 0;
+  inset-block-end: 0;
+  /* تحت الإشعارات وفوق كلّ ما سواها: تنبيهٌ يختفي خلف شريطٍ دائم لا يُقرأ. */
+  z-index: calc(var(--z-toast) - 1);
+  padding-block: 12px;
+  /* الشريط شفّاف والبطاقة هي المرئيّ: النقر خارج البطاقة يمرّ إلى الصفحة. */
+  pointer-events: none;
+}
+
+/* البطاقة — وصفة ‎dialog‎ (‎--r-xl‎ · ‎--e-4‎): تطفو فوق كلّ ما تحتها. */
+.inner {
+  composes: dialog from '@tahdheer/ui/controls.module.css';
+  pointer-events: auto;
+  inline-size: min(var(--container-wide), 100% - 28px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 20px;
+  color: var(--sf-ink);
+}
+
+.text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: var(--sf-ink);
+}
+
+.body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+}
+
+/*
+ * الرفض أوّلًا وبوزنٍ بصريٍّ كافٍ: زرّ محيطيّ بحدٍّ واضح بارتفاع الموافقة
+ * نفسه — لا زرّ باهت يُخفي الخيار. الحالات كلّها من وصفة الزرّ؛ والزرّ الذي
+ * ضُغط يحمل ‎aria-busy‎ (دوّار، العرض ثابت) والآخر معطَّلٌ حتّى يردّ الخادم.
+ */
+.accept {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+  padding-inline: 22px;
+  font-size: 14px;
+}
+
+.decline {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+  padding-inline: 22px;
+  font-size: 14px;
+}
+
+/* الجوّال: عمودٌ واحد، والأزرار بعرضٍ متساوٍ في صفّها. */
+@media (max-width: 720px) {
+  .inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .actions > * {
+    flex: 1 1 0;
+  }
+}

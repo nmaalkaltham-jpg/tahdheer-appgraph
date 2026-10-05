@@ -1,0 +1,103 @@
+/*
+ * قلب المفضّلة — دائرةٌ بيضاء ‎32px‎ في زاوية الوسائط (القالب)، وهدفُ لمسٍ
+ * ‎44px‎ عبر عنصرٍ زائف. فوق رابط العنوان الممدود ليُنقر.
+ * زرّ تبديل (`aria-pressed`) فالدائرة ‎--r-round‎ مشروعة (مفتاح).
+ *
+ * الحالات: ساكن · تحويم (سطح بارد) · ضغط (انكماشٌ خفيف) · تركيز (حلقة ‎3px‎) ·
+ * مختار (قلبٌ ممتلئ بلون الخطر على صبغته — ثلاثيّة ‎--st-danger-*‎).
+ */
+.heart {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--r-round);
+  background: var(--bg);
+  color: var(--color-secondary-text);
+  box-shadow: var(--ct-shadow-heart);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+/* ‎32 + 2×7 = 46px‎: هامش بكسلٍ فوق الـ44 كي لا تقع نقطة الحافّة على حدّه الحصريّ. */
+.heart::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+}
+
+.heart > svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.heart[data-wished] {
+  border-color: var(--st-danger-line);
+  background: var(--st-danger-bg);
+  color: var(--st-danger-fg);
+}
+
+@media (hover: hover) {
+  .heart:hover {
+    background: var(--sf-cool);
+    color: var(--teal-text);
+  }
+
+  /* المختار يبقى بلونه (‎--st-danger-fg‎ ينقلب في الداكن)؛ التحويم يُقال بحدّه لا بلونٍ يفقد التباين. */
+  .heart[data-wished]:hover {
+    background: var(--st-danger-bg);
+    border-color: var(--st-danger-fg);
+    color: var(--st-danger-fg);
+  }
+}
+
+.heart:active {
+  transform: scale(0.92);
+}
+
+/* لحظة الاختيار: القلب ينبض مرّةً واحدة — حركةٌ صغيرة تؤكّد الفعل. */
+@media (prefers-reduced-motion: no-preference) {
+  .heart[data-wished] > svg {
+    animation: heartPop 280ms var(--ease-out);
+  }
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart {
+    transition: none;
+  }
+
+  .heart[data-wished] > svg {
+    animation: none;
+  }
+
+  .heart:active {
+    transform: none;
+  }
+}

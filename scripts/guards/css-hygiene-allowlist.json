@@ -1,0 +1,7 @@
+[
+  {
+    "rule": "inline-style",
+    "path": "packages/ui/src/ProductCard.tsx",
+    "reason": "ألوان شارة المنتج يحدّدها المشرف من الواجهة (API) — مدفوعة بالبيانات، لا تنتمي إلى CSS modules"
+  }
+]

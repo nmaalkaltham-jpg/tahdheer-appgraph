@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tah-runtimes.css">
+<link rel="stylesheet" href="./assets/css/tah-components.css">
+<link rel="stylesheet" href="./assets/css/tah-heroes.css">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#1a1a1a}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="./assets/js/tah-rt-gallery.js"></script>
+<script src="./assets/js/tah-rt-disclosure.js"></script>
+<script src="./assets/js/tah-rt-observer.js"></script>
+<script src="./assets/js/tah-rt-pointer.js"></script>
+<script src="./assets/js/tah-rt-dialog.js"></script>
+</helmet>
+
+<div dir="rtl" style="width:100%;max-width:1180px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:13px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">COMPLETION · حيّ</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif">الستّة الباقية — والحصيلة النهائية</span>
+</div>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">كانت هذه الستّة محجوزة بتبعيات غائبة فعلًا. الآن بُني <code style="font-size:10.5px">rt-dialog</code> فانفتح مكوّنان، والأربعة الباقية تقرأ من ووكومرس مباشرة. اللوحة أدناه تقرأ حالة زمن الحوار من المتصفّح — <b>وجرّب المعاينة بلوحة المفاتيح</b>: Tab لا يخرج من الحوار، وEscape يُغلق، والتركيز يعود إلى الزرّ الذي فتحه.</p>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:8px;margin-bottom:14px">
+<sc-for list="{{ totals }}" as="tt" hint-placeholder-count="5">
+<div style="padding:12px 13px;border-radius:10px;background:{{ tt.bg }};border:1px solid {{ tt.edge }}">
+<span style="display:block;font:900 23px ui-monospace,monospace;color:{{ tt.fg }}">{{ tt.n }}</span>
+<span style="display:block;font:800 10px Tajawal,sans-serif;margin-bottom:2px">{{ tt.label }}</span>
+<span style="display:block;font:500 9px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ tt.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="padding:12px 14px;border-radius:11px;background:{{ probe.bg }};border:1px solid {{ probe.edge }};margin-bottom:13px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span aria-hidden="true" style="width:19px;height:19px;border-radius:6px;background:{{ probe.mBg }};color:#fff;display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ probe.mark }}</span>
+<span style="font:800 11.5px Tajawal,sans-serif">زمن الحوار — قياس سلوك</span>
+<span style="font:600 10px ui-monospace,monospace;color:rgba(0,0,0,.5)">open() ثم panel.contains(activeElement)</span>
+<span style="flex:1"></span>
+<span style="font:600 10.5px Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ probe.note }}</span>
+</div>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">المعاينة السريعة · معاينة الملف</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٣ اختيارات</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">الوصولية هي كلّ العمل هنا</span>
+</div>
+
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px">
+<div data-tah-c="preview" data-layout="button">
+<button type="button" data-tah-dialog-open="pv-demo" data-tah-pv-btn>معاينة سريعة</button>
+<div data-tah-dialog id="pv-demo" hidden>
+<div data-tah-dialog-backdrop></div>
+<div data-tah-dialog-panel role="dialog" aria-labelledby="pv-demo-t">
+<button type="button" data-tah-dialog-close aria-label="إغلاق المعاينة"></button>
+<span style="display:block;height:170px;border-radius:10px;background:repeating-linear-gradient(135deg,#e7f1ea 0 14px,#f3f8f5 14px 28px);margin-bottom:14px"></span>
+<div data-tah-pv-body>
+<h2 id="pv-demo-t">تحضير الرياضيات — الصف السادس · الفصل الأول</h2>
+<div data-tah-pv-price>٣٥.٠٠ ر.س</div>
+<p>ملف تحضير كامل وفق توزيع الوزارة: أهداف كل درس ومهاراته وأنشطته وأساليب تقويمه.</p>
+<div data-tah-c="facts" data-layout="pills" style="margin-top:12px">
+<dl data-tah-facts>
+<sc-for list="{{ specs }}" as="sp" hint-placeholder-count="4">
+<div data-tah-row><dt style="font-size:.86em">{{ sp.k }}</dt><dd style="font-size:.9em">{{ sp.v }}</dd></div>
+</sc-for>
+</dl>
+</div>
+<div data-tah-pv-act>
+<a data-tah-pv-add href="#0">أضف إلى السلة</a>
+<a data-tah-pv-more href="#0">التفاصيل الكاملة</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div data-tah-c="file_preview" data-layout="thumbs">
+<ul data-tah-fp-thumbs>
+<sc-for list="{{ pages }}" as="pg" hint-placeholder-count="4">
+<li><button type="button" data-tah-dialog-open="fp-demo" data-tah-fp-page="{{ pg.i }}" aria-label="تكبير {{ pg.label }}">
+<span data-tah-mslot style="display:block;aspect-ratio:3/4;border-radius:7px;background:{{ pg.tint }}"></span>
+<span>{{ pg.label }}</span>
+</button></li>
+</sc-for>
+</ul>
+<p data-tah-fp-note>صفحات عيّنة — الملف الكامل يُسلَّم بعد الشراء. المُصيِّر يقبل صور عيّنة فقط ولا يلمس مسار الملف المدفوع.</p>
+<div data-tah-dialog id="fp-demo" hidden>
+<div data-tah-dialog-backdrop></div>
+<div data-tah-dialog-panel role="dialog" aria-labelledby="fp-demo-t">
+<button type="button" data-tah-dialog-close aria-label="إغلاق المعاينة"></button>
+<h2 id="fp-demo-t" style="margin:0 0 12px;font:800 13px Tajawal,sans-serif;padding-inline-end:42px">معاينة الملف</h2>
+<div data-tah-c="gallery" data-layout="carousel" data-tah-gallery data-loop="0" data-label="صفحات العيّنة" style="--tah-slide-w:64%;--tah-slide-w-md:44%">
+<div data-tah-track>
+<sc-for list="{{ pages }}" as="pg2" hint-placeholder-count="4">
+<div data-tah-slide><figure><span data-tah-mslot style="display:block;aspect-ratio:3/4;border-radius:9px;background:{{ pg2.tint }}"></span><figcaption>{{ pg2.label }}</figcaption></figure></div>
+</sc-for>
+</div>
+<div data-tah-ctrl>
+<button type="button" data-tah-prev aria-label="السابق"></button>
+<button type="button" data-tah-next aria-label="التالي"></button>
+<div data-tah-dots></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">القسيمة · الحزمة</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٥ اختيارات</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">من ووكومرس مباشرة</span>
+</div>
+
+<div data-tah-c="coupon" data-layout="strip" style="margin-bottom:14px">
+<div data-tah-cp-text>
+<h3 data-tah-title style="margin:0 0 2px;font:800 12px Tajawal,sans-serif">عرض بداية الفصل</h3>
+<span data-tah-cp-value>خصم ٢٠٪</span>
+<p>على جميع حزم الفصل الأول — يُطبَّق عند الدفع.</p>
+<p data-tah-cp-exp>حتى ٣٠ سبتمبر ٢٠٢٦</p>
+</div>
+<code data-tah-cp-code>FALL20</code>
+</div>
+<p style="margin:0 0 16px;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">المُصيِّر يفتح <code style="font-size:9.5px">WC_Coupon</code> ويتحقّق من ثلاثة: الوجود، وعدم انتهاء الصلاحية، وعدم استهلاك الحدّ. أي واحد يفشل ⇒ لا يُعرض شيء للزائر ويُعلَن السبب للمشرف. <b>قسيمة مخترعة تُنتج رفضًا عند الدفع وشكوى دعم</b> — وهذا أسوأ من غيابها.</p>
+
+<section data-tah-c="bundle" data-layout="row">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">يُشترى معًا عادةً</h3></header>
+<ul data-tah-bn-items>
+<sc-for list="{{ bundleItems }}" as="bi" hint-placeholder-count="3">
+<li>
+<sc-if value="{{ bi.plus }}" hint-placeholder-val="{{ true }}"><span data-tah-bn-plus aria-hidden="true">+</span></sc-if>
+<a href="#0">
+<span data-tah-mslot style="display:block;aspect-ratio:4/3;border-radius:7px;background:{{ bi.tint }}"></span>
+<span data-tah-bn-title>{{ bi.title }}</span>
+<span data-tah-bn-price>{{ bi.price }}</span>
+</a>
+</li>
+</sc-for>
+</ul>
+<div data-tah-bn-sum>
+<span data-tah-bn-count>٣ ملفات</span>
+<del>٩٥.٠٠ ر.س</del>
+<strong>٨٠.٧٥ ر.س</strong>
+<span data-tah-bn-save>توفّر ١٤.٢٥ ر.س</span>
+<a data-tah-bn-cta href="#0">أضف الحزمة</a>
+</div>
+</section>
+<p style="margin:9px 0 0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">المجموع محسوب من أسعار المنتجات الفعلية، والخصم من نسبة معلنة، و«توفّر» من الفرق بينهما — لا رقم مكتوب. ورابط الإضافة يبني <code style="font-size:9.5px">add-to-cart</code> متعدّدًا لسلّة ووكومرس.</p>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">مساعد القرار</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٧ اختيارات</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">قواعد حتمية — ليس ذكاءً</span>
+</div>
+<p style="margin:0 0 13px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">المشرف يكتب القواعد صراحةً، وتُقيَّم على الخادم عند الإرسال. فيعمل بلا جافاسكربت وبلا أي مصدر خارجي — وهذا ما يميّزه عن الفتحة الذكية المعطّلة أدناه. و<code style="font-size:10px">fieldset</code> مع <code style="font-size:10px">legend</code> لا <code style="font-size:10px">div</code>: مجموعة اختيارات بلا <code style="font-size:10px">legend</code> لا يعرف قارئ الشاشة أي سؤال تُجيب عنه.</p>
+
+<section data-tah-c="helper" data-layout="quiz">
+<form data-tah-hp-form method="get" action="#0">
+<sc-for list="{{ questions }}" as="qu" hint-placeholder-count="3">
+<fieldset data-tah-hp-q>
+<legend>{{ qu.label }}</legend>
+<div data-tah-hp-opts>
+<sc-for list="{{ qu.options }}" as="op" hint-placeholder-count="3">
+<label for="{{ op.id }}">
+<input type="radio" id="{{ op.id }}" name="{{ qu.name }}" value="{{ op.value }}" defaultChecked="{{ op.first }}" />
+<span>{{ op.label }}</span>
+</label>
+</sc-for>
+</div>
+</fieldset>
+</sc-for>
+<button type="submit" data-tah-hp-go>اعرض المناسب لي</button>
+</form>
+<p data-tah-hp-note>يوجّهك إلى نتائج المتجر المفلترة — لا إلى صفحة نتائج مصطنعة.</p>
+</section>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #f0dca0;border-radius:12px;background:#fdf9ef;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:4px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif;color:#7a5a00">الفتحة الذكية — واحدة لا عشرون</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#fff;border:1px solid #f0dca0;color:#7a5a00">٢٠ اختيارًا</span>
+</div>
+<p style="margin:0 0 12px;font:500 10.5px/1.8 Tajawal,sans-serif;color:#7a5a00">عشرون اختيارًا في المكتبة تشير إلى هذا المكوّن، وكلّها تحتاج مصدرًا خارجيًّا غير موجود. رفضتُ بديلين: <b>عشرين مدخلًا معطّلًا</b> في المتصفّح — ضجيج يُوهم بقدرة غائبة؛ و<b>نتائج مُلفَّقة</b> — يمنعها طلبك صراحةً. فمكوّن واحد بمُهيّئ مصدر، والمعمارية جاهزة: مرشِّح <code style="font-size:10px">tahdheer_smart_source</code> يستقبل مزوّدًا حقيقيًّا فور توفّره فيبدأ العمل بلا تعديل أي مُصيِّر.</p>
+<div data-tah-empty data-tah-c="smart:recommendations" style="margin-bottom:7px"><strong>smart:recommendations</strong> بلا محتوى — المطلوب: مصدر بيانات خارجي (سجّله عبر مرشِّح tahdheer_smart_source، أو حدّد fallback يدويًّا)</div>
+<p style="margin:0;font:600 10px/1.7 Tajawal,sans-serif;color:#7a5a00">والبديل اليدويّ مسموح — لأنه اختيار المشرف لا اختراع النظام: <code style="font-size:9.5px">fallback</code> يمرّر معرّفات منتجات صريحة فيُصيَّر بمكوّن المجموعة.</p>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 10px;font:800 13px Tajawal,sans-serif">الحصيلة — {{ layerCount }} طبقات · {{ checkTotal }} فحصًا</h2>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden;margin-bottom:13px">
+<div style="display:grid;grid-template-columns:minmax(0,158px) 62px minmax(0,1fr);gap:9px;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الطبقة</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">حرّاس</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">ما تضمنه</span>
+</div>
+<sc-for list="{{ layers }}" as="ly" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(0,158px) 62px minmax(0,1fr);gap:9px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6">
+<div><span style="display:block;font:800 11px Tajawal,sans-serif">{{ ly.label }}</span><span style="display:block;font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ ly.file }}</span></div>
+<span style="font:900 13px ui-monospace,monospace;color:#1e7355;text-align:center">{{ ly.g }}</span>
+<span style="font:600 9.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ ly.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="padding:13px 15px;border-radius:10px;background:#f6faf8;border:1px solid #cfe6dc;margin-bottom:13px">
+<span style="display:block;font:800 11.5px Tajawal,sans-serif;color:#123d2f;margin-bottom:6px">الدرس الذي كتبته الفحوص</span>
+<p style="margin:0;font:500 10.5px/1.85 Tajawal,sans-serif;color:#123d2f">كل عطل في هذا العمل جاء من <b>مصدرَي حقيقة لا واحد</b>: رقم في العنوان وجدول في الكود · مقياس منطقيّ وآخر فيزيائيّ · طرف ومركز · فحص مشترك لسلوكين · أربعة تأثيرات على طبقتين · معرّف بصيغتين. والإصلاح في كل مرّة لم يكن ضبط القيمة بل <b>حذف المصدر الثاني</b>. ولذلك أقوى فحص في كل طبقة هو فحص التطابق في الاتجاهين، وآخر ما فعلته هو نزع الأرقام المكتوبة من الفحوص أنفسهم: التغطية تُشتقّ من المكتبة وتُطبَع، ولا تُقارَن برقم مكتوب ينحرف.</p>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 13px;border-radius:9px;background:#f6f7f7;border:1px solid #ececef;margin-bottom:13px">
+<span style="font:800 10.5px Tajawal,sans-serif">بيئة التشغيل الموصى بها</span>
+<span dir="ltr" style="font:700 10px ui-monospace,monospace;padding:3px 8px;border-radius:5px;background:#eaf5ef;color:#1e7355;border:1px solid #cfe6dc">PHP 8.3+</span>
+<span dir="ltr" style="font:700 10px ui-monospace,monospace;padding:3px 8px;border-radius:5px;background:#eaf5ef;color:#1e7355;border:1px solid #cfe6dc">MySQL 8.0+</span>
+<span style="font:600 10px Tajawal,sans-serif;color:rgba(0,0,0,.5)">أو</span>
+<span dir="ltr" style="font:700 10px ui-monospace,monospace;padding:3px 8px;border-radius:5px;background:#eaf5ef;color:#1e7355;border:1px solid #cfe6dc">MariaDB 10.11+</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">توصية للاستضافة — لا يفرضها الكود</span>
+</div>
+
+<div style="padding:11px 13px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.85 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ install }}</pre>
+</div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;probeDelayMs&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:700,&quot;min&quot;:200,&quot;max&quot;:3000,&quot;step&quot;:100,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;القياس&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
+
+// عدّ الفحوص لكل طبقة في موضع واحد — والمجموع والعنوان يُشتقّان منه، فلا رقم
+// مكتوب ينحرف عند إضافة فحص. آخر انحراف كان بسبب أربعة مواضع مكتوبة يدويًّا.
+const LAYERS = [
+  ['الأساس', 'check-foundation.mjs', 6, 'قارئ منتج واحد · سجل أيقونات واحد · تقييم من ووكومرس · سلّم حركة ٠–١٠ · مكتبة ٣٠٠'],
+  ['أزمنة التشغيل', 'check-runtimes.mjs', 8, 'الخمسة جميعًا · بلا تبعيات · تقليل الحركة · وعي RTL · لوحة مفاتيح · ARIA'],
+  ['المُصيِّرات', 'check-renderers.mjs', 18, 'تطابق PHP ↔ CSS · دلالة · وصولية الحوار · فتحة الوسيط · كشف عند تقليل الحركة'],
+  ['الهيرو', 'check-heroes.mjs', 12, 'تطابق الهياكل ↔ CSS · حصر الفتحات · عنوان واحد · أداء الوسيط · زخرفة مخفيّة'],
+];
+
+// المُصيِّرات لكل ملف — المصدر الوحيد لعدّها وعدّ ملفّاتها. الرقم المكتوب في
+// شارة أو تعليق ينحرف عند كل دفعة جديدة؛ الاشتقاق لا ينحرف.
+const RENDERERS = [
+  ['tahdheer-renderers.php', 12],
+  ['tahdheer-renderers-2.php', 6],
+  ['tahdheer-renderers-3.php', 26],
+];
+
+// عدد اختيارات المكتبة التي يخدمها المكوّن الذكي — مقروء من السجل، وهو الرقم
+// الوحيد الذي يخصّ حالة «معطّل بإعلان».
+const SMART_CHOICES = 20;
+
+const AR_FILES = ['', 'ملف واحد', 'ملفَّان', 'ثلاثة ملفّات', 'أربعة ملفّات'];
+
+class Component extends DCLogic {
+  state = { probe: null };
+
+  componentDidMount() {
+    // يقيس السلوك لا التحميل. المرّة السابقة قاست «مُحمَّل ومُهيَّأ» فمرّت خضراء
+    // فيما لا يدخل التركيز الحوار أبدًا — ولذلك يفتح هذا المقياس حوارًا فعليًّا
+    // ويسأل: هل دخل التركيز؟ هل الحوار داخل سَلَف معزول؟ هل عاد التركيز للزرّ؟
+    const read = () => {
+      if (!window.TahDialog) {
+        this.setState({ probe: { loaded: false } });
+        return;
+      }
+
+      const trigger = document.querySelector('[data-tah-dialog-open="pv-demo"]');
+      const dialog = document.getElementById('pv-demo');
+      const panel = dialog && dialog.querySelector('[data-tah-dialog-panel]');
+      if (!trigger || !panel) {
+        this.setState({ probe: { loaded: true, ready: 0, dialogs: 0 } });
+        return;
+      }
+
+      window.TahDialog.open('pv-demo', trigger);
+
+      const focusInside = panel.contains(document.activeElement);
+      const selfInert = !!dialog.closest('[inert]');
+      const reachable = panel.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])').length;
+      const modal = panel.getAttribute('aria-modal') === 'true';
+
+      window.TahDialog.close(false);
+
+      const returned = document.activeElement === trigger;
+
+      this.setState({
+        probe: {
+          loaded: true, focusInside, selfInert, reachable, modal, returned,
+          dialogs: document.querySelectorAll('[data-tah-dialog]').length,
+          ready: document.querySelectorAll('[data-tah-dialog][data-tah-ready="1"]').length,
+        },
+      });
+    };
+    window.setTimeout(read, 900);
+  }
+
+  renderVals() {
+    const p = this.state.probe;
+    const rN = RENDERERS.reduce((s, x) => s + x[1], 0);
+    const fN = RENDERERS.length;
+    const checkTotal = LAYERS.reduce((s, l) => s + l[2], 0);
+
+    const ok = p && p.loaded && p.focusInside && !p.selfInert && p.returned && p.modal && p.reachable > 0;
+    const partial = p && p.loaded && !ok;
+
+    return {
+      totals: [
+        [AR(rN), 'مُصيِّرًا', AR_FILES[fN] + ' · نقطة دخول واحدة', GBG, '#cfe6dc', G],
+        [AR(300), 'اختيار في المكتبة', 'التغطية يطبعها check-renderers — لا تُكتب هنا', '#fff', '#dcdcde', '#1a1a1a'],
+        [AR(30), 'هدف هيرو', 'على ١٠ هياكل تخطيط', '#fff', '#dcdcde', '#1a1a1a'],
+        [AR(5), 'أزمنة تشغيل', 'بلا تبعية خارجية واحدة', GBG, '#cfe6dc', G],
+        [AR(SMART_CHOICES), 'معطّلة بإعلان', 'تنتظر مصدرًا — لا تلفيق', ABG, '#f0dca0', '#7a5a00'],
+      ].map((t) => ({ n: t[0], label: t[1], note: t[2], bg: t[3], edge: t[4], fg: t[5] })),
+
+      probe: {
+        mark: !p ? '…' : ok ? '✓' : partial ? '!' : '×',
+        bg: !p ? '#fff' : ok ? GBG : partial ? ABG : RBG,
+        edge: !p ? '#dcdcde' : ok ? '#cfe6dc' : partial ? '#f0dca0' : '#f5c9c4',
+        mBg: !p ? '#c9c9cd' : ok ? G : partial ? A : R,
+        note: !p ? 'جارٍ قياس السلوك…'
+          : !p.loaded ? 'غير مُحمَّل — تحقّق من مسار tah-rt-dialog.js'
+            : ok ? 'فُتِح فعليًّا: التركيز دخل اللوح · ' + AR(p.reachable) + ' عنصرًا قابلًا للوصول · aria-modal · وعاد التركيز للزرّ'
+              : [
+                p.focusInside ? '' : 'التركيز لم يدخل اللوح',
+                p.selfInert ? 'الحوار داخل سَلَف معزول' : '',
+                p.modal ? '' : 'بلا aria-modal',
+                p.returned ? '' : 'التركيز لم يعد للزرّ',
+                p.reachable > 0 ? '' : 'لا عنصر قابلًا للوصول',
+              ].filter(Boolean).join(' · '),
+      },
+
+      specs: [
+        ['الصيغ', 'PPTX · PDF'], ['الملفات', '٥'],
+        ['الحجم', '٧٥ م.ب'], ['التسليم', 'فوري'],
+      ].map((s) => ({ k: s[0], v: s[1] })),
+
+      pages: [
+        ['الغلاف', '#e7f1ea'], ['جدول الأهداف', '#e3ecf7'],
+        ['أنشطة الدرس', '#f7eee3'], ['أدوات التقويم', '#eee7f5'],
+      ].map((x, i) => ({ i: String(i), label: x[0], tint: x[1] })),
+
+      bundleItems: [
+        ['تحضير الرياضيات — سادس', '٣٥.٠٠ ر.س', '#e3ecf7'],
+        ['أوراق عمل — سادس', '٢٠.٠٠ ر.س', '#f5e7ea'],
+        ['دليل المعلم — رياضيات', '٤٠.٠٠ ر.س', '#e7f1ea'],
+      ].map((b, i) => ({ title: b[0], price: b[1], tint: b[2], plus: i > 0 })),
+
+      questions: [
+        ['stage', 'ما المرحلة؟', ['ابتدائي', 'متوسط', 'ثانوي']],
+        ['subject', 'ما المادة؟', ['رياضيات', 'علوم', 'لغة عربية']],
+        ['need', 'ما الذي تحتاجه؟', ['تحضير كامل', 'أوراق عمل', 'دليل المعلم']],
+      ].map((q, qi) => ({
+        name: q[0], label: q[1],
+        options: q[2].map((o, oi) => ({
+          id: 'hp-' + qi + '-' + oi, label: o, value: o, first: oi === 0,
+        })),
+      })),
+
+      layers: LAYERS.map((l) => ({ label: l[0], file: l[1], g: AR(l[2]), note: l[3] })),
+      checkTotal: AR(checkTotal),
+      layerCount: AR(LAYERS.length),
+
+      install: "// functions.php — الترتيب كلّه · " + AR(rN) + " مُصيِّرًا في " + AR_FILES[fN] + "\n// بيئة التشغيل الموصى بها: PHP 8.3+ · MySQL 8.0+ أو MariaDB 10.11+\nrequire_once get_template_directory() . '/inc/tahdheer-icons.php';\nrequire_once get_template_directory() . '/inc/tahdheer-product-data.php';\nrequire_once get_template_directory() . '/inc/tahdheer-hero-rating.php';\nrequire_once get_template_directory() . '/inc/tahdheer-motion-scale.php';\nrequire_once get_template_directory() . '/inc/tahdheer-component-registry.php';\nrequire_once get_template_directory() . '/inc/tahdheer-runtimes.php';\nrequire_once get_template_directory() . '/inc/tahdheer-renderers.php';\nrequire_once get_template_directory() . '/inc/tahdheer-renderers-2.php';\nrequire_once get_template_directory() . '/inc/tahdheer-renderers-3.php';\nrequire_once get_template_directory() . '/inc/tahdheer-heroes.php';\n\n// الفحوص الـ" + AR(checkTotal) + " — أوقفها في CI\nnode scripts/check-foundation.mjs\nnode scripts/check-runtimes.mjs\nnode scripts/check-renderers.mjs\nnode scripts/check-heroes.mjs\n\n// تسجيل مزوّد ذكي حقيقي لاحقًا — بلا تعديل أي مُصيِّر\nadd_filter( 'tahdheer_smart_source', function ( $items, $kind, $args ) {\n  return my_recommender( $kind, $args );  // مصفوفة معرّفات منتجات\n}, 10, 3 );",
+    };
+  }
+}
+
+</script>
+</body>
+</html>

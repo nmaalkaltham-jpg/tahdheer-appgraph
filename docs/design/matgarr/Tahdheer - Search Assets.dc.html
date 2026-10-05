@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes saFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="s3-calc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M8 7h8M8 12h.1M12 12h.1M16 12h.1M8 16h.1M12 16h.1M16 16h.1"></path></symbol>
+<symbol id="s3-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 3v4M16 3v4"></path></symbol>
+<symbol id="s3-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="s3-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="s3-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></symbol>
+<symbol id="s3-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="6" cy="12" r="2.5"></circle><circle cx="17" cy="6" r="2.5"></circle><circle cx="17" cy="18" r="2.5"></circle><path d="M8.3 10.8l6.4-3.6M8.3 13.2l6.4 3.6"></path></symbol>
+<symbol id="s3-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="s3-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 4v10M8 11l4 4 4-4M5 19h14"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1080px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">أصول البحث — Digital PR</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">{{ seoNote }}</span>
+</div>
+</div>
+
+<header style="background:#fff;border-bottom:1px solid #e6e8e6">
+<div style="max-width:1080px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:12px">
+<span style="display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#2b9c72,#14603f);display:grid;place-items:center;color:#fff;font:900 14px Tajawal">ت</span><span style="font:900 16px Tajawal;color:#14261d">تذكير</span></span>
+<div style="flex:1"></div>
+<a href="#" style="padding:8px 12px;font-size:12px;font-weight:800;color:#3d4f45">المتجر</a>
+</div>
+</header>
+
+<main id="main" style="max-width:1080px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+
+<sc-if value="{{ is.calc }}" hint-placeholder-val="{{ true }}">
+<section style="text-align:center;padding:4px 0;animation:saFade .3s ease">
+<h1 style="margin:0 0 5px;font:900 25px Tajawal">حاسبة المعدل الفصلي — مجانية</h1>
+<p style="margin:0 auto;max-width:560px;font-size:12px;line-height:1.9;color:#5f7167">أدخل درجاتك، اعرف معدلك فورًا، واحصل على خطة مذاكرة مقترحة للمواد الأضعف. أداة مجانية بلا تسجيل — شاركها مع زملائك.</p>
+</section>
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:13px;align-items:start">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 19px">
+<h2 style="margin:0 0 10px;font-size:14px;font-weight:900">درجاتك (من ١٠٠)</h2>
+<sc-for list="{{ cc.rows }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed #f1f4f2">
+<span style="flex:1;font-size:12.5px;font-weight:900">{{ r.n }}</span>
+<input type="number" min="0" max="100" value="{{ r.v }}" onChange="{{ r.onV }}" aria-label="درجة {{ r.n }}" style="width:76px;min-height:38px;padding:0 10px;border:1.5px solid #d7ddd8;border-radius:10px;font:900 13px Tajawal;text-align:center;outline:none">
+<span aria-hidden="true" style="flex:0 0 90px;height:7px;border-radius:5px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ r.w }};background:{{ r.c }};border-radius:5px;transition:width .2s"></span></span>
+</div>
+</sc-for>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:18px;text-align:center">
+<span style="display:block;font-size:11px;font-weight:900;color:#5f7167">معدلك الفصلي</span>
+<span style="display:block;margin:4px 0;font:900 40px Tajawal;color:{{ cc.gc }}">{{ cc.avg }}٪</span>
+<span style="display:inline-block;padding:4px 14px;border-radius:999px;background:{{ cc.gbg }};color:{{ cc.gc }};font-size:12px;font-weight:900">{{ cc.grade }}</span>
+<button type="button" onClick="{{ cc.onShare }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;margin-top:11px;padding:0 15px;border:1px solid #d7ddd8;border-radius:10px;background:#fbfcfb;font-size:11.5px;font-weight:900;color:#3d4f45;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px"><use href="#s3-share"></use></svg>شارك نتيجتك</button>
+</section>
+<sc-if value="{{ cc.hasWeak }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #f0e2b8;border-radius:14px;background:#fffdf5;padding:13px 16px">
+<h2 style="margin:0 0 5px;font-size:12.5px;font-weight:900;color:#8a6500">خطة مقترحة لأضعف موادك</h2>
+<span style="display:block;font-size:11.5px;line-height:1.9;color:#5f4a12">مادة <b>{{ cc.weak }}</b> ({{ cc.weakV }}٪) تحتاج تأسيسًا لا مراجعة — ابدأ بملزمة الشرح بخرائط المفاهيم ثم الاختبارات المحلولة قبل الفترة بأسبوعين.</span>
+<button type="button" onClick="{{ cc.onFix }}" style="min-height:36px;margin-top:9px;padding:0 14px;border:0;border-radius:10px;background:#8a6500;color:#fff;font-size:11px;font-weight:900;cursor:pointer">ملازم {{ cc.weak }} ←</button>
+</section>
+</sc-if>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9"><svg aria-hidden="true" style="width:14px;height:14px;color:#146c4c"><use href="#s3-bolt"></use></svg><span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">لماذا تجلب روابط؟</b> أداة مجانية يشاركها المعلمون والمجموعات تلقائيًا = روابط خلفية تحريرية طبيعية + ترتيب لاستعلامات «حساب المعدل الفصلي» — من غير شراء رابط واحد.</span></div>
+</sc-if>
+
+<sc-if value="{{ is.cal }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:4px 0;animation:saFade .3s ease">
+<h1 style="margin:0 0 5px;font:900 25px Tajawal">تقويم اختبارات الفصل الأول ١٤٤٨</h1>
+<p style="margin:0 auto;max-width:560px;font-size:12px;line-height:1.9;color:#5f7167">مواعيد الفترات والاختبارات النهائية محدثة من التقويم الدراسي الرسمي — مع عدّ تنازلي وخطة مراجعة لكل فترة.</p>
+</section>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ cal.rows }}" as="e" hint-placeholder-count="3">
+<section style="border:1px solid {{ e.bd }};border-radius:15px;background:#fff;padding:15px 17px;animation:saFade .3s ease">
+<div style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:15px;height:15px;color:#146c4c"><use href="#s3-cal"></use></svg><b style="font-size:13.5px">{{ e.n }}</b>
+<sc-if value="{{ e.soon }}" hint-placeholder-val="{{ false }}"><span style="margin-inline-start:auto;padding:2px 9px;border-radius:999px;background:#fce8e8;color:#b32d2e;font-size:9px;font-weight:900">{{ e.left }}</span></sc-if>
+</div>
+<span style="display:block;margin-top:4px;font-size:11px;color:#5f7167">{{ e.d }}</span>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:9px">
+<sc-for list="{{ e.subs }}" as="s" hint-placeholder-count="3"><span style="padding:3px 9px;border-radius:999px;background:#f2f6f3;font-size:9.5px;font-weight:800;color:#3d4f45">{{ s }}</span></sc-for>
+</div>
+<span style="display:block;margin-top:9px;padding-top:8px;border-top:1px dashed #f1f4f2;font-size:10px;line-height:1.7;color:#7c8a82">{{ e.plan }}</span>
+<button type="button" onClick="{{ e.onGo }}" style="min-height:34px;margin-top:8px;padding:0 13px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10.5px;font-weight:900;color:#146c4c;cursor:pointer">ملازم المراجعة لهذه الفترة ←</button>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9"><span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">QDF — طزاجة الاستعلام:</b> الصفحة تتحدث كل فصل بنفس الرابط الدائم، فتكسب ترتيب «جدول الاختبارات» الموسمي المتجدد وتراكم قوتها سنة بعد سنة بدل رابط جديد يبدأ من الصفر.</span></div>
+</sc-if>
+
+<sc-if value="{{ is.bank }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:4px 0;animation:saFade .3s ease">
+<h1 style="margin:0 0 5px;font:900 25px Tajawal">بنك أسئلة مجاني — رياضيات أول ثانوي</h1>
+<p style="margin:0 auto;max-width:580px;font-size:12px;line-height:1.9;color:#5f7167">{{ bank.n }} سؤالًا حقيقيًا بنمط الاختبارات مع الحل المفصل — مجانًا وبلا تسجيل. الأسئلة عيّنة من ملازمنا المدفوعة.</p>
+</section>
+<div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:center">
+<sc-for list="{{ bank.units }}" as="u" hint-placeholder-count="4">
+<button type="button" onClick="{{ u.onClick }}" aria-pressed="{{ u.on }}" style="min-height:32px;padding:0 13px;border:1px solid {{ u.bd }};border-radius:999px;background:{{ u.bg }};color:{{ u.fg }};font-size:11px;font-weight:800;cursor:pointer">{{ u.n }}</button>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ bank.rows }}" as="q" hint-placeholder-count="4">
+<details style="border:1px solid #e2e8e4;border-radius:13px;background:#fff;animation:saFade .25s ease">
+<summary style="padding:13px 16px;cursor:pointer;font-size:12.5px;font-weight:900;color:#14261d">{{ q.q }} <span style="font-size:9px;font-weight:800;color:#8b978f">— {{ q.u }} · {{ q.lvl }}</span></summary>
+<div style="padding:0 16px 13px">
+<p style="margin:0;padding:10px 13px;border-radius:11px;background:#f2f8f5;font-size:12px;line-height:2;color:#3d4f45"><b style="color:#146c4c">الحل: </b>{{ q.a }}</p>
+<span style="display:block;margin-top:7px;font-size:10px;color:#8b978f">مثلها ٢٢ سؤالًا بالخطوات في <a href="#">{{ q.src }}</a></span>
+</div>
+</details>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:11px;padding:13px 17px;border:1.5px dashed #cfe0d6;border-radius:14px;background:linear-gradient(150deg,#f4faf6,#fff);flex-wrap:wrap">
+<svg aria-hidden="true" style="width:17px;height:17px;color:#146c4c"><use href="#s3-dl"></use></svg>
+<span style="flex:1;min-width:220px;font-size:11.5px;font-weight:800;color:#3d4f45">أعجبك الأسلوب؟ حمّل ملف ٢٠ سؤالًا إضافيًا PDF مجانًا — أو اذهب للملزمة الكاملة (١٤٦ مسألة).</span>
+<button type="button" onClick="{{ bank.onDl }}" style="min-height:38px;padding:0 15px;border:1px solid #d7ddd8;border-radius:10px;background:#fff;font-size:11.5px;font-weight:900;color:#3d4f45;cursor:pointer">تنزيل PDF المجاني</button>
+<button type="button" onClick="{{ bank.onBuy }}" style="min-height:38px;padding:0 16px;border:0;border-radius:10px;background:#1e7355;color:#fff;font-size:11.5px;font-weight:900;cursor:pointer">الملزمة الكاملة — ٤٥ ر.س</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.vs }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:7px;justify-content:center;animation:saFade .3s ease">
+<sc-for list="{{ vs.tabs }}" as="t" hint-placeholder-count="2">
+<button type="button" onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="min-height:36px;padding:0 16px;border:1px solid {{ t.bd }};border-radius:999px;background:{{ t.bg }};color:{{ t.fg }};font-size:12px;font-weight:900;cursor:pointer">{{ t.n }}</button>
+</sc-for>
+</div>
+<section style="text-align:center;padding:2px 0">
+<h1 style="margin:0 0 5px;font:900 24px Tajawal">{{ vs.h1 }}</h1>
+<p style="margin:0 auto;max-width:600px;font-size:12px;line-height:1.9;color:#5f7167">{{ vs.intro }}</p>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;overflow:hidden">
+<table style="width:100%;border-collapse:collapse">
+<thead><tr style="background:#f6f8f7">
+<th style="width:150px;padding:10px 16px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">المعيار</th>
+<th style="padding:10px 12px;text-align:start;font-size:12px;font-weight:900;color:#14261d">{{ vs.a }}</th>
+<th style="padding:10px 12px;text-align:start;font-size:12px;font-weight:900;color:#14261d">{{ vs.b }}</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ vs.rows }}" as="r" hint-placeholder-count="5">
+<tr>
+<th scope="row" style="padding:9px 16px;text-align:start;font-size:11px;font-weight:800;color:#5f7167;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ r.k }}</th>
+<td style="padding:9px 12px;border-top:1px solid #f4f6f4;font-size:11.5px;color:#3d4f45;background:{{ r.abg }}">{{ r.a }}</td>
+<td style="padding:9px 12px;border-top:1px solid #f4f6f4;font-size:11.5px;color:#3d4f45;background:{{ r.bbg }}">{{ r.b }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<sc-for list="{{ vs.verdicts }}" as="v" hint-placeholder-count="2">
+<section style="border:1px solid #cfe0d6;border-radius:14px;background:#f8fbf9;padding:14px 17px">
+<span style="font-size:10.5px;font-weight:900;color:#146c4c">اختر {{ v.pick }} إذا كنت:</span>
+<sc-for list="{{ v.ifs }}" as="i" hint-placeholder-count="2"><span style="display:block;padding:3px 0;font-size:11.5px;color:#3d4f45">✓ {{ i }}</span></sc-for>
+<button type="button" onClick="{{ v.onGo }}" style="min-height:34px;margin-top:8px;padding:0 13px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">{{ v.cta }} ←</button>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.qa }}" hint-placeholder-val="{{ false }}">
+<section style="text-align:center;padding:4px 0;animation:saFade .3s ease">
+<h1 style="margin:0 0 5px;font:900 25px Tajawal">اسأل تذكير — أسئلة أولياء الأمور والطلاب</h1>
+<p style="margin:0 auto;max-width:580px;font-size:12px;line-height:1.9;color:#5f7167">كل سؤال حقيقي نجيب عنه تحريريًا يصبح صفحة دائمة تفيد من يبحث بعدك — {{ qa.total }} سؤالًا مُجابًا حتى الآن.</p>
+<div style="position:relative;max-width:460px;margin:12px auto 0">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:12px;top:12px;color:#8b978f"><svg style="width:15px;height:15px"><use href="#s3-search"></use></svg></span>
+<input type="search" value="{{ qa.q }}" onChange="{{ qa.onQ }}" placeholder="ابحث في الأسئلة…" aria-label="بحث" style="width:100%;box-sizing:border-box;min-height:42px;padding-inline:36px 13px;border:1.5px solid #d7ddd8;border-radius:12px;font:800 12px Tajawal;outline:none">
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ qa.rows }}" as="r" hint-placeholder-count="4">
+<article style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:14px 17px;animation:saFade .25s ease">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<h2 style="margin:0;flex:1;min-width:200px;font-size:13.5px;font-weight:900;color:#14261d">{{ r.q }}</h2>
+<span style="padding:2px 9px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">إجابة تحريرية ✓</span>
+<span style="font-size:9.5px;color:#a9b4ad">{{ r.meta }}</span>
+</div>
+<p style="margin:7px 0 0;font-size:12px;line-height:2;color:#3d4f45">{{ r.a }}</p>
+<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+<sc-for list="{{ r.links }}" as="l" hint-placeholder-count="2"><a href="#" style="padding:4px 11px;border:1px solid #cfe0d6;border-radius:999px;background:#f2f8f5;font-size:10px;font-weight:900;color:#146c4c">{{ l }}</a></sc-for>
+</div>
+</article>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:13px;background:#14261d;color:#fff;flex-wrap:wrap">
+<span style="flex:1;min-width:220px;font-size:12px;font-weight:800">عندك سؤال لم يُطرح؟ نجيب خلال يوم عمل — وينشر ليفيد غيرك (بعد موافقتك).</span>
+<button type="button" onClick="{{ qa.onAsk }}" style="min-height:38px;padding:0 16px;border:0;border-radius:10px;background:#fff;color:#14261d;font-size:11.5px;font-weight:900;cursor:pointer">اسأل سؤالك</button>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:400px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;animation:saFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;calc&quot;,&quot;cal&quot;,&quot;bank&quot;,&quot;vs&quot;,&quot;qa&quot;],&quot;default&quot;:&quot;calc&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+state={scr:'calc',scores:[['رياضيات',72],['فيزياء',88],['كيمياء',91],['أحياء',84],['لغتي',95]],
+ unit:'all',vsTab:'depth',qaQ:'',toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),2800));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+BANK=[
+ {q:'حل المعادلة: س² − ٥س + ٦ = ٠',a:'نحلل: (س−٢)(س−٣)=٠ ← س=٢ أو س=٣. تحقق بالتعويض: ٤−١٠+٦=٠ ✓',u:'المعادلات',lvl:'أساسي',src:'مذكرة الرياضيات — الوحدة ٢'},
+ {q:'أوجد ميل المستقيم المار بالنقطتين (١،٣) و(٤،٩)',a:'الميل = (٩−٣)÷(٤−١) = ٦÷٣ = ٢. القاعدة: فرق الصادات على فرق السينات.',u:'الدوال',lvl:'أساسي',src:'مذكرة الرياضيات — الوحدة ١'},
+ {q:'إذا كانت د(س)=٢س+١ فأوجد د(د(٢))',a:'الداخلية أولًا: د(٢)=٥، ثم د(٥)=١١. التركيب يُقرأ من الداخل للخارج دائمًا.',u:'الدوال',lvl:'متوسط',src:'مذكرة الرياضيات — الوحدة ١'},
+ {q:'أوجد قيمة التمييز وحدد نوع الجذور: س² + ٤س + ٤ = ٠',a:'التمييز = ب²−٤أج = ١٦−١٦ = ٠ ← جذران حقيقيان متساويان (س=−٢). التمييز صفر يعني مربعًا كاملًا.',u:'المعادلات',lvl:'متوسط',src:'مذكرة الرياضيات — الوحدة ٢'},
+ {q:'متتابعة حسابية حدها الأول ٣ وأساسها ٤ — أوجد الحد العاشر',a:'حن = أ + (ن−١)د = ٣ + ٩×٤ = ٣٩.',u:'المتتابعات',lvl:'أساسي',src:'مذكرة الرياضيات — الوحدة ٤'},
+ {q:'أثبت أن مجموع زوايا المضلع الخماسي = ٥٤٠°',a:'(ن−٢)×١٨٠ = ٣×١٨٠ = ٥٤٠°. نقسم الخماسي لثلاثة مثلثات من رأس واحد.',u:'الهندسة',lvl:'تميز',src:'مذكرة الرياضيات — الوحدة ٣'}
+];
+VS={
+ depth:{n:'المكثفة أم المبسطة؟',h1:'ملزمة الشرح المكثفة أم مذكرة المراجعة المبسطة؟',
+  intro:'أكثر سؤال يصلنا. الفرق ليس في الجودة بل في الوظيفة: بناء الفهم أم تثبيته — والجدول يحسمها بالأرقام.',
+  a:'المكثفة (٤٥ ر.س)',b:'المبسطة (٢٩ ر.س)',
+  rows:[['الوظيفة','بناء الفهم من الصفر','تثبيت ومراجعة سريعة',1,0],['الصفحات','٨٤ صفحة','٤٦ صفحة',0,0],['المسائل','١٤٦ بالخطوات المعلَّلة','٦٠ بإجابات مختصرة',1,0],['خرائط المفاهيم','لكل درس','خريطة واحدة للوحدة',1,0],['وقت الإنجاز','٣–٤ أسابيع','أسبوع واحد',0,1],['الأنسب لدرجة','أقل من ٧٥','أعلى من ٨٥',0,0]],
+  verdicts:[{pick:'المكثفة',ifs:['درجاته تحت ٧٥ أو لديه فجوات سابقة','انتقل من منهج/مدرسة مختلفة'],cta:'ملزمة الشرح المكثفة'},{pick:'المبسطة',ifs:['متابع للحصص ودرجاته ٨٥+','يحتاج مراجعة أسبوع قبل الفترة'],cta:'مذكرة المراجعة المبسطة'}]},
+ fmt:{n:'PDF أم مطبوعة؟',h1:'النسخة الرقمية PDF أم المطبوعة؟',
+  intro:'المحتوى واحد ١٠٠٪ — الفرق في تجربة الاستخدام والتكلفة والسرعة. جرّبنا الاثنتين على ٤٢٠ طالبًا وهذه الخلاصة.',
+  a:'PDF رقمية (٤٥ ر.س)',b:'مطبوعة (٦٠ ر.س)',
+  rows:[['التسليم','فوري بعد الدفع','١–٣ أيام عمل',1,0],['الحل بالقلم','على آيباد أو بطباعة منزلية','مباشر — تجليد حلزوني يفتح ١٨٠°',0,1],['التحديثات','تصلك مجانًا طوال العام','تحتاج إعادة شراء للنسخة الجديدة',1,0],['التركيز البصري','إضاءة شاشة — أقل للبعض','ورق مريح للمذاكرة الطويلة',0,1],['المشاركة الأسرية','ترخيص طباعة نسختين','نسخة واحدة',1,0],['التكلفة','أقل ١٥ ر.س + بلا شحن','+١٥ ر.س وشحن',1,0]],
+  verdicts:[{pick:'الرقمية',ifs:['يذاكر على آيباد أو يريدها الليلة','يهمه استلام تحديثات المنهج'],cta:'النسخة الرقمية'},{pick:'المطبوعة',ifs:['يركز أفضل على الورق ويحل بالقلم','مذاكرة طويلة يوميًا (٢+ ساعة)'],cta:'النسخة المطبوعة'}]}
+};
+QA=[
+ {q:'ابني في أول ثانوي مساراته العام القادم — هل أنتظر أم أشتري الآن؟',a:'اشترِ ملازم السنة المشتركة الآن — أساسها واحد لكل المسارات، وما يتغير لاحقًا يصلك تحديثه مجانًا في النسخة الرقمية. الانتظار يخسره فصلًا كاملًا من التأسيس.',meta:'أجاب: أ. سارة · قبل ٣ أيام',links:['ملازم أول ثانوي','حزمة العام الكاملة']},
+ {q:'هل تنفع ملازمكم لطالب منازل (انتساب)؟',a:'نعم وربما أكثر من غيره — لأنها مصممة للفهم الذاتي: خرائط مفاهيم وحلول معلَّلة خطوة بخطوة دون حاجة لمعلم يشرح. ننصح بالمكثفة لكل مادة + الاختبارات المحلولة.',meta:'أجاب: فريق تذكير · قبل أسبوع',links:['ملازم الشرح المكثفة']},
+ {q:'الفرق بين ملازمكم والملازم المنتشرة مجانًا في تليجرام؟',a:'المجانية غالبًا نسخ قديمة لمناهج متغيرة وبلا حلول معلَّلة. ملازمنا يجرّبها مُعِدّها على فصله قبل النشر، وتُحدَّث كل فصل، ومعها ملف إجابات ودعم. والنموذج المجاني عندنا يريك الفرق قبل أن تدفع.',meta:'أجاب: أ. محمد · قبل أسبوعين',links:['النماذج المجانية','لماذا تذكير؟']},
+ {q:'متى أبدأ المراجعة النهائية للفصل؟',a:'قبل الاختبارات بأربعة أسابيع: أسبوعان إنهاء وفهم، أسبوع حل اختبارات محلولة، وأسبوع أخير للنقاط الضعيفة فقط. جدول التوزيع المجاني مرفق مع كل ملزمة.',meta:'أجاب: أ. سارة · قبل شهر',links:['خطة مراجعة ٤ أسابيع','الاختبارات المحلولة']}
+];
+renderVals(){
+ const st=this.state;
+ const SC=[['calc','حاسبة المعدل'],['cal','تقويم الاختبارات'],['bank','بنك الأسئلة'],['vs','صفحات المقارنة'],['qa','اسأل تذكير']];
+ const NOTES={calc:'index · أصل جذب روابط',cal:'index · QDF موسمي · رابط دائم',bank:'index · long-tail ضخم',vs:'index · نية مقارنة عالية',qa:'index · صفحة لكل سؤال معتمد'};
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  seoNote:NOTES[st.scr],
+  is:{calc:st.scr==='calc',cal:st.scr==='cal',bank:st.scr==='bank',vs:st.scr==='vs',qa:st.scr==='qa',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ // calculator
+ const vals=st.scores.map(s=>s[1]);
+ const avg=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10;
+ const weakI=vals.indexOf(Math.min.apply(null,vals));
+ const grade=avg>=90?['ممتاز','#146c4c','#e4f4ec']:(avg>=80?['جيد جدًا','#1d5f9c','#e8f2fc']:(avg>=70?['جيد — قابل للرفع','#8a6500','#fff4d6']:['يحتاج خطة','#b32d2e','#fce8e8']));
+ base.cc={
+  rows:st.scores.map((s,i)=>({n:s[0],v:String(s[1]),w:Math.max(2,Math.min(100,s[1]))+'%',
+   c:s[1]>=85?'#1e7355':(s[1]>=70?'#c9a227':'#b32d2e'),
+   onV:(e)=>{ const v=Math.max(0,Math.min(100,Number(e.target.value)||0));
+    const sc=st.scores.map((x,j)=>j===i?[x[0],v]:x); this.setState({scores:sc}); }})),
+  avg:this.ar(avg),grade:grade[0],gc:grade[1],gbg:grade[2],
+  hasWeak:vals[weakI]<85,weak:st.scores[weakI][0],weakV:this.ar(vals[weakI]),
+  onShare:()=>this.toast('نُسخت بطاقة النتيجة للمشاركة — رابط الحاسبة معها (هكذا تنتشر الأداة)'),
+  onFix:()=>this.toast('فتح ملازم '+st.scores[weakI][0]+' — ربط الأداة بالمتجر بنص وصفي')
+ };
+ base.cal={rows:[
+  {n:'الفترة الأولى',d:'الأسبوع السادس — ٥ أكتوبر ٢٠٢٦',subs:['رياضيات','فيزياء','كيمياء'],left:'باقي ٣٧ يومًا',soon:false,bd:'#e2e8e4',plan:'ابدأ المراجعة قبلها بأسبوعين — الاختبارات المحلولة تكفي إن كان الفهم مستقرًا.'},
+  {n:'الفترة الثانية',d:'الأسبوع الحادي عشر — ٩ نوفمبر ٢٠٢٦',subs:['أحياء','لغتي','إنجليزي'],left:'باقي ٧٢ يومًا',soon:false,bd:'#e2e8e4',plan:'تتراكم مع الأولى — وزّع بجدول الأسابيع الأربعة المجاني.'},
+  {n:'النهائي',d:'الأسبوع السادس عشر — ١٤ ديسمبر ٢٠٢٦',subs:['كل المواد'],left:'باقي ١٠٧ أيام',soon:true,bd:'#d8b56a',plan:'حزمة المراجعة الشاملة صُممت لهذه الفترة تحديدًا — ٣ مواد علمية بخطة موحدة.'}
+ ].map(e=>Object.assign(e,{onGo:()=>this.toast('فتح ملازم «'+e.n+'» — ربط موسمي بالمنتجات')}))};
+ // bank
+ const units=['all','الدوال','المعادلات','الهندسة','المتتابعات'];
+ const rows=this.BANK.filter(q=>st.unit==='all'||q.u===st.unit);
+ base.bank={n:this.ar(this.BANK.length),
+  units:units.map(u=>({n:u==='all'?'كل الوحدات':u,on:st.unit===u,
+   bg:st.unit===u?'#14261d':'#fff',fg:st.unit===u?'#fff':'#3d4f45',bd:st.unit===u?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({unit:u})})),
+  rows:rows.map(q=>({q:q.q,a:q.a,u:q.u,lvl:q.lvl,src:q.src})),
+  onDl:()=>this.toast('تنزيل PDF المجاني — بلا بريد ولا تسجيل، وهذا سر انتشاره'),
+  onBuy:()=>this.toast('فتح الملزمة الكاملة — التحويل من الأصل المجاني للمنتج')};
+ // vs
+ const V=this.VS[st.vsTab];
+ base.vs={tabs:Object.keys(this.VS).map(k=>({n:this.VS[k].n,on:st.vsTab===k,
+   bg:st.vsTab===k?'#14261d':'#fff',fg:st.vsTab===k?'#fff':'#3d4f45',bd:st.vsTab===k?'#14261d':'#dcdcde',
+   onClick:()=>this.setState({vsTab:k})})),
+  h1:V.h1,intro:V.intro,a:V.a,b:V.b,
+  rows:V.rows.map(r=>({k:r[0],a:r[1],b:r[2],abg:r[3]?'#f2f8f5':'#fff',bbg:r[4]?'#f2f8f5':'#fff'})),
+  verdicts:V.verdicts.map(v=>Object.assign({},v,{onGo:()=>this.toast('فتح «'+v.cta+'» — رابط منتج حقيقي')}))};
+ // qa
+ const q=st.qaQ.trim();
+ const qrows=this.QA.filter(r=>!q||(r.q+r.a).indexOf(q)>=0);
+ base.qa={total:this.ar(this.QA.length*12),q:st.qaQ,onQ:(e)=>this.setState({qaQ:e.target.value}),
+  rows:qrows.map(r=>({q:r.q,a:r.a,meta:r.meta,links:r.links})),
+  onAsk:()=>this.toast('نموذج السؤال — يُنشر بعد الإجابة والموافقة التحريرية فقط (لا محتوى آلي)')};
+ return base;
+}
+}
+</script>
+</body>
+</html>

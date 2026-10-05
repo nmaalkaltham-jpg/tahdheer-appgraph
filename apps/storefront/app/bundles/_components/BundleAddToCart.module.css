@@ -1,0 +1,71 @@
+/*
+ * Bundle purchase control — «Tahdheer - Bundle» price-card CTA values
+ * (full width · 12px radius · 15px/900 label · brand green with the design's
+ * lifted shadow). Tokens only, logical properties only.
+ *
+ * No keyframe animations and nothing hidden pending animation ⇒ no reduced-motion
+ * reveal block is required here.
+ */
+
+.wrap {
+  display: block;
+}
+
+.cta {
+  inline-size: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-block-size: 48px;
+  border: 0;
+  border-radius: var(--radius-toast);
+  background: var(--teal-on);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-size: calc(var(--tp-button-size) * 1.1538);
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 12px color-mix(in oklab, var(--teal-on) 18%, transparent);
+  transition: background var(--speed-very-fast) var(--ease-smooth);
+}
+
+.cta:hover:not(:disabled) {
+  background: var(--ch-checkout-hover);
+}
+
+.cta:disabled {
+  cursor: progress;
+  background: var(--sf-muted);
+  box-shadow: none;
+}
+
+.cta:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.icon {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.status {
+  margin: 9px 0 0;
+  min-block-size: 1.7em;
+  font-size: 11.5px;
+  line-height: 1.7;
+  font-weight: 700;
+  color: var(--success-chip-fg);
+  text-align: center;
+}
+
+.statusError {
+  color: var(--danger-text);
+}
+
+@media (min-width: 900px) {
+  .cta {
+    min-block-size: 44px;
+  }
+}

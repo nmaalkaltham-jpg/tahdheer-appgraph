@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>التحاضير الحديثة — محرّكات الترتيب الذاتية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f5f7f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#223129;-webkit-font-smoothing:antialiased}
+a{color:#1e7355;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#185740}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #c9a35a;outline-offset:2px;border-radius:10px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@keyframes reFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div dir="rtl" style="min-height:100vh;background:#f5f7f4">
+
+<div style="background:#123d2f;color:#e8f2ec;position:sticky;top:0;z-index:9">
+<div style="max-width:1260px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 14px Tajawal;color:#fff">التحاضير الحديثة — محرّكات ترتيب ذاتية: ما يؤثّر فعلًا</h1>
+<span style="padding:3px 11px;border-radius:999px;background:rgba(201,163,90,.18);border:1px solid rgba(201,163,90,.42);color:#e6cd93;font-size:10px;font-weight:900">مرتّبة بقوة الدليل على أثر الترتيب لا بجاذبية الاسم</span>
+<div style="flex:1;min-width:20px"></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{ f.go }}" style="border:1px solid {{ f.bd }};background:{{ f.bg }};color:{{ f.fg }};font-size:11px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer">{{ f.t }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="max-width:1260px;margin:0 auto;padding:20px 22px 64px;display:flex;flex-direction:column;gap:14px">
+
+<section style="border:1px solid #d3d8cf;border-inline-start:4px solid #1e7355;border-radius:24px;background:#fff;padding:19px 22px;box-shadow:0 4px 14px #142d2112">
+<b style="font-size:14px;color:#185740">الأصل الذي تملكه ولا يملكه منافسوك</b>
+<p style="margin:8px 0 0;font-size:13px;line-height:2.05;color:#223129">سجلّ بحثك الداخلي. كل استعلام يكتبه معلّم في مربع بحثك هو <span style="font-weight:900">طلب حقيقي بصياغته الحقيقية بالعربية</span>، مسجَّل في جدولك أنت. لا أداة كلمات مفتاحية تعطيك هذا، ولا منافس يستطيع نسخه. عندك اليوم نقطة إشارات تعمل وجدول يستقبلها — و<span style="font-weight:900">لا أحد يقرأهما</span>.</p>
+<p style="margin:9px 0 0;padding-block-start:9px;border-block-start:1px dashed #e6e9e2;font-size:13px;line-height:2;color:#223129">وحدّ صريح مقابل ذلك: خط أساس قالبك يسجّل <span style="font-weight:900">‎٥ صفوف</span> في جدول البحث و<span style="font-weight:900">‎٩ منتجات منشورة</span>. المحرّكات أدناه تُبنى الآن لأنها ستعمل كل يوم لاحقًا، لكن أيّها يقرّر من ‎٥ صفوف يقرّر من ضجيج. البناء اليوم، والتشغيل عند بلوغ حدّ معلن.</p>
+</section>
+
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+<sc-if value="{{ g.show }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:9px;animation:reFade .25s ease">
+<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:6px">
+<h2 style="margin:0;font:900 16px Tajawal;color:{{ g.c }}">{{ g.t }}</h2>
+<span style="flex:1;height:1px;background:#e6e9e2;min-width:20px"></span>
+<span style="font-size:10.5px;color:#5f7167">{{ g.sub }}</span>
+</div>
+<sc-for list="{{ g.items }}" as="p" hint-placeholder-count="5">
+<section style="border:1px solid #e6e9e2;border-inline-start:4px solid {{ g.c }};border-radius:16px;background:#fff;padding:15px 18px;box-shadow:0 4px 14px #142d2112">
+<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+<span style="flex:0 0 28px;height:28px;border-radius:999px;background:#123d2f;color:#e8f2ec;font-size:11.5px;font-weight:900;display:flex;align-items:center;justify-content:center">{{ p.i }}</span>
+<div style="flex:1;min-width:250px">
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<b style="font-size:13.5px;line-height:1.45">{{ p.n }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.aBg }};color:{{ p.aC }};font-size:10.5px;font-weight:900;white-space:nowrap">{{ p.auto }}</span>
+<span style="padding:2px 10px;border-radius:999px;background:{{ p.eBg }};color:{{ p.eC }};font-size:10.5px;font-weight:900;white-space:nowrap">{{ p.evid }}</span>
+</div>
+
+<p style="margin:9px 0 0;font-size:12.5px;line-height:1.95;color:#223129">{{ p.loop }}</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:9px;margin-top:11px">
+<div style="border:1px dashed #e6e9e2;border-radius:10px;background:#f5f7f4;padding:10px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167">يبني على</span>
+<code dir="auto" style="display:block;margin-top:3px;font-size:9.5px;line-height:1.8;color:#223129;text-align:start;word-break:break-word">{{ p.src }}</code>
+</div>
+<div style="border:1px dashed #d3d8cf;border-radius:10px;background:#f2f5f2;padding:10px 12px">
+<span style="display:block;font-size:9.5px;font-weight:900;color:#185740">يُقاس بـ</span>
+<span style="display:block;margin-top:3px;font-size:10.5px;line-height:1.8;color:#223129">{{ p.metric }}</span>
+</div>
+</div>
+
+<sc-if value="{{ p.hasWarn }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:9px;padding:10px 13px;border:1px solid #f0e2c4;border-radius:10px;background:#fdfaf2">
+<span style="font-size:10.5px;line-height:1.85;color:#7a5d20">{{ p.warn }}</span>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+</sc-for>
+</div>
+</sc-if>
+</sc-for>
+
+<section style="border:1px solid #123d2f;border-radius:24px;background:#123d2f;color:#e8f2ec;padding:21px 24px">
+<b style="font-size:13.5px;color:#fff">ما لا يُؤتمت — ولا يجوز الادّعاء بخلافه</b>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:9px;margin-top:12px">
+<sc-for list="{{ never }}" as="n" hint-placeholder-count="4">
+<div style="padding:13px 15px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.05)">
+<b style="display:block;font-size:12px;line-height:1.5;color:#fff">{{ n.t }}</b>
+<span style="display:block;margin-top:5px;font-size:10.5px;line-height:1.85;color:rgba(232,242,236,.78)">{{ n.b }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:15px 0 0;padding-block-start:14px;border-block-start:1px solid rgba(255,255,255,.14);font-size:12px;line-height:1.95;color:rgba(232,242,236,.86)">وقاعدة تحكم المحرّكات كلها: <span style="font-weight:900;color:#fff">لا محرّك ينسب تحسّن ترتيب إلى نفسه</span>. الارتباط ليس سببية، وادّعاؤها يفقدك القدرة على معرفة ما يعمل فعلًا. المحرّك يقول: «نفّذت هذا، وهذه أرقام قبل وبعد» — والحكم لك.</p>
+</section>
+
+<section style="border:1px solid #e6e9e2;border-radius:24px;background:#fff;padding:19px 22px">
+<b style="font-size:13.5px">الترتيب التنفيذي — بأثر تنازلي</b>
+<div style="display:flex;flex-direction:column;gap:0;margin-top:12px">
+<sc-for list="{{ order }}" as="o" hint-placeholder-count="5">
+<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-block-start:1px dashed #e6e9e2">
+<span style="flex:0 0 26px;height:26px;border-radius:999px;background:#f0e2c4;color:#7a5d20;font:900 11px Tajawal;display:flex;align-items:center;justify-content:center">{{ o.i }}</span>
+<div style="flex:1;min-width:0">
+<b style="display:block;font-size:12.5px;line-height:1.5">{{ o.t }}</b>
+<span style="display:block;margin-top:3px;font-size:11.5px;line-height:1.85;color:#5f7167">{{ o.b }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:920}}">
+const AUTO = {
+  full: { auto: 'تلقائي كامل', aBg: '#e9eee9', aC: '#1e7355' },
+  thr: { auto: 'تلقائي بعتبة', aBg: '#f0e2c4', aC: '#7a5d20' },
+  sug: { auto: 'اقتراح بموافقة', aBg: '#e9eee9', aC: '#3f4c45' },
+};
+const EVID = {
+  strong: { evid: 'أثر ترتيب قوي', eBg: '#e9eee9', eC: '#1e7355' },
+  mid: { evid: 'أثر غير مباشر', eBg: '#f5f7f4', eC: '#3f4c45' },
+  hyg: { evid: 'يمنع الانحدار', eBg: '#f5e3e0', eC: '#a33a2b' },
+};
+
+const GROUPS = [
+  { id: 'own', t: 'أ · محرّكات تعمل على بيانات لا يملكها غيرك', c: '#1e7355', sub: 'أعلى أثر، وأقلّ منافسة، ومبنيّة على ما تجمعه أصلًا', items: [
+    { i: '١', k: 'full', e: 'strong', n: 'محرّك فجوة الطلب — من بحثك الداخلي إلى صفحة تُنشأ وحدها',
+      loop: 'مهمة ليلية تجمع استعلامات بحثك الداخلي، تطبّعها بمطبّعك العربي نفسه، وتعنقدها إلى نيّات. كل نيّة تكرّرت فوق حدّ ولا يقابلها منتج ولا صفحة تصير سطرًا في «طلب بلا عرض»، ثم مسوّدة صفحة هبوط تُنشأ آليًا بعنوانها وأسئلتها من صياغة الباحثين أنفسهم. الصفحة لا تُنشر إلا بموافقتك، لكن اكتشاف الفجوة وصياغتها آليان بالكامل.',
+      src: 'search/bootstrap.php:319 (نقطة الإشارات) · wp_tahdheer_seo_searches · class-tahdheer-search-normalizer.php',
+      metric: 'عدد النيّات ذات الطلب المتكرّر التي صار لها صفحة، ونسبة الاستعلامات صفرية النتائج من الإجمالي.',
+      warn: 'هذا أقوى محرّك في الملف كله — وأكثرها اعتمادًا على الحجم. ‎٥ صفوف اليوم لا تُعنقَد. يُبنى ويُقفَل على حدّ معلن.', hasWarn: true },
+
+    { i: '٢', k: 'full', e: 'strong', n: 'محرّك عناقيد المنهج — سلطة موضوعية تُبنى من تصنيفك نفسه',
+      loop: 'تصنيفك ثلاثي بطبيعته: مرحلة × مادة × فصل. المحرّك يبني تلقائيًا صفحة محورية لكل تقاطع فيه منتجات فعلية، ويربطها بمنتجاتها ويربط المنتجات ببعضها داخل العنقود، ويحدّثها كلما أُضيف منتج. هذه بنية «سلطة موضوعية» جاهزة عندك ولا تحتاج كاتب محتوى لبنائها.',
+      src: 'Tahdheer_Search_Index::education_meta_keys() · inc/education-boxes.php (CPT: tahdheer_stage · tahdheer_subject) · seo-link-graph.php',
+      metric: 'عدد الروابط الداخلية الداخلة لكل منتج، وظهور الصفحات المحورية على استعلامات عامّة لا سعرية.',
+      warn: '', hasWarn: false },
+
+    { i: '٣', k: 'thr', e: 'strong', n: 'محرّك الأسئلة من استعلامات حقيقية',
+      loop: 'كل استعلام داخلي بصيغة سؤال، وكل استعلام طويل يعبّر عن حاجة، يُطابَق بالمنتج الأنسب ويُقترح سؤالًا في كتلة الأسئلة الشائعة على صفحته. المطابقة الحرفية العالية الثقة تُضاف تلقائيًا؛ وما دونها يدخل طابورًا. هذا يغذّي وسم الأسئلة وكتلة الإجابة السريعة معًا.',
+      src: 'wp_tahdheer_seo_searches · كتلة الأسئلة في صفحة الشراء · مصدر وسم FAQPage',
+      metric: 'نسبة صفحات المنتجات التي لها ثلاثة أسئلة أو أكثر مصدرها استعلام حقيقي.',
+      warn: '', hasWarn: false },
+
+    { i: '٤', k: 'full', e: 'mid', n: 'محرّك تغطية الصيغ العربية',
+      loop: 'يجمع كل صيغة كتب بها الباحثون نفس المعنى — «سادس» و«السادس» و«٦» و«6»، و«رياضيات» و«الرياضيات» — ويتأكّد أن لكل صيغة هدف هبوط واحد لا صفر ولا اثنان متنافسان. مطبّعك يحلّ نصف المشكلة داخل البحث؛ هذا المحرّك يحلّ النصف الآخر خارجه.',
+      src: 'class-tahdheer-search-normalizer.php · assets/js/theme.js:31-73 (جدول الطيّ)',
+      metric: 'عدد الصيغ ذات هدف هبوط، مقابل الصيغ التي تنتهي إلى صفر نتيجة أو إلى صفحتين متنافستين.',
+      warn: '', hasWarn: false },
+  ] },
+
+  { id: 'lever', t: 'ب · روافع ترتيب حقيقية قابلة للأتمتة', c: '#7a5d20', sub: 'ليست حيلًا — بنية داخلية يقاس أثرها', items: [
+    { i: '٥', k: 'thr', e: 'strong', n: 'محرّك توزيع السلطة الداخلية',
+      loop: 'يحسب توزيع الروابط الداخلية على الرسم البياني القائم عندك، فيجد الصفحات ذات القيمة التجارية العالية والروابط الداخلية القليلة. ثم يمرّر إليها روابط من الصفحات الأعلى سلطة داخليًا — في مناطق مخصّصة للروابط لا داخل نصّ كتبته. تُقاس نقرات كل رابط مضاف، وعديم النقر يُسحب وحده.',
+      src: 'inc/seo-link-graph.php:210,277,404 · smart-internal-linking-suggestions.php · seo-internal-links.php:142',
+      metric: 'أقلّ عدد روابط داخلية لأي منتج منشور، ومتوسط عمق النقر من الرئيسية.',
+      warn: '', hasWarn: false },
+
+    { i: '٦', k: 'sug', e: 'strong', n: 'محرّك انحدار النقر — عنوان يُعاد كتابته لسبب مقيس',
+      loop: 'كل صفحة لها ظهور مرتفع ونقر منخفض تدخل قائمة إعادة الصياغة، مع الاستعلام الذي جاء منه الظهور. المحرّك يقترح عنوانًا ووصفًا يستخدمان صياغة الباحث لا صياغة تسويقية. الاقتراح لا يُطبَّق آليًا: تغيير العنوان يعيد تقييم الصفحة، فيبقى قرارًا بموافقة.',
+      src: 'inc/seo/integrations/class-gsc-integration.php · seo-bulk-editor.php · seo-automation-rules.php',
+      metric: 'نسبة النقر قبل وبعد لكل صفحة معدَّلة، بنافذة أربعة أسابيع لا أربعة أيام.',
+      warn: 'محجوب اليوم: مفاتيح Search Console غير متوفّرة بحسب خط الأساس، وبلا بيانات الظهور والنقر لا يعمل هذا المحرّك إطلاقًا.', hasWarn: true },
+
+    { i: '٧', k: 'full', e: 'strong', n: 'محرّك المحتوى المكرّر داخليًا',
+      loop: 'يجزّئ وصف كل منتج ويقارن التشابه بين المنتجات. الكتالوجات التعليمية تُبنى غالبًا على قالب وصف واحد يتغيّر فيه الصف والمادة فقط — وهذا أسرع طريق إلى تصنيف الصفحة محتوى ضعيفًا. المحرّك يرصد نسبة التشابه، ويعلّم كل منتج يحتاج وصفًا مميّزًا، ويقترح الفقرة الفارقة من حقول المنتج نفسها.',
+      src: 'inc/seo-diagnostic-maps.php · seo/storage/class-tahdheer-seo-store.php · product-education-meta.php',
+      metric: 'أعلى نسبة تشابه بين أي منتجَين، وعدد المنتجات فوق العتبة.',
+      warn: '', hasWarn: false },
+
+    { i: '٨', k: 'full', e: 'mid', n: 'محرّك تدهور المحتوى',
+      loop: 'يقارن ظهور كل صفحة بنافذة سابقة، فيرصد الانحدار المستمرّ لا التذبذب. الصفحة المتدهورة تدخل قائمة تحديث بسببها: منهج تغيّر · منافس أفضل · نيّة تحوّلت. ولا يُرفع تاريخ التعديل إلا بعد تحديث محتوى حقيقي — لأن تاريخًا كاذبًا يُدرّب محرّك البحث على تجاهل تواريخك.',
+      src: 'جداول التلخيص اليومي والساعي · tahdheer_seo_analytics_daily · seo-change-scan',
+      metric: 'عدد الصفحات المتدهورة، ونسبة ما استعاد ظهوره بعد التحديث.',
+      warn: '', hasWarn: false },
+
+    { i: '٩', k: 'full', e: 'mid', n: 'محرّك تحسين الصور آليًا',
+      loop: 'كل صورة منتج تحصل تلقائيًا على نصّ بديل مبنيّ على حقول المنتج — المرحلة والصف والمادة والفصل — واسم ملف مطبّع، وصيغة حديثة، وأبعاد معلنة. البحث بالصور مصدر زيارات حقيقي للمواد التعليمية، وهو المصدر الوحيد الذي لا يحتاج نصًّا جديدًا لتحسينه.',
+      src: 'inc/smart-image-seo.php · image-optimizer.php · performance-images.php',
+      metric: 'نسبة الصور ذات نصّ بديل مشتقّ من بيانات حقيقية، وحجم الصور لكل صفحة.',
+      warn: '', hasWarn: false },
+  ] },
+
+  { id: 'hyg', t: 'ج · محرّكات تمنع الانحدار — لا ترفع لكنها تحمي', c: '#a33a2b', sub: 'أرخص عائد: أن لا تخسر ما ربحته', items: [
+    { i: '١٠', k: 'full', e: 'hyg', n: 'محرّك حماية الفهرسة عند النشر',
+      loop: 'بوابة قبل نشر أي منتج أو صفحة: عنوان موجود وغير مكرّر، وصف موجود، صورة موجودة، رابط دائم نظيف، تصنيف مسنَد، ولا noindex بالخطأ. النشر بلا هذه يُنتج صفحة تُزحف وتُرفض — وتلك خسارة ميزانية زحف لا مجرّد فرصة فائتة.',
+      src: 'inc/seo-readiness.php · seo-health-check.php · product-seo-visibility.php',
+      metric: 'نسبة الصفحات المنشورة التي عبرت البوابة كاملة من أول محاولة.',
+      warn: '', hasWarn: false },
+
+    { i: '١١', k: 'full', e: 'hyg', n: 'محرّك ميزانية الزحف من أداء حقيقي',
+      loop: 'قالبك يقيس مؤشّرات الويب الحيوية من مستخدمين حقيقيين. المحرّك يربط كل قياس بقالب الصفحة لا بالرابط، فيقول أي قالب تدهور ومتى ولماذا. القالب البطيء يُقلّل معدّل زحف الموقع كله، فالعائد هنا غير مباشر لكنه واسع.',
+      src: 'inc/seo-analytics (قياس CWV من مستخدمين حقيقيين) · inc/server-timing.php · smart-cwv-intelligence.php',
+      metric: 'أرقام LCP و INP و CLS لكل قالب، قبل وبعد — ولا يُعلن تحسّن بلا الرقمين.',
+      warn: 'خط أساس قالبك يعلن أن هذه المؤشّرات لم تُقَس ميدانيًا بعد. القياس أولًا، ثم الحكم.', hasWarn: true },
+
+    { i: '١٢', k: 'full', e: 'hyg', n: 'محرّك اتّساق الوسم مع الواقع',
+      loop: 'بوابة دورية تتأكّد أن ما يُخرَج في البيانات المنظّمة هو ما يراه الزائر فعلًا: السعر، والتوفّر، ومدّة التخفيض، والتقييم. أي تعارض يُسقط أهلية النتائج الغنية، وتكراره يُفقد الثقة فترة أطول من مدّة الخطأ نفسه.',
+      src: 'inc/seo-ownership-manager.php · seo-merchant-fields.php:113-123 · schema.php',
+      metric: 'عدد التعارضات المرصودة بين الوسم والصفحة — هدفه صفر دائم لا متوسط منخفض.',
+      warn: '', hasWarn: false },
+
+    { i: '١٣', k: 'thr', e: 'hyg', n: 'محرّك حصر الصفحات منخفضة القيمة',
+      loop: 'الصفحات المولَّدة من الفلاتر والوسوم والأرشيفات الفارغة تُرصَد من بيانات الزحف الحقيقية لا من قائمة ثابتة، ويُمنع زحف ما لا يجلب زيارة عضوية واحدة. آلاف الصفحات الرقيقة تُخفّض تقييم الموقع كله، وحصرها يرفع ما تبقّى.',
+      src: 'inc/seo-faceted-check.php · seo-exclusions.php · seo-url-intelligence.php',
+      metric: 'نسبة الصفحات المفهرسة التي جلبت زيارة واحدة على الأقل خلال ‎٩٠ يومًا.',
+      warn: '', hasWarn: false },
+  ] },
+
+  { id: 'season', t: 'د · محرّكات موسمية وتشغيلية', c: '#5f7167', sub: 'خاصّة بطبيعة المحتوى التعليمي', items: [
+    { i: '١٤', k: 'full', e: 'strong', n: 'محرّك الموسم الدراسي',
+      loop: 'محتواك موسميّ بطبيعته: فصل أول وثاني، وبداية عام، وفترات اختبارات. المحرّك يعرف تقويم الفصول، فيرفع أولوية محتوى الفصل الجاري في الخرائط والروابط الداخلية والواجهة، ويُنزل السابق بلا حذفه. الطلب يرتفع قبل بداية الفصل بأسابيع — والاستعداد بعد بدايته متأخّر دائمًا.',
+      src: 'حقول المنهج على المنتجات · smart-product-priority.php · seo-sitemaps.php',
+      metric: 'نسبة الزيارات العضوية الواصلة إلى محتوى الفصل الجاري مقابل السابق.',
+      warn: '', hasWarn: false },
+
+    { i: '١٥', k: 'full', e: 'mid', n: 'محرّك فهرس القراءة الآلية',
+      loop: 'يبني ملف الفهرس المقروء آليًا من الكتالوج المنشور: كل ملف بعنوانه ومرحلته ومادّته وفصله ورابطه وسطر تعريف واحد. الزاحف الآلي والنماذج اللغوية تقرأ فهرسًا صريحًا أسرع بكثير من استنتاجه من صفحات متفرّقة.',
+      src: 'inc/seo-llms-txt.php · seo-feeds.php · كتلة الإجابة السريعة في صفحة الشراء',
+      metric: 'تغطية الملف من المنتجات المنشورة، وتكرار جلبه من زواحف معروفة.',
+      warn: '', hasWarn: false },
+
+    { i: '١٦', k: 'full', e: 'hyg', n: 'محرّك مراقبة المحرّكات نفسها',
+      loop: 'كل محرّك أعلاه يعمل في مهمة مجدولة، وفشل المهمة صامت في قالبك اليوم. هذا المحرّك يراقب البقيّة: آخر تشغيل ناجح، ومدّته، وحجم مخرجه المتوقّع — ويُنبّه بعد فشلين لا فشل واحد. محرّك ذاتي متوقّف بصمت أسوأ من غيابه، لأنك تحسبه يعمل.',
+      src: '‎٩ مهام cron مؤكَّدة حيّة · وحدة كلب الحراسة الجاهزة في رقعة القالب',
+      metric: 'عمر آخر تشغيل ناجح لكل محرّك، وعدد المهام التي فوّتت نافذتها.',
+      warn: '', hasWarn: false },
+  ] },
+];
+
+class Component extends DCLogic {
+  state = { f: 'all' };
+
+  renderVals() {
+    const cur = this.state.f;
+
+    const filters = [
+      ['all', 'الكل'], ['strong', 'أثر ترتيب قوي'], ['full', 'تلقائي كامل'],
+    ].map(([id, t]) => ({
+      t, go: () => this.setState({ f: id }),
+      bg: cur === id ? '#c9a35a' : 'rgba(255,255,255,.07)',
+      fg: cur === id ? '#123d2f' : '#c3d5cb',
+      bd: cur === id ? '#c9a35a' : 'rgba(255,255,255,.2)',
+    }));
+
+    const groups = GROUPS.map((g) => {
+      const items = g.items
+        .filter((p) => cur === 'all' || (cur === 'strong' ? p.e === 'strong' : p.k === 'full'))
+        .map((p) => ({ ...p, ...AUTO[p.k], ...EVID[p.e] }));
+      return { ...g, items, show: items.length > 0 };
+    });
+
+    return {
+      filters,
+      groups,
+
+      never: [
+        { t: 'بناء روابط خارجية', b: 'لا يُؤتمت بلا مخالفة إرشادات، والعقوبة تفوق العائد بكثير. البديل المشروع: محتوى يستحقّ الإشارة إليه، وهو ما تفعله محرّكات الفجوة والعناقيد.' },
+        { t: 'كتابة محتوى ينشر نفسه', b: 'التوليد يُسرّع الصياغة ولا يعرف المنهج. الصفحة تُولَّد مسوّدةً، ويوافق عليها بشر — وإلا نشرت خطأً تعليميًا باسمك.' },
+        { t: 'تغيير العنوان تلقائيًا', b: 'تغيير العنوان يعيد تقييم الصفحة. يُقترح ببيانات ويُطبَّق بقرار، ولا يُترك لعتبة.' },
+        { t: 'وعد بترتيب أو بموعده', b: 'لا أحد يملك ذلك. المحرّك يُظهر ما نفّذ وأرقام قبل وبعد، ولا ينسب لنفسه صدارة.' },
+      ],
+
+      order: [
+        { i: '١', t: 'محرّك العناقيد — البند ‎٢', b: 'يعمل من يومه على ‎٩ منتجات، ولا ينتظر مفتاحًا ولا حجمًا. أعلى أثر متاح لك الآن.' },
+        { i: '٢', t: 'حماية النشر واتّساق الوسم — ‎١٠ و‎١٢', b: 'يمنعان خسارة ما تربحه، وكلاهما بوابة لا مشروع.' },
+        { i: '٣', t: 'توزيع السلطة الداخلية — ‎٥', b: 'يبني على رسم روابط قائم عندك فعلًا، وقابل للعكس رابطًا رابطًا.' },
+        { i: '٤', t: 'مفتاح Search Console', b: 'ليس شيفرة. بلا بيانات الظهور والنقر تبقى ثلاثة محرّكات معطّلة تمامًا.' },
+        { i: '٥', t: 'محرّك فجوة الطلب — ‎١', b: 'الأقوى في القائمة، والأكثر اعتمادًا على الحجم. يُبنى الآن ويُشغَّل عند بلوغ حدّ معلن.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

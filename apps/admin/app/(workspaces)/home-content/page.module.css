@@ -1,0 +1,732 @@
+/*
+UNIT: PAGE-HOME-CONTENT
+COMPONENT: home-content-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * محتوى الصفحة الرئيسة — سطح التحرير.
+ *
+ * الرموز من `globals.css` وحدها، والخصائص منطقيّة بالكامل: اللوحة عربيّة
+ * RTL وأيّ `left`/`right` هنا ينقلب عند أوّل عرضٍ لاتينيّ.
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.blockHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.blockTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.blockKey {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hint,
+.fields {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.required {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+/* ----------------------------------------------------------- الحقول */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--sp-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-inline-size: 0;
+}
+
+.input {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: 6px var(--sp-2);
+  /* حدٌّ ≥3:1 على ما حوله (WCAG 1.4.11) في السمتين — ‎--border-field‎ كان 1.3–1.6:1. */
+  border: 1px solid var(--adm-field-line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 1px;
+}
+
+/* ------------------------------------------------------- القوائم */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/*
+ * `fieldset` لا `div`: الصفّ مجموعةُ حقولٍ لها عنوان، و`legend` يُعلنه
+ * لقارئ الشاشة قبل أن يدخل حقوله. والتصفير لأنّ متصفّحات سطح المكتب
+ * تفرض على المجموعة حشوةً وحدًّا لا يتبعان سلّم اللوحة.
+ */
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: var(--sp-3);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.rowLegend {
+  padding-inline: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+.listRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.listRow .field {
+  flex: 1;
+}
+
+.add,
+.remove {
+  min-block-size: 44px;
+  padding-inline: var(--sp-3);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.add {
+  border: 1px dashed var(--border-mid);
+  background: transparent;
+  color: var(--primary-strong);
+}
+
+.add:hover {
+  background: var(--bg-soft);
+}
+
+.remove {
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--danger-text);
+}
+
+.remove:hover {
+  background: var(--danger-bg);
+}
+
+.add:focus-visible,
+.remove:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------- ترتيب الأقسام */
+
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* الترقيم من `ol` دلاليًّا؛ وإخفاؤه بصريًّا لأنّ الموضع يُقرأ من الترتيب. */
+  counter-reset: section;
+}
+
+.orderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: 6px var(--sp-2);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.orderName {
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.orderControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.move {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.move:hover:not(:disabled) {
+  background: var(--bg-soft);
+}
+
+.move:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.move:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.offList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.save {
+  min-block-size: 44px;
+  padding-inline: var(--sp-4);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--adm-on-accent);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .save:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+}
+
+.save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.save:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.ok,
+.error {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ok {
+  color: var(--state-success);
+}
+
+.error {
+  color: var(--danger-text);
+}
+
+/* ------------------------------------------- الهيرو المتحرّك — الشرائح */
+
+.preview {
+  margin-inline-start: auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-strong);
+  text-decoration: none;
+}
+
+.preview:hover {
+  text-decoration: underline;
+}
+
+.preview:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.empty {
+  margin: 0;
+  padding: var(--sp-3);
+  border: 1px dashed var(--border-mid);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.slides {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slide {
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.slideDragging {
+  opacity: 0.6;
+}
+
+.slideOver {
+  border-color: var(--primary-strong);
+  outline: 1px solid var(--primary-strong);
+}
+
+.slideOff .slideName {
+  color: var(--text-muted);
+}
+
+.slideHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: 6px var(--sp-2);
+}
+
+.handle {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: grab;
+  /* السحب باللمس: بلا هذا يمرّر المتصفّح الصفحة بدل أن يسحب. */
+  touch-action: none;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+.handle:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.swatch {
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  /* الحدّ الأقوى: موضوعا «الحبر» و«الكحليّ» يذوبان في الأرض الداكنة بشعرةٍ خافتة. */
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.slideName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  flex-wrap: wrap;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.slideIndex {
+  color: var(--text-muted);
+}
+
+.kindTag,
+.issueTag {
+  padding: 1px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.kindTag {
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.issueTag {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+}
+
+.slideBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  border-block-start: 1px solid var(--border-hairline);
+}
+
+.slideActions {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: 6px var(--sp-3);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.kindPicker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--sp-2);
+}
+
+.kindOption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-block-size: 44px;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px dashed var(--border-mid);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.kindOption:hover:not(:disabled) {
+  background: var(--bg-soft);
+  border-color: var(--primary);
+}
+
+.kindOption:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.kindOption:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.kindLabel {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary-strong);
+}
+
+.kindDescription {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ------------------------------------------------ المدخلات المساعدة */
+
+.fieldFoot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.counter {
+  flex: none;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.fieldHint,
+.fieldError {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.fieldHint {
+  color: var(--text-muted);
+}
+
+.fieldError {
+  font-weight: 700;
+  color: var(--danger-text);
+}
+
+.input[aria-invalid='true'] {
+  /* ‎--danger‎ تعبئةُ المتجر الفاتحة (2.6:1 على الأبيض)؛ حبرُ الخطر المحسوب ≥4.5:1. */
+  border-color: var(--state-danger);
+}
+
+.linkGroup,
+.segmentedGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  border: 1px solid var(--adm-field-line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.segment {
+  position: relative;
+  display: flex;
+}
+
+.segment input,
+.theme input {
+  position: absolute;
+  opacity: 0;
+  inline-size: 1px;
+  block-size: 1px;
+}
+
+.segment span {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: var(--sp-3);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.segment + .segment span {
+  border-inline-start: 1px solid var(--adm-field-line);
+}
+
+/* حبرُ التعبئة المحسوب لكلّ لونٍ وسمة — الأبيض على التركواز الساطع (الداكن) كان 1.8:1. */
+.segment input:checked + span {
+  background: var(--primary);
+  color: var(--adm-on-accent);
+}
+
+.segment input:focus-visible + span {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: -3px;
+}
+
+.themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.theme {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.themeSwatch {
+  inline-size: 44px;
+  block-size: 44px;
+  /* الخيار المرئيّ لزرّ الاختيار المخفيّ: حدُّ حقلٍ ≥3:1 — موضوع «الحبر» كان يذوب في الداكن (1.2:1). */
+  border: 2px solid var(--adm-field-line);
+  border-radius: var(--radius-sm);
+}
+
+/* حلقة الاختيار حدٌّ خارجيّ لا ظلّ: «الظلال: معطّل» كانت تمحوها فيبقى الاختيار بلا علامة. */
+.theme input:checked + .themeSwatch {
+  border-color: var(--ink);
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.theme input:focus-visible + .themeSwatch {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 4px;
+}
+
+.themeLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.theme input:checked ~ .themeLabel {
+  font-weight: 800;
+  color: var(--text);
+}
+
+.switches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--sp-2);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 44px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.switch input {
+  inline-size: 18px;
+  block-size: 18px;
+  accent-color: var(--primary);
+}
+
+.switch input:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.interval {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.range {
+  flex: 1;
+  accent-color: var(--primary);
+}
+
+.number {
+  inline-size: 6rem;
+  flex: none;
+}

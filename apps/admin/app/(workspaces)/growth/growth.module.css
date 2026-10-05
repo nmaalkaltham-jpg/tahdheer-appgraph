@@ -1,0 +1,500 @@
+/*
+UNIT: GROWTH
+COMPONENT: loops-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * حلقات النمو والحاكمية — أنماط مساحة العمل.
+ *
+ * القيم حرفية من ألواح «Autopilot Pack» و«Autonomy Proposals»؛ ما وافق
+ * رموز النظام يُستدعى بالرمز، والباقي خارج السلّم فيُثبَّت حرفيًا.
+ * البطاقات والحالات الصادقة تأتي جاهزة من عُدّة منصة SEO لتوحيد المظهر.
+ *
+ * خصائص منطقية فقط (قواعد RTL المُلزِمة §2.4).
+ */
+
+.workspace {
+  /* أسماءٌ محلّيّة فوق رموز السمة — كانت حرفيّاتٍ فاتحة تُرسم ألواحًا بيضاء في الداكن. */
+  --edge: var(--cc-edge);
+  --edge-soft: var(--cc-hair);
+  --soft: var(--cc-well);
+  --dim: var(--cc-muted);
+  --faint: var(--cc-muted);
+  --body-2: var(--text-secondary);
+  /* خُمسٌ نحو حبر السمة: عنوانٌ أخضر فوق صبغته كان 4.4:1 في الفاتح. */
+  --green-text: color-mix(in srgb, var(--cc-success) 80%, var(--cc-text));
+  --green-edge: var(--os-ok-border);
+  --green-tint: var(--tint-green-06);
+  --danger: var(--cc-danger);
+  --danger-tint: var(--os-danger-bg);
+  --danger-edge: var(--os-danger-border);
+  --warn-text: var(--cc-warning);
+  --warn-tint: var(--os-warn-bg);
+  --warn-edge: var(--os-warn-border);
+  --tier-blue: var(--cc-info);
+  /* الكهرمانيّ الخامّ كان 2.2:1 نصًّا على الأبيض؛ نصّ التحذير المشتقّ ≥4.5 في السمتين. */
+  --tier-amber: var(--cc-warning);
+
+  display: block;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-block: 11px;
+  padding-inline: 22px;
+  background: var(--chrome);
+  color: var(--chrome-text);
+  border-radius: 14px 14px 0 0;
+}
+
+.topbar b {
+  font-size: 14px;
+}
+
+.topgold {
+  padding-block: 3px;
+  padding-inline: 11px;
+  border-radius: 999px;
+  background: var(--tint-gold-16);
+  border: 1px solid var(--os-gold-badge-border);
+  color: var(--gold-text);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.topspacer {
+  flex: 1;
+  min-inline-size: 20px;
+}
+
+.stopped {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--os-danger-border);
+  background: var(--os-danger-bg-strong);
+  color: var(--cc-danger);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.stopped:disabled {
+  cursor: not-allowed;
+}
+
+.body {
+  border: 1px solid var(--edge);
+  border-block-start: 0;
+  border-radius: 0 0 14px 14px;
+  /* بلا بئرٍ تحت البطاقات: صبغةٌ ثالثة فوق الزجاج أنزلت الباهت إلى 4.1:1 في الداكن. */
+  background: transparent;
+  padding-block: 16px;
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.lead {
+  border: 1px solid var(--edge);
+  border-inline-start: 4px solid var(--green-text);
+  border-radius: 14px;
+  background: var(--surface);
+  padding-block: 15px;
+  padding-inline: 18px;
+}
+
+.lead h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block: 0 7px;
+  font-size: 13.5px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.lead h2 svg {
+  inline-size: 15px;
+  block-size: 15px;
+  flex: 0 0 auto;
+  color: var(--primary);
+}
+
+.lead p {
+  margin-block: 0;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--body-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 11px;
+  align-items: start;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+/* ───── مستويات الاستقلالية ───── */
+.tier {
+  border: 1px solid var(--edge);
+  border-block-start: 4px solid var(--green-text);
+  border-radius: 14px;
+  background: var(--surface);
+  padding-block: 14px;
+  padding-inline: 17px;
+}
+
+.tier.threshold {
+  border-block-start-color: var(--tier-blue);
+}
+
+.tier.proposal {
+  border-block-start-color: var(--tier-amber);
+}
+
+.tier h3 {
+  margin-block: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--green-text);
+}
+
+.tier.threshold h3 {
+  color: var(--tier-blue);
+}
+
+.tier.proposal h3 {
+  color: var(--tier-amber);
+}
+
+.tier p {
+  margin-block: 4px 0;
+  font-size: 11px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+.tier ul {
+  list-style: none;
+  margin-block: 8px 0;
+  padding-block-start: 8px;
+  padding-inline-start: 0;
+  border-block-start: 1px dashed var(--edge-soft);
+}
+
+.tier li {
+  display: flex;
+  gap: 7px;
+  padding-block: 3px;
+  font-size: 10.5px;
+  line-height: 1.75;
+  color: var(--body-2);
+}
+
+.tier li::before {
+  content: '·';
+  font-weight: 900;
+  color: var(--green-text);
+}
+
+.tier.threshold li::before {
+  color: var(--tier-blue);
+}
+
+.tier.proposal li::before {
+  color: var(--tier-amber);
+}
+
+/* ───── الممنوع على الأتمتة ───── */
+.forbidden {
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: var(--surface);
+  padding-block: 15px;
+  padding-inline: 18px;
+}
+
+.forbidden h2 {
+  margin-block: 0 9px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.forbiddenlist {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 7px;
+}
+
+.forbiddenlist li {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  padding-block: 7px;
+  padding-inline: 11px;
+  border: 1px solid var(--danger-edge);
+  border-radius: 10px;
+  background: var(--danger-tint);
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.forbidden p {
+  margin-block: 10px 0;
+  font-size: 11px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+/* ───── بوابة حجم العيّنة ───── */
+.floorbox {
+  border: 1px solid var(--warn-edge);
+  border-radius: 14px;
+  background: var(--warn-tint);
+  padding-block: 15px;
+  padding-inline: 18px;
+}
+
+.floorbox h2 {
+  margin-block: 0 7px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--warn-text);
+}
+
+.floorbox p {
+  margin-block: 0 10px;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--text-secondary);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead th {
+  padding-block: 8px;
+  padding-inline: 10px;
+  text-align: start;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--muted);
+  background: var(--soft);
+}
+
+.table tbody th,
+.table td {
+  padding-block: 8px;
+  padding-inline: 10px;
+  text-align: start;
+  border-block-start: 1px solid var(--edge-soft);
+  font-size: 11px;
+  vertical-align: top;
+  color: var(--body-2);
+}
+
+.table tbody th {
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+/* ───── الحلقات ───── */
+.groupname {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block: 0 8px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.groupdot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 3px;
+  background: var(--primary);
+}
+
+.loop {
+  border: 1px solid var(--edge);
+  border-radius: 13px;
+  background: var(--surface);
+  padding-block: 12px;
+  padding-inline: 15px;
+}
+
+.loophead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.loophead b {
+  flex: 1;
+  min-inline-size: 140px;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.loop p {
+  margin-block: 6px;
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.loopmeta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding-block-start: 7px;
+  border-block-start: 1px dashed var(--edge-soft);
+  font-size: 9px;
+  color: var(--dim);
+}
+
+/* مفتاح معطَّل: يعرض الشكل ويعلن أنه لا يشغّل شيئًا — لا إيهام بالتحكم. */
+.switch {
+  /* عنصره الآن ‎<button role="switch">‎ لا ‎<span>‎: بلا appearance تعود سمة
+     الزرّ النظامية في سفاري فوق الخلفية والحدّ. */
+  appearance: none;
+  flex: 0 0 34px;
+  block-size: 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--apb-switch-track);
+  position: relative;
+  padding-block: 0;
+  padding-inline: 0;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* هدف لمسٍ 44×44 حول مفتاحٍ مرسومٍ 34×18 — مساحةٌ شفّافة لا تغيّر الرسم. */
+.switch::after {
+  content: '';
+  position: absolute;
+  inset-block: -13px;
+  inset-inline: -5px;
+}
+
+.switch .knob {
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 14px;
+  block-size: 14px;
+  border-radius: 50%;
+  background: var(--cc-on-tone);
+  box-shadow: var(--e-1);
+}
+
+.state {
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: 999px;
+  background: var(--cc-well);
+  color: var(--muted);
+  font-size: 8.5px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.state.proposal {
+  background: var(--warning-bg);
+  color: var(--warn-text);
+}
+
+.state.tierauto {
+  background: var(--success-chip-bg);
+  color: var(--green-text);
+}
+
+.state.tierthreshold {
+  background: var(--info-bg);
+  color: var(--tier-blue);
+}
+
+.state.blocked {
+  background: var(--danger-tint);
+  color: var(--danger);
+}
+
+/* ───── الحدود التقنية ───── */
+.limits {
+  border: 1px dashed var(--green-edge);
+  border-radius: 14px;
+  background: var(--green-tint);
+  padding-block: 15px;
+  padding-inline: 18px;
+}
+
+.limits h2 {
+  margin-block: 0 8px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--green-text);
+}
+
+.limits ul {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.limits li {
+  display: flex;
+  gap: 7px;
+  padding-block: 4px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--body-2);
+}
+
+.limits li::before {
+  content: '✓';
+  color: var(--green-text);
+  font-weight: 900;
+}
+
+.note {
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--faint);
+  margin-block: 0;
+}

@@ -1,0 +1,381 @@
+/*
+UNIT: SEARCH
+COMPONENT: glossary.tsx, search-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * مركز ذكاء البحث — القيم الحرفية من Tahdheer - Search Intelligence Center.dc.html.
+ * المتغيّرات المحلية أدناه مُلحقة أيضًا بـ .design-sync/tokens-3p/search-intel-a.css
+ * (عرف اللوحة: command-palette.module.css يفعل الشيء نفسه).
+ * ارتفاعات التفاعل 44px لا 28/36px التصميمية — حد اللمس المُلزم في اللوحة.
+ */
+
+.root {
+  /* أسماءٌ مستعارة لرموز السمة العامّة — الشاشات الأربع تقرؤها بأنماطٍ مضمَّنة. */
+  --si-page: transparent;
+  --si-text: var(--cc-text);
+  --si-chrome-fg: var(--cc-text);
+  --si-chrome-fg-dim: var(--cc-muted);
+  --si-chrome-pill-bd: transparent;
+  --si-chrome-on-fg: var(--cc-text);
+  --si-border: var(--cc-edge);
+  --si-border-field: var(--cc-edge);
+  --si-border-pill: var(--cc-edge);
+  --si-chip-bg: var(--cc-well);
+  --si-flag-bg: var(--cc-well);
+  --si-def: var(--text-secondary);
+  --si-abbr-fg: var(--cc-link);
+  --si-val-bg: var(--cc-well);
+  --si-hint: var(--cc-muted);
+  --si-toast-shadow: 0 12px 32px -12px var(--cc-shadow);
+  --sib-danger: var(--cc-danger);
+  --sib-danger-bg: color-mix(in srgb, var(--cc-red) 14%, transparent);
+  --sib-hint: var(--cc-muted);
+  --sib-card-border: var(--cc-edge);
+  --sib-neutral-chip-bg: var(--cc-well);
+  --sib-action-border: var(--cc-edge);
+  --sib-action-bg: var(--cc-well);
+  --sib-input-border: var(--cc-edge);
+  --sib-row: var(--cc-hair);
+  --sib-well: var(--cc-well);
+  --sib-ring-track: var(--cc-well);
+  --sib-ring-mid: var(--cc-warning);
+
+  margin-block-end: 24px;
+}
+
+/* ───── الغلاف: الشريط الداكن والمبدّل ───── */
+
+.frame {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.chrome {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-block: 9px;
+  padding-inline: 16px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  background: var(--cc-glass);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  color: var(--cc-text);
+  margin-block-end: 12px;
+}
+
+.chromeTitle {
+  margin-block: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 11px;
+  background: var(--cc-well);
+}
+
+.pill {
+  min-block-size: 36px;
+  padding-block: 0;
+  padding-inline: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cc-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pillOn {
+  border-color: var(--cc-edge);
+  background: var(--cc-glass);
+  color: var(--cc-text);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+}
+
+.pill:focus-visible {
+  outline: 2.5px solid var(--green-700);
+  outline-offset: 2px;
+}
+
+.body {
+  padding: 0;
+  background: transparent;
+  color: var(--cc-text);
+  min-block-size: 420px;
+}
+
+.enter {
+  animation: siFade 0.25s ease;
+}
+
+/* ───── القاموس الشامل ───── */
+
+.gloss {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.glossHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  animation: siFade 0.25s ease;
+}
+
+.glossTitle {
+  margin-block: 0;
+  margin-inline: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-inline-size: 220px;
+  max-inline-size: 380px;
+}
+
+.searchInput {
+  inline-size: 100%;
+  box-sizing: border-box;
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 13px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 10px;
+  background: var(--cc-well);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cc-text);
+  outline: none;
+}
+
+.searchInput:focus-visible {
+  outline: 2.5px solid var(--green-700);
+  outline-offset: 2px;
+}
+
+.catPill {
+  min-block-size: 44px;
+  padding-block: 0;
+  padding-inline: 10px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 999px;
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.catPillOn {
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+  background: color-mix(in srgb, var(--cc-primary) 14%, transparent);
+  color: var(--cc-link);
+}
+
+.catPill:focus-visible {
+  outline: 2.5px solid var(--green-700);
+  outline-offset: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  border: 1px solid var(--cc-edge);
+  border-radius: 16px;
+  background: var(--cc-glass);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  padding-block: 12px;
+  padding-inline: 15px;
+  animation: siFade 0.2s ease;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.abbr {
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: 7px;
+  background: var(--cc-well);
+  border: 1px solid var(--cc-edge);
+  color: var(--cc-link);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.term {
+  font-size: 12px;
+}
+
+.catChip {
+  padding-block: 1px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  background: var(--si-chip-bg);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--text-muted);
+}
+
+.flagChip {
+  padding-block: 1px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  background: var(--si-flag-bg);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.flagThird {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.def {
+  margin-block: 6px;
+  margin-inline: 0;
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--si-def);
+}
+
+.valRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 7px;
+  padding-inline: 10px;
+  border-radius: 9px;
+  background: var(--si-val-bg);
+  flex-wrap: wrap;
+}
+
+.valLabel {
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--success-chip-fg);
+}
+
+.valText {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.valHint {
+  font-size: 11.5px;
+  color: var(--si-hint);
+}
+
+/* سطر الغياب الصادق — بأسلوب شريحة وسم الصدق الكهرمانية في اللوحة. */
+.absentRow {
+  margin-block-start: 6px;
+}
+
+.absentChip {
+  display: inline-block;
+  padding-block: 1px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.empty {
+  margin-block: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ───── مضيف الإشعارات ───── */
+
+.toastHost {
+  position: fixed;
+  inset-inline-end: 18px;
+  inset-block-end: 18px;
+  z-index: var(--z-toast);
+}
+
+.toast {
+  max-inline-size: 420px;
+  margin-block-start: 7px;
+  padding-block: 12px;
+  padding-inline: 15px;
+  border-radius: 12px;
+  background: var(--cc-tip);
+  border: 1px solid var(--cc-edge);
+  color: var(--cc-text);
+  box-shadow: var(--si-toast-shadow);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.6;
+  animation: siFade 0.2s ease;
+}
+
+/* ───── الحركة ───── */
+
+@keyframes siFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* تقليل الحركة يكشف، لا يجمّد فحسب. */
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .glossHead,
+  .card,
+  .toast {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

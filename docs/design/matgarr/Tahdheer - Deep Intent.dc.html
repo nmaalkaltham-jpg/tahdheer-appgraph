@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f4f5f4;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes diFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="d5-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="d5-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+<symbol id="d5-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M19 19v2H6a2 2 0 0 1-2-2"></path><path d="M8 7h7"></path></symbol>
+<symbol id="d5-news" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"></path><path d="M17 8h3v9a2 2 0 0 1-2 2"></path><path d="M7 9h7M7 12h7M7 15h4"></path></symbol>
+<symbol id="d5-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s5 4.5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-5 .5 1.5 1.5 2 2.5 2C11 7 11 5 12 3z"></path></symbol>
+<symbol id="d5-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4M11 3v6l-5 9a2 2 0 0 0 1.8 3h8.4a2 2 0 0 0 1.8-3l-5-9V3"></path><path d="M8.5 15h7"></path></symbol>
+<symbol id="d5-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+<span style="font-size:10.5px;font-weight:900;color:rgba(234,242,238,.6)">النية العميقة — ذيل طويل واكتشاف</span>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">{{ seoNote }}</span>
+</div>
+</div>
+
+<main id="main" style="max-width:1120px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px">
+
+<sc-if value="{{ is.units }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:18px 21px;animation:diFade .3s ease">
+<h1 style="margin:0 0 5px;font:900 22px Tajawal">حل تمارين الدوال والمتباينات — رياضيات أول ثانوي</h1>
+<p style="margin:0;max-width:720px;font-size:12px;line-height:1.95;color:#5f7167">صفحة مستوى الوحدة: أعمق طبقة في هرم الصف ← المادة ← <b>الوحدة</b>. تلتقط استعلامات «حل تمارين الدوال أول ثانوي» التي لا تصلها صفحات التصنيف — ٣ أسئلة محلولة مجانًا ثم الملزمة الكاملة.</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+<sc-for list="{{ un.crumb }}" as="c" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;color:#1e7355">{{ c.n }}<sc-if value="{{ c.sep }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" style="width:9px;height:9px;color:#b9c4bd"><use href="#d5-chev"></use></svg></sc-if></span>
+</sc-for>
+</div>
+</section>
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ un.lessons }}" as="l" hint-placeholder-count="4">
+<section style="border:1px solid #e2e8e4;border-radius:13px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:12.5px">{{ l.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:#f2f6f3;font-size:9px;font-weight:800;color:#5f7167">{{ l.solved }} مسألة محلولة</span>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">{{ l.demand }} بحث/شهر</span>
+</div>
+<p style="margin:5px 0 0;font-size:10.5px;line-height:1.8;color:#7c8a82">{{ l.d }}</p>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1.5px dashed #cfe0d6;border-radius:14px;background:#f8fbf9;padding:14px 17px">
+<h2 style="margin:0 0 7px;font-size:12.5px;font-weight:900;color:#146c4c">بوابة الجودة — لماذا هذه الصفحة مفهرسة؟</h2>
+<sc-for list="{{ un.gate }}" as="g" hint-placeholder-count="4">
+<span style="display:flex;align-items:center;gap:7px;padding:3px 0;font-size:10.5px;color:#3d4f45"><svg aria-hidden="true" style="width:11px;height:11px;flex:0 0 auto;color:#146c4c"><use href="#d5-check"></use></svg>{{ g }}</span>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;line-height:1.7;color:#8b978f">وحدة بلا ٣ أسئلة مجانية + منتج + طلب بحث مُتحقق = تبقى noindex. من ٩٦ وحدة محتملة اجتازت ٤١ فقط.</p>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 6px;font-size:12.5px;font-weight:900">تغطية الوحدات — {{ un.cov }}</h2>
+<span aria-hidden="true" style="display:block;height:8px;border-radius:6px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ un.covW }};background:linear-gradient(90deg,#2b9c72,#14603f)"></span></span>
+<span style="display:block;margin-top:6px;font-size:9.5px;color:#8b978f">٤١ صفحة وحدة منشورة · ٥٥ noindex بانتظار المحتوى</span>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.news }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:diFade .3s ease">
+<h1 style="margin:0;font:900 21px Tajawal;display:flex;align-items:center;gap:9px"><svg aria-hidden="true" style="width:19px;height:19px;color:#b32d2e"><use href="#d5-news"></use></svg>متتبع تغييرات المناهج — محدث دائمًا</h1>
+<span style="margin-inline-start:auto;padding:4px 12px;border-radius:999px;background:#fce8e8;color:#b32d2e;font-size:10px;font-weight:900">يتصدر موجة البحث مع كل إعلان وزاري</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ nw.rows }}" as="r" hint-placeholder-count="4">
+<section style="border:1px solid #e2e8e4;border-inline-start:4px solid {{ r.edge }};border-radius:13px;background:#fff;padding:12px 16px;animation:diFade .25s ease">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:2px 9px;border-radius:999px;background:{{ r.tbg }};color:{{ r.tc }};font-size:9px;font-weight:900">{{ r.tag }}</span>
+<b style="font-size:12.5px">{{ r.t }}</b>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">{{ r.d }}</span>
+</div>
+<p style="margin:6px 0;font-size:11px;line-height:1.9;color:#5f7167">{{ r.body }}</p>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="font-size:9.5px;font-weight:900;color:#146c4c">أثره على ملازمك: {{ r.impact }}</span>
+<button type="button" onClick="{{ r.onGo }}" style="margin-inline-start:auto;min-height:30px;padding:0 12px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10px;font-weight:900;color:#146c4c;cursor:pointer">{{ r.cta }} ←</button>
+</div>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9"><span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">آلية الصدق:</b> كل خبر يستشهد بمصدره الرسمي، وتاريخ التحديث يتغير فقط عند تعديل فعلي — والصفحة رابط دائم واحد يراكم قوته موسمًا بعد موسم (QDF).</span></div>
+</sc-if>
+
+<sc-if value="{{ is.gloss }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:diFade .3s ease">
+<h1 style="margin:0;font:900 21px Tajawal">قاموس مصطلحات المناهج</h1>
+<div style="position:relative;margin-inline-start:auto;min-width:250px">
+<input type="search" value="{{ gl.q }}" onChange="{{ gl.onQ }}" placeholder="ابحث عن مصطلح…" aria-label="بحث القاموس" style="width:100%;box-sizing:border-box;min-height:38px;padding:0 13px;border:1.5px solid #d7ddd8;border-radius:11px;font:800 11.5px Tajawal;outline:none">
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<sc-for list="{{ gl.rows }}" as="g" hint-placeholder-count="4">
+<section style="border:1px solid #e2e8e4;border-radius:14px;background:#fff;padding:14px 17px;animation:diFade .25s ease">
+<div style="display:flex;align-items:center;gap:8px"><h2 style="margin:0;font-size:14px;font-weight:900">{{ g.t }}</h2><span style="padding:2px 9px;border-radius:999px;background:#f2f6f3;font-size:8.5px;font-weight:800;color:#5f7167">{{ g.sub }}</span></div>
+<p style="margin:6px 0;font-size:11.5px;line-height:2;color:#3d4f45"><b style="color:#146c4c">الإجابة المباشرة: </b>{{ g.def }}</p>
+<p style="margin:0 0 8px;font-size:10.5px;line-height:1.9;color:#7c8a82">{{ g.ex }}</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ g.links }}" as="l" hint-placeholder-count="2"><a href="#" style="padding:3px 10px;border:1px solid #cfe0d6;border-radius:999px;background:#f2f8f5;font-size:9px;font-weight:900;color:#146c4c">{{ l }}</a></sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9"><span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">Entity SEO لا قاموس أصم:</b> كل مصطلح يبدأ بإجابة مباشرة (AEO/بحث صوتي) ثم مثال من المنهج نفسه ويربط بملزمته — ٨٤ مصطلحًا منتقى بطلب بحث حقيقي، لا آلاف الصفحات الرقيقة.</span></div>
+</sc-if>
+
+<sc-if value="{{ is.disc }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start;animation:diFade .3s ease">
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 19px">
+<h1 style="margin:0 0 4px;font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px"><svg aria-hidden="true" style="width:17px;height:17px;color:#b32d2e"><use href="#d5-flame"></use></svg>جاهزية Google Discover</h1>
+<span style="font-size:10px;color:#8b978f">Discover قد يفوق بحث النص في المحتوى التعليمي الموسمي</span>
+<div style="margin-top:11px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ dc.checks }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:10px;background:{{ c.bg }}">
+<svg aria-hidden="true" style="width:13px;height:13px;flex:0 0 auto;color:{{ c.c }}"><use href="{{ c.ic }}"></use></svg>
+<span style="flex:1;font-size:11px;font-weight:800;color:#3d4f45">{{ c.t }}</span>
+<span style="font-size:9px;color:#8b978f">{{ c.note }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+<section style="border:1px solid #e2e8e4;border-radius:16px;background:#fff;padding:16px 19px">
+<h2 style="margin:0 0 4px;font-size:15px;font-weight:900">Web Stories — شريط شبه فارغ عربيًا</h2>
+<span style="font-size:10px;color:#8b978f">قصة «٥ عادات مراجعة» — معاينة الشرائح</span>
+<div style="display:flex;gap:7px;margin-top:11px">
+<sc-for list="{{ dc.story }}" as="s" hint-placeholder-count="4">
+<div style="flex:1;aspect-ratio:9/16;border-radius:12px;background:{{ s.bg }};position:relative;overflow:hidden">
+<span style="position:absolute;top:7px;inset-inline:7px;display:flex;gap:3px"><span aria-hidden="true" style="flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,{{ s.p1 }})"></span><span aria-hidden="true" style="flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,{{ s.p2 }})"></span><span aria-hidden="true" style="flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.35)"></span></span>
+<span style="position:absolute;bottom:9px;inset-inline:9px;color:#fff;font-size:9px;font-weight:900;line-height:1.5;text-align:start">{{ s.t }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px">
+<sc-for list="{{ dc.sfeats }}" as="f" hint-placeholder-count="3">
+<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;background:#f2f8f5;font-size:9px;font-weight:800;color:#146c4c"><svg aria-hidden="true" style="width:9px;height:9px"><use href="#d5-check"></use></svg>{{ f }}</span>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.ab }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:diFade .3s ease">
+<h1 style="margin:0;font:900 21px Tajawal;display:flex;align-items:center;gap:9px"><svg aria-hidden="true" style="width:19px;height:19px;color:#146c4c"><use href="#d5-flask"></use></svg>اختبار العناوين A/B — من بيانات Search Console</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">يتكامل مع Analytics Pro OS: الفائز يُعمَّم عبر Workflow بموافقتك</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ ab.rows }}" as="t" hint-placeholder-count="3">
+<section style="border:1px solid #e2e8e4;border-radius:15px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:12.5px">{{ t.tpl }}</b>
+<span style="padding:2px 10px;border-radius:999px;background:{{ t.sbg }};color:{{ t.sc }};font-size:9px;font-weight:900">{{ t.st }}</span>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">{{ t.meta }}</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px">
+<div style="padding:11px 13px;border:1.5px solid {{ t.abd }};border-radius:12px;background:{{ t.abg }}">
+<span style="font-size:9px;font-weight:900;color:#8b978f">الصيغة A{{ t.aWin }}</span>
+<span style="display:block;margin-top:3px;font-size:12px;font-weight:800;color:#1a0dab;line-height:1.6">{{ t.a }}</span>
+<span style="display:block;margin-top:5px;font-size:10.5px;font-weight:900;color:#3d4f45">CTR: {{ t.actr }}</span>
+</div>
+<div style="padding:11px 13px;border:1.5px solid {{ t.bbd }};border-radius:12px;background:{{ t.bbg }}">
+<span style="font-size:9px;font-weight:900;color:#8b978f">الصيغة B{{ t.bWin }}</span>
+<span style="display:block;margin-top:3px;font-size:12px;font-weight:800;color:#1a0dab;line-height:1.6">{{ t.b }}</span>
+<span style="display:block;margin-top:5px;font-size:10.5px;font-weight:900;color:#3d4f45">CTR: {{ t.bctr }}</span>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap">
+<span style="font-size:9.5px;color:#5f7167">{{ t.verdict }}</span>
+<sc-if value="{{ t.canApply }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ t.onApply }}" style="margin-inline-start:auto;min-height:32px;padding:0 14px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900;cursor:pointer">عمّم الفائز على {{ t.n }} صفحة</button>
+</sc-if>
+</div>
+</section>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9"><span style="font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">منهجية صادقة:</b> صيغة واحدة لكل صفحة في كل فترة (لا cloaking)، والقياس من CTR الفعلي في GSC بعد ١٤ يومًا لكل ذراع — ولا يُعلن فائز قبل دلالة كافية.</span></div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:400px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;animation:diFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;units&quot;,&quot;news&quot;,&quot;gloss&quot;,&quot;disc&quot;,&quot;ab&quot;],&quot;default&quot;:&quot;units&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+GL=[
+ {t:'المتوسط الحسابي',sub:'رياضيات',def:'مجموع القيم مقسومًا على عددها — رقم واحد يمثل «مركز» البيانات.',ex:'مثال المنهج: درجات ٥ طلاب (٧٠، ٨٠، ٩٠، ٨٥، ٧٥) متوسطها ٨٠.',links:['مذكرة الإحصاء','بنك أسئلة الوحدة']},
+ {t:'الوسيط',sub:'رياضيات',def:'القيمة التي تتوسط البيانات بعد ترتيبها — نصف القيم قبلها ونصفها بعدها.',ex:'الفرق عن المتوسط: الوسيط لا يتأثر بالقيم المتطرفة، لذا يُفضَّل مع الرواتب.',links:['مذكرة الإحصاء','مقارنة المتوسط والوسيط']},
+ {t:'التمييز (المميز)',sub:'رياضيات',def:'ب² − ٤أج في المعادلة التربيعية — إشارته تحدد نوع الجذور قبل حلها.',ex:'موجب: جذران مختلفان · صفر: جذر مكرر · سالب: لا جذور حقيقية.',links:['ملزمة المعادلات','٣ أسئلة محلولة']},
+ {t:'خريطة المفاهيم',sub:'مهارات',def:'مخطط يربط الأفكار بأسهم مسماة — يجعل العلاقات مرئية قبل التفاصيل.',ex:'كل درس في ملازمنا يفتتح بخريطة مفاهيم — وهي سر «الفهم قبل الحفظ».',links:['كيف تبني خريطتك','ملازم الشرح']}
+];
+state={scr:'units',q:'',applied:{},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['units','صفحات الوحدات'],['news','متتبع المنهج'],['gloss','القاموس'],['disc','Discover · قصص'],['ab','اختبار العناوين A/B']];
+ const NOTES={units:'index مشروط ببوابة الجودة',news:'QDF · رابط دائم واحد',gloss:'Entity SEO · إجابة مباشرة',disc:'صور 1200px+ · طزاجة',ab:'GSC حقيقي · لا cloaking'};
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.75)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.16)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  seoNote:NOTES[st.scr],
+  is:{units:st.scr==='units',news:st.scr==='news',gloss:st.scr==='gloss',disc:st.scr==='disc',ab:st.scr==='ab',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ base.un={
+  crumb:[['الرئيسية'],['أول ثانوي'],['رياضيات'],['وحدة الدوال والمتباينات']].map((c,i,arr)=>({n:c[0],sep:i<arr.length-1})),
+  lessons:[
+   {n:'الدرس ١: العلاقات والدوال',solved:'٣ مجانية + ١٨',demand:'٩٤٠',d:'تمثيل العلاقة، اختبار الخط الرأسي، والمجال والمدى — الحلول بالخطوات المعلَّلة.'},
+   {n:'الدرس ٢: الدوال الخطية',solved:'٣ مجانية + ١٤',demand:'٧٢٠',d:'الميل والمقطع، الصيغ الثلاث، والتمثيل البياني السريع.'},
+   {n:'الدرس ٣: حل المتباينات',solved:'٣ مجانية + ١٦',demand:'٦١٠',d:'قلب الإشارة عند الضرب بسالب — الخطأ الأشهر وأمثلته.'},
+   {n:'الدرس ٤: المتباينات المركبة',solved:'٣ مجانية + ١١',demand:'٣٨٠',d:'«و» تقاطع، «أو» اتحاد — بتمثيل عددي لكل حالة.'}
+  ],
+  gate:['١٢ سؤالًا مجانيًا فعليًا في الصفحة (٣ لكل درس)','منتج مرتبط متوفر: مذكرة الرياضيات','طلب بحث مُتحقق: ٢٬٦٥٠/شهر للوحدة','مقدمة وترتيب فريدان — لا قالب مكرر'],
+  cov:'٤١ من ٩٦ وحدة',covW:'43%'};
+ base.nw={rows:[
+  {tag:'عاجل',tbg:'#fce8e8',tc:'#b32d2e',edge:'#b32d2e',t:'تعديل توزيع وحدات رياضيات ثاني ثانوي',d:'أمس',
+   body:'قرار وزاري ينقل وحدة «المصفوفات» من الفصل الثاني إلى الأول اعتبارًا من ١٤٤٨ — المصدر: التعميم الرسمي رقم ٤٤١.',
+   impact:'ملزمتا الفصلين حُدّثتا — المشترون استلموا التحديث مجانًا',cta:'الملازم المحدثة'},
+  {tag:'تحديث',tbg:'#fff4d6',tc:'#8a6500',edge:'#d8b56a',t:'نماذج أسئلة جديدة لاختبارات الفترة',d:'قبل أسبوع',
+   body:'نُشرت نماذج استرشادية بنمط أسئلة مطور يزيد وزن التفكير الناقد — انعكست على اختباراتنا المحلولة.',
+   impact:'أُضيف قسم «النمط الجديد» للاختبارات المحلولة',cta:'الاختبارات المحلولة'},
+  {tag:'مؤكد',tbg:'#e4f4ec',tc:'#146c4c',edge:'#1e7355',t:'التقويم الدراسي ١٤٤٨ النهائي',d:'قبل أسبوعين',
+   body:'اعتماد ثلاثة فصول بمواعيد الفترات النهائية — تقويم الاختبارات وعدّادات التضمين تحدثت تلقائيًا.',
+   impact:'لا تغيير على المحتوى — المواعيد فقط',cta:'تقويم الاختبارات'},
+  {tag:'شائعة منفية',tbg:'#f2f4f2',tc:'#5f7167',edge:'#a9b4ad',t:'«حذف الفيزياء من المسار الأدبي»',d:'قبل ٣ أسابيع',
+   body:'انتشر ادعاء بلا مصدر — تتبعناه: لا وجود له في أي تعميم رسمي. ننشر النفي أيضًا لأن المتصدر الصادق يكسب الثقة.',
+   impact:'لا شيء — طمأنة فقط',cta:'مصادرنا الرسمية'}
+ ].map(r=>Object.assign(r,{onGo:()=>this.toast('فتح «'+r.cta+'» — ربط الخبر بالمنتج المحدث')}))};
+ const q=st.q.trim();
+ base.gl={q:st.q,onQ:(e)=>this.setState({q:e.target.value}),
+  rows:this.GL.filter(g=>!q||(g.t+g.def+g.sub).indexOf(q)>=0).map(g=>({t:g.t,sub:g.sub,def:g.def,ex:g.ex,links:g.links}))};
+ base.dc={
+  checks:[
+   {t:'صور 1200px+ في كل مقال',note:'مطلب Discover الأول',ok:1},
+   {t:'max-image-preview:large في robots meta',note:'مفعّل موقعًا كاملًا',ok:1},
+   {t:'عناوين فضولية صادقة — لا clickbait',note:'سياسة تحريرية',ok:1},
+   {t:'تواريخ نشر/تحديث حقيقية',note:'مبني في قالب المقال',ok:1},
+   {t:'Follow entity في GBP وGoogle News',note:'قيد التقديم',ok:0},
+   {t:'محتوى موسمي أسبوعي وقت الذروة',note:'خطة المدونة',ok:1}
+  ].map(c=>({t:c.t,note:c.note,ic:c.ok?'#d5-check':'#d5-x',c:c.ok?'#146c4c':'#8a6500',bg:c.ok?'#f6fbf8':'#fffdf5'})),
+  story:[
+   {bg:'linear-gradient(160deg,#14261d,#1e5c42)',t:'٥ عادات للمراجعة النهائية',p1:'.95',p2:'.35'},
+   {bg:'linear-gradient(160deg,#527a96,#2d5471)',t:'١. ابدأ بالأصعب وأنت بكامل تركيزك',p1:'.95',p2:'.95'},
+   {bg:'linear-gradient(160deg,#d8b56a,#8a6a35)',t:'٢. ٢٥ دقيقة مذاكرة، ٥ راحة',p1:'.95',p2:'.95'},
+   {bg:'linear-gradient(160deg,#2b9c72,#0f4d33)',t:'الجدول الكامل — حمّله مجانًا',p1:'.95',p2:'.95'}
+  ],
+  sfeats:['أقل من ١٠ شرائح — قاعدة القصص','نص كبير يُقرأ بلا تكبير','CTA أخير لمورد مجاني لا لمنتج']};
+ base.ab={rows:[
+  {tpl:'قالب عناوين التصنيفات',st:'انتهى — فاز B',sbg:'#e4f4ec',sc:'#146c4c',meta:'٦ صفحات · ٢٨ يومًا لكل ذراع',
+   a:'أرشيف — ملازم المرحلة الثانوية',actr:'٠٫٩٪',b:'ملازم المرحلة الثانوية (٩٨ ملزمة PDF وورقية) | تذكير',bctr:'١٫٦٪',
+   aWin:'',bWin:' — الفائز ✓',abd:'#e2e8e4',abg:'#fbfcfb',bbd:'#1e7355',bbg:'#f2f8f5',
+   verdict:'+٧٨٪ CTR بدلالة كافية (٤٢ ألف انطباع لكل ذراع)',canApply:true,n:'٩',applied:false},
+  {tpl:'قالب عناوين المنتجات',st:'يعمل — اليوم ٩ من ٢٨',sbg:'#fff4d6',sc:'#8a6500',meta:'١٢ منتجًا · بدأ ٢٠ أغسطس',
+   a:'مذكرة رياضيات أول ثانوي | تذكير',actr:'١٫٢٪ حتى الآن',b:'مذكرة رياضيات أول ثانوي — ١٤٦ مسألة محلولة | تذكير',bctr:'١٫٥٪ حتى الآن',
+   aWin:'',bWin:'',abd:'#e2e8e4',abg:'#fbfcfb',bbd:'#e2e8e4',bbg:'#fbfcfb',
+   verdict:'مبكر — لا إعلان فائز قبل اكتمال الفترة والدلالة',canApply:false,n:'٠'},
+  {tpl:'قالب عناوين المقالات',st:'مجدول — يبدأ الأحد',sbg:'#e8f2fc',sc:'#1d5f9c',meta:'٨ مقالات',
+   a:'كيف تختار الملزمة المناسبة؟',actr:'—',b:'كيف تختار الملزمة المناسبة؟ (اختبار الدقائق الخمس)',bctr:'—',
+   aWin:'',bWin:'',abd:'#e2e8e4',abg:'#fbfcfb',bbd:'#e2e8e4',bbg:'#fbfcfb',
+   verdict:'الفرضية: الإضافة بين الأقواس ترفع الفضول الصادق',canApply:false,n:'٠'}
+ ].map((t,i)=>Object.assign(t,{onApply:()=>{ if(st.applied[i]) return; const a=Object.assign({},st.applied); a[i]=1; this.setState({applied:a});
+  this.toast('أُنشئ Workflow تعميم الفائز على '+t.n+' صفحات — بموافقة وقياس بعدي في Analytics Pro OS'); }}))};
+ return base;
+}
+}
+</script>
+</body>
+</html>

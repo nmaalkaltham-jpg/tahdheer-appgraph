@@ -1,0 +1,339 @@
+/* Order-received page — tokens only, logical properties only. */
+
+.page {
+  inline-size: min(var(--container-narrow), 100% - var(--container-inset));
+  margin-inline: auto;
+  padding-block: var(--space-6);
+  display: grid;
+  gap: var(--space-5);
+}
+
+.heroPaid,
+.heroPending,
+.heroClosed {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 32px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--sf-line);
+}
+
+.heroBadge {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  margin-block-end: 8px;
+  border-radius: var(--r-round);
+  background: var(--bg);
+  color: var(--_badge);
+  box-shadow: var(--e-1);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block-start: 8px;
+}
+
+.heroAction {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.heroActionQuiet {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+/* ------------------------------------------------------------- progress */
+
+.progress {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.stepDone,
+.stepNow,
+.stepNext {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+  padding-block-start: 12px;
+  border-block-start: 3px solid var(--sf-line);
+  color: var(--sf-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stepDone {
+  border-block-start-color: var(--teal-600);
+  color: var(--sf-ink);
+}
+
+.stepNow {
+  border-block-start-color: var(--gold-500);
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+.stepDot {
+  flex: none;
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: var(--r-round);
+  background: var(--sf-control);
+}
+
+.stepDone .stepDot {
+  background: var(--teal-600);
+}
+
+.stepNow .stepDot {
+  background: var(--gold-500);
+}
+
+@media (max-width: 599.98px) {
+  .heroPaid,
+  .heroPending,
+  .heroClosed {
+    padding: 24px 16px;
+  }
+}
+
+.heroPaid {
+  --_badge: var(--st-success-fg);
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+}
+
+.heroPending {
+  --_badge: var(--st-warning-fg);
+  border-color: var(--st-warning-line);
+  background: var(--st-warning-bg);
+}
+
+/* مسترد · ملغى · فاشل — ليست انتظارًا فتأخذ سطح التحذير، ولا نجاحًا. */
+.heroClosed {
+  --_badge: var(--st-danger-fg);
+  background: var(--st-danger-bg);
+  border-color: var(--st-danger-line);
+}
+
+.heroTitle {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(24px, 2.4vw, 30px);
+  color: var(--sf-ink);
+}
+
+.heroMeta {
+  margin: 0;
+  color: var(--sf-body);
+  font-weight: 700;
+}
+
+.noCharge {
+  margin: 0;
+  color: var(--st-warning-fg);
+  font-weight: 800;
+}
+
+/* رابط الصفحة هو مفتاح الملفّات الوحيد — لا بريد يحمله. */
+.keepLink {
+  margin: 0;
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+/* ------------------------------------------------------------------ files */
+
+.filesCol {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.files {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fileRow {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+}
+
+/* Locked but legible (MIP §5.2). */
+.fileLocked {
+  pointer-events: none;
+  background: var(--sf-cool);
+}
+
+.fileBody {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.fileTitle {
+  margin: 0;
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+.fileName {
+  margin: 0;
+  color: var(--sf-muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.lockedChip {
+  padding-block: 4px;
+  padding-inline: 10px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xs);
+  background: var(--sf-chip);
+  color: var(--sf-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.noFiles {
+  margin: 0;
+  color: var(--sf-muted);
+}
+
+.whyLocked {
+  color: var(--sf-body);
+}
+
+.whyLockedSummary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-inline: 8px;
+  margin-inline: -8px;
+  border-radius: var(--r-sm);
+  color: var(--teal-text);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.whyLockedSummary::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) {
+  .whyLockedSummary:hover {
+    background: var(--sf-cool);
+  }
+}
+
+.chevron {
+  inline-size: 16px;
+  block-size: 16px;
+  background: currentColor;
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.whyLocked[open] .chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whyLockedSummary,
+  .chevron {
+    transition: none;
+  }
+}
+
+.whyLockedSummary:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.whyLockedBody {
+  margin: var(--space-2) 0 0;
+}
+
+/* ---------------------------------------------------------------- summary */
+
+.summary {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.summaryItems {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  color: var(--sf-ink);
+  font-size: 14px;
+}
+
+.paymentMethod {
+  margin: 0;
+  color: var(--sf-muted);
+  font-size: 13px;
+}
+
+/* أساس 15/1.6/400 وحبر --sf-ink يأتي من body (globals.css)؛ هنا يُلغى ضبط :where(h2,h3)/p العامّ محليًّا فقط. */
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}

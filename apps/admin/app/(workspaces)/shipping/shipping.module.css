@@ -1,0 +1,185 @@
+/*
+UNIT: SHIPPING
+COMPONENT: page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/* خصائص منطقيّة وحدها: اللوحة عربيّة، والفيزيائيّة تنقلب خطأً. */
+
+/*
+ * الرموز الدلاليّة الحيّة وحدها (`--surface/--border/--muted/--state-*`).
+ * كانت الورقة تقرأ `--color-*` وهي أسماءٌ لا تُعرَّف في اللوحة ولا في
+ * `tokens.css`: الحدّ يُرسم شفّافًا والسطح يذوب في الصفحة، فيبدو اللوح بلا
+ * إطار. النماذج الجديدة تجاور المعاينة في المساحة نفسها، فبقاء نصف الورقة
+ * على أسماءٍ ميّتة يعني لوحَين لا يشبه أحدهما الآخر.
+ */
+
+.title {
+  margin: var(--space-5) 0 var(--space-2);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/*
+ * اللوح: بطاقةٌ واحدة تلبسها المعاينة ونماذج الكتابة جميعًا. توحيدها ليس
+ * اختصارًا في السطور بل في الفهم — المشغّل يرى «صندوقًا يُملأ» واحدًا لا
+ * ثلاثة أشكالٍ لفعلٍ واحد.
+ */
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin-block: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.preview {
+  composes: panel;
+}
+
+/* نموذج التحرير يسكن خليّةً في الجدول؛ هامشه الخارجيّ يزيحه عن صفّه. */
+.inline {
+  margin-block: 0;
+}
+
+.panel .title {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-3);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  font-size: 0.875rem;
+}
+
+.field > span {
+  color: var(--muted);
+}
+
+.field input,
+.field select {
+  /* ٤٤px هدف لمسٍ لا زينة: الحقل الأقصر يُخطئه الإصبع على الجوال. */
+  min-block-size: 44px;
+  padding: var(--space-2);
+  /* حدٌّ ≥3:1 في السمتين (WCAG 1.4.11) — ‎--border‎ شعرةٌ زخرفيّة 1.3:1. */
+  border: 1px solid var(--adm-field-line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+/*
+ * زرّ التحرير في خليّة الصفّ. الغلاف يحمل الصنف المحلّيّ فيفوق محدِّده
+ * `.btn` العامّ — ولولاه لبقي الزرّ على ٤٠px دون حدّ اللمس.
+ */
+.rowAction {
+  display: inline-flex;
+}
+
+/*
+ * الأزرار العامّة ٤٠px؛ وكلّ زرٍّ في هذا السطح يُرفع إلى حدّ اللمس.
+ *
+ * و`.actions` لا `.panel` وحدها: زرّا «منطقة جديدة» و«قاعدة جديدة» يقعان في
+ * كتلتَي `.actions` **خارج** أيّ لوح، فكانا وحدهما يسقطان إلى ٤٠px. ورفعُ
+ * الجدول العامّ لا يبلغهما أيضًا: قاعدتُه مشروطةٌ بمؤشّرٍ خشن ومقصورةٌ على
+ * خلايا الجداول وصفوف الأفعال، وهذان ليسا في واحدٍ منها.
+ */
+.actions :global(.btn),
+.rowAction :global(.btn) {
+  min-block-size: 44px;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+/*
+ * خانة الاختيار لا تلبس نمط الحقل: الحشو والحدّ يمدّان مربّعها فيبدو حقلًا
+ * نصّيًّا فارغًا. والهدف اللمسيّ يُحمل على السطر كلّه لا على المربّع.
+ */
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: 44px;
+  font-size: 0.875rem;
+}
+
+.check input {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  accent-color: var(--primary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* تلميحُ الحقل تحت الحقل لا فوقه: يُقرأ عند التعبئة لا قبلها. */
+.hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.result {
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.verdict {
+  margin: 0 0 var(--space-1);
+  font-size: 1rem;
+}
+
+.explain {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--state-danger);
+}
+
+.notice {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--state-success);
+}
+
+/* تحذيرٌ لا خطأ: الحفظ ممكن، لكنّه يحتاج قرارًا من المشغّل قبله. */
+.warn {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--state-warning);
+}
+
+.denied {
+  margin: 0 0 var(--space-4);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* قيمةٌ تُعرض ولا تُحرَّر — الخادم لا يقبل تغييرها في هذا النداء. */
+.readonly {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--text);
+}

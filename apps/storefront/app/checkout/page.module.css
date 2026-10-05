@@ -1,0 +1,113 @@
+/* Checkout page shell — tokens only, logical properties only. */
+
+.page {
+  inline-size: min(var(--container-checkout), 100% - var(--container-inset));
+  margin-inline: auto;
+  padding-block: var(--space-6);
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block-end: var(--space-5);
+}
+
+.title {
+  flex: 1;
+  min-inline-size: 0;
+  margin: 0;
+  font-weight: 800;
+  /*
+   * ‎28px‎ لا ‎clamp(26,32)‎: عنوان السلّة ‎28px‎ وعنوان الدفع كان يكبر إلى
+   * ‎32px‎ — فيكبر العنوان كلّما تقدّم الزائر في الرحلة نفسها. المقاس واحد،
+   * والهبوط إلى ‎22px‎ أدناه هو هبوط صفحة السلّة نفسه وعند الحدّ نفسه.
+   */
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.secure {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--radius-pill);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.secureIcon {
+  flex: 0 0 auto;
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.back {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  /* هدف لمسٍ ٤٤ — رابط الرجوع يُضغط بالإبهام في رأس الصفحة. */
+  min-block-size: 44px;
+  color: var(--sf-muted);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.back:hover {
+  text-decoration: underline;
+}
+
+.backIcon {
+  flex: 0 0 auto;
+  inline-size: 13px;
+  block-size: 13px;
+  transform: scaleX(-1);
+}
+
+/*
+ * Below the flow's breakpoint the sticky pay bar bleeds to the viewport edges,
+ * so the shell publishes its own inline inset (half of the `100% - 32px`
+ * gutter) for the bar to cancel out, and drops its bottom padding so the bar
+ * sits flush against the safe area.
+ */
+@media (max-width: 899.98px) {
+  .page {
+    --checkout-page-inset: 16px;
+
+    padding-block-end: 0;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .secure {
+    font-size: 10.5px;
+  }
+
+  /* The design drops the back link on mobile — the sticky pay bar owns the
+     bottom of the viewport and the site header still carries the cart. */
+  .back {
+    display: none;
+  }
+}
+
+/* أساس 15/1.6/400 وحبر --sf-ink يأتي من body (globals.css)؛ هنا يُلغى ضبط :where(h2,h3)/p العامّ محليًّا فقط. */
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}

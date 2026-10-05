@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tahDotPulse{0%{transform:scale(1);opacity:.5}70%{transform:scale(2.2);opacity:0}100%{transform:scale(2.2);opacity:0}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tt{padding:40px 44px 34px}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 24px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:86ch;text-wrap:pretty;direction:rtl}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.58);direction:rtl}
+.opt{display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.frame{border-radius:16px;overflow:hidden;border:1px solid #dde3dc;box-shadow:0 8px 28px rgba(20,45,33,.12);background:#f7f9f6}
+.wlab{font:600 10px ui-monospace,Menlo,monospace;color:rgba(0,0,0,.45);padding:6px 10px;background:rgba(0,0,0,.05);border-bottom:1px solid #eef1ec;direction:ltr}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t8">
+<div class="tthd"><a class="ttid" href="#t8">8</a><span class="ttname">My Account — three real breakpoints</span></div>
+<p class="ttsub">لوحة الحساب على ثلاثة عروض حقيقية، لا نسخة واحدة مصغَّرة. كل إطار أدناه تصيير فعلي بذلك العرض: الجوال 390 والتابلت 834 وسطح المكتب 1280. التابلت ليس وسطًا بين الاثنين تلقائيًا — له قصّة أعمدة خاصة به: بطاقتان للإحصاء بدل أربع، والشريط الجانبي يختفي لأن 256px منه تُضيّق عمود المكتبة، والطلبات والتحديثات تتراصّ عموديًا بدل عمود 210px لخطّ زمني يحمل تواريخ وأزرار تحميل.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">
+
+<div class="opt" id="8a">
+<div class="olab"><a class="oid" href="#8a">8a</a><span><b>الجوال — 390px.</b> عمود واحد، إحصاء عمودان، مكتبة عمودان، شريط تنقّل سفلي يحترم Safe Area، وبحث بعرض كامل.</span></div>
+<div class="frame" style="width:390px"><div class="wlab">390 · mobile</div><dc-import name="Tahdheer - My Account" device="mobile" hint-size="390px,1600px"></dc-import></div>
+</div>
+
+<div class="opt" id="8b">
+<div class="olab"><a class="oid" href="#8b">8b</a><span><b>التابلت — 834px.</b> بلا شريط جانبي، إحصاء عمودان، الطلبات والتحديثات متراصّة، والمكتبة عمودان.</span></div>
+<div class="frame" style="width:834px"><div class="wlab">834 · tablet</div><dc-import name="Tahdheer - My Account" device="tablet" hint-size="834px,1900px"></dc-import></div>
+</div>
+
+<div class="opt" id="8c">
+<div class="olab"><a class="oid" href="#8c">8c</a><span><b>سطح المكتب — 1280px.</b> شريط جانبي لاصق، إحصاء أربعة أعمدة، تقسيم غير متماثل للطلبات والتحديثات، مكتبة أربعة أعمدة.</span></div>
+<div class="frame" style="width:1280px"><div class="wlab">1280 · desktop</div><dc-import name="Tahdheer - My Account" device="desktop" hint-size="1280px,1700px"></dc-import></div>
+</div>
+
+</div>
+</section>
+</x-dc>
+</body>
+</html>

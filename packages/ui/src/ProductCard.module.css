@@ -1,0 +1,778 @@
+/*
+UNIT: PRODUCTCARD
+COMPONENT: ProductCard.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * ProductCard — بطاقة المنتج الواحدة. رموزٌ فقط، خصائص منطقيّة فقط (RTL أوّلًا).
+ *
+ * الهندسة: غلافٌ ‎16:9‎ من حافّةٍ إلى حافّة (الشارات في زاوية البداية والقلب في
+ * زاوية النهاية)، ثمّ جسمٌ متراصّ: العنوان (سطران مقفلان) ← سطر البيانات
+ * بأيقوناته ← التقييم والتسليم ← السعر (القديم والوفر بجواره) ← «أضف للسلة»
+ * و«معاينة». السعر يُدفع إلى القاع (`margin-block-start: auto`) فتصطفّ أزرار
+ * الصفّ الواحد على خطٍّ واحد مهما اختلف طول البيانات.
+ *
+ * البطاقة تضبط أساسها الطباعيّ بنفسها لأنّ جسم المتجر العامّ ‎500/1.8‎ على سطحٍ
+ * مائل، والبطاقة تُرسم داخل سطوحٍ متعدّدة.
+ */
+.card {
+  /* السطح من الوصفة الواحدة: حدّ ‎--sf-line‎ وزاوية ‎--r-lg‎ (16)، وعند التحويم ظلّ ‎--e-2‎. */
+  composes: card cardInteractive from './controls.module.css';
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: 100%;
+  overflow: hidden;
+  /* حاويةُ استعلامٍ بالعرض: البطاقة الضيّقة (عمودان على الجوّال) تعيد ترتيب أزرارها بنفسها. */
+  container-type: inline-size;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* العنوان يستجيب للتحويم بلون الرابط فيُقرأ السطح كلّه رابطًا واحدًا. */
+@media (hover: hover) {
+  .card:hover .link {
+    color: var(--color-interactive);
+  }
+}
+
+/* الضغط على البطاقة (رابطها الممدود): نزولٌ ‎1px‎ كالزرّ — لا ارتداد. */
+.card:has(.link:active) {
+  translate: 0 1px;
+}
+
+/*
+ * حلقةُ التركيز حول البطاقة كلّها: رابط العنوان ممدودٌ فوقها بأسرها
+ * (`.link::after`). والحلقة الداخليّة تُصفَّر (`outline: 0` لا `none`).
+ */
+.card:has(.link:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.card:has(.link:focus-visible) .link:focus-visible {
+  outline: 0;
+  outline-offset: 0;
+}
+
+/* ------------------------------------------------------------------- media */
+
+/*
+ * الغلاف بنسبةٍ مقفلة ‎16:9‎ لا بارتفاعٍ ثابت: يكبر مع البطاقة، والعنوان والسعر
+ * تحته لا يُضغطان، ولا قفزةَ تخطيطٍ حين تصل الصورة (الصندوق محجوز قبلها).
+ */
+.media {
+  position: relative;
+  flex: none;
+  inline-size: 100%;
+  aspect-ratio: var(--ct-media-ratio, 16 / 9);
+  background: var(--sf-gradient-media);
+  overflow: hidden;
+}
+
+/*
+ * غير متاح: الصورة وحدها تخفت — لا صندوق الوسائط: الشفافيّة على الصندوق كانت
+ * تنشئ سياق تكديسٍ يدفن الشارات والقلب تحت الرابط الممدود وتُنزل تباين الشارات.
+ */
+.card[data-unavailable] .frame {
+  opacity: 0.72;
+}
+
+/* إطار الصورة (جزيرة `ProductCardMedia`) — يملأ الصندوق ويحمل حالة التحميل. */
+.frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/*
+ * هيكلُ التحميل خلف الصورة لا فوقها: المتصفّح لا يرسم الصورة قبل فكّها فيُرى
+ * الهيكل خلالها، وحين تُرسم تغطّيه. الصورة لا تُخفى بشفافيّة (كانت ستخرج من
+ * حساب أكبر عنصرٍ مرئيّ).
+ */
+.frame[data-state='loading']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--sf-cool) 25%, var(--sf-chip) 50%, var(--sf-cool) 75%);
+  background-size: 200% 100%;
+  animation: pcShimmer 1.4s linear infinite;
+}
+
+@keyframes pcShimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: scale var(--dur-normal) var(--ease-out);
+}
+
+/* التحويم يقرّب الغلاف قليلًا داخل قصاصته — حركةٌ ردًّا على المؤشّر وحده. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover .img {
+    scale: 1.03;
+  }
+}
+
+/*
+ * الداكن: الأغلفة المولَّدة بيضاء في معظمها فتلمع على سطحٍ داكن. تُوضع على لوحٍ
+ * أخفض وتُعتَّم قليلًا — تعتيمٌ للصورة لا قلبٌ لها، فلا نصّ داكنٌ على داكن.
+ */
+:global(:root[data-theme='dark']) .media[data-cover] {
+  background: var(--color-surface-muted);
+}
+
+:global(:root[data-theme='dark']) .img {
+  filter: brightness(0.82) contrast(1.05);
+}
+
+/* بديلُ الغلاف (رسمُ المادّة أو ورقة القالب) يملأ الصندوق نفسه — لا قفزة. */
+.frame > :not(.img) {
+  position: absolute;
+  inset: 0;
+}
+
+/* ورقة القالب: أربعة خطوط ‎8px‎ على تدرّجٍ مصبوغ — لا صورةٌ مدّعاة. */
+.paper {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.paper > span {
+  display: block;
+  block-size: 8px;
+  border-radius: var(--r-xs);
+  background: var(--hm-paper-line);
+}
+
+.paper > span:first-child {
+  inline-size: 60%;
+  margin-block-start: 14px;
+}
+
+.paper > span:nth-child(3) {
+  inline-size: 80%;
+}
+
+.paper > span:nth-child(4) {
+  inline-size: 44%;
+}
+
+/* صبغة ورقة البديل — تُدوَّر بالموضع في المرتبطة؛ رموز ‎--tint-*‎ فقط. */
+.media[data-tint='teal'] {
+  background: var(--tint-teal);
+}
+
+.media[data-tint='navy'] {
+  background: var(--tint-navy);
+}
+
+.media[data-tint='sand'] {
+  background: var(--tint-sand);
+}
+
+.media[data-tint='lilac'] {
+  background: var(--tint-lilac);
+}
+
+/*
+ * الشارات: شارتان على الأكثر في زاوية البداية العليا (اليمين في RTL)، والقلب
+ * في زاوية النهاية — فلا يتزاحمان. العرض محجوزٌ للقلب (‎44 + 10 + 10‎).
+ */
+.badges {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 10px;
+  inset-inline-start: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-inline-size: calc(100% - 74px);
+  /* الشارات نصٌّ لا فعل: النقر عليها يمرّ إلى رابط البطاقة تحتها. */
+  pointer-events: none;
+}
+
+/* عمود الأفعال (القلب): هدف لمسٍ ‎44px‎ يملكه المستدعي. */
+.actions {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 10px;
+  inset-inline-end: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* الشارة: ‎24px‎، زاوية ‎--r-xs‎، وظلّ شعرة (‎--e-1‎) يفصلها عن غلافٍ فاتح تحتها. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  min-block-size: 24px;
+  padding-block: 0;
+  padding-inline: 8px;
+  border-radius: var(--r-xs);
+  /* أدوار الاستوديو (`--tp-badge-*`) تسري على الشارات؛ القيم بعد الفاصلة افتراضُ البطاقة. */
+  font-size: var(--tp-badge-size, 11px);
+  font-weight: var(--tp-badge-weight, 800);
+  font-family: var(--tp-badge-family, inherit);
+  letter-spacing: var(--tp-badge-tracking, normal);
+  line-height: 1;
+  white-space: nowrap;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--e-1);
+}
+
+/* الخصم: زوج accent/-fg لا ينقلب في الداكن (‎6.1:1‎ في المظهرين). */
+.pillDiscount {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+/* الأكثر مبيعًا / الترتيب: كحليّ الثانويّ على نصّه. */
+.pillBest {
+  background: var(--color-secondary);
+  color: var(--color-secondary-fg);
+}
+
+/* جديد: التركوازيّ تحت الأبيض (‎--teal-on‎، ‎4.5:1‎). */
+.pillNew {
+  background: var(--teal-on);
+  color: var(--on-accent);
+}
+
+/* يتضمن نموذجًا: سطحٌ أبيض بنصٍّ تركوازيّ مقروء. */
+.pillSample {
+  color: var(--teal-text);
+}
+
+/* -------------------------------------------------------------------- body */
+
+.body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 6px;
+  min-inline-size: 0;
+  padding-block: 12px 14px;
+  padding-inline: 14px;
+}
+
+/*
+ * العنوان أوّل ما يُقرأ بعد الغلاف: سطران بالضبط (‎15/700/1.4‎)، والحدّ الأدنى
+ * يحفظ استقامة الشبكة حين يقصر عنوانٌ عن سطرين — طول العنوان لا يحرّك البطاقة.
+ */
+.title {
+  margin-block: 0;
+  /* دور «اسم المنتج» في الاستوديو (`--tp-product-title-*`) يسري هنا؛ الحدّ الأدنى بوحدة ‎em‎ يتبع الحجم. */
+  font-size: var(--tp-product-title-size, 15px);
+  line-height: var(--tp-product-title-leading, 1.4);
+  font-weight: var(--tp-product-title-weight, 700);
+  color: var(--tp-product-title-color, inherit);
+  letter-spacing: var(--tp-product-title-tracking, normal);
+  font-family: var(--tp-product-title-family, inherit);
+  min-block-size: calc(2em * var(--tp-product-title-leading, 1.4));
+  text-align: start;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--dur-normal) var(--ease-out);
+}
+
+/* Stretch the primary link over the card. */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/*
+ * سطر البيانات: المادّة · الصفّ · الفصل · النوع · الصيغة — كلّ بندٍ أيقونةٌ ونصّ
+ * لا يلتفّ داخله (يُقتطع بـ«…») والبنود تلتفّ سطرًا ثانيًا عند الضيق. الفاصل
+ * هو الأيقونة والفجوة لا «•»: النقطة في ‎::before‎ يقرؤها قارئ الشاشة، وتبدأ بها
+ * الأسطر الملتفّة.
+ */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  white-space: nowrap;
+}
+
+.metaIcon {
+  flex: none;
+  display: inline-flex;
+  inline-size: 13px;
+  block-size: 13px;
+  color: var(--sf-icon);
+}
+
+.metaIcon > svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.metaText {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* الصيغة أبرزُ البنود: ما يسأل عنه المعلّم قبل الشراء. */
+.metaFormat {
+  color: var(--teal-text);
+}
+
+.metaFormat .metaIcon {
+  color: var(--teal-text);
+}
+
+/* ---------------------------------------------------------------- signals */
+
+/* التقييم في البداية والتسليم الفوريّ في النهاية — لا يُرسم الصفّ بلا أحدهما. */
+.signals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 8px;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.star {
+  flex: none;
+  inline-size: 13px;
+  block-size: 13px;
+  color: var(--gold-400);
+}
+
+.ratingText {
+  font-variant-numeric: tabular-nums;
+}
+
+/* التسليم الفوريّ: رقاقةٌ خضراء الصبغة (ثلاثيّة النجاح: خلفيّة/حدّ/نصّ ‎6.6:1‎). */
+.delivery {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-inline-size: 100%;
+  min-block-size: 22px;
+  padding-inline: 7px;
+  border: 1px solid var(--st-success-line);
+  border-radius: var(--r-xs);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.deliveryIcon {
+  display: inline-flex;
+  inline-size: 12px;
+  block-size: 12px;
+}
+
+.deliveryIcon > svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* سطرُ المستدعي («N عملية شراء») — بلغة سطر التقييم. */
+.metaSlot {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------- price */
+
+/*
+ * السعر يُدفع إلى القاع فتصطفّ الأزرار: الحاليّ أقوى ما في الجسم، والقديم
+ * مشطوبٌ أصغر، والوفر رقاقةٌ ثانويّة — ولا فراغَ محجوز حين لا خصم.
+ */
+.priceBlock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-block: auto 0;
+  padding-block-start: 4px;
+}
+
+.priceNow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.price {
+  /* دور «السعر» في الاستوديو (`--tp-price-*`). */
+  font-size: var(--tp-price-size, 19px);
+  font-weight: var(--tp-price-weight, 800);
+  font-family: var(--tp-price-family, inherit);
+  letter-spacing: var(--tp-price-tracking, normal);
+  line-height: 1.1;
+  color: var(--tp-price-color, var(--color-secondary-text));
+  font-variant-numeric: tabular-nums;
+}
+
+.currency {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.was {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sf-faint);
+  font-variant-numeric: tabular-nums;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  min-block-size: 20px;
+  padding-inline: 6px;
+  border-radius: var(--r-xs);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.unavailable {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------- CTA */
+
+/*
+ * صفّ الأزرار: «أضف للسلة» يأخذ العرض المرن و«معاينة» بعرض محتواها. بعمودٍ
+ * واحد حين لا معاينة. الأزرار تعلو رابط العنوان الممدود (‎z-index‎).
+ */
+.ctaRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+  margin-block-start: 4px;
+}
+
+.ctaRow[data-cols='1'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/*
+ * «أضف للسلة» — الزرّ الأساسيّ من الوصفة (‎btn btnPrimary btnSm‎): التحويم والضغط
+ * والتركيز والتعطيل والانشغال (دوّارٌ والعرض ثابت) كلّها من الوصفة. هنا الهندسة:
+ * ‎40px‎ مرئيّة وهدف لمس ‎46px‎ (‎::before‎). التعريف الواحد: الزرّ المُمرَّر (السلة
+ * الحقيقيّة) يلبس الصنف نفسه عبر `productCardCtaClass`.
+ */
+.cta {
+  composes: btn btnPrimary btnSm from './controls.module.css';
+  position: relative;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 40px;
+  gap: 6px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cta::before {
+  inset-block: -3px;
+}
+
+/* أُضيف ✓ — ثلاثيّة النجاح بدل التعبئة، فيُرى التأكيد لا الوسم وحده. */
+.cta[data-state='added'] {
+  border-color: var(--st-success-line);
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+  box-shadow: none;
+}
+
+/* تعذّر الطلب — حدّ الخطر ينبّه إلى سطر السبب تحته، والزرّ نفسه «أعد المحاولة» فعلًا. */
+.cta[data-state='error'] {
+  border-color: var(--st-danger-fg);
+}
+
+/*
+ * الانشغال: الوصفة تُخفي أبناء الزرّ (‎visibility‎) ليظهر الدوّار — فيفرغ اسمه
+ * عند قارئ الشاشة. هنا تُخفى لونًا (‎opacity‎) فيبقى الاسم «أضف للسلة «…»».
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .ctaRow .cta[aria-busy='true'] > * {
+    visibility: visible;
+    opacity: 0;
+  }
+}
+
+/* «معاينة» — الزرّ الثانويّ المحيطيّ بعينٍ ونصّ، بالارتفاع نفسه وهدف اللمس نفسه. */
+.preview {
+  composes: btn btnOutline btnSm from './controls.module.css';
+  position: relative;
+  z-index: 1;
+  block-size: 40px;
+  gap: 6px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  color: var(--sf-ink-2);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.preview::before {
+  inset-block: -3px;
+}
+
+.preview[aria-expanded='true'] {
+  border-color: var(--teal-600);
+  background: var(--tint-teal);
+  color: var(--teal-text);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- variants */
+
+/*
+ * `compact` — بطاقة الرفّ الأفقيّ: ‎188px‎ عرضًا، عنوان ‎13‎، بيانات وأزرار أصغر.
+ * `related` تأخذ الهندسة نفسها على الجوّال (الرفّ) وتبقى بطاقة شبكةٍ فوقه.
+ */
+.card[data-variant='compact'] {
+  /* عرض الرفّ يملكه الرفّ (‎.recentRail‎ أعمدةٌ من ‎188px‎ فأكثر) — البطاقة تملأ عمودها. */
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.card[data-variant='compact'] .body {
+  gap: 4px;
+  padding-block: 10px 12px;
+  padding-inline: 12px;
+}
+
+.card[data-variant='compact'] .title {
+  font-size: 13px;
+  min-block-size: 2.8em;
+}
+
+.card[data-variant='compact'] .price {
+  font-size: 16px;
+}
+
+.card[data-variant='compact'] .ctaRow {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card[data-variant='compact'] .cta,
+.card[data-variant='compact'] .preview {
+  block-size: 36px;
+  font-size: 12.5px;
+}
+
+.card[data-variant='compact'] .cta::before,
+.card[data-variant='compact'] .preview::before {
+  inset-block: -5px;
+}
+
+@media (max-width: 767px) {
+  .card[data-variant='related'] {
+    flex: none;
+    inline-size: 188px;
+  }
+
+  .card[data-variant='related'] .body {
+    gap: 4px;
+    padding-block: 10px 12px;
+    padding-inline: 12px;
+  }
+
+  .card[data-variant='related'] .title {
+    font-size: 13px;
+  }
+
+  .card[data-variant='related'] .price {
+    font-size: 16px;
+  }
+
+  .card[data-variant='related'] .ctaRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card[data-variant='related'] .cta,
+  .card[data-variant='related'] .preview {
+    block-size: 36px;
+    font-size: 12.5px;
+  }
+
+  .card[data-variant='related'] .cta::before,
+  .card[data-variant='related'] .preview::before {
+    inset-block: -5px;
+  }
+}
+
+/*
+ * الشبكات الضيّقة (عمودان على الجوّال، بطاقةٌ ‎≈160px‎): الزرّان يتراصّان
+ * عموديًّا بدل أن يتزاحما، والحشوة والسعر أصغر قليلًا — بلا نصٍّ يهبط تحت ‎12px‎.
+ */
+@container (max-width: 230px) {
+  .body {
+    gap: 5px;
+    padding-block: 10px 12px;
+    padding-inline: 12px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 17px;
+  }
+
+  .ctaRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* الزرّان متراصّان بالارتفاع نفسه (‎40‎) — لا يصغر أحدهما دون الآخر. */
+  .preview {
+    inline-size: 100%;
+  }
+
+  /* ورقة البديل تتّسع لصندوقٍ ‎16:9‎ ارتفاعه ‎≈78px‎ فلا يُقصّ آخر أسطرها. */
+  .paper {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .paper > span {
+    block-size: 6px;
+  }
+
+  .paper > span:first-child {
+    margin-block-start: 4px;
+  }
+
+  /*
+   * البطاقة الضيّقة (عمودان على الجوّال): سطر البيانات يلتفّ بندًا لكلّ سطر،
+   * فيُطوى أقلّها وزنًا في القرار — نوع الملفّ (هو أوّل كلمة في كلّ عنوان)
+   * و«قابل للتعديل» — وتبقى المادّة والصفّ والفصل والصيغة.
+   */
+  .metaItem[data-key='type'],
+  .metaItem[data-key='editable'] {
+    display: none;
+  }
+
+  /* رقاقة التسليم تلتفّ سطرين بدل أن تفيض عن بطاقةٍ عرضها ‎≈140px‎. */
+  .delivery {
+    white-space: normal;
+    padding-block: 3px;
+    line-height: 1.25;
+    text-align: start;
+  }
+}
+
+/* الحركة تسقط، والظلّ والحدّ يبقيان: هما تصميم لا حركة. */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .img {
+    transition: none;
+  }
+
+  .card:has(.link:active) {
+    translate: none;
+  }
+
+  /* الهيكل يثبت لونًا واحدًا بلا مسح. */
+  .frame[data-state='loading']::before {
+    animation: none;
+    background: var(--sf-cool);
+  }
+
+  /* بلا حركة لا دوّار، فتسمية الزرّ المنشغل تبقى مرئيّةً وهي تقول ما يجري. */
+  .ctaRow .cta[aria-busy='true'] > * {
+    opacity: 1;
+  }
+}

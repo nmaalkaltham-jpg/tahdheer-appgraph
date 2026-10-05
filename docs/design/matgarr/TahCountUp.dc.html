@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<span data-value="{{ raw }}" aria-label="{{ label }}">{{ shown }}</span>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:180,&quot;height&quot;:60},&quot;value&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:4.9,&quot;tsType&quot;:&quot;number&quot;},&quot;decimals&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2,&quot;tsType&quot;:&quot;number&quot;},&quot;duration&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1100,&quot;min&quot;:0,&quot;max&quot;:3000,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;prefix&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;suffix&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ariaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  /*
+   * SEO-safe count-up. State starts AT the true value, so the first paint and
+   * any JS-less render carry the real number; the animation is a progressive
+   * enhancement that rewinds to 0 only after mount. data-value always holds the
+   * canonical figure for schema/scrapers.
+   */
+  state = { n: null };
+
+  componentDidMount() {
+    if (!this.props.motion) return;
+    const target = Number(this.props.value) || 0;
+    const dur = Number(this.props.duration) || 1100;
+    const t0 = performance.now();
+    this.setState({ n: 0 });
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      this.setState({ n: target * eased });
+      if (p < 1) this._raf = requestAnimationFrame(step);
+      else this.setState({ n: null });
+    };
+    this._raf = requestAnimationFrame(step);
+  }
+
+  componentWillUnmount() { if (this._raf) cancelAnimationFrame(this._raf); }
+
+  renderVals() {
+    const target = Number(this.props.value) || 0;
+    const d = this.props.decimals != null ? Number(this.props.decimals) : 0;
+    const live = this.state.n == null ? target : this.state.n;
+    const fmt = (v) => (d > 0 ? v.toFixed(d) : Math.round(v).toLocaleString('en-US'));
+    return {
+      raw: d > 0 ? target.toFixed(d) : String(target),
+      shown: (this.props.prefix || '') + fmt(live) + (this.props.suffix || ''),
+      label: this.props.ariaLabel || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<sc-if value="{{ isOriginal }}" hint-placeholder-val="{{ false }}">
+<div>
+<div style="margin:0 0 16px">
+<span style="display:inline-flex;align-items:center;gap:6px;margin:0;padding:6px 14px;border-radius:999px;border:1px solid {{ legacy.salesBorder }};background:{{ legacy.salesBg }};color:{{ legacy.salesFg }};font-size:13.5px;font-weight:600;line-height:1.6;max-width:100%">
+<svg aria-hidden="true" style="width:14px;height:14px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;color:{{ legacy.salesIconFg }}"><use href="{{ legacy.salesIcon }}"></use></svg>
+<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b style="color:#14261d;font-weight:800">{{ legacy.salesNum }}</b> {{ legacy.salesUnit }}</span>
+</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px 22px;margin:4px 0 0;padding-top:18px;border-top:1px solid #e6e9e2">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:8px;color:#5f7167;font-size:13px;font-weight:700">
+<svg aria-hidden="true" style="width:19px;height:19px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto"><use href="{{ f.iconRef }}"></use></svg>{{ f.text }}
+</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPills }}" hint-placeholder-val="{{ true }}">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:{{ gap }}">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:inline-flex;align-items:center;gap:6px;min-height:{{ tapMin }};padding:{{ f.pillPad }};border:1px solid {{ f.border }};border-radius:999px;background:{{ f.tint }};color:{{ f.fg }};font-size:{{ f.fs }};font-weight:800;white-space:nowrap;animation:{{ f.anim }}">
+<svg aria-hidden="true" style="width:{{ f.iconSize }};height:{{ f.iconSize }};fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto"><use href="{{ f.iconRef }}"></use></svg>{{ f.text }}
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isIconCards }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ cardCols }};gap:8px">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 10px;border:1px solid #e6e9e2;border-radius:13px;background:#fff;text-align:center;animation:{{ f.anim }}">
+<span style="width:34px;height:34px;border-radius:10px;background:{{ f.tint }};color:{{ f.fg }};display:grid;place-items:center"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<b style="font-size:17px;font-weight:900;color:#14261d;line-height:1.2">{{ f.value }}</b>
+<span style="font-size:11.5px;color:#5f7167">{{ f.label }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isMinimalRow }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;font-size:{{ minimalFs }};line-height:1.75;color:#3b4d43;font-weight:700">{{ minimalText }}</p>
+</sc-if>
+
+<sc-if value="{{ isPremiumGrid }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ gridCols }};gap:9px">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="6">
+<li style="display:flex;flex-direction:column;gap:8px;padding:16px;border:1px solid #e6e9e2;border-radius:14px;background:#fff;animation:{{ f.anim }}" style-hover="border-color:#c9d4cd;background:#fbfcfa">
+<span style="width:36px;height:36px;border-radius:11px;background:{{ f.tint }};color:{{ f.fg }};display:grid;place-items:center"><svg aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<span><b style="display:block;font-size:16px;font-weight:900;color:#14261d;line-height:1.3;margin-bottom:3px">{{ f.value }}</b><span style="font-size:12px;color:#5f7167">{{ f.label }}</span></span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ cardCols }};gap:0;border:1px solid #e6e9e2;border-radius:12px;overflow:hidden;background:#fff">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="padding:14px 12px;text-align:center;border-inline-start:1px solid #eef1ec;animation:{{ f.anim }}">
+<div style="font-size:22px;font-weight:900;color:#14261d;line-height:1.1;margin-bottom:3px">{{ f.value }}</div>
+<div style="font-size:11.5px;font-weight:700;color:#5f7167">{{ f.label }}</div>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isCompactModern }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:inline-flex;align-items:center;gap:7px;min-height:{{ tapMin }};padding:8px 12px;border:1px solid #e6e9e2;border-radius:9px;background:#fff;transition:.16s ease;animation:{{ f.anim }}" style-hover="border-color:#1e7355;transform:translateY(-1px);box-shadow:0 4px 12px rgba(20,45,33,.07)">
+<svg aria-hidden="true" style="width:15px;height:15px;color:{{ f.fg }};fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto"><use href="{{ f.iconRef }}"></use></svg>
+<span style="font-size:12.5px;font-weight:800;color:#14261d;white-space:nowrap">{{ f.text }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isGlass }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ cardCols }};gap:9px">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid rgba(255,255,255,.7);border-radius:14px;background:rgba(247,249,246,.72);backdrop-filter:blur(6px);box-shadow:0 1px 2px rgba(20,45,33,.05),0 8px 22px rgba(20,45,33,.06);animation:{{ f.anim }}">
+<span style="flex:0 0 auto;width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.85);color:{{ f.fg }};display:grid;place-items:center;box-shadow:0 1px 2px rgba(20,45,33,.06)"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<span style="min-width:0"><b style="display:block;font-size:13.5px;font-weight:900;color:#14261d;line-height:1.35">{{ f.value }}</b><span style="font-size:11px;color:#5f7167">{{ f.label }}</span></span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isIconList }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:10px;animation:{{ f.anim }}">
+<span style="flex:0 0 auto;width:28px;height:28px;border-radius:9px;background:{{ f.tint }};color:{{ f.fg }};display:grid;place-items:center"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<span style="font-size:14px;font-weight:700;color:#3b4d43">{{ f.text }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isSegmented }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch;border:1px solid #e6e9e2;border-radius:11px;overflow:hidden;background:#fff">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:{{ segMin }};padding:10px 14px;border-inline-start:1px solid #eef1ec;animation:{{ f.anim }}">
+<svg aria-hidden="true" style="width:15px;height:15px;color:{{ f.fg }};fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto"><use href="{{ f.iconRef }}"></use></svg>
+<span style="font-size:12.5px;font-weight:800;color:#14261d;white-space:nowrap">{{ f.text }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{ isCustom }}" hint-placeholder-val="{{ false }}">
+<ul style="list-style:none;margin:0;padding:0;display:{{ cu.display }};grid-template-columns:{{ cu.cols }};flex-wrap:wrap;justify-content:{{ cu.justify }};gap:{{ cu.gap }}">
+<sc-for list="{{ items }}" as="f" hint-placeholder-count="3">
+<li style="display:inline-flex;align-items:center;gap:{{ cu.iconGap }};min-height:{{ tapMin }};padding:{{ cu.pad }};border:{{ cu.borderW }} solid {{ cu.borderC }};border-radius:{{ cu.radius }};background:{{ cu.bg }};box-shadow:{{ cu.shadow }};animation:{{ f.anim }}">
+<svg aria-hidden="true" style="width:{{ cu.iconSize }};height:{{ cu.iconSize }};color:{{ cu.iconC }};fill:none;stroke:currentColor;stroke-width:{{ cu.stroke }};stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;display:{{ cu.iconDisplay }}"><use href="{{ f.iconRef }}"></use></svg>
+<span style="font-size:{{ cu.fs }};font-weight:{{ cu.fw }};color:{{ cu.textC }};white-space:nowrap">{{ f.text }}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:620,&quot;height&quot;:160},&quot;facts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Array&lt;Record&lt;string,string&gt;&gt;&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Preset&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Preset&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Preset&quot;},&quot;settings&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,unknown&gt;&quot;},&quot;custom&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,unknown&gt;&quot;},&quot;salesCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:350,&quot;min&quot;:0,&quot;max&quot;:5000,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Original preset&quot;},&quot;salesHot&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:250,&quot;min&quot;:0,&quot;max&quot;:2000,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Original preset&quot;}}">
+class Component extends DCLogic {
+  /*
+   * One data + settings + a11y + motion pipeline; the variant only swaps the
+   * presentation layer. Variant 0 is the theme's existing output, preserved
+   * verbatim so switching back is lossless.
+   */
+  renderVals() {
+    const v = Number(this.props.variant != null ? this.props.variant : 1);
+    const compact = !!this.props.compact;
+    const motion = !!this.props.motion;
+    const raw = Array.isArray(this.props.facts) ? this.props.facts : [];
+    const cfg = this.props.settings || {};
+    const cu0 = this.props.custom || {};
+
+    const items = raw.map((f, i) => ({
+      text: f.text || (f.value ? (f.value + (f.unit ? ' ' + f.unit : '')) : f.label),
+      value: f.value || f.text || '',
+      label: f.label || '',
+      iconRef: f.iconRef || '#i-check',
+      fg: f.fg || '#1e7355',
+      tint: f.tint || 'rgba(37,155,111,.10)',
+      border: f.border || 'rgba(37,155,111,.24)',
+      fs: compact ? '12px' : (cfg.fontSize || '13px'),
+      iconSize: compact ? '14px' : '15px',
+      pillPad: compact ? '5px 11px' : (cfg.padding || '6px 13px'),
+      anim: motion ? 'tahFadeUp .42s ease-out ' + (i * (cfg.stagger != null ? cfg.stagger : 70)) + 'ms both' : 'none'
+    }));
+
+    const n = items.length || 1;
+    const cols = compact ? 2 : Math.min(n, cfg.columns || 3);
+
+    // Legacy sales pill — same thresholds and Arabic pluralisation as
+    // tahdheer_sales_count_text() / tahdheer_sales_count_html().
+    const sales = this.props.salesCount != null ? Number(this.props.salesCount) : 350;
+    const hot = this.props.salesHot != null ? Number(this.props.salesHot) : 250;
+    const isHot = hot > 0 && sales >= hot;
+    const unit = sales === 1 ? 'مرة شراء' : (sales > 2 && sales <= 10 ? 'مرات شراء' : 'مرة شراء');
+
+    return {
+      items,
+      isOriginal: v === 0,
+      isPills: v === 1,
+      isIconCards: v === 2,
+      isMinimalRow: v === 3,
+      isPremiumGrid: v === 4,
+      isStats: v === 5,
+      isCompactModern: v === 6,
+      isGlass: v === 7,
+      isIconList: v === 8,
+      isSegmented: v === 9,
+      isCustom: v === 10,
+      legacy: {
+        salesNum: sales.toLocaleString('en-US'),
+        salesUnit: unit,
+        salesIcon: isHot ? '#i-trophy' : '#i-cart-bag',
+        salesBorder: isHot ? 'rgba(216,181,106,.55)' : '#e6e9e2',
+        salesBg: isHot ? 'rgba(216,181,106,.14)' : 'rgba(30,115,85,.06)',
+        salesFg: isHot ? '#7a5d20' : '#5f7167',
+        salesIconFg: isHot ? '#b8944a' : '#1e7355'
+      },
+      gap: compact ? '6px' : (cfg.gap || '7px'),
+      tapMin: compact ? '44px' : 'auto',
+      segMin: compact ? '44px' : '42px',
+      cardCols: 'repeat(' + cols + ',minmax(0,1fr))',
+      gridCols: 'repeat(' + cols + ',minmax(0,1fr))',
+      minimalFs: compact ? '13px' : '14.5px',
+      minimalText: items.map(i => i.text).join(' • '),
+      cu: {
+        display: cu0.layout === 'grid' ? 'grid' : 'flex',
+        cols: 'repeat(' + (cu0.columns || cols) + ',minmax(0,1fr))',
+        justify: cu0.align || 'flex-start',
+        gap: cu0.gap || '8px',
+        iconGap: cu0.iconGap || '7px',
+        pad: cu0.padding || '8px 13px',
+        borderW: cu0.borderWidth || '1px',
+        borderC: cu0.borderColor || '#e6e9e2',
+        radius: cu0.radius || '10px',
+        bg: cu0.background || '#fff',
+        shadow: cu0.shadow || 'none',
+        iconSize: cu0.iconSize || '15px',
+        iconC: cu0.iconColor || '#1e7355',
+        iconDisplay: cu0.showIcon === false ? 'none' : 'block',
+        stroke: cu0.strokeWidth || '2.1',
+        fs: cu0.fontSize || '12.5px',
+        fw: cu0.fontWeight || '800',
+        textC: cu0.textColor || '#14261d'
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

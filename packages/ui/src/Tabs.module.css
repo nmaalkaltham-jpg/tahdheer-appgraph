@@ -1,0 +1,147 @@
+/*
+UNIT: TABS
+COMPONENT: Tabs.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/* خصائص منطقية فقط. القيم من لوح «Tabs & Accordion» 1a (underline) و1c (side) حرفيًّا (C107). */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+}
+
+.bar {
+  border-block-end: 1px solid var(--border);
+}
+
+.list {
+  display: flex;
+  gap: var(--space-5, 24px);
+  /* يتجاوز خطّ الغلاف بكسلًا واحدًا كي يجلس خطّ التبويب النشط فوقه. */
+  margin-block-end: -1px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-block-end: 2px solid transparent;
+  margin: 0;
+  padding-block: var(--space-3, 12px);
+  padding-inline: 0;
+  min-block-size: 44px;
+  font: inherit;
+  font-size: var(--tp-body-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ink);
+  font-weight: 800;
+  border-block-end-color: var(--teal-600);
+}
+
+.tab:focus-visible,
+.panel:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--r-xs);
+}
+
+/* ───── الجانبية (1c): رصيف عمودي ولوحة ناعمة ───── */
+.side {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  align-items: start;
+}
+
+.side .bar {
+  border-block-end: 0;
+}
+
+.side .list {
+  flex-direction: column;
+  gap: 2px;
+  margin-block-end: 0;
+  overflow: visible;
+}
+
+.side .tab {
+  display: flex;
+  align-items: center;
+  padding-block: 0;
+  padding-inline: var(--space-3, 12px);
+  border-block-end: 0;
+  border-inline-start: 3px solid transparent;
+  border-radius: var(--radius-sm, 8px);
+  text-align: start;
+}
+
+.side .tab:hover {
+  background: var(--bg-mist);
+  color: var(--ink);
+}
+
+.side .tab[aria-selected='true'] {
+  background: var(--bg-green-light);
+  color: var(--tint-teal-fg);
+  border-inline-start-color: var(--teal-600);
+}
+
+.side .panel {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--space-5, 24px);
+}
+
+/* ───── الجوال: انزلاق أفقي مع تلاشٍ عند الطرف، والرصيف يصير رقائق (C113) ───── */
+@media (max-width: 720px) {
+  .list {
+    /* يسارًا: المتجر RTL بالقانون، والتدرّج لا يعرف الاتّجاه المنطقي. */
+    mask-image: linear-gradient(to left, black calc(100% - 40px), transparent);
+    -webkit-mask-image: linear-gradient(to left, black calc(100% - 40px), transparent);
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3, 12px);
+  }
+
+  .side .list {
+    flex-direction: row;
+    gap: var(--space-2, 8px);
+    overflow-x: auto;
+  }
+
+  .side .tab {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding-inline: var(--space-4, 16px);
+    font-size: var(--tp-button-size);
+  }
+
+  .side .tab[aria-selected='true'] {
+    border-color: var(--bg-green-light);
+  }
+
+  .side .panel {
+    padding: var(--space-4, 16px);
+  }
+}

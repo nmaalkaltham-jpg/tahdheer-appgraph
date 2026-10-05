@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+input{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes chFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes chPop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes chPulse{0%,100%{box-shadow:0 0 0 0 rgba(30,115,85,.38)}55%{box-shadow:0 0 0 11px rgba(30,115,85,0)}}
+@keyframes chFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes chGlow{0%,100%{filter:brightness(1);box-shadow:0 8px 22px rgba(20,96,63,.35)}50%{filter:brightness(1.13);box-shadow:0 10px 32px rgba(43,156,114,.7)}}
+@keyframes chWig{0%,84%,100%{transform:rotate(0)}87%{transform:rotate(10deg)}91%{transform:rotate(-9deg)}95%{transform:rotate(5deg)}}
+@keyframes chRip{from{transform:scale(1);opacity:.6}to{transform:scale(1.85);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">مركز التواصل العائم — اجتماعي اليوم · جاهز للـ AI غدًا</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">لا SDK خارجي — لا اتصال بأي منصة قبل نقرة المستخدم</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.launch }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.15fr) 330px;gap:13px;align-items:start;animation:chFade .25s ease">
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:8px;padding:11px 15px;border-bottom:1px solid #f1f4f2;flex-wrap:wrap">
+<b style="font-size:12.5px">معاينة حية — صفحة منتج</b>
+<sc-for list="{{ ln.devs }}" as="d" hint-placeholder-count="2">
+<button type="button" onClick="{{ d.onClick }}" aria-pressed="{{ d.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ d.bd }};border-radius:8px;background:{{ d.bg }};color:{{ d.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ d.n }}</button>
+</sc-for>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">{{ ln.note }}</span>
+</div>
+<div style="display:flex;justify-content:center;padding:16px;background:#e6e9e7">
+<div style="position:relative;width:{{ ln.w }};max-width:100%;height:400px;border-radius:14px;background:#f7f8f7;overflow:hidden;box-shadow:0 10px 30px rgba(10,25,18,.12);transition:width .25s">
+<div style="padding:12px 16px;background:#fff;border-bottom:1px solid #eef1ef;font-size:11px;font-weight:900">مذكرة رياضيات — أول ثانوي · ٤٥ ر.س</div>
+<div style="padding:14px 16px;font-size:10px;line-height:2;color:#8b978f">محتوى الصفحة… (الزر العائم لا يغطي الشراء اللاصق — إزاحة تصادم تلقائية)</div>
+<div style="position:absolute;inset-inline:0;bottom:0;padding:9px 14px;background:#fff;border-top:1px solid #eef1ef;display:flex;gap:8px;align-items:center"><span style="flex:1;font-size:10px;font-weight:900">٤٥ ر.س</span><span style="padding:8px 18px;border-radius:9px;background:#1e7355;color:#fff;font-size:10.5px;font-weight:900">أضف للسلة</span></div>
+
+<div style="position:absolute;inset-inline-start:14px;bottom:64px;display:flex;flex-direction:column-reverse;align-items:flex-start;gap:8px">
+<button type="button" onClick="{{ ln.onToggle }}" aria-expanded="{{ ln.open }}" aria-label="تواصل معنا" style="width:{{ ln.w2 }};min-height:54px;padding:{{ ln.pad }};border:{{ ln.bdr }};border-radius:{{ ln.radius }};background:{{ ln.bg }};color:{{ ln.fg }};display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:{{ ln.shadow }};animation:{{ ln.anim }};position:relative">
+<sc-if value="{{ ln.ripple }}" hint-placeholder-val="{{ false }}">
+<span aria-hidden="true" style="position:absolute;inset:0;border-radius:{{ ln.radius }};border:2.5px solid {{ ln.ringC }};animation:chRip {{ ln.ripDur }} ease-out infinite;pointer-events:none"></span>
+<span aria-hidden="true" style="position:absolute;inset:0;border-radius:{{ ln.radius }};border:2.5px solid {{ ln.ringC }};animation:chRip {{ ln.ripDur }} ease-out {{ ln.ripDelay }} infinite;pointer-events:none"></span>
+</sc-if>
+<span style="font-size:21px;line-height:1" aria-hidden="true">{{ ln.icon }}</span>
+<sc-if value="{{ ln.isPill }}" hint-placeholder-val="{{ false }}"><b style="font-size:12.5px;white-space:nowrap">تواصل معنا</b></sc-if>
+<sc-if value="{{ ln.dot }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="position:absolute;top:3px;inset-inline-end:3px;width:11px;height:11px;border-radius:50%;background:#d8b56a;border:2px solid #fff"></span></sc-if>
+</button>
+<sc-if value="{{ ln.open }}" hint-placeholder-val="{{ true }}">
+<div role="menu" aria-label="قنوات التواصل" style="display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:15px;background:#fff;box-shadow:0 14px 40px rgba(10,25,18,.22);animation:chPop .18s ease;min-width:210px">
+<span style="font-size:10.5px;font-weight:900;padding:0 4px">{{ ln.title }}</span>
+<sc-for list="{{ ln.items }}" as="p" hint-placeholder-count="4">
+<button type="button" role="menuitem" onClick="{{ p.onGo }}" style="display:flex;align-items:center;gap:9px;min-height:40px;padding:0 10px;border:1px solid #eef1ef;border-radius:10px;background:#fbfcfb;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;background:{{ p.c }};color:#fff;font-size:13px">{{ p.g }}</span>
+<span style="flex:1;font-size:11px;font-weight:900;color:#14261d">{{ p.n }}</span>
+<span style="font-size:8.5px;color:#8b978f">{{ p.hint }}</span>
+</button>
+</sc-for>
+<span style="padding:6px 8px;border-radius:9px;background:#f2f6f3;font-size:8.5px;line-height:1.6;color:#5f7167">{{ ln.hours }}</span>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:16px;background:#fff;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:12.5px">تحكم المعاينة</b>
+<div><span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:5px">التخطيط</span>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ ln.layouts }}" as="l" hint-placeholder-count="4">
+<button type="button" onClick="{{ l.onClick }}" aria-pressed="{{ l.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ l.bd }};border-radius:9px;background:{{ l.bg }};color:{{ l.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ l.n }}</button>
+</sc-for>
+</div></div>
+<div><span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:5px">قالب الزر — ٨ هويات جاهزة</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ ln.presets }}" as="p" hint-placeholder-count="8">
+<button type="button" onClick="{{ p.onClick }}" aria-pressed="{{ p.on }}" title="{{ p.n }}" aria-label="{{ p.n }}" style="width:34px;height:34px;border:2.5px solid {{ p.bd }};border-radius:11px;background:{{ p.bg }};cursor:pointer"></button>
+</sc-for>
+</div>
+<span style="display:block;margin-top:4px;font-size:9px;color:#8b978f">المختار: <b style="color:#146c4c">{{ ln.presetN }}</b></span></div>
+<div><span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:5px">الشكل</span>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ ln.shapes }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:9px;background:{{ s.bg }};color:{{ s.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div></div>
+<div><span style="display:block;font-size:9.5px;font-weight:900;color:#5f7167;margin-bottom:5px">الحركة — خمس حركات + بلا (تحترم reduced-motion)</span>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ ln.motions }}" as="m" hint-placeholder-count="6">
+<button type="button" onClick="{{ m.onClick }}" aria-pressed="{{ m.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ m.bd }};border-radius:9px;background:{{ m.bg }};color:{{ m.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ m.n }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:5px;align-items:center;margin-top:6px">
+<span style="font-size:9px;font-weight:900;color:#8b978f">السرعة:</span>
+<sc-for list="{{ ln.speeds }}" as="v" hint-placeholder-count="3">
+<button type="button" onClick="{{ v.onClick }}" aria-pressed="{{ v.on }}" style="min-height:26px;padding:0 10px;border:1px solid {{ v.bd }};border-radius:7px;background:{{ v.bg }};color:{{ v.fg }};font-size:9px;font-weight:900;cursor:pointer">{{ v.n }}</button>
+</sc-for>
+<button type="button" onClick="{{ ln.onDot }}" aria-pressed="{{ ln.dot }}" style="margin-inline-start:auto;min-height:26px;padding:0 10px;border:1px solid {{ ln.dotBd }};border-radius:7px;background:{{ ln.dotBg2 }};color:{{ ln.dotFg }};font-size:9px;font-weight:900;cursor:pointer">نقطة تنبيه</button>
+</div></div>
+<div style="padding:9px 11px;border:1px dashed #cfe0d6;border-radius:11px;background:#f8fbf9;font-size:9.5px;line-height:1.75;color:#5f7167"><b style="color:#146c4c">سلوك ذكي:</b> منصة واحدة مفعلة = فتح مباشر بلا قائمة · عدة منصات = المنتقي الأنيق · ESC والنقر خارجًا يغلقان · أهداف لمس ≥ ٤٤px.</div>
+<div style="padding:9px 11px;border:1px dashed #e2e8e4;border-radius:11px;background:#fbfcfb;font-size:9.5px;line-height:1.75;color:#5f7167"><b>وعي التصادم:</b> يرتفع تلقائيًا فوق شريط الشراء اللاصق وموافقة الكوكيز وتنقل الجوال — لا يغطي عنصر تحويل أبدًا.</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.admin }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px;align-items:start;animation:chFade .25s ease">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><h1 style="margin:0;font-size:14px;font-weight:900">المنصات — {{ ad.onN }} مفعلة</h1><span style="margin-inline-start:auto;font-size:9px;color:#8b978f">↑↓ للترتيب · ★ الأساسية تفتح مباشرة</span></div>
+<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ ad.rows }}" as="p" hint-placeholder-count="8">
+<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid {{ p.bd }};border-radius:11px;background:{{ p.bg }};flex-wrap:wrap">
+<button type="button" onClick="{{ p.onTog }}" role="switch" aria-checked="{{ p.on }}" aria-label="{{ p.n }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ p.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ p.knob }};width:13px;height:13px;border-radius:50%;background:#fff;transition:inset-inline-start .12s"></span></button>
+<span aria-hidden="true" style="display:inline-grid;place-items:center;width:24px;height:24px;border-radius:8px;background:{{ p.c }};color:#fff;font-size:11px">{{ p.g }}</span>
+<b style="flex:1;min-width:110px;font-size:11px">{{ p.n }}</b>
+<button type="button" onClick="{{ p.onStar }}" aria-pressed="{{ p.primary }}" aria-label="أساسية" style="width:26px;height:26px;border:0;border-radius:7px;background:none;cursor:pointer;font-size:13px;color:{{ p.starC }}">★</button>
+<button type="button" onClick="{{ p.onUp }}" aria-label="أعلى" style="width:24px;height:24px;border:1px solid #dce2dd;border-radius:6px;background:#fff;cursor:pointer;font-weight:900;font-size:10px">↑</button>
+<button type="button" onClick="{{ p.onDn }}" aria-label="أسفل" style="width:24px;height:24px;border:1px solid #dce2dd;border-radius:6px;background:#fff;cursor:pointer;font-weight:900;font-size:10px">↓</button>
+</div>
+</sc-for>
+</div>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">واتساب — الرسالة السياقية</h2>
+<input type="text" dir="ltr" value="{{ ad.wa }}" onChange="{{ ad.onWa }}" aria-label="رقم واتساب" style="width:100%;box-sizing:border-box;min-height:38px;padding:0 12px;border:1.5px solid #d5dbd6;border-radius:10px;font:800 12px Tajawal;outline:none;text-align:start">
+<div style="margin-top:8px;padding:9px 11px;border-radius:10px;background:#fbfcfb;border:1px solid #eef1ef">
+<code dir="ltr" style="display:block;font-size:9px;color:#6b3fa0;text-align:start">مرحبًا، أسأل عن {product_name} ({product_price}) — {page_url}</code>
+<span style="display:block;margin-top:6px;padding-top:6px;border-top:1px dashed #eef1ef;font-size:10px;line-height:1.8;color:#146c4c"><b>المعاينة الحية:</b> {{ ad.waPrev }}</span>
+</div>
+<span style="display:block;margin-top:6px;font-size:8.5px;color:#a9b4ad">المتغيرات: page_title · page_url · product_name/id/price · category — ولا يُرسل اسم العميل إلا بموافقة معلنة.</span>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">محرك الظهور — تضمين/استبعاد</h2>
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ ad.vis }}" as="v" hint-placeholder-count="8">
+<button type="button" onClick="{{ v.onClick }}" aria-pressed="{{ v.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ v.bd }};border-radius:999px;background:{{ v.bg }};color:{{ v.fg }};font-size:9.5px;font-weight:800;cursor:pointer">{{ v.n }}</button>
+</sc-for>
+</div>
+<span style="display:block;margin-top:8px;font-size:9px;line-height:1.7;color:#8b978f">الدفع والتأكيد مستبعدان افتراضيًا (لا تشتيت في التحويل) — والمحرك قابل لشروط جديدة دون إعادة كتابة (نفس بوابة قواعد الطيار).</span>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.ai }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:chFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">بوابة الذكاء — طبقة اختيارية معزولة</h1>
+<button type="button" onClick="{{ ai.onMaster }}" role="switch" aria-checked="{{ ai.on }}" aria-label="تفعيل AI" style="flex:0 0 40px;height:21px;border:0;border-radius:999px;background:{{ ai.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ ai.knob }};width:17px;height:17px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+<span style="padding:3px 11px;border-radius:999px;background:{{ ai.stBg }};color:{{ ai.stC }};font-size:9.5px;font-weight:900">{{ ai.st }}</span>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">التواصل الاجتماعي لا يعتمد عليها إطلاقًا — تعطيلها الكامل لا يمس شيئًا</span>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px;opacity:{{ ai.dim }}">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">اتصال VPS — أسرار خادمية فقط</h2>
+<sc-for list="{{ ai.vps }}" as="v" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed #f1f4f2"><span style="flex:0 0 120px;font-size:10px;font-weight:800;color:#5f7167">{{ v.k }}</span><code dir="ltr" style="flex:1;font-size:9.5px;color:#14261d;text-align:start">{{ v.v }}</code></div>
+</sc-for>
+<div style="margin-top:9px;display:flex;gap:6px;flex-wrap:wrap">
+<button type="button" onClick="{{ ai.onHealth }}" style="min-height:32px;padding:0 13px;border:1px solid #cfe0d6;border-radius:9px;background:#f2f8f5;font-size:10px;font-weight:900;color:#146c4c;cursor:pointer">فحص الصحة (مخزَّن ٥ دقائق)</button>
+<span style="align-self:center;font-size:9px;color:#8b978f">{{ ai.health }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:9px;line-height:1.7;color:#a9b4ad">الواجهة لا تكلم خادم النموذج أبدًا: المتصفح ← WP ‏/tahdheer/v1/ai ← بوابة VPS ‏/api/v1 ← الموجّه ← النموذج. التوثيق HMAC بمفاتيح دوّارة + nonce/timestamp.</p>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">أعلام القدرات — كلٌّ مستقل</h2>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ ai.flags }}" as="f" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border:1px solid #eef1ef;border-radius:10px;background:#fbfcfb;flex-wrap:wrap">
+<button type="button" onClick="{{ f.onTog }}" role="switch" aria-checked="{{ f.on }}" aria-label="{{ f.n }}" disabled="{{ f.dis }}" style="flex:0 0 32px;height:17px;border:0;border-radius:999px;background:{{ f.swBg }};position:relative;cursor:pointer;opacity:{{ f.op }}"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ f.knob }};width:13px;height:13px;border-radius:50%;background:#fff;transition:inset-inline-start .12s"></span></button>
+<b style="flex:1;min-width:150px;font-size:10.5px">{{ f.n }}</b>
+<span style="font-size:8.5px;color:#8b978f">{{ f.d }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:9px;padding:9px 11px;border:1px dashed #f0d3d3;border-radius:10px;background:#fdf6f6;font-size:9px;line-height:1.7;color:#8e2223"><b>قاعدة الصدق:</b> لا AI وهمي قبل وجود الخادم — القدرة المعطلة تختفي من الواجهة كليًا، والمزودون محوّلات (Ollama · vLLM · llama.cpp · OpenAI-متوافق · Qwen…) تُضاف دون لمس النواة.</div>
+</section>
+</div>
+<section style="border:1px solid #1e7355;border-radius:14px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:12px 17px">
+<b style="font-size:11.5px">استراتيجية الفشل:</b>
+<span style="font-size:10.5px;line-height:1.8;color:#3d4f45"> خادم AI بطيء/معطل/محمّل ← واتساب وتليجرام والبريد والبحث والدفع كلها تعمل كأن شيئًا لم يكن — تدهور رشيق مبني لا شعار.</span>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.arch }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:chFade .25s ease">المعمارية — عشر طبقات وعقود واضحة</h1>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px">
+<sc-for list="{{ ar.layers }}" as="l" hint-placeholder-count="10">
+<div style="padding:10px 11px;border:1px solid #dce2dd;border-radius:11px;background:#fff;text-align:center"><span style="display:block;font:900 12px Tajawal;color:#146c4c">{{ l.i }}</span><b style="display:block;margin-top:2px;font-size:9.5px;line-height:1.5">{{ l.n }}</b></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">REST مُنسَّخ + خطافات</b>
+<sc-for list="{{ ar.api }}" as="a" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #f1f4f2"><code dir="ltr" style="flex:1;font-size:9px;color:#3d4f45;text-align:start">{{ a.p }}</code><span style="font-size:8.5px;color:#8b978f">{{ a.d }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">الخصوصية والقياس والاستخراج</b>
+<sc-for list="{{ ar.rules }}" as="r" hint-placeholder-count="6">
+<span style="display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-top:1px dashed #f1f4f2;font-size:10px;line-height:1.7;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ r }}</span>
+</sc-for>
+</section>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:chFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;launch&quot;,&quot;admin&quot;,&quot;ai&quot;,&quot;arch&quot;],&quot;default&quot;:&quot;launch&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+P=[
+ ['wa','واتساب','#25d366','✆','رد خلال دقائق'],
+ ['tg','تليجرام','#229ed9','✈','قناة وبوت'],
+ ['ms','ماسنجر','#0084ff','✉','فيسبوك'],
+ ['ig','إنستغرام','#e1306c','◎','رسائل مباشرة'],
+ ['x','X / تويتر','#14261d','𝕏',''],
+ ['tk','تيك توك','#010101','♪',''],
+ ['sc','سناب شات','#f7d600','👻',''],
+ ['li','لينكدإن','#0a66c2','in',''],
+ ['yt','يوتيوب','#ff0000','▶','شروحات'],
+ ['em','البريد','#5f7167','✉','خلال ٢٤ ساعة'],
+ ['ph','الهاتف','#527a96','☎','٩ص–١١م'],
+ ['ai','مساعد AI','#7c5cbf','✦','قريبًا — مزود داخلي']
+];
+PRE=[
+ ['em','زمردي تذكير','linear-gradient(150deg,#2b9c72,#14603f)','#fff','0 8px 22px rgba(20,96,63,.4)','0','rgba(43,156,114,.55)'],
+ ['wa','أخضر واتساب','linear-gradient(150deg,#25d366,#128c7e)','#fff','0 8px 22px rgba(18,140,126,.4)','0','rgba(37,211,102,.55)'],
+ ['gold','ذهبي فاخر','linear-gradient(150deg,#e3c078,#a5813a)','#2a1f08','0 8px 22px rgba(165,129,58,.4)','0','rgba(216,181,106,.6)'],
+ ['night','ليلي داكن','linear-gradient(150deg,#22382d,#0c1411)','#eaf2ee','0 8px 24px rgba(8,16,12,.5)','0','rgba(216,181,106,.5)'],
+ ['glass','زجاجي شفاف','rgba(255,255,255,.85)','#14261d','0 8px 24px rgba(10,25,18,.18)','1.5px solid #d8e3dc','rgba(30,115,85,.45)'],
+ ['coral','مرجاني دافئ','linear-gradient(150deg,#d86a5c,#a5423a)','#fff','0 8px 22px rgba(165,66,58,.4)','0','rgba(216,106,92,.55)'],
+ ['royal','بنفسجي ذكي','linear-gradient(150deg,#8d6cd0,#5b3f96)','#fff','0 8px 22px rgba(91,63,150,.42)','0','rgba(141,108,208,.55)'],
+ ['mono','أبيض نقي','#ffffff','#146c4c','0 8px 20px rgba(10,25,18,.15)','1.5px solid #cfe0d6','rgba(30,115,85,.45)']
+];
+state={scr:'launch',open:true,layout:'menu',dev:'m',preset:'em',shape:'circle',motion:'pulse',speed:'n',dot:true,
+ on:{wa:1,tg:1,em:1,ph:1,ai:0},primary:'wa',order:this.P.map(p=>p[0]),
+ wa:'+9665xxxxxxxx',aiOn:false,aiFlags:{},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['launch','الزر العائم'],['admin','الإدارة والظهور'],['ai','بوابة AI'],['arch','المعمارية']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{launch:st.scr==='launch',admin:st.scr==='admin',ai:st.scr==='ai',arch:st.scr==='arch',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const pmap={}; this.P.forEach(p=>pmap[p[0]]=p);
+ const enabled=st.order.filter(k=>st.on[k]&&(k!=='ai'||st.aiOn));
+ const single=enabled.length===1;
+ const pre=this.PRE.filter(p=>p[0]===st.preset)[0];
+ const SHP={circle:'50%',soft:'16px',drop:'50% 50% 50% 14px',pill:'999px'};
+ const spd={s:1.45,n:1,f:0.65}[st.speed];
+ const DUR={pulse:2.2,float:3,glow:2.6,wig:3.6};
+ const rd=Math.round(1.8*spd*100)/100;
+ const anim=st.motion==='none'||st.motion==='ripple'?'none':
+  {pulse:'chPulse',float:'chFloat',glow:'chGlow',wig:'chWig'}[st.motion]+' '+(Math.round(DUR[st.motion]*spd*100)/100)+'s ease-in-out infinite';
+ base.ln={
+  devs:[['d','كمبيوتر'],['m','جوال']].map(d=>({n:d[1],on:st.dev===d[0],
+   bd:st.dev===d[0]?'#14261d':'#dfe4df',bg:st.dev===d[0]?'#14261d':'#fff',fg:st.dev===d[0]?'#fff':'#5f7167',
+   onClick:()=>this.setState({dev:d[0]})})),
+  w:st.dev==='m'?'320px':'100%',
+  note:single?'منصة واحدة — الزر يفتحها مباشرة':'‏'+this.ar(enabled.length)+' منصات — منتقي أنيق',
+  open:st.open&&!single,
+  onToggle:()=>{ if(single){ const p=pmap[enabled[0]]; return this.toast('فتح '+p[1]+' مباشرة برسالة السياق — بلا قائمة'); }
+   this.setState({open:!st.open}); },
+  icon:st.layout==='card'?'☰':'✆',
+  dot:st.dot,
+  title:'تواصل مع تذكير',
+  hours:'متاحون الآن ٩ص–١١م · خارجها: رد أولي آلي ثم بشري صباحًا',
+  items:enabled.map(k=>{const p=pmap[k];return {n:p[1],g:p[3],c:p[2],hint:k===st.primary?'★ الأساسية':p[4],
+   onGo:()=>this.toast(k==='wa'?'wa.me مع الرسالة السياقية للمنتج الحالي — لا SDK، مجرد رابط':'فتح '+p[1]+' في تبويب جديد — أول اتصال بالمنصة يبدأ الآن بنقرتك')};}),
+  layouts:[['single','زر مفرد'],['menu','قائمة منبثقة'],['bar','شريط عمودي'],['card','بطاقة تواصل']].map(l=>({n:l[1],on:st.layout===l[0],
+   bd:st.layout===l[0]?'#1e7355':'#dfe4df',bg:st.layout===l[0]?'#f2f8f5':'#fff',fg:st.layout===l[0]?'#146c4c':'#5f7167',
+   onClick:()=>this.setState({layout:l[0],open:l[0]!=='single'})})),
+  presets:this.PRE.map(p=>({n:p[1],bg:p[2],on:st.preset===p[0],
+   bd:st.preset===p[0]?'#14261d':'#e2e8e4',
+   onClick:()=>this.setState({preset:p[0]})})),
+  presetN:pre[1],
+  shapes:[['circle','دائرة'],['soft','مربع ناعم'],['drop','قطرة'],['pill','كبسولة بنص']].map(s=>({n:s[1],on:st.shape===s[0],
+   bd:st.shape===s[0]?'#1e7355':'#dfe4df',bg:st.shape===s[0]?'#f2f8f5':'#fff',fg:st.shape===s[0]?'#146c4c':'#5f7167',
+   onClick:()=>this.setState({shape:s[0]})})),
+  motions:[['none','بلا'],['pulse','نبض'],['ripple','تموج حلقات'],['float','طفو'],['glow','توهج'],['wig','اهتزاز لطيف']].map(m=>({n:m[1],on:st.motion===m[0],
+   bd:st.motion===m[0]?'#1e7355':'#dfe4df',bg:st.motion===m[0]?'#f2f8f5':'#fff',fg:st.motion===m[0]?'#146c4c':'#5f7167',
+   onClick:()=>this.setState({motion:m[0]})})),
+  speeds:[['s','هادئة'],['n','عادية'],['f','سريعة']].map(v=>({n:v[1],on:st.speed===v[0],
+   bd:st.speed===v[0]?'#1e7355':'#dfe4df',bg:st.speed===v[0]?'#f2f8f5':'#fff',fg:st.speed===v[0]?'#146c4c':'#5f7167',
+   onClick:()=>this.setState({speed:v[0]})})),
+  onDot:()=>this.setState({dot:!st.dot}),
+  dotBd:st.dot?'#1e7355':'#dfe4df',dotBg2:st.dot?'#f2f8f5':'#fff',dotFg:st.dot?'#146c4c':'#5f7167',
+  bg:pre[2],fg:pre[3],shadow:pre[4],bdr:pre[5],ringC:pre[6],
+  radius:SHP[st.shape],isPill:st.shape==='pill',
+  w2:st.shape==='pill'?'auto':'54px',pad:st.shape==='pill'?'0 18px':'0',
+  anim:anim,ripple:st.motion==='ripple',ripDur:rd+'s',ripDelay:(rd/2)+'s'
+ };
+ base.ad={onN:this.ar(enabled.length),
+  rows:st.order.map((k,i)=>{const p=pmap[k];const on=!!st.on[k];
+   return {n:p[1],g:p[3],c:p[2],on:on,primary:st.primary===k,
+    starC:st.primary===k?'#d8a723':'#cfd8d3',
+    bd:on?'#cfe0d6':'#e6eae7',bg:on?'#f9fcfa':'#fff',
+    swBg:on?'#1e7355':'#cfd8d3',knob:on?'15px':'2px',
+    onTog:()=>{const o=Object.assign({},st.on);o[k]=o[k]?0:1;this.setState({on:o});},
+    onStar:()=>this.setState({primary:k}),
+    onUp:()=>{const o=st.order.slice();if(i<1)return;o.splice(i,1);o.splice(i-1,0,k);this.setState({order:o});},
+    onDn:()=>{const o=st.order.slice();if(i>=o.length-1)return;o.splice(i,1);o.splice(i+1,0,k);this.setState({order:o});}};}),
+  wa:st.wa,onWa:(e)=>this.setState({wa:e.target.value}),
+  waPrev:'مرحبًا، أسأل عن مذكرة رياضيات — أول ثانوي (٤٥ ر.س) — tahdheer.sa/product/math-101',
+  vis:[['الموقع كله',1],['المنتجات',1],['التصنيفات',1],['المدونة',1],['السلة',1],['الدفع',0],['التأكيد',0],['حسابي',1]].map(v=>({n:v[0],on:!!v[1],
+   bd:v[1]?'#1e7355':'#f0d3d3',bg:v[1]?'#f2f8f5':'#fdf6f6',fg:v[1]?'#146c4c':'#b32d2e',
+   onClick:()=>this.toast('قاعدة «'+v[0]+'» — تضمين/استبعاد لكل صفحة ونوع وجهاز وحالة دخول')}))};
+ const aiOn=st.aiOn;
+ base.ai={on:aiOn,swBg:aiOn?'#7c5cbf':'#cfd8d3',knob:aiOn?'21px':'2px',
+  onMaster:()=>{ this.setState({aiOn:!aiOn}); this.toast(aiOn?'عُطلت الطبقة كليًا — زر AI اختفى من المنتقي ولا طلب واحد يخرج':'فُعّلت البوابة — تظهر «مساعد AI» في المنتقي فقط بعد نجاح فحص الصحة'); },
+  st:aiOn?'مفعلة — بانتظار فحص الصحة':'معطلة — الوضع الافتراضي',
+  stBg:aiOn?'#efe9fb':'#f2f4f2',stC:aiOn?'#7c5cbf':'#5f7167',
+  dim:aiOn?'1':'.55',
+  vps:[['رابط البوابة','https://ai.tahdheer-vps.internal/api/v1'],['التوثيق','HMAC •••••••• (خادمي فقط)'],['النموذج','qwen2.5-7b — بديل: llama3.1-8b'],['المهلة/الإعادة','8s · retry ×2 · تدفق SSE'],['حد المعدل','30 طلبًا/دقيقة/جلسة']].map(v=>({k:v[0],v:v[1]})),
+  onHealth:()=>this.toast(aiOn?'‏/api/v1/health: 200 · qwen2.5 محمّل · كمون ٣٤٠م.ث — النتيجة تُخزن ٥ دقائق (لا فحص بكل تحميل)':'فعّل البوابة أولًا — لا فحوص لطبقة معطلة'),
+  health:aiOn?'آخر فحص: قبل دقيقتين ✓':'—',
+  flags:[
+   ['مساعد المنتج','يجيب من بيانات المنتج الفعلية فقط'],
+   ['مقترح التوصيات','قابل للتفسير — لا يتجاوز توفر Woo'],
+   ['مساعد الأسئلة الشائعة','من مركز المساعدة المنشور'],
+   ['توجيه ذكي للقنوات','نية «دعم بشري» ← واتساب'],
+   ['فهم الاستعلام العربي','تطبيع + نية — يعزز البحث ولا يستبدله'],
+   ['مسودات رسائل واتساب','اقتراح صياغة للعميل قبل الإرسال']
+  ].map((f,i)=>({n:f[0],d:f[1],on:aiOn&&!!st.aiFlags[i],dis:!aiOn,op:aiOn?'1':'.5',
+   swBg:(aiOn&&st.aiFlags[i])?'#7c5cbf':'#cfd8d3',knob:(aiOn&&st.aiFlags[i])?'15px':'2px',
+   onTog:()=>{ if(!aiOn) return; const fl=Object.assign({},st.aiFlags); fl[i]=fl[i]?0:1; this.setState({aiFlags:fl});
+    this.toast((fl[i]?'فُعّل':'أُوقف')+' «'+f[0]+'» — علم مستقل لا يمس البقية'); }}))};
+ base.ar={
+  layers:['واجهة عائمة','منصات اجتماعية','توجيه القنوات','إعدادات الإدارة','قواعد الظهور','قياس أول-طرف','تكامل REST','بوابة AI','موصل VPS','امتدادات'].map((n,i)=>({i:this.ar(i+1),n:n})),
+  api:[
+   ['/wp-json/tahdheer/v1/contact/config','إعدادات الزر (عامة، مخزنة)'],
+   ['/wp-json/tahdheer/v1/contact/event','أحداث القياس (بموافقة)'],
+   ['/wp-json/tahdheer/v1/ai/chat','وسيط AI — أسرار خادمية'],
+   ['VPS /api/v1/chat · /models · /health','عقد البوابة المنسَّخ'],
+   ['hook: tahdheer_floating_platforms','إضافة منصة كمحوّل'],
+   ['hook: tahdheer_ai_provider','تبديل النموذج دون لمس النواة']
+  ].map(a=>({p:a[0],d:a[1]})),
+  rules:['لا SDK لأي منصة — SVG محلي ورابط عند النقر فقط','أحداث launcher_open/platform_click/ai_fallback أول-طرف وبموافقة نظام الخصوصية القائم','سياق AI محوّلات معقَّمة: صفحة/منتج/سياسات عامة — لا بيانات حساسة تلقائيًا','المحادثات: جلسات منتهية الصلاحية وتخزين قابل للتعطيل','الحزمة قابلة للاستخراج إضافةً مستقلة tahdheer-contact-suite بلا إعادة كتابة','إعدادات منسَّخة بترحيل آمن — منصات ومزودون جدد لا يكسرون القديم']
+ };
+ return base;
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/*
+ * زرّ «العودة إلى الأعلى» — وصفة ‎btn btnOutline btnIcon‎ (‎44px‎ · ‎--r-md‎ ·
+ * حالات التحويم والضغط والتركيز) بظلّ ‎--e-2‎ لأنّه يطفو فوق المحتوى.
+ *
+ * موضعه فوق كومة الحافّة السفلى المقيسة: الخارج عن التدفّق (الموافقة +
+ * الثابت) والملتصق (الشريط السفليّ / شريط الشراء) — ‎16px‎ فوقها جميعًا.
+ * في الطرف الختاميّ (اليسار في RTL) بعيدًا عن بداية القراءة.
+ */
+.btn {
+  composes: btn btnOutline btnIcon from '@tahdheer/ui/controls.module.css';
+  position: fixed;
+  inset-inline-end: max(16px, var(--safe-inline));
+  inset-block-end: calc(var(--chrome-bottom-outflow) + var(--chrome-bottom-sticky) + 16px);
+  z-index: var(--z-sticky-bar);
+  inline-size: 44px;
+  min-block-size: 44px;
+  color: var(--color-secondary-text);
+  box-shadow: var(--e-2);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    visibility var(--dur-reveal) allow-discrete,
+    inset-block-end var(--dur-reveal) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.btn[data-shown='false'] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    inset-inline-end: max(24px, var(--safe-inline));
+    inset-block-end: calc(var(--chrome-bottom-outflow) + var(--chrome-bottom-sticky) + 24px);
+  }
+}
+
+@media print {
+  .btn {
+    display: none;
+  }
+}
+
+/* تحت تقليل الحركة: الظهور والاختفاء قفزةٌ بلا تدرّج — والظاهر يستقرّ على شفافيّته الكاملة. */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+
+  .btn[data-shown='true'] {
+    opacity: 1;
+  }
+}

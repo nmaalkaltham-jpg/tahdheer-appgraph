@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:900px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:12px">
+<h1 style="margin:0;font-size:19px;font-weight:900;color:{{ t.text }}">Analytics Pro</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">مركز الذكاء — يقرأ من بيانات المتجر لا من تقديرات</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">
+<svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ t.darkIcon }}"></use></svg>{{ t.darkLabel }}
+</button>
+</div>
+
+<nav aria-label="أقسام Analytics Pro" style="display:{{ chrome }};flex-wrap:wrap;gap:2px;margin-bottom:14px;border-bottom:1px solid {{ t.border }}">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
+<a href="#" aria-current="{{ tb.current }}" style="display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 14px;border:1px solid {{ tb.border }};border-bottom:0;border-radius:8px 8px 0 0;margin-bottom:-1px;background:{{ tb.bg }};color:{{ tb.fg }};font-size:12.5px;font-weight:{{ tb.weight }}">
+<svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ tb.icon }}"></use></svg>{{ tb.label }}
+</a>
+</sc-for>
+</nav>
+
+<div style="position:sticky;inset-block-start:0;z-index:9;margin-bottom:14px;padding:11px 13px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.barBg }};backdrop-filter:blur(8px);display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+<span style="font-size:10.5px;font-weight:900;color:{{ t.muted }};white-space:nowrap">المدى</span>
+<div style="display:flex;gap:2px;padding:3px;border-radius:9px;background:{{ t.inset }}">
+<sc-for list="{{ ranges }}" as="r" hint-placeholder-count="5">
+<button type="button" onClick="{{ r.onClick }}" aria-pressed="{{ r.pressed }}" style="min-height:30px;padding:0 11px;border:0;border-radius:7px;background:{{ r.bg }};color:{{ r.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:{{ r.shadow }};white-space:nowrap">{{ r.label }}</button>
+</sc-for>
+</div>
+<span style="width:1px;height:22px;background:{{ t.border }}"></span>
+<button type="button" onClick="{{ onCompare }}" aria-pressed="{{ comparePressed }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border:1px solid {{ compareBorder }};border-radius:8px;background:{{ compareBg }};color:{{ compareFg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-chart"></use></svg>{{ compareLabel }}
+</button>
+<span style="width:1px;height:22px;background:{{ t.border }}"></span>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ segments }}" as="sg" hint-placeholder-count="3">
+<button type="button" onClick="{{ sg.onClick }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 10px;border:1px solid {{ sg.border }};border-radius:8px;background:{{ sg.bg }};color:{{ sg.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ sg.label }}</button>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:7px;background:{{ t.inset }};font-size:10px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ rangeLabel }}</span>
+<button type="button" onClick="{{ onEdit }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1px solid {{ editBorder }};border-radius:8px;background:{{ editBg }};color:{{ editFg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-sliders"></use></svg>{{ editLabel }}
+</button>
+</div>
+
+<div role="status" aria-live="polite" style="display:{{ editNoticeDisplay }};margin-bottom:12px;padding:10px 12px;border-radius:10px;background:{{ t.warnBg }};border:1px solid {{ t.warnFg }};flex-wrap:wrap;align-items:center;gap:9px">
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:{{ t.warnFg }};fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-info"></use></svg>
+<span style="flex:1;min-width:180px;font-size:11px;line-height:1.7;color:{{ t.text }};text-align:start">اسحب الودجة لإعادة ترتيبها، أو أخفِها. التخطيط يُحفَظ لحسابك وحده ولا يغيّر ما يراه غيرك.</span>
+<span style="font-size:10.5px;font-weight:800;color:{{ t.warnFg }};white-space:nowrap">{{ hiddenCount }} مخفيّة</span>
+<button type="button" onClick="{{ onRestoreAll }}" style="min-height:30px;padding:0 11px;border:1px solid {{ t.warnFg }};border-radius:8px;background:{{ t.surface }};color:{{ t.warnFg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer;white-space:nowrap">استعِد الكل</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="8">
+<div draggable="{{ k.draggable }}" onDragStart="{{ k.onDragStart }}" onDragOver="{{ k.onDragOver }}" onDrop="{{ k.onDrop }}" onDragEnd="{{ k.onDragEnd }}" style="position:relative;padding:13px;border:1px solid {{ k.border }};border-radius:11px;background:{{ k.bg }};opacity:{{ k.opacity }};cursor:{{ k.cursor }}">
+<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:9px">
+<span aria-hidden="true" style="flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:{{ k.iconBg }};color:{{ k.iconFg }};display:grid;place-items:center"><svg style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ k.icon }}"></use></svg></span>
+<span style="flex:1;min-width:0;font-size:11px;font-weight:800;color:{{ t.muted }};line-height:1.5;text-align:start">{{ k.label }}</span>
+<button type="button" onClick="{{ k.onHide }}" aria-label="{{ k.hideAria }}" title="{{ k.hideAria }}" style="flex:0 0 auto;display:{{ k.hideBtnDisplay }};width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:{{ t.muted }};cursor:pointer;place-items:center"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-close"></use></svg></button>
+</div>
+<div style="display:flex;align-items:baseline;gap:7px;margin-bottom:7px">
+<b dir="ltr" style="font-size:22px;font-weight:900;color:{{ k.valueFg }};line-height:1.1">{{ k.value }}</b>
+<span style="font-size:10.5px;font-weight:800;color:{{ t.muted }}">{{ k.unit }}</span>
+</div>
+<div style="display:{{ k.deltaDisplay }};align-items:center;gap:6px;margin-bottom:8px">
+<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:5px;background:{{ k.deltaBg }};font-size:10px;font-weight:900;color:{{ k.deltaFg }};white-space:nowrap">{{ k.deltaMark }} {{ k.delta }}</span>
+<span style="font-size:9.5px;color:{{ t.muted }};white-space:nowrap">مقابل {{ k.comparePeriod }}</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-top:8px;border-top:1px solid {{ t.hair }}">
+<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:5px;background:{{ k.srcBg }};font-size:9px;font-weight:800;color:{{ k.srcFg }};white-space:nowrap">{{ k.source }}</span>
+<span style="font-size:9px;color:{{ t.muted }};white-space:nowrap">{{ k.freshness }}</span>
+<span title="{{ k.tip }}" style="margin-inline-start:auto;width:16px;height:16px;border-radius:50%;border:1px solid {{ t.border }};color:{{ t.muted }};display:grid;place-items:center;font:800 9px Tajawal,sans-serif;cursor:help">؟</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:1.35fr .65fr;gap:10px;margin-bottom:12px">
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:12px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">الإيراد مقابل الزيارات</h2>
+<div style="display:flex;gap:2px;padding:2px;border-radius:8px;background:{{ t.inset }}">
+<sc-for list="{{ chartModes }}" as="cm" hint-placeholder-count="3">
+<button type="button" onClick="{{ cm.onClick }}" aria-pressed="{{ cm.pressed }}" aria-label="{{ cm.aria }}" title="{{ cm.aria }}" style="width:28px;height:26px;border:0;border-radius:6px;background:{{ cm.bg }};color:{{ cm.fg }};display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ cm.icon }}"></use></svg></button>
+</sc-for>
+</div>
+</div>
+<div style="display:{{ chart.svgDisplay }}">{{ chart.svg }}</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:10px;padding-top:9px;border-top:1px solid {{ t.hair }}">
+<sc-for list="{{ chart.legend }}" as="lg" hint-placeholder-count="2">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:{{ t.muted }}"><span aria-hidden="true" style="width:9px;height:9px;border-radius:3px;background:{{ lg.color }}"></span>{{ lg.label }}</span>
+</sc-for>
+<div style="flex:1"></div>
+<span style="font-size:9.5px;color:{{ t.muted }};white-space:nowrap">{{ chart.note }}</span>
+</div>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<h2 style="margin:0 0 11px;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">حالة المصادر</h2>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ sources }}" as="s" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ s.border }};border-radius:9px;background:{{ s.bg }}">
+<span aria-hidden="true" style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:{{ s.dot }}"></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:11px;font-weight:900;color:{{ t.text }};text-align:start">{{ s.name }}</b><span style="font-size:9.5px;line-height:1.55;color:{{ t.muted }};text-align:start">{{ s.note }}</span></span>
+<span style="flex:0 0 auto;box-sizing:border-box;padding:2px 8px;border-radius:5px;background:{{ s.stateBg }};font-size:9px;font-weight:900;color:{{ s.stateFg }};white-space:nowrap">{{ s.state }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">أعلى المنتجات</h2>
+<button type="button" style="display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 11px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer;white-space:nowrap"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="#i-download"></use></svg>تصدير CSV</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<div aria-hidden="true" style="display:flex;gap:9px;padding:0 10px 4px">
+<span style="flex:1;font-size:9px;font-weight:900;color:{{ t.muted }}">المنتج</span>
+<span style="flex:0 0 74px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الإيراد</span>
+<span style="flex:0 0 58px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الطلبات</span>
+<span style="flex:0 0 58px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">التحويل</span>
+<span style="flex:0 0 88px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الاتجاه</span>
+</div>
+<sc-for list="{{ topProducts }}" as="p" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ t.hair }};border-radius:9px;background:{{ p.rowBg }}">
+<span style="flex:1;min-width:0;display:flex;align-items:center;gap:8px">
+<span aria-hidden="true" style="flex:0 0 auto;width:20px;height:20px;border-radius:5px;background:{{ t.inset }};color:{{ t.muted }};display:grid;place-items:center;font:900 9.5px ui-monospace,monospace">{{ p.rank }}</span>
+<b dir="auto" style="min-width:0;font-size:11.5px;font-weight:800;color:{{ t.text }};text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</b>
+</span>
+<span dir="ltr" style="flex:0 0 74px;font:800 11px ui-monospace,Menlo,monospace;color:{{ t.text }};text-align:start">{{ p.revenue }}</span>
+<span dir="ltr" style="flex:0 0 58px;font:800 11px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ p.orders }}</span>
+<span dir="ltr" style="flex:0 0 58px;font:800 11px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ p.cvr }}</span>
+<span style="flex:0 0 88px;display:inline-flex;align-items:center;gap:5px">
+<span aria-hidden="true" style="flex:1;height:5px;border-radius:3px;background:{{ t.inset }};overflow:hidden"><span style="display:block;height:100%;width:{{ p.barW }};background:{{ p.barFg }}"></span></span>
+<span style="flex:0 0 auto;font-size:9.5px;font-weight:900;color:{{ p.trendFg }};white-space:nowrap">{{ p.trend }}</span>
+</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ tableNote }}</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    dark: false, range: '30d', compare: true, editing: false,
+    chartMode: 'line', dragId: null, overId: null,
+    order: ['revenue', 'orders', 'aov', 'cvr', 'views', 'atc', 'newCust', 'refunds'],
+    hidden: {}
+  };
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    /*
+     * SEMANTIC pairs, not just surfaces. The first dark pass themed backgrounds
+     * and left every status foreground as a light-mode literal — #1e7355 on a
+     * dark tint measured 2.39:1. Each state now carries its own fg/bg per theme,
+     * so a new status cannot inherit the wrong pairing.
+     */
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)', okDot: '#5fd6a3', warnDot: '#e8c98a', badDot: '#f0a79b', accent: '#e8c98a' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.12)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.2)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.1)', okDot: '#259b6f', warnDot: '#d8b56a', badDot: '#a33a2d', accent: '#d8b56a' };
+    return d ? {
+      ...sem,
+      pageBg: '#14181a', surface: '#1c2225', barBg: 'rgba(28,34,37,.92)', inset: '#252d31',
+      text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236',
+      lineOk: '#5fd6a3', lineWarn: '#e8c98a',
+      darkIcon: '#i-sparkle', darkLabel: 'الوضع الفاتح'
+    } : {
+      ...sem,
+      pageBg: '#f0f0f1', surface: '#fff', barBg: 'rgba(255,255,255,.94)', inset: '#f2f5f2',
+      text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec',
+      lineOk: '#1e7355', lineWarn: '#d8b56a',
+      darkIcon: '#i-sparkle', darkLabel: 'الوضع الداكن'
+    };
+  }
+
+  /*
+   * Source truth per metric. A KPI states where its number came from and how
+   * fresh it is — an unlabeled number is the failure mode this rebuild exists to
+   * remove. Merchant Center has no integration in the theme, so nothing here
+   * claims it.
+   */
+  sourceMeta(t) {
+    return {
+      woo: ['WooCommerce', 'محدَّث الآن', t.okBg, t.okFg],
+      events: ['tahdheer_visitor_events', 'كيش 5 دقائق', t.okBg, t.okFg],
+      heat: ['tahdheer_heatmap', 'معاينة 10%', t.warnBg, t.warnFg],
+      gsc: ['Search Console', 'آخر مزامنة أمس', t.okBg, t.okFg]
+    };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+    const S = this.sourceMeta(t);
+    const dark = st.dark;
+
+    const rangeDefs = [['7d', '7 أيام'], ['30d', '30 يومًا'], ['90d', '90 يومًا'], ['12m', 'سنة'], ['custom', 'مخصّص']];
+    const rangeText = { '7d': '20 — 27 أغسطس 2026', '30d': '29 يوليو — 27 أغسطس 2026', '90d': '30 مايو — 27 أغسطس 2026', '12m': 'أغسطس 2025 — أغسطس 2026', 'custom': 'اختر تاريخين' };
+    const compareText = { '7d': 'الأسبوع السابق', '30d': 'الشهر السابق', '90d': 'الربع السابق', '12m': 'السنة السابقة', 'custom': 'الفترة السابقة' };
+
+    const kpiDefs = {
+      revenue: ['الإيراد', '48,320', 'ر.س', '#i-coins', 'woo', '+12.4%', 'up', 'مجموع الطلبات المكتملة في المدى، بعد المرتجعات.'],
+      orders: ['الطلبات', '412', 'طلب', '#i-cart', 'woo', '+8.1%', 'up', 'عدد الطلبات المكتملة — لا تشمل المتروكة.'],
+      aov: ['متوسط قيمة الطلب', '117.28', 'ر.س', '#i-chart', 'woo', '+3.9%', 'up', 'الإيراد ÷ الطلبات لنفس المدى.'],
+      cvr: ['معدّل التحويل', '2.94', '%', '#i-percent', 'events', '−0.3%', 'down', 'الطلبات ÷ الزيارات الفريدة. المصدر جدول الزيارات لا تقدير.'],
+      views: ['مشاهدات المنتجات', '14,022', 'مشاهدة', '#i-eye', 'events', '+18.6%', 'up', 'أحداث عرض صفحة منتج، مُكيَّشة خمس دقائق.'],
+      atc: ['الإضافة للسلة', '1,308', 'حدث', '#i-cart-bag', 'events', '+9.2%', 'up', 'أحداث إضافة فعلية — لا تشمل تغيير الكمية.'],
+      newCust: ['عملاء جدد', '186', 'عميل', '#i-user', 'woo', '+21.0%', 'up', 'أول طلب مكتمل للعميل داخل المدى.'],
+      refunds: ['المرتجعات', '1,140', 'ر.س', '#i-refresh', 'woo', '−16.2%', 'up', 'مبالغ مستردّة فعليًا. الانخفاض تحسّن.']
+    };
+
+    const kpis = st.order.filter(id => !st.hidden[id]).map(id => {
+      const k = kpiDefs[id];
+      const src = S[k[4]];
+      const good = k[6] === 'up';
+      const over = st.overId === id;
+      return {
+        label: k[0], value: k[1], unit: k[2], icon: k[3],
+        source: src[0], freshness: src[1], srcBg: src[2], srcFg: src[3],
+        delta: k[5], deltaMark: good ? '▲' : '▼',
+        deltaBg: good ? t.okBg : t.badBg,
+        deltaFg: good ? t.okFg : t.badFg,
+        deltaDisplay: st.compare ? 'flex' : 'none',
+        comparePeriod: compareText[st.range],
+        tip: k[7],
+        valueFg: t.text,
+        iconBg: t.okBg, iconFg: t.okFg,
+        border: over ? '#1e7355' : t.border,
+        bg: over ? (dark ? '#1e2a26' : 'rgba(37,155,111,.05)') : t.surface,
+        opacity: st.dragId === id ? '.45' : '1',
+        cursor: st.editing ? 'grab' : 'default',
+        draggable: st.editing,
+        hideBtnDisplay: st.editing ? 'grid' : 'none',
+        hideAria: 'أخفِ ودجة ' + k[0],
+        onHide: () => this.setState(s => ({ hidden: { ...s.hidden, [id]: true } })),
+        onDragStart: () => this.setState({ dragId: id }),
+        onDragOver: e => { e.preventDefault(); if (st.overId !== id) this.setState({ overId: id }); },
+        onDrop: e => {
+          e.preventDefault();
+          this.setState(s => {
+            const arr = s.order.slice();
+            const i = arr.indexOf(s.dragId), j = arr.indexOf(id);
+            if (i < 0 || j < 0 || i === j) return { dragId: null, overId: null };
+            arr.splice(j, 0, arr.splice(i, 1)[0]);
+            return { order: arr, dragId: null, overId: null };
+          });
+        },
+        onDragEnd: () => this.setState({ dragId: null, overId: null })
+      };
+    });
+
+    /* Chart drawn from the series itself so the shape cannot contradict the numbers. */
+    const rev = [22, 31, 27, 38, 34, 46, 42, 55, 49, 62, 58, 71];
+    const vis = [40, 52, 47, 58, 61, 55, 68, 72, 66, 79, 74, 88];
+    const W = 640, H = 168, pad = 8;
+    const pts = arr => arr.map((v, i) => [pad + (i * (W - pad * 2)) / (arr.length - 1), H - pad - (v / 92) * (H - pad * 2)]);
+    const path = arr => pts(arr).map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    const area = arr => path(arr) + ' L' + (W - pad) + ' ' + (H - pad) + ' L' + pad + ' ' + (H - pad) + ' Z';
+    const bars = arr => arr.map((v, i) => {
+      const w = (W - pad * 2) / arr.length - 4;
+      const x = pad + i * ((W - pad * 2) / arr.length) + 2;
+      const h = (v / 92) * (H - pad * 2);
+      return React.createElement('rect', { key: i, x, y: H - pad - h, width: w, height: h, rx: 3, fill: t.lineOk, opacity: 0.85 });
+    });
+    const grid = [0, 1, 2, 3].map(i => React.createElement('line', {
+      key: i, x1: pad, x2: W - pad, y1: pad + (i * (H - pad * 2)) / 3, y2: pad + (i * (H - pad * 2)) / 3,
+      stroke: t.hair, strokeWidth: 1
+    }));
+    const mode = st.chartMode;
+    const svgKids = [React.createElement('g', { key: 'g' }, grid)];
+    if (mode === 'bar') {
+      svgKids.push(React.createElement('g', { key: 'b' }, bars(rev)));
+    } else {
+      if (mode === 'area') {
+        svgKids.push(React.createElement('path', { key: 'a1', d: area(vis), fill: t.warnBg }));
+        svgKids.push(React.createElement('path', { key: 'a2', d: area(rev), fill: t.okBg }));
+      }
+      svgKids.push(React.createElement('path', { key: 'p1', d: path(vis), fill: 'none', stroke: t.lineWarn, strokeWidth: 2.2, strokeLinecap: 'round' }));
+      svgKids.push(React.createElement('path', { key: 'p2', d: path(rev), fill: 'none', stroke: t.lineOk, strokeWidth: 2.4, strokeLinecap: 'round' }));
+    }
+    const svg = React.createElement('svg', {
+      viewBox: '0 0 ' + W + ' ' + H, width: '100%', height: H,
+      role: 'img', 'aria-label': 'الإيراد والزيارات على ' + rangeText[st.range] + ' — الإيراد صاعد والزيارات صاعدة'
+    }, svgKids);
+
+    const modeDefs = [['line', '#i-chart', 'خط'], ['area', '#i-layers', 'مساحة'], ['bar', '#i-grid', 'أعمدة']];
+
+    const gscConnected = true;
+    const sourceRows = [
+      { name: 'WooCommerce', note: 'الإيراد والطلبات والمخزون والتوفّر', state: 'مصدر الحقيقة', ok: true },
+      { name: 'tahdheer_visitor_events', note: 'الزيارات والمشاهدات وأحداث السلة', state: 'متصل', ok: true },
+      { name: 'tahdheer_heatmap', note: 'خريطة الانتباه — معاينة 10% معلَنة', state: 'معاينة', ok: 'partial' },
+      { name: 'Search Console', note: gscConnected ? 'مربوط عبر OAuth — مزامنة مجدولة' : 'غير مربوط', state: gscConnected ? 'متصل' : 'غير مربوط', ok: gscConnected },
+      { name: 'Merchant Center', note: 'لا تكامل في القالب — بنوده معطّلة', state: 'غير مربوط', ok: false }
+    ].map(s => ({
+      name: s.name,
+      nameDir: /[\u0600-\u06FF]/.test(s.name) ? 'rtl' : 'ltr',
+      note: s.note, state: s.state,
+      dot: s.ok === true ? t.okDot : s.ok === 'partial' ? t.warnDot : t.badDot,
+      stateBg: s.ok === true ? t.okBg : s.ok === 'partial' ? t.warnBg : t.badBg,
+      stateFg: s.ok === true ? t.okFg : s.ok === 'partial' ? t.warnFg : t.badFg,
+      border: t.hair, bg: dark ? '#20272a' : '#fbfcfa'
+    }));
+
+    const prodDefs = [
+      ['حزمة تحاضير اللغة العربية — الفصل الأول', '9,405', '99', '4.1%', 82, '+14%', true],
+      ['عرض بوربوينت — الكيمياء العضوية', '7,120', '89', '3.6%', 68, '+9%', true],
+      ['اختبارات نهائية محلولة — الرياضيات', '5,244', '138', '5.2%', 54, '+22%', true],
+      ['وسائل صفّية جاهزة — 60 وسيلة', '3,990', '95', '2.8%', 38, '−6%', false],
+      ['عروض الفيزياء — المنهج كاملًا', '3,168', '36', '1.9%', 26, '−11%', false]
+    ];
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      tabs: [
+        ['الرئيسية', '#i-gauge', true], ['SEO والتحليلات', '#i-search', false],
+        ['خريطة الانتباه', '#i-eye', false], ['مكتبة الوسائط', '#i-files', false],
+        ['تكبير صورة', '#i-sparkle', false]
+      ].map(tb => ({
+        label: tb[0], icon: tb[1],
+        current: tb[2] ? 'page' : 'false',
+        bg: tb[2] ? t.surface : 'transparent',
+        border: tb[2] ? t.border : 'transparent',
+        fg: tb[2] ? t.text : t.muted,
+        weight: tb[2] ? '900' : '700'
+      })),
+
+      ranges: rangeDefs.map(r => ({
+        label: r[1], pressed: st.range === r[0] ? 'true' : 'false',
+        bg: st.range === r[0] ? t.surface : 'transparent',
+        fg: st.range === r[0] ? t.text : t.muted,
+        shadow: st.range === r[0] ? '0 1px 3px rgba(0,0,0,.14)' : 'none',
+        onClick: () => this.setState({ range: r[0] })
+      })),
+      rangeLabel: rangeText[st.range],
+      onCompare: () => this.setState(s => ({ compare: !s.compare })),
+      comparePressed: st.compare ? 'true' : 'false',
+      compareLabel: st.compare ? 'مقارنة: ' + compareText[st.range] : 'بلا مقارنة',
+      compareBg: st.compare ? t.okBg : t.surface,
+      compareBorder: st.compare ? t.okFg : t.border,
+      compareFg: st.compare ? t.okFg : t.muted,
+
+      segments: [['كل المراحل', '#i-cap'], ['كل الأجهزة', '#i-device-desktop'], ['كل المصادر', '#i-globe']].map(s => ({
+        label: s[0], border: t.border, bg: t.surface, fg: t.muted, onClick: () => {}
+      })),
+
+      onEdit: () => this.setState(s => ({ editing: !s.editing })),
+      editLabel: st.editing ? 'إنهاء التخصيص' : 'خصّص اللوحة',
+      editBg: st.editing ? t.warnBg : t.surface,
+      editBorder: st.editing ? t.warnFg : t.border,
+      editFg: st.editing ? t.warnFg : t.text,
+      editNoticeDisplay: st.editing ? 'flex' : 'none',
+      hiddenCount: Object.keys(st.hidden).filter(k => st.hidden[k]).length,
+      onRestoreAll: () => this.setState({ hidden: {} }),
+
+      kpis,
+
+      chartModes: modeDefs.map(m => ({
+        icon: m[1], aria: 'عرض ' + m[2],
+        pressed: st.chartMode === m[0] ? 'true' : 'false',
+        bg: st.chartMode === m[0] ? t.surface : 'transparent',
+        fg: st.chartMode === m[0] ? t.text : t.muted,
+        onClick: () => this.setState({ chartMode: m[0] })
+      })),
+      chart: {
+        svg, svgDisplay: 'block',
+        legend: [{ label: 'الإيراد', color: t.lineOk }, { label: 'الزيارات', color: t.lineWarn }],
+        note: 'المقياس نسبي — القيم المطلقة في البطاقات أعلاه'
+      },
+
+      sources: sourceRows,
+
+      topProducts: prodDefs.map((p, i) => ({
+        rank: String(i + 1), name: p[0], revenue: p[1], orders: p[2], cvr: p[3],
+        barW: p[4] + '%', barFg: p[6] ? t.okFg : t.badFg,
+        trend: p[5], trendFg: p[6] ? t.okFg : t.badFg,
+        rowBg: dark ? '#20272a' : '#fbfcfa'
+      })),
+      tableNote: 'الإيراد والطلبات من WooCommerce · معدّل التحويل من جدول الزيارات · الاتجاه مقابل ' + compareText[st.range] + '.'
+    };
+  }
+}
+</script>
+</body>
+</html>

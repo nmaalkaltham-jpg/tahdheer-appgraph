@@ -1,0 +1,658 @@
+/*
+UNIT: IMAGE-OPS
+COMPONENT: optimize-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * تحسين الصور — منقولة من «Tahdheer - Image Ops.dc.html».
+ *
+ * المقاسات والأنصاف والأوزان وارتفاعات الأسطر منسوخة حرفيًا من الأنماط
+ * المضمّنة في لوحة التصميم، وهي المواصفة.
+ *
+ * الألوان كلها رموز من tokens.css؛ ألوان اللوحة التي لا مقابل عامًّا لها
+ * (‎#dcdcde و‎#a33a2d وشفافيته ٨٪) رموز مسمّاة: ‎--border-neutral
+ * و‎--danger-strong و‎--tint-danger-08.
+ *
+ * لا إطارات مفتاحية هنا: لوحة التصميم تعرّف دوّارة tahSpin لزرّ التشغيل، ولا
+ * تشغيل ممكن قبل وجود نقطة النهاية، فلا دوّارة تُرسم. لا محتوى مخفيّ بانتظار
+ * حركة، وكتلة تقليل الحركة في آخر الملف تُلغي الانتقالات صراحةً.
+ *
+ * خصائص منطقية فقط؛ لا left/right ولا margin/padding فيزيائي (حارس RTL).
+ */
+
+.page {
+  --io-inset: var(--bg-mist);
+  --io-hair: var(--border-hairline);
+  --io-border: var(--border-neutral); /* حدّ لوحة التصميم #dcdcde */
+  /* «سليم» حالةُ نجاحٍ لا لونُ الهويّة (انظر media-library.module.css). */
+  --io-ok-fg: var(--state-success);
+  --io-ok-bg: var(--state-success-soft);
+  --io-warn-fg: var(--gold-text);
+  --io-warn-bg: var(--tint-gold-16);
+  --io-bad-fg: var(--danger-strong); /* أحمر لوحة التصميم #a33a2d */
+  --io-bad-bg: var(--tint-danger-08);
+}
+
+.tagline {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-block: 0 14px;
+}
+
+/* ───── ضمانة الأصل ───── */
+
+.guarantee {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-block: 13px;
+  padding-inline: 15px;
+  border: 1px solid var(--io-ok-fg);
+  border-radius: 11px;
+  background: var(--io-ok-bg);
+  margin-block-end: 12px;
+}
+
+.guaranteeIcon {
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--io-ok-fg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.guaranteeText {
+  flex: 1;
+  min-inline-size: 200px;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: var(--ink);
+  text-align: start;
+}
+
+.guaranteeChip {
+  box-sizing: border-box;
+  padding-block: 3px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--io-ok-fg);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--io-ok-fg);
+  white-space: nowrap;
+}
+
+/* ───── البطاقات الخمس ───── */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  margin-block-end: 12px;
+}
+
+.stat {
+  padding-block: 12px;
+  padding-inline: 12px;
+  border: 1px solid var(--io-border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.statLabel {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-block-end: 6px;
+  text-align: start;
+}
+
+.statRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.statValue {
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.statValueOk {
+  color: var(--io-ok-fg);
+}
+
+.statValueWarn {
+  color: var(--io-warn-fg);
+}
+
+.statUnit {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.statNote {
+  margin-block: 5px 0;
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: start;
+}
+
+.statSource {
+  display: block;
+  margin-block-start: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  color: var(--muted);
+}
+
+/* ───── لوح التشغيل ───── */
+
+.section {
+  padding-block: 14px;
+  padding-inline: 16px;
+  border: 1px solid var(--io-border);
+  border-radius: 11px;
+  background: var(--surface);
+  margin-block-end: 12px;
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 12px;
+}
+
+.sectionTitle {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.dryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 34px;
+  padding-block: 0;
+  padding-inline: 13px;
+  border: 1px solid var(--io-ok-fg);
+  border-radius: 9px;
+  background: var(--io-ok-bg);
+  color: var(--io-ok-fg);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: not-allowed;
+}
+
+.dryIcon {
+  inline-size: 13px;
+  block-size: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.runRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 12px;
+}
+
+.runBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 38px;
+  padding-block: 0;
+  padding-inline: 16px;
+  border: 1px solid var(--io-border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.runIcon {
+  inline-size: 13px;
+  block-size: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.batchNote {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ───── منطقة التقدّم — مقاساتها حرفية من اللوحة، وهي هنا مقفلة على الصفر ───── */
+
+.progressHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 7px;
+}
+
+.progressLabel {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.progressCount {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.progressTrack {
+  block-size: 8px;
+  border-radius: 5px;
+  background: var(--io-inset);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  block-size: 100%;
+  inline-size: 0;
+  background: var(--io-warn-fg); /* لون المعاينة في اللوحة، والمعاينة هي الوضع المقفل عليه */
+  transition: inline-size 0.25s ease;
+}
+
+/* ───── عقد التشغيل المطلوب ───── */
+
+.contract {
+  list-style: none;
+  margin-block: 12px 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-block-start: 1px solid var(--io-hair);
+  padding-block-start: 12px;
+}
+
+.contractItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border: 1px solid var(--io-hair);
+  border-radius: 8px;
+  background: var(--io-inset);
+}
+
+.contractNum {
+  flex: 0 0 auto;
+  inline-size: 17px;
+  block-size: 17px;
+  border-radius: 5px;
+  background: var(--io-ok-bg);
+  color: var(--io-ok-fg);
+  display: grid;
+  place-items: center;
+  font: 900 9px ui-monospace, monospace;
+}
+
+.contractText {
+  flex: 1;
+  font-size: 10.5px;
+  line-height: 1.75;
+  color: var(--ink);
+  text-align: start;
+}
+
+/* ───── جدول الملفات ───── */
+
+.tableSection {
+  padding-block: 14px;
+  padding-inline: 16px;
+  border: 1px solid var(--io-ok-fg);
+  border-radius: 11px;
+  background: var(--surface);
+  margin-block-end: 12px;
+}
+
+.tableHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 11px;
+}
+
+.tableChip {
+  box-sizing: border-box;
+  padding-block: 3px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  background: var(--io-ok-bg);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--io-ok-fg);
+  white-space: nowrap;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rowHead {
+  display: flex;
+  gap: 9px;
+  padding-block: 0 4px;
+  padding-inline: 10px;
+}
+
+.rowHeadFile {
+  flex: 1;
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  text-align: start;
+}
+
+.rowHeadCell {
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  text-align: start;
+}
+
+.rowHeadSpacer {
+  flex: 0 0 72px;
+}
+
+.rowShell {
+  border: 1px solid var(--io-hair);
+  border-radius: 9px;
+  background: var(--io-inset);
+  overflow: hidden;
+}
+
+.rowShellSkip {
+  border-color: var(--io-warn-fg);
+  background: var(--io-warn-bg);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 9px;
+  padding-inline: 10px;
+}
+
+.rowFile {
+  flex: 1;
+  min-inline-size: 140px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rowTile {
+  flex: 0 0 auto;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.rowTileIcon {
+  inline-size: 12px;
+  block-size: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.rowText {
+  min-inline-size: 0;
+}
+
+.rowName {
+  display: block;
+  font: 700 10.5px ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowUsage {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  text-align: start;
+}
+
+.cell {
+  font: 800 10.5px ui-monospace, Menlo, monospace;
+  color: var(--muted);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.stateChip {
+  flex: 0 0 96px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 3px;
+  padding-inline: 7px;
+  border-radius: 6px;
+  background: var(--io-inset);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.stateChipSkip {
+  background: var(--surface);
+  color: var(--io-warn-fg);
+}
+
+.actionBtn {
+  flex: 0 0 72px;
+  box-sizing: border-box;
+  min-block-size: 30px;
+  border: 1px solid var(--io-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.errWrap {
+  padding-block: 0 9px;
+  padding-inline: 10px;
+}
+
+.err {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  background: var(--io-bad-bg);
+  border: 1px solid var(--io-bad-fg);
+}
+
+.errIcon {
+  flex: 0 0 auto;
+  inline-size: 12px;
+  block-size: 12px;
+  margin-block-start: 2px;
+  color: var(--io-bad-fg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+}
+
+.errText {
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--ink);
+  text-align: start;
+}
+
+.tableNote {
+  margin-block: 10px 0;
+  padding-block-start: 9px;
+  border-block-start: 1px solid var(--io-hair);
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: start;
+}
+
+/* ───── سجلّ التغييرات ───── */
+
+.log {
+  padding-block: 14px;
+  padding-inline: 16px;
+  border: 1px solid var(--io-border);
+  border-radius: 11px;
+  background: var(--surface);
+}
+
+.logHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 11px;
+}
+
+.logNote {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.logEmpty {
+  padding-block: 22px;
+  padding-inline: 16px;
+  border: 1px dashed var(--io-border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.logTile {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 38px;
+  block-size: 38px;
+  border-radius: 11px;
+  background: var(--io-inset);
+  color: var(--muted);
+  margin-block-end: 9px;
+}
+
+.logTileIcon {
+  inline-size: 18px;
+  block-size: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.logEmptyText {
+  margin-block: 0;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* ───── لمس وشاشات ضيّقة ───── */
+
+@media (pointer: coarse) {
+  .runBtn,
+  .dryBtn,
+  .actionBtn {
+    min-block-size: 44px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rowHead {
+    display: none;
+  }
+}
+
+/*
+ * تقليل الحركة: لا إطارات مفتاحية في هذا الملف ولا محتوى مخفيّ بانتظار حركة،
+ * فلا شيء ينتظر الكشف. الانتقالات تُلغى صراحةً.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .runBtn,
+  .dryBtn,
+  .actionBtn,
+  .progressFill {
+    transition: none;
+  }
+}

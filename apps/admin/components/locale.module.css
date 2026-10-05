@@ -1,0 +1,36 @@
+/*
+UNIT: LOCALE
+COMPONENT: locale.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/* مبدّل اللغة في ترويسة الشريط — صغير ودائم الظهور. */
+.switch {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  margin-block-start: 8px;
+  background: var(--chrome-08);
+  border-radius: 999px;
+}
+
+.opt {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--chrome-text);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.opt[aria-pressed='true'] {
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 700;
+  opacity: 1;
+  cursor: default;
+}

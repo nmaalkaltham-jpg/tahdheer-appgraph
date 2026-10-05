@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tah-runtimes.css">
+<link rel="stylesheet" href="./assets/css/tah-components.css">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#1a1a1a}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="./assets/js/tah-rt-gallery.js"></script>
+<script src="./assets/js/tah-rt-disclosure.js"></script>
+<script src="./assets/js/tah-rt-observer.js"></script>
+<script src="./assets/js/tah-rt-pointer.js"></script>
+</helmet>
+
+<div dir="rtl" style="width:100%;max-width:1180px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:13px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">COMPONENTS · حيّ</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif">الاثنا عشر مكوّنًا المُنفَّذة — تفتح {{ total }} اختيارًا</span>
+</div>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">كل قسم أدناه هو <b>مخرج <code style="font-size:10.5px">inc/tahdheer-renderers.php</code> حرفيًّا</b> — نفس السمات ونفس البنية الدلالية — مُنسَّقًا بملف <code style="font-size:10.5px">assets/css/tah-components.css</code> الحقيقي. وفحص <code style="font-size:10.5px">check-renderers.mjs</code> يقفل الانحراف بين الاثنين في الاتجاهين: لا سمة تُخرجها PHP بلا نمط، ولا نمط بلا سمة تُخرجه.</p>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:7px;margin-bottom:14px">
+<sc-for list="{{ tally }}" as="ty" hint-placeholder-count="12">
+<a href="#c-{{ ty.id }}" style="padding:9px 10px;border-radius:9px;background:#fff;border:1px solid #dcdcde;text-decoration:none;display:block">
+<span style="display:block;font:900 17px ui-monospace,monospace;color:#1e7355">{{ ty.n }}</span>
+<span style="display:block;font:800 9.5px Tajawal,sans-serif;color:#1a1a1a">{{ ty.label }}</span>
+<span style="display:block;font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ ty.id }}</span>
+</a>
+</sc-for>
+</div>
+
+<nav data-tah-c="nav_bar" data-layout="sticky" data-tah-sectionnav data-watch="[data-tah-section]" data-offset="18" data-tah-sticky aria-label="تنقّل المكوّنات" style="padding:8px 11px;background:#fff;border:1px solid #dcdcde;border-radius:11px;margin-bottom:13px;position:sticky;inset-block-start:8px;z-index:6">
+<ul data-tah-nav>
+<sc-for list="{{ navLinks }}" as="nl" hint-placeholder-count="6">
+<li><a href="#c-{{ nl.id }}">{{ nl.label }}</a></li>
+</sc-for>
+</ul>
+</nav>
+
+<section id="c-answer" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">كتلة الإجابة</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">answer</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">١١ اختيارًا</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">الإجابة نصّ مرئي — لا بيانات مخفيّة للآلة</span>
+</div>
+
+<div data-tah-c="answer" data-layout="direct" style="margin-bottom:11px">
+<h2 data-tah-q>ما الذي أحصل عليه عند شراء ملف تحضير؟</h2>
+<p data-tah-a>تحصل على ملف تحضير كامل لمادة ومستوى محدَّدين، بصيغتَي PowerPoint قابلة للتعديل وPDF جاهزة للطبع، يُسلَّم فورًا بعد الدفع ويبقى دائمًا في مكتبتك الرقمية.</p>
+<ul data-tah-points>
+<li><strong>التسليم</strong> <span>فوري بعد إتمام الدفع — بلا انتظار مراجعة</span></li>
+<li><strong>التحديثات</strong> <span>مجانية لنفس المستوى عند صدور توزيع وزاري جديد</span></li>
+<li><strong>التعديل</strong> <span>الملف مفتوح بلا حماية — النصوص والصور والترتيب</span></li>
+</ul>
+</div>
+
+<div data-tah-c="answer" data-layout="define">
+<h3 data-tah-q>ما هو «ملف التحضير»؟</h3>
+<p data-tah-a>مستند يوثّق خطّة تدريس درس أو وحدة: أهدافه ومهاراته وأنشطته وأساليب تقويمه، وفق توزيع المنهج المعتمد.</p>
+</div>
+</section>
+
+<section id="c-facts" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">لوح الحقائق</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">facts</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٢٢ اختيارًا</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">أكثر مكوّن يُخدَم — وأكثره حساسية للتلفيق</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:11px">
+<div data-tah-c="facts" data-layout="dl">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">مواصفات الملف</h3></header>
+<dl data-tah-facts>
+<sc-for list="{{ specs }}" as="sp" hint-placeholder-count="6">
+<div data-tah-row><dt>{{ sp.k }}</dt><dd>{{ sp.v }}</dd></div>
+</sc-for>
+</dl>
+</div>
+
+<div data-tah-c="facts" data-layout="pills">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">نفس البيانات · تخطيط أقراص</h3></header>
+<dl data-tah-facts>
+<sc-for list="{{ specs }}" as="sp2" hint-placeholder-count="6">
+<div data-tah-row><dt style="font-size:.86em">{{ sp2.k }}</dt><dd style="font-size:.9em">{{ sp2.v }}</dd></div>
+</sc-for>
+</dl>
+</div>
+</div>
+
+<div data-tah-c="facts" data-layout="proscons">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">اعتبارات الشراء</h3></header>
+<div data-tah-pc>
+<div data-tah-pro>
+<h3>يناسبك إذا</h3>
+<ul>
+<li>تدرّس المادة والمستوى نفسه هذا الفصل</li>
+<li>تريد أساسًا جاهزًا تعدّله بأسلوبك</li>
+<li>تحتاج نسخة PDF للطبع فورًا</li>
+</ul>
+</div>
+<div data-tah-con>
+<h3>لا يناسبك إذا</h3>
+<ul>
+<li>تحتاج تحضيرًا لمنهج غير المنهج المعتمد</li>
+<li>تبحث عن اختبارات لا خطط دروس</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section id="c-compare" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">جدول المقارنة</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">compare</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٦ اختيارات</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">جدول حقيقي بمحورين — لا شبكة div</span>
+</div>
+
+<div data-tah-c="compare" data-layout="table">
+<div data-tah-scroll>
+<table data-tah-cmp>
+<caption>الفرق بين الباقات الثلاث</caption>
+<thead>
+<tr><td></td><th scope="col">ملف مفرد</th><th scope="col" data-tah-on="1">حزمة الفصل</th><th scope="col">حزمة العام</th></tr>
+</thead>
+<tbody>
+<sc-for list="{{ cmpRows }}" as="cr" hint-placeholder-count="6">
+<tr>
+<th scope="row">{{ cr.label }}</th>
+<sc-for list="{{ cr.cells }}" as="cc" hint-placeholder-count="3">
+<td data-tah-bool="{{ cc.bool }}"><span aria-hidden="true">{{ cc.mark }}</span><span data-tah-sr>{{ cc.sr }}</span></td>
+</sc-for>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+<p style="margin:9px 0 0;font:500 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.55)">خلايا ✓ و— مخفيّة عن قارئ الشاشة بـ<code style="font-size:9.5px">aria-hidden</code>، ويقابلها نصّ «متوفّر / غير متوفّر» مخفيّ بصريًّا. الرمز وحده لا يُقرأ — وأشيع خطأ في جداول المقارنة هو الاكتفاء به.</p>
+</section>
+
+<section id="c-timeline" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">الخط الزمني</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">timeline</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٨ اختيارات</span>
+</div>
+<div data-tah-c="timeline" data-layout="vertical">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">من الدفع إلى الاستخدام</h3></header>
+<ol data-tah-tl>
+<sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+<li data-tah-step data-tah-state="{{ st.state }}">
+<span data-tah-n aria-hidden="true">{{ st.n }}</span>
+<div data-tah-body>
+<h3>{{ st.label }}</h3>
+<span data-tah-meta>{{ st.meta }}</span>
+<p>{{ st.body }}</p>
+</div>
+</li>
+</sc-for>
+</ol>
+</div>
+</section>
+
+<section id="c-story" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">كتلة القصّة · الاقتباس · المسرد · الأشخاص</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">١٥ اختيارًا</span>
+</div>
+
+<div data-tah-c="story" data-layout="split" style="margin-bottom:14px">
+<div data-tah-text>
+<span data-tah-eyebrow>من نحن</span>
+<header data-tah-head><h3 data-tah-title style="font-size:13px">بدأنا من حاجة معلّم واحد</h3></header>
+<p>كل ملف في المتجر بدأ كملف كان يُعدّه معلّم لنفسه ليلًا قبل الحصّة. لم نُنشئ مكتبة ثم نبحث لها عن مشترين — بل جمعنا ما كان يُصنع فعلًا ونظّمناه.</p>
+<p>ولذلك التصنيف عندنا بالمادة والمستوى والفصل لا بالكلمات المفتاحية: هذه هي الطريقة التي يبحث بها معلّم عن ملف، لا الطريقة التي يبحث بها محرّك.</p>
+<p data-tah-attrib>فريق التحاضير الحديثة</p>
+</div>
+<figure data-tah-media style="margin:0">
+<span style="display:block;height:150px;border-radius:10px;background:repeating-linear-gradient(135deg,#e7f1ea 0 12px,#f3f8f5 12px 24px)"></span>
+</figure>
+</div>
+
+<figure data-tah-c="quote" data-layout="large" style="margin-bottom:14px">
+<blockquote><p>أهم ما وفّره عليّ ليس الوقت — بل أنني لم أعد أبدأ من صفحة فارغة.</p></blockquote>
+<figcaption><cite>معلّمة رياضيات</cite><span>المرحلة الابتدائية · مستخدمة منذ فصلين</span></figcaption>
+</figure>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:13px">
+<div data-tah-c="glossary" data-layout="list">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">مسرد المصطلحات</h3></header>
+<dl data-tah-gl>
+<sc-for list="{{ terms }}" as="tm" hint-placeholder-count="3">
+<div data-tah-row><dt>{{ tm.t }}</dt><dd>{{ tm.d }}</dd></div>
+</sc-for>
+</dl>
+</div>
+
+<div data-tah-c="people" data-layout="list">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">من يراجع الملفّات</h3></header>
+<ul data-tah-people>
+<sc-for list="{{ people }}" as="pe" hint-placeholder-count="3">
+<li data-tah-person>
+<span style="display:block;width:46px;height:46px;border-radius:50%;background:{{ pe.tint }}"></span>
+<div data-tah-body><h3>{{ pe.name }}</h3><span>{{ pe.role }}</span></div>
+</li>
+</sc-for>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="c-gallery" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">معرض الوسائط</h2>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">gallery</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">١٠ اختيارات</span>
+<span style="flex:1"></span>
+<span style="font:600 9.5px Tajawal,sans-serif;color:rgba(0,0,0,.5)">الشبكية بلا JS · المتمرِّرة تطلب rt-gallery</span>
+</div>
+
+<div data-tah-c="gallery" data-layout="grid" style="--tah-cols:4;margin-bottom:16px">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">شبكة — صفر جافاسكربت</h3></header>
+<ul data-tah-grid>
+<sc-for list="{{ shots }}" as="sh" hint-placeholder-count="4">
+<li><figure><span style="display:block;height:96px;border-radius:10px;background:{{ sh.tint }}"></span><figcaption>{{ sh.cap }}</figcaption></figure></li>
+</sc-for>
+</ul>
+</div>
+
+<div data-tah-c="gallery" data-layout="carousel" data-tah-gallery data-loop="0" data-label="معرض متمرِّر" style="--tah-slide-w:62%;--tah-slide-w-md:32%;--tah-slide-w-lg:24%">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">كاروسيل — نفس المكوّن، خاصية تخطيط واحدة مختلفة</h3></header>
+<div data-tah-track>
+<sc-for list="{{ shots }}" as="sh2" hint-placeholder-count="4">
+<div data-tah-slide><figure><span style="display:block;height:104px;border-radius:10px;background:{{ sh2.tint }}"></span><figcaption>{{ sh2.cap }}</figcaption></figure></div>
+</sc-for>
+</div>
+<div data-tah-ctrl>
+<button type="button" data-tah-prev aria-label="السابق"></button>
+<button type="button" data-tah-next aria-label="التالي"></button>
+<div data-tah-dots></div>
+</div>
+</div>
+</section>
+
+<section id="c-media_fx" data-tah-section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:12px">
+<div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:11px">
+<h2 style="margin:0;font:800 13px Tajawal,sans-serif">الوسيط التفاعلي · الفهرس</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:#eaf5ef;color:#1e7355">٧ اختيارات</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+<div data-tah-c="media_fx" data-layout="hotspots" data-tah-hotspots>
+<figure data-tah-hotspot-frame>
+<span style="display:block;height:158px;background:#f2f4f6"></span>
+<sc-for list="{{ spots }}" as="sp3" hint-placeholder-count="3">
+<button type="button" data-tah-hotspot data-x="{{ sp3.x }}" data-y="{{ sp3.y }}" aria-controls="fx-{{ sp3.i }}" aria-label="{{ sp3.label }}">{{ sp3.i }}</button>
+</sc-for>
+<sc-for list="{{ spots }}" as="sp4" hint-placeholder-count="3">
+<div id="fx-{{ sp4.i }}" data-tah-tip><strong>{{ sp4.label }}</strong><span>{{ sp4.body }}</span></div>
+</sc-for>
+</figure>
+</div>
+
+<div data-tah-c="media_fx" data-layout="compare" data-tah-compare data-start="50" data-label="مقارنة قبل وبعد" style="height:158px">
+<div data-tah-before style="height:158px;background:repeating-linear-gradient(135deg,#e9e9ec 0 11px,#f4f4f6 11px 22px);display:grid;place-items:center"><span style="font:800 11px Tajawal,sans-serif;color:rgba(0,0,0,.42)">قبل</span></div>
+<div data-tah-after style="background:repeating-linear-gradient(135deg,#cfe6dc 0 11px,#eaf5ef 11px 22px);display:grid;place-items:center"><span style="font:800 11px Tajawal,sans-serif;color:#123d2f">بعد</span></div>
+</div>
+
+<nav data-tah-c="toc" data-layout="list" data-tah-sectionnav data-watch="[data-tah-section]" data-offset="70" aria-label="فهرس هذه الصفحة">
+<header data-tah-head><h3 data-tah-title style="font-size:12px">فهرس المحتوى</h3></header>
+<ol data-tah-toc>
+<sc-for list="{{ navLinks }}" as="tc" hint-placeholder-count="6">
+<li><a href="#c-{{ tc.id }}">{{ tc.label }}</a></li>
+</sc-for>
+</ol>
+</nav>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 4px;font:800 13px Tajawal,sans-serif">حالة الفراغ — صريحة لا صامتة</h2>
+<p style="margin:0 0 11px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.58)">مكوّن بلا محتوى لا يُخرج شيئًا للزائر، لكنه يقول للمشرف ما ينقصه بالضبط. الصمت التام يُخفي عيب تهيئة إلى أن يراه عميل — وهذا ما يجعل «العنصر لا يظهر ولا أعرف لماذا» أشيع شكوى في أنظمة البلوكات.</p>
+<div data-tah-empty data-tah-c="facts" style="margin-bottom:9px"><strong>facts</strong> بلا محتوى — المطلوب: rows[key,value]</div>
+<div data-tah-empty data-tah-c="compare"><strong>compare</strong> بلا محتوى — المطلوب: items + features</div>
+
+<h2 style="margin:16px 0 9px;font:800 13px Tajawal,sans-serif">التركيب</h2>
+<div style="padding:11px 13px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.85 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ install }}</pre>
+</div>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showEmptyStates&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+// العدد لكل مكوّن مقروء من مواضعه في العائلات العشرين — لا مكتوبًا بيد.
+// وأي تغيير في السجل يجب أن يغيّر هذا الجدول، وفحص check-renderers.mjs
+// يُسقط البناء إن اختلف المجموع عن ٨٨.
+const TALLY = [
+  ['facts', 'الحقائق', 22], ['answer', 'الإجابة', 11], ['story', 'القصّة', 11],
+  ['gallery', 'المعرض', 10], ['nav_bar', 'التنقّل', 9], ['timeline', 'الخط الزمني', 8],
+  ['compare', 'المقارنة', 6], ['media_fx', 'وسيط تفاعلي', 4], ['toc', 'الفهرس', 3],
+  ['people', 'الأشخاص', 2], ['quote', 'الاقتباس', 1], ['glossary', 'المسرد', 1],
+];
+
+const AR = (n) => String(n).replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[+d]);
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      total: AR(TALLY.reduce((sum, t) => sum + t[2], 0)),
+      tally: TALLY.map((t) => ({ id: t[0], label: t[1], n: AR(t[2]) })),
+
+      navLinks: [
+        ['answer', 'الإجابة'], ['facts', 'الحقائق'], ['compare', 'المقارنة'],
+        ['timeline', 'الخط الزمني'], ['story', 'القصّة'], ['gallery', 'المعرض'],
+        ['media_fx', 'التفاعلي'],
+      ].map((n) => ({ id: n[0], label: n[1] })),
+
+      specs: [
+        ['الصيغ', 'PPTX · PDF'],
+        ['عدد الملفات', '٥'],
+        ['الحجم', '٧٥ ميغابايت'],
+        ['اللغة', 'العربية'],
+        ['التوافق', 'PowerPoint 2016+ · Google Slides'],
+        ['الترخيص', 'استخدام شخصي داخل الصف'],
+      ].map((s) => ({ k: s[0], v: s[1] })),
+
+      cmpRows: [
+        ['ملفّات المادة كاملة', [false, true, true]],
+        ['أوراق العمل', [false, true, true]],
+        ['دليل المعلم', [false, false, true]],
+        ['تحديثات مجانية', [true, true, true]],
+        ['فصلان دراسيان', [false, false, true]],
+      ].map((r) => ({
+        label: r[0],
+        cells: r[1].map((v) => ({ bool: v ? '1' : '0', mark: v ? '✓' : '—', sr: v ? 'متوفّر' : 'غير متوفّر' })),
+      })),
+
+      steps: [
+        ['١', 'إتمام الدفع', 'ثوانٍ', 'بطاقة مدى أو Apple Pay عبر بوّابة تاب — بلا حساب مطلوب.', 'done'],
+        ['٢', 'وصول الملفّات', 'فوري', 'رابط في البريد ونسخة دائمة في مكتبتك الرقمية.', 'done'],
+        ['٣', 'التعديل', 'وقتك', 'الملف مفتوح: عدّل النصوص والصور والترتيب بأسلوبك.', ''],
+        ['٤', 'التحديث', 'عند صدوره', 'يظهر الإصدار الجديد في مكتبتك بإشعار — بلا رسوم.', ''],
+      ].map((s) => ({ n: s[0], label: s[1], meta: s[2], body: s[3], state: s[4] })),
+
+      terms: [
+        ['التوزيع', 'خطّة زمنية تُحدّد ما يُدرَّس في كل أسبوع من الفصل.'],
+        ['التحضير', 'توثيق خطّة درس واحد: أهدافه ومهاراته وأنشطته وتقويمه.'],
+        ['ورقة العمل', 'نشاط مطبوع يؤدّيه الطالب لتثبيت مهارة الدرس.'],
+      ].map((t) => ({ t: t[0], d: t[1] })),
+
+      people: [
+        ['أ. نورة', 'مراجعة الرياضيات', '#e3ecf7'],
+        ['أ. خالد', 'مراجعة العلوم', '#e7f1ea'],
+        ['أ. سارة', 'مراجعة اللغة العربية', '#f7eee3'],
+      ].map((p) => ({ name: p[0], role: p[1], tint: p[2] })),
+
+      shots: [
+        ['الغلاف', '#e7f1ea'], ['جدول الأهداف', '#e3ecf7'],
+        ['أنشطة الدرس', '#f7eee3'], ['أدوات التقويم', '#eee7f5'],
+        ['ورقة عمل', '#f5e7ea'], ['دليل المعلم', '#e7f0f5'],
+      ].map((s) => ({ cap: s[0], tint: s[1] })),
+
+      spots: [
+        ['١', 24, 28, 'الغلاف والعنوان', 'اسم المادة والمستوى والفصل'],
+        ['٢', 54, 60, 'جدول الأهداف', 'أهداف الدرس ومهاراته مرتّبة'],
+        ['٣', 79, 36, 'أدوات التقويم', 'تقويم قبلي وبَعدي لكل هدف'],
+      ].map((s) => ({ i: s[0], x: s[1], y: s[2], label: s[3], body: s[4] })),
+
+      install: "// functions.php — الترتيب مهمّ: السجل ثم الأزمنة ثم المُصيِّرات\nrequire_once get_template_directory() . '/inc/tahdheer-component-registry.php';\nrequire_once get_template_directory() . '/inc/tahdheer-runtimes.php';\nrequire_once get_template_directory() . '/inc/tahdheer-renderers.php';\n\n// تصيير أي مكوّن — نقطة دخول واحدة\necho tahdheer_render( 'facts', array(\n  'layout' => 'dl',\n  'title'  => 'مواصفات الملف',\n  'rows'   => array(\n    array( 'key' => 'الصيغ', 'value' => 'PPTX · PDF' ),\n    array( 'key' => 'عدد الملفات', 'value' => '5' ),\n  ),\n) );\n\n// تقرير التغطية — محسوب من المكتبة لا مكتوبًا\nprint_r( tahdheer_render_coverage() );  // ['rendered'=>12,'choices'=>88,'total'=>300]\n\n// الفحوص\nnode scripts/check-foundation.mjs\nnode scripts/check-runtimes.mjs\nnode scripts/check-renderers.mjs",
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,958 @@
+/*
+UNIT: MEDIA-LIBRARY
+COMPONENT: _inspect-dialog.tsx, _media-card.tsx, _scan-panels.tsx, library-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * مكتبة الوسائط — منقولة من «Tahdheer - Media Library.dc.html».
+ *
+ * القيم (المقاسات والأنصاف والأوزان وارتفاعات الأسطر) منسوخة حرفيًا من
+ * الأنماط المضمّنة في لوحة التصميم، وهي المواصفة.
+ *
+ * الألوان كلها رموز من tokens.css. ألوان اللوحة الثلاثة التي لا مقابل عامًّا
+ * لها (الحدّ ‎#dcdcde، والأحمر ‎#a33a2d، وشفافيته ٨٪) رموز مسمّاة:
+ * ‎--border-neutral و‎--danger-strong و‎--tint-danger-08.
+ *
+ * خصائص منطقية فقط؛ لا left/right ولا margin/padding فيزيائي (حارس RTL).
+ * لا إطارات مفتاحية ولا محتوى مخفيّ بانتظار حركة، فلا شيء ينتظر الكشف تحت
+ * تقليل الحركة، وكتلة النهاية تُلغي الانتقالات صراحةً.
+ */
+
+.page {
+  --ml-surface: var(--surface);
+  --ml-inset: var(--bg-mist);
+  --ml-hair: var(--border-hairline);
+  --ml-border: var(--border-neutral); /* حدّ لوحة التصميم #dcdcde */
+  /* «سليم» حالةُ نجاحٍ لا لونُ الهويّة: الأساسيّ الذهبيّ في الفاتح كان 2.3:1 نصًّا. */
+  --ml-ok-fg: var(--state-success);
+  --ml-ok-bg: var(--state-success-soft);
+  --ml-warn-fg: var(--gold-text);
+  --ml-warn-bg: var(--tint-gold-16);
+  --ml-bad-fg: var(--danger-strong); /* أحمر لوحة التصميم #a33a2d */
+  --ml-bad-bg: var(--tint-danger-08);
+}
+
+.tagline {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-block: 0 13px;
+}
+
+/* ───── شريط الأدوات ───── */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-block: 11px;
+  padding-inline: 13px;
+  border: 1px solid var(--ml-border);
+  border-radius: 11px;
+  background: var(--ml-surface);
+  margin-block-end: 12px;
+}
+
+.toolbarLabel {
+  font-size: 10.5px;
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding-block: 3px;
+  padding-inline: 3px;
+  border-radius: 9px;
+  background: var(--ml-inset);
+}
+
+.modeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 30px;
+  padding-block: 0;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.modeBtn[aria-pressed='true'] {
+  background: var(--ml-surface);
+  color: var(--ink);
+  box-shadow: var(--e-1);
+}
+
+.modeIcon {
+  inline-size: 12px;
+  block-size: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.count {
+  box-sizing: border-box;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 7px;
+  background: var(--ml-inset);
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ───── نطاق المصدر وملاحظة العرض ───── */
+
+.scope {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 9px;
+  margin-block-end: 12px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ml-warn-fg);
+  background: var(--ml-warn-bg);
+}
+
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 12px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ml-warn-fg);
+  background: var(--ml-warn-bg);
+}
+
+.noteBad {
+  border-color: var(--ml-bad-fg);
+  background: var(--ml-bad-bg);
+}
+
+.noteIcon {
+  flex: 0 0 auto;
+  inline-size: 14px;
+  block-size: 14px;
+  color: var(--ml-warn-fg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.noteBad .noteIcon {
+  color: var(--ml-bad-fg);
+}
+
+.noteText {
+  flex: 1;
+  min-inline-size: 200px;
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--ink);
+  text-align: start;
+}
+
+.noteText code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ───── عرض الشبكة ───── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-block-end: 12px;
+}
+
+.gridCompact {
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.card {
+  border: 1px solid var(--ml-hair);
+  border-radius: 10px;
+  background: var(--ml-surface);
+  overflow: hidden;
+  text-align: start;
+  padding-block: 0;
+  padding-inline: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  inline-size: 100%;
+}
+
+.cardMedia {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--ml-inset);
+  display: grid;
+  place-items: center;
+}
+
+.hatch {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.thumb {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.dim {
+  position: relative;
+  font: 700 8.5px ui-monospace, Menlo, monospace;
+  color: var(--muted);
+  background: var(--ml-surface);
+  padding-block: 2px;
+  padding-inline: 6px;
+  border-radius: 4px;
+}
+
+/*
+ * الأبعاد رقم لاتيني فتأخذ الخط أحادي العرض، أمّا بديلها العربي فلا: الخط
+ * أحادي العرض لا يَصِل الحروف العربية. لوحة التصميم تشتقّ اتجاه هذه الخانة
+ * من محتواها لنفس السبب («متجهي» عربية بين أبعاد لاتينية).
+ */
+.dimText {
+  font-family: 'Tajawal', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.badge {
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-start: 6px;
+  box-sizing: border-box;
+  padding-block: 2px;
+  padding-inline: 7px;
+  border-radius: 5px;
+  font-size: 8.5px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.badgeOk {
+  background: var(--ml-ok-bg);
+  color: var(--ml-ok-fg);
+}
+
+.badgeWarn {
+  background: var(--ml-warn-bg);
+  color: var(--ml-warn-fg);
+}
+
+.badgeNeutral {
+  background: var(--ml-inset);
+  color: var(--muted);
+}
+
+.badgeBad {
+  background: var(--ml-bad-bg);
+  color: var(--ml-bad-fg);
+}
+
+/*
+ * display:block مُلزِم لا زينة: العنصر span داخل زرّ البطاقة، ولو بقي inline
+ * لانقسم صندوقه حول ابنه الكتلي فسقطت حشوته وخرج اسم الملف من حدّ البطاقة.
+ * لوحة التصميم تنصّ عليه صراحةً (display:{{ metaDisplay }} = block).
+ */
+.meta {
+  display: block;
+  padding-block: 9px;
+  padding-inline: 10px;
+}
+
+.metaHidden {
+  display: none;
+}
+
+.metaName {
+  display: block;
+  font: 700 9.5px ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metaUsage {
+  display: block;
+  margin-block-start: 3px;
+  font-size: 9px;
+  color: var(--muted);
+  text-align: start;
+}
+
+/* ───── عرض الصفوف والجدول ───── */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-block-end: 12px;
+}
+
+.rowHead {
+  display: flex;
+  gap: 9px;
+  padding-block: 0 4px;
+  padding-inline: 10px;
+}
+
+.rowHeadFile {
+  flex: 1;
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  text-align: start;
+}
+
+.rowHeadCell {
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  text-align: start;
+}
+
+.rowHeadSpacer {
+  flex: 0 0 66px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 9px;
+  padding-inline: 10px;
+  border: 1px solid var(--ml-hair);
+  border-radius: 9px;
+  background: var(--ml-inset);
+}
+
+.rowFile {
+  flex: 1;
+  min-inline-size: 150px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rowTile {
+  flex: 0 0 auto;
+  inline-size: 26px;
+  block-size: 26px;
+  border-radius: 6px;
+  background: var(--ml-surface);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.rowTileIcon {
+  inline-size: 12px;
+  block-size: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.rowText {
+  min-inline-size: 0;
+}
+
+.rowName {
+  display: block;
+  font: 700 10px ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowUsage {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  text-align: start;
+}
+
+.cell {
+  font: 700 10px ui-monospace, Menlo, monospace;
+  color: var(--muted);
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cellOk {
+  color: var(--ml-ok-fg);
+}
+
+.cellWarn {
+  color: var(--ml-warn-fg);
+}
+
+.cellAbsent {
+  color: var(--muted);
+  font-family: 'Tajawal', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* خلية الحالة نصّ عربي لا رمز، فتأخذ خط الواجهة لا الخط أحادي العرض. */
+.cellState {
+  font-family: inherit;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inspectBtn {
+  flex: 0 0 66px;
+  box-sizing: border-box;
+  min-block-size: 30px;
+  border: 1px solid var(--ml-border);
+  border-radius: 8px;
+  background: var(--ml-surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ───── مجموعات المرشّحات ───── */
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-block-end: 12px;
+}
+
+.group {
+  border: 1px solid var(--ml-warn-fg);
+  border-radius: 11px;
+  background: var(--ml-surface);
+  overflow: hidden;
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  background: var(--ml-warn-bg);
+}
+
+.groupIcon {
+  flex: 0 0 auto;
+  inline-size: 14px;
+  block-size: 14px;
+  color: var(--ml-warn-fg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.groupTitle {
+  flex: 1;
+  min-inline-size: 0;
+  margin-block: 0;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.groupChip {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--ml-warn-fg);
+  white-space: nowrap;
+}
+
+.groupBody {
+  padding-block: 10px;
+  padding-inline: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.groupFile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border: 1px solid var(--ml-hair);
+  border-radius: 8px;
+  background: var(--ml-inset);
+}
+
+.keepChip {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  padding-block: 2px;
+  padding-inline: 8px;
+  border-radius: 5px;
+  background: var(--ml-inset);
+  border: 1px solid var(--ml-border);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.groupName {
+  flex: 1;
+  min-inline-size: 120px;
+  font: 700 10px ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.groupUsage {
+  flex: 0 0 150px;
+  font-size: 9.5px;
+  color: var(--muted);
+  text-align: start;
+}
+
+.groupSize {
+  flex: 0 0 52px;
+  font: 700 10px ui-monospace, Menlo, monospace;
+  color: var(--muted);
+  text-align: start;
+}
+
+.groupNote {
+  margin-block: 3px 0;
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: start;
+}
+
+/* ───── حرّاس ما قبل الحذف ───── */
+
+.rules {
+  padding-block: 13px;
+  padding-inline: 15px;
+  border: 1px solid var(--ml-bad-fg);
+  border-radius: 11px;
+  background: var(--ml-surface);
+  margin-block-start: 12px;
+}
+
+.rulesHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 9px;
+}
+
+.rulesIcon {
+  flex: 0 0 auto;
+  inline-size: 15px;
+  block-size: 15px;
+  color: var(--ml-bad-fg);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.rulesTitle {
+  margin-block: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.ruleList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+}
+
+.ruleItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border: 1px solid var(--ml-hair);
+  border-radius: 8px;
+  background: var(--ml-inset);
+}
+
+.ruleNum {
+  flex: 0 0 auto;
+  inline-size: 17px;
+  block-size: 17px;
+  border-radius: 5px;
+  background: var(--ml-bad-bg);
+  color: var(--ml-bad-fg);
+  display: grid;
+  place-items: center;
+  font: 900 9px ui-monospace, monospace;
+}
+
+.ruleText {
+  flex: 1;
+  font-size: 10.5px;
+  line-height: 1.75;
+  color: var(--ink);
+  text-align: start;
+}
+
+/* ───── نافذة الفحص ───── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  /* غشاء السمة: الأخضر المحفور كان يبقى أخضر في الفاتح. */
+  background: var(--cc-overlay);
+  display: grid;
+  place-items: center;
+  padding-block: 24px;
+  padding-inline: 16px;
+  z-index: 100;
+  overflow: auto;
+}
+
+.dialog {
+  inline-size: min(560px, 100%);
+  max-block-size: 100%;
+  overflow: auto;
+  background: var(--ml-surface);
+  border: 1px solid var(--ml-border);
+  border-radius: 14px;
+  padding-block: 16px;
+  padding-inline: 18px;
+  box-shadow: var(--e-4);
+}
+
+.dialogHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 12px;
+}
+
+.dialogTitle {
+  flex: 1;
+  min-inline-size: 0;
+  margin-block: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.dialogClose {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ml-border);
+  border-radius: 8px;
+  background: var(--ml-surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.dialogCloseIcon {
+  inline-size: 14px;
+  block-size: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.preview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  background: var(--ml-inset);
+  border: 1px solid var(--ml-hair);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  margin-block-end: 12px;
+}
+
+.previewImg {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.previewFail {
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-align: center;
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  margin-block-end: 12px;
+}
+
+.fact {
+  border: 1px solid var(--ml-hair);
+  border-radius: 8px;
+  background: var(--ml-inset);
+  padding-block: 8px;
+  padding-inline: 10px;
+}
+
+.factLabel {
+  display: block;
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  margin-block-end: 3px;
+}
+
+.factValue {
+  display: block;
+  font: 700 10.5px ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* قيمة نصّية عربية (لا مسار ولا رقم): خط الواجهة لا الخط أحادي العرض. */
+.factValueText {
+  font-family: 'Tajawal', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.factNote {
+  display: block;
+  margin-block-start: 4px;
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.sectionTitle {
+  margin-block: 0 6px;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+}
+
+.refs {
+  list-style: none;
+  margin-block: 0 12px;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.refItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--ml-hair);
+  border-radius: 8px;
+  background: var(--ml-inset);
+  padding-block: 8px;
+  padding-inline: 10px;
+  font-size: 10.5px;
+}
+
+.refItem a {
+  color: var(--primary-strong);
+  font-weight: 800;
+  /* هدف لمس كامل: الرابط هو المخرج الوحيد لفكّ الارتباط قبل أي حذف. */
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.refSku {
+  font: 700 9.5px ui-monospace, Menlo, monospace;
+  color: var(--muted);
+}
+
+.deleteBox {
+  border: 1px solid var(--ml-bad-fg);
+  border-radius: 10px;
+  background: var(--ml-bad-bg);
+  padding-block: 11px;
+  padding-inline: 12px;
+}
+
+.deleteSteps {
+  margin-block: 6px 10px;
+  padding-inline-start: 18px;
+  font-size: 10.5px;
+  line-height: 1.8;
+  color: var(--ink);
+  text-align: start;
+}
+
+.deleteField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-block-end: 9px;
+}
+
+.deleteField input {
+  font: inherit;
+  font-weight: 400;
+  min-block-size: 44px;
+  border: 1px solid var(--ml-border);
+  border-radius: 8px;
+  background: var(--ml-surface);
+  color: var(--ink);
+  padding-block: 8px;
+  padding-inline: 10px;
+}
+
+.deleteField input:disabled {
+  background: var(--ml-inset);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.deleteBtn {
+  min-block-size: 44px;
+  padding-block: 8px;
+  padding-inline: 16px;
+  border: 1px solid var(--ml-bad-fg);
+  border-radius: 9px;
+  background: var(--ml-surface);
+  color: var(--ml-bad-fg);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 900;
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ───── لمس وشاشات ضيّقة ───── */
+
+@media (pointer: coarse) {
+  .modeBtn,
+  .inspectBtn {
+    min-block-size: 44px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gridCompact {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gridCompact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rowHead {
+    display: none;
+  }
+}
+
+/*
+ * تقليل الحركة: هذا الملف لا يعرّف إطارات مفتاحية ولا يخفي شيئًا بانتظار
+ * حركة، فلا محتوى ينتظر الكشف. تبقى الانتقالات ملغاة صراحةً.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .modeBtn,
+  .inspectBtn,
+  .card,
+  .deleteBtn {
+    transition: none;
+  }
+}

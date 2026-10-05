@@ -1,0 +1,49 @@
+/*
+UNIT: TRACINGBEAM
+COMPONENT: TracingBeam.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * الخيط على الحافّة المنطقيّة فينقلب مع اتجاه الكتابة بلا قاعدة ثانية.
+ * الامتلاء ‎scaleY‎ من متغيّر واحد يكتبه العميل — لا حركة في JavaScript.
+ */
+
+.root {
+  --beam-progress: 0;
+  position: relative;
+  padding-inline-start: 28px;
+}
+
+.track {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 8px;
+  inline-size: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+}
+
+.beam {
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to bottom,
+    var(--teal-600),
+    color-mix(in oklab, var(--teal-600) 40%, transparent)
+  );
+  transform-origin: top;
+  transform: scaleY(var(--beam-progress));
+}
+
+.content {
+  position: relative;
+}
+
+/* بلا JavaScript أو بتفضيل تقليل الحركة: الخيط ممتلئ لا غائب. */
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    transform: scaleY(1);
+  }
+}

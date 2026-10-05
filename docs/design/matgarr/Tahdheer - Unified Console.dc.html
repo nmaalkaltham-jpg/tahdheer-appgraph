@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+::placeholder{color:rgba(0,0,0,.35)}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1440px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">UNIFIED CONSOLE</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">دمج الصفحات المتشابهة وظيفيًا — بلا فقدان أي قدرة</span>
+</div>
+<div style="padding:13px 15px;border-radius:11px;background:#f6faf8;border:1px solid #cfe6dc">
+<p style="margin:0 0 7px;font:700 11.5px/1.7 Tajawal,sans-serif;color:#123d2f">أهم ما وجدته: <b>آلية الدمج موجودة فعلًا في القالب وتعمل — ومستخدَمة بنسبة ٧٠٪.</b></p>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.65)">أي قسم يكتب <code style="font-size:10.5px">data-nav-label</code> + <code style="font-size:10.5px">data-nav-icon</code> على وسمه يُسجّل نفسه تلقائيًا كمساحة عمل داخل كونسول واحد، ويحصل مجانًا على: لوحة أوامر <code style="font-size:10.5px">Ctrl K</code> · سبعة تخطيطات جاهزة · عرض متعدّد · سحب لإعادة الترتيب · حفظ تخطيط مسمّى · تصدير واستيراد JSON. والدليل الأقوى على أن هذا هو الاتجاه الصحيح موجود في الكود بخط يدك: <code style="font-size:10.5px">add_menu_page('tahdheer-seo')</code> مُعلَّق بتعليق يقول «موحّد داخل لوحة SEO تحليلات لتجنّب تبويب مكرّر». إذن السؤال ليس «هل ندمج» بل «لماذا توقّف الدمج في المنتصف».</p>
+</div>
+</header>
+
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:13px;flex-wrap:wrap;padding:4px;border-radius:10px;background:#fff;border:1px solid #dcdcde">
+<sc-for list="{{ partTabs }}" as="pt" hint-placeholder-count="2">
+<button type="button" onClick="{{ pt.onClick }}" aria-pressed="{{ pt.on }}" style="min-height:38px;padding:0 16px;border:0;border-radius:8px;background:{{ pt.bg }};color:{{ pt.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer">{{ pt.label }}</button>
+</sc-for>
+</div>
+
+<section style="display:{{ show.console }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 14px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<span style="font:800 11px Tajawal,sans-serif;color:rgba(0,0,0,.55)">التخطيط</span>
+<div style="display:flex;gap:4px;flex-wrap:wrap">
+<sc-for list="{{ presets }}" as="ps" hint-placeholder-count="7">
+<button type="button" onClick="{{ ps.onClick }}" aria-pressed="{{ ps.on }}" style="min-height:30px;padding:0 11px;border:1px solid {{ ps.edge }};border-radius:20px;background:{{ ps.bg }};color:{{ ps.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">{{ ps.label }}</button>
+</sc-for>
+</div>
+<span style="flex:1"></span>
+<button type="button" onClick="{{ toggleMulti }}" aria-pressed="{{ multiOn }}" style="min-height:30px;padding:0 11px;border:1px solid {{ multiEdge }};border-radius:8px;background:{{ multiBg }};color:{{ multiFg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer">عرض متعدّد</button>
+<button type="button" onClick="{{ openCmd }}" style="display:flex;align-items:center;gap:7px;min-height:30px;padding:0 11px;border:1px solid #dcdcde;border-radius:8px;background:#fcfcfd;cursor:pointer">
+<span style="font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;color:rgba(0,0,0,.6)">مركز الاختصارات</span>
+<span style="font:700 9px ui-monospace,monospace;padding:2px 6px;border-radius:4px;background:#f0f0f1;color:rgba(0,0,0,.5)">Ctrl K</span>
+</button>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,258px) minmax(0,1fr);gap:13px;align-items:start">
+
+<nav aria-label="مساحات العمل" style="display:flex;flex-direction:column;gap:10px;padding:11px;border:1px solid #dcdcde;border-radius:12px;background:#fff;position:sticky;inset-block-start:14px">
+<sc-for list="{{ domains }}" as="dm" hint-placeholder-count="5">
+<div>
+<button type="button" onClick="{{ dm.onClick }}" aria-pressed="{{ dm.on }}" style="display:flex;align-items:center;gap:8px;width:100%;min-height:34px;padding:0 9px;border:0;border-radius:8px;background:{{ dm.bg }};cursor:pointer;text-align:start;margin-bottom:4px">
+<span style="flex:1;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:{{ dm.fg }};text-align:start">{{ dm.label }}</span>
+<span style="font:800 9px ui-monospace,monospace;padding:2px 7px;border-radius:20px;background:{{ dm.nBg }};color:{{ dm.nFg }}">{{ dm.n }}</span>
+</button>
+<div style="display:{{ dm.listShow }};flex-direction:column;gap:2px">
+<sc-for list="{{ dm.items }}" as="it" hint-placeholder-count="6">
+<button type="button" onClick="{{ it.onClick }}" aria-current="{{ it.current }}" style="display:flex;align-items:center;gap:8px;min-height:34px;padding:0 9px;border:0;border-inline-start:3px solid {{ it.edge }};border-radius:7px;background:{{ it.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:{{ it.dot }}"></span>
+<span dir="rtl" style="flex:1;min-width:0;font-family:Tajawal,sans-serif;font-size:11px;font-weight:{{ it.weight }};color:{{ it.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:start">{{ it.label }}</span>
+<sc-if value="{{ it.isNew }}" hint-placeholder-val="{{ false }}">
+<span style="flex:0 0 auto;font:800 8px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:#fdf3d7;color:#7a5a00">مدمَجة</span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div style="padding-top:9px;border-top:1px solid #ececef">
+<p style="margin:0;font:600 9.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.45)">القائمة تُبنى تلقائيًا من الأقسام نفسها — لا مصفوفة قوائم تُحدَّث يدويًا، فلا قسم يُنسى ولا رابط يتيه.</p>
+</div>
+</nav>
+
+<main style="display:flex;flex-direction:column;gap:12px;min-width:0">
+<div style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<div style="min-width:220px;flex:1">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+<h2 style="margin:0;font:800 15px Tajawal,sans-serif;color:#1a1a1a">{{ ws.title }}</h2>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ ws.stBg }};color:{{ ws.stFg }}">{{ ws.st }}</span>
+</div>
+<p style="margin:0;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ ws.note }}</p>
+</div>
+<span style="font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ ws.key }}</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:8px;margin-bottom:13px">
+<sc-for list="{{ ws.panels }}" as="pn" hint-placeholder-count="4">
+<div style="padding:11px 12px;border:1px solid #ececef;border-radius:10px;background:#fcfcfd">
+<span style="display:block;font:800 11px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:3px">{{ pn.label }}</span>
+<span style="display:block;font:600 9.5px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ pn.src }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding-top:12px;border-top:1px solid #f2f2f4">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.5)">إجراءات المساحة</span>
+<sc-for list="{{ ws.actions }}" as="ac" hint-placeholder-count="4">
+<span style="font:700 10px Tajawal,sans-serif;padding:5px 10px;border-radius:7px;background:#f6f7f7;border:1px solid #e4e4e7;color:rgba(0,0,0,.65)">{{ ac }}</span>
+</sc-for>
+</div>
+</div>
+
+<div style="display:{{ multiShow }};flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font:800 11px Tajawal,sans-serif;color:rgba(0,0,0,.55)">بقيّة مساحات التخطيط الحالي</span>
+<span style="flex:1;height:1px;background:#dcdcde"></span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:9px">
+<sc-for list="{{ otherWs }}" as="ow" hint-placeholder-count="4">
+<button type="button" onClick="{{ ow.onClick }}" style="padding:12px 13px;border:1px solid #ececef;border-inline-start:3px solid {{ ow.dot }};border-radius:10px;background:#fff;cursor:pointer;text-align:start">
+<span style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ ow.title }}</span>
+<span style="font:800 8.5px Tajawal,sans-serif;padding:2px 6px;border-radius:20px;background:{{ ow.stBg }};color:{{ ow.stFg }}">{{ ow.st }}</span>
+</span>
+<span style="display:block;font:500 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.52)">{{ ow.note }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</main>
+</div>
+</section>
+
+<section style="display:{{ show.plan }};flex-direction:column;gap:12px;animation:tahFadeUp .22s ease both">
+
+<div style="display:flex;gap:5px;flex-wrap:wrap">
+<sc-for list="{{ planTabs }}" as="plt" hint-placeholder-count="5">
+<button type="button" onClick="{{ plt.onClick }}" aria-pressed="{{ plt.on }}" style="min-height:34px;padding:0 13px;border:1px solid {{ plt.edge }};border-radius:20px;background:{{ plt.bg }};color:{{ plt.fg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ plt.label }}</button>
+</sc-for>
+</div>
+
+<div style="display:{{ plan.state }};flex-direction:column;gap:12px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px">
+<div style="padding:15px 16px;border:1px solid #cfe6dc;border-radius:12px;background:#f6faf8">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+<h3 style="margin:0;font:800 12.5px Tajawal,sans-serif;color:#123d2f">موحَّد بالفعل — يعمل الآن</h3>
+<span style="font:800 9.5px ui-monospace,monospace;padding:3px 8px;border-radius:20px;background:#fff;color:#1e7355;border:1px solid #cfe6dc">١٤</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ merged }}" as="mg" hint-placeholder-count="9">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:9px;align-items:center;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #dfeee7">
+<span style="font:700 10.5px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ mg.label }}</span>
+<span style="font:600 9px ui-monospace,monospace;color:rgba(0,0,0,.45)">{{ mg.ev }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding:15px 16px;border:1px solid #f0dca0;border-radius:12px;background:#fdf9ef">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+<h3 style="margin:0;font:800 12.5px Tajawal,sans-serif;color:#7a5a00">ما زال منفصلًا — والدمج مجدٍ</h3>
+<span style="font:800 9.5px ui-monospace,monospace;padding:3px 8px;border-radius:20px;background:#fff;color:#7a5a00;border:1px solid #f0dca0">٦</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ standalone }}" as="sa" hint-placeholder-count="6">
+<div style="padding:9px 10px;border-radius:8px;background:#fff;border:1px solid #f2e6c8">
+<div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;flex-wrap:wrap">
+<span style="font:800 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ sa.label }}</span>
+<span style="font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.42)">{{ sa.slug }}</span>
+</div>
+<span style="display:block;font:600 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ sa.reg }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="padding:14px 16px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 8px;font:800 12.5px Tajawal,sans-serif;color:#1a1a1a">قائمتان علويّتان تتنافسان على الموضع ٥٨</h3>
+<p style="margin:0;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.62)">‏<code style="font-size:10.5px">analytics-pro</code> مسجّلة عند الموضع ٥٨، و<code style="font-size:10.5px">tahdheer-seo</code> كانت مسجّلة عند الموضع ٥٨ أيضًا ثم عُلِّقت. النتيجة الحالية: قائمة علوية واحدة اسمها «Analytics Pro» بالإنجليزية تحتها كونسول عربي كامل — تسمية لا تدلّ على ما تحتها. الدمج يحلّ هذا مجانًا: قائمة علوية واحدة باسم يعبّر عن المحتوى، وكل ما تحتها مساحات عمل لا صفحات.</p>
+</div>
+</div>
+
+<div style="display:{{ plan.ledger }};flex-direction:column;gap:12px">
+<div style="padding:15px 17px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">سجل الدمج ١:١ — لا صفٌّ يُفقد</h3>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">كل صفحة قائمة اليوم لها سطر واحد يقول: أين تذهب، وما التغيير بالضبط، وما الذي يبقى كما هو. لا صفحة تُحذف قبل أن يكون لها وجهة.</p>
+<div style="border:1px solid #ececef;border-radius:10px;overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,150px) minmax(0,1fr) 92px;gap:9px;padding:9px 11px;background:#f6f7f7;border-bottom:1px solid #ececef">
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الصفحة اليوم</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">← مساحة العمل</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">التغيير المطلوب</span>
+<span style="font:800 10px Tajawal,sans-serif;color:rgba(0,0,0,.55)">الجهد</span>
+</div>
+<sc-for list="{{ ledger }}" as="lg" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:minmax(0,150px) minmax(0,150px) minmax(0,1fr) 92px;gap:9px;align-items:center;padding:10px 11px;border-bottom:1px solid #f4f4f6;background:{{ lg.bg }}">
+<span style="display:flex;flex-direction:column;gap:1px;min-width:0">
+<span style="font:800 11px Tajawal,sans-serif;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ lg.from }}</span>
+<span style="font:600 8.5px ui-monospace,monospace;color:rgba(0,0,0,.42);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ lg.file }}</span>
+</span>
+<span style="font:800 10.5px Tajawal,sans-serif;color:{{ lg.toFg }}">{{ lg.to }}</span>
+<span style="font:600 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.6)">{{ lg.change }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ lg.eBg }};color:{{ lg.eFg }};text-align:center">{{ lg.effort }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:15px 17px;border:1px solid #cfe6dc;border-radius:12px;background:#f6faf8">
+<h3 style="margin:0 0 10px;font:800 12.5px Tajawal,sans-serif;color:#123d2f">ما يبقى كما هو تمامًا — ضمان عدم الفقدان</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px">
+<sc-for list="{{ preserved }}" as="pv" hint-placeholder-count="8">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:10px 11px;border-radius:9px;background:#fff;border:1px solid #dfeee7">
+<span aria-hidden="true" style="flex:0 0 auto;width:16px;height:16px;margin-top:1px;border-radius:5px;background:#1e7355;display:grid;place-items:center">
+<svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:none;stroke:#fff;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+<span style="font:800 10.5px Tajawal,sans-serif;color:#1a1a1a">{{ pv.label }}</span>
+<span style="font:500 9.5px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.58)">{{ pv.note }}</span>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ plan.risk }};flex-direction:column;gap:12px">
+<div style="padding:15px 17px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">الثلاثة التي تكسر الدمج لو أُهملت</h3>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">الدمج السيّئ يُنتج صفحة واحدة أبطأ وأقبح من أربع صفحات. هذه هي الشروط الثلاثة التي تجعله دمجًا لا حشوًا — والقالب يملك حلًّا جاهزًا لكل واحد منها.</p>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ risks }}" as="rk" hint-placeholder-count="3">
+<div style="padding:13px 14px;border:1px solid {{ rk.edge }};border-radius:11px;background:{{ rk.bg }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:900 9px ui-monospace,monospace;padding:3px 7px;border-radius:5px;background:{{ rk.nBg }};color:{{ rk.nFg }}">{{ rk.n }}</span>
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">{{ rk.label }}</span>
+</div>
+<p style="margin:0 0 8px;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ rk.problem }}</p>
+<div style="padding:9px 11px;border-radius:8px;background:#fff;border:1px solid #e4e4e7">
+<span style="display:block;font:800 9.5px Tajawal,sans-serif;color:#1e7355;margin-bottom:3px">الحل الموجود في القالب</span>
+<span style="display:block;font:600 10px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ rk.fix }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ plan.nomerge }};flex-direction:column;gap:12px">
+<div style="padding:15px 17px;border:1px solid #a5261b;border-radius:12px;background:#fdecea">
+<h3 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#7d1c14">ما لا يُدمج — والسبب</h3>
+<p style="margin:0 0 13px;font:600 11px/1.75 Tajawal,sans-serif;color:#7d1c14">طلبتَ دمجًا «دون تقليل أي جودة أو ميزة». الالتزام بهذا الشرط يعني أن بعض الصفحات <b>يجب</b> أن تبقى منفصلة — لأن انفصالها هو الميزة نفسها. دمجها يبدو ترتيبًا وهو في الحقيقة خسارة.</p>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ noMerge }}" as="nm" hint-placeholder-count="4">
+<div style="padding:12px 13px;border-radius:10px;background:#fff;border:1px solid #f5c9c4">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ nm.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:#fdecea;color:#a5261b">تبقى منفصلة</span>
+</div>
+<p style="margin:0 0 6px;font:500 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ nm.why }}</p>
+<span style="display:block;font:700 10px/1.65 Tajawal,sans-serif;color:#1e7355">البديل: {{ nm.instead }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:{{ plan.front }};flex-direction:column;gap:12px">
+<div style="padding:15px 17px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h3 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">صفحات الواجهة — تجميع بالوظيفة لا بالعدد</h3>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">القاعدة الفاصلة: الصفحات التي يزورها العميل <b>في نفس اللحظة ولنفس السبب</b> تُدمج في صفحة واحدة بتبويبات. والتي يصل إليها من مصادر مختلفة (بحث، فوتر، بريد، طلب) تبقى بروابط مستقلة.</p>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ frontGroups }}" as="fg" hint-placeholder-count="4">
+<div style="padding:13px 14px;border:1px solid {{ fg.edge }};border-radius:11px;background:{{ fg.bg }}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap">
+<span style="font:800 12px Tajawal,sans-serif;color:#1a1a1a">{{ fg.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 8px;border-radius:20px;background:{{ fg.chipBg }};color:{{ fg.chipFg }}">{{ fg.verdict }}</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px">
+<sc-for list="{{ fg.pages }}" as="pg" hint-placeholder-count="4">
+<span style="font:700 10px Tajawal,sans-serif;padding:5px 10px;border-radius:7px;background:#fff;border:1px solid #e4e4e7;color:rgba(0,0,0,.68)">{{ pg }}</span>
+</sc-for>
+</div>
+<p style="margin:0;font:500 10.5px/1.75 Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ fg.why }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<sc-if value="{{ cmdOpen }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-label="مركز الاختصارات" style="position:fixed;inset:0;z-index:60;background:rgba(20,20,22,.5);display:grid;place-items:start center;padding:64px 22px 22px;box-sizing:border-box">
+<div style="width:100%;max-width:540px;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.28);animation:tahFadeUp .18s ease both">
+<div style="display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid #ececef">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:rgba(0,0,0,.4);stroke-width:2.2;stroke-linecap:round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+<input type="text" placeholder="ابحث عن قسم أو إجراء…" style="flex:1;min-height:32px;border:0;font-family:Tajawal,sans-serif;font-size:13px;font-weight:600;color:#1a1a1a">
+<button type="button" onClick="{{ closeCmd }}" aria-label="إغلاق" style="width:28px;height:28px;border:1px solid #dcdcde;border-radius:7px;background:#fff;cursor:pointer;font:700 13px ui-monospace,monospace;color:rgba(0,0,0,.5)">×</button>
+</div>
+<div style="max-height:52vh;overflow:auto;padding:9px">
+<sc-for list="{{ cmdGroups }}" as="cg" hint-placeholder-count="3">
+<div style="margin-bottom:9px">
+<span style="display:block;font:800 9px Tajawal,sans-serif;color:rgba(0,0,0,.42);padding:5px 8px">{{ cg.label }}</span>
+<div style="display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{ cg.items }}" as="ci" hint-placeholder-count="5">
+<button type="button" onClick="{{ ci.onClick }}" style="display:flex;align-items:center;gap:9px;min-height:34px;padding:0 9px;border:0;border-radius:7px;background:{{ ci.bg }};cursor:pointer;text-align:start;width:100%">
+<span aria-hidden="true" style="flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:{{ ci.dot }}"></span>
+<span style="flex:1;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:700;color:#1a1a1a;text-align:start">{{ ci.label }}</span>
+<span style="font:600 9px ui-monospace,monospace;color:rgba(0,0,0,.35)">{{ ci.hint }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startPart&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;console&quot;,&quot;plan&quot;],&quot;default&quot;:&quot;console&quot;,&quot;tsType&quot;:&quot;'console' | 'plan'&quot;,&quot;section&quot;:&quot;العرض&quot;},&quot;showEvidence&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;العرض&quot;}}">
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+const chip = (s) => s === 'ok' ? { bg: GBG, fg: G } : s === 'part' ? { bg: ABG, fg: '#7a5a00' } : { bg: RBG, fg: R };
+
+const WS = {
+  overview: ['نظرة عامة', 'info', 'الملخّص التنفيذي: أكبر خطر، أكبر خسارة محتملة، أسرع فرصة، أول إجراء مطلوب.',
+    [['Executive Brief', 'seo-analytics-admin.php:716'], ['بطاقات القرار', 'data-decision-card'], ['درجة SEO', 'seo-dashboard-ui.php:439'], ['حالة الصحّة', 'tahdheerHealthStatus']],
+    ['تحديث البيانات', 'تصدير CSV', 'تصدير JSON', 'طباعة PDF']],
+  priority: ['قائمة الإصلاح', 'critical', 'طابور الأولويات المرتّب بالأثر — مع ترقيم وتصفية وحالة لكل عنصر.',
+    [['Fix Queue', 'data-open-workspace="priority"'], ['جدول الأولويات', 'tahdheerPriorityPage'], ['حالات العناصر', 'item_states']],
+    ['تشغيل الفحص', 'تجاهل', 'تأجيل', 'ملاحظة']],
+  indexing: ['الفهرسة', 'warning', 'قابلية الفهرسة محليًا: الحالة، robots، noindex، canonical، الخرائط — لا ادّعاء لحالة Google.',
+    [['مركز الفهرسة', 'seo-indexing-center.php'], ['تدقيق الخرائط', 'seo-dashboard-ui.php:474'], ['Search Console', 'class-gsc-oauth.php'], ['IndexNow', 'seo-instant-indexing.php']],
+    ['فحص دفعة', 'نسخ رابط الخريطة', 'مزامنة GSC']],
+  products: ['المنتجات والمتجر', 'warning', 'فرص المتجر، أولوية المنتجات، الحقول التعليمية، أهلية القنوات.',
+    [['فرص المتجر', 'seo-dashboard-ui.php:511'], ['أولوية المنتجات', 'smart-product-priority.php'], ['تعبئة الحقول', 'class-edu-backfill.php'], ['أهلية Merchant', 'merchant-eligibility.php']],
+    ['فحص ومعاينة', 'تعبئة الفراغات', 'تصدير']],
+  analytics: ['التحليلات', 'info', 'الجمهور، التفاعل، القمع الشرائي، المصادر — من جدول القياس المحلي لا من خدمة خارجية.',
+    [['الجمهور', 'data-audience'], ['التفاعل', 'data-engage'], ['القمع الشرائي', 'data-funnel'], ['المصادر', 'analytics-db.php:1076']],
+    ['تغيير الفترة', 'تصفية بالجهاز', 'تصدير']],
+  attention: ['التفاعل والانتباه', 'info', 'خريطة الانتباه والنقر والتمرير — نفس نطاق التحليلات، وكانت صفحة منفصلة بلا سبب.',
+    [['خريطة الانتباه', 'attention-heatmap.php:559'], ['عمق التمرير', 'attention-heatmap.php'], ['نقاط النقر', 'attention-heatmap.php']],
+    ['تحديد صفحة', 'تغيير الفترة', 'تصدير']],
+  content: ['المحتوى', 'warning', 'المحلّلات التسعة: SERP، الكلمات، النيّة، التوقّع، CTR، الرتبة، البحث الداخلي، التغيّرات.',
+    [['SERP Preview', 'class-bridge-snippet.php'], ['نيّة البحث', 'class-search-intent-analyzer.php'], ['كلمات البحث الداخلي', 'class-search-insights.php'], ['مراقب التغيّرات', 'class-change-monitor.php']],
+    ['فحص الآن', 'فحص الكل', 'CSV', 'JSON']],
+  media: ['الوسائط والصور', 'warning', 'مكتبة الوسائط وتحسين الصور — وظيفة واحدة كانت مقسومة على صفحتين.',
+    [['مكتبة الوسائط', 'image-optimizer.php:789'], ['تحسين الصور', 'image-upscaler.php:190'], ['SEO الصور', 'smart-image-seo.php'], ['أداء الصور', 'performance-images.php']],
+    ['تحسين دفعة', 'إعادة توليد', 'فحص alt']],
+  cwv: ['الأداء و CWV', 'good', 'مؤشرات الأداء الأساسية وتوقيت الخادم — مبنيّة وتعمل.',
+    [['ذكاء CWV', 'smart-cwv-intelligence.php'], ['Server-Timing', 'server-timing.php'], ['الأداء', 'performance.php']],
+    ['قياس', 'مقارنة', 'تصدير']],
+  payments: ['المدفوعات (Tap)', 'info', 'مساحة مدمجة بالفعل — أول مثال ناجح على الآلية داخل القالب.',
+    [['مساحة Tap', 'tap-integration.php:199'], ['حالة الاتصال', 'tap-integration.php'], ['سجل المعاملات', 'tap-integration.php']],
+    ['اختبار الاتصال', 'مزامنة', 'سجل']],
+  automation: ['الأتمتة', 'good', 'قواعد وسير عمل SEO — موجودة كمساحة مسجّلة عبر data-nav-label.',
+    [['Workflows', 'seo-dashboard-ui.php:565'], ['قواعد الأتمتة', 'seo-automation-rules.php'], ['محرّك سير العمل', 'seo-workflow-engine.php']],
+    ['تشغيل قاعدة', 'إيقاف', 'سجل التنفيذ']],
+  links: ['الروابط الداخلية', 'info', 'اقتراحات الربط وخريطة الروابط — مساحتان مسجّلتان فعلًا.',
+    [['اقتراحات الربط', 'seo-internal-links.php:216'], ['خريطة الروابط', 'seo-link-graph.php:453'], ['الربط التلقائي', 'internal-linking.php']],
+    ['بناء الخريطة', 'تطبيق اقتراح', 'تصدير']],
+  modules: ['وحدات SEO', 'info', 'مركز الوحدات: ما هو مفعّل، ما هو مخطّط، وما يحتاج مفاتيح.',
+    [['مركز الوحدات', 'seo-modules-center.php:540'], ['الاستثناءات', 'seo-exclusions.php:237'], ['الملكية', 'seo-ownership-manager.php']],
+    ['تفعيل', 'تعطيل', 'إعدادات']],
+  appearance: ['المظهر والتخصيص', 'info', 'مواقع القوائم وشبكة الهيرو — تبقى تحت «المظهر» لأن سياقها التحرير لا التحليل.',
+    [['مواقع القوائم', 'menu-locations.php:202'], ['شبكة الهيرو', 'hero-grid.php:243'], ['المخصّص', 'customizer.php']],
+    ['حفظ', 'معاينة', 'استعادة']],
+  reports: ['التقارير', 'info', 'التقرير البريدي والتصدير المجمّع.',
+    [['تقرير بالبريد', 'class-seo-email-report.php'], ['تصدير موحّد', 'class-seo-analytics-export.php']],
+    ['إرسال تجريبي', 'جدولة', 'تصدير']],
+  settings: ['الإعدادات', 'info', 'إعدادات المحلّلات والتكاملات وحدود الاحتفاظ.',
+    [['إعدادات SEO', 'class-seo-settings.php'], ['التكاملات', 'integrations/'], ['الاحتفاظ', 'analytics-db.php']],
+    ['حفظ', 'إعادة تعيين']],
+  logs: ['السجلات', 'info', 'سجل التشغيل والأخطاء بمُعرّف ارتباط.',
+    [['سجل الكرون', 'analytics-cron.php'], ['سجل الأخطاء', 'analytics-db.php']],
+    ['تصفية', 'تصدير', 'تفريغ']],
+};
+
+const PRESETS = {
+  executive: ['Executive', ['overview', 'priority', 'products']],
+  seo: ['SEO', ['overview', 'priority', 'indexing', 'content', 'cwv', 'modules', 'links']],
+  sales: ['Sales', ['overview', 'products', 'analytics']],
+  payments: ['Payments', ['payments', 'products', 'analytics', 'reports']],
+  products: ['Products', ['products', 'content', 'analytics', 'media']],
+  operations: ['Operations', ['priority', 'automation', 'cwv', 'logs', 'settings', 'modules', 'payments']],
+  all: ['All Zones', null],
+};
+
+const DOMAINS = [
+  ['analyzers', 'المحلّلات', ['content', 'indexing', 'links', 'modules']],
+  ['analytics', 'التحليلات', ['overview', 'priority', 'analytics', 'attention', 'cwv', 'reports']],
+  ['store', 'المتجر', ['products', 'payments', 'automation']],
+  ['media', 'الوسائط', ['media']],
+  ['system', 'النظام والمظهر', ['appearance', 'settings', 'logs']],
+];
+
+const NEWLY = { attention: 1, media: 1, appearance: 1 };
+
+class Component extends DCLogic {
+  state = { part: 'console', preset: 'seo', ws: 'content', dom: 'analyzers', multi: false, cmd: false, plan: 'state' };
+
+  pick = (ws) => () => this.setState({ ws, cmd: false });
+
+  renderVals() {
+    const part = this.state.part, presetList = PRESETS[this.state.preset][1];
+    const cur = WS[this.state.ws] || WS.overview;
+    const st = cur[1];
+    const stMap = { critical: chip('no'), warning: chip('part'), good: chip('ok'), info: { bg: '#eef2f7', fg: '#3a5a80' } };
+    const stLabel = { critical: 'حَرِج', warning: 'تحذير', good: 'سليم', info: 'معلومات' };
+    const dot = { critical: R, warning: A, good: G, info: '#7a90ad' };
+
+    const visible = (k) => !presetList || presetList.indexOf(k) !== -1;
+
+    const others = (presetList || Object.keys(WS)).filter((k) => k !== this.state.ws && WS[k]).slice(0, 6).map((k) => {
+      const w = WS[k];
+      return { title: w[0], note: w[2], st: stLabel[w[1]], stBg: stMap[w[1]].bg, stFg: stMap[w[1]].fg, dot: dot[w[1]], onClick: this.pick(k) };
+    });
+
+    return {
+      show: { console: part === 'console' ? 'flex' : 'none', plan: part === 'plan' ? 'flex' : 'none' },
+      partTabs: [['console', 'الكونسول الموحَّد'], ['plan', 'خطة الدمج والضمانات']].map((p) => ({
+        label: p[1], on: part === p[0], onClick: () => this.setState({ part: p[0] }),
+        bg: part === p[0] ? '#1a1a1a' : 'transparent', fg: part === p[0] ? '#fff' : 'rgba(0,0,0,.6)',
+      })),
+
+      presets: Object.keys(PRESETS).map((k) => {
+        const on = this.state.preset === k;
+        return { label: PRESETS[k][0], on, edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)', onClick: () => this.setState({ preset: k }) };
+      }),
+
+      multiOn: this.state.multi, multiShow: this.state.multi ? 'flex' : 'none',
+      multiEdge: this.state.multi ? G : '#dcdcde', multiBg: this.state.multi ? GBG : '#fcfcfd', multiFg: this.state.multi ? G : 'rgba(0,0,0,.6)',
+      toggleMulti: () => this.setState((s) => ({ multi: !s.multi })),
+      openCmd: () => this.setState({ cmd: true }), closeCmd: () => this.setState({ cmd: false }), cmdOpen: this.state.cmd,
+
+      domains: DOMAINS.map((d) => {
+        const on = this.state.dom === d[0];
+        const items = d[2].filter((k) => WS[k]);
+        const shown = items.filter(visible);
+        return {
+          label: d[1], on, n: String(items.length).padStart(2, '0'),
+          bg: on ? '#f2f2f4' : 'transparent', fg: on ? '#1a1a1a' : 'rgba(0,0,0,.66)',
+          nBg: on ? '#1a1a1a' : '#f2f2f4', nFg: on ? '#fff' : 'rgba(0,0,0,.45)',
+          listShow: on ? 'flex' : 'none',
+          onClick: () => this.setState({ dom: on ? '' : d[0] }),
+          items: items.map((k) => {
+            const w = WS[k], sel = this.state.ws === k, dim = !visible(k);
+            return {
+              label: w[0], current: sel ? 'true' : 'false', onClick: this.pick(k),
+              edge: sel ? G : 'transparent', bg: sel ? '#f6faf8' : 'transparent',
+              fg: sel ? '#123d2f' : dim ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.68)',
+              weight: sel ? 800 : 600, dot: dim ? '#dcdcde' : dot[w[1]], isNew: !!NEWLY[k],
+            };
+          }),
+        };
+      }),
+
+      ws: {
+        title: cur[0], note: cur[2], key: 'data-workspace="' + this.state.ws + '"',
+        st: stLabel[st], stBg: stMap[st].bg, stFg: stMap[st].fg,
+        panels: cur[3].map((p) => ({ label: p[0], src: p[1] })),
+        actions: cur[4],
+      },
+      otherWs: others,
+
+      planTabs: [['state', 'الحالة الحقيقية'], ['ledger', 'سجل ١:١'], ['risk', 'شروط الدمج'], ['nomerge', 'ما لا يُدمج'], ['front', 'صفحات الواجهة']].map((p) => {
+        const on = this.state.plan === p[0];
+        return { label: p[1], on, edge: on ? G : '#dcdcde', bg: on ? GBG : '#fff', fg: on ? G : 'rgba(0,0,0,.6)', onClick: () => this.setState({ plan: p[0] }) };
+      }),
+      plan: { state: this.state.plan === 'state' ? 'flex' : 'none', ledger: this.state.plan === 'ledger' ? 'flex' : 'none', risk: this.state.plan === 'risk' ? 'flex' : 'none', nomerge: this.state.plan === 'nomerge' ? 'flex' : 'none', front: this.state.plan === 'front' ? 'flex' : 'none' },
+
+      merged: [
+        ['محلّلات SEO التسعة', 'seo-admin:110 مخفيّة + مضمّنة'], ['لوحة تحليلات SEO', 'add_menu_page مُعلَّق'],
+        ['درجة SEO', 'dashboard-ui:439'], ['تدقيق الخرائط', 'dashboard-ui:474'],
+        ['فرص المتجر', 'dashboard-ui:511'], ['Workflows', 'dashboard-ui:565'],
+        ['الاستثناءات', 'seo-exclusions:237'], ['وحدات SEO', 'modules-center:540'],
+        ['اقتراحات الربط', 'internal-links:216'], ['خريطة الروابط', 'link-graph:453'],
+        ['المدفوعات (Tap)', 'tap-integration:199'], ['لوحة الأوامر Ctrl K', 'unify.js'],
+        ['سبعة تخطيطات + عرض متعدّد', 'pro.js'], ['حفظ وتصدير التخطيط', 'pro.js'],
+      ].map((m) => ({ label: m[0], ev: m[1] })),
+
+      standalone: [
+        ['Analytics Pro — الرئيسية', 'analytics-pro', 'add_menu_page عند الموضع ٥٨ + submenu يكرّر الأب'],
+        ['خريطة الانتباه', 'TAHDHEER_HM_SLUG', 'add_submenu_page( analytics-pro ) — attention-heatmap.php:559'],
+        ['مكتبة الوسائط', 'TAHDHEER_IMGOPT_SLUG', 'add_submenu_page( analytics-pro ) — image-optimizer.php:789'],
+        ['تحسين الصور', 'TAHDHEER_UPSCALER_SLUG', 'add_submenu_page( analytics-pro ) — image-upscaler.php:190'],
+        ['مواقع القوائم', 'add_theme_page', 'menu-locations.php:202 — تحت المظهر'],
+        ['شبكة الهيرو', 'add_theme_page', 'hero-grid.php:243 — تحت المظهر'],
+      ].map((s) => ({ label: s[0], slug: s[1], reg: s[2] })),
+
+      ledger: [
+        ['Analytics Pro — الرئيسية', 'analytics-pro.php:83', 'نظرة عامة', 'تبقى القائمة العلوية الوحيدة وتُعاد تسميتها بالعربية؛ يُحذف الـsubmenu المكرّر للأب', 'دقائق', 'ok'],
+        ['خريطة الانتباه', 'attention-heatmap.php:559', 'التفاعل والانتباه', 'أضف data-nav-label + data-nav-icon على وسم القسم، واحذف add_submenu_page', 'سطران', 'ok'],
+        ['مكتبة الوسائط', 'image-optimizer.php:789', 'الوسائط والصور', 'نفس الخطوة + تُصبح التبويب الأول في مساحة الوسائط', 'سطران', 'ok'],
+        ['تحسين الصور', 'image-upscaler.php:190', 'الوسائط والصور', 'تُدمج كتبويب ثانٍ في نفس المساحة — وظيفة واحدة لا صفحتان', 'سطران', 'ok'],
+        ['محلّلات SEO', 'seo/admin:110', 'المحتوى', 'مُنجَز بالفعل — مضمّنة ومخفيّة من الشريط', 'مُنجَز', 'ok'],
+        ['المدفوعات Tap', 'tap-integration.php:199', 'المدفوعات', 'مُنجَز بالفعل — أول مساحة تستخدم الآلية', 'مُنجَز', 'ok'],
+        ['مواقع القوائم + الهيرو', 'menu-locations · hero-grid', 'المظهر', 'تبقى تحت «المظهر» وتُدمج معًا في صفحة واحدة بتبويبين — سياقها التحرير لا التحليل', 'ساعة', 'part'],
+      ].map((l) => {
+        const c = chip(l[5]);
+        return { from: l[0], file: l[1], to: l[2], change: l[3], effort: l[4], eBg: c.bg, eFg: c.fg, bg: l[4] === 'مُنجَز' ? '#f6faf8' : '#fff', toFg: l[4] === 'مُنجَز' ? G : '#1a1a1a' };
+      }),
+
+      preserved: [
+        ['دالّة العرض', 'نفس callback العرض يُستدعى كما هو — لا إعادة كتابة للواجهة.'],
+        ['نقاط AJAX و REST', 'المسارات والـnonce والقدرات كما هي حرفيًا — لا مساس بالأمان.'],
+        ['الصلاحيات لكل قسم', 'قدرة كل مساحة تُفحص عند العرض، فمن لا يملك القدرة لا يرى المساحة.'],
+        ['الروابط القديمة', 'كل slug قديم يبقى صالحًا كتحويل إلى المساحة: ?page=…&ws=media — لا إشارة مرجعية تُكسر.'],
+        ['التخزين والإعدادات', 'نفس مفاتيح الخيارات والجداول — لا ترحيل بيانات ولا فقدان تفضيلات.'],
+        ['CSS و JS الخاصة', 'تُحمَّل عند وجود مساحتها فقط، بنفس ملفاتها ونسخها.'],
+        ['ما يُضاف مجانًا', 'لوحة أوامر · سبعة تخطيطات · عرض متعدّد · إعادة ترتيب · تخطيط مسمّى · تصدير JSON.'],
+        ['قابلية التراجع', 'إرجاع أي مساحة لصفحة مستقلة = إعادة سطر add_submenu_page. الدمج غير مُهلِك.'],
+      ].map((p) => ({ label: p[0], note: p[1] })),
+
+      risks: [
+        ['01', 'تصادم الأنماط', 'أربع صفحات تحمّل CSS على شاشة واحدة يعني قواعد تتسرّب بين الأقسام: عنوان يتغيّر حجمه، جدول يفقد حدوده، زر يستعير لونًا من قسم آخر. هذا أكثر ما يُفشل الدمج عمليًا.', 'القالب يستخدم بادئات منفصلة (tseo- · thseo- · tahdheer-) وطبقات CSS مرتّبة اسمها unify ثم refine ثم flatten. الشرط: كل مساحة تُحصر قواعدها تحت جذرها [data-workspace="x"]، ولا قاعدة عامة على وسم أو عنصر.'],
+        ['02', 'ثِقَل الاستعلامات', 'أربع صفحات تُصيّر معًا = أربعة أضعاف الاستعلامات في طلب واحد، فتتحوّل شاشة سريعة إلى شاشة تنتظر — ويُفقد بالسرعة أكثر ممّا يُكسب بالترتيب.', 'التحميل المؤجّل موجود ويعمل: triggerLoad + IntersectionObserver + data-workspace-body تحمّل جسم المساحة عند ظهورها فقط. الشرط: لا تُصيَّر أي مساحة مدمَجة داخل PHP مباشرة — جسمها يأتي بطلب مؤجّل.'],
+        ['03', 'عمق الروابط', 'رابط محفوظ أو مُرسَل بالبريد يشير لصفحة اختفت، فيهبط المستخدم على شاشة عامة ولا يعرف أين ذهب ما كان يقرأه. هذا فقدان حقيقي وإن لم تنقص ميزة.', 'الكونسول يقرأ seo_tab من الرابط فعلًا ويفتح التبويب المطلوب. الشرط: توسيعه إلى ws= لكل مساحة، وتحويل كل slug قديم إليه، مع الحفاظ على تمرير الصفحة للمساحة الصحيحة عند الفتح.'],
+      ].map((r) => ({ n: r[0], label: r[1], problem: r[2], fix: r[3], edge: '#f0dca0', bg: '#fdf9ef', nBg: '#7a5a00', nFg: '#fff' })),
+
+      noMerge: [
+        ['صفحات السياسات الخمس', 'الاسترجاع والخصوصية والترخيص والشروط والكوكيز. كل صفحة لها رابط مستقل تطلبه بوّابات الدفع والمتاجر والمراجعات القانونية، ويُشار إليه في الفوتر وفي البريد. دمجها في صفحة بتبويبات يجعل التبويبات الأربعة غير المرئية بلا رابط ثابت ولا فهرسة — تفقد وظيفتها القانونية والبحثية معًا.', 'تبقى خمس صفحات مستقلة، مع شريط تنقّل موحّد بينها في أعلى كل واحدة يشعر معه الزائر أنه في «مركز السياسات» لا في صفحات متناثرة.'],
+        ['مراكز المنهج (مرحلة × مادة)', 'كل مركز يستهدف استعلامًا بحثيًا مختلفًا ويجمع منتجاته الخاصة. دمجها في صفحة واحدة يحوّل عشرات الصفحات ذات النيّة الواضحة إلى صفحة واحدة عامة تنافس نفسها.', 'تبقى مستقلة، وتُربط بصفحة فهرس واحدة تُظهر الشجرة كاملة — الفهرس يجمع، لا يستبلع.'],
+        ['السلة والدفع', 'خطوتان في زمنين مختلفين ولكل منهما قياس تحويل مستقل. دمجهما يُخفي مكان التسرّب في القمع الشرائي، وقد يبدو الدمج تبسيطًا وهو إخفاء للمشكلة.', 'تبقيان صفحتين، مع ملخّص طلب ثابت مشترك بينهما ليشعر العميل بالاتصال دون فقدان القياس.'],
+        ['صفحة المنتج وصفحة التصنيف', 'نيّتان مختلفتان: المقارنة والاختيار مقابل القرار والشراء. دمجهما يُضعف الاثنتين.', 'تبقيان مستقلتين، مع روابط داخلية متينة في الاتجاهين (موجودة فعلًا في internal-linking.php).'],
+      ].map((n) => ({ label: n[0], why: n[1], instead: n[2] })),
+
+      frontGroups: [
+        ['حساب العميل', 'تُدمج', 'ok', ['حسابي', 'التحميلات', 'الطلبات', 'المكتبة الرقمية'], 'العميل يفتحها كلها في جلسة واحدة ولسبب واحد: «أين ملفي؟». صفحة واحدة بتبويبات تُنهي هذا السؤال في نقرة، وكل تبويب يحتفظ برابطه العميق فلا شيء يُفقد.'],
+        ['مركز السياسات', 'تبقى منفصلة + شريط موحّد', 'part', ['الاسترجاع', 'الخصوصية', 'الترخيص', 'الشروط', 'الكوكيز'], 'روابط مستقلة مطلوبة قانونيًا وبحثيًا. الشريط الموحّد يعطي إحساس المركز الواحد دون أن يكلّف صفحة واحدة رابطها.'],
+        ['المساعدة والتواصل', 'تُدمج', 'ok', ['اتصل بنا', 'الأسئلة الشائعة', 'كيف أشتري', 'الدعم'], 'كلها تُفتح عند نفس اللحظة: العميل متعطّل ويريد جوابًا. تفريقها يجعله يبحث بينها بدل أن يقرأ.'],
+        ['الاستكشاف', 'تبقى منفصلة', 'no', ['التصنيفات', 'مراكز المنهج', 'نتائج البحث', 'العروض'], 'كل واحدة تخدم نيّة بحث مختلفة وتُدخل زائرًا من باب مختلف. دمجها يُلغي أبوابًا لا يُرتّبها.'],
+      ].map((f) => {
+        const c = chip(f[2]);
+        return { label: f[0], verdict: f[1], chipBg: c.bg, chipFg: c.fg, pages: f[3], why: f[4], edge: f[2] === 'ok' ? '#cfe6dc' : f[2] === 'part' ? '#f0dca0' : '#ececef', bg: f[2] === 'ok' ? '#f6faf8' : f[2] === 'part' ? '#fdf9ef' : '#fcfcfd' };
+      }),
+
+      cmdGroups: [
+        { label: 'مساحات العمل', items: ['content', 'analytics', 'media', 'attention', 'products'].map((k) => ({ label: WS[k][0], hint: k, dot: dot[WS[k][1]], bg: this.state.ws === k ? '#f6faf8' : 'transparent', onClick: this.pick(k) })) },
+        { label: 'إجراءات سريعة', items: [['تحديث البيانات', 'refresh'], ['تحميل CSV', 'csv'], ['تحميل JSON', 'json'], ['طباعة / حفظ PDF', 'print'], ['فتح محرر التخطيط', 'edit']].map((a) => ({ label: a[0], hint: a[1], dot: '#c9c9cd', bg: 'transparent', onClick: () => this.setState({ cmd: false }) })) },
+        { label: 'التخطيط', items: [['تفعيل العرض المتعدّد', 'multiview'], ['استعادة التخطيط الافتراضي', 'reset']].map((a) => ({ label: a[0], hint: a[1], dot: '#c9c9cd', bg: 'transparent', onClick: () => this.setState({ cmd: false, multi: a[1] === 'multiview' }) })) },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1438 @@
+/*
+UNIT: STUDIO
+COMPONENT: _field.tsx, new-studio.tsx, studio-client.tsx, wired-panels.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * استوديو المنتج — نقل قيم «Tahdheer - Product Studio» الحرفية:
+ * شبكة 200px | 1fr | 280px بفجوة 16px، ألواح بإطار `--border` ونصف قطر 12px،
+ * عناوين 14px/900، حافة الخطوة 3px، شريط الجاهزية 8px.
+ *
+ * فرق مقصود عن اللوحة: كل عنصر تفاعلي هنا لا يقلّ عن 44px هدفًا للمس
+ * (اللوحة ترسم 32–40px) — قاعدة الوصول مُلزِمة وتعلو على مطابقة البكسل.
+ * خصائص منطقية فقط، ولا لون خام: كلّ لونٍ رمزٌ يتبع السمة (داكن/فاتح) واللون
+ * الأساسيّ — الصبغات `color-mix` من `--primary`/`--gold-500`/`--cc-red`، وحدود
+ * الحقول `--adm-field-line` (≥3:1)، والحبر فوق التعبئة `--adm-on-accent`.
+ */
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-block-end: 16px;
+}
+
+.headText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 9px;
+  margin-block-end: 4px;
+}
+
+.badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding-block: 3px;
+  padding-inline: 7px;
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: 4px;
+}
+
+.headTitle {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.headNote {
+  margin-block: 0;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-inline-size: 80ch;
+}
+
+.headNote code,
+.panelNote code,
+.hint code,
+.measured code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px;
+}
+
+.modes {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.mode {
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.modeOn {
+  background: var(--primary);
+  color: var(--adm-on-accent);
+}
+
+/* ───── الشبكة ───── */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr) minmax(0, 280px);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ───── شريط الخطوات ───── */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  position: sticky;
+  inset-block-start: 16px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 0;
+  border-inline-start: 3px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+  inline-size: 100%;
+  font: inherit;
+  color: var(--body);
+}
+
+.step:hover {
+  background: var(--bg-mist);
+}
+
+.stepOn {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border-inline-start-color: var(--primary);
+  color: var(--ink);
+}
+
+.stepDot {
+  flex: 0 0 auto;
+  inline-size: 20px;
+  block-size: 20px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.dot_done {
+  background: var(--primary-soft);
+  /* نصٌّ على صبغة: حبرُ الرابط (≥4.5:1) لا التعبئة — ‎--primary‎ هنا 4.4:1 في الفاتح. */
+  color: var(--primary-strong);
+}
+
+.dot_todo {
+  background: var(--bg-mist);
+  color: var(--muted);
+}
+
+
+.stepLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+}
+
+.stepOn .stepLabel {
+  font-weight: 900;
+}
+
+.stepState {
+  flex: 0 0 auto;
+  inline-size: 16px;
+  block-size: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 900;
+  border-radius: 5px;
+}
+
+.state_done {
+  color: var(--primary-strong);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.state_todo {
+  color: var(--gold-text);
+  background: color-mix(in srgb, var(--gold-500) 20%, transparent);
+}
+
+
+/* ───── العمود الأوسط ───── */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-inline-size: 0;
+}
+
+.panel {
+  padding-block: 16px;
+  padding-inline: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.panelHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 6px;
+}
+
+.panelTitle {
+  margin-block: 0 12px;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.panelHead .panelTitle {
+  margin-block-end: 0;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.panelNote {
+  margin-block: 0 13px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.measured {
+  margin-block: 0 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--body);
+}
+
+.tagOk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--primary-strong);
+  white-space: nowrap;
+}
+
+.tagNew {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--gold-500) 18%, transparent);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--gold-text);
+  white-space: nowrap;
+}
+
+.tagKnown {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary-strong);
+}
+
+/* ───── الحقول ───── */
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-inline-size: 0;
+}
+
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--adm-field-line);
+  border-radius: var(--radius-md);
+  padding-block: 10px;
+  padding-inline: 12px;
+  min-block-size: 44px;
+  inline-size: 100%;
+}
+
+.field textarea {
+  line-height: 1.8;
+  resize: vertical;
+}
+
+.field input:disabled,
+.field select:disabled,
+.field textarea:disabled {
+  background: var(--cc-well);
+  color: var(--muted);
+}
+
+.hint {
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.money {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--adm-field-line);
+  border-radius: 9px;
+  background: var(--surface);
+}
+
+.money input {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  min-block-size: 42px;
+  background: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: start;
+}
+
+.money input:focus-visible {
+  outline: var(--focus-ring-width) solid var(--primary);
+  outline-offset: 2px;
+}
+
+.unit {
+  flex: 0 0 auto;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.chipset {
+  margin-block-start: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding-block: 12px;
+  padding-inline: 12px;
+}
+
+.chipset legend {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  padding-inline: 6px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-end: 8px;
+}
+
+.chipBtn {
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border: 1px solid var(--border-field);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.chipBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.chipBtnOn {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  color: var(--primary-strong);
+}
+
+/* ───── الحقائق ───── */
+
+.factGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 9px;
+  margin-block-end: 12px;
+}
+
+.factCard {
+  padding: 11px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+}
+
+.factUnknown {
+  border-color: color-mix(in srgb, var(--gold-500) 40%, transparent);
+  background: color-mix(in srgb, var(--gold-500) 6%, transparent);
+}
+
+.factHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-end: 6px;
+}
+
+.factLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: start;
+}
+
+.factTag {
+  flex: 0 0 auto;
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: 4px;
+  font-size: 8.5px;
+  font-weight: 900;
+  background: color-mix(in srgb, var(--gold-500) 20%, transparent);
+  color: var(--gold-text);
+}
+
+.factRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.factRow input {
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--adm-field-line);
+  border-radius: 8px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  min-block-size: 44px;
+  min-inline-size: 0;
+}
+
+.factRow input:disabled {
+  background: var(--cc-well);
+  color: var(--muted);
+}
+
+/* ───── الخصم المشتقّ ───── */
+
+.derived {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-block-start: 12px;
+  padding-block: 12px;
+  padding-inline: 13px;
+  border: 1px dashed var(--border-field);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+}
+
+.derivedOn {
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+}
+
+.derivedText {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: start;
+}
+
+.derivedOn .derivedText {
+  color: var(--primary-strong);
+}
+
+.derivedMath {
+  flex: 0 0 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ───── معاينة نتيجة البحث ───── */
+
+.serp {
+  margin-block-start: 13px;
+  padding-block: 12px;
+  padding-inline: 13px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  text-align: start;
+}
+
+.serpCaption {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--muted);
+  margin-block-end: 7px;
+}
+
+.serpPath {
+  display: block;
+  font-size: 10.5px;
+  color: var(--primary);
+  margin-block-end: 2px;
+}
+
+.serpTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  /* أزرق عنوان نتيجة البحث — الحبر الأزرق المشتقّ لكلّ سمة (#1a0dab كان 1.2:1 على الداكن). */
+  color: var(--cc-blue-text);
+  line-height: 1.4;
+  margin-block-end: 3px;
+}
+
+.serpDesc {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--body);
+}
+
+.serpCounts {
+  display: block;
+  margin-block-start: 7px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ───── جداول ───── */
+
+.kv,
+.owners {
+  inline-size: 100%;
+  border-collapse: collapse;
+  margin-block-start: 13px;
+  font-size: 11.5px;
+}
+
+.kvCaption {
+  caption-side: top;
+  text-align: start;
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--muted);
+  padding-block-end: 7px;
+}
+
+.kv th,
+.owners th,
+.owners td,
+.kv td {
+  text-align: start;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border-block-start: 1px solid var(--border-hairline);
+  vertical-align: top;
+  line-height: 1.7;
+}
+
+.kv th,
+.owners tbody th {
+  inline-size: 34%;
+  font-weight: 800;
+  color: var(--muted);
+  background: var(--bg-soft);
+}
+
+.owners thead th {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--muted);
+  border-block-start: 0;
+}
+
+.owners code,
+.kv code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.ownerBlocked {
+  background: color-mix(in srgb, var(--cc-red) 5%, transparent);
+}
+
+.ownerBlocked code {
+  color: var(--danger-text);
+}
+
+/* ───── الملفات: رقاقات + زرّ إضافة ───── */
+
+.chipsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 12px;
+}
+
+.fileChip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 9px;
+  padding-inline: 11px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 9px;
+  background: var(--bg-soft);
+  min-inline-size: 0;
+}
+
+.fileChipIcon {
+  flex: 0 0 auto;
+  inline-size: 26px;
+  block-size: 26px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+}
+
+.fileChipIcon svg,
+.slotIcon svg,
+.fileAdd svg {
+  inline-size: 13px;
+  block-size: 13px;
+}
+
+.fileChipText {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.fileChipName {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.fileChipSize {
+  font-size: 9.5px;
+  color: var(--muted);
+}
+
+.chipField select {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--adm-field-line);
+  border-radius: 8px;
+  min-block-size: 44px;
+  padding-inline: 9px;
+}
+
+.chipBtnGhost {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 1px solid var(--border-field);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.chipBtnGhost:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fileAdd {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 9px;
+  background: var(--surface);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.fileAdd:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.fileAddOff {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ───── الوسائط: شبكة خانتين ───── */
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 9px;
+  margin-block-end: 14px;
+}
+
+.slot {
+  padding: 11px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  min-inline-size: 0;
+}
+
+.slotCover {
+  border-color: color-mix(in srgb, var(--primary) 32%, transparent);
+  background: var(--surface);
+}
+
+.slotHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 8px;
+}
+
+.slotIcon {
+  flex: 0 0 auto;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: 8px;
+  background: var(--bg-mist);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.slotIcon svg {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.slotMeta {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.slotName {
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.slotDim {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.slotState {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 7px;
+  border-radius: 5px;
+  background: var(--bg-mist);
+  font-size: 9px;
+  font-weight: 900;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.slotStateOn {
+  background: var(--success-chip-bg);
+  color: var(--success-chip-fg);
+}
+
+.slotBtn {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--border-field);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.slotBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.slotAltField input {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--adm-field-line);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.slotHint {
+  display: block;
+  margin-block-start: 5px;
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: start;
+}
+
+.slotHintWarn {
+  color: var(--gold-text);
+  font-weight: 800;
+}
+
+.slotActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-block-start: 8px;
+}
+
+/* ───── حقول البحث الثلاثة ───── */
+
+.searchFields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-block-end: 13px;
+}
+
+.searchField {
+  display: block;
+  min-inline-size: 0;
+}
+
+.searchHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-block-end: 5px;
+}
+
+.searchLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: start;
+}
+
+.searchCount {
+  flex: 0 0 auto;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.searchCountOver {
+  color: var(--gold-text);
+}
+
+.searchInput {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border: 1px solid var(--search-field-line, var(--adm-field-line));
+  border-radius: 9px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* جدول وراثة الترجمة يضع الحقول على زجاج `.table-scroll` العامّ، وتدرّجه
+ * يفتح ما حولها (~7% أبيض في الداكن) فيهبط ‎--adm-field-line‎ — المعايَر على
+ * السطح (3.5:1) — إلى 2.96:1. يُخلط الخطّ هنا بالحبر 20% فيبقى ≥4:1 على
+ * الزجاج. متغيّرٌ لا `border-color`، كي تبقى حالة التجاوز أدناه غالبة. */
+:global(.table-scroll) .searchInput {
+  --search-field-line: color-mix(in srgb, var(--adm-field-line), var(--ink) 20%);
+}
+
+.searchInputOver {
+  /* حدّ الحالة بلون عدّادها — ‎--gold-muted‎ كان ~2:1 على الأبيض. */
+  border-color: var(--gold-text);
+}
+
+.searchHint {
+  display: block;
+  margin-block-start: 5px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: start;
+}
+
+.plainList {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* ───── التغطية والمتطلّبات ───── */
+
+.coverList {
+  list-style: none;
+  margin-block: 0 12px;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coverRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 9px;
+  background: var(--bg-soft);
+}
+
+.coverRowMissing {
+  border-color: color-mix(in srgb, var(--gold-500) 42%, transparent);
+  background: color-mix(in srgb, var(--gold-500) 8%, transparent);
+}
+
+.coverMark {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 9px;
+  font-weight: 900;
+  background: var(--success-chip-bg);
+  color: var(--success-chip-fg);
+}
+
+.coverRowMissing .coverMark {
+  background: color-mix(in srgb, var(--gold-500) 28%, transparent);
+  color: var(--gold-text);
+}
+
+.coverLabel {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.coverValue {
+  flex: 1;
+  min-inline-size: 120px;
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: start;
+}
+
+/* ───── الانتشار الدولي ───── */
+
+.intlBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  border-radius: 7px;
+  background: var(--surface);
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.intlCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin-block: 11px;
+}
+
+.intlCard {
+  padding: 11px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 9px;
+  background: var(--surface);
+}
+
+.intlCardN {
+  display: block;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.intlCardLabel {
+  display: block;
+  margin-block-start: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: start;
+}
+
+.intl_published .intlCardN {
+  color: var(--primary);
+}
+
+.intl_ready .intlCardN {
+  /* ‎--green-bright‎ ثابتٌ في السمتين: 3.5:1 على الأبيض. */
+  color: var(--cc-success);
+}
+
+.intl_incomplete .intlCardN {
+  color: var(--gold-text);
+}
+
+.intl_blocked .intlCardN {
+  color: var(--danger-text);
+}
+
+/* ───── مقترحات المساعد ───── */
+
+.suggestList {
+  list-style: none;
+  margin-block: 12px 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestItem {
+  padding-block: 11px;
+  padding-inline: 12px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+}
+
+.suggestText {
+  margin-block: 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--body);
+}
+
+.qwenToggle {
+  flex: 0 0 auto;
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--border-field);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  font: inherit;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ───── اللوح الجانبي ───── */
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  inset-block-start: 16px;
+}
+
+.card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.cardTitle {
+  margin-block: 0 11px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 8px;
+}
+
+.meterTrack {
+  flex: 1;
+  min-inline-size: 0;
+  display: block;
+  block-size: 8px;
+  border-radius: 999px;
+  background: var(--border-hairline);
+  overflow: hidden;
+}
+
+.meterFill {
+  display: block;
+  block-size: 100%;
+  border-radius: 999px;
+  background: var(--gold-muted);
+  transform-origin: right center;
+  animation: studioBarGrow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.meterReady {
+  background: var(--primary);
+}
+
+.meterValue {
+  flex: 0 0 auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--gold-text);
+}
+
+.meterValueReady {
+  color: var(--primary);
+}
+
+.meterNote {
+  margin-block: 0 10px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.gates {
+  list-style: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gates li {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.gateOk {
+  color: var(--body);
+}
+
+.gateBad {
+  color: var(--danger-text);
+}
+
+.publish {
+  inline-size: 100%;
+  margin-block-start: 13px;
+  min-block-size: 46px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--adm-on-accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.publish:disabled {
+  background: var(--border-hairline);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.publishReason,
+.publishedNote {
+  margin-block: 8px 0;
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.draftSave {
+  inline-size: 100%;
+  margin-block-start: 7px;
+  min-block-size: 44px;
+  border: 1px solid var(--border-field);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.draftSave:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ───── مصادر Drive ───── */
+
+.driveRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-3, 12px);
+  align-items: start;
+  padding: var(--space-3, 12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 12px);
+  margin-block-end: var(--space-2, 8px);
+}
+
+.driveMain {
+  display: grid;
+  gap: 4px;
+  min-inline-size: 0;
+}
+
+/*
+ * المعرّف يُعرض لاتينيًّا داخل نصٍّ عربيّ، و`bdi` وحدها لا تمنع الالتفاف في
+ * موضعٍ يقطعه. فيُمنع الالتفاف ويُقصّ الفائض: معرّفٌ مقطوعٌ في سطرين يُنسخ
+ * خطأً، والنسخ هو استعماله الوحيد.
+ */
+.driveId {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.driveReplace,
+.driveAdd {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  align-items: end;
+  padding-block-start: var(--space-3, 12px);
+}
+
+.driveAdd {
+  border-block-start: 1px solid var(--border);
+  margin-block-start: var(--space-3, 12px);
+}
+
+/* ───── اختيار طريقة التسليم ───── */
+
+/*
+ * صفُّ اختيارٍ واحد. الارتفاع الأدنى ٤٤ بكسل لأنّ الإصبع لا تصيب أقلّ منه،
+ * والخاصّيات منطقيّة لا اتّجاهيّة فتنعكس اللوحة بلا استثناء.
+ */
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  min-block-size: 44px;
+  padding-inline: var(--space-2, 8px);
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+}
+
+.checkRow:hover {
+  /* ‎--surface-2‎ غير معرَّف: كان احتياطيّه الفاتح يُضيء الصفّ في الداكن. */
+  background: var(--bg-row-hover);
+}
+
+.checkRow input {
+  inline-size: 18px;
+  block-size: 18px;
+  accent-color: var(--primary);
+}
+
+/*
+ * ملاحظةُ «لا منفّذ بعد» تُقرأ ولا تصرخ: هي حقيقةٌ عن حالة النظام لا خطأً
+ * ارتكبه المشغّل. ولذلك لونُ تحذيرٍ هادئ لا لونُ رفض.
+ */
+.checkNote {
+  margin-inline-start: auto;
+  font-size: 12px;
+  font-weight: 700;
+  /* ‎--amber-700‎ غير معرَّف: احتياطيّه الداكن كان يُقرأ بصعوبة على الداكن. */
+  color: var(--warning-text);
+}
+
+/* ───── الحركة ───── */
+
+@keyframes studioBarGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/*
+ * تقليل الحركة يكشف ولا يجمّد: شريط الجاهزية يظهر بطوله النهائي فورًا.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .meterFill {
+    animation: none;
+    transform: none;
+  }
+}

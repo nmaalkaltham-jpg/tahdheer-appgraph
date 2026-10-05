@@ -1,0 +1,89 @@
+# =============================================================================
+# Tahdheer — build-context exclusions for the MONOREPO ROOT context.
+# =============================================================================
+# All three application images build with `context: ../..` (the repo root),
+# because the Next.js apps consume npm-workspace packages that live outside
+# apps/*. Therefore THIS file is the one that governs every real build:
+#
+#   docker build -f apps/storefront/Dockerfile   -t tahdheer-storefront .
+#   docker build -f apps/admin/Dockerfile        -t tahdheer-admin      .
+#   docker build -f backend/laravel/Dockerfile   -t tahdheer-api        .
+#
+# The per-directory .dockerignore files (apps/*/.dockerignore,
+# backend/laravel/.dockerignore) only take effect when that directory is used
+# as the context; keep this file authoritative.
+# =============================================================================
+
+# --- dependencies (reinstalled inside the image from lockfiles) --------------
+node_modules
+**/node_modules
+backend/laravel/vendor
+**/vendor
+
+# --- build output ------------------------------------------------------------
+.next
+**/.next
+dist
+**/dist
+out
+**/out
+build
+**/build
+backend/laravel/public/build
+**/*.tsbuildinfo
+
+# --- secrets: never enter a build context -----------------------------------
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.age
+*.key
+backend/laravel/storage/*.key
+
+# --- VCS / CI ----------------------------------------------------------------
+.git
+.gitignore
+.gitattributes
+.github
+
+# --- local state, logs, databases -------------------------------------------
+backend/laravel/storage/logs
+backend/laravel/storage/framework/cache/data
+backend/laravel/storage/framework/sessions
+backend/laravel/storage/framework/views
+backend/laravel/storage/framework/testing
+backend/laravel/storage/app/public
+**/*.sqlite
+**/*.sqlite3
+**/*.log
+.phpunit.cache
+**/.phpunit.result.cache
+
+# --- tests / reports ---------------------------------------------------------
+coverage
+playwright-report
+test-results
+backend/laravel/tests
+
+# --- infra & docs: not needed to compile the apps ----------------------------
+infrastructure
+docs
+scripts
+README.md
+**/AGENTS.md
+**/CLAUDE.md
+
+# --- editor / OS -------------------------------------------------------------
+.DS_Store
+**/.DS_Store
+.idea
+.vscode
+**/*.swp
+
+# --- docker itself -----------------------------------------------------------
+**/Dockerfile
+**/.dockerignore
+docker-compose*.yml

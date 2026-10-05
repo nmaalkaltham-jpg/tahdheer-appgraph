@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+body{font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+code{font-family:ui-monospace,Menlo,monospace}
+h2{margin:0 0 10px;font-size:16px;font-weight:900;color:#14261d}
+.row{display:flex;gap:11px;padding:9px 11px;border:1px solid #eef1ec;border-radius:9px;background:#fff;break-inside:avoid}
+.mk{flex:0 0 auto;width:19px;height:19px;border-radius:6px;display:grid;place-items:center;font:900 9.5px ui-monospace,monospace}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page margin="0.7in">
+
+<div dir="rtl" style="display:flex;align-items:center;gap:12px;padding-bottom:13px;border-bottom:2px solid #14261d;margin-bottom:20px">
+<span style="width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;font-weight:900;font-size:14px">ت</span>
+<div style="flex:1"><div style="font-size:14.5px;font-weight:900;color:#14261d">Tahdheer Autonomous New Product Search Studio</div><div style="font-size:11.5px;color:#5f7167">مواصفة المعمار والنقاط النهائية وعقد Qwen — البند <bdi dir="ltr">§29</bdi></div></div>
+<div style="text-align:end;font:600 10px ui-monospace,Menlo,monospace;color:#5f7167">v1<br>2026-08-27</div>
+</div>
+
+<h2 dir="rtl">1 · إضافة مستقلّة — شجرة الملفات</h2>
+<div dir="rtl" style="padding:12px 14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:10px">
+<pre dir="ltr" style="margin:0;font:600 10px/1.85 ui-monospace,Menlo,monospace;color:#3b4d43;white-space:pre-wrap;text-align:start">tahdheer-product-studio/
+├── tahdheer-product-studio.php      bootstrap · checks · i18n
+├── includes/
+│   ├── class-session.php            _tahdheer_creation_session lifecycle
+│   ├── class-fact-lock.php          §21 verified facts + provenance
+│   ├── class-field-registry.php     taxonomy vs post-meta map
+│   ├── class-applicability.php      §3 discipline evaluator
+│   ├── class-locale-engine.php      §15 deterministic eligibility
+│   ├── class-inheritance.php        §18 master → inherited → override
+│   ├── class-readiness.php          §25 gate: errors / warnings / gains
+│   ├── class-rest.php               endpoints + permission callbacks
+│   ├── qwen/class-client.php        HTTPS · timeout · breaker · cache
+│   ├── qwen/class-contract.php      JSON schema validation
+│   └── integrations/
+│       ├── class-seo-bridge.php     WRITES INTO the existing owner
+│       └── class-schema-bridge.php  feeds product-education-schema.php
+├── assets/  studio.css · studio.js  (admin, product screen only)
+└── languages/  tahdheer-product-studio-ar.po</pre>
+</div>
+<p dir="rtl" style="margin:0 0 18px;font-size:12px;line-height:1.8;color:#3b4d43">لا تعديل على WordPress ولا WooCommerce ولا <code dir="ltr">functions.php</code>. الاستوديو يُحمَّل فقط عند <code dir="ltr">post_type === 'product'</code> وعلى شاشتَي الإضافة والتحرير — وينتهي جسرًا للقراءة بعد أول نشر.</p>
+
+<h2 dir="rtl">2 · النقاط النهائية</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">R</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">GET /studio/v1/readiness/&lt;id&gt;</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">بوابة الجاهزية. تقرأ فقط. <code dir="ltr" style="font-size:9.5px">edit_post</code> على المنتج نفسه.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">R</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">GET /studio/v1/locales/&lt;id&gt;</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">أهلية 23 لغة بقواعد حتمية. لا Qwen في هذا المسار.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">W</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">POST /studio/v1/locale/&lt;id&gt;/approve</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">يعتمد ملفّ لغة. nonce + قدرة. لا ينشئ رابطًا ولا صفحة.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">W</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">POST /studio/v1/suggest</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">وسيط Qwen. الخادم يتصل بالـ VPS — لا المتصفّح. لا يكتب في المنتج.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">W</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">POST /studio/v1/apply</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">يطبّق اقتراحًا اعتمده المستخدم. الحقائق المقفلة مرفوضة هنا صريحًا.</span></div>
+<div class="row"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><code dir="ltr" style="flex:0 0 196px;font-size:9.5px;color:#3b4d43;text-align:start">POST /studio/v1/locale/publish</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">غير مُسجَّلة. لا تُبنى حتى تتوفّر إضافة ترجمة ومعمار روابط.</span></div>
+</div>
+
+<h2 dir="rtl">3 · عقد Qwen</h2>
+<div dir="rtl" style="padding:12px 14px;border:1px solid #e6e9e2;border-radius:10px;background:#fbfcfa;margin-bottom:10px">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.8 ui-monospace,Menlo,monospace;color:#3b4d43;white-space:pre-wrap;text-align:start">REQUEST   { model:"Qwen/Qwen3.5-0.8B", task, field, locale,
+            facts:[{key,value,verified}], current, max_tokens }
+
+RESPONSE  { status:"suggestion"|"unknown", locale, content:{},
+            used_facts:[], uncertain_claims:[], missing_information:[],
+            warnings:[], confidence:0..1 }</pre>
+</div>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>الحقائق تُرسَل ولا تُطلَب.</b> الطلب يحمل الحقائق المقفلة؛ فإن احتاج النموذج قيمة غير مُرسَلة يجب أن يعيد <code dir="ltr" style="font-size:9.5px">status:"unknown"</code> ويسمّيها في <code dir="ltr" style="font-size:9.5px">missing_information</code> — لا أن يخمّنها.</span></div>
+<div class="row" style="background:#f3faf6;border-color:rgba(37,155,111,.22)"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">✓</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>مخرَج غير مطابق للمخطَّط يُرفض كاملًا.</b> لا تحليل جزئي ولا HTML موثوق. الرفض يظهر كحالة «تعذّر التوليد» لا كنصّ مشوّه.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>لا سلطة على قرار.</b> العملة والضريبة والأهلية والقانون وcanonical و hreflang و Schema — كلها بقواعد حتمية. Qwen للصياغة فقط، وتعطّله لا يمنع حفظًا ولا نشرًا (<bdi dir="ltr">§23</bdi>).</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start"><b>لا سرّ في المتصفّح.</b> المفتاح في <code dir="ltr" style="font-size:9.5px">wp-config.php</code> أو متغيّر بيئة. لا يُخزَّن في بيانات المنتج ولا يظهر في مصدر الصفحة، والسجلّ لا يحمل رموزًا.</span></div>
+</div>
+
+<h2 dir="rtl">4 · الحقول — تصنيف أم بيانات منتج</h2>
+<p dir="rtl" style="margin:0 0 10px;font-size:12px;line-height:1.8;color:#3b4d43">القاعدة: ما يُرشَّح به أو يُتصفَّح <b>تصنيف</b>، وما يخصّ نسخة واحدة <b>بيانات منتج</b>. الموجود فعلًا لا يُعاد بناؤه.</p>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">T</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">تصنيف قائم</span><code dir="ltr" style="flex:0 0 180px;font-size:9.5px;color:#3b4d43;text-align:start">curriculum/register.php</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">المنهج والمرحلة والمادة. يُعاد استخدامه — والتصنيف التلقائي عند الحفظ يبقى.</span></div>
+<div class="row"><span class="mk" style="background:rgba(37,155,111,.14);color:#1e7355">M</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">بيانات قائمة</span><code dir="ltr" style="flex:0 0 180px;font-size:9.5px;color:#3b4d43;text-align:start">_tahdheer_slides_count …</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">الشرائح والصفحات والقابلية والصيغة والتسليم. هذه نواة السجل المقفل.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">M</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">بيانات جديدة</span><code dir="ltr" style="flex:0 0 180px;font-size:9.5px;color:#3b4d43;text-align:start">_tahdheer_worksheets_count</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">مع <code dir="ltr" style="font-size:9.5px">_activities_count</code> و<code dir="ltr" style="font-size:9.5px">_semester</code>. ثلاثة حقول فقط — تُضاف بنمط الحقول القائمة وتنقيتها.</span></div>
+<div class="row" style="background:rgba(216,181,106,.06);border-color:rgba(216,181,106,.4)"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">M</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">ملفّات اللغات</span><code dir="ltr" style="flex:0 0 180px;font-size:9.5px;color:#3b4d43;text-align:start">_tahdheer_locale_profiles</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">مصفوفة JSON واحدة: القيمة والمصدر والحالة وتاريخ المراجعة لكل حقل ولغة.</span></div>
+</div>
+
+<h2 dir="rtl">5 · ما لا يُنفَّذ — وسببه</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">hreflang</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">لا إضافة ترجمة ولا روابط لغات. <bdi dir="ltr">§19</bdi> يشترط رابطًا منشورًا متبادلًا — وإخراج وسم يشير إلى لا شيء أسوأ من غيابه.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">سعر إقليمي</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">لا إضافة عملات. السعر يبقى من WooCommerce وحده، والحقل يُعرَض «لا ينطبق» بسببه لا فارغًا.</span></div>
+<div class="row" style="background:#fdf3f2;border-color:rgba(163,58,45,.2)"><span class="mk" style="background:rgba(163,58,45,.12);color:#a33a2d">✕</span><span style="flex:0 0 92px;font-size:11px;font-weight:900;color:#14261d;text-align:start">كتابة وسوم</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">canonical و OG و Product Schema لها مالك محكَّم أصلًا. الاستوديو يكتب في اللوحة المالكة، ولا يطبع وسمًا بنفسه.</span></div>
+</div>
+
+<h2 dir="rtl">6 · ميزانية الأداء والأمان</h2>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px;margin-bottom:18px">
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">1</span><span style="flex:0 0 116px;font-size:11px;font-weight:900;color:#14261d;text-align:start">أصول الشاشة</span><code dir="ltr" style="flex:0 0 96px;font-size:9.5px;color:#3b4d43;text-align:start">≤ 14 KB / ≤ 9 KB</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">CSS و JS، ولا تُحمَّل إلا على شاشة المنتج.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">2</span><span style="flex:0 0 116px;font-size:11px;font-weight:900;color:#14261d;text-align:start">زمن الحفظ</span><span dir="rtl" style="flex:0 0 96px;font:600 9.5px ui-monospace,Menlo,monospace;color:#3b4d43;text-align:start"><bdi dir="ltr">+0</bdi> استعلام</span><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">التحليل في طابور بمفتاح تجزئة لحقول المصدر — لا تحليل لـ23 لغة عند كل حفظ.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">3</span><span style="flex:0 0 116px;font-size:11px;font-weight:900;color:#14261d;text-align:start">عزل الأعطال</span><code dir="ltr" style="flex:0 0 96px;font-size:9.5px;color:#3b4d43;text-align:start">per-module</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">تعطّل محرّك اللغات لا يُسقط بوابة الجاهزية، وتعطّل Qwen لا يُسقط شيئًا.</span></div>
+<div class="row"><span class="mk" style="background:#f2f5f2;color:#3b4d43">4</span><span style="flex:0 0 116px;font-size:11px;font-weight:900;color:#14261d;text-align:start">الأمان</span><code dir="ltr" style="flex:0 0 96px;font-size:9.5px;color:#3b4d43;text-align:start">nonce · cap · SSRF</code><span style="flex:1;font-size:11px;line-height:1.7;color:#3b4d43;text-align:start">قدرة على المنتج نفسه لا على النوع، وعنوان الـ VPS من قائمة بيضاء لا من مدخل مستخدم.</span></div>
+</div>
+
+<h2 dir="rtl">7 · الرجوع والقيود المعروفة</h2>
+<p dir="rtl" style="margin:0 0 10px;font-size:12px;line-height:1.85;color:#3b4d43"><b>الرجوع:</b> تعطيل الإضافة يُخفي الاستوديو ولا يمسّ منتجًا. الحقول الثلاثة الجديدة وملفّات اللغات تبقى في قاعدة البيانات كبيانات خاملة — فالتعطيل غير مُدمِّر، وإعادة التفعيل تستعيد كل شيء. لا هجرة ولا حذف.</p>
+<div dir="rtl" style="display:flex;flex-direction:column;gap:5px">
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">١</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">أي إضافة SEO مثبَّتة فعلًا لم يُحدَّد بعد — يُقرأ من الثوابت وقت التشغيل، ويُعرَض في خريطة الملكية داخل الاستوديو.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">٢</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">قبول Merchant Center غير مضمون — الاستوديو يجهّز الحقول ولا يَعِد بالقبول.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">٣</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">Qwen3.5-0.8B نموذج مُدمج: جودة الصياغة العربية تحتاج قياسًا فعليًا على منتجاتك قبل الاعتماد عليه في الوصف الطويل.</span></div>
+<div class="row"><span class="mk" style="background:rgba(216,181,106,.2);color:#7a5d20">٤</span><span style="flex:1;font-size:11px;line-height:1.75;color:#3b4d43;text-align:start">أهلية اللغات مبنية على المنهج والمصطلح — وهي أحكام تحتاج مراجعة بشرية، ولذلك كل ملفّ يبقى مسودّة حتى تعتمده.</span></div>
+</div>
+
+<p dir="rtl" style="margin:18px 0 0;padding-top:11px;border-top:1px solid #e6e9e2;font-size:10.5px;line-height:1.75;color:#5f7167">التصاميم المرافقة: <b>Tahdheer - Product Studio</b> (تسع خطوات · وضعان) · <b>Tahdheer - Product Studio Audit</b> (تفقّد المرحلة الأولى) · <b>TahLocaleInherit</b> · <b>TahQwenPanel</b>.</p>
+
+</doc-page>
+</x-dc>
+</body>
+</html>

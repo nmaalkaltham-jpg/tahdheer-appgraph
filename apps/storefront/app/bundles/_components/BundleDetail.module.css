@@ -1,0 +1,588 @@
+/*
+ * Bundle detail — «Tahdheer - Bundle» design values.
+ * Tokens only, logical properties only, mobile-first (design 390 → 1180).
+ *
+ * Token mapping for the design's raw hexes: the hero gradient is
+ * --green-deep → --green-700 · #e6cd93 → --gold-light · #7a5d20 → --gold-text ·
+ * #5f7167 → --text-muted · #3b4d43 → --text-secondary · #eef1ec →
+ * --border-hairline · #fbfcfa → --bg-soft. The design's alpha washes over
+ * #259b6f and #d8b56a are hit with color-mix over --green-bright / --gold-500.
+ *
+ * No keyframe animations and nothing hidden pending animation ⇒ no reduced-motion
+ * reveal block is required here.
+ */
+
+.page {
+  inline-size: min(var(--container-content), 100% - var(--container-inset));
+  margin-inline: auto;
+  padding-block: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+/* -------------------------------------------------------------- breadcrumb */
+
+.breadcrumbNav {
+  min-inline-size: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--tp-category-size);
+  color: var(--sf-muted);
+}
+
+/* الفاصل زخرفيّ في CSS (‎/ ''‎) كما في بقيّة الكتالوج — لا يقرؤه قارئ الشاشة. */
+.breadcrumb > li + li::before {
+  content: '›' / '';
+  margin-inline-end: 7px;
+  color: var(--sf-sep);
+}
+
+.crumbLink {
+  position: relative;
+  color: var(--sf-muted);
+  text-decoration: none;
+}
+
+/* هدف اللمس ‎44px‎ رأسيًّا بلا تغيير في التخطيط. */
+.crumbLink::before {
+  content: '';
+  position: absolute;
+  inset-block: -13px;
+  inset-inline: 0;
+}
+
+.crumbLink:hover {
+  color: var(--teal-text);
+}
+
+.crumbCurrent {
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+/* -------------------------------------------------------------------- grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.main {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* -------------------------------------------------------------------- hero */
+
+.hero {
+  padding: 18px 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--navy-700), var(--teal-on));
+  color: var(--on-accent);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  border-radius: var(--r-sm);
+  background: color-mix(in oklab, var(--gold-400) 20%, transparent);
+  font-size: calc(var(--tp-badge-size) * 1.0952);
+  font-weight: 900;
+  color: var(--gold-400);
+  margin-block-end: 11px;
+}
+
+.badgeIcon {
+  inline-size: 13px;
+  block-size: 13px;
+}
+
+.h1 {
+  margin: 0 0 9px;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.26;
+  text-wrap: balance;
+}
+
+.intro {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.85;
+  color: color-mix(in oklab, var(--on-accent) 80%, transparent);
+  max-inline-size: 58ch;
+}
+
+/* ------------------------------------------------------------ content card */
+
+.card,
+.whyCard {
+  padding: 16px 18px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+}
+
+.card {
+  background: var(--bg);
+}
+
+.whyCard {
+  background: var(--sf-cool);
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 6px;
+}
+
+.cardTitle {
+  margin: 0;
+  flex: 1;
+  min-inline-size: 0;
+  font-size: var(--tp-product-title-size);
+  font-weight: 900;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+.ownedPill {
+  padding: 4px 11px;
+  border-radius: var(--r-xs);
+  background: color-mix(in oklab, var(--teal-600) 10%, transparent);
+  font-size: 10.5px;
+  font-weight: 900;
+  color: var(--teal-on);
+  white-space: nowrap;
+}
+
+.cardNote {
+  margin: 0 0 13px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+/* --------------------------------------------------------- contents (list) */
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid var(--sf-hair);
+  border-radius: var(--r-md);
+  background: var(--bg);
+}
+
+.itemOwned {
+  border-color: color-mix(in oklab, var(--teal-600) 30%, transparent);
+  background: color-mix(in oklab, var(--teal-600) 5%, transparent);
+}
+
+.itemTile {
+  flex: 0 0 auto;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--r-sm);
+  background: var(--sf-chip);
+  color: var(--sf-muted);
+  display: grid;
+  place-items: center;
+}
+
+.itemTileOwned {
+  background: color-mix(in oklab, var(--teal-600) 12%, transparent);
+  color: var(--teal-on);
+}
+
+.itemIcon {
+  inline-size: 15px;
+  block-size: 15px;
+}
+
+.itemText {
+  flex: 1;
+  min-inline-size: 130px;
+}
+
+.itemTitle {
+  display: block;
+  font-size: calc(var(--tp-product-title-size) * 0.8667);
+  font-weight: 800;
+  color: var(--sf-ink);
+  line-height: 1.5;
+  text-align: start;
+  text-decoration: none;
+}
+
+/* الصفّ كلّه هدفُ النقر (‎≥44px‎): الرابط ممدود فوقه ولا عنصر تفاعليّ آخر فيه. */
+.itemTitle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.itemTitle:hover {
+  color: var(--teal-text);
+}
+
+.itemMeta {
+  display: block;
+  margin-block-start: 2px;
+  font-size: 10.5px;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+.itemPrice {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.currency {
+  font-family: var(--font-family);
+}
+
+.ownedTag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  background: var(--success-chip-bg);
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--success-chip-fg);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------- why-cards */
+
+.whyGrid {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 11px;
+}
+
+.whyHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-block-end: 7px;
+}
+
+.whyTile {
+  flex: 0 0 auto;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--tint-teal);
+  color: var(--teal-on);
+  display: grid;
+  place-items: center;
+}
+
+.whyIcon {
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.whyTitle {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+.whyBody {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+/* ------------------------------------------------------------- price panel */
+
+.aside {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.priceCard {
+  padding: 16px;
+  border: 1px solid color-mix(in oklab, var(--teal-600) 30%, transparent);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-1);
+}
+
+.priceNow {
+  font-size: calc(var(--tp-price-size) * 1.7647);
+  font-weight: 900;
+  color: var(--sf-ink);
+  line-height: 1.1;
+}
+
+.priceNow .currency {
+  font-size: calc(var(--tp-price-size) * 0.7647);
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.priceWas {
+  font-size: calc(var(--tp-price-size) * 0.8235);
+  color: var(--sf-muted);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 var(--space-3);
+}
+
+.pctPill,
+.savePill {
+  padding: 4px 11px;
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.pctPill {
+  background: var(--teal-on);
+  color: var(--on-accent);
+}
+
+.savePill {
+  background: color-mix(in oklab, var(--gold-400) 18%, transparent);
+  color: var(--gold-ink);
+}
+
+.savePill .currency {
+  font-weight: 900;
+}
+
+/* ------------------------------------------------------------- price maths */
+
+.math {
+  margin: 0 0 var(--space-3);
+  padding: 11px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--sf-hair);
+  background: var(--sf-cool);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mathRow {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.mathLabel {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: calc(var(--tp-label-size) * 0.9167);
+  font-weight: 700;
+  color: var(--sf-muted);
+  text-align: start;
+}
+
+.mathValue {
+  flex: 0 0 auto;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+/* ‎--teal-text‎ لا ‎--teal-on‎: نصٌّ تركوازيّ على سطحٍ فاتح ‎≥4.5:1‎ (‎--teal-on‎ = ‎4.25:1‎). */
+.mathDiscount {
+  font-weight: 700;
+  color: var(--teal-text);
+}
+
+.mathTotal {
+  font-weight: 900;
+  color: var(--sf-ink);
+}
+
+/* -------------------------------------------------------- disabled CTA + trust */
+
+.ctaDisabled {
+  inline-size: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  border: 1px solid var(--sf-control);
+  border-radius: var(--radius-toast);
+  background: var(--bg-2);
+  color: var(--sf-muted);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: not-allowed;
+}
+
+.ctaReason {
+  margin: 9px 0 0;
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--sf-muted);
+  text-align: center;
+}
+
+.link {
+  color: var(--teal-on);
+  font-weight: 800;
+}
+
+.link:hover {
+  color: var(--navy-700);
+}
+
+.trust {
+  margin: var(--space-3) 0 0;
+  padding-block-start: var(--space-3);
+  padding-inline: 0;
+  border-block-start: 1px solid var(--sf-hair);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--sf-body);
+  text-align: start;
+}
+
+.trustIcon {
+  flex: 0 0 auto;
+  inline-size: 15px;
+  block-size: 15px;
+  color: var(--teal-on);
+}
+
+/* ----------------------------------------------------- owned-items (gold) */
+
+.partialCard {
+  padding: 14px 15px;
+  border: 1px solid color-mix(in oklab, var(--gold-400) 45%, transparent);
+  border-radius: var(--r-lg);
+  background: color-mix(in oklab, var(--gold-400) 8%, transparent);
+}
+
+.partialTitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--gold-ink);
+  margin-block-end: var(--space-1);
+}
+
+.partialBody {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--sf-body);
+  text-align: start;
+}
+
+/* ------------------------------------------------------------------- focus */
+
+/* حلقة التركيز حلقةُ الكتالوج نفسها: ‎3px --teal-600‎. */
+.crumbLink:focus-visible,
+.itemTitle:focus-visible,
+.link:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------------- desktop */
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) 316px;
+  }
+
+  .hero {
+    padding: 24px 26px;
+  }
+
+  .h1 {
+    font-size: 29px;
+  }
+
+  .intro {
+    font-size: 14.5px;
+  }
+
+  .whyGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .aside {
+    position: sticky;
+    inset-block-start: 14px;
+  }
+}

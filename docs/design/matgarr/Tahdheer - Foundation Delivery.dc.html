@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+code{font-family:ui-monospace,Menlo,monospace}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:1280px;margin:0 auto;padding:18px;box-sizing:border-box">
+
+<header style="margin-bottom:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+<span style="font:700 9.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;letter-spacing:.04em">FOUNDATION · مُسلَّم</span>
+<span style="font:800 14px/1.3 Tajawal,sans-serif;color:#1a1a1a">الأساس منفَّذ كودًا — ستّة ملفات قابلة للتركيب</span>
+</div>
+<div style="padding:13px 15px;border-radius:11px;background:#f6faf8;border:1px solid #cfe6dc">
+<p style="margin:0;font:500 11px/1.85 Tajawal,sans-serif;color:rgba(0,0,0,.68)">هذه ليست مواصفات — بل كود جاهز يعمل. البنود الأربعة الأولى من ترتيب التنفيذ (إزالة التكرار · سلّم الحركة · سجل المكوّنات · الاختبارات) صارت ملفّات في هذا المشروع. كل ملف مستقلّ، يُركَّب بسطر <code style="font-size:10.5px">require_once</code>، ولا يغيّر مظهر المتجر عند التركيب — تمامًا كقاعدة سجل الرموز القائمة: «الافتراضي يساوي القيمة الحالية».</p>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px">
+<sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+<div style="padding:13px 14px;border-radius:11px;background:{{ st.bg }};border:1px solid {{ st.edge }}">
+<span style="display:block;font:900 24px ui-monospace,monospace;color:{{ st.fg }};margin-bottom:2px">{{ st.n }}</span>
+<span style="display:block;font:800 10.5px Tajawal,sans-serif;color:#1a1a1a;margin-bottom:3px">{{ st.label }}</span>
+<span style="display:block;font:500 9.5px/1.55 Tajawal,sans-serif;color:rgba(0,0,0,.55)">{{ st.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<section style="display:flex;flex-direction:column;gap:11px;margin-bottom:14px">
+<sc-for list="{{ deliverables }}" as="dl" hint-placeholder-count="6">
+<div style="border:1px solid #dcdcde;border-radius:12px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:9px;padding:12px 15px;background:#fcfcfd;border-bottom:1px solid #ececef;flex-wrap:wrap">
+<span style="font:900 9.5px ui-monospace,monospace;padding:3px 7px;border-radius:5px;background:#1a1a1a;color:#fff">{{ dl.n }}</span>
+<code style="font-size:11.5px;font-weight:700;color:#1a1a1a">{{ dl.path }}</code>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 9px;border-radius:20px;background:{{ dl.chipBg }};color:{{ dl.chipFg }}">{{ dl.chip }}</span>
+<span style="flex:1"></span>
+<span style="font:700 9.5px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ dl.size }}</span>
+</div>
+<div style="padding:14px 15px">
+<p style="margin:0 0 11px;font:500 11px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.65)">{{ dl.what }}</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:8px;margin-bottom:11px">
+<sc-for list="{{ dl.gives }}" as="gv" hint-placeholder-count="3">
+<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 10px;border-radius:9px;background:#f6faf8;border:1px solid #dfeee7">
+<span aria-hidden="true" style="flex:0 0 auto;width:15px;height:15px;margin-top:1px;border-radius:4px;background:#1e7355;display:grid;place-items:center">
+<svg viewBox="0 0 24 24" style="width:9px;height:9px;fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+</span>
+<span style="font:600 10px/1.6 Tajawal,sans-serif;color:rgba(0,0,0,.68)">{{ gv }}</span>
+</div>
+</sc-for>
+</div>
+<div style="padding:10px 12px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.8 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ dl.code }}</pre>
+</div>
+<p style="display:{{ dl.warnShow }};margin:10px 0 0;padding:9px 11px;border-radius:9px;background:#fdf9ef;border:1px solid #f0dca0;font:600 10px/1.7 Tajawal,sans-serif;color:#7a5a00">{{ dl.warn }}</p>
+</div>
+</div>
+</sc-for>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff;margin-bottom:14px">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">ترتيب التركيب — وثلاث خطوات لا تُقفز</h2>
+<p style="margin:0 0 13px;font:500 11px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.58)">الترتيب مهم: قارئ المنتج قبل ضابط التقييم، والفحوص في الأخير ليقيسوا النتيجة.</p>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ steps }}" as="sp" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:28px minmax(0,1fr) 96px;gap:10px;align-items:center;padding:10px 12px;border:1px solid {{ sp.edge }};border-radius:9px;background:{{ sp.bg }}">
+<span style="font:900 10px ui-monospace,monospace;color:rgba(0,0,0,.4)">{{ sp.n }}</span>
+<span style="font:600 10.5px/1.65 Tajawal,sans-serif;color:rgba(0,0,0,.7)">{{ sp.text }}</span>
+<span style="font:800 9.5px Tajawal,sans-serif;padding:3px 8px;border-radius:20px;background:{{ sp.tagBg }};color:{{ sp.tagFg }};text-align:center">{{ sp.tag }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:12px;padding:11px 13px;border-radius:9px;background:#0f1115">
+<pre dir="ltr" style="margin:0;font:600 9.5px/1.85 ui-monospace,Menlo,monospace;color:#c9ccd4;white-space:pre-wrap">{{ installCode }}</pre>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #f0dca0;border-radius:12px;background:#fdf9ef;margin-bottom:14px">
+<h2 style="margin:0 0 4px;font:800 13.5px Tajawal,sans-serif;color:#7a5a00">ما لم يُنفَّذ بعد — بصراحة</h2>
+<p style="margin:0 0 13px;font:600 11px/1.8 Tajawal,sans-serif;color:#7a5a00">قلتَ «تأكّد من إكمال كل شيء بشكل متقن وكامل». الإتقان يقتضي أن أقول ما لم يكتمل بدقّة، لا أن أعلن اكتمالًا. الأساس مكتمل؛ والبناء فوقه لا.</p>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ remaining }}" as="rm" hint-placeholder-count="5">
+<div style="padding:11px 13px;border-radius:10px;background:#fff;border:1px solid #f2e6c8">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+<span style="font:800 11.5px Tajawal,sans-serif;color:#1a1a1a">{{ rm.label }}</span>
+<span style="font:800 9px Tajawal,sans-serif;padding:2px 7px;border-radius:20px;background:{{ rm.chipBg }};color:{{ rm.chipFg }}">{{ rm.chip }}</span>
+<span style="flex:1"></span>
+<span style="font:800 9.5px ui-monospace,monospace;color:#1e7355">{{ rm.unlocks }}</span>
+</div>
+<p style="margin:0;font:500 10.5px/1.7 Tajawal,sans-serif;color:rgba(0,0,0,.62)">{{ rm.note }}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:16px 18px;border:1px solid #dcdcde;border-radius:12px;background:#fff">
+<h2 style="margin:0 0 12px;font:800 13.5px Tajawal,sans-serif;color:#1a1a1a">الحلقة الكاملة — أربعة ملفات تصميم وستّة ملفات كود</h2>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+<sc-for list="{{ loop }}" as="lp" hint-placeholder-count="5">
+<span style="display:flex;align-items:center;gap:6px">
+<a href="{{ lp.href }}" style="display:flex;flex-direction:column;gap:2px;padding:9px 13px;border-radius:9px;background:{{ lp.bg }};border:1px solid {{ lp.edge }};text-decoration:none">
+<span style="font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:{{ lp.fg }}">{{ lp.label }}</span>
+<span style="font-family:Tajawal,sans-serif;font-size:9px;font-weight:600;color:rgba(0,0,0,.5)">{{ lp.note }}</span>
+</a>
+<span aria-hidden="true" style="display:{{ lp.arrow }};font:900 11px ui-monospace,monospace;color:rgba(0,0,0,.25)">←</span>
+</span>
+</sc-for>
+</div>
+<p style="margin:0;font:600 10.5px/1.8 Tajawal,sans-serif;color:rgba(0,0,0,.6)">القاعدة التي حكمت هذه الحلقة كلها، وكشفت أربعة أعطال حقيقية أثناء بنائها: <b>كل ضابط يحرّك المعاينة فعلًا، أو يحمل وسمًا يقول إنه لا يحرّكها.</b> لا ضابط بلا تنفيذ خلفه — وهي القاعدة نفسها التي يطلبها الطلب في أول أسطره.</p>
+</section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const G = '#1e7355', GBG = '#eaf5ef', A = '#c99700', ABG = '#fdf3d7', R = '#a5261b', RBG = '#fdecea';
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      stats: [
+        ['٦', 'ملفات مُسلَّمة', 'خمسة PHP وفحص واحد بـNode', GBG, '#cfe6dc', G],
+        ['٤', 'بنود منفَّذة', 'من ستّة في ترتيب التنفيذ', GBG, '#cfe6dc', G],
+        ['٦', 'حرّاس', 'يمنعون رجوع العيوب المُصلَحة', '#fff', '#dcdcde', '#1a1a1a'],
+        ['٠', 'انحدار بصري', 'التركيب لا يغيّر مظهر المتجر', '#fff', '#dcdcde', '#1a1a1a'],
+      ].map((s) => ({ n: s[0], label: s[1], note: s[2], bg: s[3], edge: s[4], fg: s[5] })),
+
+      deliverables: [
+        ['01', 'inc/tahdheer-product-data.php', 'يُزيل تكرارًا', 'ok', '6.5 ك',
+          'قارئ منتج واحد يستبدل tsec_product() و tmo_product() المكرّرتين حرفيًا. الفرق بينهما كان مقاس الصورة فقط ووجود stock و add_url في الثانية — والشكل المُرجَع هنا اتحادهما، فلا مستدعٍ يُكسر. أضفت فوقه استعلامًا آمنًا واحدًا يخدم عائلات المنتجات والتصنيفات والمجموعات كلها.',
+          ['tahdheer_product_data($id, $size) — قارئ واحد بمرشّح توسيع', 'tahdheer_product_query($source, $limit) — استعلام آمن بلا SQL خام', 'tahdheer_product_rating_pair() — التقييم الحقيقي أو فراغ', 'جسور tsec_product و tmo_product تُعرَّف فقط إن غابت القديمتان'],
+          "// في sections-loader.php و motion-loader.php استبدل الجسم بسطر:\nfunction tsec_product( $id ) { return tahdheer_product_data( $id, 'medium_large' ); }\nfunction tmo_product( $id )  { return tahdheer_product_data( $id, 'large' ); }",
+          ''],
+        ['02', 'inc/tahdheer-icons.php', 'يُزيل تكرارًا', 'ok', '6.8 ك',
+          'سجل أيقونات واحد. كانت السلّة والسهم والصح والصاعقة والدرع والشاحنة والتشغيل والزائد والناقص والنجمة معرّفة مرّتين بنفس مسار SVG في ملفّين، فتصحيح مسار واحد عمل في موضعين.',
+          ['طقم موحّد من ٣٠ أيقونة بمرشّح إضافة', 'الأيقونة زخرفية افتراضيًا، وتحمل اسمًا عند تمرير label', 'tahdheer_stars() تُرجع فراغًا عند غياب التقييمات لا خمس نجوم فارغة', 'مسار user مُصحَّح من الأصل — كان يحمل قوسًا زائدًا يُرقَّع بسطر بعده'],
+          "function tsec_icon( $n, $s = 20 ) { return tahdheer_icon( $n, $s, array( 'class' => 'ts-i' ) ); }\nfunction tmo_icon( $n, $s = 20 )  { return tahdheer_icon( $n, $s, array( 'class' => 'tm-i' ) ); }",
+          'الفحص يفشل إن بقي أكثر من ستّة مسارات معرّفة خارج السجل — الحدّ مقصود ليسمح بأيقونة موضعية نادرة ويمنع طقمًا ثانيًا.'],
+        ['03', 'inc/tahdheer-motion-scale.php', 'قدرة جديدة', 'ok', '8.4 ك',
+          'سلّم الشدّة ٠←١٠ كاملًا. المفردات كانت موجودة (عشرة منحنيات وخمس سرعات وتحقّق نمطي من cubic-bezier) والناقص هو المقبض الواحد الذي يحرّكها معًا. المستوى ليس رقمًا في قائمة — بل صفٌّ يشتقّ منه كل رمز حركي قيمته.',
+          ['جدول من ١١ صفًّا × ٦ مفاتيح: مسافة · مدّة · منحنى · تتالٍ · ضباب · تكبير', 'افتراضات لكل مقاس: مكتب ٥ · تابلت ٣ · جوال ٢', 'prefers-reduced-motion يفرض الصفر ويتجاوز كل إعداد — بلا استثناء', 'tahdheer_motion_cost() — نفس حساب المحرّر منقولًا للخادم فالمصدر واحد'],
+          "// متغيّرات لعنصر واحد يتجاوز المستوى العام:\n<div style=\"<?php echo tahdheer_motion_style_attr( 7 ); ?>\" data-tah-mo>…</div>\n// أو للتتالي على الأبناء:\n<div data-tah-mo-stagger>…</div>",
+          'ما فوق المستوى ٧ متاح كما طلبت، لكنه لا يدخل أي قالب جاهز — والسقف الآمن قابل للتعديل بمرشّح واحد.'],
+        ['04', 'inc/tahdheer-component-registry.php', 'قدرة جديدة', 'ok', '18.2 ك',
+          'سجل المكوّنات والمكتبة: ٣٠٠ اختيار مولَّد من ٢٠ عائلة × ١٥، يشير كلٌّ منها إلى مكوّنه الحقيقي وهيكله وحالته الصادقة وتبعياته. المعرّفات مشتقّة لا مكتوبة، فلا تكرار ممكن.',
+          ['٤٥ مكوّنًا يخدم ٣٠٠ اختيارًا — معامل ٦.٧×', 'الهيكل يُشتقّ من تسمية الاختيار بكلمات مفتاحية (كاروسيل ← carousel)', 'الحالة مقروءة من tahdheer_library_stats() لا مكتوبة بيد: ١٠ موجود · ١٨ جزئي · ١٧ ناقص', 'tahdheer_recommended_for() — توصيات بقواعد لا بذكاء، كما يسمح البند ٩١'],
+          "$stats = tahdheer_library_stats();\n// => choices:300 · components:45 · ratio:6.7\nforeach ( tahdheer_component_library() as $entry ) { … }",
+          ''],
+        ['05', 'inc/tahdheer-hero-rating.php', 'يُصلح عيبًا', 'part', '5.5 ك',
+          'بلوك الهيرو يعرّف rating و ratingCount كخاصيّتين نصّيتين يكتبهما المشرف بحرّية — أي أنه يسمح بكتابة «٤٫٩ من ١٢٨ مراجعة» على منتج بلا مراجعة واحدة. وهذا يخالف قاعدتك الصريحة، مع أن القارئ الحقيقي موجود وجاهز.',
+          ['التقييم يُشتقّ من مراجعات ووكومرس عبر render_block_data', 'بلا منتج مرتبط أو بلا مراجعات ← تُفرَّغ القيم ولا يُعرض شيء', 'tahdheer_hero_manual_rating_audit() تكشف كل صفحة تحمل رقمًا لا مصدر له', 'تنبيه في المحرّر — تنبيه لا حاجب، لكنه لا يمرّ بصمت'],
+          "// السماح بالإدخال اليدوي قرار معلن لا سلوك صامت:\nadd_filter( 'tahdheer_hero_allow_manual_rating', '__return_true' );",
+          'لم أحذف الخاصيّتين من block.json — التوافق الخلفي محفوظ والتراجع ممكن بحذف سطر require واحد. القرار في حذفهما قرارك.'],
+        ['06', 'scripts/check-foundation.mjs', 'اختبارات', 'ok', '7.5 ك',
+          'ستّة حرّاس ثابتة تقفل الأبواب التي دخلت منها العيوب فعلًا. القالب لا يملك تغطية اختبار، وإضافة ٣٠٠ عنصر فوق أساس بلا اختبار تعني أن الانحدار سيكتشفه زائر لا مطوّر.',
+          ['قارئ منتج واحد · طقم أيقونات واحد · مسار user صحيح', 'سلّم الحركة كامل ٠..١٠ بستّة مفاتيح واحترام تقليل الحركة', '٣٠٠ اختيار · ٢٠ عائلة · معرّفات فريدة · لا اختيار يشير لمكوّن غير مسجّل', 'خروج بالرمز ١ عند أي فشل — صالح لبوّابة CI'],
+          "npm pkg set scripts.check:foundation=\"node scripts/check-foundation.mjs\"\nnode scripts/check-foundation.mjs",
+          ''],
+      ].map((d) => {
+        const ch = d[3] === 'ok' ? { bg: GBG, fg: G } : { bg: ABG, fg: '#7a5a00' };
+        return { n: d[0], path: d[1], chip: d[2], chipBg: ch.bg, chipFg: ch.fg, size: d[4], what: d[5], gives: d[6], code: d[7], warn: d[8], warnShow: d[8] ? 'block' : 'none' };
+      }),
+
+      steps: [
+        ['01', 'انسخ الملفّات الخمسة إلى inc/ والفحص إلى scripts/ في القالب.', 'مطلوب', 'ok'],
+        ['02', 'أضِف أسطر require في functions.php بالترتيب أدناه — قارئ المنتج أولًا لأن ضابط التقييم يعتمد عليه.', 'مطلوب', 'ok'],
+        ['03', 'شغّل الفحص قبل أي تعديل آخر لتسجيل الحالة الأساس. سيفشل فحصان في البداية — هذا متوقّع ومقصود.', 'مطلوب', 'ok'],
+        ['04', 'فوّض tsec_product و tmo_product و tsec_icon و tmo_icon بسطر واحد لكل منها، واحذف أجسامها القديمة.', 'يدوي', 'part'],
+        ['05', 'أعِد تشغيل الفحص — يجب أن تصير الستّة سليمة.', 'تحقّق', 'ok'],
+        ['06', 'افحص الواجهة بصريًا: الأقسام والحركة يجب أن تبدو كما هي حرفيًا. أي فرق يعني أن تفويضًا أخطأ في مقاس الصورة.', 'تحقّق', 'ok'],
+        ['07', 'راجع تنبيه المحرّر: إن ظهر «تقييمات مكتوبة يدويًا» فهذه صفحات تحمل أرقامًا لا مصدر لها — اربطها بمنتج أو أفرغها.', 'قرار', 'part'],
+      ].map((s) => {
+        const c = s[3] === 'ok' ? { bg: GBG, fg: G } : { bg: ABG, fg: '#7a5a00' };
+        return { n: s[0], text: s[1], tag: s[2], tagBg: c.bg, tagFg: c.fg, edge: '#ececef', bg: '#fcfcfd' };
+      }),
+
+      installCode: "// functions.php — الترتيب مهم\nrequire_once get_template_directory() . '/inc/tahdheer-product-data.php';\nrequire_once get_template_directory() . '/inc/tahdheer-icons.php';\nrequire_once get_template_directory() . '/inc/tahdheer-motion-scale.php';\nrequire_once get_template_directory() . '/inc/tahdheer-component-registry.php';\nrequire_once get_template_directory() . '/inc/tahdheer-hero-rating.php'; // يعتمد على 01",
+
+      remaining: [
+        ['أزمنة التشغيل الأربعة', 'الأولوية القادمة', 'no', '٤٨ اختيارًا', 'مرتّبة بما تفتحه فعلًا: المعرض والكاروسيل (٢١) · الكشف (١٤) · مراقب التقاطع (٩) · المؤشّر (٤). زمن تشغيل واحد مشترك لكل منها يفتح ٤٨ اختيارًا — أربعة ملفّات صغيرة أرخص بكثير من ٤٨ عنصرًا. والحوار (٣) يُؤجَّل لأنه الأقلّ فتحًا والأكثر تعقيدًا في الوصولية (حصر التركيز والعودة إليه).'],
+        ['المكوّنات الـ٢١ الناقصة', 'بعد أزمنة التشغيل', 'no', '—', 'لا تُبنى قبل أزمنة التشغيل، لأن كل مكوّن يُبنى قبلها سيُعاد بناؤه بعدها. الترتيب هنا ليس تفضيلًا بل توفير.'],
+        ['الثلاثون هيرو', 'عشرة هياكل', 'part', '١٠ هياكل', 'بلوك الهيرو يحمل ٧٥ خاصية وخاصية variant افتراضها bento — أي أن الطريق مفتوح. الثلاثون هدفًا تُخدَم بعشرة هياكل تخطيط، وثلاثة منها جاهزة تقريبًا (بينتو ومنقسم ومركزي).'],
+        ['ربط المحرّر بالخادم', 'تصميم جاهز · كود لا', 'no', '—', 'محرّر العنصر ومتصفّح العناصر يعملان بحالة محليّة. ربطهما يحتاج نقاط REST لحفظ الخصائص وقراءة السجل — وهذا يعتمد على قرارك في السؤال الأول: بلوكات Gutenberg أم باني مستقل.'],
+        ['تغطية اختبار حقيقية', 'الفحوص بداية لا نهاية', 'part', '٦ حرّاس', 'الفحوص فحوص ثابتة على النصّ. الاختبار الحقيقي يحتاج تشغيل PHP فعليًا: حفظ خصائص، توليد CSS، تصيير بلوك. القالب يملك phpstan و phpcs أصلًا — البنية موجودة والاختبارات لا.'],
+      ].map((r) => {
+        const c = r[2] === 'no' ? { bg: RBG, fg: R } : { bg: ABG, fg: '#7a5a00' };
+        return { label: r[0], chip: r[1], chipBg: c.bg, chipFg: c.fg, unlocks: r[3], note: r[4] };
+      }),
+
+      loop: [
+        ['التدقيق', 'ما هو موجود فعلًا', 'Tahdheer - Visual Commerce Engine.dc.html'],
+        ['المتصفّح', '٣٠٠ اختيار قابلة للتصفية', 'Tahdheer - Component Browser.dc.html'],
+        ['المحرّر', '٣٠ ضابطًا · ١٤ حيّ', 'Tahdheer - Component Editor.dc.html'],
+        ['الأساس', 'ستّة ملفات كود', 'Tahdheer - Foundation Delivery.dc.html'],
+        ['الكونسول', 'أين يسكن كل هذا', 'Tahdheer - Unified Console.dc.html'],
+      ].map((l, i, all) => ({
+        label: l[0], note: l[1], href: l[2], arrow: i < all.length - 1 ? 'inline' : 'none',
+        bg: i === 3 ? GBG : '#fcfcfd', edge: i === 3 ? '#cfe6dc' : '#e4e4e7', fg: i === 3 ? '#123d2f' : '#1a1a1a',
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0f0f1;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div dir="rtl" style="width:1240px;padding:16px 18px 28px;background:{{ t.pageBg }};color:{{ t.text }};min-height:860px;box-sizing:border-box">
+
+<div style="display:{{ chrome }};flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:14px">
+<h1 style="margin:0;font-size:18px;font-weight:900;color:{{ t.text }}">SEO والتحليلات</h1>
+<span style="font-size:11.5px;color:{{ t.muted }}">كل رقم يحمل مصدره — وما لا مصدر له لا يُعرَض</span>
+<div style="flex:1"></div>
+<button type="button" onClick="{{ onDark }}" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.surface }};color:{{ t.text }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer">{{ t.darkLabel }}</button>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px">
+<sc-for list="{{ connections }}" as="c" hint-placeholder-count="2">
+<div style="padding:13px 15px;border:1px solid {{ c.border }};border-radius:11px;background:{{ c.bg }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px">
+<span aria-hidden="true" style="flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:{{ c.dot }}"></span>
+<b style="flex:1;min-width:0;font-size:12.5px;font-weight:900;color:{{ t.text }};text-align:start">{{ c.name }}</b>
+<span style="box-sizing:border-box;padding:3px 10px;border-radius:6px;background:{{ c.stateBg }};font-size:10px;font-weight:900;color:{{ c.stateFg }};white-space:nowrap">{{ c.state }}</span>
+</div>
+<p style="margin:0;font-size:11px;line-height:1.75;color:{{ t.muted }};text-align:start">{{ c.note }}</p>
+<div style="display:{{ c.actionDisplay }};margin-top:9px">
+<button type="button" style="display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border:1px solid {{ c.btnBorder }};border-radius:8px;background:{{ t.surface }};color:{{ c.btnFg }};font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap">{{ c.action }}</button>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+<div style="padding:12px;border:1px solid {{ t.border }};border-radius:10px;background:{{ t.surface }}">
+<div style="font-size:10.5px;font-weight:800;color:{{ t.muted }};margin-bottom:6px;text-align:start">{{ k.label }}</div>
+<div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px"><b dir="ltr" style="font-size:20px;font-weight:900;color:{{ t.text }};line-height:1.1">{{ k.value }}</b><span style="font-size:10px;font-weight:800;color:{{ t.muted }}">{{ k.unit }}</span></div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-top:7px;border-top:1px solid {{ t.hair }}">
+<span style="box-sizing:border-box;padding:2px 7px;border-radius:5px;background:{{ k.deltaBg }};font-size:9.5px;font-weight:900;color:{{ k.deltaFg }};white-space:nowrap">{{ k.delta }}</span>
+<span style="font-size:9px;color:{{ t.muted }};white-space:nowrap">{{ k.src }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }};margin-bottom:12px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">المشكلات — كل بند بإجراء مباشر</h2>
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.pressed }}" style="min-height:30px;padding:0 11px;border:1px solid {{ f.border }};border-radius:8px;background:{{ f.bg }};color:{{ f.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:pointer;white-space:nowrap">{{ f.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ issues }}" as="i" hint-placeholder-count="7">
+<div style="border:1px solid {{ i.border }};border-radius:10px;background:{{ i.bg }};overflow:hidden">
+<button type="button" onClick="{{ i.onToggle }}" aria-expanded="{{ i.expanded }}" style="width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:9px;min-height:40px;padding:8px 11px;border:0;background:none;cursor:pointer;text-align:start">
+<span aria-hidden="true" style="flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:{{ i.markBg }};color:{{ i.markFg }};display:grid;place-items:center;font:900 10px ui-monospace,monospace">{{ i.mark }}</span>
+<span style="flex:1;min-width:150px;font-size:11.5px;font-weight:900;color:{{ t.text }};text-align:start">{{ i.title }}</span>
+<span dir="ltr" style="flex:0 0 42px;font:900 11px ui-monospace,Menlo,monospace;color:{{ i.countFg }};text-align:start">{{ i.count }}</span>
+<span style="flex:0 0 84px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:6px;background:{{ i.sevBg }};font-size:9px;font-weight:900;color:{{ i.sevFg }};white-space:nowrap">{{ i.sev }}</span>
+<span style="flex:0 0 96px;font-size:9.5px;color:{{ t.muted }};text-align:start;white-space:nowrap">{{ i.src }}</span>
+<svg aria-hidden="true" style="flex:0 0 auto;width:13px;height:13px;color:{{ t.muted }};fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ i.chevron }}"><use href="#i-chev"></use></svg>
+</button>
+<div style="display:{{ i.detailDisplay }};padding:0 11px 11px">
+<div style="padding:10px 12px;border-radius:9px;background:{{ t.inset }};border:1px solid {{ t.hair }}">
+<p style="margin:0 0 9px;font-size:10.5px;line-height:1.8;color:{{ t.text }};text-align:start">{{ i.why }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ i.actions }}" as="a" hint-placeholder-count="2">
+<button type="button" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1px solid {{ a.border }};border-radius:8px;background:{{ a.bg }};color:{{ a.fg }};font-family:Tajawal,sans-serif;font-size:10.5px;font-weight:800;cursor:{{ a.cursor }};white-space:nowrap">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2"><use href="{{ a.icon }}"></use></svg>{{ a.label }}
+</button>
+</sc-for>
+</div>
+<p style="display:{{ i.blockedDisplay }};margin:9px 0 0;padding-top:8px;border-top:1px solid {{ t.hair }};font-size:10px;line-height:1.7;color:{{ t.warnFg }};text-align:start">{{ i.blocked }}</p>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding:14px 16px;border:1px solid {{ t.border }};border-radius:11px;background:{{ t.surface }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:11px">
+<h2 style="margin:0;flex:1;min-width:0;font-size:13px;font-weight:900;color:{{ t.text }};text-align:start">أعلى الاستعلامات</h2>
+<span style="font-size:10px;font-weight:800;color:{{ t.muted }};white-space:nowrap">{{ queryNote }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<div aria-hidden="true" style="display:flex;gap:9px;padding:0 10px 4px">
+<span style="flex:1;font-size:9px;font-weight:900;color:{{ t.muted }}">الاستعلام</span>
+<span style="flex:0 0 58px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">النقرات</span>
+<span style="flex:0 0 66px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الظهور</span>
+<span style="flex:0 0 50px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">CTR</span>
+<span style="flex:0 0 50px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">الموضع</span>
+<span style="flex:0 0 110px;font-size:9px;font-weight:900;color:{{ t.muted }};text-align:start">ملاحظة</span>
+</div>
+<sc-for list="{{ queries }}" as="q" hint-placeholder-count="6">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:9px 10px;border:1px solid {{ t.hair }};border-radius:9px;background:{{ t.inset }}">
+<span dir="auto" style="flex:1;min-width:130px;font-size:11.5px;font-weight:800;color:{{ t.text }};text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.term }}</span>
+<span dir="ltr" style="flex:0 0 58px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ t.text }};text-align:start">{{ q.clicks }}</span>
+<span dir="ltr" style="flex:0 0 66px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ q.impr }}</span>
+<span dir="ltr" style="flex:0 0 50px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ q.ctrFg }};text-align:start">{{ q.ctr }}</span>
+<span dir="ltr" style="flex:0 0 50px;font:800 10.5px ui-monospace,Menlo,monospace;color:{{ t.muted }};text-align:start">{{ q.pos }}</span>
+<span style="flex:0 0 110px;box-sizing:border-box;display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;background:{{ q.tagBg }};font-size:9px;font-weight:800;color:{{ q.tagFg }};white-space:nowrap">{{ q.tag }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:10px 0 0;padding-top:9px;border-top:1px solid {{ t.hair }};font-size:9.5px;line-height:1.7;color:{{ t.muted }};text-align:start">{{ tableFoot }}</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { dark: false, filter: 'all', open: 'cannibal' };
+
+  theme() {
+    /* Embedded: the suite owns the theme. Standalone: this file owns it. */
+    const d = this.props.dark !== undefined ? this.props.dark : this.state.dark;
+    const sem = d
+      ? { okFg: '#7fd3ac', okBg: 'rgba(127,211,172,.14)', warnFg: '#e8c98a', warnBg: 'rgba(232,201,138,.14)', badFg: '#f0a79b', badBg: 'rgba(240,167,155,.14)', okDot: '#5fd6a3', warnDot: '#e8c98a', badDot: '#f0a79b' }
+      : { okFg: '#1e7355', okBg: 'rgba(37,155,111,.10)', warnFg: '#7a5d20', warnBg: 'rgba(216,181,106,.18)', badFg: '#a33a2d', badBg: 'rgba(163,58,45,.08)', okDot: '#259b6f', warnDot: '#d8b56a', badDot: '#a33a2d' };
+    return d
+      ? { ...sem, pageBg: '#14181a', surface: '#1c2225', inset: '#252d31', text: '#eef2f0', muted: '#9fb0a8', border: '#333d41', hair: '#2a3236', darkLabel: 'الوضع الفاتح' }
+      : { ...sem, pageBg: '#f0f0f1', surface: '#fff', inset: '#f2f5f2', text: '#14261d', muted: '#5f7167', border: '#dcdcde', hair: '#eef1ec', darkLabel: 'الوضع الداكن' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const t = this.theme();
+
+    /*
+     * gscConnected mirrors Tahdheer_GSC_OAuth::connected() — a refresh token that
+     * actually exists. Merchant Center has NO integration in the theme, so its
+     * rows are disabled with the reason rather than shown as zeroes; a zero reads
+     * as "no errors" when the truth is "no data".
+     */
+    const gscConnected = true;
+    const merchantConnected = false;
+
+    const connections = [
+      {
+        name: 'Google Search Console', ok: gscConnected,
+        state: gscConnected ? 'مربوط' : 'غير مربوط',
+        note: gscConnected
+          ? 'مربوط عبر OAuth مع رمز تجديد صالح. آخر مزامنة: أمس 03:10 — المزامنة المجدولة تعمل.'
+          : 'يحتاج بيانات OAuth ثم موافقة. حتى ذلك: لا نقرات ولا ظهور ولا موضع.',
+        action: gscConnected ? 'افتح Search Console' : 'اربط الآن'
+      },
+      {
+        name: 'Merchant Center', ok: merchantConnected,
+        state: 'غير مربوط',
+        note: 'لا تكامل مع Merchant في القالب. بنود «أخطاء Merchant Listing» و«أهلية النتائج الغنية للتاجر» معطّلة — لا تُعرَض بصفر لأن الصفر يُقرأ «لا أخطاء» والحقيقة «لا بيانات».',
+        action: 'كيف يُربَط؟'
+      }
+    ].map(c => ({
+      name: c.name, note: c.note, state: c.state, action: c.action,
+      dot: c.ok ? t.okDot : t.badDot,
+      border: c.ok ? t.okFg : t.warnFg,
+      /*
+       * Plain surface, coloured border. A tinted card fill put muted text and a
+       * same-tone chip on a tint over white — tint-on-tint, 4.1:1 in light mode.
+       * The dot and chip carry the state; the card does not need to be coloured.
+       */
+      bg: t.surface,
+      stateBg: c.ok ? t.okBg : t.badBg,
+      stateFg: c.ok ? t.okFg : t.badFg,
+      btnBorder: c.ok ? t.okFg : t.warnFg,
+      btnFg: c.ok ? t.okFg : t.warnFg,
+      actionDisplay: 'block'
+    }));
+
+    const kpis = [
+      ['النقرات', '3,412', 'نقرة', '+14.2%', true],
+      ['الظهور', '186,940', 'مرة', '+9.6%', true],
+      ['CTR', '1.82', '%', '+0.4%', true],
+      ['الموضع الوسيط', '18.4', '', '−2.1', true]
+    ].map(k => ({
+      label: k[0], value: k[1], unit: k[2], delta: k[3],
+      deltaBg: k[4] ? t.okBg : t.badBg,
+      deltaFg: k[4] ? t.okFg : t.badFg,
+      src: 'Search Console · أمس'
+    }));
+
+    const issueDefs = [
+      ['cannibal', 'تنافس داخلي على استعلام واحد', 3, 'critical', 'Search Console',
+        'ثلاث صفحات تتنافس على «تحضير رياضيات رابع». جوجل يختار واحدة ويتجاهل الباقي، فتتوزّع قوة الروابط بلا مكسب. الحلّ اختيار صفحة أساسية وتحويل الأخريات أو دمجها.',
+        [['افتح الصفحات الثلاث', '#i-eye', true], ['اقترح صفحة أساسية', '#i-sparkle', true]], ''],
+      ['dupTitle', 'عناوين مكرّرة', 7, 'warn', 'فحص داخلي',
+        'سبعة منتجات تحمل عنوانًا متطابقًا أو شبه متطابق. لا يمنع الفهرسة لكنه يُضعف التمييز في النتائج.',
+        [['افتح القائمة', '#i-list', true], ['عدّل العناوين', '#i-pen', true]], ''],
+      ['noClicks', 'ظهور بلا نقرات', 12, 'warn', 'Search Console',
+        'اثنا عشر منتجًا تظهر أكثر من 500 مرة بنقرات أقل من خمس. الظهور موجود فالمشكلة في العنوان والوصف لا في الترتيب — وهذا أرخص إصلاح متاح.',
+        [['أعد كتابة الوصف', '#i-pen', true], ['افتح الاستعلامات', '#i-search', true]], ''],
+      ['orphan', 'منتجات يتيمة بلا روابط داخلية', 5, 'warn', 'فحص داخلي',
+        'خمسة منتجات لا يشير إليها أي رابط داخلي، فالزحف يصلها من خريطة الموقع وحدها.',
+        [['اقترح روابط', '#i-layers', true]], ''],
+      ['schema', 'أخطاء Product Schema', 2, 'critical', 'فحص داخلي',
+        'منتجان يُخرجان سعرًا في Schema مختلفًا عن سعر WooCommerce — وهذا تناقض تعاقبه محرّكات البحث.',
+        [['افتح الحقل', '#i-sliders', true], ['افحص Schema', '#i-files', true]], ''],
+      ['merchantErr', 'أخطاء Merchant Listing', 0, 'na', 'لا مصدر',
+        'يحتاج ربط Merchant Center. البند معطّل لأن الصفر هنا لا يعني «لا أخطاء» بل «لا بيانات».',
+        [['كيف يُربَط؟', '#i-info', false]], 'لا يُحتسَب في درجة الصحة حتى يوجد مصدر.'],
+      ['hreflang', 'أخطاء hreflang', 0, 'na', 'لا مصدر',
+        'لا معمار روابط للغات في القالب، فلا وسوم hreflang تُخرَج ولا أخطاء تُقاس.',
+        [['راجع ملفّات اللغات', '#i-globe', true]], 'محجوب حتى تتوفّر إضافة ترجمة.']
+    ];
+
+    const SEV = {
+      critical: ['حرِج', t.badBg, t.badFg, '!', t.badBg, t.badFg, t.badFg],
+      warn: ['تحذير', t.warnBg, t.warnFg, '◐', t.warnBg, t.warnFg, t.hair],
+      na: ['لا ينطبق', t.inset, t.muted, '—', t.inset, t.muted, t.hair]
+    };
+    const groups = { all: () => true, critical: d => d[3] === 'critical', warn: d => d[3] === 'warn', na: d => d[3] === 'na' };
+
+    const issues = issueDefs.filter(groups[st.filter]).map(d => {
+      const s = SEV[d[3]];
+      const open = st.open === d[0];
+      return {
+        title: d[1], count: d[2] === 0 ? '—' : String(d[2]),
+        countFg: d[3] === 'na' ? t.muted : s[2],
+        sev: s[0], sevBg: s[1], sevFg: s[2],
+        mark: s[3], markBg: s[4], markFg: s[5],
+        border: d[3] === 'critical' ? t.badFg : t.hair,
+        bg: d[3] === 'critical' ? t.badBg : t.inset,
+        src: d[4], why: d[5],
+        actions: d[6].map(a => ({
+          label: a[0], icon: a[1],
+          border: a[2] ? t.border : t.hair,
+          bg: t.surface,
+          fg: a[2] ? t.text : t.muted,
+          cursor: a[2] ? 'pointer' : 'not-allowed'
+        })),
+        blocked: d[7],
+        blockedDisplay: d[7] ? 'block' : 'none',
+        expanded: open ? 'true' : 'false',
+        detailDisplay: open ? 'block' : 'none',
+        chevron: open ? 'rotate(90deg)' : 'rotate(-90deg)',
+        onToggle: () => this.setState(s2 => ({ open: s2.open === d[0] ? null : d[0] }))
+      };
+    });
+
+    const filterDefs = [['all', 'الكل ' + issueDefs.length], ['critical', 'حرِج'], ['warn', 'تحذير'], ['na', 'لا ينطبق']];
+
+    const qDefs = [
+      ['تحضير رياضيات رابع ابتدائي', 412, 18420, 2.2, 12.4, 'تنافس داخلي', 'bad'],
+      ['أوراق عمل علوم متوسط', 388, 14060, 2.8, 9.1, 'جيّد', 'ok'],
+      ['عرض بوربوينت كيمياء', 96, 21380, 0.4, 24.6, 'ظهور بلا نقرات', 'warn'],
+      ['اختبارات نهائية محلولة', 274, 9840, 2.8, 11.2, 'جيّد', 'ok'],
+      ['وسائل تعليمية جاهزة', 58, 16220, 0.4, 28.9, 'ظهور بلا نقرات', 'warn'],
+      ['حقيبة تدريبية تعلم نشط', 141, 5210, 2.7, 14.8, 'جيّد', 'ok']
+    ];
+
+    return {
+      t,
+      chrome: this.props.embedded ? 'none' : 'flex',
+      onDark: () => this.setState(s => ({ dark: !s.dark })),
+      connections, kpis, issues,
+      filters: filterDefs.map(f => ({
+        label: f[1],
+        pressed: st.filter === f[0] ? 'true' : 'false',
+        border: st.filter === f[0] ? t.okFg : t.border,
+        bg: st.filter === f[0] ? t.okBg : t.surface,
+        fg: st.filter === f[0] ? t.okFg : t.muted,
+        onClick: () => this.setState({ filter: f[0], open: null })
+      })),
+      queryNote: 'Search Console · آخر 28 يومًا',
+      queries: qDefs.map(q => {
+        const kind = q[6];
+        return {
+          term: q[0],
+          clicks: q[1].toLocaleString('en-US'),
+          impr: q[2].toLocaleString('en-US'),
+          ctr: q[3].toFixed(1) + '%',
+          ctrFg: kind === 'ok' ? t.okFg : kind === 'warn' ? t.warnFg : t.badFg,
+          pos: q[4].toFixed(1),
+          tag: q[5],
+          tagBg: kind === 'ok' ? t.okBg : kind === 'warn' ? t.warnBg : t.badBg,
+          tagFg: kind === 'ok' ? t.okFg : kind === 'warn' ? t.warnFg : t.badFg
+        };
+      }),
+      tableFoot: 'النقرات والظهور والموضع من Search Console كما وردت — لا تقدير ولا استيفاء. «ظهور بلا نقرات» حسابٌ داخلي على عتبة 500 ظهور وأقلّ من 5 نقرات.'
+    };
+  }
+}
+</script>
+</body>
+</html>

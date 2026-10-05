@@ -1,0 +1,668 @@
+/*
+UNIT: DATA-TABLE
+COMPONENT: data-table.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * جدول القوائم — رأسٌ لاصق وتمريرٌ محصور وبطاقةٌ على الضيّق.
+ *
+ * ─── الكثافة تُقرأ ولا تُكتب ───
+ *
+ * حشوُ الخليّة وارتفاعُ الأدوات هنا **رمزان** لا رقمان: `--d-cell-y`
+ * و`--control-h` معلَنان على `<body>` ويتبدّلان مع `data-density`. فلو
+ * كُتب `padding-block: 10px` حرفيًّا لَبقي الجدول مريحًا وكلُّ ما حوله
+ * مضغوط — وهو أسوأ من ألّا تكون هناك كثافةٌ أصلًا.
+ *
+ * ─── والألوان من طبقة `--cc-*` وحدها ───
+ *
+ * كلّ ما هنا يُشتقّ من رموزٍ تنقلب مع `body[data-theme='light']`. ولا لونَ
+ * ثابتًا واحدًا: قيمةٌ ثابتة تعني سطرًا يبدو صحيحًا في الداكن ويختفي في
+ * الفاتح — ولا أحد يرى العيب حتّى يُبدّل مستعملٌ السمة.
+ */
+.wrap {
+  /* حشو الصفّ رأسيًّا — يتبع كثافة الجسم، ويسقط إلى المريح إن غابت. */
+  --dt-cell-y: var(--d-cell-y, 10px);
+  --dt-cell-x: var(--sp-3);
+  /* ارتفاع كلّ زرٍّ ومربّعٍ في الجدول — ‎44px‎ تحت الإصبع بحكم `globals`. */
+  --dt-control-h: var(--control-h, 40px);
+  /*
+   * سقفُ ارتفاع الحاوية — بدونه لا يقع تمريرٌ رأسيّ داخلها فلا يلصق الرأس.
+   * وهو سقفٌ لا ارتفاع: جدول ثلاثة صفوفٍ يبقى بثلاثة صفوف.
+   */
+  --dt-max-block: max(22rem, calc(100dvh - 19rem));
+  /* حدّ العرض الذي ينقلب عنده الصفّ بطاقةً — مذكورٌ مرّةً ويُقرأ في الاستعلام أدناه. */
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-inline-size: 0;
+}
+
+/* ───── شريط الأدوات ───── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  min-block-size: var(--dt-control-h);
+}
+
+.toolbarEnd {
+  margin-inline-start: auto;
+  display: flex;
+  gap: var(--sp-2);
+}
+
+/* ───── شريط التحديد الجماعيّ ───── */
+/*
+ * الشريط يُقال بثلاث إشاراتٍ لا بلونٍ واحد: حدٌّ مصمت، وتدرّجٌ خفيف،
+ * وعددٌ مكتوب. اللون وحده لا يصل إلى من لا يميّزه.
+ */
+.bulk {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding-block: var(--sp-1);
+  padding-inline: var(--sp-2);
+  /*
+   * الاتّجاه رأسيّ لا أفقيّ: `linear-gradient` لا يعرف `inline-end`، ولو
+   * كُتب `to right` لَانقلب معناه في العربيّة. فالرأسيّ يصدق في الاتّجاهين.
+   */
+  background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--cc-primary) 16%, transparent),
+      color-mix(in srgb, var(--cc-primary) 7%, transparent)
+    ),
+    var(--cc-bg1);
+  border: 1px solid color-mix(in srgb, var(--cc-primary) 34%, transparent);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--cc-primary) 12%, transparent);
+}
+
+.bulkCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-inline: var(--sp-2);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--cc-link);
+  white-space: nowrap;
+}
+
+.bulkAction,
+.bulkDanger,
+.bulkClear {
+  min-block-size: max(32px, calc(var(--dt-control-h) - 6px));
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-sm);
+  background: var(--cc-bg1);
+  color: var(--cc-text);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.14s ease, color 0.14s ease;
+}
+
+.bulkAction:hover:not(:disabled) {
+  border-color: var(--cc-primary);
+  color: var(--cc-link);
+}
+
+.bulkDanger {
+  color: var(--cc-danger);
+  border-color: color-mix(in srgb, var(--cc-danger) 40%, transparent);
+}
+
+.bulkDanger:hover:not(:disabled) {
+  border-color: var(--cc-danger);
+}
+
+.bulkClear {
+  border-color: transparent;
+  background: transparent;
+  color: var(--cc-muted);
+}
+
+.bulkClear:hover:not(:disabled) {
+  color: var(--cc-text);
+  border-color: var(--cc-edge);
+}
+
+.bulkAction:disabled,
+.bulkDanger:disabled,
+.bulkClear:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ───── لوحة الأعمدة ───── */
+.columnsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-block-size: max(32px, calc(var(--dt-control-h) - 6px));
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-sm);
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.14s ease, color 0.14s ease;
+}
+
+.columnsButton:hover,
+.columnsButton[aria-expanded='true'] {
+  color: var(--cc-link);
+  border-color: var(--cc-primary);
+}
+
+.columnsBadge {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 16px;
+  block-size: 16px;
+  padding-inline: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cc-primary) 10%, transparent);
+  /* لون الرابط نصًّا لا الأساسيّ: الأساسيّ تعبئةٌ، وعلى صبغته كان 4.1:1، والصبغة ١٠٪ لا ٢٢٪. */
+  color: var(--cc-link);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.pop {
+  position: relative;
+}
+
+.columnsPanel {
+  position: absolute;
+  inset-block-start: calc(100% + 6px);
+  inset-inline-end: 0;
+  z-index: 25;
+  min-inline-size: 210px;
+  padding: var(--sp-2);
+  background: var(--cc-bg1);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-md);
+  box-shadow: 0 14px 40px var(--cc-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.columnsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: max(30px, calc(var(--dt-control-h) - 8px));
+  padding-inline: var(--sp-2);
+  font-size: 12.5px;
+  color: var(--cc-text);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.columnsRow:hover {
+  background: var(--cc-well);
+}
+
+/* مربّعٌ معطَّل يُقال معطَّلًا: آخر عمودٍ ظاهر لا يُخفى. */
+.columnsRow:has(input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.columnsReset {
+  margin-block-start: var(--sp-1);
+  min-block-size: max(30px, calc(var(--dt-control-h) - 8px));
+  border: 0;
+  border-block-start: 1px solid var(--cc-hair);
+  border-radius: 0;
+  background: transparent;
+  color: var(--cc-link);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.columnsReset:disabled {
+  color: var(--cc-muted);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ───── شريط الفرز للعرض المكدّس ───── */
+/*
+ * مخفيٌّ على الشاشة العريضة — و`display:none` يُخرجه من ترتيب التبويب
+ * وشجرة الوصول معًا، فلا يُقرأ الفرز مرّتين لقارئ الشاشة.
+ */
+.sortBar {
+  display: none;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+.sortChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: var(--dt-control-h);
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--cc-edge);
+  border-radius: 999px;
+  background: var(--cc-well);
+  color: var(--cc-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sortChip[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cc-primary) 16%, transparent);
+  border-color: color-mix(in srgb, var(--cc-primary) 40%, transparent);
+  color: var(--cc-link);
+}
+
+/* ───── حاوية الجدول ───── */
+/*
+ * التمرير في الحاوية لا في الصفحة: جدولٌ عريض يُمرَّر داخل إطاره، فلا
+ * يُدفَع الشريط الجانبيّ خارج الشاشة ولا تتحرّك الملاحة مع الأعمدة.
+ *
+ * والسقف الرأسيّ شرطٌ لعمل الرأس اللاصق — لا زينة: بلا سقفٍ لا يقع في
+ * الحاوية تمريرٌ رأسيّ، و`position: sticky` لا يلصق بما لا يتحرّك.
+ */
+.scroll {
+  overflow: auto;
+  max-block-size: var(--dt-max-block);
+  overscroll-behavior: contain;
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-md);
+  background: var(--cc-surface);
+}
+
+.scroll:focus-visible {
+  outline: 2.5px solid var(--cc-primary);
+  outline-offset: 2px;
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12.5px;
+  color: var(--cc-text);
+}
+
+/* ───── الرأس ───── */
+/*
+ * الخلفيّة **معتمة** عمدًا: `--cc-surface` زجاجٌ شفّاف، ورأسٌ لاصقٌ شفّاف
+ * تعبر الصفوف من تحته فيُقرأ سطران فوق بعضهما. `--cc-bg1` ينقلب مع السمة
+ * (‎#111a2e‎ داكنًا · ‎#ffffff‎ فاتحًا) فيبقى معتمًا في الحالين.
+ */
+.table thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, var(--cc-well), transparent), var(--cc-bg1);
+  text-align: start;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  /*
+   * ارتفاع سطرٍ ثابت لا نسبيّ: عمودٌ يُفرز يحمل زرًّا بارتفاع ‎24px‎ وآخر
+   * يحمل نصًّا وحده — والنسبة تجعل رأسَي جدولين مختلفَي الارتفاع. الرقم
+   * الثابت يجعل الرأس ‎24px‎ في الحالين، وهو ما يحجزه هيكل التحميل بالضبط.
+   */
+  line-height: 24px;
+  color: var(--cc-muted);
+  padding-block: calc(var(--dt-cell-y) - 1px);
+  padding-inline: var(--dt-cell-x);
+  border-block-end: 1px solid var(--cc-edge);
+  white-space: nowrap;
+}
+
+/* العمود المفروز يُميَّز بنصٍّ أقوى وخيطٍ تحته — لا بسهمٍ وحده. */
+.table thead th[data-sorted] {
+  color: var(--cc-text);
+  /* خيطٌ مرسوم لا ظلّ: يبقى حين تُطفأ الظلال. */
+  background-image: linear-gradient(to top, var(--cc-primary) 2px, transparent 2px);
+}
+
+.table th[data-align='end'],
+.table td[data-align='end'] {
+  text-align: end;
+}
+
+/* ───── الصفوف ───── */
+.table td {
+  padding-block: var(--dt-cell-y);
+  padding-inline: var(--dt-cell-x);
+  border-block-end: 1px solid var(--cc-hair);
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
+.table tbody tr:last-child td {
+  border-block-end: 0;
+}
+
+/*
+ * تخطيطٌ خفيف — لا خطوطٌ سميكة.
+ *
+ * الخيط الشعريّ وحده يضيع في صفٍّ من عشرة أعمدة فيقفز البصر سطرًا، والخطّ
+ * السميك يُحوّل الجدول إلى شبكة. النصف حلٌّ: مسحةٌ بقيمة ‎40%‎ من `--cc-well`
+ * — تُرى ولا تُزاحم، وتنقلب مع السمة لأنّ أصلها رمز.
+ */
+.table tbody tr:nth-of-type(even) {
+  background: color-mix(in srgb, var(--cc-well) 40%, transparent);
+}
+
+.table tbody tr:hover {
+  background: var(--cc-well);
+}
+
+/* الصفّ المحدَّد يُقال بخلفيّةٍ **وبمربّع الاختيار** — لا باللون وحده. */
+.table tbody tr[data-selected] {
+  background: color-mix(in srgb, var(--cc-primary) 13%, transparent);
+}
+
+.table tbody tr:focus-within {
+  background: var(--cc-well);
+}
+
+/* التسمية داخل الخليّة لا تظهر إلّا مكدّسًا — والرأس هو المصدر هنا. */
+.cellLabel {
+  display: none;
+}
+
+/* لا أثر للغلاف على التخطيط في العرض العريض. */
+.cellValue {
+  display: contents;
+}
+
+/*
+ * عمود التحديد يلصق مع التمرير الأفقيّ.
+ *
+ * بدونه يمرّر المشغّل الجدول ليرى عمودًا بعيدًا فيفقد مربّعات الاختيار،
+ * ثمّ يعود ليتحقّق ممّا حدّد. `inset-inline-start` لا `left`: في العربيّة
+ * أوّل الصفّ يمينًا.
+ */
+.checkCell {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  inline-size: 44px;
+  min-inline-size: 44px;
+  text-align: center;
+  background: var(--cc-bg1);
+}
+
+.table thead .checkCell {
+  z-index: 3;
+}
+
+/*
+ * الخليّة اللاصقة **يجب** أن تكون معتمة وإلّا عبرت الأعمدة من تحتها. ولأنّها
+ * معتمة فهي تحجب تلوين الصفّ المحدَّد — فيُعاد التلوين عليها ممزوجًا بمعتم،
+ * لا شفّافًا. وإلّا ظهر عمودُ التحديد وحده غير محدَّد.
+ */
+.table tbody tr[data-selected] .checkCell {
+  background: color-mix(in srgb, var(--cc-primary) 13%, var(--cc-bg1));
+}
+
+.checkCell input {
+  inline-size: 16px;
+  block-size: 16px;
+  accent-color: var(--cc-primary);
+  cursor: pointer;
+}
+
+/* ───── زرّ الفرز في الرأس ───── */
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  /* هدفُ نقرٍ بارتفاع الخليّة كاملةً — لا نصٌّ بعرض كلمةٍ واحدة. */
+  min-block-size: 24px;
+  inline-size: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: inherit;
+  font-weight: 800;
+  letter-spacing: inherit;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.table th[data-align='end'] .sortButton {
+  justify-content: flex-end;
+}
+
+.sortButton:hover {
+  color: var(--cc-link);
+}
+
+.sortIdle {
+  opacity: 0;
+  transition: opacity 0.14s ease;
+}
+
+/* السهم الباهت يظهر عند التحويم فيقول «هذا العمود يُفرز» قبل النقر. */
+.table th:hover .sortIdle,
+.sortButton:focus-visible .sortIdle {
+  opacity: 0.45;
+}
+
+.sortActive {
+  opacity: 1;
+  color: var(--cc-link);
+}
+
+/* ───── التصفّح ───── */
+.pager {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.pagerText {
+  margin: 0;
+  font-size: 12px;
+  color: var(--cc-muted);
+}
+
+.pagerPage {
+  /* الباهت كاملًا: بشفافية ٧٥٪ كان 3:1 — نصٌّ يُقرأ لا زخرفة. */
+  color: var(--cc-muted);
+}
+
+.pagerButtons {
+  margin-inline-start: auto;
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.pagerButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-block-size: max(32px, calc(var(--dt-control-h) - 6px));
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--radius-sm);
+  background: var(--cc-well);
+  color: var(--cc-text);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagerButton:hover:not(:disabled) {
+  border-color: var(--cc-primary);
+  color: var(--cc-link);
+}
+
+.pagerButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ═════ العرض المكدّس — دون ‎720px‎ ═════
+ *
+ * الجدول العريض على شاشةٍ ضيّقة له مخرجان سيّئان: ضغطُ الأعمدة حتّى تُقرأ
+ * كلمةٌ في السطر، أو تمريرٌ أفقيّ **يُخفي العمود الأوّل** — وهو الذي يُعرَّف
+ * به الصفّ. فيبقى المشغّل ينظر إلى أرقامٍ لا يعرف لأيّ طلبٍ هي.
+ *
+ * فيصير الصفّ بطاقةً: العمود الأوّل عنوانًا، وكلّ عمودٍ بعده زوجَ «تسمية ←
+ * قيمة». والرأس يُخفى — ولذلك ظهر شريط الفرز أعلاه بديلًا عنه.
+ */
+@media (max-width: 720px) {
+  .sortBar {
+    display: flex;
+  }
+
+  .scroll {
+    /* لا سقفَ ولا إطار: البطاقات تمتدّ مع الصفحة، وإطارُ كلٍّ منها يكفي. */
+    max-block-size: none;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    inline-size: auto;
+  }
+
+  /* الرأس يخرج من العرض ومن شجرة الوصول معًا — التسمية داخل الخليّة تنوب عنه. */
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr,
+  .table tbody tr:nth-of-type(even),
+  .table tbody tr:hover {
+    margin-block-end: var(--sp-2);
+    padding-block: var(--sp-1);
+    padding-inline: var(--sp-3);
+    border: 1px solid var(--cc-edge);
+    border-radius: var(--radius-md);
+    background: var(--cc-surface);
+  }
+
+  .table tbody tr[data-selected] {
+    border-color: var(--cc-primary);
+    background: color-mix(in srgb, var(--cc-primary) 13%, transparent);
+  }
+
+  .table td,
+  .table td[data-align='end'] {
+    display: grid;
+    grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--sp-2);
+    padding-inline: 0;
+    padding-block: var(--dt-cell-y);
+    /* المحاذاة إلى النهاية كانت لعمودٍ رقميّ في شبكة — وفي البطاقة لا عمود. */
+    text-align: start;
+    border-block-end: 1px solid var(--cc-hair);
+  }
+
+  .table tbody tr td:last-child {
+    border-block-end: 0;
+  }
+
+  .cellLabel {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--cc-muted);
+  }
+
+  .cellValue {
+    display: block;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* العمود الأوّل عنوان البطاقة: بلا تسمية، وبدرجةٍ أكبر. */
+  .table td[data-primary] {
+    grid-template-columns: minmax(0, 1fr);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .table td[data-primary] .cellLabel {
+    display: none;
+  }
+
+  /* مربّع التحديد يعود إلى صفٍّ عاديّ في البطاقة — لا عمودٌ يلصق. */
+  .checkCell {
+    position: static;
+    inline-size: auto;
+    min-inline-size: 0;
+    text-align: start;
+    background: none;
+  }
+
+  .pagerButton,
+  .sortChip,
+  .bulkAction,
+  .bulkDanger,
+  .bulkClear,
+  .columnsButton {
+    min-block-size: var(--dt-control-h);
+  }
+}
+
+/* أهدافُ اللمس ‎44px‎ مهما كانت الكثافة — الإصبع لا يعرف كثافة. */
+@media (pointer: coarse) {
+  .wrap {
+    --dt-control-h: 44px;
+  }
+
+  .pagerButton,
+  .sortChip,
+  .bulkAction,
+  .bulkDanger,
+  .bulkClear,
+  .columnsButton,
+  .columnsRow,
+  .columnsReset {
+    min-block-size: 44px;
+  }
+
+  .checkCell input {
+    inline-size: 20px;
+    block-size: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bulkAction,
+  .bulkDanger,
+  .bulkClear,
+  .columnsButton,
+  .sortIdle {
+    transition: none;
+  }
+}

@@ -1,0 +1,19 @@
+--- a/functions.php
++++ b/functions.php
+@@
+ 	require get_template_directory() . '/inc/security.php';
++	require get_template_directory() . '/inc/security-headers.php';
++	require get_template_directory() . '/inc/cron-watchdog.php';
++	require get_template_directory() . '/inc/curriculum-hubs.php';
+
+# ملاحظة: السطر الموجود أعلاه (security.php) مذكور كمرساة فقط — ابحث عنه في
+# functions.php وأضف الأسطر الثلاثة بعده. إن كان التحميل عندك يمرّ بمصفوفة
+# أسماء ملفات بدل require صريح، أضف 'security-headers' و 'cron-watchdog'
+# و 'curriculum-hubs' إلى تلك المصفوفة.
+#
+# لا ترتيب حرجًا للوحدات: كلها تربط نفسها على خطّافات متأخّرة (send_headers
+# و init) ولا تعتمد على أي وحدة أخرى في القالب.
+#
+# ⚠ خطوة إلزامية واحدة بعد إضافة curriculum-hubs.php:
+#   الإعدادات → الروابط الدائمة → حفظ التغييرات
+# قواعد الروابط الجديدة لا تعمل قبل ذلك، والصفحات المحورية ستعيد 404.

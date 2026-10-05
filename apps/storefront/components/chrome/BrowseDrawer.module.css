@@ -1,0 +1,111 @@
+/*
+ * أكورديون «تصفّح حسب المرحلة» في درج الجوّال — صفوفٌ ‎48px‎ بإيقاع صفوف
+ * الدرج نفسها (‎.menuPanel .navLink‎)، والمستوى الثاني مُزاحٌ بخطّ بداية.
+ */
+.root {
+  margin-block: 8px 4px;
+  padding-block-start: 8px;
+  border-block-start: 1px solid var(--sf-line);
+}
+
+.summary,
+.stageSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-block-size: 48px;
+  padding-inline: 12px;
+  border-radius: var(--r-md);
+  color: var(--sf-ink);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.summary::-webkit-details-marker,
+.stageSummary::-webkit-details-marker {
+  display: none;
+}
+
+.stageSummary {
+  min-block-size: 44px;
+  font-size: 14px;
+  color: var(--sf-ink-2);
+}
+
+/* الشيفرون يشير إلى القراءة مطويًّا، وإلى الأسفل مفتوحًا. */
+.chev {
+  flex: none;
+  color: var(--sf-muted);
+  transition: rotate var(--dur-hover) var(--ease-out);
+}
+
+details[open] > summary > .chev {
+  rotate: -90deg;
+}
+
+@media (hover: hover) {
+  .summary:hover,
+  .stageSummary:hover,
+  .link:hover {
+    background: var(--sf-cool);
+  }
+}
+
+.summary:active,
+.stageSummary:active,
+.link:active {
+  background: var(--sf-chip);
+}
+
+.stages,
+.grades {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stages {
+  padding-inline-start: 8px;
+}
+
+.grades {
+  margin-block: 2px 8px;
+  margin-inline-start: 12px;
+  padding-inline-start: 8px;
+  border-inline-start: 2px solid var(--sf-line);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  color: var(--sf-ink-2);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.linkAll {
+  color: var(--teal-text);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summary,
+  .stageSummary,
+  .link,
+  .chev {
+    transition: none;
+  }
+}

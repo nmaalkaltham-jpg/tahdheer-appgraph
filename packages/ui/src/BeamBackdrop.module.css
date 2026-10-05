@@ -1,0 +1,78 @@
+/*
+UNIT: BEAMBACKDROP
+COMPONENT: BeamBackdrop.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * ثلاث طبقات تدرّج تتحرّك بـtransform وحده — لا إعادة تخطيط ولا حلقة رسم في
+ * JavaScript. الحركة على محور واحد ومتماثلة، فلا معنى لها في الاتجاه: لا
+ * تحتاج قلبًا في RTL.
+ */
+
+.root {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.beam {
+  position: absolute;
+  inset-block: -40%;
+  inset-inline: -20%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--beam-intensity);
+  filter: blur(42px);
+  will-change: transform;
+}
+
+.one {
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    color-mix(in oklab, var(--teal-600) 55%, transparent) 50%,
+    transparent 70%
+  );
+  animation: drift var(--beam-duration) ease-in-out infinite;
+}
+
+.two {
+  background: linear-gradient(
+    65deg,
+    transparent 35%,
+    color-mix(in oklab, var(--gold-400) 40%, transparent) 50%,
+    transparent 65%
+  );
+  animation: drift calc(var(--beam-duration) * 1.4) ease-in-out infinite reverse;
+}
+
+.three {
+  background: linear-gradient(
+    95deg,
+    transparent 40%,
+    color-mix(in oklab, var(--teal-600) 30%, transparent) 50%,
+    transparent 60%
+  );
+  animation: drift calc(var(--beam-duration) * 0.8) ease-in-out infinite;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%  { transform: translate3d(0, 8%, 0) rotate(6deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam {
+    animation: none;
+    will-change: auto;
+  }
+}

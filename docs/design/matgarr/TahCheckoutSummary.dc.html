@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div dir="rtl" style="font-family:Tajawal,'SF Arabic','Segoe UI',Tahoma,Arial,sans-serif">
+
+<ul style="list-style:none;margin:0;padding:14px 16px;display:flex;flex-direction:column;gap:11px;border-bottom:1px solid #f0f3ef">
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3">
+<li style="display:flex;align-items:flex-start;gap:10px">
+<span aria-hidden="true" style="position:relative;flex:0 0 auto;width:46px;height:46px;border-radius:9px;background:#f2f5f2;border:1px solid #eef1ec;display:grid;place-items:center;overflow:hidden">
+<span style="font:600 8px ui-monospace,Menlo,monospace;color:#5f7167">صورة</span>
+<span style="position:absolute;inset-block-start:-1px;inset-inline-start:-1px;min-width:17px;height:17px;padding:0 4px;border-end-end-radius:7px;background:#14261d;color:#fff;font-size:10px;font-weight:900;display:grid;place-items:center">{{ it.qty }}</span>
+</span>
+<span style="flex:1;min-width:0">
+<span style="display:block;font-size:12px;font-weight:800;color:#14261d;line-height:1.5;margin-bottom:2px">{{ it.title }}</span>
+<span style="display:block;font-size:10.5px;color:#5f7167">{{ it.meta }} · الكمية <bdi dir="ltr">{{ it.qty }}</bdi></span>
+</span>
+<span style="flex:0 0 auto;text-align:end">
+<b style="display:block;font-size:12.5px;font-weight:900;color:#14261d"><bdi dir="ltr">{{ it.line }}</bdi></b>
+<sc-if value="{{ it.hasWas }}" hint-placeholder-val="{{ true }}">
+<del style="font-size:10.5px;color:#5f7167"><bdi dir="ltr">{{ it.was }}</bdi></del>
+</sc-if>
+</span>
+</li>
+</sc-for>
+</ul>
+
+<div style="padding:12px 16px;border-bottom:1px solid #f0f3ef">
+<button type="button" onClick="{{ onToggleCoupon }}" aria-expanded="{{ couponOpen }}" style="display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 4px;border:0;background:transparent;font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;color:#1e7355;cursor:pointer">
+<svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ couponChevron }};transition:transform .18s"><use href="#i-chev"></use></svg>لديك رمز خصم؟
+</button>
+<div style="display:{{ couponBodyDisplay }};margin-top:9px">
+<div style="display:flex;gap:7px">
+<input type="text" dir="ltr" value="{{ couponInput }}" onChange="{{ onCouponInput }}" aria-label="رمز الخصم" aria-invalid="{{ couponInvalid }}" aria-describedby="ck-coupon-msg" placeholder="TEACHER15" style="flex:1;min-width:0;min-height:40px;padding:0 12px;border:1px solid {{ couponBorder }};border-radius:9px;background:#fff;font:700 12.5px ui-monospace,Menlo,monospace;color:#14261d;outline:none;box-sizing:border-box;text-align:start">
+<button type="button" onClick="{{ onApply }}" style="flex:0 0 auto;min-height:40px;padding:0 15px;border:1px solid #14261d;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:900;color:#14261d;cursor:pointer">تطبيق</button>
+</div>
+<div id="ck-coupon-msg" role="status" aria-live="polite" style="display:{{ couponMsgDisplay }};margin-top:7px;padding:8px 10px;border-radius:8px;background:{{ couponMsgBg }};border:1px solid {{ couponMsgBorder }}">
+<span style="display:flex;align-items:flex-start;gap:6px;font-size:11.5px;line-height:1.6;font-weight:700;color:{{ couponMsgFg }}">
+<svg aria-hidden="true" style="flex:0 0 auto;width:12px;height:12px;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="{{ couponMsgIcon }}"></use></svg>
+<span style="flex:1">{{ couponMsg }}</span>
+<button type="button" onClick="{{ onRemoveCoupon }}" style="display:{{ couponRemoveDisplay }};flex:0 0 auto;min-height:24px;padding:0 6px;border:0;background:transparent;font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#5f7167;text-decoration:underline;cursor:pointer">إزالة</button>
+</span>
+</div>
+</div>
+</div>
+
+<dl style="margin:0;padding:13px 16px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #f0f3ef">
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;align-items:baseline;gap:10px">
+<dt style="flex:1;min-width:0;font-size:{{ r.size }};font-weight:{{ r.weight }};color:{{ r.labelFg }}">{{ r.label }}</dt>
+<dd style="flex:0 0 auto;margin:0;font-size:{{ r.size }};font-weight:{{ r.weight }};color:{{ r.fg }};white-space:nowrap"><bdi dir="ltr">{{ r.value }}</bdi> <span style="font-size:10px;font-weight:800;color:#5f7167">ر.س</span></dd>
+</div>
+</sc-for>
+</dl>
+
+<div style="padding:14px 16px;background:#fbfcfa">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:7px">
+<span style="flex:1;font-size:13px;font-weight:900;color:#14261d">الإجمالي</span>
+<b style="flex:0 0 auto;font-size:20px;font-weight:900;color:#14261d;line-height:1.1;white-space:nowrap"><bdi dir="ltr">{{ total }}</bdi> <span style="font-size:12px;font-weight:800;color:#5f7167">ر.س</span></b>
+</div>
+<p style="margin:0;font-size:10.5px;line-height:1.65;color:#5f7167">{{ note }}</p>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:340,&quot;height&quot;:420},&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string,unknown&gt;&quot;}}">
+class Component extends DCLogic {
+  state = { open: null, input: '', applied: null, rejected: false };
+
+  renderVals() {
+    const d = this.props.data || {};
+    const rows = (d.rows || []).map(r => ({
+      label: r.label, value: r.value,
+      size: r.strong ? '12.5px' : '12px',
+      weight: r.strong ? '900' : '700',
+      fg: r.fg || '#14261d',
+      labelFg: r.strong ? '#14261d' : '#5f7167'
+    }));
+
+    /*
+     * Coupon state comes from the parent scenario on first render, then from local
+     * interaction. The field opens itself when a code is already applied so the
+     * shopper can see and remove it without hunting for the disclosure.
+     */
+    const seeded = d.couponState || 'idle';
+    const applied = this.state.applied !== null ? this.state.applied : (seeded === 'applied' ? 'TEACHER15' : null);
+    const rejected = this.state.applied !== null ? this.state.rejected : seeded === 'rejected';
+    const open = this.state.open !== null ? this.state.open : (seeded !== 'idle');
+
+    const msgState = applied ? 'ok' : rejected ? 'bad' : 'none';
+    const msg = {
+      ok: { text: 'طُبِّق الخصم — وفّرت 15% على هذا الطلب.', bg: 'rgba(37,155,111,.08)', border: 'rgba(37,155,111,.24)', fg: '#1e7355', icon: '#i-check' },
+      bad: { text: 'هذا الرمز غير صالح أو منتهي. تحقّق من الحروف أو جرّب رمزًا آخر — لم يتغيّر إجماليك.', bg: '#fdf3f2', border: 'rgba(163,58,45,.26)', fg: '#a33a2d', icon: '#i-info' },
+      none: { text: '', bg: 'transparent', border: 'transparent', fg: '#5f7167', icon: '#i-info' }
+    }[msgState];
+
+    return {
+      items: d.items || [], rows,
+      total: d.total || '0.00',
+      note: d.note || '',
+      couponOpen: open ? 'true' : 'false',
+      couponBodyDisplay: open ? 'block' : 'none',
+      couponChevron: open ? 'rotate(-90deg)' : 'rotate(0deg)',
+      onToggleCoupon: () => this.setState(s => ({ open: !(s.open !== null ? s.open : open) })),
+      couponInput: applied || this.state.input,
+      couponInvalid: rejected ? 'true' : 'false',
+      couponBorder: rejected ? '#a33a2d' : applied ? '#1e7355' : '#d3d8cf',
+      onCouponInput: e => { const v = e.target.value.toUpperCase(); this.setState({ input: v, rejected: false }); },
+      onApply: () => {
+        const code = (applied || this.state.input).trim().toUpperCase();
+        if (code === 'TEACHER15') this.setState({ applied: 'TEACHER15', rejected: false });
+        else this.setState({ applied: null, rejected: code.length > 0 });
+      },
+      onRemoveCoupon: () => this.setState({ applied: null, rejected: false, input: '' }),
+      couponMsgDisplay: msgState === 'none' ? 'none' : 'block',
+      couponMsg: msg.text, couponMsgBg: msg.bg, couponMsgBorder: msg.border,
+      couponMsgFg: msg.fg, couponMsgIcon: msg.icon,
+      couponRemoveDisplay: applied ? 'inline-flex' : 'none'
+    };
+  }
+}
+</script>
+</body>
+</html>

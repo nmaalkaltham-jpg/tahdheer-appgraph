@@ -1,0 +1,925 @@
+/*
+ * كتل الهيرو الأربع من «Storefront Redesign.dc.html» — الجزء «hero» وحده من
+ * كلّ لوحة (1a · 1b · 1c · 2a)؛ ما حولها في كلّ لوحة معالجةٌ بديلة للصفحة
+ * كلّها تجاوزها «Storefront Home.dc.html».
+ *
+ * المقاسات والحشوات والأوزان من اللوحة حرفيًّا؛ الألوان رموز ‎--hv-*‎ و‎--hm-*‎
+ * و‎--sf-*‎. اللوحة على ‎1440‎ فقط؛ تحت ‎767px‎ ينهار العمودان ويُضيَّق الحشو.
+ */
+
+.stage {
+  color: var(--sf-ink);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.stage a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ‎:where‎ لا ‎:is‎: أولويّةٌ صفر كي تفوز هوامش اللوحة (‎.instTitle‎ …) لا هذا التصفير. */
+.stage :where(h1, p) {
+  margin: 0;
+}
+
+.stage a:focus-visible {
+  outline: 3px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+}
+
+/* زوج (خطّ فاصل + سطر) بلا صندوق خاصّ به. */
+.linesPair {
+  display: contents;
+}
+
+.line {
+  border-radius: var(--r-xs);
+}
+
+/*
+ * سطح الهيرو — الأنماط الأربعة على السلّم: لوحةٌ داخل حواشي الصفحة (كالمنزلق)
+ * بزاوية ‎--r-2xl‎ وقصٍّ لما فيها، لا شريطٌ حادّ من حافّة الشاشة إلى حافّتها.
+ * الهويّة (الحبر والتخطيط والألوان) كما هي؛ الزوايا وحدها تتغيّر.
+ */
+.inst,
+.bold,
+.luxe,
+.brand {
+  margin-block: 24px 0;
+  margin-inline: max(var(--sf-gutter), calc((100% - var(--sf-max)) / 2 + var(--sf-gutter)));
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+}
+
+/* أزرار الأنماط: هندسة وحالات وصفة الزرّ (‎--r-md‎ · ضغط ‎1px‎ · انتقالات)، والألوان محلّيّة. */
+.instPrimary {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.instGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.boldPrimary {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.boldGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.luxePrimary {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.luxeGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.brandPrimary {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+.brandGhost {
+  composes: btn btnLg from '@tahdheer/ui/controls.module.css';
+}
+
+/* ═══════════════════════ 1a — مؤسسي · كتالوج محكم ═══════════════════════ */
+
+/*
+ * ‎1a‎ مرسومٌ على سطح الصفحة بحبرٍ ثابت (‎--hv-*‎ لا تنقلب)، فكان في الداكن
+ * كحليًّا على كحليّ (‎1.06:1‎). الأسماء المحلّيّة تُحال هنا إلى الأدوار
+ * المنقلبة، والفاتح لا يمسّه شيء. الزرّ الممتلئ يأخذ تعبئة الدور لا حبره.
+ */
+:global(:root[data-theme='dark']) .inst {
+  --hv-navy: var(--color-secondary-text);
+  --hv-ink: var(--color-text);
+  --hv-line: var(--color-border);
+  --hv-body: var(--color-text-2);
+  --hv-muted: var(--color-text-muted);
+  --hv-panel: var(--color-surface-muted);
+  --hv-panel-line: var(--color-border);
+  --hv-badge: var(--sf-chip);
+  --hv-page-line: var(--sf-hair);
+  --hv-hair: var(--sf-hair);
+}
+
+:global(:root[data-theme='dark']) .instPrimary {
+  background: var(--color-secondary);
+}
+
+.inst {
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  border: 1px solid var(--hv-line);
+  color: var(--hv-ink);
+}
+
+.instCopy {
+  padding: 64px 40px 60px;
+  border-inline-end: 1px solid var(--hv-line);
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .instEyebrow {
+  margin: 0 0 18px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: inherit;
+  color: var(--hv-navy);
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .instTitle {
+  margin: 0 0 20px;
+  font-size: 52px;
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 15ch;
+  text-wrap: pretty;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .instLede {
+  margin: 0 0 32px;
+  font-size: 17px;
+  color: var(--hv-body);
+  max-width: 48ch;
+  line-height: 1.75;
+}
+
+.instCtas {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 34px;
+  flex-wrap: wrap;
+}
+
+.instPrimary {
+  height: 52px;
+  padding: 0 30px;
+  background: var(--hv-navy);
+  color: var(--on-accent);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.instGhost {
+  height: 52px;
+  padding: 0 26px;
+  border: 1px solid var(--hv-navy);
+  color: var(--hv-navy);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.instStats {
+  display: flex;
+  gap: 40px;
+  border-top: 1px solid var(--hv-line);
+  padding-top: 24px;
+}
+
+.instStat + .instStat {
+  border-inline-start: 1px solid var(--hv-line);
+  padding-inline-start: 40px;
+}
+
+.instStatValue {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.instStatLabel {
+  font-size: 13px;
+  color: var(--hv-muted);
+}
+
+.instPanel {
+  background: var(--hv-panel);
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+/* فوق عمود المعاينة الرماديّ لا الأبيض: ‎--hv-muted‎ كان ‎4.24:1‎ ⇒ حبر الوصف (‎7:1‎). */
+.stage .instPanelLabel {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: inherit;
+  color: var(--hv-body);
+}
+
+.instCard {
+  background: var(--bg);
+  border: 1px solid var(--hv-panel-line);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+
+.instCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.instCardTitle {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.instBadge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--hv-badge);
+  color: var(--hv-navy);
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  flex: none;
+}
+
+.instLines {
+  gap: 9px;
+}
+
+.instLine {
+  height: 8px;
+  background: var(--hv-page-line);
+}
+
+.instRule {
+  height: 1px;
+  background: var(--hv-panel-line);
+  margin: 6px 0;
+}
+
+.instFacts {
+  background: var(--bg);
+  border: 1px solid var(--hv-panel-line);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.instFact {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.instFact + .instFact {
+  border-top: 1px solid var(--hv-hair);
+  padding-top: 12px;
+}
+
+.instFactLabel {
+  color: var(--hv-muted);
+}
+
+/* ═══════════════════════════ 1b — جريء ═══════════════════════════════════ */
+
+.bold {
+  background: var(--hv-bold-bg);
+  color: var(--on-accent);
+  padding: 76px 44px 0;
+  font-size: 16px;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .boldEyebrow {
+  margin: 0 0 22px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--hv-bold-eyebrow);
+  letter-spacing: 0.06em;
+  line-height: inherit;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .boldTitle {
+  margin: 0 0 26px;
+  font-size: 104px;
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.boldAccent {
+  color: var(--hv-coral);
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .boldLede {
+  margin: 0 0 38px;
+  font-size: 22px;
+  color: var(--hv-bold-lede);
+  max-width: 46ch;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.boldCtas {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 66px;
+  flex-wrap: wrap;
+}
+
+.boldPrimary {
+  height: 62px;
+  padding: 0 34px;
+  background: var(--hv-coral);
+  color: var(--on-accent);
+  font-size: 19px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+}
+
+.boldGhost {
+  height: 62px;
+  padding: 0 30px;
+  border: 2px solid var(--hv-bold-ghost);
+  color: var(--on-accent);
+  font-size: 19px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.boldNote {
+  font-size: 15px;
+  color: var(--hv-bold-eyebrow);
+  margin-inline-start: 12px;
+}
+
+/* ═══════════════════════ 1c — داكن راقي ══════════════════════════════════ */
+
+.luxe {
+  padding: 92px 48px 84px;
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: 64px;
+  align-items: center;
+  border: 1px solid var(--hv-silver-14);
+  background: var(--hv-luxe-bg);
+  background-image: var(--hv-luxe-glow);
+  color: var(--navy-100);
+  font-size: 16px;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .luxeEyebrow {
+  margin: 0 0 24px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--hv-brass);
+  font-weight: 700;
+  line-height: inherit;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .luxeTitle {
+  margin: 0 0 24px;
+  font-size: 62px;
+  line-height: 1.14;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  max-width: 19ch;
+  text-wrap: pretty;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .luxeLede {
+  margin: 0 0 40px;
+  font-size: 19px;
+  color: var(--hv-luxe-lede);
+  max-width: 44ch;
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+.luxeCtas {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.luxePrimary {
+  height: 58px;
+  padding: 0 32px;
+  background: var(--hv-brass);
+  color: var(--hv-brass-ink);
+  font-size: 17px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+}
+
+.luxeGhost {
+  height: 58px;
+  padding: 0 28px;
+  border: 1px solid var(--hv-silver-30);
+  color: var(--navy-100);
+  font-size: 17px;
+  /* Tajawal بلا ‎600‎: ما كتبته اللوحة ‎600‎ يُكتب ‎700‎. */
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.luxeStats {
+  display: flex;
+  gap: 32px;
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid var(--hv-silver-14);
+  font-size: 14px;
+  color: var(--hv-luxe-muted);
+  flex-wrap: wrap;
+}
+
+.luxeCard {
+  border: 1px solid var(--hv-silver-20);
+  background: linear-gradient(180deg, var(--hv-silver-07), var(--hv-silver-02));
+  border-radius: var(--r-lg);
+  padding: 28px;
+}
+
+.luxeCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.luxeCardLabel {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--hv-luxe-muted);
+}
+
+.luxeBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--hv-brass);
+  border: 1px solid var(--hv-brass-40);
+  border-radius: var(--r-xs);
+  padding: 3px 8px;
+  flex: none;
+}
+
+.luxeCardTitle {
+  display: block;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.luxeLines {
+  gap: 10px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--hv-silver-14);
+}
+
+.luxeLine {
+  height: 7px;
+  background: var(--hv-silver-20);
+}
+
+.luxeLineDim {
+  background: var(--hv-silver-13);
+}
+
+.luxeFacts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.luxeFact {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.luxeFactLabel {
+  color: var(--hv-luxe-muted);
+}
+
+.luxeFactValue {
+  font-weight: 700;
+}
+
+.luxePrice {
+  font-weight: 800;
+  color: var(--hv-brass);
+  font-size: 17px;
+}
+
+/* ═══════════════════════ 2a — هويّة الشعار ═══════════════════════════════ */
+
+.brand {
+  background: linear-gradient(115deg, var(--navy-700) 0%, var(--sf-navy-mid) 55%, var(--teal-600) 100%);
+  color: var(--on-accent);
+  padding: 64px 56px;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.brandBlob,
+.brandBlobGold {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.brandBlob {
+  inset-inline-end: -120px;
+  top: -140px;
+  width: 420px;
+  height: 420px;
+  background: var(--hm-white-06);
+}
+
+.brandBlobGold {
+  inset-inline-end: 180px;
+  bottom: -200px;
+  width: 360px;
+  height: 360px;
+  background: var(--hv-gold-14);
+}
+
+.brandCopy,
+.brandSide {
+  position: relative;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .brandEyebrow {
+  margin: 0 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: inherit;
+  background: var(--hm-white-14);
+  padding: 6px 12px 6px 8px;
+  border-radius: var(--r-sm);
+}
+
+.brandMark {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .brandTitle {
+  margin: 0 0 18px;
+  font-size: 54px;
+  line-height: 1.16;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+  text-wrap: pretty;
+}
+
+.brandAccent {
+  color: var(--gold-300);
+}
+
+/* ‎.stage‎ قبلها: غلاف القسم يصفّر هوامش ‎h1/p‎ بأولويّة ‎(0,1,1)‎. */
+.stage .brandLede {
+  margin: 0 0 32px;
+  font-size: 18px;
+  color: var(--hm-white-82);
+  max-width: 46ch;
+  line-height: 1.75;
+}
+
+.brandCtas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brandPrimary {
+  height: 54px;
+  padding: 0 30px;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brandGhost {
+  height: 54px;
+  padding: 0 26px;
+  border: 1.5px solid var(--hm-white-45);
+  color: var(--on-accent);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brandSide {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brandCard {
+  background: var(--bg);
+  color: var(--sf-ink);
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: var(--hm-shadow-hero-card);
+}
+
+/* ‎.stage a‎ ‎(0,1,1)‎ كان يورّث البطاقة البيضاء نصَّ الهيرو الأبيض — العنوان لا يُرى. */
+.stage .brandCard {
+  color: var(--sf-ink);
+}
+
+.brandCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.brandCardTitle {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.brandBadge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--tint-teal);
+  color: var(--teal-text);
+  padding: 3px 8px;
+  border-radius: var(--r-xs);
+  flex: none;
+}
+
+.brandLines {
+  gap: 8px;
+}
+
+.brandLine {
+  height: 8px;
+  background: var(--sf-line-cool);
+}
+
+.brandRule {
+  height: 1px;
+  background: var(--sf-line);
+  margin: 4px 0;
+  border-radius: 0;
+}
+
+.brandCardFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--sf-line);
+}
+
+.brandPrice {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--gold-ink);
+}
+
+.brandCur {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sf-muted);
+}
+
+.brandNote {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal-text);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.brandChips {
+  display: flex;
+  gap: 12px;
+}
+
+.brandChip {
+  flex: 1;
+  background: var(--hv-white-12);
+  border: 1px solid var(--hv-white-20);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 13px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.brandChipIcon {
+  color: var(--gold-300);
+  display: flex;
+  flex: none;
+}
+
+/* ═══════════════════════════ تحت ‎767px‎ ════════════════════════════════ */
+
+@media (max-width: 767px) {
+  .inst,
+  .luxe,
+  .brand {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inst,
+  .bold,
+  .luxe,
+  .brand {
+    margin: 12px 14px 0;
+    border-radius: var(--r-xl);
+  }
+
+  .instCopy {
+    padding: 32px 14px 28px;
+    border-inline-end: 0;
+  }
+
+  .instTitle {
+    font-size: 34px;
+  }
+
+  .instStats {
+    flex-wrap: wrap;
+    gap: 16px 24px;
+  }
+
+  .instStat + .instStat {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .instPanel {
+    padding: 24px 14px;
+  }
+
+  .bold {
+    padding: 36px 14px 0;
+  }
+
+  .boldTitle {
+    font-size: 48px;
+  }
+
+  .boldLede {
+    font-size: 17px;
+  }
+
+  .boldCtas {
+    padding-bottom: 32px;
+  }
+
+  .luxe {
+    padding: 40px 14px 36px;
+    gap: 28px;
+  }
+
+  .luxeTitle {
+    font-size: 36px;
+  }
+
+  .brand {
+    padding: 24px 20px;
+    gap: 24px;
+  }
+
+  .brandTitle {
+    font-size: 30px;
+  }
+
+  .brandChips {
+    flex-direction: column;
+  }
+}
+
+/* ── الاعتماد: الأزرار-الروابط في أنماط الهيرو لا تأخذ لون الرابط العامّ (.section a)
+   في السكون ولا عند التحويم — تركوازيّ على الذهبيّ/النحاسيّ/الكحليّ دون ‎4.5:1‎.
+   الصنف مضاعفٌ ليغلب (0,1,1)/(0,2,1). */
+.instPrimary.instPrimary,
+.boldPrimary.boldPrimary,
+.boldGhost.boldGhost,
+.brandGhost.brandGhost {
+  color: var(--on-accent);
+}
+
+.luxePrimary.luxePrimary {
+  color: var(--hv-brass-ink);
+}
+
+.brandPrimary.brandPrimary {
+  color: var(--color-accent-fg);
+}
+
+.luxeGhost.luxeGhost {
+  color: var(--navy-100);
+}
+
+.instGhost.instGhost {
+  color: var(--hv-navy);
+}
+
+.instPrimary.instPrimary:hover,
+.boldPrimary.boldPrimary:hover,
+.luxePrimary.luxePrimary:hover,
+.brandPrimary.brandPrimary:hover,
+.boldGhost.boldGhost:hover,
+.brandGhost.brandGhost:hover,
+.luxeGhost.luxeGhost:hover,
+.instGhost.instGhost:hover {
+  filter: brightness(0.96);
+}
+
+.instPrimary.instPrimary:hover,
+.boldPrimary.boldPrimary:hover,
+.boldGhost.boldGhost:hover,
+.brandGhost.brandGhost:hover {
+  color: var(--on-accent);
+}
+
+.luxePrimary.luxePrimary:hover {
+  color: var(--hv-brass-ink);
+}
+
+.brandPrimary.brandPrimary:hover {
+  color: var(--color-accent-fg);
+}
+
+.luxeGhost.luxeGhost:hover {
+  color: var(--navy-100);
+}
+
+.instGhost.instGhost:hover {
+  color: var(--hv-navy);
+  background: var(--tint-navy);
+}

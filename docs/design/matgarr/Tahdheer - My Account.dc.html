@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tahDotPulse{0%{transform:scale(1);opacity:.5}70%{transform:scale(2.2);opacity:0}100%{transform:scale(2.2);opacity:0}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div style="width:{{ shellW }};margin:0 auto;background:#f7f9f6;min-height:100vh">
+
+<header style="box-sizing:border-box;background:#14261d;padding:{{ headPad }}">
+<div style="box-sizing:border-box;width:{{ wrapW }};margin-inline:auto;display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+<a href="#" style="display:flex;align-items:center;gap:10px;flex:0 0 auto;min-height:{{ tap }}">
+<span style="width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff"><svg aria-hidden="true" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8"><use href="#logo-mark"></use></svg></span>
+<b style="color:#fff;font-size:15.5px;font-weight:900">{{ t.brand }}</b>
+</a>
+<div style="flex:1"></div>
+<div role="group" aria-label="{{ t.langLabel }}" style="display:flex;gap:3px;padding:3px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="2">
+<button type="button" onClick="{{ l.onClick }}" aria-pressed="{{ l.pressed }}" lang="{{ l.code }}" style="min-height:{{ tap }};padding:0 14px;border:0;border-radius:7px;background:{{ l.bg }};color:{{ l.fg }};font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;cursor:pointer">{{ l.label }}</button>
+</sc-for>
+</div>
+<button type="button" aria-label="{{ t.notifications }}" style="position:relative;width:{{ tapSq }};height:{{ tapSq }};border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer">
+<svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-bell"></use></svg>
+<span aria-hidden="true" style="position:absolute;inset-block-start:-3px;inset-inline-end:-3px;width:9px;height:9px;border-radius:50%;background:#d8b56a"></span><span style="position:absolute;inset-block-start:-3px;inset-inline-end:-3px;width:9px;height:9px;border-radius:50%;border:1px solid #d8b56a;animation:{{ pulseAnim }}"></span>
+</button>
+</div>
+</header>
+
+<div style="box-sizing:border-box;width:{{ wrapW }};margin-inline:auto;padding:{{ bodyPad }};display:grid;grid-template-columns:{{ gridCols }};gap:{{ gridGap }};align-items:start">
+
+<nav aria-label="{{ t.navLabel }}" style="display:{{ navDisplay }};flex-direction:column;gap:3px;padding:12px;border:1px solid #e6e9e2;border-radius:16px;background:#fff;position:sticky;inset-block-start:16px">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="12">
+<button type="button" onClick="{{ n.onClick }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:10px;min-height:42px;margin-top:{{ n.mt }};padding:{{ n.pt }} 11px 0;border:0;border-top:{{ n.top }};border-inline-start:3px solid {{ n.edge }};border-radius:9px;background:{{ n.bg }};cursor:pointer;text-align:start;width:100%">
+<span style="flex:0 0 auto;color:{{ n.icon }};display:grid;place-items:center"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ n.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0;font-family:Tajawal,sans-serif;font-size:13.5px;font-weight:{{ n.weight }};color:{{ n.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.label }}</span>
+<sc-if value="{{ n.hasTag }}" hint-placeholder-val="{{ false }}">
+<span style="flex:0 0 auto;padding:2px 7px;border-radius:5px;background:#f2f5f2;font-size:9.5px;font-weight:800;color:#5f7167">{{ n.tag }}</span>
+</sc-if>
+</button>
+</sc-for>
+</nav>
+
+<main style="min-width:0;display:flex;flex-direction:column;gap:{{ sectionGap }}">
+
+<section aria-labelledby="acc-greet" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff;animation:{{ anim.a }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+<span aria-hidden="true" style="flex:0 0 auto;width:52px;height:52px;border-radius:50%;background:rgba(37,155,111,.12);color:#1e7355;display:grid;place-items:center;font-weight:900;font-size:19px">{{ user.initial }}</span>
+<div style="flex:1;min-width:0">
+<h1 id="acc-greet" style="margin:0 0 4px;font-size:{{ h1Size }};font-weight:900;color:#14261d;letter-spacing:-.01em">{{ t.greeting }}<bdi>{{ user.name }}</bdi> 👋</h1>
+<p style="margin:0;font-size:13.5px;line-height:1.7;color:#5f7167;max-width:60ch">{{ t.greetingSub }}</p>
+</div>
+<div style="flex:0 0 auto;display:flex;flex-direction:column;gap:6px;min-width:170px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><span style="font-size:11.5px;font-weight:800;color:#5f7167">{{ t.profileComplete }}</span><b style="font-size:13px;font-weight:900;color:#1e7355"><bdi>80%</bdi></b></div>
+<span style="display:block;height:7px;border-radius:999px;background:#eef1ec;overflow:hidden"><span style="display:block;height:100%;width:80%;border-radius:999px;background:linear-gradient(90deg,#1e7355,#3fae86);animation:{{ anim.bar }}"></span></span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="acc-stats">
+<h2 id="acc-stats" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">{{ t.statsHeading }}</h2>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ statCols }};gap:10px">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+<li style="padding:{{ cardPadSm }};border:1px solid #e6e9e2;border-radius:14px;background:#fff;animation:{{ s.anim }};transition:.16s ease" style-hover="border-color:#c9d4cd;transform:translateY(-2px);box-shadow:0 8px 20px rgba(20,45,33,.06)">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+<span style="width:32px;height:32px;border-radius:9px;background:{{ s.tint }};color:{{ s.color }};display:grid;place-items:center;flex:0 0 auto"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg></span>
+<span style="font-size:12px;font-weight:800;color:#5f7167">{{ s.label }}</span>
+</div>
+<div style="font-size:26px;font-weight:900;color:#14261d;line-height:1.1"><bdi><dc-import name="TahCountUp" value="{{ s.value }}" decimals="{{ 0 }}" motion="{{ motion }}" duration="{{ 1100 }}" hint-size="40px,28px"></dc-import></bdi></div>
+<div style="font-size:11px;color:#5f7167;margin-top:3px">{{ s.hint }}</div>
+</li>
+</sc-for>
+</ul>
+</section>
+
+<section aria-labelledby="acc-quick" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<h2 id="acc-quick" style="margin:0 0 12px;font-size:15px;font-weight:900;color:#14261d">{{ t.quickActions }}</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ quick }}" as="q" hint-placeholder-count="4">
+<button type="button" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #e6e9e2;border-radius:11px;background:#fbfcfa;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:800;color:#14261d;cursor:pointer;transition:.16s ease" style-hover="border-color:#1e7355;color:#1e7355;transform:translateY(-1px)">
+<svg aria-hidden="true" style="width:16px;height:16px;flex:0 0 auto;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ q.iconRef }}"></use></svg>{{ q.label }}
+</button>
+</sc-for>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:{{ splitCols }};gap:{{ gridGap }};align-items:start">
+
+<section aria-labelledby="acc-orders" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff;min-width:0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px">
+<h2 id="acc-orders" style="margin:0;font-size:15px;font-weight:900;color:#14261d">{{ t.recentOrders }}</h2>
+<a href="#" style="display:inline-flex;align-items:center;min-height:{{ tap }};font-size:12px;font-weight:800">{{ t.viewAll }}</a>
+</div>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ orders }}" as="o" hint-placeholder-count="3">
+<li style="padding:13px 14px;border:1px solid #eef1ec;border-radius:12px;background:#fbfcfa;animation:{{ o.anim }}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:7px">
+<bdi dir="ltr" style="font:800 12.5px ui-monospace,Menlo,monospace;color:#14261d">{{ o.id }}</bdi>
+<span style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:{{ o.chipBg }};color:{{ o.chipFg }};font-size:10.5px;font-weight:900"><svg aria-hidden="true" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"><use href="{{ o.chipIcon }}"></use></svg>{{ o.status }}</span>
+<time datetime="{{ o.iso }}" style="margin-inline-start:auto;font-size:11.5px;color:#5f7167">{{ o.date }}</time>
+</div>
+<div style="font-size:13px;font-weight:700;color:#3b4d43;line-height:1.6;margin-bottom:8px">{{ o.items }}</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+<b style="font-size:14px;font-weight:900;color:#14261d"><bdi>{{ o.total }}</bdi></b>
+<button type="button" style="margin-inline-start:auto;min-height:{{ tapSm }};padding:0 13px;border:1px solid #e6e9e2;border-radius:9px;background:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;color:#14261d;cursor:pointer">{{ t.viewOrder }}</button>
+<button type="button" style="min-height:{{ tapSm }};padding:0 13px;border:0;border-radius:9px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;cursor:pointer">{{ t.download }}</button>
+</div>
+</li>
+</sc-for>
+</ul>
+</section>
+
+<section aria-labelledby="acc-updates" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff;min-width:0">
+<h2 id="acc-updates" style="margin:0 0 14px;font-size:15px;font-weight:900;color:#14261d">{{ t.updates }}</h2>
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ updates }}" as="u" hint-placeholder-count="3">
+<li style="position:relative;padding-inline-start:22px;padding-bottom:16px;animation:{{ u.anim }}">
+<span aria-hidden="true" style="position:absolute;inset-inline-start:0;inset-block-start:4px;width:9px;height:9px;border-radius:50%;background:{{ u.dot }};box-shadow:0 0 0 3px {{ u.ring }}"></span>
+<span aria-hidden="true" style="position:absolute;inset-inline-start:4px;inset-block-start:16px;inset-block-end:0;width:1px;background:#eef1ec;display:{{ u.line }}"></span>
+<div style="font-size:12.5px;font-weight:900;color:#14261d;line-height:1.5;margin-bottom:3px">{{ u.title }}</div>
+<div style="font-size:12px;line-height:1.65;color:#5f7167;margin-bottom:5px">{{ u.body }}</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+<time datetime="{{ u.iso }}" style="font-size:10.5px;color:#5f7167">{{ u.date }}</time>
+<sc-if value="{{ u.hasDownload }}" hint-placeholder-val="{{ false }}">
+<button type="button" style="min-height:{{ tapSm }};padding:0 11px;border:1px solid rgba(37,155,111,.35);border-radius:8px;background:rgba(37,155,111,.07);font-family:Tajawal,sans-serif;font-size:11px;font-weight:800;color:#1e7355;cursor:pointer">{{ t.downloadNew }}</button>
+</sc-if>
+</div>
+</li>
+</sc-for>
+</ol>
+</section>
+
+</div>
+
+<section aria-labelledby="acc-lib" style="padding:{{ cardPad }};border:1px solid #e6e9e2;border-radius:16px;background:#fff">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px">
+<div style="flex:1;min-width:0">
+<h2 id="acc-lib" style="margin:0 0 3px;font-size:{{ h2Size }};font-weight:900;color:#14261d;letter-spacing:-.01em">{{ t.library }}</h2>
+<p style="margin:0;font-size:12.5px;color:#5f7167">{{ libCountText }}</p>
+</div>
+<label style="flex:0 0 auto;display:flex;align-items:center;gap:9px;min-height:44px;padding-inline:13px;border:1px solid #dde3dc;border-radius:11px;background:#fbfcfa;min-width:{{ searchW }}">
+<svg aria-hidden="true" style="width:16px;height:16px;flex:0 0 auto;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-search"></use></svg>
+<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">{{ t.searchLibrary }}</span>
+<input type="search" dir="auto" value="{{ query }}" onChange="{{ onQuery }}" placeholder="{{ t.searchLibrary }}" style="flex:1;min-width:0;background:none;border:0;outline:none;font:600 13px Tajawal,sans-serif;color:#14261d">
+</label>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+<button type="button" onClick="{{ f.onClick }}" aria-pressed="{{ f.pressed }}" style="min-height:{{ tap }};padding:0 13px;border:1px solid {{ f.border }};border-radius:999px;background:{{ f.bg }};color:{{ f.fg }};font-family:Tajawal,sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:.16s ease">{{ f.label }}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ libEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:36px 20px;border:1px dashed #c9d4cd;border-radius:14px;background:#fbfcfa;text-align:center">
+<span style="display:inline-grid;place-items:center;width:48px;height:48px;border-radius:14px;background:rgba(216,181,106,.16);color:#7a5d20;margin-bottom:12px"><svg aria-hidden="true" style="width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><use href="#i-book"></use></svg></span>
+<p style="margin:0 0 6px;font-size:15px;font-weight:900;color:#14261d">{{ t.emptyLibTitle }}</p>
+<p style="margin:0 0 18px;font-size:13px;line-height:1.8;color:#5f7167;max-width:46ch;margin-inline:auto">{{ t.emptyLibBody }}</p>
+<button type="button" style="min-height:46px;padding:0 22px;border:0;border-radius:11px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:14px;font-weight:900;cursor:pointer">{{ t.browseGrade }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ libHas }}" hint-placeholder-val="{{ true }}">
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ libCols }};gap:10px">
+<sc-for list="{{ library }}" as="r" hint-placeholder-count="4">
+<li style="display:flex;flex-direction:column;border:1px solid #e6e9e2;border-radius:14px;background:#fff;overflow:hidden;animation:{{ r.anim }};transition:.16s ease" style-hover="border-color:#c9d4cd;box-shadow:0 8px 22px rgba(20,45,33,.07)">
+<div style="position:relative;aspect-ratio:16/10;background:#f2f5f2;display:grid;place-items:center;border-bottom:1px solid #eef1ec">
+<span style="font:600 9.5px ui-monospace,Menlo,monospace;color:#5f7167">{{ t.thumb }}</span>
+<sc-if value="{{ r.isUpdated }}" hint-placeholder-val="{{ false }}">
+<span style="position:absolute;inset-block-start:8px;inset-inline-end:8px;padding:3px 9px;border-radius:6px;background:#1e7355;color:#fff;font-size:10px;font-weight:900">{{ t.updated }}</span>
+</sc-if>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:7px;padding:13px">
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<span style="padding:2px 8px;border-radius:999px;background:rgba(37,155,111,.09);border:1px solid rgba(37,155,111,.2);font-size:10px;font-weight:800;color:#1e7355">{{ r.grade }}</span>
+<span style="padding:2px 8px;border-radius:999px;background:#f2f5f2;font-size:10px;font-weight:800;color:#5f7167">{{ r.subject }}</span>
+</div>
+<b style="font-size:13px;font-weight:900;color:#14261d;line-height:1.5">{{ r.title }}</b>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:10.5px;color:#5f7167">
+<bdi dir="ltr" style="font:700 10px ui-monospace,Menlo,monospace">{{ r.file }}</bdi>
+<span>·</span><time datetime="{{ r.iso }}">{{ r.date }}</time>
+</div>
+<button type="button" style="margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:{{ tap }};border:0;border-radius:10px;background:#1e7355;color:#fff;font-family:Tajawal,sans-serif;font-size:12.5px;font-weight:900;cursor:pointer">
+<svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-download"></use></svg>{{ t.download }}
+</button>
+</div>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+</section>
+
+<section aria-labelledby="acc-missing" style="padding:{{ cardPad }};border:1px solid rgba(216,181,106,.4);border-radius:16px;background:rgba(216,181,106,.07)">
+<div style="display:flex;align-items:flex-start;gap:11px;margin-bottom:12px">
+<svg aria-hidden="true" style="width:17px;height:17px;flex:0 0 auto;margin-top:2px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-info"></use></svg>
+<div>
+<h2 id="acc-missing" style="margin:0 0 4px;font-size:14px;font-weight:900;color:#7a5d20">{{ t.notConnected }}</h2>
+<p style="margin:0;font-size:12px;line-height:1.7;color:#7a5d20;max-width:70ch">{{ t.notConnectedBody }}</p>
+</div>
+</div>
+<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ missingCols }};gap:7px">
+<sc-for list="{{ missing }}" as="m" hint-placeholder-count="5">
+<li style="display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(216,181,106,.3);border-radius:10px;background:#fff">
+<svg aria-hidden="true" style="width:14px;height:14px;flex:0 0 auto;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ m.iconRef }}"></use></svg>
+<span style="flex:1;min-width:0;font-size:11.5px;font-weight:800;color:#14261d">{{ m.label }}</span>
+<span style="flex:0 0 auto;font-size:9.5px;font-weight:800;color:#7a5d20">{{ t.needsPlugin }}</span>
+</li>
+</sc-for>
+</ul>
+</section>
+
+</main>
+</div>
+
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+<div style="position:sticky;inset-block-end:0;z-index:20;display:flex;align-items:stretch;gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid #e0e5dd;backdrop-filter:blur(8px)">
+<sc-for list="{{ mobileNav }}" as="m" hint-placeholder-count="5">
+<button type="button" onClick="{{ m.onClick }}" aria-current="{{ m.current }}" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;border:0;border-radius:10px;background:{{ m.bg }};cursor:pointer;padding:0">
+<svg aria-hidden="true" style="width:19px;height:19px;color:{{ m.fg }};fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ m.iconRef }}"></use></svg>
+<span style="font-family:Tajawal,sans-serif;font-size:9.5px;font-weight:800;color:{{ m.fg }}">{{ m.label }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:1000},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mobile&quot;,&quot;tablet&quot;,&quot;desktop&quot;],&quot;default&quot;:&quot;desktop&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  /*
+   * Bilingual account dashboard. Both languages render dir="rtl" as specified:
+   * the LAYOUT is RTL for Arabic and English alike, while Latin text keeps its
+   * natural character order — that is standard Unicode bidi, not string
+   * reversal. Identifiers that must not reflow (order ids, file names, percents,
+   * totals) are wrapped in <bdi>, several with dir="ltr".
+   *
+   * Feature honesty: the theme has no wallet, rewards, coupon, invoice or
+   * notification backend (audited). Rather than draw those panels with invented
+   * numbers, they are listed as "not connected" so the gap is visible instead of
+   * disguised.
+   */
+  state = { lang: 'ar', section: 'dashboard', query: '', filter: 'all', empty: false };
+
+  strings() {
+    return {
+      ar: {
+        brand: 'التحاضير الحديثة', langLabel: 'اللغة', langAr: 'العربية', langEn: 'English',
+        navLabel: 'أقسام الحساب', notifications: 'الإشعارات',
+        greeting: 'مرحبًا، ', greetingSub: 'سعداء بعودتك. إليك ملخص حسابك ومكتبتك التعليمية.',
+        profileComplete: 'اكتمال الحساب', statsHeading: 'ملخص الحساب',
+        quickActions: 'إجراءات سريعة', recentOrders: 'أحدث الطلبات', viewAll: 'عرض الكل',
+        viewOrder: 'تفاصيل الطلب', download: 'تحميل', updates: 'تحديثات مشترياتك',
+        downloadNew: 'حمّل النسخة الأحدث', library: 'مكتبتي التعليمية',
+        searchLibrary: 'ابحث داخل مكتبتك…', thumb: 'صورة الملف', updated: 'محدّث',
+        emptyLibTitle: 'مكتبتك التعليمية بانتظار أول إضافة.',
+        emptyLibBody: 'عند شراء أول ملف سيظهر هنا مع تحديثاته وروابط تحميله.',
+        browseGrade: 'تصفّح موارد صفي',
+        notConnected: 'ميزات غير مربوطة بعد',
+        notConnectedBody: 'هذه الأقسام مطلوبة في المواصفة لكن لا يوجد لها مصدر بيانات في القالب حاليًا. لم أرسمها بأرقام متخيّلة — تظهر هكذا حتى تُربط بإضافة أو تُبنى فعليًا.',
+        needsPlugin: 'يحتاج ربطًا',
+        resources: 'ملفًا في مكتبتك'
+      },
+      en: {
+        brand: 'Tahdheer', langLabel: 'Language', langAr: 'العربية', langEn: 'English',
+        navLabel: 'Account sections', notifications: 'Notifications',
+        greeting: 'Welcome back, ', greetingSub: 'Here is an overview of your account and educational library.',
+        profileComplete: 'Profile complete', statsHeading: 'Account summary',
+        quickActions: 'Quick Actions', recentOrders: 'Recent Orders', viewAll: 'View all',
+        viewOrder: 'Order details', download: 'Download', updates: 'Purchase Updates',
+        downloadNew: 'Download latest version', library: 'My Educational Library',
+        searchLibrary: 'Search your library…', thumb: 'File preview', updated: 'Updated',
+        emptyLibTitle: 'Your educational library is waiting for its first resource.',
+        emptyLibBody: 'Your first purchase will appear here with its updates and download links.',
+        browseGrade: 'Browse My Grade',
+        notConnected: 'Features not connected yet',
+        notConnectedBody: 'These sections are in the brief but have no data source in the theme today. They are not drawn with invented numbers — they stay listed here until a plugin is connected or a backend is built.',
+        needsPlugin: 'Needs backend',
+        resources: 'resources in your library'
+      }
+    }[this.state.lang];
+  }
+
+  renderVals() {
+    const ar = this.state.lang === 'ar';
+    const t = this.strings();
+    /*
+     * Three real breakpoints, not a mobile/desktop boolean. Tablet is its own
+     * column story (2-col stats, no fixed sidebar, stacked orders+updates) —
+     * a binary left an iPad rendering four 120px stat cards and a 210px timeline.
+     */
+    const device = this.props.device || 'desktop';
+    const mobile = device === 'mobile';
+    const tablet = device === 'tablet';
+    const pick = (m, t2, d) => mobile ? m : (tablet ? t2 : d);
+    const motion = this.props.motion !== false;
+    const a = (i) => motion ? 'tahFadeUp .45s ease-out ' + (i * 70) + 'ms both' : 'none';
+
+    const navDefs = [
+      ['dashboard', 'لوحة الحساب', 'Dashboard', '#i-grid'],
+      ['library', 'مكتبتي التعليمية', 'My Educational Library', '#i-book'],
+      ['orders', 'طلباتي', 'Orders', '#i-cart-bag'],
+      ['downloads', 'التنزيلات', 'Downloads', '#i-download'],
+      ['wishlist', 'المفضلة', 'Wishlist', '#i-heart'],
+      ['wallet', 'المحفظة', 'Wallet', '#i-wallet', true],
+      ['rewards', 'النقاط والمكافآت', 'Rewards & Points', '#i-medal', true],
+      ['coupons', 'كوبوناتي', 'My Coupons', '#i-tag', true],
+      ['prefs', 'تفضيلاتي التعليمية', 'Educational Preferences', '#i-sliders'],
+      ['support', 'الدعم والمساعدة', 'Help & Support', '#i-headset'],
+      ['details', 'تفاصيل الحساب', 'Account Details', '#i-user-circle'],
+      ['security', 'الأمان', 'Security', '#i-lock'],
+      ['logout', 'تسجيل الخروج', 'Log Out', '#i-up']
+    ];
+
+    const nav = navDefs.map(d => {
+      const active = this.state.section === d[0];
+      const logout = d[0] === 'logout';
+      return {
+        label: ar ? d[1] : d[2], iconRef: d[3],
+        hasTag: !!d[4], tag: t.needsPlugin,
+        current: active ? 'page' : 'false',
+        bg: active ? 'rgba(37,155,111,.08)' : 'transparent',
+        edge: active ? '#1e7355' : 'transparent',
+        fg: logout ? '#a33a2d' : (active ? '#14261d' : (d[4] ? '#5f7167' : '#3b4d43')),
+        icon: logout ? '#a33a2d' : (active ? '#1e7355' : '#5f7167'),
+        weight: active ? '900' : '700',
+        // Distinct but subtle: separated and muted-danger, never a loud button.
+        mt: logout ? '7px' : '0',
+        pt: logout ? '8px' : '0',
+        top: logout ? '1px solid #eef1ec' : '0',
+        onClick: () => this.setState({ section: d[0] })
+      };
+    });
+
+    const statDefs = [
+      ['طلباتي', 'Orders', 12, '#i-cart-bag', 'مكتملة 11', '11 completed'],
+      ['مكتبتي', 'My Library', 28, '#i-book', 'ملفًا تملكه', 'files you own'],
+      ['التنزيلات', 'Downloads', 96, '#i-download', 'عملية تحميل', 'downloads'],
+      ['المفضلة', 'Wishlist', 5, '#i-heart', 'منتجًا محفوظًا', 'saved items']
+    ];
+    const stats = statDefs.map((s, i) => ({
+      label: ar ? s[0] : s[1], value: s[2], iconRef: s[3], hint: ar ? s[4] : s[5],
+      tint: i % 2 ? 'rgba(216,181,106,.16)' : 'rgba(37,155,111,.11)',
+      color: i % 2 ? '#7a5d20' : '#1e7355',
+      anim: a(i)
+    }));
+
+    const quick = [
+      { label: ar ? 'حمّل آخر مشترياتي' : 'Download recent purchases', iconRef: '#i-download' },
+      { label: ar ? 'افتح مكتبتي' : 'Open my library', iconRef: '#i-book' },
+      { label: ar ? 'تصفّح موارد صفي' : 'Browse my grade', iconRef: '#i-grid' },
+      { label: ar ? 'الدعم عبر واتساب' : 'WhatsApp support', iconRef: '#i-headset' }
+    ];
+
+    const orderDefs = [
+      ['#10571', 'مكتمل', 'Completed', '#i-check', 'rgba(37,155,111,.12)', '#1e7355', '2026-08-14', '14 أغسطس 2026', '14 Aug 2026', 'عرض الكيمياء العضوية + أوراق عمل', 'Organic Chemistry deck + worksheets'],
+      ['#10544', 'قيد المعالجة', 'Processing', '#i-clock', 'rgba(216,181,106,.18)', '#7a5d20', '2026-08-09', '9 أغسطس 2026', '9 Aug 2026', 'حزمة المرحلة الابتدائية', 'Primary stage bundle'],
+      ['#10498', 'مسترد', 'Refunded', '#i-refresh', '#f2f5f2', '#5f7167', '2026-07-28', '28 يوليو 2026', '28 Jul 2026', 'أوراق عمل العلوم', 'Science worksheets']
+    ];
+    const orders = orderDefs.map((o, i) => ({
+      id: o[0], status: ar ? o[1] : o[2], chipIcon: o[3], chipBg: o[4], chipFg: o[5],
+      iso: o[6], date: ar ? o[7] : o[8], items: ar ? o[9] : o[10],
+      total: ar ? '300.00 ر.س' : 'SAR 300.00',
+      anim: a(i)
+    }));
+
+    const updDefs = [
+      ['تم تحديث هذا العرض', 'This deck was updated', 'أُضيفت ثلاث شرائح على وحدة التفاعلات، والنسخة الجديدة متاحة في تنزيلاتك.', 'Three slides were added to the reactions unit; the new version is in your downloads.', '2026-08-16', '16 أغسطس', '16 Aug', true, '#1e7355', 'rgba(37,155,111,.18)'],
+      ['أضيفت أوراق عمل جديدة', 'New worksheets added', 'ورقتا عمل إضافيتان مع حزمة الكيمياء.', 'Two extra worksheets shipped with the chemistry bundle.', '2026-08-04', '4 أغسطس', '4 Aug', true, '#d8b56a', 'rgba(216,181,106,.24)'],
+      ['مراجعة المنهج', 'Curriculum review', 'روجعت الملفات على منهج الفصل الأول بلا تغييرات جوهرية.', 'Files were reviewed against the first-term curriculum with no material changes.', '2026-07-20', '20 يوليو', '20 Jul', false, '#c9d4cd', '#f2f5f2']
+    ];
+    const updates = updDefs.map((u, i) => ({
+      title: ar ? u[0] : u[1], body: ar ? u[2] : u[3], iso: u[4], date: ar ? u[5] : u[6],
+      hasDownload: u[7], dot: u[8], ring: u[9],
+      line: i === updDefs.length - 1 ? 'none' : 'block',
+      anim: a(i)
+    }));
+
+    const libDefs = [
+      ['ثانوي', 'Grade 12', 'الكيمياء', 'Chemistry', 'عرض بوربوينت — الكيمياء العضوية', 'Organic Chemistry deck', 'organic-chem.pptx', '2026-08-14', '14 أغسطس', '14 Aug', true],
+      ['ابتدائي', 'Grade 4', 'الرياضيات', 'Maths', 'تحضير الرياضيات — الفصل الأول', 'Maths lesson plans — term 1', 'math-g4-t1.docx', '2026-08-09', '9 أغسطس', '9 Aug', false],
+      ['متوسط', 'Grade 8', 'العلوم', 'Science', 'أوراق عمل العلوم — الوحدة الثالثة', 'Science worksheets — unit 3', 'science-u3.pdf', '2026-08-03', '3 أغسطس', '3 Aug', false],
+      ['ثانوي', 'Grade 11', 'الفيزياء', 'Physics', 'عروض الفيزياء — الحركة', 'Physics decks — motion', 'physics-motion.pptx', '2026-07-21', '21 يوليو', '21 Jul', false]
+    ];
+    const q = this.state.query.trim().toLowerCase();
+    let library = libDefs.filter(r => {
+      const hay = (ar ? r[0] + r[2] + r[4] : r[1] + r[3] + r[5]).toLowerCase() + r[6].toLowerCase();
+      return !q || hay.indexOf(q) > -1;
+    });
+    if (this.state.filter === 'updated') library = library.filter(r => r[10]);
+    if (this.state.filter === 'pptx') library = library.filter(r => /pptx$/.test(r[6]));
+    if (this.state.filter === 'pdf') library = library.filter(r => /pdf$/.test(r[6]));
+    if (this.state.filter === 'docx') library = library.filter(r => /docx$/.test(r[6]));
+
+    const libItems = library.map((r, i) => ({
+      grade: ar ? r[0] : r[1], subject: ar ? r[2] : r[3], title: ar ? r[4] : r[5],
+      file: r[6], iso: r[7], date: ar ? r[8] : r[9], isUpdated: r[10], anim: a(i)
+    }));
+
+    const filterDefs = [
+      ['all', 'الكل', 'All'], ['updated', 'محدّث', 'Updated'],
+      ['pptx', 'PowerPoint', 'PowerPoint'], ['pdf', 'PDF', 'PDF'], ['docx', 'Word', 'Word']
+    ];
+    const filters = filterDefs.map(f => {
+      const on = this.state.filter === f[0];
+      return {
+        label: ar ? f[1] : f[2],
+        pressed: on ? 'true' : 'false',
+        border: on ? '#1e7355' : '#e6e9e2',
+        bg: on ? 'rgba(37,155,111,.08)' : '#fff',
+        fg: on ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ filter: f[0] })
+      };
+    });
+
+    const missing = [
+      { label: ar ? 'المحفظة والرصيد' : 'Wallet & balance', iconRef: '#i-wallet' },
+      { label: ar ? 'النقاط والمكافآت' : 'Rewards & points', iconRef: '#i-medal' },
+      { label: ar ? 'الكوبونات' : 'Coupons', iconRef: '#i-tag' },
+      { label: ar ? 'الفواتير PDF' : 'PDF invoices', iconRef: '#i-files' },
+      { label: ar ? 'مركز الإشعارات' : 'Notification centre', iconRef: '#i-bell' },
+      { label: ar ? 'المصادقة الثنائية' : 'Two-factor auth', iconRef: '#i-lock' }
+    ];
+
+    const mobileNav = [
+      ['dashboard', 'الحساب', 'Account', '#i-grid'],
+      ['library', 'مكتبتي', 'Library', '#i-book'],
+      ['orders', 'طلباتي', 'Orders', '#i-cart-bag'],
+      ['wishlist', 'المفضلة', 'Saved', '#i-heart'],
+      ['support', 'المزيد', 'More', '#i-dots']
+    ].map(d => {
+      const active = this.state.section === d[0];
+      return {
+        label: ar ? d[1] : d[2], iconRef: d[3],
+        current: active ? 'page' : 'false',
+        bg: active ? 'rgba(37,155,111,.09)' : 'transparent',
+        fg: active ? '#1e7355' : '#5f7167',
+        onClick: () => this.setState({ section: d[0] })
+      };
+    });
+
+    const showEmpty = this.state.empty || libItems.length === 0;
+
+    return {
+      t, motion, isMobile: mobile,
+      shellW: '100%',
+      wrapW: pick('100%', 'min(834px,100% - 32px)', 'min(1280px,100% - 48px)'),
+      headPad: pick('12px 16px', '13px 0', '14px 0'),
+      bodyPad: pick('16px', '18px 0 32px', '22px 0 40px'),
+      // Tablet drops the fixed sidebar: at 834px a 256px rail leaves the main
+      // column too narrow for the library grid.
+      gridCols: pick('1fr', '1fr', '256px 1fr'),
+      gridGap: pick('14px', '16px', '18px'),
+      sectionGap: pick('14px', '15px', '16px'),
+      navDisplay: pick('none', 'none', 'flex'),
+      cardPad: pick('16px', '18px', '20px'),
+      cardPadSm: pick('13px', '14px', '15px'),
+      h1Size: pick('19px', '21px', '23px'),
+      h2Size: pick('17px', '18px', '20px'),
+      statCols: pick('repeat(2,minmax(0,1fr))', 'repeat(2,minmax(0,1fr))', 'repeat(4,minmax(0,1fr))'),
+      splitCols: pick('1fr', '1fr', '1.15fr .85fr'),
+      libCols: pick('repeat(2,minmax(0,1fr))', 'repeat(2,minmax(0,1fr))', 'repeat(4,minmax(0,1fr))'),
+      missingCols: pick('1fr', 'repeat(2,minmax(0,1fr))', 'repeat(3,minmax(0,1fr))'),
+      searchW: pick('100%', '220px', '260px'),
+      /*
+       * Hit area is a token like every other responsive value here. Leaving it as
+       * per-control literals is what let 23 of 45 mobile controls ship under 44px
+       * — including the language switcher, in a brief built on language switching.
+       */
+      tap: pick('44px', '38px', '38px'),
+      tapSm: pick('44px', '32px', '32px'),
+      tapSq: pick('44px', '38px', '38px'),
+      user: { name: ar ? 'هشام' : 'Hesham', initial: ar ? 'ه' : 'H' },
+      langs: [
+        { code: 'ar', label: t.langAr, pressed: ar ? 'true' : 'false', bg: ar ? '#fff' : 'transparent', fg: ar ? '#14261d' : 'rgba(255,255,255,.72)', onClick: () => this.setState({ lang: 'ar' }) },
+        { code: 'en', label: t.langEn, pressed: ar ? 'false' : 'true', bg: ar ? 'transparent' : '#fff', fg: ar ? 'rgba(255,255,255,.72)' : '#14261d', onClick: () => this.setState({ lang: 'en' }) }
+      ],
+      pulseAnim: motion ? 'tahDotPulse 2.6s ease-in-out infinite' : 'none',
+      anim: { a: a(0), bar: motion ? 'tahBarGrow .9s cubic-bezier(.22,1,.36,1) 200ms both' : 'none' },
+      stats, quick, orders, updates, filters,
+      query: this.state.query,
+      onQuery: e => this.setState({ query: e.target.value }),
+      library: libItems,
+      libHas: !showEmpty,
+      libEmpty: showEmpty,
+      libCountText: libItems.length + ' ' + t.resources,
+      missing, nav, mobileNav
+    };
+  }
+}
+</script>
+</body>
+</html>

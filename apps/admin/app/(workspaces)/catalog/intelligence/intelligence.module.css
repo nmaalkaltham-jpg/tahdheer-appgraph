@@ -1,0 +1,179 @@
+/*
+UNIT: CATALOG-INTELLIGENCE-PANEL
+COMPONENT: intelligence-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * خصائص منطقيّة حصرًا (‎inline‎/‎block‎ لا ‎left‎/‎right‎): اللوحة عربيّةٌ من
+ * اليمين، و‎border-left‎ على بطاقةٍ كان سيرسم الشريط في الطرف البعيد عن بداية
+ * السطر. ولا رمز لونٍ خارج الرموز الدلاليّة في ‎globals.css‎
+ * (‎--state-danger/warning/success/info‎ — ولا وجود لـ‎--state-caution‎).
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.block {
+  border: 1px solid var(--cc-edge);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.heading {
+  font-size: 1rem;
+  margin-block: 0 0.75rem;
+}
+
+/*
+ * زرٌّ لا رابط: الاختيار يبدّل التفصيل أسفل الجدول ولا يغيّر المسار. رابطٌ
+ * بلا وجهة يَعِد بصفحةٍ تُفتح في تبويبٍ جديد ثمّ لا تفعل.
+ */
+.pick {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--state-info);
+  cursor: pointer;
+  text-align: start;
+  text-decoration: underline;
+}
+
+.pick:focus-visible {
+  outline: 2px solid var(--state-info);
+  outline-offset: 2px;
+}
+
+.selected {
+  background: var(--state-info-soft);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--cc-edge);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.detailHead,
+.assetHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.detailTitle {
+  font-size: 1.05rem;
+  margin-block: 0 0.25rem;
+}
+
+.assetName {
+  font-size: 0.95rem;
+  margin-block: 0 0.25rem;
+  word-break: break-word;
+}
+
+.asset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--cc-edge);
+  border-radius: 8px;
+  padding: 0.85rem;
+}
+
+/* سبب المرحلة أثقل من سطر السبب العاديّ: هو أوّل ما يُقرأ في البطاقة. */
+.reasonStrong {
+  margin-block: 0;
+  font-size: 0.9rem;
+}
+
+/*
+ * العلاج مُبرَز بحدٍّ لا بخلفيّةٍ حمراء: نصٌّ إجرائيّ يُقرأ، لا تنبيهٌ ثانٍ
+ * فوق حبّة الحالة. وتلوينُه تحذيرًا يجعل الشاشة كلّها حمراء فتُهمَل.
+ */
+.remedy {
+  margin-block: 0;
+  padding: 0.5rem 0.65rem;
+  border-inline-start: 3px solid var(--state-warning);
+  background: var(--state-warning-soft);
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+.gap {
+  margin-block: 0;
+  padding-inline-start: 0.6rem;
+  border-inline-start: 3px solid var(--state-info);
+  font-size: 0.88rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 0;
+}
+
+.facts > div {
+  border-inline-start: 3px solid var(--state-info);
+  padding-inline-start: 0.6rem;
+}
+
+.facts dt {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-block-end: 0.15rem;
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.textBlock {
+  border: 1px solid var(--cc-edge);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+.summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding-block: 0.35rem;
+  font-size: 0.88rem;
+}
+
+/*
+ * النصّ المستخرَج قد يكون عربيًّا أو لاتينيًّا أو مختلطًا، وترتيبُ الأسطر
+ * جزءٌ من معناه. ‎pre‎ بـ‎dir=auto‎ ضمنيّ عبر ‎unicode-bidi: plaintext‎: كلّ
+ * سطرٍ يأخذ اتّجاهه من محتواه، فلا يقفز سطرٌ إنجليزيّ إلى يسار الصندوق.
+ */
+.text {
+  margin-block: 0.35rem 0;
+  padding: 0.6rem;
+  background: var(--cc-well);
+  border-radius: 6px;
+  max-block-size: 22rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  unicode-bidi: plaintext;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.superseded {
+  margin-block: 0.35rem 0;
+  padding-inline-start: 1.1rem;
+  font-size: 0.85rem;
+  line-height: 1.9;
+}

@@ -1,0 +1,109 @@
+/*
+UNIT: DATE-RANGE
+COMPONENT: date-range.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding: var(--sp-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.presets {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--canvas);
+  border-radius: var(--radius-sm);
+}
+
+.preset {
+  min-block-size: 32px;
+  padding-inline: var(--sp-3);
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.preset:hover {
+  color: var(--text);
+}
+
+/* المضغوط يُقال بالخلفيّة والوزن معًا — لا باللون وحده. */
+.preset[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--primary-strong);
+  font-weight: 800;
+  box-shadow: var(--shadow-card);
+}
+
+.custom {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.field input {
+  min-block-size: 32px;
+  padding-inline: var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  min-block-size: 32px;
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.refresh:hover {
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.stamp {
+  margin: 0;
+  margin-inline-start: auto;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .stamp {
+    margin-inline-start: 0;
+    inline-size: 100%;
+  }
+}

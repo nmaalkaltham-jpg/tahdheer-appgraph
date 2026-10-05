@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes isFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">ذكاء البحث الداخلي والمزامنات الصادقة</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">يتعلم من زوارك — بعتبات وتراجع وسجل</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.search }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start;animation:isFade .25s ease">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h1 style="margin:0 0 3px;font-size:15px;font-weight:900">المرادفات ذاتية التعلم</h1>
+<span style="font-size:9.5px;color:#8b978f">العتبة: ١٠ نقرات متطابقة بعد بحث صفري ← يُتبنى الربط وحده — وكل ربط بوسم «مُتعلم آليًا» وتراجع</span>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ sy.rows }}" as="r" hint-placeholder-count="4">
+<div style="border:1px solid {{ r.bd }};border-radius:12px;background:{{ r.bg }};padding:10px 13px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:11.5px">«{{ r.from }}» ← «{{ r.to }}»</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ r.sBg }};color:{{ r.sC }};font-size:8.5px;font-weight:900">{{ r.st }}</span>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">{{ r.ev }}</span>
+</div>
+<span aria-hidden="true" style="display:block;height:6px;margin-top:7px;border-radius:5px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ r.w }};background:{{ r.fill }};border-radius:5px"></span></span>
+<sc-if value="{{ r.hasAct }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;margin-top:8px">
+<button type="button" onClick="{{ r.onOk }}" style="min-height:28px;padding:0 12px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">تبنَّ الآن</button>
+<button type="button" onClick="{{ r.onNo }}" style="min-height:28px;padding:0 11px;border:1px solid #f0d3d3;border-radius:8px;background:#fdf6f6;color:#b32d2e;font-size:9.5px;font-weight:900;cursor:pointer">للقاموس السلبي</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<span style="display:block;margin-top:9px;font-size:9px;color:#a9b4ad">القاموس السلبي ({{ sy.negN }}): روابط رُفضت لن تُقترح ثانية — والعلامة التجارية ومصطلحات المنهج محمية من الربط الآلي.</span>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;font-size:13px">ترتيب النتائج بالتحويل</b>
+<button type="button" onClick="{{ rk.onTog }}" role="switch" aria-checked="{{ rk.on }}" aria-label="الترتيب بالتحويل" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ rk.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ rk.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button></div>
+<span style="font-size:9.5px;color:#8b978f">وزن مختلط: مطابقة نصية ٦٠٪ + تحويل باحثي نفس الاستعلام ٤٠٪ — يُعاد المعايرة أسبوعيًا</span>
+<div style="margin-top:9px;padding:10px 12px;border-radius:11px;background:#fbfcfb;border:1px dashed #e2e8e4">
+<span style="font-size:9px;font-weight:900;color:#5f7167">مثال حي — بحث «مراجعة»:</span>
+<sc-for list="{{ rk.ex }}" as="e" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #f1f4f2"><span style="flex:0 0 18px;font:900 10px Tajawal;color:{{ e.c }}">{{ e.pos }}</span><span style="flex:1;font-size:10.5px;font-weight:800">{{ e.n }}</span><span style="font-size:8.5px;color:#8b978f">{{ e.why }}</span></div>
+</sc-for>
+</div>
+<span style="display:block;margin-top:7px;font-size:9px;font-weight:900;color:#146c4c">{{ rk.impact }}</span>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">إنقاذ الصفر نتائج — الأثر</b>
+<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px">
+<sc-for list="{{ rk.zero }}" as="z" hint-placeholder-count="3">
+<span style="padding:7px 12px;border-radius:10px;background:#f6fbf8;border:1px solid #e2ece5;text-align:center"><b style="display:block;font:900 14px Tajawal;color:#146c4c">{{ z.v }}</b><span style="font-size:8px;color:#7c8a82">{{ z.l }}</span></span>
+</sc-for>
+</div>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.sync }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:isFade .25s ease">المزامنات الصادقة — المحتوى يصون نفسه</h1>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">أسعار حية داخل المقالات</b>
+<span style="display:block;margin-top:4px;font-size:9.5px;line-height:1.7;color:#5f7167">كل ذكر سعر في المقالات رمز حي يتحدث مع Woo — {{ sn.priceN }} موضعًا مُحوَّلًا، الانحراف الحالي: <b style="color:#146c4c">صفر</b>.</span>
+<div style="margin-top:8px;padding:9px 11px;border-radius:10px;background:#fbfcfb;border:1px dashed #e2e8e4"><span style="font-size:9px;color:#8b978f">مثال: «المذكرة بـ </span><b style="font:900 10.5px Tajawal;color:#146c4c">٤٢ ر.س</b><span style="font-size:9px;color:#8b978f">» — تحدّث أمس مع التخفيض تلقائيًا في ٣ مقالات.</span></div>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">معالج الروابط الخارجية الميتة</b>
+<span style="display:block;margin-top:4px;font-size:9.5px;line-height:1.7;color:#5f7167">فحص أسبوعي لمصادر مقالاتك — الميت يُستبدل بنسخة الأرشيف تلقائيًا ويُوثق.</span>
+<sc-for list="{{ sn.dead }}" as="d" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:7px;margin-top:7px;padding:7px 9px;border-radius:9px;background:#fbfcfb"><span style="flex:1;font-size:9px;color:#3d4f45">{{ d.n }}</span><span style="padding:1px 8px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:8px;font-weight:900">{{ d.st }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">دفعات الصور الليلية</b>
+<span style="display:block;margin-top:4px;font-size:9.5px;line-height:1.7;color:#5f7167">أرشيفك القديم يتحول WebP — ٥٠ صورة كل ليلة ٣ فجرًا حتى ينتهي.</span>
+<span aria-hidden="true" style="display:block;height:8px;margin-top:9px;border-radius:6px;background:#eef2ef;overflow:hidden"><span style="display:block;height:100%;width:{{ sn.imgW }};background:linear-gradient(90deg,#2b9c72,#14603f);border-radius:6px"></span></span>
+<span style="display:block;margin-top:5px;font-size:9px;color:#8b978f">{{ sn.imgTxt }}</span>
+</section>
+</div>
+<section style="border:1px solid #1e7355;border-radius:14px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:12px 17px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:11.5px">قدرة داعمة — تنبيه الانحراف:</b>
+<span style="flex:1;min-width:240px;font-size:10px;line-height:1.7;color:#5f7167">أي تعارض تعجز المزامنة عن حله وحدها (سعر داخل صورة مثلًا) يتحول تذكرة في مركز الإجراءات بدل إصلاح أعمى.</span>
+<span style="padding:3px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">٠ انحرافات مفتوحة</span>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.derive }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:isFade .25s ease">المحتوى المشتق ذاتيًا — كل أصل يولّد صيغه</h1>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px">
+<sc-for list="{{ dv }}" as="d" hint-placeholder-count="3">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px;display:flex;flex-direction:column;gap:6px">
+<b style="font-size:12px">{{ d.n }}</b>
+<span style="font-size:9.5px;line-height:1.8;color:#5f7167">{{ d.d }}</span>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ d.q }}" as="q" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:9px;background:#fbfcfb"><span style="flex:1;font-size:9.5px;font-weight:800">{{ q.n }}</span><span style="padding:1px 8px;border-radius:999px;background:{{ q.sBg }};color:{{ q.sC }};font-size:8px;font-weight:900">{{ q.st }}</span></div>
+</sc-for>
+</div>
+<span style="margin-top:auto;padding-top:6px;border-top:1px dashed #f1f4f2;font-size:8.5px;color:#a9b4ad">{{ d.check }}</span>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:isFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;search&quot;,&quot;sync&quot;,&quot;derive&quot;],&quot;default&quot;:&quot;search&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+state={scr:'search',syn:{s1:'auto',s2:'pend',s3:'pend',s4:'neg'},rank:true,toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3200));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['search','البحث المتعلم'],['sync','المزامنات الصادقة'],['derive','المحتوى المشتق']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{search:st.scr==='search',sync:st.scr==='sync',derive:st.scr==='derive',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const SYN=[
+  ['s1','ملازم حفظ','ملازم تحفيظ',14,'١٤ نقرة متطابقة — فوق العتبة'],
+  ['s2','اوراق عمل رياضه','أوراق عمل رياضيات',8,'٨ من ١٠ — يتراكم'],
+  ['s3','كتب ثالثه ثانوي','ملازم ثالث ثانوي',6,'٦ من ١٠'],
+  ['s4','ملخصات جامعية','—',3,'خارج نطاق المتجر']
+ ];
+ base.sy={negN:this.ar(7),rows:SYN.map(s=>{
+  const stx=st.syn[s[0]];
+  const auto=stx==='auto', neg=stx==='neg', pend=stx==='pend';
+  return {from:s[1],to:neg?'لا ربط':s[2],ev:s[4],
+   w:Math.min(100,s[3]*10)+'%',fill:auto?'linear-gradient(90deg,#2b9c72,#14603f)':(neg?'#b32d2e':'#c9a227'),
+   st:auto?'مُتبنى — مُتعلم آليًا':(neg?'قاموس سلبي':'يتراكم نحو العتبة'),
+   sBg:auto?'#e4f4ec':(neg?'#fce8e8':'#fff4d6'),sC:auto?'#146c4c':(neg?'#b32d2e':'#8a6500'),
+   bd:auto?'#cfe0d6':'#dce2dd',bg:auto?'#f6fbf8':'#fff',
+   hasAct:pend,
+   onOk:()=>{ const o=Object.assign({},st.syn); o[s[0]]='auto'; this.setState({syn:o});
+    this.toast('تُبنّي الربط «'+s[1]+'» يدويًا قبل العتبة — وسيظهر بوسم «مُتعلم» مع تراجع'); },
+   onNo:()=>{ const o=Object.assign({},st.syn); o[s[0]]='neg'; this.setState({syn:o});
+    this.toast('أُضيف للقاموس السلبي — لن يُقترح هذا الربط ثانية'); }};
+ })};
+ base.rk={on:st.rank,swBg:st.rank?'#1e7355':'#cfd8d3',knob:st.rank?'17px':'2px',
+  onTog:()=>{ this.setState({rank:!st.rank}); this.toast(st.rank?'عاد الترتيب النصي الخالص':'الترتيب المختلط يعمل: نص ٦٠٪ + تحويل ٤٠٪ — معايرة أسبوعية'); },
+  ex:st.rank?[
+   {pos:'١',n:'حزمة المراجعة الشاملة',why:'تحويل باحثي «مراجعة» ٦١٪',c:'#146c4c'},
+   {pos:'٢',n:'مذكرة المراجعة المبسطة',why:'مطابقة نصية أعلى، تحويل أقل',c:'#527a96'},
+   {pos:'٣',n:'مقال خطة المراجعة',why:'يخدم النية المعلوماتية',c:'#8b978f'}
+  ]:[
+   {pos:'١',n:'مذكرة المراجعة المبسطة',why:'مطابقة نصية فقط',c:'#527a96'},
+   {pos:'٢',n:'مقال خطة المراجعة',why:'تكرار الكلمة',c:'#8b978f'},
+   {pos:'٣',n:'حزمة المراجعة الشاملة',why:'الأعلى تحويلًا — مدفونة ثالثة',c:'#b32d2e'}
+  ],
+  impact:st.rank?'منذ التفعيل: تحويل البحث الداخلي +٢٨٪':'الوضع النصي: الأعلى تحويلًا مدفون',
+  zero:[['١٤٢→٣١','بحث صفري شهريًا'],['+٦٤','شراء من المُنقذ'],['٧','مرادفات مُتبناة']].map(z=>({v:z[0],l:z[1]}))};
+ base.sn={priceN:this.ar(23),
+  dead:[{n:'وثيقة المنهج (رابط وزاري قديم)',st:'استُبدل بالأرشيف'},{n:'مصدر إحصائية تعليمية',st:'استُبدل بالأرشيف'}],
+  imgW:'72%',imgTxt:'٧٢٪ — ١٬٠٨٠ من ١٬٥٠٠ صورة قديمة حُوّلت · تنتهي خلال ٩ ليالٍ'};
+ base.dv=[
+  {n:'Web Story لكل مقال جديد',d:'قالب 9:16 ثابت يولّد القصة من عناوين المقال وصوره — Discover يتغذى من تدوينك المعتاد.',
+   q:[{n:'مقال «عادات المراجعة» ← قصة',st:'نُشرت ✓',sBg:'#e4f4ec',sC:'#146c4c'},{n:'مقال «تغييرات المنهج» ← قصة',st:'تُولَّد الليلة',sBg:'#fff4d6',sC:'#8a6500'}],
+   check:'فحص الجودة: مقال بلا صور كافية (٣+) لا يولّد قصة — لا قصص هزيلة.'},
+  {n:'نص مفرّغ + فصول لكل فيديو',d:'تفريغ آلي يُنشر إن تجاوزت ثقته ٩٢٪ — ودونها يدخل طابور مراجعة بشرية بدل نشر ركيك.',
+   q:[{n:'جولة مذكرة الرياضيات (١:٠٢)',st:'نُشر — ثقة ٩٦٪',sBg:'#e4f4ec',sC:'#146c4c'},{n:'مقارنة المكثفة/المبسطة',st:'مراجعة — ثقة ٨٧٪',sBg:'#fff4d6',sC:'#8a6500'}],
+   check:'الفصول (Key Moments) تُشتق من توقفات الشرح — وVideoObject يتحدث معها.'},
+  {n:'«رائج هذا الأسبوع» ذاتية التجدد',d:'تتجمع من بحثك الداخلي الفعلي وتخضع لبوابة الجودة نفسها — تُفهرس فقط إن حملت قيمة.',
+   q:[{n:'أسبوع الاختبارات: ٨ استعلامات رائجة',st:'مفهرسة — اجتازت',sBg:'#e4f4ec',sC:'#146c4c'},{n:'أسبوع هادئ: ٣ فقط',st:'noindex تلقائيًا',sBg:'#f2f4f2',sC:'#5f7167'}],
+   check:'lastmod يتغير فقط مع تغير حقيقي في القائمة — لا طزاجة مزيفة.'}
+ ];
+ return base;
+}
+}
+</script>
+</body>
+</html>

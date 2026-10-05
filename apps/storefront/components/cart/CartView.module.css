@@ -1,0 +1,843 @@
+/*
+ * Cart view — Tahdheer - Cart.dc.html + Tahdheer - Cart Responsive.dc.html.
+ * Tokens only, logical properties only (RTL-first).
+ *
+ * Alpha greens are written as color-mix over --teal-600 (the brand teal), which is
+ * literally the rgb(37,155,111) the design's rgba() values are built from — so
+ * no raw colour enters this component.
+ */
+
+/*
+ * حالة التحميل صارت بطاقةً بنفس هيئة بطاقات الرحلة (نفس الحدّ ونفس النصف قطر)
+ * بدل سطرٍ رماديّ عارٍ: الصفحة لا «تقفز» من نصٍّ حرّ إلى شبكة بطاقات، والمساحة
+ * المحجوزة هي نفسها التي ستشغلها السلّة. النصّ وحده يحمل المعنى — الدوّارة
+ * زخرفية وتتوقّف مع تقليل الحركة.
+ */
+.loadingCard {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-block-size: 168px;
+  padding: 16px;
+  color: var(--sf-muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.loadingSpinner {
+  flex: 0 0 auto;
+  inline-size: 18px;
+  block-size: 18px;
+  border: 2px solid var(--sf-line);
+  border-block-start-color: var(--teal-600);
+  border-radius: var(--r-round);
+  animation: cartSpin 0.7s linear infinite;
+}
+
+.layout {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.9fr) minmax(0, 340px);
+    gap: 16px 24px;
+  }
+
+  /* الملخّص يمتدّ صفّين، والشريط يسكن تحت السطور في عمودها. */
+  .summary {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .recentSlot {
+    grid-column: 1;
+    grid-row: 2;
+    margin-block-start: 32px;
+  }
+
+  .linesCol,
+  .lines {
+    gap: 16px;
+  }
+}
+
+/* ------------------------------------------------------------------ lines */
+
+.linesCol {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.lines {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.line {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+
+/*
+ * 104px product tile — a LINK to the product page. The cart API returns no
+ * image for a line, so the surface stays deliberately empty: no placeholder
+ * artwork, no stand-in glyph.
+ */
+.thumb {
+  flex: 0 0 auto;
+  display: block;
+  inline-size: 96px;
+  block-size: 72px;
+  /* متداخلٌ في بطاقة ‎16px‎ بحشوة ‎16px‎ ⇒ الحدّ الأدنى ‎--r-xs‎. */
+  border-radius: var(--r-xs);
+  border: 1px solid var(--sf-line);
+  background: var(--tint-teal);
+  overflow: hidden;
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .thumb:hover {
+    border-color: var(--teal-600);
+  }
+}
+
+.lineBody {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* صفّ العنوان: النصّ ثمّ زرّ الحذف في نهايته (Tahdheer - Cart.dc.html). */
+.lineHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.lineHeadText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.lineCategory {
+  margin: 0 0 3px;
+  color: var(--sf-muted);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.lineTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* الصيغة داخل العنوان — أخفت وزنًا كي يبقى اسم المنتج هو المقروء أوّلًا. */
+.lineVariant {
+  font-weight: 500;
+  color: var(--sf-muted);
+}
+
+.lineTitle a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: 24px;
+  color: var(--sf-ink);
+  text-decoration: none;
+}
+
+/*
+ * ‎24px‎ مرئيًّا على المكتب، و‎44px‎ هدفًا لكلّ إصبع (شاشاتُ لمسٍ عريضة
+ * كذلك) — بعنصرٍ زائف فوق الفئة وتحت الرقاقات، وكلاهما غير تفاعليّ.
+ */
+.lineTitle a::before {
+  content: '';
+  position: absolute;
+  inset-block: -10px;
+  inset-inline: 0;
+}
+
+.lineTitle a:hover {
+  color: var(--teal-text);
+}
+
+/* ---- attribute chips (icon + label, one chip per field that exists) ---- */
+
+.attrs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attr {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-block: 3px;
+  padding-inline: 9px;
+  border: 1px solid var(--sf-hair);
+  border-radius: var(--r-xs);
+  background: var(--tint-steel);
+  color: var(--tint-steel-fg);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.attrLead {
+  border-color: var(--tint-teal-line);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.attrIcon {
+  flex: 0 0 auto;
+  inline-size: 11px;
+  block-size: 11px;
+}
+
+/*
+ * صفّ التحكّم — زرّ «ماذا يتضمن؟» ثمّ السعر في نهايته، يفصله خطّ علوي.
+ */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-block-start: 9px;
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.includesToggle {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+  gap: 6px;
+  padding-inline: 10px;
+  color: var(--teal-text);
+  font-size: 13px;
+}
+
+.includesChev {
+  flex: 0 0 auto;
+  transform: rotate(-90deg);
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.includesChevOpen {
+  transform: rotate(90deg);
+}
+
+.includesPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding-block: 10px;
+  padding-inline: 11px;
+  border: 1px solid var(--sf-hair);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+  list-style: none;
+}
+
+.includesItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--sf-body);
+  font-size: 11.5px;
+  text-align: start;
+}
+
+.includesCheck {
+  flex: 0 0 auto;
+  inline-size: 12px;
+  block-size: 12px;
+  color: var(--teal-text);
+}
+
+/* ---- سعر السطر: الشطب ثمّ السعر ثمّ «ر.س» على خطّ قاعدة واحد ---- */
+
+.linePrice {
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 7px;
+  margin: 0;
+}
+
+/*
+ * أرقامٌ جدوليّة في كتلة السعر كلّها: بلا ذلك تختلف عروض الخانات بين سطرٍ
+ * وآخر فلا تصطفّ الأسعار رأسيًّا، وهي أوّل ما تمسحه العين في السلّة.
+ */
+.wasPrice {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.nowPrice {
+  color: var(--color-secondary-text);
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+}
+
+.priceCurrency {
+  color: var(--sf-muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.lineSaving {
+  margin: 2px 0 0;
+  color: var(--teal-text);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+/* زرّ الحذف: مربّع 34px بأيقونة إغلاق، يرتفع إلى 44px على الجوال. */
+.remove {
+  composes: btn btnOutline btnIcon btnSm from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+  color: var(--sf-muted);
+}
+
+/*
+ * الحذف فعلٌ هدّام، فليكن مرئيًّا كذلك عند القصد: كان التحويم يغيّر لون الحدّ
+ * وحده — إشارةٌ بالكاد تُرى على حدٍّ بسمك بكسل. الآن تمتلئ الرقعة بخلفية
+ * الخطر، فيعرف المؤشّر أين هو قبل الضغط.
+ */
+/* ‎36px‎ مرئيّة · هدف اللمس ‎44px‎ بعنصرٍ زائف لا بتكبير الرسم — نمط `.cta::before` في ProductCard. */
+/* الهدف ‎46px‎ حول مربّعٍ مرئيّ ‎36px‎ — قرص الـ‎44‎ كلّه داخله. */
+.remove::before {
+  inset: -5px;
+}
+
+@media (hover: hover) {
+  .remove:hover {
+    border-color: var(--st-danger-line);
+    background: var(--st-danger-bg);
+    color: var(--st-danger-fg);
+  }
+}
+
+/* ------------------------------------------------------------------- undo */
+
+/*
+ * نبرة التنبيه الذهبية: الحذف ليس نجاحًا. الشفافيات مكتوبة بـ color-mix فوق
+ * ‎--gold-400‎ (رمز الذهب في لغة التصميم) وهي حرفيًّا ما تبنيه rgba() التصميم.
+ */
+.undo {
+  composes: notice noticeWarning from '@tahdheer/ui/controls.module.css';
+  align-items: center;
+}
+
+.undo svg {
+  flex: 0 0 auto;
+}
+
+.undoText {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: start;
+}
+
+.undoBtn {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+}
+
+/* ----------------------------------------------------------------- coupon */
+
+.couponCard {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding-block: 8px;
+  padding-inline: 16px;
+}
+
+.couponToggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.couponTag {
+  flex: 0 0 auto;
+  color: var(--teal-text);
+}
+
+.couponLabel {
+  flex: 1;
+  min-inline-size: 0;
+  color: var(--sf-ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: start;
+}
+
+.couponChev {
+  flex: 0 0 auto;
+  color: var(--sf-muted);
+  transform: rotate(-90deg);
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.couponChevOpen {
+  transform: rotate(90deg);
+}
+
+.couponPanel {
+  padding-block: 4px 8px;
+}
+
+.couponForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* The field draws the ring for its borderless input. */
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.couponInput {
+  composes: field from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+  min-inline-size: 160px;
+  inline-size: auto;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-align: start;
+}
+
+.couponApply {
+  composes: btn btnSecondary from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+  min-block-size: var(--field-h);
+  padding-inline: 20px;
+}
+
+/* الخطأ تحت الحقل، مربوطٌ به (aria-describedby) وبأيقونة — وصفة الحقل. */
+.couponError {
+  composes: fieldError from '@tahdheer/ui/controls.module.css';
+  margin-block-end: 0;
+}
+
+.couponMsg {
+  composes: notice from '@tahdheer/ui/controls.module.css';
+  align-items: center;
+  margin-block-start: 8px;
+  padding-block: 4px;
+  padding-inline: 12px;
+  min-block-size: 52px;
+}
+
+.couponMsgOk {
+  composes: noticeSuccess from '@tahdheer/ui/controls.module.css';
+}
+
+.couponMsgError {
+  composes: noticeDanger from '@tahdheer/ui/controls.module.css';
+}
+
+.couponMsgIcon {
+  flex: 0 0 auto;
+}
+
+.couponMsgText {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: start;
+}
+
+.couponRemove {
+  composes: btn btnGhost btnSm from '@tahdheer/ui/controls.module.css';
+  flex: 0 0 auto;
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------- summary */
+
+.summary {
+  position: sticky;
+  inset-block-start: var(--space-4);
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/*
+ * الملخّص هو سطح القرار، وكان يرتدي زيّ بطاقة السطر نفسه: الحدّ ذاته والخلفية
+ * ذاتها وبلا ظلّ — فيقرأ كعنصرٍ سادسٍ في قائمةٍ لا كالمكان الذي يُضغط فيه
+ * «إتمام الطلب». الآن يرتفع بظلّ البطاقات ويحمل حدًّا أوضح، وعنوانه يفصله خطّ.
+ */
+.summaryCard {
+  composes: panel from '@tahdheer/ui/controls.module.css';
+  padding: 24px;
+}
+
+.summaryTitle {
+  margin: 0 0 16px;
+  padding-block-end: 12px;
+  border-block-end: 1px solid var(--sf-hair);
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.taxNote {
+  margin: 0 0 16px;
+  color: var(--sf-muted);
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: start;
+}
+
+/* وصفة الزرّ الموحّدة (DESIGN-SYSTEM §«الوصفات») — الحالات الملموسة منها؛ هنا العرض والمقاس فقط. */
+.checkout {
+  composes: btn btnPrimary btnLg from '@tahdheer/ui/controls.module.css';
+  inline-size: 100%;
+  gap: 9px;
+  font-size: 15px;
+}
+
+/* الحالة الوحيدة للتعطيل هي «جارٍ التحويل…» — لذلك تحمل نبرة الانشغال. */
+@keyframes cartSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.legalNote {
+  margin: 12px 0 0;
+  color: var(--sf-muted);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.legalNote a {
+  color: var(--teal-text);
+  text-decoration: underline;
+}
+
+/* ---- trust card ---- */
+
+.trustCard {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding-block: 16px;
+  padding-inline: 16px;
+}
+
+/*
+ * TrustStrip `classic` is a rule-topped horizontal row; inside this card the
+ * design stacks the claims, so the rule and its top padding are dropped.
+ */
+.trustCard > ul {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+  padding-block-start: 0;
+  border-block-start: 0;
+  color: var(--sf-ink-2);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.trustCard > ul svg {
+  color: var(--teal-text);
+}
+
+/* ---- WhatsApp help card ---- */
+
+.helpCard {
+  padding: 16px;
+  border: 1px solid var(--st-success-line);
+  border-radius: var(--r-lg);
+  background: var(--st-success-bg);
+}
+
+.helpTitle {
+  margin: 0 0 8px;
+  color: var(--sf-ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: start;
+}
+
+.helpLink {
+  composes: btn btnOutline btnSm from '@tahdheer/ui/controls.module.css';
+  color: var(--teal-text);
+}
+
+/* ---------------------------------------------------------------- focus */
+
+.couponToggle:focus-visible,
+.legalNote a:focus-visible,
+.thumb:focus-visible,
+.lineTitle a:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ empty */
+
+.emptyWrap {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* رسالة الخادم تحت بطاقة العطل — كسبب ٤٢٩ ومهلته — لا تُبتلع. */
+.failNote {
+  margin: 0;
+  color: var(--sf-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Centred card — 52px/24px, 18px radius (Tahdheer - Cart.dc.html). */
+.empty {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  padding-block: 48px;
+  padding-inline: 24px;
+  text-align: center;
+}
+
+/* رسم الحالة الفارغة (‎EMPTY_ART‎): صندوقٌ ثابت ‎160²‎ (‎128²‎ جوّالًا) فلا إزاحة، كسولٌ افتراضًا. */
+.emptyArt {
+  display: block;
+  inline-size: 160px;
+  block-size: 160px;
+  margin-block: 0 var(--space-4);
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .emptyArt {
+    inline-size: 128px;
+    block-size: 128px;
+  }
+}
+
+.emptyTitle {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text);
+  font: var(--type-h3);
+}
+
+.emptyText {
+  margin-block: 0 var(--space-5);
+  margin-inline: auto;
+  max-inline-size: 44ch;
+  color: var(--color-text-muted);
+  font: var(--type-body);
+  text-wrap: pretty;
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.emptyCta {
+  composes: btn btnPrimary from '@tahdheer/ui/controls.module.css';
+}
+
+.emptyAlt {
+  composes: btn btnOutline from '@tahdheer/ui/controls.module.css';
+}
+
+/* ------------------------------------------------------------- mobile bar */
+
+.mobileBar {
+  position: fixed;
+  /* حزّ الشاشة أفقيًّا — صفرٌ حيث لا حزّ. */
+  padding-inline: var(--safe-inline);
+  inset-inline: 0;
+  /* فوق الشريط العامّ لا تحته — عقد الحافّة السفلى في `app/globals.css`. */
+  inset-block-end: var(--chrome-bottom-base, 0px);
+  z-index: var(--z-sticky-bar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-block: 10px;
+  padding-inline: 14px;
+  padding-block-end: calc(10px + env(safe-area-inset-bottom));
+  border-block-start: 1px solid var(--sf-line);
+  background: color-mix(in srgb, var(--bg) 97%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (min-width: 900px) {
+  .mobileBar {
+    display: none;
+  }
+}
+
+.mobileMeta {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mobileCount {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mobileTotal {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--color-secondary-text);
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.mobileCurrency {
+  color: var(--sf-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mobileCheckout {
+  composes: btn btnPrimary btnLg from '@tahdheer/ui/controls.module.css';
+  flex: 1;
+}
+
+/* --------------------------------------------------------- narrow screens */
+
+@media (max-width: 899.98px) {
+  .summary {
+    position: static;
+    gap: 12px;
+  }
+
+  .line {
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .lineBody {
+    gap: 6px;
+  }
+
+  .thumb {
+    inline-size: 64px;
+    block-size: 64px;
+  }
+
+  .attrs {
+    gap: var(--space-1);
+  }
+
+  .attr {
+    padding-block: 2px;
+    padding-inline: 7px;
+    font-size: 9.5px;
+  }
+
+  .lineTitle {
+    font-size: 13.5px;
+  }
+
+  /* «كل هدف لمس 44px» — Tahdheer - Cart Responsive.dc.html. */
+  .lineTitle a {
+    min-block-size: 44px;
+  }
+
+  .controls {
+    gap: 7px;
+    padding-block-start: 7px;
+  }
+
+  .nowPrice {
+    font-size: 17px;
+  }
+}
+
+/* Reduced motion never hides content — only the chevron's tween is dropped. */
+@media (prefers-reduced-motion: reduce) {
+  .couponChev,
+  .includesChev,
+  .thumb {
+    transition: none;
+  }
+
+  /* الدوران يتوقّف؛ النصّ («جارٍ التحويل…» · «جارٍ تحميل السلة…») هو ما يحمل المعنى أصلًا. */
+  .loadingSpinner {
+    animation: none;
+  }
+}
+
+/* أزرار ‎36px‎ المرئيّة: الهدف يمتدّ رأسيًّا إلى ‎46px‎. */
+.includesToggle::before,
+.undoBtn::before,
+.couponRemove::before,
+.helpLink::before {
+  inset-block: -5px;
+}
+
+/* على الجوّال بعد الملخّص، بفاصل قسمٍ لا بفاصل بطاقة. */
+@media (max-width: 899.98px) {
+  .recentSlot {
+    margin-block-start: 32px;
+  }
+}

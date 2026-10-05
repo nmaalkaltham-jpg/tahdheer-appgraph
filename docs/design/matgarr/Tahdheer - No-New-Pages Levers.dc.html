@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+a{color:#1e7355;text-decoration:none}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,input:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes nlFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0"><defs>
+<symbol id="n6-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></symbol>
+<symbol id="n6-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="7"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></symbol>
+<symbol id="n6-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M9.5 14.5l5-5"></path><path d="M13 7l1.5-1.5a3.5 3.5 0 0 1 5 5L18 12"></path><path d="M11 17l-1.5 1.5a3.5 3.5 0 0 1-5-5L6 12"></path></symbol>
+<symbol id="n6-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v4h4"></path></symbol>
+<symbol id="n6-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 14h5l-1 7 8-11h-5z"></path></symbol>
+<symbol id="n6-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"></path></symbol>
+<symbol id="n6-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"></path></symbol>
+</defs></svg>
+
+<div dir="rtl" style="min-height:100vh">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<b style="font-size:13px">رافعات بلا صفحات — نتائج على الموجود فقط</b>
+<span style="padding:2px 9px;border-radius:6px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">صفر URLs جديدة</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="6">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main id="main" style="max-width:1200px;margin:0 auto;padding:18px 20px;display:flex;flex-direction:column;gap:13px">
+
+<sc-if value="{{ is.strike }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:nlFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal;display:flex;align-items:center;gap:9px"><svg aria-hidden="true" style="width:18px;height:18px;color:#146c4c"><use href="#n6-target"></use></svg>هجوم المسافة القريبة — مراكز ٤–١٠</h1>
+<span style="margin-inline-start:auto;padding:4px 12px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:10px;font-weight:900">{{ sk.doneN }} من {{ sk.total }} عولجت · +{{ sk.gain }} نقرة مقاسة</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ sk.rows }}" as="r" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px;animation:nlFade .25s ease">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="display:inline-grid;place-items:center;min-width:38px;height:30px;border-radius:9px;background:#14261d;color:#fff;font:900 12px Tajawal">#{{ r.pos }}</span>
+<b style="font-size:12.5px">«{{ r.kw }}»</b>
+<code dir="ltr" style="font-size:9px;color:#8b978f">{{ r.url }}</code>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#5f7167">{{ r.imp }} انطباع/شهر · النقرات الممكنة عند مركز ٣: <b style="color:#146c4c">+{{ r.pot }}</b></span>
+</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:9px;flex-wrap:wrap">
+<sc-for list="{{ r.steps }}" as="st" hint-placeholder-count="3">
+<button type="button" onClick="{{ st.onGo }}" aria-pressed="{{ st.done }}" style="display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1.5px solid {{ st.bd }};border-radius:9px;background:{{ st.bg }};color:{{ st.c }};font-size:10px;font-weight:900;cursor:pointer">
+<sc-if value="{{ st.done }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" style="width:10px;height:10px"><use href="#n6-check"></use></svg></sc-if>{{ st.n }}</button>
+</sc-for>
+<sc-if value="{{ r.complete }}" hint-placeholder-val="{{ false }}">
+<span style="margin-inline-start:auto;display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9.5px;font-weight:900"><svg aria-hidden="true" style="width:10px;height:10px"><use href="#n6-up"></use></svg>اكتمل — يُقاس بعد ٢٨ يومًا</span>
+</sc-if>
+</div>
+</section>
+</sc-for>
+</div>
+<div style="padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9;font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">لماذا الأعلى عائدًا؟</b> الطلب مثبت من GSC والصفحة شبه واصلة — تحسين ثلاثي (إجابة مباشرة + روابط داخلية + عنوان) يدفعها المراكز الأخيرة، والنتيجة تُقاس لا تُفترض.</div>
+</sc-if>
+
+<sc-if value="{{ is.reclaim }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 20px Tajawal;animation:nlFade .3s ease">استصلاح الروابط — قوة مجانية مستحقة</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900">روابط خلفية تشير لصفحات 404</h2>
+<span style="font-size:9.5px;color:#8b978f">وجّهها 301 لأقرب صفحة حية — ليس للرئيسية عشوائيًا</span>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ rl.dead }}" as="d" hint-placeholder-count="3">
+<div style="padding:10px 12px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:11px">{{ d.from }}</b><span style="font-size:9px;color:#8b978f">{{ d.auth }}</span><span style="margin-inline-start:auto;padding:2px 8px;border-radius:999px;background:#fce8e8;color:#b32d2e;font-size:8.5px;font-weight:900">404</span></div>
+<code dir="ltr" style="display:block;margin-top:4px;font-size:9px;color:#b32d2e">{{ d.url }}</code>
+<div style="display:flex;align-items:center;gap:7px;margin-top:6px;flex-wrap:wrap">
+<span style="font-size:9.5px;color:#5f7167">الوجهة المقترحة:</span><code dir="ltr" style="font-size:9px;color:#146c4c">{{ d.to }}</code>
+<button type="button" onClick="{{ d.onFix }}" disabled="{{ d.fixed }}" style="margin-inline-start:auto;min-height:30px;padding:0 12px;border:0;border-radius:8px;background:{{ d.btnBg }};color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">{{ d.btn }}</button>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900">ذِكر بلا رابط — أعلى قبول في بناء الروابط</h2>
+<span style="font-size:9.5px;color:#8b978f">ذكروا «تذكير» دون رابط — نصف العمل منجز، أرسل طلبًا مهذبًا</span>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ rl.ment }}" as="m" hint-placeholder-count="3">
+<div style="padding:10px 12px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:11px">{{ m.site }}</b><span style="font-size:9px;color:#8b978f">{{ m.ctx }}</span>
+<span style="margin-inline-start:auto;padding:2px 9px;border-radius:999px;background:{{ m.sbg }};color:{{ m.sc }};font-size:8.5px;font-weight:900">{{ m.st }}</span></div>
+<p style="margin:5px 0 0;font-size:10px;line-height:1.7;color:#5f7167">«…{{ m.quote }}…»</p>
+<sc-if value="{{ m.canAsk }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ m.onAsk }}" style="min-height:30px;margin-top:7px;padding:0 12px;border:0;border-radius:8px;background:#14261d;color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">أرسل طلب الربط (قالب جاهز)</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.onpage }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 20px Tajawal;animation:nlFade .3s ease">المحتوى في مكانه — تحديث · دمج · إجابة مباشرة</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 7px;font-size:13px;font-weight:900">طابور التحديث — نفس الرابط، محتوى حي</h2>
+<sc-for list="{{ op.refresh }}" as="r" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="flex:1;min-width:180px"><b style="font-size:11.5px">{{ r.t }}</b><span style="display:block;font-size:9.5px;color:#b32d2e">{{ r.decay }}</span></span>
+<span style="font-size:9px;color:#8b978f">{{ r.why }}</span>
+<button type="button" onClick="{{ r.onGo }}" style="min-height:30px;padding:0 12px;border:1px solid #cfe0d6;border-radius:8px;background:#f2f8f5;font-size:9.5px;font-weight:900;color:#146c4c;cursor:pointer">افتح خطة التحديث</button>
+</div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900">دمج المتنافسات ذاتيًا — أقل صفحات، ترتيب أعلى</h2>
+<sc-for list="{{ op.merge }}" as="m" hint-placeholder-count="2">
+<div style="padding:9px 12px;margin-top:7px;border:1px solid #eef1ef;border-radius:11px;background:#fbfcfb">
+<span style="font-size:10px;font-weight:900;color:#8a6500">تتناوبان على «{{ m.kw }}» — كلتاهما تخسر</span>
+<div style="display:flex;align-items:center;gap:7px;margin-top:5px;flex-wrap:wrap">
+<code dir="ltr" style="font-size:9px;color:#b32d2e;text-decoration:line-through">{{ m.loser }}</code>
+<span style="font-size:10px;color:#5f7167">→ 301 →</span>
+<code dir="ltr" style="font-size:9px;color:#146c4c">{{ m.winner }}</code>
+<button type="button" onClick="{{ m.onMerge }}" disabled="{{ m.done }}" style="margin-inline-start:auto;min-height:28px;padding:0 11px;border:0;border-radius:8px;background:{{ m.btnBg }};color:#fff;font-size:9px;font-weight:900;cursor:pointer">{{ m.btn }}</button>
+</div>
+</div>
+</sc-for>
+</section>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 4px;font-size:13px;font-weight:900">كتلة الإجابة المباشرة — للمقتطف المميز وAI</h2>
+<span style="font-size:9.5px;color:#8b978f">٤٠–٥٠ كلمة تجيب سؤال الصفحة نصًا، تُدرج أعلى الصفحات المُدرّة الموجودة</span>
+<div style="margin-top:10px;padding:12px 14px;border:1.5px solid #1e7355;border-radius:12px;background:#f6fbf8">
+<span style="font-size:9px;font-weight:900;color:#146c4c">معاينة — صفحة «ملازم المرحلة الثانوية»:</span>
+<p style="margin:5px 0 0;font-size:11.5px;line-height:2;color:#14261d">ملازم المرحلة الثانوية هي مذكرات شرح وتمارين محدثة لمنهج المسارات، من إعداد معلمين يدرّسون المقرر. تتوفر PDF فوريًا أو مطبوعة خلال ١–٣ أيام، ومع كل ملزمة نموذج مجاني تطّلع عليه قبل الشراء.</p>
+</div>
+<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px">
+<sc-for list="{{ op.answers }}" as="a" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:9px;background:#fbfcfb">
+<span style="flex:1;font-size:10.5px;font-weight:800;color:#3d4f45">{{ a.p }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ a.sbg }};color:{{ a.sc }};font-size:8.5px;font-weight:900">{{ a.st }}</span>
+<sc-if value="{{ a.canAdd }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ a.onAdd }}" style="min-height:28px;padding:0 11px;border:0;border-radius:8px;background:#1e7355;color:#fff;font-size:9px;font-weight:900;cursor:pointer">أدرج الكتلة</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.schema }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 20px Tajawal;animation:nlFade .3s ease">إغناء Schema الموجود — مقتطف أعرض = CTR أعلى</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:15px 18px">
+<span style="padding:3px 10px;border-radius:999px;background:#f2f4f2;color:#5f7167;font-size:9px;font-weight:900">قبل — Product أساسي</span>
+<div style="margin-top:9px;padding:12px 14px;border:1px solid #e6e9e6;border-radius:12px;background:#fbfcfb">
+<span dir="ltr" style="display:block;font-size:9.5px;color:#147d45;text-align:start">tahdheer.sa › product › math-101</span>
+<span style="display:block;margin-top:2px;font-size:13px;font-weight:800;color:#1a0dab">مذكرة رياضيات أول ثانوي — ١٤٦ مسألة محلولة | تذكير</span>
+<span style="display:block;margin-top:2px;font-size:10px;color:#4d5156">★★★★★ ٤٫٨ (٩٦) · ‏٤٥٫٠٠ ر.س · متوفر</span>
+</div>
+</section>
+<section style="border:1px solid #1e7355;border-radius:15px;background:#fff;padding:15px 18px">
+<span style="padding:3px 10px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9px;font-weight:900">بعد — + شحن وإرجاع ومتغيرات</span>
+<div style="margin-top:9px;padding:12px 14px;border:1px solid #cfe0d6;border-radius:12px;background:#f6fbf8">
+<span dir="ltr" style="display:block;font-size:9.5px;color:#147d45;text-align:start">tahdheer.sa › product › math-101</span>
+<span style="display:block;margin-top:2px;font-size:13px;font-weight:800;color:#1a0dab">مذكرة رياضيات أول ثانوي — ١٤٦ مسألة محلولة | تذكير</span>
+<span style="display:block;margin-top:2px;font-size:10px;color:#4d5156">★★★★★ ٤٫٨ (٩٦) · ‏٤٥٫٠٠ ر.س · متوفر · <b style="color:#147d45">شحن ١–٣ أيام</b> · <b style="color:#147d45">إرجاع ١٤ يومًا</b></span>
+<span style="display:block;margin-top:2px;font-size:9.5px;color:#4d5156">نسخ: PDF ٤٥ ر.س · مطبوعة ٦٠ ر.س · حزمة ٨٥ ر.س</span>
+</div>
+</section>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 7px;font-size:12.5px;font-weight:900">دفعات الإغناء — على المنتجات الموجودة</h2>
+<sc-for list="{{ sc.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<code dir="ltr" style="flex:0 0 190px;font-size:9.5px;color:#6b3fa0">{{ r.k }}</code>
+<span style="flex:1;font-size:10.5px;color:#5f7167">{{ r.d }}</span>
+<span style="font-size:9.5px;font-weight:900;color:#146c4c">{{ r.cov }}</span>
+<button type="button" onClick="{{ r.onGo }}" disabled="{{ r.done }}" style="min-height:30px;padding:0 12px;border:0;border-radius:8px;background:{{ r.btnBg }};color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">{{ r.btn }}</button>
+</div>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;color:#a9b4ad">القاعدة الثابتة: القيمة تُضاف للثلاثة معًا (المرئي = Schema = Feed) أو لا تُضاف.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.infra }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 20px Tajawal;animation:nlFade .3s ease">البنية — سرعة لكل الصفحات وزحف بلا هدر</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:7px"><svg aria-hidden="true" style="width:15px;height:15px;color:#146c4c"><use href="#n6-bolt"></use></svg>CWV موقعًا كاملًا</h2>
+<sc-for list="{{ inf.cwv }}" as="c" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="flex:1;min-width:170px"><b style="font-size:11px">{{ c.t }}</b><span style="display:block;font-size:9px;color:#8b978f">{{ c.d }}</span></span>
+<span style="font-size:10px;font-weight:900;color:{{ c.mc }}">{{ c.m }}</span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ c.sbg }};color:{{ c.sc }};font-size:8.5px;font-weight:900">{{ c.st }}</span>
+</div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900">تجفيف هدر الزحف</h2>
+<div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:11px;background:#fdf6f6;border:1px solid #f0d3d3">
+<span style="flex:1;font-size:11px;font-weight:800;color:#8e2223">٣٨٪ من الزحف يُهدر على روابط معاملات ونفايات</span>
+<b style="font:900 15px Tajawal;color:#b32d2e">١٢٬٤٠٠ URL</b>
+</div>
+<sc-for list="{{ inf.crawl }}" as="c" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<code dir="ltr" style="flex:0 0 140px;font-size:9px;color:#8b978f">{{ c.pat }}</code>
+<span style="flex:1;font-size:10px;color:#5f7167">{{ c.fix }}</span>
+<span style="font-size:9.5px;color:#8b978f">{{ c.n }} URL</span>
+<button type="button" onClick="{{ c.onGo }}" disabled="{{ c.done }}" style="min-height:28px;padding:0 11px;border:0;border-radius:8px;background:{{ c.btnBg }};color:#fff;font-size:9px;font-weight:900;cursor:pointer">{{ c.btn }}</button>
+</div>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;color:#a9b4ad">robots/canonical عالي الخطورة — كل تطبيق يمر ببوابة موافقة Analytics Pro OS مع Dry Run وتراجع.</p>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.ilinks }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;animation:nlFade .3s ease">
+<h1 style="margin:0;font:900 20px Tajawal;display:flex;align-items:center;gap:9px"><svg aria-hidden="true" style="width:18px;height:18px;color:#146c4c"><use href="#n6-link"></use></svg>إعادة توزيع القوة الداخلية</h1>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#8b978f">من أقوى صفحاتك نحو صفحات المسافة القريبة — بنص مرساة وصفي</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ il.rows }}" as="r" hint-placeholder-count="4">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="padding:4px 11px;border-radius:9px;background:#14261d;color:#fff;font-size:10px;font-weight:900">{{ r.from }}</span>
+<span aria-hidden="true" style="color:#8b978f">←</span>
+<span style="padding:4px 11px;border-radius:9px;background:#f2f8f5;border:1px solid #cfe0d6;color:#146c4c;font-size:10px;font-weight:900">{{ r.to }}</span>
+<span style="margin-inline-start:auto;font-size:9.5px;color:#5f7167">قوة المصدر: {{ r.auth }} · الهدف بمركز {{ r.pos }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+<span style="font-size:10px;color:#5f7167">نص المرساة المقترح: <b style="color:#14261d">«{{ r.anchor }}»</b> — في {{ r.place }}</span>
+<button type="button" onClick="{{ r.onApply }}" disabled="{{ r.done }}" style="margin-inline-start:auto;min-height:30px;padding:0 13px;border:0;border-radius:8px;background:{{ r.btnBg }};color:#fff;font-size:9.5px;font-weight:900;cursor:pointer">{{ r.btn }}</button>
+</div>
+</section>
+</sc-for>
+</div>
+<div style="padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9;font-size:10px;line-height:1.7;color:#5f7167"><b style="color:#146c4c">حواجز الأمان:</b> حد أقصى ٣ روابط مضافة لكل صفحة مصدر، لا تكرار لنفس نص المرساة موقعًا كاملًا (تنويع طبيعي)، وكل إضافة قابلة للتراجع من سجل التدقيق.</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:nlFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;strike&quot;,&quot;reclaim&quot;,&quot;onpage&quot;,&quot;schema&quot;,&quot;infra&quot;,&quot;ilinks&quot;],&quot;default&quot;:&quot;strike&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+state={scr:'strike',steps:{},fixed:{},asked:{},merged:{},ans:{},sch:{},crawl:{},links:{},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3200));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+mark(key,id,msg){ const o=Object.assign({},this.state[key]); o[id]=1; const s={}; s[key]=o; this.setState(s); this.toast(msg); }
+renderVals(){
+ const st=this.state;
+ const SC=[['strike','المسافة القريبة'],['reclaim','استصلاح الروابط'],['onpage','المحتوى في مكانه'],['schema','إغناء Schema'],['infra','السرعة والزحف'],['ilinks','الروابط الداخلية']];
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{strike:st.scr==='strike',reclaim:st.scr==='reclaim',onpage:st.scr==='onpage',schema:st.scr==='schema',infra:st.scr==='infra',ilinks:st.scr==='ilinks',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ const KW=[
+  {id:1,kw:'ملزمة رياضيات اول ثانوي',pos:'٤',url:'/product/math-101',imp:'٨٬٤٠٠',pot:'٢٦٠'},
+  {id:2,kw:'حزمة مراجعة ثالث ثانوي',pos:'٦',url:'/bundles/review',imp:'٥٬١٠٠',pot:'٢١٠'},
+  {id:3,kw:'اختبارات فيزياء محلولة',pos:'٨',url:'/product/physics-tests',imp:'٣٬٦٠٠',pot:'١٤٠'},
+  {id:4,kw:'جدول مذاكرة نهائي',pos:'٩',url:'/blog/study-plan',imp:'٦٬٢٠٠',pot:'١٩٠'}
+ ];
+ const STEPS=['كتلة إجابة مباشرة','٣ روابط داخلية إليها','عنوان بصيغة الفائز A/B'];
+ base.sk={total:'١٤',doneN:this.ar(Object.keys(st.steps).filter(k=>st.steps[k]).length),gain:'٤٣٠',
+  rows:KW.map(k=>{
+   const done=[0,1,2].map(i=>!!st.steps[k.id+'-'+i]);
+   return {kw:k.kw,pos:k.pos,url:k.url,imp:k.imp,pot:k.pot,complete:done.every(Boolean),
+    steps:STEPS.map((n,i)=>({n:n,done:done[i],
+     bd:done[i]?'#1e7355':'#dce2dd',bg:done[i]?'#f2f8f5':'#fff',c:done[i]?'#146c4c':'#3d4f45',
+     onGo:()=>this.mark('steps',k.id+'-'+i,done[i]?'مطبق مسبقًا':'طُبق «'+n+'» على '+k.url+' — داخل المسودة، وينشر عبر التدفق الآمن')}))};
+  })};
+ base.rl={
+  dead:[
+   {id:1,from:'منتدى أولياء الأمور',auth:'قوة عالية',url:'/old-math-notes-2023',to:'/product/math-101'},
+   {id:2,from:'مدونة معلمين',auth:'متوسطة',url:'/summer-course',to:'/blog/study-plan'},
+   {id:3,from:'دليل مواقع تعليمي',auth:'متوسطة',url:'/free-samples-old',to:'/downloads/samples'}
+  ].map(d=>({from:d.from,auth:d.auth,url:d.url,to:d.to,fixed:!!st.fixed[d.id],
+   btn:st.fixed[d.id]?'وُجّه ✓':'طبّق 301',btnBg:st.fixed[d.id]?'#8fae9e':'#1e7355',
+   onFix:()=>this.mark('fixed',d.id,'وُجّه 301 → '+d.to+' — القوة الخلفية تتدفق من جديد، ويُتحقق بالزحف')})),
+  ment:[
+   {id:1,site:'صحيفة تعليمية',ctx:'مقال عن الملازم',quote:'منصات مثل تذكير تقدم نماذج مجانية قبل الشراء',st0:'لم يُطلب'},
+   {id:2,site:'بودكاست أولياء',ctx:'وصف حلقة',quote:'ناقشنا تقرير تذكير السنوي عن عادات المذاكرة',st0:'لم يُطلب'},
+   {id:3,site:'حساب تعليمي كبير',ctx:'منشور',quote:'جدول تذكير للمراجعة ممتاز للطباعة',st0:'لم يُطلب'}
+  ].map(m=>({site:m.site,ctx:m.ctx,quote:m.quote,
+   canAsk:!st.asked[m.id],st:st.asked[m.id]?'أُرسل الطلب':'لم يُطلب',
+   sbg:st.asked[m.id]?'#e4f4ec':'#fff4d6',sc:st.asked[m.id]?'#146c4c':'#8a6500',
+   onAsk:()=>this.mark('asked',m.id,'أُرسل طلب مهذب لـ'+m.site+' — قالب يشكر الذكر ويقترح الرابط الأنسب')}))};
+ base.op={
+  refresh:[
+   {t:'خطة مراجعة ٤ أسابيع',decay:'نقرات ↓٤١٪ في ٩٠ يومًا',why:'منافس حدّث محتواه'},
+   {t:'كيف تختار الملزمة؟',decay:'انطباعات ↓٢٢٪',why:'أمثلة العام الماضي'}
+  ].map(r=>Object.assign(r,{onGo:()=>this.toast('خطة تحديث «'+r.t+'»: أرقام جديدة + مثال منهج ١٤٤٨ + تاريخ مراجعة حقيقي — نفس الرابط')})),
+  merge:[
+   {id:1,kw:'ملازم ثالث ثانوي',loser:'/blog/best-g12-notes',winner:'/grade/12'},
+   {id:2,kw:'جدول اختبارات الفصل',loser:'/blog/exam-dates-old',winner:'/exams-calendar'}
+  ].map(m=>({kw:m.kw,loser:m.loser,winner:m.winner,done:!!st.merged[m.id],
+   btn:st.merged[m.id]?'دُمجت ✓':'ادمج بـ 301',btnBg:st.merged[m.id]?'#8fae9e':'#8a6500',
+   onMerge:()=>this.mark('merged',m.id,'دُمجت: نقل أفضل الفقرات للفائزة ثم 301 — عالي الخطورة، مرّ ببوابة الموافقة')})),
+  answers:[
+   {id:1,p:'ملازم المرحلة الثانوية',st0:1},
+   {id:2,p:'صفحة حزمة المراجعة',st0:0},
+   {id:3,p:'صفحة المتجر الرئيسية',st0:0},
+   {id:4,p:'مقال اختيار الملزمة',st0:1}
+  ].map(a=>{const added=a.st0||st.ans[a.id];return {p:a.p,canAdd:!added,
+   st:added?'مُدرجة ✓':'بلا كتلة',sbg:added?'#e4f4ec':'#fff4d6',sc:added?'#146c4c':'#8a6500',
+   onAdd:()=>this.mark('ans',a.id,'أُدرجت كتلة الإجابة أعلى «'+a.p+'» — ٤٥ كلمة تجيب نصًا')};})};
+ base.sc={rows:[
+  {id:1,k:'shippingDetails',d:'مدة وتكلفة الشحن تظهر في المقتطف',cov:'٠ → ٢١٤ منتجًا',d0:0},
+  {id:2,k:'hasMerchantReturnPolicy',d:'«إرجاع ١٤ يومًا» بجانب السعر',cov:'٠ → ٢١٤',d0:0},
+  {id:3,k:'ProductGroup + isVariantOf',d:'النسخ الثلاث تُفهم ككيان واحد',cov:'٠ → ٤٨ منتجًا متغيرًا',d0:0},
+  {id:4,k:'aggregateRating (موثق)',d:'نجوم من مشتريات حقيقية فقط',cov:'١٨٧ → ٢١٤',d0:1}
+ ].map(r=>{const done=r.d0||st.sch[r.id];return {k:r.k,d:r.d,cov:r.cov,done:done,
+  btn:done?'مطبق ✓':'طبّق الدفعة',btnBg:done?'#8fae9e':'#1e7355',
+  onGo:()=>this.mark('sch',r.id,'طُبقت دفعة '+r.k+' — القيم من بيانات WooCommerce الفعلية، والمرئي=Schema=Feed')};})};
+ base.inf={
+  cwv:[
+   {t:'preload لصورة LCP + fetchpriority',d:'صفحات المنتج والبطل',m:'LCP ٣٫١ث → ٢٫٢ث',mc:'#146c4c',st:'مطبق',sbg:'#e4f4ec',sc:'#146c4c'},
+   {t:'Tajawal بـ font-display:swap + subset',d:'وزنان بدل خمسة أوزان',m:'−٢٨٠ م.ث حجب',mc:'#146c4c',st:'مطبق',sbg:'#e4f4ec',sc:'#146c4c'},
+   {t:'كاش الحافة للصفحات العامة',d:'TTFB من مركز البيانات الأقرب',m:'TTFB ٦٤٠ → ١٩٠ م.ث',mc:'#146c4c',st:'مطبق',sbg:'#e4f4ec',sc:'#146c4c'},
+   {t:'تأجيل سكربت الدردشة',d:'يُحمَّل بعد التفاعل الأول',m:'INP ↓٤٠ م.ث متوقع',mc:'#8a6500',st:'بانتظار موافقة',sbg:'#fff4d6',sc:'#8a6500'},
+   {t:'أبعاد محجوزة لكل الصور',d:'width/height أو aspect-ratio',m:'CLS ٠٫١٤ → ٠٫٠٣',mc:'#146c4c',st:'مطبق',sbg:'#e4f4ec',sc:'#146c4c'}
+  ],
+  crawl:[
+   {id:1,pat:'?orderby= · ?filter_*',fix:'canonical للأم + منع بالـ robots',n:'٧٬٩٠٠'},
+   {id:2,pat:'redirect chains ×٣+',fix:'تسوية لقفزة واحدة',n:'٤١'},
+   {id:3,pat:'?add-to-cart=',fix:'nofollow + منع زحف',n:'٣٬١٠٠'},
+   {id:4,pat:'sitemap: روابط 404/redirect',fix:'تنظيف الخريطة آليًا',n:'٢٣'}
+  ].map(c=>({pat:c.pat,fix:c.fix,n:c.n,done:!!st.crawl[c.id],
+   btn:st.crawl[c.id]?'جُفف ✓':'طبّق',btnBg:st.crawl[c.id]?'#8fae9e':'#8a6500',
+   onGo:()=>this.mark('crawl',c.id,'طُبق تجفيف «'+c.pat+'» — عبر بوابة موافقة (robots عالي الخطورة) مع Dry Run')}))};
+ base.il={rows:[
+  {id:1,from:'الرئيسية',to:'/product/math-101',auth:'أعلى صفحة',pos:'٤',anchor:'مذكرة الرياضيات لأول ثانوي بمسائلها المحلولة',place:'قسم الأكثر مبيعًا'},
+  {id:2,from:'الأكثر مبيعًا',to:'/bundles/review',auth:'قوية',pos:'٦',anchor:'حزمة المراجعة الشاملة لثالث ثانوي',place:'فقرة التوفير'},
+  {id:3,from:'مقال خطة المراجعة',to:'/product/physics-tests',auth:'قوية موضوعيًا',pos:'٨',anchor:'اختبارات الفيزياء المحلولة بنمط الأسئلة',place:'خطوة الأسبوع الثالث'},
+  {id:4,from:'صفحة أول ثانوي',to:'/blog/study-plan',auth:'متوسطة',pos:'٩',anchor:'جدول مذاكرة الأسابيع الأربعة',place:'صندوق الدليل'}
+ ].map(r=>({from:r.from,to:r.to,auth:r.auth,pos:r.pos,anchor:r.anchor,place:r.place,done:!!st.links[r.id],
+  btn:st.links[r.id]?'أُضيف ✓':'أضف الرابط',btnBg:st.links[r.id]?'#8fae9e':'#1e7355',
+  onApply:()=>this.mark('links',r.id,'أُضيف الرابط من «'+r.from+'» — ضمن حد ٣ روابط للمصدر وبمرساة غير مكررة')}))};
+ return base;
+}
+}
+</script>
+</body>
+</html>

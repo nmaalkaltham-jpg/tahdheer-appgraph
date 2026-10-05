@@ -1,0 +1,144 @@
+/*
+UNIT: FAQLIST
+COMPONENT: FaqList.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * لغة التصميم — شريط «قبل الشراء» في Storefront Product.dc.html حرفيًّا:
+ * بطاقة بيضاء بحدّ ‎--sf-line‎ ونصف قطر 14، سؤال 16/800 بارتفاع 56، سهم
+ * تركوازي 18px يدور 180°، وجواب بلون النصّ 1.85 وعرض 70ch.
+ * خصائص منطقية فقط — المتجر عربي ويجب أن ينعكس بلا نسخة ثانية.
+ */
+.section {
+  margin-block-start: var(--space-6, 32px);
+  color: var(--sf-ink, var(--ink));
+}
+
+.title {
+  margin-block: 0 var(--space-4, 16px);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink, var(--ink));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  border: 1px solid var(--sf-line, var(--border));
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  transition: border-color var(--dur-hover) var(--ease-out);
+  /* الحشو الأفقي على البطاقة: السؤال والجواب يتحاذيان على حافّةٍ واحدة. */
+  padding-inline: 18px;
+}
+
+/*
+ * الحشو على الملخّص لا البطاقة: الملخّص وحده هو ما يطوي ويفتح، فهو وحده هدف
+ * اللمس (عرف الأكورديون C108).
+ */
+@media (hover: hover) {
+  .item:hover {
+    border-color: var(--sf-control);
+  }
+}
+
+.item[open] {
+  border-color: var(--sf-control);
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 15px;
+  padding-inline: 0;
+  min-block-size: 56px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink, var(--ink));
+  text-align: start;
+  /* علامة المتصفّح تُستبدل بسهمٍ مرسوم: شكلها يختلف بين محرّكَين ولا تدور. */
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+/*
+ * السهم: قناع SVG بلون التركواز — متناظرٌ أفقيًّا فيظهر نفسه في RTL وLTR،
+ * و18px هي علبة الأيقونة في التصميم.
+ */
+.question::after {
+  content: '';
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--teal-600);
+  -webkit-mask: var(--ct-chevron-mask) center / contain no-repeat;
+  mask: var(--ct-chevron-mask) center / contain no-repeat;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.item[open] .question::after {
+  transform: rotate(180deg);
+}
+
+.question:focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+.item .answer {
+  margin: 0;
+  padding-block: 0 16px;
+  padding-inline: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--sf-body, var(--text-secondary));
+}
+
+/* فتح البند: الجواب يظهر بانزلاقٍ قصير — إجابةٌ لفعل المستخدم وحده. */
+@media (prefers-reduced-motion: no-preference) {
+  .item[open] > :not(summary) {
+    animation: faqReveal var(--dur-reveal) var(--ease-out);
+  }
+}
+
+@keyframes faqReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question::after,
+  .item {
+    transition: none;
+  }
+}
+
+/* تحت تقليل الحركة: لا انزلاق، والمحتوى ظاهرٌ فورًا. */
+@media (prefers-reduced-motion: reduce) {
+  .item[open] > :not(summary) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

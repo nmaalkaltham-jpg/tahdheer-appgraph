@@ -1,0 +1,389 @@
+/*
+ * صفحات السياسات — لغة تصميم المتجر: نثر بعرض 70ch وحبر ‎--sf-ink‎، عناوين
+ * 22/800 بإيقاع 40px، جداول كبطاقات بحدّ ‎--sf-line‎، وقائمة سياسات جانبيّة
+ * كبطاقة بيضاء بنشاطٍ تركوازي. القرارات المعلّقة ‎[[ ]]‎ مظلَّلة بالرملي.
+ * Tokens only, logical properties only, mobile-first.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  .h2 {
+    font-size: 22px;
+  }
+
+  }
+
+/* -------------------------------------------------------------------- grid */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-block-start: 20px;
+}
+
+.article {
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ header */
+.meta {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: var(--sf-faint);
+}
+
+/* ------------------------------------------------------------- summary box */
+/* تنبيه المسوّدة: ثلاثيّة التحذير كاملة — لا شريط حافّةٍ جانبيّ. */
+.summary {
+  composes: notice noticeWarning from '@tahdheer/ui/controls.module.css';
+  display: block;
+  margin-block-end: 32px;
+  padding: 16px;
+  max-inline-size: 70ch;
+}
+
+.summaryTitle {
+  display: block;
+  margin-block-end: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.summaryBody {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-ink-2);
+}
+
+.summaryCount {
+  color: var(--sf-ink);
+}
+
+.summaryBody a {
+  color: var(--teal-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.summaryBody a:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------- content */
+.h2 {
+  margin: 40px 0 12px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.summary + section .h2,
+.article > section:first-of-type .h2 {
+  margin-block-start: 8px;
+}
+
+.para {
+  margin: 0 0 14px;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--sf-body);
+}
+
+.para strong,
+.list strong {
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+.list {
+  margin: 0 0 16px;
+  padding-inline-start: 22px;
+  max-inline-size: 70ch;
+}
+
+.list li {
+  margin-block-end: 6px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--sf-body);
+}
+
+.list li::marker {
+  color: var(--teal-600);
+}
+
+.code {
+  padding-inline: 6px;
+  border-radius: var(--r-xs);
+  background: var(--sf-chip);
+  color: var(--sf-ink);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* ------------------------------------------ unresolved owner decision mark */
+.pending {
+  padding-inline: 4px;
+  border-radius: var(--r-xs);
+  background: var(--st-warning-bg);
+  color: var(--st-warning-fg);
+  font-weight: 700;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.ownerNote {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  max-inline-size: 70ch;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-md);
+  background: var(--sf-cool);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--sf-muted);
+}
+
+/* ------------------------------------------------------------------ tables */
+.tableWrap {
+  margin: 0 0 16px;
+  max-inline-size: 70ch;
+  overflow-x: auto;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: start;
+}
+
+.table th,
+.table td {
+  padding: 12px 14px;
+  text-align: start;
+  vertical-align: top;
+  line-height: 1.7;
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.table thead th {
+  border-block-start: 0;
+  background: var(--sf-cool);
+  color: var(--sf-ink);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.table td {
+  color: var(--sf-body);
+}
+
+.table strong {
+  color: var(--sf-ink);
+  font-weight: 800;
+}
+
+/* -------------------------------------------------- policy switcher (rail) */
+.rail {
+  composes: card from '@tahdheer/ui/controls.module.css';
+  min-inline-size: 0;
+  padding: 16px;
+}
+
+.railTitle {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+.railList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.railLink,
+.railLinkActive {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .railLink,
+  .railLinkActive {
+    transition: none;
+  }
+}
+
+.railLink {
+  font-weight: 700;
+  color: var(--sf-ink-2);
+}
+
+@media (hover: hover) {
+  .railLink:hover {
+    background: var(--sf-cool);
+    color: var(--sf-ink);
+  }
+}
+
+.railLinkActive {
+  background: var(--st-success-bg);
+  color: var(--st-success-fg);
+  font-weight: 800;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ----------------------------------------------------------------- desktop */
+@media (min-width: 900px) {
+  /* عمود النصّ بقدر سطره (‎70ch‎) لا بعرض الصفحة: كان يترك ‎~400px‎ فارغةً بين
+     آخر السطر والقائمة الجانبيّة؛ الآن تلي القائمة النصّ، والفسحة طرفُ الصفحة. */
+  .grid {
+    grid-template-columns: minmax(0, 72ch) 260px;
+    justify-content: start;
+    gap: 48px;
+  }
+
+  .rail {
+    position: sticky;
+    inset-block-start: 16px;
+  }
+}

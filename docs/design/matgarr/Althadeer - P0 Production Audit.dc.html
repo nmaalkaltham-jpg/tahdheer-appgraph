@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+@keyframes p0Fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1220px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">التحاضير الحديثة — وثيقة P0: الجرد والقرار قبل أي سطر إنتاجي</b>
+<span style="padding:2px 10px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900">كل ملفات ‎.dc.html مرجع تصميمي فقط — ليست إنتاجًا</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+</div>
+</div>
+
+<main style="max-width:1220px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.inv }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:p0Fade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">الخطوة ١ — جرد المستودع بوسم الدليل</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">لا ادعاء فحص لما لم يُفحص — ثلاث درجات دليل معلنة</span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<span style="padding:4px 12px;border-radius:999px;background:#e4f4ec;color:#146c4c;font-size:9.5px;font-weight:900">✓ فُحص مباشرة في الجلسة</span>
+<span style="padding:4px 12px;border-radius:999px;background:#e8f2fc;color:#1d5f9c;font-size:9.5px;font-weight:900">◆ مُعلن في وثيقة المالك</span>
+<span style="padding:4px 12px;border-radius:999px;background:#fff4d6;color:#8a6500;font-size:9.5px;font-weight:900">؟ يتطلب إعادة ربط المجلد</span>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:760px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:9px 16px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">النظام</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الموجود فعلًا</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الدليل</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">الحالة</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ inv }}" as="r" hint-placeholder-count="12">
+<tr>
+<th scope="row" style="padding:8px 16px;text-align:start;font-size:11px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ r.n }}</th>
+<td style="padding:8px 10px;border-top:1px solid #f4f6f4;font-size:10px;line-height:1.7;color:#3d4f45">{{ r.d }}</td>
+<td style="padding:8px 10px;border-top:1px solid #f4f6f4"><span style="padding:2px 9px;border-radius:999px;background:{{ r.eBg }};color:{{ r.eC }};font-size:8.5px;font-weight:900">{{ r.ev }}</span></td>
+<td style="padding:8px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;font-weight:900;color:{{ r.sC }}">{{ r.st }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+<div style="padding:10px 14px;border:1px dashed #cfe0d6;border-radius:12px;background:#f8fbf9;font-size:10px;line-height:1.75;color:#5f7167"><b style="color:#146c4c">ملفات فُحصت مباشرة أول الجلسة:</b> inc/menu-map.php (٧٠٥ سطرًا) · inc/menu-locations.php (٤١٩) · inc/menu-location-placements.php (٤٦٤) · assets/css/admin-menu-map.css (٣٥٦) · assets/admin/analytics/ + seo/ · مجلد AI-Library — <b style="color:#8a6500">اتصال المجلد انقطع؛ أعد ربطه من النموذج أدناه لإكمال الجرد الحي.</b></div>
+</sc-if>
+
+<sc-if value="{{ is.mx }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:p0Fade .25s ease">الخطوة ٢ — مصفوفة القرارات</h1>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ mx }}" as="r" hint-placeholder-count="10">
+<section style="display:flex;align-items:center;gap:10px;border:1px solid #dce2dd;border-inline-start:4px solid {{ r.c }};border-radius:12px;background:#fff;padding:10px 15px;flex-wrap:wrap">
+<span style="padding:3px 11px;border-radius:999px;background:{{ r.dBg }};color:{{ r.dC }};font-size:9px;font-weight:900;flex:0 0 auto">{{ r.dec }}</span>
+<b style="flex:0 0 200px;font-size:11.5px">{{ r.n }}</b>
+<span style="flex:1;min-width:260px;font-size:10px;line-height:1.7;color:#5f7167">{{ r.why }}</span>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.arch }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:p0Fade .25s ease">الخطوة ٣–٤ — خريطة الملكية وكشف المكررات</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">مالك واحد لكل شيء — غير قابل للتفاوض</b>
+<sc-for list="{{ own }}" as="o" hint-placeholder-count="8">
+<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-top:1px dashed #f1f4f2"><span style="flex:0 0 150px;font-size:10.5px;font-weight:800;color:#5f7167">{{ o.k }}</span><b style="font-size:10.5px;color:#146c4c">{{ o.v }}</b></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<b style="font-size:12px">مكررات مرشحة للدمج — لا حذف قبل التحقق والترحيل</b>
+<sc-for list="{{ dup }}" as="d" hint-placeholder-count="5">
+<div style="padding:8px 0;border-top:1px dashed #f1f4f2">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="font-size:10.5px">{{ d.n }}</b><span style="margin-inline-start:auto;padding:1px 8px;border-radius:999px;background:{{ d.eBg }};color:{{ d.eC }};font-size:8px;font-weight:900">{{ d.ev }}</span></div>
+<span style="display:block;margin-top:2px;font-size:9.5px;line-height:1.7;color:#5f7167">{{ d.plan }}</span>
+</div>
+</sc-for>
+</section>
+</div>
+<section style="border:1px solid #f0d3d3;border-radius:14px;background:#fdf7f7;padding:12px 16px">
+<b style="font-size:11.5px;color:#8e2223">تصحيح العلامة:</b>
+<span style="font-size:10.5px;line-height:1.8;color:#5f4a4a"> «تذكير» اسم تجريبي في النماذج فقط — الإنتاج «التحاضير الحديثة» حصرًا. بوابة CI الجديدة: عدّ «تذكير» في قوالب الإنتاج والبريد والـ Schema = صفر، والنماذج المرجعية تبقى كما هي خارج الإنتاج.</span>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.plan }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:p0Fade .25s ease">الخطوة ٥–٧ — خطة ملفات P1 والتراجع والبوابات</h1>
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:auto">
+<table style="width:100%;border-collapse:collapse;min-width:720px">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:9px 16px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">مرحلة P1 (بالترتيب الصارم)</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">يُعدَّل / يُنشأ</th>
+<th style="padding:9px 10px;text-align:start;font-size:10px;font-weight:900;color:#5f7167">التراجع</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ plan }}" as="p" hint-placeholder-count="6">
+<tr>
+<th scope="row" style="padding:8px 16px;text-align:start;font-size:11px;font-weight:800;background:#fbfcfb;border-top:1px solid #f4f6f4">{{ p.n }}</th>
+<td style="padding:8px 10px;border-top:1px solid #f4f6f4"><code dir="ltr" style="font-size:9px;line-height:1.8;color:#3d4f45;display:block;text-align:start;white-space:pre-wrap">{{ p.files }}</code></td>
+<td style="padding:8px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;line-height:1.7;color:#5f7167">{{ p.rb }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+<section style="border:1px solid #1e7355;border-radius:14px;background:linear-gradient(170deg,#f4faf6,#fff 55%);padding:12px 16px">
+<b style="font-size:11.5px">بوابات قبول P1 — لا انتقال لـ P2 قبلها</b>
+<sc-for list="{{ gates }}" as="g" hint-placeholder-count="8">
+<span style="display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:10px;line-height:1.7;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ g }}</span>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 16px">
+<b style="font-size:11.5px">النماذج ← الإنتاج: علاقة مرجع لا نسخ</b>
+<sc-for list="{{ mock }}" as="m" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #f1f4f2"><span style="flex:1;font-size:10px;color:#3d4f45">{{ m.n }}</span><span style="font-size:9px;font-weight:900;color:#146c4c">{{ m.to }}</span></div>
+</sc-for>
+<span style="display:block;margin-top:7px;font-size:9px;color:#a9b4ad">بياناتها التوضيحية لا تُنسخ حرفًا واحدًا — القيم من WooCommerce وحده.</span>
+</section>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:880},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;inv&quot;,&quot;mx&quot;,&quot;arch&quot;,&quot;plan&quot;],&quot;default&quot;:&quot;inv&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+state={scr:'inv'};
+renderVals(){
+ const st=this.state;
+ const SC=[['inv','الجرد والأدلة'],['mx','مصفوفة القرارات'],['arch','الملكية والمكررات'],['plan','خطة P1 والبوابات']];
+ const E={d:['✓ فُحص مباشرة','#e4f4ec','#146c4c'],o:['◆ وثيقة المالك','#e8f2fc','#1d5f9c'],q:['؟ عند إعادة الربط','#fff4d6','#8a6500']};
+ const row=(n,d,ev,st2,sC)=>({n:n,d:d,ev:E[ev][0],eBg:E[ev][1],eC:E[ev][2],st:st2,sC:sC||'#146c4c'});
+ return {
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  is:{inv:st.scr==='inv',mx:st.scr==='mx',arch:st.scr==='arch',plan:st.scr==='plan'},
+  inv:[
+   row('نظام القوائم الإداري','menu-map/locations/placements — ناضج بثمانية مواقع مسجلة','d','قوي — يُبنى عليه'),
+   row('أصول إدارة Analytics/SEO','assets/admin/analytics + seo موجودة (analytics-pro.css، image-optimizer.js)','d','قائم — يُدقق عمقه','#8a6500'),
+   row('محرك البحث العربي','تطبيع + مرادفات + ذكاء نتائج','o','قوي — لا يُستبدل'),
+   row('Rank Math','مالك العناوين/canonical/robots/Schema','o','المالك — لا منافس'),
+   row('بوابة Tap','مثبتة بمساراتها','o','المرجع — تدقيق callbacks'),
+   row('OTP + tahdheer_phone_e164','موجود وبه عيب تخزين معلن','o','إصلاح قبل أي SMS','#b32d2e'),
+   row('مصفوفة المناهج + بوابة الجودة','هندسة هبوط قائمة','o','تُحمى كما هي'),
+   row('llms.txt + نظام الثقة/الخصوصية','معلنة ضمن الأنظمة الناضجة','o','تُحفظ'),
+   row('ثلاثة محركات Sitemap','تكرار معلن يحتاج توحيدًا','o','دمج تدريجي','#8a6500'),
+   row('تصنيفان تعليميان متوازيان','ازدواج نموذج تصنيف معلن','o','اختيار الأقوى وترحيل','#8a6500'),
+   row('قوالب woocommerce/ المتجاوزة','أرشيف وبطاقة فقط (archive-product، content-product، loop/) — لا تجاوز لقالب المنتج المفرد: PDP الحالية خطافات خالصة','d','ممتاز — V2 خطافات بلا تجاوز'),
+   row('حقائق المنتج التعليمية','product-education-meta.php + schema موجودان — سجل الحقائق قائم فعلًا','d','V2 تعرض منه — لا نظام ميتا جديد'),
+   row('نواة P1 قائمة جزئيًا','checkout-virtual + mini-cart + order-thank-you + whatsapp-button موجودة','d','كلها UPGRADE لا CREATE'),
+   row('مبيعات حقيقية','product-sales-count.php — عدّاد مبيعات إنتاجي موجود','d','شارات صادقة جاهزة المصدر'),
+   row('نواة الخصوصية','inc/privacy-consent.php موجود — نقطة البدء الوحيدة لمنصة الخصوصية','d','UPGRADE لا نظام موازٍ'),
+   row('جرد الكوكيز/التخزين الشرعي','كوكيز Woo/WP + أي localStorage — لم يُجرد بعد','q','مسح تشخيصي قبل أي بانر')
+  ],
+  mx:[
+   {dec:'يُحفظ ويُحسَّن',n:'البحث العربي · Rank Math · Tap · مصفوفة المناهج · الثقة/الخصوصية',why:'أنظمة ناضجة — أي عمل جديد يمتد منها عبر الخطافات، ولا يوازيها.',c:'#1e7355',dBg:'#e4f4ec',dC:'#146c4c'},
+   {dec:'يُكمَل',n:'PDP الحالية ← V2 تدريجية',why:'Preset 0 = الصفحة الحالية كاملة كخط رجوع دائم؛ V2 حقول حقائق ديناميكية من الميتا الحقيقية فقط.',c:'#1e7355',dBg:'#e4f4ec',dC:'#146c4c'},
+   {dec:'يُكمَل',n:'السلة/المصغرة ← V2 رقمية',why:'إخفاء صفوف الشحن كليًا للسلال الرقمية؛ fragments تُحسَّن لا تُعطل.',c:'#1e7355',dBg:'#e4f4ec',dC:'#146c4c'},
+   {dec:'يُكمَل',n:'دفع رقمي موجز + فاتورة منشآت شرطية',why:'بريد + جوال + اسم فقط؛ حقول الضريبة تظهر عند الطلب وتُتحقق خادميًا.',c:'#1e7355',dBg:'#e4f4ec',dC:'#146c4c'},
+   {dec:'يُنشأ',n:'تأكيد الطلب الآمن + التنزيل الفوري',why:'ملكية الطلب بمفتاح Woo/جلسة — الاستحقاق من صلاحيات Woo لا من تحميل الصفحة.',c:'#527a96',dBg:'#e8f2fc',dC:'#1d5f9c'},
+   {dec:'يُوحَّد',n:'Sitemaps الثلاثة → مزود واحد تحت Rank Math',why:'ترحيل → تحقق تكافؤ → تقاعد آمن للمسارين الآخرين.',c:'#8a6500',dBg:'#fff4d6',dC:'#8a6500'},
+   {dec:'يُوحَّد',n:'التقييمات → محرك واحد بأنماط عرض',why:'نموذج Woo يبقى المخزن؛ الأنماط الأربعة عرضٌ فوقه.',c:'#8a6500',dBg:'#fff4d6',dC:'#8a6500'},
+   {dec:'يُصلح أولًا',n:'تخزين tahdheer_phone_e164 ثم أي دخول SMS',why:'العيب المعلن يسبق التفعيل — ولا مسار دخول يعجز عنه عميل قديم.',c:'#b32d2e',dBg:'#fce8e8',dC:'#b32d2e'},
+   {dec:'مؤجل بقرار',n:'Widget 800 · Qwen · أفواج LTV · لوحات AI · مدن إقليمية',why:'وثيقة المالك تستثنيها صراحة حتى موافقة منفصلة — تبقى نماذج مرجعية.',c:'#8b978f',dBg:'#f2f4f2',dC:'#5f7167'},
+   {dec:'يُبنى P1→P7',n:'منصة الخصوصية: سجل تخزين واحد + محرك موافقة واحد + محمّل سكربتات واحد',why:'يمتد من privacy-consent.php القائم — الضروري لا يعتمد على الموافقة، ولا SDK اختياري قبل إذنه، ولا كوكي لما يكفيه localStorage، والرفض لا يكسر الشراء أبدًا. لا بانر قبل اكتمال جرد التخزين.',c:'#527a96',dBg:'#e8f2fc',dC:'#1d5f9c'},
+   {dec:'يُزال بأمان',n:'أي href="#" · بيانات تجريبية · علامة «تذكير» في الإنتاج',why:'بوابات CI تمنع عودتها — والإزالة بعد إثبات عدم الاستخدام فقط.',c:'#b32d2e',dBg:'#fce8e8',dC:'#b32d2e'}
+  ],
+  own:[
+   {k:'التسعير والطلبات والتنزيلات',v:'WooCommerce حصرًا'},
+   {k:'SEO/canonical/Schema',v:'Rank Math + عقد توسعة واحد'},
+   {k:'الدفع',v:'تكامل Tap المثبت'},
+   {k:'البحث',v:'المحرك العربي القائم'},
+   {k:'المناهج والتصنيف',v:'النموذج الأقوى بعد الجرد — واحد فقط'},
+   {k:'الهوية والعرض',v:'القالب (طبقة عرض لا بيانات)'},
+   {k:'OTP/الجلسات/الأعمال الدائمة',v:'طبقة إضافة — تنجو من تغيير القالب'},
+   {k:'العلامة',v:'«التحاضير الحديثة» حصرًا'}
+  ],
+  dup:[
+   {n:'ثلاثة محركات Sitemap',ev:'✓ فُحص',eBg:'#e4f4ec',eC:'#146c4c',plan:'مؤكد بالجرد: inc/sitemaps/ + seo-sitemaps.php + seo-sitemap-intelligence.php — تثبيت المخرجات → مزود واحد → تقاعد مرحلي.'},
+   {n:'تصنيفان تعليميان',ev:'◆ معلن',eBg:'#e8f2fc',eC:'#1d5f9c',plan:'عدّ الاستخدام الفعلي لكل نموذج → ترحيل الأضعف بجدول تحويل 301 حيث لزم.'},
+   {n:'تقييمات متعددة الواجهات',ev:'◆ معلن',eBg:'#e8f2fc',eC:'#1d5f9c',plan:'محرك واحد + أنماط — الحذف بعد تحويل كل الاستدعاءات.'},
+   {n:'منطق توصيات متكرر',ev:'؟ يُتحقق',eBg:'#fff4d6',eC:'#8a6500',plan:'جرد نقاط الاستدعاء أولًا فور إعادة الربط.'},
+   {n:'أنظمة تتبع/تحويل متكررة',ev:'؟ يُتحقق',eBg:'#fff4d6',eC:'#8a6500',plan:'خريطة الأحداث ثم مصدر واحد.'}
+  ],
+  plan:[
+   {n:'PDP V2 (مُثبَّتة على الجرد الحي)',files:'inc/woocommerce.php — خطافات single الحالية = Preset 0\ninc/pdp/{facts-render,presets,gallery}.php (جديد)\nيقرأ من inc/product-education-meta.php القائم — لا ميتا جديدة\nالمبيعات من product-sales-count.php · Schema عبر product-education-schema المالك\nassets: pdp.css/js مشروطة عبر inc/enqueue.php القائم\nلا تجاوز single-product.php إطلاقًا — hooks فقط',rb:'Preset 0 = مجموعة الخطافات الحالية تعود بمفتاح theme_mod واحد'},
+   {n:'السلة/المصغرة',files:'inc/cart-digital.php (جديد)\nتحسين fragments القائمة — لا استبدال',rb:'فلتر تعطيل يعيد سلوك Woo الخام'},
+   {n:'الدفع الرقمي',files:'inc/checkout-digital.php\nحقول المنشآت الشرطية + تحقق خادمي',rb:'إزالة الخطاف تعيد حقول Woo الافتراضية'},
+   {n:'موثوقية Tap',files:'تدقيق callbacks/webhooks القائمة\nidempotency بمفاتيح معاملات + سجل حالات',rb:'السجل يسمح بمصالحة يدوية لأي طلب'},
+   {n:'التأكيد والتنزيل',files:'woocommerce/checkout/thankyou.php (تجاوز موثق النسخة)\nتحقق ملكية + أزرار تنزيل من صلاحيات Woo',rb:'قالب Woo الأصلي fallback مباشر'},
+   {n:'منصة الخصوصية (بعد P1)',files:'inc/privacy-consent.php = النواة (UPGRADE)\ninc/privacy/{registry,consent-engine,script-loader}.php (جديد)\nحالات الموافقة: UNDECIDED→NECESSARY_ONLY→CUSTOM→ALL→WITHDRAWN + نسخة سياسة\nمالك التخزين: UserMeta دائم · WooSession تجاري · كوكي أدنى · localStorage تفضيلات\nبوابات: لا تتبع قبل الإذن · الرفض لا يمس الدفع · صفر بصمات أجهزة',rb:'وضع آمن يعطل كل الاختياري ويبقي التجارة كاملة'},
+   {n:'بوابات CI',files:'ci/seo-lint (href="#"=0، alt، JSON-LD مفرد، noindex، «تذكير»=0)\nفحص قبل/بعد للنشر',rb:'البوابة تُفشل النشر — لا تعدل بيانات'}
+  ],
+  gates:['شراء منتج متغير كامل حتى ملفات التنزيل — ساندبوكس Tap لا حالات مزيفة','فشل الدفع يحفظ السلة ويعرض إعادة محاولة بلا طلبات مكررة (idempotent)','تعداد أرقام الطلبات لا يكشف شيئًا — ملكية إلزامية','سلة رقمية: صفر صفوف شحن ظاهرة','السلة/الدفع/التأكيد noindex — والمنتجات ليست كذلك (فحص تسرب آلي)','href="#" = 0 و«تذكير» = 0 في مخرجات الإنتاج','390px بلا انزياح: LCP≤2.5s · INP≤200ms · CLS≤0.1','PDP مقروءة بلا JS: الاسم والسعر والتوفر خادميًا'],
+  mock:[
+   {n:'Product Page Pro + Builder (نماذج)',to:'مرجع PDP V2'},
+   {n:'Storefront Core (نموذج)',to:'مرجع السلة/الدفع'},
+   {n:'Order Confirmation (نموذج)',to:'مرجع التأكيد'},
+   {n:'Master Hub الـ ٢١ أداة (نماذج)',to:'مرجع إدارة مؤجل بقرار'},
+   {n:'Contact Hub (نموذج)',to:'مرجع الزر العائم — Backend أولًا'}
+  ]
+ };
+}
+}
+</script>
+</body>
+</html>

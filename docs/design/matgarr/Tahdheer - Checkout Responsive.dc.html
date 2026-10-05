@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes tahSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tt{padding:40px 44px 34px;border-bottom:1px solid rgba(0,0,0,.08)}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 22px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:84ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:46ch}
+.opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.card{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden}
+.vp{max-height:940px;overflow:hidden;position:relative}
+.vp::after{content:"";position:absolute;inset-block-end:0;inset-inline:0;height:60px;background:linear-gradient(transparent,rgba(255,255,255,.9));pointer-events:none}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t1">
+<div class="tthd"><a class="ttid" href="#t1">1</a><span class="ttname">Checkout — real renders at both widths</span></div>
+<p class="ttsub">Digital-only store, so there is <b>no address form and no shipping step</b> — the single largest friction cut available here, and an honest one: nothing ships, so asking for a city and a district would be collecting data the order never uses. Contact is three fields; a tax-invoice disclosure covers buyers who need a VAT number on the receipt. Money is derived once (VAT extracted at 15%, not added) so the summary, the review row, the inline CTA and the mobile sticky bar cannot disagree.</p>
+<div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+
+<div class="opt" id="1a">
+<div class="olab"><a class="oid" href="#1a">1a</a><span><b>Desktop — 1120px.</b> Two columns, sticky summary. CTA states the consequence and the amount.</span></div>
+<div class="card vp" style="width:1120px;max-width:100%"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="default" hint-size="1120px,1300px"></dc-import></div>
+</div>
+
+<div class="opt" id="1b">
+<div class="olab"><a class="oid" href="#1b">1b</a><span><b>Mobile — 390px.</b> Collapsible summary at top showing the total while closed, safe-area sticky pay bar at the bottom.</span></div>
+<div class="card vp" style="width:390px"><dc-import name="Tahdheer - Checkout" mobile="{{ yes }}" scenario="default" hint-size="390px,1600px"></dc-import></div>
+</div>
+
+</div>
+</section>
+
+<section class="tt" id="t2">
+<div class="tthd"><a class="ttid" href="#t2">2</a><span class="ttname">Required states</span></div>
+<p class="ttsub">Each is the same component under a different scenario, not a separate mock. Note what is absent: no fake countdown, no invented stock number, no "3 people are viewing this" — the brief forbids them and there is no data source for any of them.</p>
+<div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+
+<div class="opt" id="2a">
+<div class="olab"><a class="oid" href="#2a">2a</a><span><b>Validation errors.</b> Summary at top links to each field; both messages say what to fix, not "invalid input".</span></div>
+<div class="card vp" style="width:520px;max-height:620px"><dc-import name="Tahdheer - Checkout" mobile="{{ yes }}" scenario="invalid" hint-size="390px,900px"></dc-import></div>
+</div>
+
+<div class="opt" id="2b">
+<div class="olab"><a class="oid" href="#2b">2b</a><span><b>Coupon accepted.</b> Exact saving confirmed, remove action beside it, totals already updated.</span></div>
+<div class="card" style="width:340px"><dc-import name="TahCheckoutSummary" data="{{ couponOk }}" hint-size="340px,460px"></dc-import></div>
+</div>
+
+<div class="opt" id="2c">
+<div class="olab"><a class="oid" href="#2c">2c</a><span><b>Coupon rejected.</b> Says the total did not change — the shopper's real question.</span></div>
+<div class="card" style="width:340px"><dc-import name="TahCheckoutSummary" data="{{ couponBad }}" hint-size="340px,460px"></dc-import></div>
+</div>
+
+<div class="opt" id="2d">
+<div class="olab"><a class="oid" href="#2d">2d</a><span><b>Payment processing.</b> Button disabled, spinner, and the anti-double-submit line.</span></div>
+<div class="card vp" style="width:520px;max-height:420px"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="processing" hint-size="1120px,1300px"></dc-import></div>
+</div>
+
+<div class="opt" id="2e">
+<div class="olab"><a class="oid" href="#2e">2e</a><span><b>Payment declined.</b> Leads with "no amount was charged" — the anxiety, answered first.</span></div>
+<div class="card vp" style="width:520px;max-height:460px"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="declined" hint-size="1120px,1300px"></dc-import></div>
+</div>
+
+<div class="opt" id="2f">
+<div class="olab"><a class="oid" href="#2f">2f</a><span><b>Order complete.</b> Files downloadable on the page, invoice, account route. Shown only after the gateway confirms.</span></div>
+<div class="card" style="width:640px"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="success" hint-size="640px,700px"></dc-import></div>
+</div>
+
+<div class="opt" id="2g">
+<div class="olab"><a class="oid" href="#2g">2g</a><span><b>Empty cart.</b> Says there is nothing to pay rather than showing a payable zero.</span></div>
+<div class="card" style="width:520px"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="empty" hint-size="520px,340px"></dc-import></div>
+</div>
+
+<div class="opt" id="2h">
+<div class="olab"><a class="oid" href="#2h">2h</a><span><b>Apple Pay available.</b> Appears only when the device reports support — never as a greyed-out option. Logo slot awaits Apple's official asset.</span></div>
+<div class="card vp" style="width:520px;max-height:520px"><dc-import name="Tahdheer - Checkout" mobile="{{ no }}" scenario="default" apple-pay-available="{{ yes }}" hint-size="1120px,1300px"></dc-import></div>
+</div>
+
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const f = n => n.toFixed(2);
+    const base = {
+      items: [
+        { title: 'عرض بوربوينت — التنظيم: الأنواع والمبادئ', meta: 'PowerPoint · 22 شريحة', qty: 1, line: f(300), was: f(400), hasWas: true },
+        { title: 'أوراق عمل العلوم — الصف الثاني المتوسط', meta: 'PDF · 12 ورقة', qty: 2, line: f(60), was: '', hasWas: false }
+      ],
+      note: 'الأسعار شاملة ضريبة القيمة المضافة · كل المنتجات رقمية وتصلك فور الدفع'
+    };
+    const withCoupon = 360 - 54;
+    return {
+      yes: true, no: false,
+      couponOk: {
+        ...base,
+        rows: [
+          { label: 'المجموع الفرعي', value: f(360) },
+          { label: 'رمز الخصم (TEACHER15)', value: '−' + f(54), fg: '#1e7355' },
+          { label: 'ضريبة القيمة المضافة (مشمولة)', value: f(Math.round((withCoupon - withCoupon / 1.15) * 100) / 100) },
+          { label: 'إجمالي التوفير', value: f(154), strong: true, fg: '#1e7355' }
+        ],
+        total: f(withCoupon),
+        couponState: 'applied'
+      },
+      couponBad: {
+        ...base,
+        rows: [
+          { label: 'المجموع الفرعي', value: f(360) },
+          { label: 'ضريبة القيمة المضافة (مشمولة)', value: f(Math.round((360 - 360 / 1.15) * 100) / 100) },
+          { label: 'إجمالي التوفير', value: f(100), strong: true, fg: '#1e7355' }
+        ],
+        total: f(360),
+        couponState: 'rejected'
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

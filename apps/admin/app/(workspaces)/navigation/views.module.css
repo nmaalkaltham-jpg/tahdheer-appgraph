@@ -1,0 +1,954 @@
+/*
+UNIT: VIEWS
+COMPONENT: _view-kit.tsx, _view-map.tsx, views.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * العروض الأربعة. المتغيّرات --ms-* موروثة من .studio في page.module.css.
+ * خصائص منطقية فقط. كل رسم هنا يدوي — لا مكتبة مخططات.
+ */
+
+.srOnly {
+  composes: sr-only from global;
+}
+
+.spacer {
+  flex: 1;
+  min-inline-size: 8px;
+}
+
+.panel {
+  border: 1px solid var(--ms-line);
+  border-radius: 13px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-block: 11px;
+  padding-inline: 14px;
+  border-block-end: 1px solid var(--ms-hairline);
+  background: var(--ms-soft);
+}
+
+.panelIcon {
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+}
+
+.panelTitle {
+  margin-block: 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.panelHint {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ms-dim);
+}
+
+.countPill {
+  padding-block: 3px;
+  padding-inline: 9px;
+  border-radius: 7px;
+  background: var(--ms-mist);
+  color: var(--muted);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.viewEmpty {
+  margin-block: 0;
+  padding: 26px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ms-dim);
+}
+
+/* ───── أزرار مشتركة ───── */
+
+.iconBtn,
+.iconBtnSm,
+.ghostBtn,
+.deleteBtn,
+.restoreBtn,
+.segBtn,
+.caretBtn,
+.mapPill {
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* هدف لمس ٤٤×٤٤ للأزرار الأيقونية خارج لوحة الخريطة. */
+.iconBtn,
+.iconBtnSm {
+  border: 1px solid var(--ms-hairline);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ms-body);
+}
+
+.iconBtn {
+  inline-size: 44px;
+  block-size: 44px;
+  min-block-size: 44px;
+}
+
+/*
+ * داخل عقدة الخريطة وحدها: ٣٤×٣٤. اللوحة قماش مكاني عرض العقدة فيه ١٨٨–٢٣٨px،
+ * وثمانية أزرار بـ ٤٤px تكسر التخطيط. ٣٤px يتجاوز حد WCAG 2.5.8 (٢٤px) بفارق،
+ * ومكافئ كل زر متاح بحجم كامل في الشجرة وفي المفتش.
+ */
+.iconBtnSm {
+  inline-size: 34px;
+  block-size: 34px;
+  min-block-size: 34px;
+}
+
+.iconBtn:hover,
+.iconBtnSm:hover {
+  background: var(--ms-mist);
+}
+
+.rotUp {
+  display: inline-flex;
+  transform: rotate(90deg);
+}
+
+.rotDown {
+  display: inline-flex;
+  transform: rotate(-90deg);
+}
+
+.ghostBtn {
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--ms-line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ms-body);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.ghostBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteBtn {
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--ms-danger-line);
+  border-radius: 7px;
+  background: var(--ms-danger-bg);
+  color: var(--ms-danger);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.restoreBtn {
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--ms-ok-line);
+  border-radius: 7px;
+  background: var(--ms-ok-bg);
+  color: var(--ms-ok);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.segBtn {
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--ms-line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ms-body);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.segBtn[aria-pressed='true'] {
+  background: var(--chrome);
+  color: var(--chrome-text);
+  border-color: var(--chrome);
+}
+
+.zoomLabel {
+  min-inline-size: 46px;
+  text-align: center;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ms-body);
+}
+
+/* ───── الشجرة ───── */
+
+.treeList {
+  list-style: none;
+  margin-block: 0;
+  padding-block: 12px;
+  padding-inline: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.treeItem {
+  position: relative;
+}
+
+.dropLine {
+  display: block;
+  block-size: 3px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.dropLineOn {
+  background: var(--primary);
+}
+
+.treeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 7px;
+  padding-inline: 10px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: grab;
+}
+
+.rowSelected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cc-primary) 30%, transparent);
+}
+
+.rowMatch {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold-500) 50%, transparent);
+}
+
+.rowDeleted {
+  opacity: 0.55;
+}
+
+.rowDeleted .rowLabel {
+  text-decoration: line-through;
+}
+
+.rowDropInside {
+  outline: 2px dashed var(--primary);
+  outline-offset: -2px;
+}
+
+.rowDragging {
+  opacity: 0.4;
+}
+
+.grip {
+  color: var(--ms-edge);
+  display: grid;
+  place-items: center;
+}
+
+.caretBtn {
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ms-body);
+}
+
+.caretSpacer {
+  inline-size: 44px;
+}
+
+.typeChip {
+  inline-size: 27px;
+  block-size: 27px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background: var(--ms-mist);
+  display: grid;
+  place-items: center;
+}
+
+.rowBody {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rowSelect {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-block-size: 24px;
+  padding-block: 0;
+  padding-inline: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.rowLabel {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  flex: 0 0 auto;
+  padding-block: 1px;
+  padding-inline: 7px;
+  border-radius: 5px;
+  background: var(--gold);
+  color: var(--gold-950);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.rowMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.rowType {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.rowUrl {
+  flex: 1;
+  min-inline-size: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--ms-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.renameInput,
+.renameInputSm {
+  inline-size: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid var(--primary);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 900;
+  color: var(--ink);
+  outline: none;
+}
+
+.renameInput {
+  min-block-size: 44px;
+  padding-inline: 9px;
+  font-size: 13px;
+}
+
+.renameInputSm {
+  flex: 1;
+  min-block-size: 34px;
+  padding-inline: 7px;
+  font-size: 12px;
+}
+
+.issueChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding-block: 3px;
+  padding-inline: 8px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.issueDot {
+  inline-size: 18px;
+  block-size: 18px;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+}
+
+.sevError {
+  background: var(--ms-danger-bg);
+  color: var(--ms-danger);
+}
+
+.sevWarn {
+  background: var(--ms-warn-bg);
+  color: var(--ms-warn-text);
+}
+
+.sevInfo {
+  background: var(--ms-info-bg);
+  color: var(--ms-info);
+}
+
+.kidsPill {
+  flex: 0 0 auto;
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: 999px;
+  background: var(--ms-mist);
+  color: var(--ms-body);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.rowActions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.rootDrop {
+  margin-block: 0 14px;
+  margin-inline: 14px;
+  padding: 13px;
+  border: 1.5px dashed var(--ms-line);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ms-faint);
+}
+
+.rootDropOn {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--ms-ok-bg);
+}
+
+/* ───── الخريطة ───── */
+
+.mapCrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-block: 7px;
+  padding-inline: 14px;
+  border-block-end: 1px solid var(--ms-hairline);
+}
+
+.crumbLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ms-dim);
+}
+
+.crumbEmpty {
+  font-size: 12px;
+  color: var(--ms-faint);
+}
+
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ms-edge);
+}
+
+.crumbBtn {
+  min-block-size: 44px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ms-body);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ms-dim);
+}
+
+.legendDot {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 2px;
+}
+
+.mapViewport {
+  position: relative;
+  block-size: 520px;
+  overflow: hidden;
+  cursor: grab;
+  background-color: var(--ms-soft);
+  background-image: radial-gradient(var(--cc-edge) 1px, transparent 1px);
+  background-size: 22px 22px;
+  touch-action: none;
+}
+
+.mapCanvas {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  transform-origin: 0 0;
+}
+
+.mapEdges {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.mapNode {
+  position: absolute;
+  box-sizing: border-box;
+  padding-block: 8px 9px;
+  padding-inline: 10px;
+  border: 1px solid var(--ms-hairline);
+  border-block-start-width: 3px;
+  border-block-start-style: solid;
+  border-radius: 11px;
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  cursor: grab;
+  animation: msFade 180ms ease;
+}
+
+.mapNodeSelected {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cc-primary) 35%, transparent);
+}
+
+.mapNodeMatch {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold-500) 60%, transparent);
+}
+
+.mapNodeDrop {
+  outline: 2px dashed var(--primary);
+  outline-offset: -2px;
+}
+
+.mapNodeHead {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mapNodeLabel {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mapPill {
+  flex: 0 0 auto;
+  min-inline-size: 34px;
+  block-size: 26px;
+  padding-inline: 6px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--ms-mist);
+  color: var(--ms-body);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.mapNodeMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 4px;
+}
+
+.mapNodeTools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-block-start: 7px;
+  padding-block-start: 7px;
+  border-block-start: 1px dashed var(--ms-hairline);
+}
+
+.mapHint {
+  position: absolute;
+  inset-inline-start: 12px;
+  inset-block-end: 12px;
+  max-inline-size: 420px;
+  margin-block: 0;
+  padding-block: 7px;
+  padding-inline: 10px;
+  border-radius: 9px;
+  background: var(--cc-tip);
+  border: 1px solid var(--cc-edge);
+  color: var(--cc-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.minimap {
+  position: absolute;
+  inset-inline-end: 12px;
+  inset-block-end: 12px;
+  padding: 6px;
+  border: 1px solid var(--ms-line);
+  border-radius: 9px;
+  background: var(--cc-tip);
+  box-shadow: var(--e-2);
+}
+
+.minimapNote {
+  display: block;
+  margin-block-start: 4px;
+  text-align: center;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11.5px;
+  color: var(--ms-dim);
+}
+
+/* ───── الجدول ───── */
+
+.tableScroll {
+  overflow: auto;
+  max-block-size: 620px;
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.table th,
+.table td {
+  padding-block: 8px;
+  padding-inline: 10px;
+  text-align: start;
+  border-block-end: 1px solid var(--ms-hairline);
+  vertical-align: middle;
+}
+
+.table thead th {
+  position: sticky;
+  inset-block-start: 0;
+  background: var(--ms-head);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  z-index: 1;
+}
+
+.trSelected {
+  background: var(--ms-ok-bg);
+}
+
+.tableEmpty {
+  text-align: center;
+  color: var(--ms-dim);
+  padding-block: 22px;
+}
+
+.tableOk {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ms-ok);
+}
+
+.checkCell {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  cursor: pointer;
+}
+
+.checkCell input {
+  inline-size: 17px;
+  block-size: 17px;
+  accent-color: var(--primary);
+}
+
+.tableLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.typeDot {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.struck {
+  text-decoration: line-through;
+}
+
+.mono {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ───── المعاينة ───── */
+
+.liveNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 14px;
+  padding: 12px;
+  border: 1px solid var(--ms-info-bg);
+  border-inline-start: 4px solid var(--ms-info);
+  border-radius: 10px;
+  background: var(--ms-info-bg);
+  color: var(--ms-info);
+}
+
+.liveNotice p {
+  margin-block: 0;
+  font-size: 12px;
+  line-height: 1.85;
+  font-weight: 700;
+}
+
+.liveStage {
+  margin: 0 14px 14px;
+  padding: 16px;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 12px;
+  background: var(--ms-soft);
+}
+
+.stageDesktop {
+  max-inline-size: none;
+}
+
+.stageTablet {
+  max-inline-size: 820px;
+}
+
+.stageMobile {
+  max-inline-size: 420px;
+}
+
+.liveBar {
+  padding-block: 8px;
+  padding-inline: 10px;
+  border-radius: 10px;
+  background: var(--chrome);
+}
+
+.liveBarList {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.liveBarItem {
+  position: relative;
+}
+
+.liveBarLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--chrome-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.liveBarLink:hover,
+.liveBarLink[aria-pressed='true'] {
+  background: var(--cc-well);
+}
+
+.liveMenu {
+  list-style: none;
+  margin-block: 0;
+  padding: 6px;
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 100%;
+  min-inline-size: 200px;
+  border: 1px solid var(--ms-line);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--e-3);
+  z-index: 2;
+}
+
+.liveMenuLink {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+}
+
+.liveMenuLink:hover,
+.liveMenuLink[aria-pressed='true'] {
+  background: var(--ms-mist);
+}
+
+.liveDrawer {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  border: 1px solid var(--ms-hairline);
+  border-radius: 10px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.liveDrawerItem {
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 48px;
+  padding-inline: 12px;
+  border: 0;
+  border-block-end: 1px solid var(--ms-hairline);
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+}
+
+.liveDrawerItem[aria-pressed='true'] {
+  background: var(--ms-mist);
+}
+
+.liveDrawerItem span:first-child {
+  flex: 1;
+}
+
+.liveDrawerKids {
+  list-style: none;
+  margin-block: 0;
+  padding-inline: 0;
+  background: var(--ms-soft);
+}
+
+.liveDrawerKid {
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding-inline-start: 28px;
+  padding-inline-end: 12px;
+  border: 0;
+  border-block-end: 1px solid var(--ms-hairline);
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ms-body);
+  text-align: start;
+  cursor: pointer;
+}
+
+.liveDrawerKid[aria-pressed='true'] {
+  background: var(--ms-mist);
+}
+
+@keyframes msFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * تقليل الحركة يكشف ولا يجمّد: العقد تظهر فورًا بلا حركة دخول.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .mapNode {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

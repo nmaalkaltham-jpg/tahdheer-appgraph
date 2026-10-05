@@ -1,0 +1,585 @@
+/*
+UNIT: WORKSPACE
+COMPONENT: workspace.tsx, widget-frame.tsx, edit-toolbar.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * مساحة العمل — الشبكة، واللوحة الحرّة، وإطار التحرير، وشريطه.
+ *
+ * الألوان من طبقة مركز القيادة (`--cc-*`) حين تُرسم داخله، ومن رموز اللوحة
+ * العامّة احتياطًا: المحرّك لا يعرف أيّ سطحٍ يحمله. والأنصاف من سلّم
+ * `--r-*`، والظلال `--e-*`، والحركة `--dur-*` مع نظيرها المخفّف.
+ */
+
+.workspace {
+  --ws-accent: var(--cc-teal);
+  --ws-text: var(--cc-text);
+  --ws-muted: var(--cc-muted);
+  --ws-edge: var(--cc-edge);
+  --ws-surface: var(--cc-glass);
+  --ws-well: var(--cc-well);
+
+  position: relative;
+  display: grid;
+  align-items: stretch;
+}
+
+.workspace[data-mode='canvas'] {
+  display: block;
+}
+
+/* ───── الخليّة ───── */
+
+.cell {
+  position: relative;
+  min-inline-size: 0;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-xl);
+  container-type: inline-size;
+}
+
+.workspace[data-mode='canvas'] > .cell {
+  position: absolute;
+}
+
+.body {
+  flex: 1;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: inherit;
+  scrollbar-width: thin;
+}
+
+/* البطاقة تملأ خليّتها: الارتفاع للشبكة لا للمحتوى. */
+.body > * {
+  flex: 1 0 auto;
+  min-block-size: 100%;
+  grid-column: auto;
+}
+
+/* ───── وضع التحرير ───── */
+
+.workspace[data-editing] > .cell {
+  outline: 1px dashed color-mix(in srgb, var(--ws-accent) 55%, transparent);
+  outline-offset: 2px;
+  touch-action: none;
+}
+
+.workspace[data-editing] .body {
+  overflow: hidden;
+  opacity: 0.86;
+  user-select: none;
+}
+
+.workspace[data-editing] > .cell[data-locked] {
+  outline-style: solid;
+  outline-color: var(--ws-edge);
+}
+
+.cell[data-lifted] {
+  z-index: 20;
+}
+
+.cell[data-lifted='move'] {
+  will-change: transform;
+  cursor: grabbing;
+  box-shadow: var(--e-4);
+}
+
+.cell[data-lifted='keyboard'] {
+  outline: 3px solid var(--ws-accent);
+  outline-offset: 2px;
+  box-shadow: var(--e-3);
+}
+
+/* السحب يُطفئ ما تحته: لا تحديدَ نصّ ولا تحويمَ على جارة. */
+.workspace[data-dragging] {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.workspace[data-dragging] .cell:not([data-lifted]) {
+  pointer-events: none;
+}
+
+.frameBar {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 8px;
+  inset-inline: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--r-md);
+  /* معتمٌ لا زجاجيّ: الاسم يُقرأ فوق أيّ بطاقة، ولا طمسَ لما تحته أثناء السحب. */
+  background: var(--cc-bg0);
+  border: 1px solid var(--ws-edge);
+  box-shadow: var(--e-2);
+}
+
+/* بطاقةٌ ضيّقة: القفل يبقى في القائمة، والمقبض يأخذ مكانه ليُقرأ الاسم. */
+@container (max-width: 240px) {
+  .frameBar .lockBtn {
+    display: none;
+  }
+}
+
+.grip {
+  flex: 1;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ws-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: start;
+  cursor: grab;
+  touch-action: none;
+}
+
+.grip span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.grip svg {
+  flex: none;
+  color: var(--ws-muted);
+}
+
+.grip[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--ws-accent) 16%, transparent);
+  cursor: move;
+}
+
+.cell[data-locked] .grip {
+  cursor: not-allowed;
+}
+
+.frameBtn {
+  flex: none;
+  inline-size: 44px;
+  block-size: 44px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--ws-muted);
+  cursor: pointer;
+}
+
+.frameBtn[aria-pressed='true'],
+.frameBtn[aria-expanded='true'] {
+  color: var(--ws-accent);
+  background: color-mix(in srgb, var(--ws-accent) 14%, transparent);
+}
+
+@media (hover: hover) {
+  .grip:hover,
+  .frameBtn:hover {
+    background: var(--ws-well);
+    color: var(--ws-text);
+  }
+}
+
+.grip:focus-visible,
+.frameBtn:focus-visible,
+.toolBtn:focus-visible,
+.iconTool:focus-visible,
+.segment:focus-visible,
+.menuItem:focus-visible,
+.select:focus-visible {
+  outline: 3px solid var(--ws-accent);
+  outline-offset: 2px;
+}
+
+.grip:active,
+.frameBtn:active,
+.toolBtn:active,
+.iconTool:active,
+.segment:active {
+  transform: translateY(1px);
+}
+
+/* ───── مقابض التحجيم — على نهاية السطر وأسفل البطاقة ───── */
+
+.resize {
+  position: absolute;
+  z-index: 4;
+  touch-action: none;
+}
+
+.resize[data-axis='inline'] {
+  inset-block: 64px 24px;
+  inset-inline-end: -8px;
+  inline-size: 16px;
+  cursor: ew-resize;
+}
+
+.resize[data-axis='block'] {
+  inset-inline: 24px 32px;
+  inset-block-end: -8px;
+  block-size: 16px;
+  cursor: ns-resize;
+}
+
+.resize[data-axis='both'] {
+  inset-inline-end: -10px;
+  inset-block-end: -10px;
+  inline-size: 44px;
+  block-size: 44px;
+  cursor: nwse-resize;
+}
+
+.workspace:dir(rtl) .resize[data-axis='both'] {
+  cursor: nesw-resize;
+}
+
+.resize[data-axis='both']::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 12px;
+  inset-block-end: 12px;
+  inline-size: 14px;
+  block-size: 14px;
+  border-inline-end: 3px solid var(--ws-accent);
+  border-block-end: 3px solid var(--ws-accent);
+  border-end-end-radius: var(--r-xs);
+}
+
+.resize[data-axis='inline']::after,
+.resize[data-axis='block']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: var(--r-round);
+  background: color-mix(in srgb, var(--ws-accent) 60%, transparent);
+  opacity: 0;
+  transition: opacity var(--dur-hover) var(--ease-out);
+}
+
+.resize[data-axis='inline']::after {
+  inline-size: 4px;
+  block-size: 40px;
+}
+
+.resize[data-axis='block']::after {
+  block-size: 4px;
+  inline-size: 40px;
+}
+
+.cell:hover .resize::after,
+.cell[data-lifted] .resize::after {
+  opacity: 1;
+}
+
+/* ───── تراكب الشبكة والعلامة والأدلّة ───── */
+
+.overlay {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--ws-cols, 12), minmax(0, 1fr));
+  gap: var(--ws-gap);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.overlay span {
+  border-radius: var(--r-xs);
+  background: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--ws-accent) 7%, transparent) 0 var(--ws-row),
+    transparent var(--ws-row) calc(var(--ws-row) + var(--ws-gap))
+  );
+}
+
+.workspace[data-mode='canvas'][data-editing] {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--ws-accent) 28%, transparent) 1px, transparent 1.5px);
+  background-size: 8px 8px;
+  border-radius: var(--r-lg);
+}
+
+.placeholder {
+  z-index: 1;
+  border: 2px dashed var(--ws-accent);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--ws-accent) 12%, transparent);
+  pointer-events: none;
+}
+
+.workspace[data-mode='canvas'] > .placeholder {
+  position: absolute;
+}
+
+.guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.guides span {
+  position: absolute;
+  background: var(--cc-magenta);
+}
+
+.guides span[data-axis='x'] {
+  inset-block: 0;
+  inline-size: 1px;
+}
+
+.guides span[data-axis='y'] {
+  inset-inline: 0;
+  block-size: 1px;
+}
+
+.live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ───── القوائم ───── */
+
+.menuWrap {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  z-index: 40;
+  inset-block-start: calc(100% + 8px);
+  inset-inline-end: 0;
+  inline-size: max-content;
+  min-inline-size: 220px;
+  max-inline-size: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-radius: var(--r-lg);
+  background: var(--cc-bg0);
+  border: 1px solid var(--ws-edge);
+  box-shadow: var(--e-3);
+  color: var(--ws-text);
+}
+
+.menuRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+
+.menuItem[aria-disabled='true'] {
+  color: var(--ws-muted);
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .menuItem:not([aria-disabled='true']):hover {
+    background: var(--ws-well);
+  }
+}
+
+.menuReason {
+  padding: 0 12px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ws-muted);
+}
+
+.menuField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 4px 8px;
+}
+
+.menuField label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ───── الشريط ───── */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--cc-text);
+}
+
+.toolbar[data-editing] {
+  padding: 8px;
+  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--cc-teal) 40%, transparent);
+  background: color-mix(in srgb, var(--cc-teal) 8%, transparent);
+}
+
+.toolBtn,
+.iconTool,
+.segment {
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 14px;
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--r-md);
+  background: var(--cc-glass);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out);
+}
+
+.iconTool {
+  inline-size: 44px;
+  padding: 0;
+  justify-content: center;
+}
+
+.toolBtn[data-primary] {
+  background: var(--cc-teal);
+  border-color: transparent;
+  color: var(--cc-on-tone);
+}
+
+.toolBtn[aria-pressed='true']:not([data-primary]) {
+  border-color: var(--cc-teal);
+  color: var(--cc-teal-text);
+  background: color-mix(in srgb, var(--cc-teal) 16%, transparent);
+}
+
+.toolBtn[aria-disabled='true'],
+.iconTool[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .toolBtn:not([aria-disabled='true']):not([data-primary]):hover,
+  .iconTool:not([aria-disabled='true']):hover,
+  .segment:hover {
+    border-color: color-mix(in srgb, var(--cc-teal) 55%, transparent);
+  }
+}
+
+.toolGroup {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.segmented {
+  display: inline-flex;
+  gap: 0;
+}
+
+.segmented .segment:first-child {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.segmented .segment:last-child {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-inline-start: 0;
+}
+
+.segment[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cc-teal) 18%, transparent);
+  border-color: var(--cc-teal);
+}
+
+.toolField {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.select {
+  min-block-size: 44px;
+  padding-inline: 12px 32px;
+  border: 1px solid var(--cc-edge);
+  border-radius: var(--r-md);
+  background-color: var(--cc-glass);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.select option {
+  background: var(--cc-bg0);
+  color: var(--cc-text);
+}
+
+.toolNote,
+.syncNote {
+  font-size: 12px;
+  color: var(--cc-muted);
+}
+
+.syncNote {
+  margin-inline-start: auto;
+}
+
+.syncNote[data-state='error'],
+.syncNote[data-state='offline'] {
+  color: var(--cc-orange-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolBtn,
+  .iconTool,
+  .segment,
+  .resize::after {
+    transition: none;
+  }
+
+  .grip:active,
+  .frameBtn:active,
+  .toolBtn:active,
+  .iconTool:active,
+  .segment:active {
+    transform: none;
+  }
+}

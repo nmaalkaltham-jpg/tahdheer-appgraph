@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#eceae5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #1e7355;outline-offset:2px}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tahStarIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes tahShimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.14)}}
+@keyframes tahSkeleton{0%{opacity:.55}50%{opacity:1}100%{opacity:.55}}
+@keyframes tahScrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tt{padding:40px 44px 34px;border-bottom:1px solid rgba(0,0,0,.08)}
+.tthd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.ttid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.ttname{font:700 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.ttsub{margin:0 0 22px;font:400 12.5px/1.7 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:84ch;text-wrap:pretty}
+.oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.olab{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.45 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:70ch}
+.opt{display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.opt:target .oid{background:#1e7355;color:#fff}
+.card{background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);overflow:hidden}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<section class="tt" id="t5">
+<div class="tthd"><a class="ttid" href="#t5">5</a><span class="ttname">Simple reviews panel — essentials only, always moving</span></div>
+<p class="ttsub">Rating summary, a continuously scrolling comment strip, and a write-comment form. Nothing else: no sorting, search, filters, helpful votes or store replies. The strip loops forever as asked — it also pauses on hover and has an explicit pause control, because motion that can never be stopped is unreadable and fails WCAG 2.2.2. The duplicated half of the track is <code>aria-hidden</code> so a screen reader hears each comment once. The reviewer's identity comes from the signed-in account, not a name field — that's what makes «مشترٍ موثق» mean anything. Try the star picker and submit; the comment appears above the form under the account name.</p>
+<div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+<div class="opt" id="5a">
+<div class="olab"><a class="oid" href="#5a">5a</a><span><b>Desktop — 760px.</b> Drops into a product page sidebar or under the description.</span></div>
+<div style="width:760px"><dc-import name="TahReviewsSimple" hint-size="760px,700px"></dc-import></div>
+</div>
+<div class="opt" id="5b">
+<div class="olab"><a class="oid" href="#5b">5b</a><span><b>Mobile — 390px.</b> Narrower cards, form fields stack, all targets ≥44px.</span></div>
+<div style="width:390px"><dc-import name="TahReviewsSimple" compact="{{ true }}" hint-size="390px,760px"></dc-import></div>
+</div>
+<div class="opt" id="5c">
+<div class="olab"><a class="oid" href="#5c">5c</a><span><b>Motion off.</b> What a <code>prefers-reduced-motion</code> visitor gets: the loop is replaced by manual horizontal scrolling, the pause control disappears (nothing to pause) and a «مرّر لرؤية المزيد» hint takes its place — so comments 3–6 stay reachable instead of frozen out of view.</span></div>
+<div style="width:560px"><dc-import name="TahReviewsSimple" motion="{{ false }}" hint-size="560px,700px"></dc-import></div>
+</div>
+</div>
+</section>
+
+<section class="tt" id="t4">
+<div class="tthd"><a class="ttid" href="#t4">4</a><span class="ttname">Product reviews — three directions</span></div>
+<p class="ttsub">Same data, same component contract, three presentations. All three are functional: sorting, search, star-filtering, helpful toggles, expand/collapse and load-more actually work — click them. Ratings count up from 0 <em>after</em> mount, so the true value is in the DOM on first paint (and with JS off); star fills, bars and cards animate once on reveal, and everything collapses under <code>prefers-reduced-motion</code>. Review text is real text in semantic <code>&lt;article&gt;</code>/<code>&lt;blockquote&gt;</code>/<code>&lt;time datetime&gt;</code> — nothing important lives in an icon or an image.</p>
+
+<div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+
+<div class="opt" id="4a">
+<div class="olab"><a class="oid" href="#4a">4a</a><span><b>Design 1 — Premium Cards.</b> Deep-green summary block anchors it, distribution beside, six category cards, two-column review grid with hover lift and a shimmering verified badge. Warmest and most conversion-led.</span></div>
+<div class="card" style="width:1180px"><dc-import name="TahReviewsPremium" data="{{ data }}" motion="{{ motion }}" hint-size="1180px,1400px"></dc-import></div>
+</div>
+
+<div class="opt" id="4b">
+<div class="olab"><a class="oid" href="#4b">4b</a><span><b>Design 2 — Insight Dashboard.</b> Sticky analytics rail: summary, clickable star-distribution filters, compact categories, smart summary with keyword frequency bars. Review list carries search, expand/collapse, empty state. Most powerful for a decision-stage buyer.</span></div>
+<div class="card" style="width:1180px"><dc-import name="TahReviewsDashboard" data="{{ data }}" motion="{{ motion }}" hint-size="1180px,1500px"></dc-import></div>
+</div>
+
+<div class="opt" id="4c">
+<div class="olab"><a class="oid" href="#4c">4c</a><span><b>Design 3 — Elegant Editorial.</b> Centred masthead, the most-helpful review as a pull-quote, category strip as a hairline row, single-column reading flow with indented store replies. Most memorable, least dense.</span></div>
+<div class="card" style="width:1180px"><dc-import name="TahReviewsEditorial" data="{{ data }}" motion="{{ motion }}" hint-size="1180px,1500px"></dc-import></div>
+</div>
+
+<div class="opt" id="4d">
+<div class="olab"><a class="oid" href="#4d">4d</a><span><b>Mobile — 390px.</b> Design 1 and 2 in compact mode: summary stacks, filters stay reachable, cards go single-column, all targets ≥44px.</span></div>
+<div style="display:flex;gap:20px;flex-wrap:wrap">
+<div class="card" style="width:390px"><dc-import name="TahReviewsPremium" data="{{ data }}" motion="{{ motion }}" compact="{{ true }}" hint-size="390px,1600px"></dc-import></div>
+<div class="card" style="width:390px"><dc-import name="TahReviewsDashboard" data="{{ data }}" motion="{{ motion }}" compact="{{ true }}" hint-size="390px,1600px"></dc-import></div>
+</div>
+</div>
+
+<div class="opt" id="4e">
+<div class="olab"><a class="oid" href="#4e">4e</a><span><b>States.</b> Skeleton while loading, and the empty state for a product with no reviews yet — which invites the first one rather than showing a hollow 0.0.</span></div>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<div class="card" style="width:560px;padding:24px;direction:rtl">
+<div style="font:600 10px ui-monospace,Menlo,monospace;color:#5f7167;margin-bottom:14px">SKELETON</div>
+<div style="display:flex;gap:16px;margin-bottom:18px">
+<span style="width:120px;height:120px;border-radius:16px;background:#eef1ec;animation:tahSkeleton 1.5s ease-in-out infinite"></span>
+<span style="flex:1;display:flex;flex-direction:column;gap:9px;justify-content:center">
+<span style="height:11px;width:60%;border-radius:5px;background:#eef1ec;animation:tahSkeleton 1.5s ease-in-out .1s infinite"></span>
+<span style="height:9px;width:88%;border-radius:5px;background:#eef1ec;animation:tahSkeleton 1.5s ease-in-out .2s infinite"></span>
+<span style="height:9px;width:74%;border-radius:5px;background:#eef1ec;animation:tahSkeleton 1.5s ease-in-out .3s infinite"></span>
+</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="height:64px;border-radius:12px;background:#f4f7f3;animation:tahSkeleton 1.5s ease-in-out .15s infinite"></span>
+<span style="height:64px;border-radius:12px;background:#f4f7f3;animation:tahSkeleton 1.5s ease-in-out .25s infinite"></span>
+</div>
+</div>
+<div class="card" style="width:560px;padding:38px 30px;direction:rtl;text-align:center">
+<div style="font:600 10px ui-monospace,Menlo,monospace;color:#5f7167;margin-bottom:18px;text-align:start">EMPTY STATE</div>
+<span style="display:inline-grid;place-items:center;width:56px;height:56px;border-radius:16px;background:rgba(216,181,106,.16);color:#7a5d20;margin-bottom:14px"><svg aria-hidden="true" style="width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><use href="#i-star"></use></svg></span>
+<h3 style="margin:0 0 8px;font-size:19px;font-weight:900;color:#14261d">كن أول من يقيّم هذا الملف</h3>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.85;color:#5f7167;max-width:44ch;margin-inline:auto">لا توجد تقييمات بعد. إذا استخدمته في صفّك، فتجربتك تساعد معلّمين آخرين على القرار.</p>
+<button type="button" style="display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:0 26px;border:0;border-radius:12px;background:#1e7355;color:#fff;font:900 14.5px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-pen"></use></svg>اكتب أول تقييم</button>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  renderVals() {
+    /*
+     * One dataset feeds all three designs, so a difference on screen is a design
+     * difference and never a data one. Shapes mirror what WooCommerce already
+     * exposes (author, date, rating, body, verified) — see the scope note for the
+     * fields that have no storage yet.
+     */
+    const reviews = [
+      {
+        id: 'r1', name: 'أ. نورة الحربي', role: 'معلّمة كيمياء — الرياض', rating: 5,
+        title: 'تنظيم الشرائح وفّر عليّ أسبوعًا كاملًا',
+        body: 'استخدمته في وحدة الكيمياء العضوية للثالث ثانوي. الشرائح مرتّبة بتسلسل منطقي يبدأ بالتمهيد ثم الأمثلة ثم التقويم، وهذا وفّر عليّ إعادة الترتيب من الصفر. أضفت شعار المدرسة وعدّلت ثلاث شرائح فقط لتناسب خطة الحصة، والباقي استخدمته كما هو. أوراق العمل المرفقة كانت الجزء الأكثر نفعًا — طبعتها مباشرة ووزّعتها.',
+        iso: '2026-08-14', date: '14 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 31,
+        media: [{ label: 'صورة من الطالبات', isVideo: false }, { label: 'مقطع للشرح', isVideo: true }]
+      },
+      {
+        id: 'r2', name: 'أ. خالد العتيبي', role: 'وكيل شؤون تعليمية — جدة', rating: 5,
+        title: 'التعديل سهل فعلًا وليس مجرد وعد',
+        body: 'جرّبت ملفات كثيرة يُقال عنها «قابلة للتعديل» ثم تكون صورًا داخل شرائح. هذا مختلف: كل عنصر نص حقيقي، والخطوط مضمّنة، والألوان في نمط رئيسي واحد. غيّرت هوية المدرسة على أربعين شريحة في أقل من ساعة.',
+        iso: '2026-08-09', date: '9 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 24,
+        reply: 'شكرًا أ. خالد. نصمّم كل ملف على نمط رئيسي واحد تحديدًا لهذا السبب — ولو احتجت نسخة بهوية مدرستك جاهزة، راسلنا على واتساب ونجهّزها لك.'
+      },
+      {
+        id: 'r3', name: 'أ. سارة القحطاني', role: 'معلّمة علوم — الدمام', rating: 5,
+        title: 'أوراق العمل هي القيمة الحقيقية',
+        body: 'العرض جيد، لكن أوراق العمل السبع هي ما جعلني أشتري. أسئلتها متدرّجة من التذكّر إلى التطبيق، ومناسبة للعمل الجماعي داخل الصف.',
+        iso: '2026-08-03', date: '3 أغسطس 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 18
+      },
+      {
+        id: 'r4', name: 'أ. عبدالله الشمري', role: 'معلّم كيمياء — بريدة', rating: 4,
+        title: 'ممتاز للشرح، وأحتاج أمثلة أكثر',
+        body: 'المحتوى دقيق والتصميم مريح للعين على شاشة العرض. ملاحظتي الوحيدة أن أمثلة التفاعلات كانت أقل مما توقعت لدرس بهذا الطول، فأضفت شريحتين من عندي. عدا ذلك جاهز للاستخدام مباشرة.',
+        iso: '2026-07-28', date: '28 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 12
+      },
+      {
+        id: 'r5', name: 'أ. هيفاء المطيري', role: 'معلّمة علوم — أبها', rating: 5,
+        title: 'التحميل فوري والاستخدام في الصف بلا مشاكل',
+        body: 'وصلني الرابط بعد الدفع مباشرة، وفتحته على حاسب المدرسة بلا أي مشكلة في الخطوط. استخدمته في حصتين متتاليتين.',
+        iso: '2026-07-21', date: '21 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 9,
+        media: [{ label: 'صورة العرض في الفصل', isVideo: false }]
+      },
+      {
+        id: 'r6', name: 'أ. ماجد الدوسري', role: 'معلّم كيمياء — الطائف', rating: 4,
+        title: 'مطابق للوصف تمامًا',
+        body: 'اثنتان وعشرون شريحة كما هو مكتوب، والصيغة PPTX كما هو مكتوب. أقدّر أن الوصف صادق — هذا ليس شائعًا.',
+        iso: '2026-07-11', date: '11 يوليو 2026', variant: 'النسخة الكاملة — PPTX', verified: true, helpful: 7
+      }
+    ];
+
+    /*
+     * The distribution must re-derive the headline figures, or a reader who adds
+     * up the bars gets a different number than the one being advertised:
+     *   (190·5 + 16·4 + 4·3 + 1·2 + 1·1) / 212 = 1029 / 212 = 4.854 → 4.9  ✓
+     *   (190 + 16) / 212 = 97.2%                                     → 97%  ✓
+     * Counts sum to 212. Percentages use largest-remainder rounding so they total
+     * 100; the two single-review rows therefore read 0% beside a count of 1,
+     * which is honest — barW keeps their bars visible.
+     */
+    const dist = [
+      { stars: '5', starsNum: 5, count: 190, pct: '90%', barW: '90%' },
+      { stars: '4', starsNum: 4, count: 16, pct: '8%', barW: '8%' },
+      { stars: '3', starsNum: 3, count: 4, pct: '2%', barW: '2%' },
+      { stars: '2', starsNum: 2, count: 1, pct: '0%', barW: '1.5%' },
+      { stars: '1', starsNum: 1, count: 1, pct: '0%', barW: '1.5%' }
+    ];
+
+    return {
+      motion: true,
+      data: {
+        avg: 4.9, total: 212, recommend: 97,
+        reviews, dist,
+        cats: [
+          { label: 'جودة المحتوى', score: '4.9', pct: '98%' },
+          { label: 'سهولة التعديل', score: '4.9', pct: '98%' },
+          { label: 'جودة التصميم', score: '4.8', pct: '96%' },
+          { label: 'فائدة أوراق العمل', score: '4.9', pct: '98%' },
+          { label: 'مطابقة الوصف', score: '5.0', pct: '100%' },
+          { label: 'سهولة التحميل', score: '4.8', pct: '96%' }
+        ],
+        summary: 'يمدح المعلّمون تنظيم الشرائح وتسلسلها المنطقي، وسهولة التعديل الفعلية لأن النصوص حقيقية وليست صورًا، وفائدة أوراق العمل المرفقة. الملاحظة المتكرّرة الوحيدة هي الرغبة في أمثلة تفاعلات أكثر.',
+        keywords: [
+          { word: 'تنظيم الشرائح', n: 64 },
+          { word: 'سهولة التعديل', n: 51 },
+          { word: 'أوراق العمل', n: 43 },
+          { word: 'جودة المحتوى', n: 38 },
+          { word: 'الاستخدام في الصف', n: 22 }
+        ]
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

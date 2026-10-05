@@ -1,0 +1,94 @@
+/*
+ * Download rows — «Tahdheer - Customer Completion Pack»: --r-lg radius, the 4px
+ * inline-start state edge, the 42px format tile and the dashed delivery-security
+ * note. The pack's 8.5–9.5px micro type is raised to the account design's own
+ * 11–12.5px scale, which stays legible at arm's length.
+ * Tokens only, logical properties only.
+ */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--sf-line);
+  border-inline-start: 4px solid var(--sf-control);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+}
+
+.ready {
+  border-inline-start-color: var(--teal-600);
+}
+
+.locked {
+  border-inline-start-color: var(--gold-400);
+}
+
+.tile {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 42px;
+  block-size: 44px;
+  border-radius: var(--r-sm);
+  background: var(--sf-cool);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+
+.rowText {
+  flex: 1;
+  min-inline-size: 200px;
+}
+
+.rowTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink);
+}
+
+.rowMeta {
+  display: block;
+  margin-block-start: 2px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.rowAction {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.rowNote {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--st-warning-fg);
+}
+
+.security {
+  composes: notice noticeInfo from '@tahdheer/ui/controls.module.css';
+  display: block;
+  margin: 0;
+  font-size: 13px;
+}
+
+.security b {
+  color: inherit;
+  font-weight: 800;
+}

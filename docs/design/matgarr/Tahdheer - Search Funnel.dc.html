@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes sfnFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1200px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<b style="font-size:12.5px">قمع البحث ← الإيراد — استعلام حتى ريال، بتنقيب كامل</b>
+<div style="flex:1"></div>
+<span dir="ltr" style="font:700 9px ui-monospace,monospace;color:rgba(234,242,238,.45)">GSC × GA4 × WooCommerce — deduped</span>
+</div>
+</div>
+
+<main style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:11px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;animation:sfnFade .25s ease">
+<span style="font-size:10px;font-weight:900;color:#5f7167">فلاتر متزامنة:</span>
+<sc-for list="{{ fl }}" as="f" hint-placeholder-count="3">
+<div style="display:flex;gap:3px;padding:3px;border-radius:9px;background:#f2f4f2">
+<sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{ o.onClick }}" aria-pressed="{{ o.on }}" style="min-height:27px;padding:0 11px;border:0;border-radius:7px;background:{{ o.bg }};color:{{ o.fg }};font-size:9.5px;font-weight:900;cursor:pointer">{{ o.n }}</button>
+</sc-for>
+</div>
+</sc-for>
+<span style="margin-inline-start:auto;padding:3px 11px;border-radius:999px;background:#f2f8f5;font-size:9px;font-weight:900;color:#146c4c">{{ scope }}</span>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px">
+<sc-for list="{{ exec }}" as="e" hint-placeholder-count="4">
+<div style="padding:11px 14px;border:1px solid #dce2dd;border-radius:13px;background:#fff"><span style="display:block;font:900 17px Tajawal;color:{{ e.c }}">{{ e.v }}</span><span style="font-size:9.5px;color:#5f7167">{{ e.l }}</span><span style="display:block;margin-top:2px;font-size:8.5px;font-weight:900;color:{{ e.dc }}">{{ e.d }}</span></div>
+</sc-for>
+</div>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;padding:16px 19px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<h1 style="margin:0;font:900 15px Tajawal">القمع الموحد — انقر مرحلة للتنقيب فيها</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">النسب انتقالية بين المراحل · المقارنة مع الفترة السابقة</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+<sc-for list="{{ fun }}" as="s" hint-placeholder-count="8">
+<button type="button" onClick="{{ s.onSel }}" aria-pressed="{{ s.on }}" style="display:flex;align-items:center;gap:11px;width:100%;border:1.5px solid {{ s.bd }};border-radius:11px;background:{{ s.bgc }};padding:8px 13px;cursor:pointer;text-align:start">
+<b style="flex:0 0 128px;font-size:11px;color:#14261d">{{ s.n }}</b>
+<span aria-hidden="true" style="flex:1;height:22px;border-radius:7px;background:#eef2ef;overflow:hidden;position:relative"><span style="position:absolute;inset-inline-start:0;top:0;height:100%;width:{{ s.w }};border-radius:7px;background:{{ s.fill }};transition:width .3s"></span></span>
+<b style="flex:0 0 88px;font:900 12.5px Tajawal;text-align:end">{{ s.v }}</b>
+<span style="flex:0 0 74px;font-size:9px;font-weight:900;color:{{ s.rc }};text-align:end">{{ s.rate }}</span>
+<span style="flex:0 0 62px;font-size:9px;font-weight:900;color:{{ s.dc }};text-align:end">{{ s.d }}</span>
+</button>
+</sc-for>
+</div>
+</section>
+
+<section style="border:1px solid #dce2dd;border-radius:15px;background:#fff;overflow:hidden">
+<div style="display:flex;align-items:center;gap:9px;padding:12px 16px;border-bottom:1px solid #f1f4f2;flex-wrap:wrap">
+<h2 style="margin:0;font-size:12.5px;font-weight:900">تنقيب مرحلة «{{ drill.stage }}» — {{ drill.hint }}</h2>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">انقر صفًا لفتح لوحته في وحدته</span>
+</div>
+<table style="width:100%;border-collapse:collapse">
+<thead><tr style="background:#f6f8f7">
+<th style="padding:8px 16px;text-align:start;font-size:9.5px;font-weight:900;color:#5f7167">{{ drill.col1 }}</th>
+<th style="padding:8px 10px;text-align:start;font-size:9.5px;font-weight:900;color:#5f7167">القيمة</th>
+<th style="padding:8px 10px;text-align:start;font-size:9.5px;font-weight:900;color:#5f7167">التحويل للمرحلة التالية</th>
+<th style="padding:8px 10px;text-align:start;font-size:9.5px;font-weight:900;color:#5f7167">الإيراد المنسوب</th>
+<th style="padding:8px 10px;text-align:start;font-size:9.5px;font-weight:900;color:#5f7167">التشخيص</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ drill.rows }}" as="r" hint-placeholder-count="4">
+<tr>
+<td style="padding:9px 16px;border-top:1px solid #f4f6f4"><button type="button" onClick="{{ r.onGo }}" style="border:0;background:none;padding:0;cursor:pointer;font:900 11px Tajawal;color:#1e7355;text-align:start">{{ r.n }}</button></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font:900 11px Tajawal">{{ r.v }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4"><span style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="width:64px;height:6px;border-radius:5px;background:#eef2ef;overflow:hidden;display:inline-block"><span style="display:block;height:100%;width:{{ r.cw }};background:{{ r.cc }}"></span></span><b style="font-size:10px;color:{{ r.cc }}">{{ r.cv }}</b></span></td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font:900 10.5px Tajawal;color:#146c4c">{{ r.rev }}</td>
+<td style="padding:9px 10px;border-top:1px solid #f4f6f4;font-size:9.5px;color:#5f7167">{{ r.diag }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<div style="display:flex;align-items:center;gap:9px;padding:10px 16px;border-top:1px solid #f1f4f2;background:#fbfcfb">
+<span style="font-size:9px;line-height:1.7;color:#8b978f"><b style="color:#146c4c">قاعدة النسْب:</b> إيراد آخر نقرة عضوية + المُعان (assisted) يُعرض منفصلًا ولا يُجمع مرتين — وحدث الشراء موحّد بمعرّف الطلب (deduped).</span>
+</div>
+</section>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:420px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:sfnFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]).replace('.','٫'); }
+fmt(n){ return this.ar(n>=1000?(Math.round(n/100)/10)+' ألف':Math.round(n)); }
+BASE=[142000,2050,1890,860,395,238,171,14900];
+STAGES=['انطباعات','نقرات (CTR)','جلسات هبطت','تفاعل حقيقي','أضاف للسلة','بدأ الدفع','شراء مكتمل','الإيراد (ر.س)'];
+MUL={dev:{all:1,mob:.62,desk:.38},geo:{all:1,ry:.44,jd:.21},per:{d28:1,d7:.24}};
+DRILL={
+ 0:['الاستعلام','ملزمة رياضيات اول ثانوي|٨٫٤ ألف|1.9|٩٤٠|مركز ٤ — فرصة Top 3;حزمة مراجعة ثالث ثانوي|٥٫١ ألف|1.1|٢٬٩٠٠|CTR فجوة — عنوان B جارٍ;جدول مذاكرة نهائي|٦٫٢ ألف|0.9|١٩٠|مقال متدهور — حدّث;اختبارات فيزياء محلولة|٣٫٦ ألف|1.4|٤٦٠|روابط داخلية قليلة'],
+ 4:['الصفحة','حزمة المراجعة الشاملة|١٤٦|61|٤٬٢٠٠|قوية — ادفعها بالمركز;مذكرة math-101|١١٨|58|٢٬١٠٠|سليمة;ملزمة الفيزياء|٥٤|41|٨٩٠|الشحن يفاجئ — وضّحه مبكرًا;أوراق لغتي|٢٢|33|١٩٠|نافدة — تنبيه التوفر يعمل'],
+ 5:['الصفحة','الدفع خطوة ٢ (الشحن)|٢٣٨|72|—|سليم;الدفع خطوة ٣ (المراجعة)|١٧١|—|—|إتمام ٧٢٪ — فوق المعيار;مغادرو الدفع|٦٧|—|مسترد جزئيًا|رسالة السلة تسترد ١٨٪']
+};
+state={dev:'all',geo:'all',per:'d28',sel:1,toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3000));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const k=this.MUL.dev[st.dev]*this.MUL.geo[st.geo]*this.MUL.per[st.per];
+ const V=this.BASE.map(b=>b*k);
+ const F=[['dev',[['all','كل الأجهزة'],['mob','جوال'],['desk','حاسوب']]],['geo',[['all','كل المناطق'],['ry','الرياض'],['jd','جدة']]],['per',[['d28','٢٨ يومًا'],['d7','٧ أيام']]]];
+ const base={
+  fl:F.map(f=>({opts:f[1].map(o=>({n:o[1],on:st[f[0]]===o[0],
+   bg:st[f[0]]===o[0]?'#14261d':'transparent',fg:st[f[0]]===o[0]?'#fff':'#5f7167',
+   onClick:()=>{const s={};s[f[0]]=o[0];this.setState(s);}}))})),
+  scope:'كل الأرقام أدناه تتبع الفلاتر معًا',
+  exec:[
+   {v:this.fmt(V[7])+' ر.س',l:'إيراد عضوي (آخر نقرة)',c:'#146c4c',d:'+٨٫٧٪',dc:'#146c4c'},
+   {v:this.fmt(V[6]),l:'مشتريات من البحث',c:'#14261d',d:'+٥٪',dc:'#146c4c'},
+   {v:this.ar((V[1]/V[0]*100).toFixed(1))+'٪',l:'CTR الكلي',c:'#14261d',d:'الفجوة: التصنيفات',dc:'#8a6500'},
+   {v:this.ar((V[6]/V[2]*100).toFixed(1))+'٪',l:'تحويل الجلسات العضوية',c:'#14261d',d:'+٠٫٤ نقطة',dc:'#146c4c'}
+  ],
+  fun:this.STAGES.map((n,i)=>{
+   const rate=i===0?'':this.ar((V[i]/V[i-1]*100).toFixed(i===7?0:1))+'٪'+(i===7?' AOV×':' ينتقل');
+   const drop=i>0&&(V[i]/V[i-1])<(i===4?.25:(i===1?.02:.5));
+   return {n:n,v:i===7?this.fmt(V[i])+' ر.س':this.fmt(V[i]),
+    w:Math.max(4,(i===7?100:V[i]/V[0]*100*(i>1?46:1))).toFixed(1)+'%',
+    fill:i===7?'linear-gradient(90deg,#d8b56a,#a5813a)':'linear-gradient(90deg,#2b9c72,#14603f)',
+    rate:i===0?'—':this.ar((V[i]/Math.max(1,V[i-1])*100).toFixed(1))+'٪',
+    rc:drop?'#b32d2e':'#146c4c',
+    d:['+٣٪','+١٢٪','+١١٪','+٩٪','+٦٪','+٧٪','+٥٪','+٨٫٧٪'][i],dc:'#146c4c',
+    on:st.sel===i,bd:st.sel===i?'#1e7355':'#e2e8e4',bgc:st.sel===i?'#f2f8f5':'#fff',
+    onSel:()=>this.setState({sel:i})};
+  })
+ };
+ const dk=this.DRILL[st.sel]?st.sel:(st.sel<=3?0:(st.sel===4?4:5));
+ const D=this.DRILL[dk];
+ base.drill={stage:this.STAGES[st.sel],col1:D[0],
+  hint:dk===0?'حسب الاستعلام (GSC)':(dk===4?'حسب الصفحة (GA4×Woo)':'خطوات الدفع'),
+  rows:D[1].split(';').map(s=>{const p=s.split('|');
+   const cvN=p[2]==='—'?null:Number(p[2]);
+   return {n:p[0],v:this.ar(p[1]),cv:cvN==null?'—':this.ar(p[2])+'٪',
+    cw:(cvN==null?0:Math.min(100,cvN*(dk===0?30:1.2)))+'%',
+    cc:cvN==null?'#8b978f':(cvN>=(dk===0?1.5:50)?'#146c4c':'#b32d2e'),
+    rev:this.ar(p[3])+(p[3].indexOf('—')<0&&p[3].indexOf('مسترد')<0?' ر.س':''),diag:p[4],
+    onGo:()=>this.toast('فتح لوحة «'+p[0]+'» — مفتش URL أو محرك الفرص حسب النوع')};})};
+ base.is={toasts:st.toasts.length>0};
+ base.toasts=st.toasts.map(t=>({m:t.m}));
+ return base;
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+/*
+ * طرق الدفع — لغة تصميم المتجر: صفوف الوسائل كبطاقات الثقة (بيضاء، حدّ
+ * ‎--sf-line‎، نصف قطر 14، بلاطة 44px ملوّنة)، سهم تركوازي، رقائق تركوازيّة
+ * ورمليّة، وجانب من بطاقات بيضاء وزرّ تركوازي.
+ * Tokens only, logical properties only, mobile-first.
+ */
+
+/* ── صفحة المحتوى — لغة تصميم المتجر (Storefront Home/Product.dc.html) ──
+   إطار 1440 بهوامش 40 (14 على الجوّال). نصّ 15/1.6/400 بحبر ‎--sf-ink‎ يأتي من
+   body في globals.css؛ هنا يُتجاوز ضبط ‎:where()‎ العامّ للعناوين والفقرات فقط. */
+.page {
+  min-block-size: 60vb;
+  padding-block: 0 72px;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding-inline: var(--sf-gutter);
+}
+
+/* مسار التنقّل: 13 خافت، والفاصل › مرسوم لا مكتوب. */
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 16px 0 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crumbs li + li::before {
+  content: '›';
+  color: var(--sf-sep);
+}
+
+/* هدف لمسٍ ‎44px‎ رأسيًّا — مسار التنقّل نصٌّ صغير. */
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--teal-text);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--sf-ink-2);
+  font-weight: 700;
+}
+
+/* رأس الصفحة: عنوان ووصف بلا شريطٍ داكن. */
+.head {
+  padding-block: 20px 8px;
+}
+
+.h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-inline-size: 70ch;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal-text);
+}
+
+/* شريط الدعوة الختامي — «ابدأ فصلك وأنت مطمئن» في Storefront Home.dc.html. */
+.cta {
+  margin-block-start: 64px; /* فاصل قسم (عقد الإيقاع: ‎64‎ مكتب / ‎32‎ جوّال) */
+  padding: 32px;
+  border-radius: var(--r-xl);
+  background: var(--sf-gradient-upsell);
+  color: var(--on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+}
+
+.cta :focus-visible {
+  outline-color: var(--on-accent);
+}
+
+@media (max-width: 767px) {
+  .page {
+    line-height: 1.55;
+    padding-block-end: 48px;
+  }
+
+  .wrap {
+    padding-inline: 14px;
+  }
+
+  .h1 {
+    font-size: 26px;
+  }
+
+  .cta {
+    margin-block-start: 32px;
+    padding: 24px 20px;
+    border-radius: var(--r-lg);
+  }
+
+  }
+
+/* -------------------------------------------------------------------- grid */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-block-start: 24px;
+}
+
+.methods {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.rowOff {
+  background: var(--sf-cool);
+}
+
+/* ------------------------------------------------------- method disclosure */
+.disclosure {
+  min-inline-size: 0;
+}
+
+.summary,
+.summaryStatic {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-block-size: 64px;
+  padding: 12px 18px;
+  text-align: start;
+}
+
+.summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:hover {
+  background: var(--sf-cool);
+}
+
+.summary:focus-visible {
+  outline-offset: -3px;
+  border-radius: var(--r-lg);
+}
+
+.tile {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--r-md);
+}
+
+.tile svg {
+  inline-size: 22px;
+  block-size: 22px;
+}
+
+.tileGreen {
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.tileInfo {
+  background: var(--tint-navy);
+  color: var(--color-secondary-text);
+}
+
+.tileOff {
+  background: var(--sf-chip);
+  color: var(--sf-muted);
+}
+
+.rowText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.rowName {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  color: var(--sf-ink);
+}
+
+/* علامات الوسيلة بجوار اسمها — رقائق ‎28px‎ كالتذييل وصفحة الدفع. */
+.rowMarks {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-inline-start: var(--space-2);
+  vertical-align: middle;
+}
+
+.rowMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 28px;
+  min-inline-size: 48px;
+  padding-inline: var(--space-2);
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-xs);
+  background: var(--color-surface);
+  color: var(--sf-muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.rowLatin {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.rowNote {
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-muted);
+}
+
+.feePill,
+.offPill {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.feePill {
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+}
+
+.offPill {
+  background: var(--tint-butter);
+  color: var(--gold-text);
+}
+
+.chev {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--teal-600);
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+.chev svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.disclosure[open] .chev {
+  transform: rotate(180deg);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 4px 18px 18px;
+  list-style: none;
+  border-block-start: 1px solid var(--sf-hair);
+  padding-block-start: 14px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.stepNum {
+  flex: 0 0 28px;
+  block-size: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-xs);
+  background: var(--tint-teal);
+  color: var(--tint-teal-fg);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.stepText {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+/* ------------------------------------------------------------------- aside */
+.aside {
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.secureCard {
+  padding: 20px;
+  border: 1px solid var(--tint-teal-line);
+  border-radius: var(--r-lg);
+  background: var(--tint-teal);
+}
+
+.secureTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.secureIcon {
+  display: grid;
+  place-items: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--r-sm);
+  background: var(--bg);
+  color: var(--tint-teal-fg);
+}
+
+.secureIcon svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.secureList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.secureItem {
+  display: flex;
+  gap: 10px;
+}
+
+.secureCheck {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  inline-size: 16px;
+  block-size: 16px;
+  margin-block-start: 4px;
+  color: var(--tint-teal-fg);
+}
+
+.secureCheck svg {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.secureItemTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.secureItemBody {
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--sf-body);
+}
+
+/* ------------------------------------------------------------ aside: cards */
+.card {
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.cardTitle {
+  margin: 0;
+  padding: 18px 20px 8px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.cardBody {
+  padding: 0 20px 18px;
+}
+
+.cardPara {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+.cardPara:last-child {
+  margin-block-end: 0;
+}
+
+.cardLink {
+  color: var(--teal-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  text-decoration: underline;
+}
+
+.faq {
+  margin: 0;
+  padding: 0 20px 18px;
+}
+
+.faqItem {
+  padding-block: 10px;
+  border-block-start: 1px solid var(--sf-hair);
+}
+
+.faqItem:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.faqQ {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--sf-ink);
+}
+
+.faqA {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--sf-body);
+}
+
+/* --------------------------------------------------------------------- CTA */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 48px;
+  margin: 0;
+  padding: 0 24px;
+  border-radius: var(--r-md);
+  background: var(--teal-on);
+  color: var(--on-accent);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.cta:hover {
+  background: var(--color-secondary-hover);
+}
+
+/* ----------------------------------------------------------------- desktop */
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .aside {
+    position: sticky;
+    inset-block-start: 16px;
+  }
+}

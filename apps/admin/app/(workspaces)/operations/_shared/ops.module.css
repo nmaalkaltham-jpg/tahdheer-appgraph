@@ -1,0 +1,148 @@
+/*
+UNIT: OPS
+COMPONENT: ops.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * منصّة العمليّات — أنماط مشتركة.
+ *
+ * خصائص منطقية فقط (`inline-start/end`) لا `left/right`: الواجهة عربية
+ * بالكامل، والخصائص الفيزيائية تنكسر عند أوّل قسمٍ إنجليزيّ مضمَّن.
+ */
+
+.counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4, 16px);
+  margin: 0 0 var(--space-5, 20px);
+  padding: 0;
+  list-style: none;
+}
+
+.counts > li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  border: 1px solid var(--cc-edge);
+  border-radius: 16px;
+  background: var(--cc-glass);
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  min-inline-size: 110px;
+}
+
+.countValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.countLabel {
+  font-size: 0.8125rem;
+  color: var(--cc-muted);
+}
+
+.tableWrap {
+  /*
+   * التمرير أفقيًّا على الغلاف لا على الجدول: جدولٌ عريض داخل صفحةٍ ضيّقة
+   * كان يمدّ الصفحة كلّها فيهرب الشريط الجانبيّ خارج الشاشة.
+   */
+  overflow-x: auto;
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  background: var(--cc-glass);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.table th,
+.table td {
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  text-align: start;
+  border-block-end: 1px solid var(--cc-edge);
+  vertical-align: top;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--cc-muted);
+  background: transparent;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-block-end: none;
+}
+
+.pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* المعطوب وحده أحمر — والمنتظر رماديّ لئلّا يُغرق المعطوبَ ضجيجٌ. */
+.danger {
+  background: var(--state-danger-soft);
+  /* الأحمر النصّيّ الداكن على صبغته فوق الزجاج كان 4.0:1؛ مزجُه بحبر النصّ يرفعه في
+     السمتين (أفتح في الداكن، أعمق في الفاتح) ويبقى أحمر. */
+  color: color-mix(in srgb, var(--cc-danger) 80%, var(--cc-text));
+}
+
+.wait {
+  background: var(--cc-well);
+  border: 1px solid var(--cc-edge);
+  color: var(--cc-muted);
+}
+
+.done {
+  background: var(--state-success-soft);
+  color: var(--cc-success);
+}
+
+.reason {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  color: var(--cc-muted);
+  max-inline-size: 60ch;
+}
+
+/* ------------------------------------------------------ نموذج الانتقال */
+
+.transition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block-start: 6px;
+}
+
+.transitionField {
+  min-block-size: 44px;
+  padding-inline: 8px;
+  /* حدٌّ ≥3:1 في السمتين (WCAG 1.4.11) — ‎--border‎ شعرةٌ زخرفيّة 1.3:1. */
+  border: 1px solid var(--adm-field-line);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.transitionText {
+  flex: 1 1 12ch;
+  min-inline-size: 12ch;
+}
+
+.transitionField:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 1px;
+}

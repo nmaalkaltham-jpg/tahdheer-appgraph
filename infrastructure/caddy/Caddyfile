@@ -1,0 +1,103 @@
+# =============================================================================
+# Tahdheer — Caddy 2.x (MIP §11.1 headers, §11.3 edge duties)
+# Duties: TLS, HTTP/2/3, compression, security headers, request limits,
+# health routing. NO business authorization in Caddy — authz lives in the
+# Laravel API / Next.js middleware, never at the edge.
+# Env: DOMAIN, ACME_EMAIL (from infrastructure/docker/.env)
+# =============================================================================
+
+{
+	email {$ACME_EMAIL}
+	# admin API stays on the default localhost:2019 (inside the container);
+	# Prometheus scrapes /metrics from it over the compose network.
+	metrics
+}
+
+# --- Shared security headers (MIP §11.1, ported from theme-patch) ------------
+(security_headers) {
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+		Cross-Origin-Opener-Policy same-origin-allow-popups
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), accelerometer=(), gyroscope=(), magnetometer=(), usb=(), serial=(), midi=(), display-capture=(), idle-detection=(), browsing-topics=(), payment=(self), fullscreen=(self)"
+		-Server
+		-X-Powered-By
+
+		# HSTS — ENABLE ONLY after confirming every subdomain serves valid TLS.
+		# It is effectively irreversible for max-age; start without `preload`.
+		# Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+		# CSP rollout is report-only → enforce (MIP §11.1). Template kept here
+		# commented until the apps ship and the real source lists are known.
+		# Relax on checkout only as needed for payment popups (Tap).
+		# Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; report-uri /csp-report"
+	}
+}
+
+(compression) {
+	encode zstd gzip
+}
+
+# --- Storefront --------------------------------------------------------------
+store.{$DOMAIN} {
+	import security_headers
+	import compression
+
+	request_body {
+		max_size 2MB
+	}
+
+	# Edge health endpoint (uptime probes) — does not hit the app.
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	reverse_proxy storefront:3000 {
+		health_uri /api/health
+		health_interval 15s
+	}
+}
+
+# --- Admin -------------------------------------------------------------------
+admin.{$DOMAIN} {
+	import security_headers
+	import compression
+
+	header X-Robots-Tag "noindex, nofollow"
+
+	request_body {
+		max_size 64MB # admin media/asset uploads; API still enforces its own limits
+	}
+
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	reverse_proxy admin:3000 {
+		health_uri /api/health
+		health_interval 15s
+	}
+}
+
+# --- API (Laravel via PHP-FPM) -----------------------------------------------
+api.{$DOMAIN} {
+	import security_headers
+	import compression
+
+	request_body {
+		max_size 64MB # uploads are re-validated in-app (ext+MIME+magic bytes)
+	}
+
+	handle /healthz {
+		respond "ok" 200
+	}
+
+	# The Laravel code is NOT mounted in this container (compose mounts only the
+	# Caddyfile and Caddy's own volumes), so `root` + `php_fastcgi` here served an
+	# empty tree. The `api-web` nginx sidecar (profile `apps`) already fronts
+	# php-fpm with the code mounted and is what storefront/admin target via
+	# INTERNAL_API_URL / ADMIN_API_URL — proxy to it. Without the `apps` profile
+	# this site answers 502, exactly as the old FastCGI target did.
+	reverse_proxy api-web:8080
+}

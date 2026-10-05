@@ -1,0 +1,124 @@
+/*
+UNIT: RISK
+COMPONENT: risk-panel.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/*
+ * مراجعة المخاطر — ما لا تملكه أساسيّات العمليّات.
+ *
+ * `_shared/ops.module.css` يملك الجدول والحبّة وسطر السبب وشريط العدّ، وكلّها
+ * مستعملةٌ هنا كما هي. وما ليس فيه ثلاثة: خليّةُ قرارٍ **تُكتب**، ومبدّل نطاق
+ * القائمة، وكتلةُ العناقيد. ولا يُضاف شيءٌ منها إلى المشترك: نموذج الانتقال
+ * هناك يبعث `status` وهذا الطريق يطلب `outcome` — فليس انتقالَ حالةٍ ولا يشبهه.
+ *
+ * وخصائص منطقيّة وحدها (inline-start/end): اللوحة عربيّة، والقيم الفيزيائيّة
+ * تنقلب خطأً عند أوّل تبديل اتّجاه.
+ */
+
+/* ───────────────────────────────── مبدّل نطاق القائمة */
+
+.scope {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2, 8px);
+  margin-block-end: var(--space-4, 16px);
+}
+
+/*
+ * ٤٤px لا ٣٦: السمة الزجاجيّة تُنزل `.btn` إلى ٣٦px، وهذان زرّان متلاصقان
+ * يبدّلان ما يُقرأ — وخطأُ الإصبع فيهما يُخفي الطابور كلّه عن المشغّل.
+ */
+.scope button {
+  min-block-size: 44px;
+}
+
+/* ───────────────────────────────── قرار المراجعة على الصفّ */
+
+.decide {
+  display: grid;
+  gap: 6px;
+  /* عرضٌ أدنى يمنع تكسّر الحقول الثلاثة سلّمًا في عمودٍ ضيّق. */
+  min-inline-size: 26ch;
+}
+
+/*
+ * وللسبب نفسه وأشدّ: هذه خليّةٌ تكتب قرارًا بشريًّا في سجلّ التدقيق، ونقرةٌ
+ * خاطئة فيها تُغلق مراجعةً باسم مشغّلٍ لم يقصدها.
+ */
+.decide select,
+.decide textarea,
+.decide button {
+  min-block-size: 44px;
+}
+
+.decide select,
+.decide textarea {
+  padding-block: 6px;
+  padding-inline: 8px;
+  /* حدٌّ ≥3:1 في السمتين (WCAG 1.4.11). */
+  border: 1px solid var(--adm-field-line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+/* عموديًّا وحده: التمدّد الأفقيّ يدفع الجدول كلّه إلى التمرير. */
+.decide textarea {
+  resize: vertical;
+}
+
+.decide select:focus-visible,
+.decide textarea:focus-visible {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 1px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  max-inline-size: 44ch;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--state-danger);
+  max-inline-size: 44ch;
+}
+
+/* ───────────────────────────────── العناقيد */
+
+.clusters {
+  display: grid;
+  gap: var(--space-4, 16px);
+  margin-block-start: var(--space-6, 32px);
+}
+
+.clustersTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.clustersNote {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  max-inline-size: 72ch;
+}
+
+.group {
+  display: grid;
+  gap: 6px;
+}
+
+.groupTitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}

@@ -1,0 +1,805 @@
+/*
+UNIT: OS
+COMPONENT: os-kit.tsx, page.tsx
+MAP: docs/PROJECT_MAP.md
+*/
+
+/**
+ * Analytics Pro OS — الكروم المشترك + غرفة التحكم + مركز الإجراءات.
+ * القيم الحرفية من Tahdheer - Analytics Pro OS.dc.html؛ الألوان رموز فقط
+ * (tokens.css + tokens-3p/agent-A). خصائص منطقية للاتجاه، وأهداف لمس 44px.
+ */
+
+.os {
+  background: var(--os-page-bg);
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ───────────── الكروم الداكن: الشعار + تبويبات الشاشات ───────────── */
+
+.chrome {
+  background: var(--os-chrome-bg);
+  color: var(--os-chrome-fg);
+}
+
+.chromeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 9px;
+  padding-inline: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.brandTile {
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 9px;
+  background: var(--os-brand-grad);
+  display: grid;
+  place-items: center;
+}
+
+.brandTile svg {
+  inline-size: 15px;
+  block-size: 15px;
+  /* حبر التعبئة الأساسيّة لكلّ سمة ولون — الأبيض كان 2:1 على التركواز الساطع في الداكن. */
+  color: var(--adm-on-accent);
+}
+
+.goldBadge {
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: 6px;
+  background: var(--tint-gold-16);
+  border: 1px solid var(--os-gold-badge-border);
+  color: var(--os-gold-badge-fg);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.chromeSpacer {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 11px;
+  border: 1px solid var(--chrome-14);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--os-chrome-fg-dim72);
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.tabOn {
+  background: var(--os-chrome-fg);
+  border-color: var(--os-chrome-fg);
+  color: var(--os-chrome-bg);
+}
+
+/* ───────────── شريط مستوى التنفيذ ───────────── */
+
+.levelBar {
+  /* كان ‎--ink‎ (لون النصّ): شريطٌ أبيض في الداكن تحت نصٍّ باهت فاتح. */
+  background: var(--chrome-deep);
+  border-block-start: 1px solid var(--chrome-06);
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-block: 7px;
+  padding-inline: 20px;
+}
+
+.levelLabel {
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--os-chrome-fg-dim55);
+}
+
+.levelBtn {
+  min-block-size: 44px;
+  padding-inline: 10px;
+  border: 1px solid var(--chrome-14);
+  border-radius: var(--radius-chip);
+  background: var(--chrome-06);
+  /* بئرٌ فوق شريط المستوى: الباهت 4.2:1 في الداكن، والثانويّ يجتاز بلا صراخ. */
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.levelOn {
+  background: var(--gold-500);
+  border-color: var(--gold-500);
+  color: var(--os-gold-on);
+}
+
+.levelHint {
+  font-size: 11.5px;
+  color: var(--os-chrome-fg-dim50);
+}
+
+.levelLocal {
+  inline-size: 100%;
+  font-size: 11.5px;
+  color: var(--os-chrome-fg-dim50);
+}
+
+/* ───────────── جسم الشاشات ───────────── */
+
+.main {
+  padding-block: 18px;
+  padding-inline: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.card {
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  padding-block: 16px;
+  padding-inline: 19px;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.fade {
+  animation: osFade var(--speed-very-fast) var(--ease-smooth);
+}
+
+@keyframes osFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.pageH1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.h2 {
+  margin-block: 0 9px;
+  font-size: 13.5px;
+  font-weight: 900;
+}
+
+.headNote {
+  margin-inline-start: auto;
+  font-size: 11.5px;
+  color: var(--os-muted);
+}
+
+.subNote {
+  font-size: 11.5px;
+  color: var(--os-muted);
+}
+
+.localNote {
+  display: block;
+  margin-block-start: 6px;
+  font-size: 11.5px;
+  color: var(--os-faint);
+}
+
+/* ───────────── بلاطات «منذ زيارتك الأخيرة» ───────────── */
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin-block-start: 11px;
+}
+
+.stat {
+  display: block;
+  padding-block: 12px;
+  padding-inline: 13px;
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-tile);
+  background: var(--bg);
+  text-align: start;
+  text-decoration: none;
+  color: inherit;
+  min-block-size: 44px;
+}
+
+.statDanger {
+  background: var(--os-danger-bg);
+  border-color: var(--os-danger-border);
+}
+
+.statWarn {
+  background: var(--os-warn-bg);
+  border-color: var(--os-warn-border);
+}
+
+.statValue {
+  display: block;
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.statValueDanger {
+  color: var(--os-danger);
+}
+
+.statValueWarn {
+  color: var(--warning-text);
+}
+
+.statLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.statWhy {
+  display: block;
+  margin-block-start: 2px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--os-muted-2);
+}
+
+.srcChip {
+  display: inline-block;
+  margin-block-start: 4px;
+  padding-block: 1px;
+  padding-inline: 7px;
+  border-radius: 5px;
+  background: var(--os-chip-bg);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--text-secondary);
+}
+
+/* ───────────── خريطة قدرة حلقة النمو ───────────── */
+
+.loopWrap {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.loopChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding-block: 5px;
+  padding-inline: 11px;
+  border-radius: var(--radius-pill);
+  background: var(--os-surface-soft);
+  border: 1px solid var(--os-border-soft);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--text-muted);
+}
+
+.loopChipReal {
+  background: var(--os-loop-done-bg);
+  border-color: var(--os-ok-border);
+  color: var(--success-chip-fg);
+}
+
+.loopLine {
+  display: block;
+  margin-block-start: 8px;
+  font-size: 11.5px;
+  color: var(--os-muted);
+}
+
+/* ───────────── رباعيات غرفة التحكم ───────────── */
+
+.quadGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 11px;
+}
+
+.quad {
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.quadHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 10px;
+  padding-inline: 14px;
+  /* التعبئات أدناه رموزُ نصّ (معلومة/تحذير/حبر)، فحبرها المعكوس سطح الصفحة المُعتِم. */
+  color: var(--cc-bg1);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quadHead svg {
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.quadInfo {
+  background: var(--info);
+}
+
+.quadWarn {
+  background: var(--warning-text);
+}
+
+.quadGreen {
+  background: var(--green-700);
+  color: var(--adm-on-accent);
+}
+
+.quadInk {
+  background: var(--ink);
+}
+
+.quadBody {
+  padding-block: 11px;
+  padding-inline: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.quadRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.quadRow span {
+  color: var(--os-strong);
+  font-weight: 700;
+}
+
+.quadRow b {
+  color: var(--ink);
+}
+
+.quadValDanger {
+  color: var(--os-danger) !important;
+}
+
+.quadValOk {
+  color: var(--success-chip-fg) !important;
+}
+
+.quadValWarn {
+  color: var(--warning-text) !important;
+}
+
+.quadCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  margin-block-start: auto;
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-sm);
+  background: var(--os-surface-soft);
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--os-strong);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ───────────── مركز الإجراءات ───────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action {
+  border: 1px solid var(--os-border);
+  border-inline-start: 4px solid var(--os-border);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+  padding-block: 13px;
+  padding-inline: 16px;
+}
+
+.edgeSafe {
+  border-inline-start-color: var(--green-700);
+}
+
+.edgeReview {
+  border-inline-start-color: var(--gold-500);
+}
+
+.edgeHigh {
+  border-inline-start-color: var(--os-danger);
+}
+
+.actionTitle {
+  font-size: 13px;
+}
+
+.chip {
+  padding-block: 2px;
+  padding-inline: 9px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.chipSafe {
+  background: var(--success-chip-bg);
+  color: var(--success-chip-fg);
+}
+
+.chipReview {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.chipHigh {
+  background: var(--os-danger-bg-strong);
+  color: var(--os-danger);
+}
+
+.chipMuted {
+  background: var(--os-chip-bg);
+  color: var(--text-muted);
+}
+
+.impact {
+  margin-inline-start: auto;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: var(--success-chip-fg);
+}
+
+.evidence {
+  margin-block: 6px;
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+.evidence b {
+  color: var(--os-strong);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.urls {
+  padding-block: 2px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  background: var(--os-code-bg);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.controlsSpacer {
+  flex: 1;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-block-size: 44px;
+  padding-inline: 12px;
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-nav);
+  background: var(--os-surface-soft);
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--os-strong);
+  cursor: pointer;
+}
+
+.btnApprove {
+  border-color: var(--os-ok-border);
+  background: var(--os-approve-bg);
+  color: var(--success-chip-fg);
+}
+
+.btnExec {
+  border: 0;
+  padding-inline: 15px;
+  background: var(--green-700);
+  color: var(--adm-on-accent);
+}
+
+.btnRollback {
+  border-color: var(--os-danger-border);
+  background: var(--os-danger-bg);
+  color: var(--os-danger);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lockWhy {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--warning-text);
+}
+
+.doneChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding-block: 4px;
+  padding-inline: 11px;
+  border-radius: var(--radius-pill);
+  background: var(--success-chip-bg);
+  color: var(--success-chip-fg);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.doneChip svg {
+  inline-size: 11px;
+  block-size: 11px;
+}
+
+.headChip {
+  margin-inline-start: auto;
+  padding-block: 4px;
+  padding-inline: 11px;
+  border-radius: var(--radius-pill);
+  background: var(--success-chip-bg);
+  color: var(--success-chip-fg);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+
+.headChipAbsent {
+  background: var(--os-chip-bg);
+  color: var(--text-muted);
+}
+
+/* معاينة Dry Run: الحمولة الحرفية + الصفوف المتأثرة من بيانات محمَّلة فعلًا. */
+.dryPanel {
+  margin-block-start: 9px;
+  border: 1px solid var(--os-border);
+  border-radius: var(--radius-md);
+  background: var(--os-surface-soft);
+  padding-block: 10px;
+  padding-inline: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.dryTitle {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--os-strong);
+}
+
+.payload {
+  display: block;
+  padding-block: 8px;
+  padding-inline: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--os-code-bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--os-strong);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.dryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-block-start: 1px dashed var(--os-border-dashed);
+  padding-block-start: 5px;
+}
+
+.dryRow b {
+  color: var(--os-strong);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-block: 7px;
+}
+
+.inputLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--os-strong);
+}
+
+.input {
+  min-block-size: 44px;
+  /* حدّ الحقل المشتقّ (≥3:1 في السمتين) — ‎--os-border‎ شعرةٌ زخرفيّة 1.3:1. */
+  border: 1px solid var(--adm-field-line);
+  border-radius: var(--radius-sm);
+  padding-inline: 10px;
+  font-size: 12px;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--os-strong);
+  min-block-size: 44px;
+}
+
+.statusLine {
+  margin-block: 7px 0;
+  font-size: 12px;
+  color: var(--os-strong);
+}
+
+.statusErr {
+  color: var(--os-danger);
+}
+
+.absentCard {
+  border: 1px dashed var(--os-border);
+  border-radius: var(--radius-card);
+  background: var(--os-surface-soft);
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+.absentTitle {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--os-strong);
+}
+
+.absentWhy {
+  margin-block: 4px 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/*
+ * تقليل الحركة: كشفٌ صريح لا تجميد — كتلة الدخول تُظهر المحتوى كاملًا
+ * (opacity:1 و transform:none) كما يفرض حارس المستودع.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ═══ طبقة مركز القيادة — الكروم شريطٌ زجاجيّ والتبويبات مقسَّمة ═══ */
+.os {
+  --os-page-bg: transparent;
+  --os-border: var(--cc-edge);
+  --os-chrome-bg: var(--cc-glass);
+  --os-chrome-fg: var(--cc-text);
+  --os-chrome-fg-dim72: var(--cc-muted);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.chrome {
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+  margin-block-end: 12px;
+}
+
+.tabs {
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--cc-edge);
+  border-radius: 11px;
+  background: var(--cc-well);
+}
+
+.tab {
+  min-block-size: 36px;
+  padding-inline: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--cc-muted);
+  font-weight: 700;
+}
+
+.tabOn {
+  background: var(--cc-glass);
+  border-color: var(--cc-edge);
+  color: var(--cc-text);
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+}
+
+.card {
+  background: var(--cc-glass);
+  border: 1px solid var(--cc-edge);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 var(--cc-glass-top);
+}

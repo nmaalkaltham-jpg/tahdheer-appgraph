@@ -1,0 +1,266 @@
+/*
+ * فهرس الحزم — بلغة القالب: مسار تنقّلٍ بفواصل زخرفيّة، عنوانٌ ‎28–32/800‎،
+ * بطاقاتٌ ‎1px --sf-line‎ ‎16px‎ بسعرٍ كحليّ، وحالةٌ فارغة على شريطٍ بارد.
+ */
+.page {
+  max-inline-size: var(--sf-max);
+  margin-inline: auto;
+  padding: 16px 16px 56px;
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.page :where(h1, h2, h3) {
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: normal;
+}
+
+.page :where(p) {
+  line-height: inherit;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.breadcrumbNav {
+  min-inline-size: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+/* الفاصل زخرفيّ في CSS (‎/ ''‎ = بلا نصٍّ مُتاح) فلا يقرؤه قارئ الشاشة ولا مسح التباين. */
+.breadcrumb > li + li::before {
+  content: '›' / '';
+  margin-inline-end: 6px;
+  color: var(--sf-sep);
+}
+
+.crumbLink {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* هدف اللمس ‎≥44px‎ رأسيًّا بلا تغيير في التخطيط — كفتات الكتالوج. */
+.crumbLink::before {
+  content: '';
+  position: absolute;
+  inset-block: -16px;
+  inset-inline: 0;
+}
+
+.crumbLink:hover {
+  color: var(--teal-text);
+}
+
+.crumbCurrent {
+  color: var(--sf-ink);
+  font-weight: 700;
+}
+
+.head {
+  min-inline-size: 0;
+}
+
+.h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--sf-ink);
+}
+
+.intro {
+  margin: 0;
+  font-size: 14px;
+  color: var(--sf-body);
+  max-inline-size: 62ch;
+}
+
+.grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.card {
+  composes: card cardInteractive from '@tahdheer/ui/controls.module.css';
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* البطاقة كلّها هدفُ النقر: الرابط ممدود فوقها (السعر والعدد ليسا تفاعليّين). */
+.cardLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.cardTitle {
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+@media (hover: hover) {
+  .card:hover .cardTitle {
+    color: var(--teal-text);
+  }
+}
+
+.cardTitle {
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+/* عدد الملفّات عينُ البطاقة فوق العنوان — حقيقةٌ معدودة بلون التركواز النصّيّ. */
+.cardMeta {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal-text);
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+.cardPrice {
+  margin-block-start: auto;
+  padding-block-start: 12px;
+  border-block-start: 1px solid var(--sf-hair);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy-700);
+  text-align: start;
+  font-variant-numeric: tabular-nums;
+}
+
+.cardDesc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  text-align: start;
+}
+
+.was {
+  margin-inline-start: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sf-muted);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.currency {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sf-muted);
+}
+
+.empty {
+  padding: 32px 24px;
+  border: 1px solid var(--sf-line);
+  border-radius: var(--r-lg);
+  background: var(--sf-cool);
+}
+
+.emptyTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--sf-ink);
+  text-align: start;
+}
+
+.emptyBody {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sf-body);
+  max-inline-size: 64ch;
+  text-align: start;
+}
+
+.elsewhere {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.elsewhereLink {
+  composes: chip from '@tahdheer/ui/controls.module.css';
+  text-decoration: none;
+}
+
+/* المخرج الأوّل هو المقترَح: زرٌّ أساسيّ، والبقيّة رقائق. */
+.elsewhere > li:first-child > .elsewhereLink {
+  border-color: var(--teal-on);
+  background: var(--teal-on);
+  color: var(--on-accent);
+}
+
+.elsewhere > li:first-child > .elsewhereLink:hover {
+  border-color: var(--ch-checkout-hover);
+  background: var(--ch-checkout-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardTitle {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--sf-gutter);
+    padding-block: 16px 72px;
+    gap: 24px;
+  }
+
+  .h1 {
+    font-size: 32px;
+  }
+
+  /* auto-fill لا auto-fit: حزمةٌ وحيدة بعرض عمودٍ لا بعرض الصفحة كلّها. */
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 24px;
+  }
+}

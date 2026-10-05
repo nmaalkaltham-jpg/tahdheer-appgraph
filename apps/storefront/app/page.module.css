@@ -1,0 +1,6 @@
+/**
+ * Homepage shell — the design's canvas is white (#fff) end to end.
+ */
+.home {
+  background: var(--bg);
+}

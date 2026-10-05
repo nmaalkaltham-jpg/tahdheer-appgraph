@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;direction:rtl;background:#eef0ee;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;color:#17251d}
+button{font-family:Tajawal,"SF Arabic",sans-serif}
+button:focus-visible,select:focus-visible{outline:2.5px solid #1e7355;outline-offset:2px;border-radius:6px}
+select{font-family:Tajawal,"SF Arabic",sans-serif}
+@keyframes auFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes auPulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div dir="rtl">
+<div style="background:#14261d;color:#eaf2ee">
+<div style="max-width:1220px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+<b style="font-size:13px">الطيار الآلي — يعمل وحده ضمن حدودك</b>
+<button type="button" onClick="{{ master.onTog }}" role="switch" aria-checked="{{ master.on }}" style="display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:0 6px 0 14px;border:1px solid {{ master.bd }};border-radius:999px;background:{{ master.bg }};color:{{ master.fg }};font-size:10.5px;font-weight:900;cursor:pointer">
+{{ master.t }}<span aria-hidden="true" style="width:34px;height:18px;border-radius:999px;background:{{ master.swBg }};position:relative;display:inline-block"><span style="position:absolute;top:2px;inset-inline-start:{{ master.knob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></span>
+</button>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:999px;background:rgba(216,181,106,.16);border:1px solid rgba(216,181,106,.36);color:#e8d3a6;font-size:9px;font-weight:900"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#7fd4ab;animation:auPulse 1.6s infinite"></span>{{ master.stat }}</span>
+<div style="flex:1"></div>
+<sc-for list="{{ screens }}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{ s.onClick }}" aria-pressed="{{ s.on }}" style="min-height:28px;padding:0 11px;border:1px solid {{ s.bd }};border-radius:999px;background:{{ s.bg }};color:{{ s.fg }};font-size:10.5px;font-weight:900;cursor:pointer">{{ s.n }}</button>
+</sc-for>
+<button type="button" onClick="{{ onKill }}" style="min-height:28px;padding:0 12px;border:1px solid rgba(214,88,88,.5);border-radius:999px;background:rgba(214,88,88,.16);color:#ffd9d9;font-size:10px;font-weight:900;cursor:pointer">⏻ إيقاف طوارئ</button>
+</div>
+</div>
+
+<main style="max-width:1220px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ is.loops }}" hint-placeholder-val="{{ true }}">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:12px 17px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;animation:auFade .25s ease">
+<b style="font-size:12px">ماذا فعل الطيار هذا الأسبوع؟</b>
+<sc-for list="{{ digest }}" as="d" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:6px;font-size:10px;color:#3d4f45"><b style="font:900 13px Tajawal;color:{{ d.c }}">{{ d.v }}</b>{{ d.l }}</span>
+</sc-for>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">كل فعل موثق بالسجل وقابل للتراجع — لا شيء صامت</span>
+</section>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+<div>
+<h2 style="margin:0 0 8px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:3px;background:{{ g.c }}"></span>{{ g.n }}</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<sc-for list="{{ g.rows }}" as="l" hint-placeholder-count="4">
+<section style="border:1px solid {{ l.bd }};border-radius:13px;background:#fff;padding:12px 15px;animation:auFade .2s ease">
+<div style="display:flex;align-items:center;gap:8px">
+<button type="button" onClick="{{ l.onTog }}" role="switch" aria-checked="{{ l.on }}" aria-label="{{ l.n }}" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ l.swBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ l.knob }};width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:inset-inline-start .15s"></span></button>
+<b style="flex:1;font-size:12px">{{ l.n }}</b>
+<span style="padding:2px 9px;border-radius:999px;background:{{ l.sBg }};color:{{ l.sC }};font-size:8.5px;font-weight:900">{{ l.st }}</span>
+</div>
+<p style="margin:6px 0;font-size:10px;line-height:1.8;color:#5f7167">{{ l.d }}</p>
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-top:7px;border-top:1px dashed #f1f4f2">
+<span style="font-size:9px;color:#8b978f">{{ l.meta }}</span>
+<span style="margin-inline-start:auto;font-size:9.5px;font-weight:900;color:#146c4c">{{ l.impact }}</span>
+<button type="button" onClick="{{ l.onCfg }}" style="min-height:26px;padding:0 10px;border:1px solid #d5dbd6;border-radius:7px;background:#fbfcfb;font-size:9px;font-weight:900;color:#3d4f45;cursor:pointer">حدود الأمان</button>
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</sc-if>
+
+<sc-if value="{{ is.log }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;animation:auFade .25s ease">
+<h1 style="margin:0;font:900 18px Tajawal">السجل الذاتي — كل ما نفذه الطيار</h1>
+<span style="margin-inline-start:auto;font-size:9px;color:#8b978f">فعل ← دليل ← نتيجة ← تراجع — لا صناديق سوداء</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ lg }}" as="e" hint-placeholder-count="7">
+<section style="display:flex;align-items:center;gap:10px;border:1px solid #dce2dd;border-inline-start:4px solid {{ e.c }};border-radius:12px;background:#fff;padding:10px 14px;flex-wrap:wrap">
+<span style="flex:0 0 74px;font-size:9px;color:#8b978f">{{ e.t }}</span>
+<span style="flex:1;min-width:240px"><b style="font-size:11px">{{ e.a }}</b><span style="display:block;font-size:9.5px;line-height:1.7;color:#5f7167">{{ e.d }}</span></span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ e.rBg }};color:{{ e.rC }};font-size:8.5px;font-weight:900">{{ e.r }}</span>
+<sc-if value="{{ e.canRb }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ e.onRb }}" style="min-height:28px;padding:0 11px;border:1px solid #f0d3d3;border-radius:8px;background:#fdf6f6;font-size:9.5px;font-weight:900;color:#b32d2e;cursor:pointer">تراجع</button>
+</sc-if>
+</section>
+</sc-for>
+</div>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 17px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<b style="font-size:11.5px">تمرين الثقة الأسبوعي (Dry Run)</b>
+<span style="flex:1;min-width:240px;font-size:10px;line-height:1.7;color:#5f7167">كل جمعة يحاكي الطيار أسبوعه القادم دون تنفيذ ويرسل لك «ما كنت سأفعله» — تراجع حدوده قبل أن يفعل.</span>
+<button type="button" onClick="{{ onDry }}" style="min-height:34px;padding:0 15px;border:0;border-radius:10px;background:#14261d;color:#fff;font-size:11px;font-weight:900;cursor:pointer">شغّل المحاكاة الآن</button>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.season }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:auFade .25s ease">المحرك الموسمي — المحتوى يتجدد وحده</h1>
+<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">تقويم التبديل الذاتي — العام الدراسي ١٤٤٨</h2>
+<sc-for list="{{ se.cal }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="flex:0 0 96px;font-size:9.5px;font-weight:900;color:#8a6500">{{ c.w }}</span>
+<span style="flex:1;min-width:200px"><b style="font-size:11px">{{ c.t }}</b><span style="display:block;font-size:9px;color:#7c8a82">{{ c.d }}</span></span>
+<span style="padding:2px 9px;border-radius:999px;background:{{ c.sBg }};color:{{ c.sC }};font-size:8.5px;font-weight:900">{{ c.st }}</span>
+</div>
+</sc-for>
+<p style="margin:9px 0 0;font-size:9px;color:#a9b4ad">المصدر: التقويم الدراسي الرسمي — تغيّر وزاري يُحدّث كل التواريخ سلسلةً واحدة.</p>
+</section>
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 6px;font-size:12px;font-weight:900">أرشفة العروض المنتهية — بقواعد</h2>
+<sc-for list="{{ se.arch }}" as="a" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px dashed #f1f4f2"><span style="flex:1;font-size:10px;color:#3d4f45">{{ a.r }}</span><span style="font-size:9px;font-weight:900;color:#146c4c">{{ a.v }}</span></div>
+</sc-for>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:13px 16px">
+<h2 style="margin:0 0 6px;font-size:12px;font-weight:900">سياسة A/B ذاتية الدورة</h2>
+<span style="font-size:10px;line-height:1.8;color:#5f7167">موافقتك مرة واحدة على السياسة: يبدأ، يقيس ٢٨ يومًا، لا يعلن فائزًا دون دلالة، يعمم، ويقيس بعد التعميم — وكل دورة في السجل.</span>
+<div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+<button type="button" onClick="{{ se.abTog }}" role="switch" aria-checked="{{ se.abOn }}" aria-label="سياسة A/B" style="flex:0 0 34px;height:18px;border:0;border-radius:999px;background:{{ se.abBg }};position:relative;cursor:pointer"><span aria-hidden="true" style="position:absolute;top:2px;inset-inline-start:{{ se.abKnob }};width:14px;height:14px;border-radius:50%;background:#fff;transition:inset-inline-start .15s"></span></button>
+<span style="font-size:10px;font-weight:900;color:{{ se.abC }}">{{ se.abT }}</span>
+</div>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.rules }}" hint-placeholder-val="{{ false }}">
+<h1 style="margin:0;font:900 18px Tajawal;animation:auFade .25s ease">حدود الأمان والاحترام — قواعد تحكم الطيار كله</h1>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">احترام العميل — حدود الإزعاج</h2>
+<sc-for list="{{ rl.resp }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed #f1f4f2;flex-wrap:wrap">
+<span style="flex:1;min-width:200px;font-size:10.5px;font-weight:800;color:#3d4f45">{{ r.n }}</span>
+<select value="{{ r.v }}" onChange="{{ r.onV }}" style="min-height:30px;padding:0 9px;border:1px solid #d5dbd6;border-radius:8px;background:#fff;font:800 10px Tajawal;outline:none">
+<sc-for list="{{ r.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.n }}</option></sc-for>
+</select>
+</div>
+</sc-for>
+<p style="margin:8px 0 0;font-size:9px;color:#a9b4ad">إلغاء الاشتراك بنقرة يوقف كل الحلقات لهذا العميل فورًا وعبر كل القنوات.</p>
+</section>
+<section style="border:1px solid #dce2dd;border-radius:14px;background:#fff;padding:14px 17px">
+<h2 style="margin:0 0 8px;font-size:12.5px;font-weight:900">حدود التشغيل التقنية</h2>
+<sc-for list="{{ rl.tech }}" as="t" hint-placeholder-count="6">
+<span style="display:flex;align-items:center;gap:7px;padding:4px 0;font-size:10.5px;color:#3d4f45"><span aria-hidden="true" style="color:#146c4c;font-weight:900">✓</span>{{ t }}</span>
+</sc-for>
+</section>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ is.toasts }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position:fixed;inset-inline-end:18px;bottom:18px;z-index:100">
+<sc-for list="{{ toasts }}" as="t" hint-placeholder-count="1">
+<div style="max-width:430px;margin-top:7px;padding:12px 15px;border-radius:12px;background:#14261d;color:#fff;box-shadow:0 12px 32px rgba(10,25,18,.3);font-size:12px;font-weight:800;line-height:1.6;animation:auFade .2s ease">{{ t.m }}</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:900},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;loops&quot;,&quot;log&quot;,&quot;season&quot;,&quot;rules&quot;],&quot;default&quot;:&quot;loops&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الشاشة&quot;}}">
+class Component extends DCLogic {
+ar(n){ return String(n).replace(/[0-9]/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+LOOPS=[
+ ['rev','إيراد ذاتي','#1e7355',[
+  ['cart','تسلسل السلة المتروكة',1,'واتساب بعد ٣ ساعات ثم بريد بعد ٢٤ — يتوقف فور الشراء أو أول «أوقفوا الرسائل».','آخر ٧ أيام: ٤١ سلة ← ٩ مستردة','+١٬٤٣٠ ر.س'],
+  ['stock','عودة التوفر — حلقة مغلقة',1,'المخزون يعود ← الرسائل تنطلق ← البريد يُحذف تلقائيًا. رسالة واحدة لا نشرة.','٢٣ منتظرًا على «أوراق لغتي»','تحويل المنتظرين ٦١٪'],
+  ['fbt','«يُشترى معًا» يتعلم وحده',1,'يُعاد ترتيبه كل أحد من طلبات ٩٠ يومًا الفعلية — لا قوائم يدوية تتقادم.','آخر تحديث: الأحد ٤ص','رفع AOV +٩٪'],
+  ['post','رسائل ما بعد الشراء',1,'طلب تقييم بعد التسليم بيومين + إشعار «تحدّث ملفك للمنهج» لكل مشترٍ سابق عند صدور تحديث.','٣٨ طلب تقييم هذا الأسبوع','تقييم جديد كل ٥ طلبات']]],
+ ['fix','صيانة ذاتية','#527a96',[
+  ['auto','طيار الإجراءات الآمنة',1,'alt المفقود، تسوية التحويلات، تنظيف Sitemap، وIndexNow — تُنفَّذ ذاتيًا ضمن تصنيف «آمن» فقط وبلقطة تراجع.','٦ أفعال آمنة أمس','صفر تدخل يدوي'],
+  ['links','مدقق الروابط الأسبوعي',1,'زحف كل اثنين ← 404 داخلي يُوجَّه لأقرب صفحة حية ← تقرير بما فعل.','الاثنين: ٣ روابط أُصلحت','لا 404 يعيش أسبوعًا'],
+  ['sync','المزامنة الثلاثية للسعر/التوفر',1,'تغيير في Woo يسري لحظيًا للمرئي وSchema وFeed — التطابق يُفحص كل ساعة.','آخر فحص: قبل ٩ دقائق ✓','صفر رفض Merchant'],
+  ['bak','نسخ احتياطي + فحص أمان صامت',1,'يوميًا ٣ فجرًا، استبقاء ٣٠ نسخة، وفحص تسلل — لا يراسلك إلا عند مشكلة.','آخر نسخة: اليوم ٣:٠٠ فجرًا','استعادة بنقرة']]],
+ ['content','محتوى يتجدد ذاتيًا','#8a6500',[
+  ['season','المحرك الموسمي',1,'التقويم والعدّادات ولافتات المواسم تتبدل بتواريخ العام الدراسي وحدها — سلسلة واحدة من التقويم الرسمي.','التالي: لافتة الفترة الأولى بعد ٩ أيام','رابط دائم يراكم قوته'],
+  ['arch','أرشفة العروض المنتهية',1,'العرض ينتهي ← تحويل 301 لبديله أو noindex بقاعدة — لا صفحات مواسم ميتة.','أُرشفت «العودة للمدارس» تلقائيًا','صفر صفحات زومبي'],
+  ['ab','دورة A/B ذاتية الإدارة',0,'يبدأ ويقيس ٢٨ يومًا ويعمم الفائز — معطلة حتى توافق على السياسة مرة واحدة.','بانتظار موافقتك الأولى','+٧٨٪ CTR في آخر دورة يدوية']]],
+ ['pers','تخصيص ذاتي','#6b3fa0',[
+  ['home','رئيسية تتشكل بالسلوك',1,'زار «عاشر» مرتين ← ملازمه تتقدم. جلسة المتصفح فقط، بلا حساب وبلا تتبع خارجي.','١٨٪ من الجلسات تتخصص','CTR داخلي +١٤٪'],
+  ['digest','موجز الطيار الأسبوعي',1,'كل خميس: ماذا فعل، ماذا استرد، وماذا ينوي — بريد واحد يغنيك عن الدخول.','التالي: الخميس ٧ص','دقيقتان تكفيان']]]
+];
+state={scr:'loops',master:true,on:{cart:1,stock:1,fbt:1,post:1,auto:1,links:1,sync:1,bak:1,season:1,arch:1,ab:0,home:1,digest:1},
+ abOn:false,resp:{freq:'w2',quiet:'q9',ch:'both'},toasts:[]};
+toast(m){
+ const id='t'+Date.now();
+ this.setState({toasts:this.state.toasts.concat([{id:id,m:m}]).slice(-2)});
+ (this._tm=this._tm||[]).push(setTimeout(()=>this.setState({toasts:this.state.toasts.filter(x=>x.id!==id)}),3200));
+}
+componentWillUnmount(){ (this._tm||[]).forEach(clearTimeout); }
+renderVals(){
+ const st=this.state;
+ const SC=[['loops','الحلقات الذاتية'],['log','السجل الذاتي'],['season','المحرك الموسمي'],['rules','حدود الأمان']];
+ const activeN=Object.keys(st.on).filter(k=>st.on[k]).length;
+ const base={
+  screens:SC.map(s=>({n:s[1],on:st.scr===s[0],
+   bg:st.scr===s[0]?'#eaf2ee':'transparent',fg:st.scr===s[0]?'#0c1411':'rgba(234,242,238,.72)',bd:st.scr===s[0]?'#eaf2ee':'rgba(255,255,255,.14)',
+   onClick:()=>this.setState({scr:s[0]})})),
+  master:{on:st.master,t:st.master?'الطيار يعمل':'الطيار متوقف',
+   bg:st.master?'rgba(43,156,114,.18)':'rgba(255,255,255,.06)',fg:st.master?'#a8e2c5':'rgba(234,242,238,.7)',
+   bd:st.master?'rgba(43,156,114,.4)':'rgba(255,255,255,.14)',
+   swBg:st.master?'#1e9d6f':'rgba(255,255,255,.25)',knob:st.master?'18px':'2px',
+   stat:st.master?this.ar(activeN)+' حلقة نشطة الآن':'كل الحلقات معلقة',
+   onTog:()=>{ this.setState({master:!st.master});
+    this.toast(st.master?'أُوقف الطيار — كل الحلقات معلقة، المجدول لن يُرسل':'عاد الطيار للعمل ضمن حدودك'); }},
+  onKill:()=>{ this.setState({master:false});
+   this.toast('إيقاف طوارئ: توقفت كل الحلقات فورًا وأُلغيت الرسائل المجدولة غير المرسلة — الحدث في السجل'); },
+  is:{loops:st.scr==='loops',log:st.scr==='log',season:st.scr==='season',rules:st.scr==='rules',toasts:st.toasts.length>0},
+  toasts:st.toasts.map(t=>({m:t.m}))
+ };
+ base.digest=[['٩','سلال استُردت','#146c4c'],['٦','أفعال آمنة','#146c4c'],['٣','روابط أُصلحت','#527a96'],['٣٨','طلب تقييم','#8a6500']].map(d=>({v:d[0],l:d[1],c:d[2]}));
+ base.groups=this.LOOPS.map(g=>({n:g[1],c:g[2],
+  rows:g[3].map(l=>{
+   const on=st.master&&!!st.on[l[0]];
+   const paused=!st.master&&!!st.on[l[0]];
+   return {n:l[1],d:l[3],meta:l[4],impact:l[5],
+    on:!!st.on[l[0]],swBg:st.on[l[0]]?'#1e7355':'#cfd8d3',knob:st.on[l[0]]?'17px':'2px',
+    bd:on?'#cfe0d6':'#dce2dd',
+    st:on?'يعمل':(paused?'معلق (الطيار متوقف)':'معطل'),
+    sBg:on?'#e4f4ec':(paused?'#fff4d6':'#f2f4f2'),sC:on?'#146c4c':(paused?'#8a6500':'#5f7167'),
+    onTog:()=>{ const o=Object.assign({},st.on); o[l[0]]=o[l[0]]?0:1; this.setState({on:o});
+     this.toast((o[l[0]]?'فُعّلت':'أُوقفت')+' حلقة «'+l[1]+'» — في السجل الذاتي'); },
+    onCfg:()=>this.toast('حدود «'+l[1]+'»: المعدلات، الاستثناءات، ونافذة الهدوء — كلها في شاشة حدود الأمان')};
+  })}));
+ base.lg=[
+  ['اليوم ١١:٤٠','مزامنة ثلاثية','سعر math-101 تغير ٤٥←٤٢ — سرى للمرئي وSchema وFeed خلال ثانيتين','ok','نجح · تطابق ✓',1],
+  ['اليوم ٩:١٥','طيار آمن','alt وُلد لـ ٧ صور جديدة من اسم المنتج والزاوية','ok','نجح',1],
+  ['اليوم ٣:٠٠','نسخ احتياطي','نسخة يومية كاملة + فحص تسلل — لا ملاحظات','ok','صامت ✓',0],
+  ['أمس ٢٢:١٠','سلة متروكة','رسالة واتساب لسلة ١٨٤ ر.س ← اكتمل الشراء بعد ٤٠ دقيقة','ok','استرداد +١٨٤ ر.س',0],
+  ['أمس ١٦:٢٢','عودة التوفر','«أوراق لغتي» عادت ← ٢٣ رسالة انطلقت ← ١٤ شراء ← البُرُد حُذفت','ok','تحويل ٦١٪',0],
+  ['الاثنين ٦:٠٠','مدقق الروابط','٣ روابط 404 داخلية وُجهت لأقرب حي — التقرير بالموجز','ok','أُصلح ذاتيًا',1],
+  ['الأحد ٤:٠٠','يُشترى معًا','أعيد الترتيب من ٣٤٠ طلبًا — «دفتر التمارين» صعد للثالثة','ok','تعلّم ذاتي',1]
+ ].map(e=>({t:e[0],a:e[1],d:e[2],r:e[4],canRb:!!e[5],
+  c:'#1e7355',rBg:'#e4f4ec',rC:'#146c4c',
+  onRb:()=>this.toast('تراجع عن «'+e[1]+'» من اللقطة — والحلقة ستتجنب الحالة المماثلة حتى تراجع حدودها')}));
+ base.onDry=()=>this.toast('محاكاة الأسبوع القادم: ١٢ فعلًا آمنًا، رسالتا موسم، صفر عالي الخطورة — التقرير الكامل أُرسل لبريدك');
+ base.se={
+  cal:[
+   ['١٠ سبتمبر','لافتة الفترة الأولى تحل محل العودة للمدارس','الرئيسية + قناة واتساب (رسالة ١ من ٤)','مجدول','#fff4d6','#8a6500'],
+   ['٥ أكتوبر','عدّادات التضمين تتصفر للفترة الأولى تلقائيًا','٤٧ موقعًا مضمِّنًا يتحدثون معنا','مجدول','#fff4d6','#8a6500'],
+   ['١٦ نوفمبر','تبديل «وصل حديثًا» لملازم الفصل الثاني','بوابة الجودة تتحقق قبل الفهرسة','مجدول','#fff4d6','#8a6500'],
+   ['١٤ ديسمبر','ذروة النهائي: حزمة المراجعة تتصدر + رسالة ٤/٤','آخر رسالة موسمية — الحد المحترم','مجدول','#fff4d6','#8a6500'],
+   ['٢٨ ديسمبر','أرشفة عروض الفصل الأول بقواعدها','301 للبدائل — لا صفحات ميتة','مجدول','#fff4d6','#8a6500'],
+   ['اليوم','لافتة العودة للمدارس تعمل','بدأت ذاتيًا في موعدها','نشط الآن','#e4f4ec','#146c4c']
+  ].map(c=>({w:c[0],t:c[1],d:c[2],st:c[3],sBg:c[4],sC:c[5]})),
+  arch:[
+   {r:'انتهى العرض + له بديل مكافئ',v:'301 للبديل'},
+   {r:'انتهى ولا بديل + له روابط خلفية',v:'يبقى بمحتوى «انتهى» + بدائل'},
+   {r:'انتهى ولا روابط ولا زيارات',v:'noindex ثم 410 بعد ٦٠ يومًا'}
+  ],
+  abOn:st.abOn,abBg:st.abOn?'#1e7355':'#cfd8d3',abKnob:st.abOn?'17px':'2px',
+  abT:st.abOn?'السياسة معتمدة — الدورات تدور ذاتيًا':'بانتظار اعتمادك (مرة واحدة)',
+  abC:st.abOn?'#146c4c':'#8a6500',
+  abTog:()=>{ this.setState({abOn:!st.abOn}); const on=Object.assign({},st.on); on.ab=st.abOn?0:1; this.setState({on:on});
+   this.toast(st.abOn?'أُلغي اعتماد سياسة A/B':'اعتُمدت السياسة — أول دورة تبدأ الأحد وكل دورة في السجل'); }
+ };
+ const OPT={freq:[['w1','رسالة/أسبوع'],['w2','رسالتان/أسبوع'],['w4','٤ (موسمي فقط)']],quiet:[['q9','هدوء ١١م–٩ص'],['q8','هدوء ١٠م–٨ص'],['off','بلا نافذة']],ch:[['both','واتساب + بريد'],['wa','واتساب فقط'],['em','بريد فقط']]};
+ base.rl={
+  resp:[['freq','حد الرسائل لكل عميل'],['quiet','ساعات الهدوء (لا إرسال)'],['ch','القنوات المسموحة']].map(r=>({
+   n:r[1],v:st.resp[r[0]],opts:OPT[r[0]].map(o=>({v:o[0],n:o[1]})),
+   onV:(e)=>{ const x=Object.assign({},st.resp); x[r[0]]=e.target.value; this.setState({resp:x});
+    this.toast('حُدّث «'+r[1]+'» — يسري على كل الحلقات فورًا'); }})),
+  tech:['«آمن» فقط يُنفَّذ ذاتيًا — المراجعة والخطورة تنتظران موافقة','لقطة تراجع قبل كل كتابة مهما صغرت','حد معدل: ٥٠ فعلًا/ساعة ثم تهدئة تلقائية','فشلان متتاليان لحلقة = تعليق ذاتي + تنبيه','الصفحات المحمية (Money Pages) لا يمسها الطيار إطلاقًا','كل شيء في سجل التدقيق الموحد للمركز']
+ };
+ return base;
+}
+}
+</script>
+</body>
+</html>

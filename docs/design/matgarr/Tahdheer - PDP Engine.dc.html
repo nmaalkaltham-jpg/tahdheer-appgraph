@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#dcdad5;font-family:Tajawal,"SF Arabic","Segoe UI",Tahoma,Arial,sans-serif}
+a{color:#1e7355;text-decoration:none}
+a:hover{color:#123d2f}
+@keyframes tahFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes tahPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@keyframes tahPop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+@keyframes tahShimmer{from{filter:brightness(1)}50%{filter:brightness(1.22)}to{filter:brightness(1)}}
+@keyframes tahBarGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tahStarIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes tahBarUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes tahSharePop{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes tahDotPulse{0%{transform:scale(1);opacity:.45}70%{transform:scale(2.1);opacity:0}100%{transform:scale(2.1);opacity:0}}
+@keyframes tahPillIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+[style*="tahBarGrow"]{transform-origin:right center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.tahscroll::-webkit-scrollbar{width:9px}
+.tahscroll::-webkit-scrollbar-thumb{background:#d3d8cf;border-radius:9px;border:3px solid #fff}
+.tahscroll::-webkit-scrollbar-track{background:transparent}
+</style>
+</helmet>
+
+<dc-import name="TahIcons" hint-size="0,0"></dc-import>
+
+<div style="width:1640px;height:1020px;display:flex;direction:rtl;background:#f2f4f1;border:1px solid rgba(0,0,0,.1);border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1)">
+
+<aside style="width:412px;flex:0 0 auto;display:flex;flex-direction:column;background:#fff;border-inline-end:1px solid #e0e5dd">
+
+<div style="flex:0 0 auto;background:#14261d;padding:12px 16px;display:flex;align-items:center;gap:10px">
+<span style="width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(150deg,#1e7355,#123d2f);color:#fff;flex:0 0 auto"><svg aria-hidden="true" style="width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="#i-sliders"></use></svg></span>
+<div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:900;color:#fff;line-height:1.35">محرّك عرض المنتج</div><div style="font-size:11px;color:#e6cd93;font-weight:700">صفحة المنتج ← الحقائق والعروض</div></div>
+<button type="button" onClick="{{ onPublish }}" style="flex:0 0 auto;padding:9px 18px;border:0;border-radius:9px;background:#1e7355;color:#fff;font:800 13px Tajawal,sans-serif;cursor:pointer">نشر</button>
+</div>
+
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid #eef1ec;background:#fbfcfa">
+<span style="font-size:11px;font-weight:800;color:#5f7167;flex:0 0 auto">النطاق</span>
+<div style="flex:1;display:flex;gap:3px;padding:3px;border-radius:9px;background:#f2f5f2">
+<sc-for list="{{ scopes }}" as="s" hint-placeholder-count="3">
+<button type="button" onClick="{{ s.onClick }}" style="flex:1;min-height:30px;border:0;border-radius:7px;font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;line-height:1;cursor:pointer;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.shadow }}">{{ s.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="flex:0 0 auto;display:flex;align-items:flex-start;gap:9px;padding:11px 16px;background:{{ scopeNote.bg }};border-bottom:1px solid #eef1ec">
+<svg aria-hidden="true" style="width:15px;height:15px;color:{{ scopeNote.fg }};fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-layers"></use></svg>
+<span style="font-size:11.5px;line-height:1.65;color:{{ scopeNote.fg }}">{{ scopeNote.text }}</span>
+</div>
+
+<div class="tahscroll" style="flex:1;min-height:0;overflow-y:auto">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="11">
+<section style="border-bottom:1px solid #eef1ec">
+<button type="button" onClick="{{ g.onToggle }}" style="width:100%;display:flex;align-items:center;gap:11px;padding:13px 16px;border:0;background:{{ g.headBg }};cursor:pointer;text-align:start">
+<span style="flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:{{ g.tint }};color:{{ g.color }};display:grid;place-items:center"><svg aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ g.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:13.5px;font-weight:900;color:#14261d">{{ g.title }}</b><span style="font-size:11px;color:#5f7167">{{ g.summary }}</span></span>
+<svg aria-hidden="true" style="flex:0 0 auto;width:14px;height:14px;color:#5f7167;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;transform:{{ g.rotate }};transition:transform .16s"><use href="#i-chev"></use></svg>
+</button>
+<div style="display:{{ g.bodyDisplay }};padding:2px 16px 16px">
+
+<sc-if value="{{ g.isFacts }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;background:rgba(216,181,106,.09);border:1px solid rgba(216,181,106,.3);margin-bottom:11px">
+<svg aria-hidden="true" style="width:14px;height:14px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-info"></use></svg>
+<span style="font-size:11px;line-height:1.65;color:#7a5d20">اسحب لإعادة الترتيب. القيمة تُقرأ من حقل المنتج — الحقل الفارغ لا يُنتج شريحة، ولا يُكتب نص بديل مكانه.<br><b>عدد مرات الشراء</b> يُذكر مرة واحدة: إذا ظهر في صف التقييم فلن يتكرّر كشريحة هنا.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ factRows }}" as="f" hint-placeholder-count="12">
+<div style="border:1px solid {{ f.border }};border-radius:10px;background:{{ f.bg }};opacity:{{ f.opacity }};overflow:hidden">
+<div draggable="true" onDragStart="{{ f.onDragStart }}" onDragOver="{{ f.onDragOver }}" onDrop="{{ f.onDrop }}" onDragEnd="{{ f.onDragEnd }}" style="display:flex;align-items:center;gap:7px;padding:8px 9px;cursor:grab">
+<span style="flex:0 0 auto;color:#c9d4cd"><svg aria-hidden="true" style="width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-drag"></use></svg></span>
+<span style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:{{ f.tint }};color:{{ f.color }};display:grid;place-items:center"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round"><use href="{{ f.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:12.5px;font-weight:800;color:{{ f.labelColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.label }}</b><span dir="ltr" style="display:block;font:600 9.5px ui-monospace,Menlo,monospace;color:#5f7167;text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.key }}</span></span>
+<span style="flex:0 0 auto;padding:2px 7px;border-radius:5px;background:{{ f.srcBg }};color:{{ f.srcFg }};font-size:9.5px;font-weight:800">{{ f.srcLabel }}</span>
+<button type="button" onClick="{{ f.onToggle }}" aria-label="تفعيل" style="flex:0 0 auto;width:34px;height:20px;border-radius:999px;border:0;background:{{ f.switchBg }};position:relative;cursor:pointer;padding:0"><span style="position:absolute;inset-block-start:2.5px;inset-inline-start:{{ f.knob }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.16s"></span></button>
+<button type="button" onClick="{{ f.onEdit }}" aria-label="تحرير" title="تحرير" style="flex:0 0 auto;width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="background:#f2f5f2;color:#14261d"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-pen"></use></svg></button>
+<button type="button" onClick="{{ f.onDup }}" aria-label="تكرار" title="تكرار" style="flex:0 0 auto;width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="background:#f2f5f2;color:#14261d"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-copy"></use></svg></button>
+<button type="button" onClick="{{ f.onDel }}" aria-label="حذف" title="حذف" style="flex:0 0 auto;width:24px;height:24px;border:0;border-radius:6px;background:transparent;color:#5f7167;display:grid;place-items:center;cursor:pointer" style-hover="background:#fdecec;color:#b42318"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round"><use href="#i-close"></use></svg></button>
+</div>
+<div style="display:{{ f.editDisplay }};flex-direction:column;gap:8px;padding:10px;border-top:1px solid #eef1ec;background:#fbfcfa">
+<label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:10.5px;font-weight:800;color:#5f7167">الاسم في اللوحة</span><input type="text" value="{{ f.label }}" onChange="{{ f.onLabel }}" style="min-height:32px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font:600 12px Tajawal,sans-serif;color:#14261d;outline:none"></label>
+<label style="display:flex;flex-direction:column;gap:4px"><span style="font-size:10.5px;font-weight:800;color:#5f7167">النص المعروض على الصفحة</span><input type="text" value="{{ f.text }}" onChange="{{ f.onText }}" style="min-height:32px;padding:0 10px;border:1px solid #dde3dc;border-radius:8px;background:#fff;font:600 12px Tajawal,sans-serif;color:#14261d;outline:none"></label>
+<div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:10.5px;font-weight:800;color:#5f7167">الأيقونة</span>
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ f.iconOptions }}" as="ic" hint-placeholder-count="10">
+<button type="button" onClick="{{ ic.onClick }}" aria-label="اختر أيقونة" style="width:28px;height:28px;border:1px solid {{ ic.border }};border-radius:7px;background:{{ ic.bg }};color:{{ ic.fg }};display:grid;place-items:center;cursor:pointer;padding:0"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ ic.iconRef }}"></use></svg></button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+<button type="button" onClick="{{ onAddFact }}" style="width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:7px;min-height:38px;border:1px dashed #1e7355;border-radius:10px;background:rgba(30,115,85,.05);color:#1e7355;font:800 12.5px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><use href="#i-plus"></use></svg>أضف حقيقة جديدة</button>
+
+<div style="margin-top:12px;padding:11px 12px;border:1px solid rgba(216,181,106,.35);border-radius:10px;background:rgba(216,181,106,.07)">
+<div style="font-size:11.5px;font-weight:900;color:#7a5d20;margin-bottom:7px">الرجوع الآمن</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<button type="button" onClick="{{ onRestoreOriginal }}" style="display:flex;align-items:center;justify-content:center;gap:7px;min-height:36px;border:1px solid #7a5d20;border-radius:9px;background:#fff;color:#7a5d20;font:800 12px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-refresh"></use></svg>استعادة التصميم الأصلي</button>
+<button type="button" onClick="{{ onResetPreset }}" style="display:flex;align-items:center;justify-content:center;gap:7px;min-height:36px;border:1px solid #dde3dc;border-radius:9px;background:#fff;color:#5f7167;font:800 12px Tajawal,sans-serif;cursor:pointer">إعادة ضبط نمط «{{ presetName }}» فقط</button>
+</div>
+<div style="margin-top:7px;font-size:10.5px;line-height:1.65;color:#7a5d20">الاستعادة تبدّل طريقة العرض فقط — لا تحذف الحقائق ولا إعدادات الأنماط الأخرى ({{ savedPresetCount }} نمط له إعدادات محفوظة).</div>
+</div>
+</sc-if>
+
+<sc-for list="{{ g.controls }}" as="c" hint-placeholder-count="4">
+<div style="margin-bottom:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+<label style="flex:1;font-size:12px;font-weight:800;color:#14261d">{{ c.label }}</label>
+<sc-if value="{{ c.hasDevice }}" hint-placeholder-val="{{ false }}">
+<span style="display:flex;gap:2px;padding:2px;border-radius:7px;background:#f2f5f2">
+<sc-for list="{{ c.devices }}" as="d" hint-placeholder-count="2"><button type="button" onClick="{{ d.onClick }}" aria-label="{{ d.name }}" style="width:22px;height:20px;border:0;border-radius:5px;background:{{ d.bg }};color:{{ d.fg }};display:grid;place-items:center;cursor:pointer"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2"><use href="{{ d.iconRef }}"></use></svg></button></sc-for>
+</span>
+</sc-if>
+<sc-if value="{{ c.hasBadge }}" hint-placeholder-val="{{ false }}"><span dir="ltr" style="padding:2px 8px;border-radius:6px;background:#f2f5f2;font:700 10px ui-monospace,Menlo,monospace;color:#5f7167">{{ c.badge }}</span></sc-if>
+</div>
+
+<sc-if value="{{ c.isChips }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ c.options }}" as="o" hint-placeholder-count="4"><button type="button" onClick="{{ o.onClick }}" style="padding:7px 12px;border:1px solid {{ o.border }};border-radius:9px;background:{{ o.bg }};color:{{ o.fg }};font-family:Tajawal,sans-serif;font-size:11.5px;font-weight:800;line-height:1.2;cursor:pointer">{{ o.label }}</button></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ c.isGridPick }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+<sc-for list="{{ c.options }}" as="o" hint-placeholder-count="6"><button type="button" onClick="{{ o.onClick }}" style="display:flex;flex-direction:column;gap:5px;padding:7px;border:1.5px solid {{ o.border }};border-radius:10px;background:{{ o.bg }};cursor:pointer"><span style="display:flex;height:34px;border-radius:6px;background:#f4f7f3;padding:5px;flex-wrap:wrap;gap:2px;align-content:center;justify-content:center;align-items:center;overflow:hidden">
+<sc-for list="{{ o.bars }}" as="b" hint-placeholder-count="3"><span style="display:block;width:{{ b.w }};height:{{ b.h }};border-radius:{{ b.r }};background:{{ b.c }};flex:0 0 auto"></span></sc-for>
+</span><span style="font-size:10px;font-weight:800;color:{{ o.fg }};text-align:center;line-height:1.3">{{ o.label }}</span></button></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ c.isText }}" hint-placeholder-val="{{ false }}">
+<input type="text" value="{{ c.value }}" onChange="{{ c.onChange }}" placeholder="{{ c.placeholder }}" style="width:100%;min-height:38px;padding:0 12px;border:1px solid #dde3dc;border-radius:9px;background:#fff;font:600 12.5px Tajawal,sans-serif;color:#14261d;outline:none;box-sizing:border-box">
+</sc-if>
+<sc-if value="{{ c.isRange }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px"><input type="range" min="{{ c.min }}" max="{{ c.max }}" value="{{ c.value }}" onChange="{{ c.onChange }}" style="flex:1;accent-color:#1e7355"><span dir="ltr" style="flex:0 0 auto;min-width:52px;text-align:center;padding:5px 0;border:1px solid #dde3dc;border-radius:8px;background:#fbfcfa;font:800 11.5px ui-monospace,Menlo,monospace;color:#14261d">{{ c.value }}{{ c.unit }}</span></div>
+</sc-if>
+<sc-if value="{{ c.isToggle }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ c.onChange }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:9px 11px;border:1px solid #dde3dc;border-radius:10px;background:#fbfcfa;cursor:pointer;text-align:start"><span style="flex:0 0 auto;width:36px;height:21px;border-radius:999px;background:{{ c.switchBg }};position:relative"><span style="position:absolute;inset-block-start:3px;inset-inline-start:{{ c.knob }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span></span><span style="flex:1;font-size:12px;font-weight:700;color:#3b4d43">{{ c.hint }}</span></button>
+</sc-if>
+<sc-if value="{{ c.isPreview }}" hint-placeholder-val="{{ false }}">
+<div style="padding:11px 13px;border:1px dashed #c9d4cd;border-radius:10px;background:#fbfcfa;display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+<span style="font-size:10.5px;font-weight:800;color:#5f7167">الناتج</span>
+<span style="display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;background:#1e7355;color:#fff;font-size:12.5px;font-weight:900">{{ c.previewA }}</span>
+<sc-if value="{{ c.hasPreviewB }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;background:rgba(216,181,106,.18);color:#7a5d20;font-size:12.5px;font-weight:900">{{ c.previewB }}</span></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{ c.hasHint }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:6px;font-size:11px;line-height:1.7;color:#5f7167">{{ c.hint2 }}</div>
+</sc-if>
+</div>
+</sc-for>
+
+<sc-if value="{{ g.isShare }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;background:rgba(216,181,106,.09);border:1px solid rgba(216,181,106,.3);margin-bottom:11px">
+<svg aria-hidden="true" style="width:14px;height:14px;color:#7a5d20;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-info"></use></svg>
+<span style="font-size:11px;line-height:1.65;color:#7a5d20">انستقرام وتيك توك لا توفّران مشاركة موثوقة من المتصفح. الزرّان يستخدمان مشاركة النظام إن توفّرت، وإلا ينسخان الرابط <b>ويقولان ذلك</b> — لا زر يُظهر نجاحًا لم يحدث.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:3px">
+<sc-for list="{{ shareRows }}" as="s" hint-placeholder-count="6">
+<div draggable="true" onDragStart="{{ s.onDragStart }}" onDragOver="{{ s.onDragOver }}" onDrop="{{ s.onDrop }}" onDragEnd="{{ s.onDragEnd }}" style="display:flex;align-items:center;gap:9px;padding:8px 9px;border:1px solid {{ s.border }};border-radius:10px;background:{{ s.bg }};cursor:grab;opacity:{{ s.opacity }}">
+<span style="flex:0 0 auto;color:#c9d4cd"><svg aria-hidden="true" style="width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-drag"></use></svg></span>
+<span style="flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:{{ s.tint }};color:{{ s.color }};display:grid;place-items:center"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ s.iconRef }}"></use></svg></span>
+<span style="flex:1;min-width:0"><b style="display:block;font-size:12.5px;font-weight:800;color:{{ s.labelColor }}">{{ s.label }}</b><span style="font-size:9.5px;color:#5f7167">{{ s.method }}</span></span>
+<button type="button" onClick="{{ s.onToggle }}" aria-label="تفعيل" style="flex:0 0 auto;width:34px;height:20px;border-radius:999px;border:0;background:{{ s.switchBg }};position:relative;cursor:pointer;padding:0"><span style="position:absolute;inset-block-start:2.5px;inset-inline-start:{{ s.knob }};width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.16s"></span></button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ g.isRules }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px">
+<sc-for list="{{ salesRules }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #eef1ec;border-radius:9px;background:{{ r.bg }}">
+<span dir="ltr" style="flex:0 0 62px;font:700 10.5px ui-monospace,Menlo,monospace;color:#5f7167;text-align:start">{{ r.range }}</span>
+<svg aria-hidden="true" style="flex:0 0 auto;width:12px;height:12px;color:#c9d4cd;fill:none;stroke:currentColor;stroke-width:2.4"><use href="#i-chev"></use></svg>
+<span style="flex:1;font-size:12px;font-weight:800;color:{{ r.fg }}">{{ r.output }}</span>
+<sc-if value="{{ r.isActive }}" hint-placeholder-val="{{ false }}"><span style="flex:0 0 auto;padding:2px 8px;border-radius:5px;background:#1e7355;color:#fff;font-size:9.5px;font-weight:800">الحالة الآن</span></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border-radius:10px;background:rgba(37,155,111,.06);border:1px solid rgba(37,155,111,.16)">
+<svg aria-hidden="true" style="width:14px;height:14px;color:#1e7355;fill:none;stroke:currentColor;stroke-width:2;flex:0 0 auto;margin-top:2px"><use href="#i-shield"></use></svg>
+<span style="font-size:11px;line-height:1.65;color:#3b4d43">القاعدة تختار الصياغة فقط. الرقم نفسه يبقى <code dir="ltr" style="font-size:10.5px">total_sales</code> من WooCommerce — لا تدوير للأعلى ولا حدّ أدنى مصطنع.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ g.isPriority }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:3px;margin-bottom:12px">
+<sc-for list="{{ badgeRows }}" as="b" hint-placeholder-count="5">
+<div draggable="true" onDragStart="{{ b.onDragStart }}" onDragOver="{{ b.onDragOver }}" onDrop="{{ b.onDrop }}" onDragEnd="{{ b.onDragEnd }}" style="display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid {{ b.border }};border-radius:10px;background:{{ b.bg }};cursor:grab;opacity:{{ b.opacity }}">
+<span style="flex:0 0 auto;color:#c9d4cd"><svg aria-hidden="true" style="width:15px;height:15px;fill:currentColor;stroke:none"><use href="#i-drag"></use></svg></span>
+<span style="flex:0 0 18px;font:900 10.5px ui-monospace,Menlo,monospace;color:#5f7167;text-align:center">{{ b.num }}</span>
+<span style="flex:1;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;background:{{ b.chipBg }};color:{{ b.chipFg }};font-size:11.5px;font-weight:900;align-self:flex-start"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><use href="{{ b.iconRef }}"></use></svg>{{ b.label }}</span>
+<span style="flex:0 0 auto;padding:2px 8px;border-radius:5px;background:{{ b.stateBg }};color:{{ b.stateFg }};font-size:9.5px;font-weight:800">{{ b.state }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</section>
+</sc-for>
+<div style="height:24px"></div>
+</div>
+</aside>
+
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;background:#e9ece7">
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 18px;background:#fff;border-bottom:1px solid #e0e5dd">
+<div style="display:flex;gap:2px;padding:3px;border-radius:10px;background:#f2f5f2">
+<sc-for list="{{ deviceBtns }}" as="d" hint-placeholder-count="2"><button type="button" onClick="{{ d.onClick }}" aria-label="{{ d.name }}" title="{{ d.name }}" style="width:36px;height:30px;border:0;border-radius:7px;background:{{ d.bg }};color:{{ d.fg }};display:grid;place-items:center;cursor:pointer;box-shadow:{{ d.shadow }}"><svg aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round"><use href="{{ d.iconRef }}"></use></svg></button></sc-for>
+</div>
+<span style="width:1px;height:22px;background:#e0e5dd"></span>
+<button type="button" onClick="{{ onReplay }}" style="display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border:1px solid #e0e5dd;border-radius:9px;background:#fff;color:#5f7167;font:800 12px Tajawal,sans-serif;cursor:pointer"><svg aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><use href="#i-refresh"></use></svg>إعادة تشغيل الحركة</button>
+<div style="flex:1"></div>
+<div style="display:flex;align-items:center;gap:7px">
+<sc-for list="{{ auditChips }}" as="a" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;background:{{ a.bg }};border:1px solid {{ a.border }};font-size:11px;font-weight:800;color:{{ a.fg }}"><svg aria-hidden="true" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"><use href="{{ a.iconRef }}"></use></svg>{{ a.label }}</span>
+</sc-for>
+</div>
+<div style="flex:1"></div>
+<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:8px;background:rgba(216,181,106,.12);border:1px solid rgba(216,181,106,.35);font-size:11.5px;font-weight:800;color:#7a5d20"><span style="width:6px;height:6px;border-radius:50%;background:#d8b56a"></span>{{ unsavedLabel }}</span>
+</div>
+
+<div class="tahscroll" style="flex:1;min-height:0;overflow:auto;padding:20px;display:flex;justify-content:center;align-items:flex-start">
+<div style="width:{{ frameW }};flex:0 0 auto;border-radius:{{ frameRadius }};overflow:hidden;background:#fff;box-shadow:0 6px 30px rgba(20,45,33,.14);border:1px solid #dde3dc">
+<div style="width:{{ innerW }};transform:scale({{ scale }});transform-origin:top right">
+<dc-import name="TahPdp" config="{{ pdpConfig }}" hint-size="1180px,1400px"></dc-import>
+</div>
+</div>
+</div>
+
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:9px 18px;background:#fff;border-top:1px solid #e0e5dd;font-size:11px;color:#5f7167">
+<span style="font-weight:800;color:#14261d">قيم مشتقّة:</span>
+<span dir="ltr" style="font:700 10.5px ui-monospace,Menlo,monospace">{{ mathLine }}</span>
+<div style="flex:1"></div>
+<span>Schema يقرأ السعر النهائي <b dir="ltr" style="color:#14261d">{{ salePrice }}</b> — لا نص الشارة</span>
+</div>
+</main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1640,&quot;height&quot;:1020}}">
+class Component extends DCLogic {
+  state = {
+    scope: 'global',
+    device: 'desktop',
+    open: { facts: false, promo: false, sales: false, price: false, hero: false, badges: false, motion: false, glance: false, resp: false, social: false, adv: false, purchase: true, share: true, reviews: false },
+    unsaved: 4,
+    replay: 0,
+
+    heroPreset: 'b',
+    metaStyle: 1,
+    metaSlot: 'under-title',
+    metaSlotMobile: 'above-cta',
+    metaDevice: 'desktop',
+    pricePreset: 'd',
+    promoMode: 3,
+    promoPlacement: 'price',
+    promoAnim: 'none',
+    promoOverride: '',
+    promoEndDate: '',
+    pctDecimals: 0,
+    savingsRounded: false,
+    regular: 400,
+    sale: 300,
+    salesDisplay: 'rounded',
+    salesThreshold: 10,
+    salesCount: 350,
+    salesHot: 250,
+    showSales: true,
+    showBestsellerChip: true,
+    badgeMax: 2,
+    badgePlacement: 'image',
+    badgeUpdated: false,
+    badgeNew: false,
+    motionOn: true,
+    glanceStyle: 'table',
+    thumbStyle: 'refined',
+    trustVariant: 'minimal',
+    surfaceMode: 'flat',
+    showVisitors: false,
+    visitorCount: 18,
+    showGlance: true,
+    stickyBar: true,
+    showReviews: true,
+    reviewsStyle: 'premium',
+
+    /* Both new systems default to the CURRENT behaviour, so installing changes nothing. */
+    purchaseMode: 'original',
+    barPreset: 'premium',
+    barTrigger: 'always',
+    barShowCart: true,
+    barShowBuy: true,
+    barShowApple: true,
+    barIconOnly: false,
+    barCartIconOnly: true,
+    barShowPrice: false,
+    simulateApple: false,
+    shareMode: 'original',
+    shareOrder: ['general', 'whatsapp', 'telegram', 'x', 'instagram', 'tiktok'],
+    shareHidden: {},
+    shareDevice: 'desktop',
+    shareSlot: 'below-price',
+    shareSlotMobile: 'below-cta',
+    shareIconSize: '16px',
+    shareGap: '6px',
+    dragShare: null, overShare: null,
+    dragFact: null, overFact: null,
+    dragBadge: null, overBadge: null,
+
+    /*
+     * Preset 0 is the theme's existing output. Switching away never mutates it,
+     * and each preset keeps its own settings object so round-tripping is lossless.
+     */
+    preset: 1,
+    presetSettings: {},
+    customSettings: {},
+    editingFact: null,
+    factSeq: 0,
+
+    // Ordered instances. CRUD mutates this array; the catalogue in factDefs()
+    // stays the source of provenance for the known fields.
+    factList: [
+      { uid: 'f1', id: 'slides', on: true },
+      { uid: 'f2', id: 'editable', on: true },
+      { uid: 'f3', id: 'format', on: true },
+      { uid: 'f4', id: 'sales', on: false },
+      { uid: 'f5', id: 'delivery', on: false },
+      { uid: 'f6', id: 'worksheets', on: false },
+      { uid: 'f7', id: 'activities', on: false },
+      { uid: 'f8', id: 'level', on: false },
+      { uid: 'f9', id: 'subject', on: false },
+      { uid: 'f10', id: 'semester', on: false },
+      { uid: 'f11', id: 'language', on: false },
+      { uid: 'f12', id: 'updated', on: false }
+    ],
+    badgeOrder: ['promo', 'best', 'editable', 'updated', 'new']
+  };
+
+  set(patch) { this.setState(s => ({ ...patch, unsaved: s.unsaved + 1 })); }
+  toggleGroup(k) { this.setState(s => ({ open: { ...s.open, [k]: !s.open[k] } })); }
+
+  factDefs() {
+    return {
+      slides: { id: 'slides', label: 'عدد الشرائح', key: '_tahdheer_slides_count', src: 'real', iconRef: '#i-grid', value: '22', unit: 'شريحة', text: '22 شريحة' },
+      editable: { id: 'editable', label: 'قابل للتعديل', key: '_tahdheer_editable', src: 'real', iconRef: '#i-pen', value: '100%', unit: '', text: 'قابل للتعديل بالكامل' },
+      sales: { id: 'sales', label: 'عدد مرات الشراء', key: 'total_sales (Woo)', src: 'real', iconRef: '#i-cart-bag', value: '350+', unit: '', text: '+300 عملية شراء' },
+      format: { id: 'format', label: 'صيغة الملف', key: '_tahdheer_file_format', src: 'real', iconRef: '#i-files', value: 'PPTX', unit: '', text: 'PowerPoint PPTX' },
+      delivery: { id: 'delivery', label: 'طريقة التسليم', key: '_tahdheer_prd_delivery', src: 'real', iconRef: '#i-download', value: 'فوري', unit: '', text: 'تحميل فوري' },
+      worksheets: { id: 'worksheets', label: 'أوراق العمل', key: '_tahdheer_worksheets_count', src: 'new', iconRef: '#i-print', value: '7', unit: 'ورقة', text: '7 أوراق عمل' },
+      activities: { id: 'activities', label: 'الأنشطة', key: '_tahdheer_activities_count', src: 'new', iconRef: '#i-blocks', value: '3', unit: 'أنشطة', text: '3 أنشطة صفّية' },
+      level: { id: 'level', label: 'المرحلة التعليمية', key: '_tahdheer_educational_level', src: 'real', iconRef: '#i-cap', value: 'ثانوي', unit: '', text: 'المرحلة الثانوية' },
+      subject: { id: 'subject', label: 'المادة', key: '_tahdheer_subject', src: 'real', iconRef: '#i-tag', value: 'كيمياء', unit: '', text: 'الكيمياء' },
+      semester: { id: 'semester', label: 'الفصل الدراسي', key: '_tahdheer_semester', src: 'new', iconRef: '#i-calendar', value: 'الأول', unit: '', text: 'الفصل الأول' },
+      language: { id: 'language', label: 'اللغة', key: 'get_locale() / inLanguage', src: 'derived', iconRef: '#i-globe', value: 'العربية', unit: '', text: 'العربية' },
+      updated: { id: 'updated', label: 'آخر تحديث', key: 'post_modified', src: 'derived', iconRef: '#i-clock', value: 'أغسطس 2026', unit: '', text: 'حُدّث أغسطس 2026' }
+    };
+  }
+
+  reorder(list, from, to, key, extra) {
+    this.setState(s => {
+      const arr = s[list].slice();
+      const i = arr.indexOf(from), j = arr.indexOf(to);
+      if (i < 0 || j < 0 || i === j) return extra;
+      arr.splice(j, 0, arr.splice(i, 1)[0]);
+      return { [list]: arr, ...extra, unsaved: s.unsaved + 1 };
+    });
+  }
+
+  reorderFacts(fromUid, toUid) {
+    this.setState(s => {
+      const arr = s.factList.slice();
+      const i = arr.findIndex(f => f.uid === fromUid), j = arr.findIndex(f => f.uid === toUid);
+      if (i < 0 || j < 0 || i === j) return { dragFact: null, overFact: null };
+      arr.splice(j, 0, arr.splice(i, 1)[0]);
+      return { factList: arr, dragFact: null, overFact: null, unsaved: s.unsaved + 1 };
+    });
+  }
+
+  mutateFact(uid, patch) {
+    this.setState(s => ({
+      factList: s.factList.map(f => f.uid === uid ? { ...f, ...patch } : f),
+      unsaved: s.unsaved + 1
+    }));
+  }
+
+  duplicateFact(uid) {
+    this.setState(s => {
+      const i = s.factList.findIndex(f => f.uid === uid);
+      if (i < 0) return null;
+      const seq = s.factSeq + 1;
+      const copy = { ...s.factList[i], uid: 'c' + seq, on: true };
+      const arr = s.factList.slice();
+      arr.splice(i + 1, 0, copy);
+      return { factList: arr, factSeq: seq, unsaved: s.unsaved + 1 };
+    });
+  }
+
+  deleteFact(uid) {
+    this.setState(s => ({ factList: s.factList.filter(f => f.uid !== uid), editingFact: null, unsaved: s.unsaved + 1 }));
+  }
+
+  addFact() {
+    this.setState(s => {
+      const seq = s.factSeq + 1;
+      return {
+        factList: s.factList.concat([{ uid: 'n' + seq, id: 'custom', on: true, label: 'حقيقة جديدة', text: 'قابل للطباعة', iconRef: '#i-print' }]),
+        factSeq: seq, editingFact: 'n' + seq, unsaved: s.unsaved + 1
+      };
+    });
+  }
+
+  /* Per-preset settings: read/write only the active preset's own bucket. */
+  presetCfg() {
+    return this.state.presetSettings[this.state.preset] || {};
+  }
+
+  setPresetCfg(patch) {
+    this.setState(s => ({
+      presetSettings: { ...s.presetSettings, [s.preset]: { ...(s.presetSettings[s.preset] || {}), ...patch } },
+      unsaved: s.unsaved + 1
+    }));
+  }
+
+  renderVals() {
+    const st = this.state;
+    const defs = this.factDefs();
+    const mobile = st.device === 'mobile';
+
+    const savings = Math.max(0, st.regular - st.sale);
+    const pctRaw = st.regular > 0 ? (savings / st.regular) * 100 : 0;
+    const pct = pctRaw.toFixed(st.pctDecimals).replace(/\.0+$/, '');
+
+    const srcStyle = {
+      real: ['rgba(37,155,111,.12)', '#1e7355', 'حقل موجود'],
+      new: ['rgba(216,181,106,.18)', '#7a5d20', 'حقل جديد'],
+      derived: ['#f2f5f2', '#5f7167', 'مشتق'],
+      manual: ['#f2f5f2', '#5f7167', 'يدوي']
+    };
+
+    const customDef = { id: 'custom', label: 'حقيقة مخصّصة', key: 'يدوي — لا يُدخل البيانات المنظّمة', src: 'manual', iconRef: '#i-print', value: '', unit: '', text: '' };
+    const factRows = st.factList.map(f => {
+      const d = defs[f.id] || customDef;
+      const on = f.on;
+      const s = srcStyle[d.src] || srcStyle.manual;
+      const editing = st.editingFact === f.uid;
+      return {
+        uid: f.uid,
+        label: f.label != null ? f.label : d.label,
+        text: f.text != null ? f.text : d.text,
+        key: d.key, iconRef: f.iconRef || d.iconRef,
+        srcBg: s[0], srcFg: s[1], srcLabel: s[2],
+        tint: on ? 'rgba(37,155,111,.10)' : '#f2f5f2', color: on ? '#1e7355' : '#5f7167',
+        labelColor: on ? '#14261d' : '#5f7167',
+        bg: st.overFact === f.uid ? 'rgba(30,115,85,.07)' : (on ? '#fff' : '#fbfcfa'),
+        border: st.overFact === f.uid ? '#1e7355' : (editing ? '#1e7355' : '#eef1ec'),
+        opacity: st.dragFact === f.uid ? '.4' : '1',
+        switchBg: on ? '#1e7355' : '#d3d8cf', knob: on ? '16px' : '2.5px',
+        editDisplay: editing ? 'flex' : 'none',
+        onToggle: (e) => { e.stopPropagation(); this.mutateFact(f.uid, { on: !on }); },
+        onEdit: (e) => { e.stopPropagation(); this.setState({ editingFact: editing ? null : f.uid }); },
+        onDup: (e) => { e.stopPropagation(); this.duplicateFact(f.uid); },
+        onDel: (e) => { e.stopPropagation(); this.deleteFact(f.uid); },
+        onLabel: (e) => this.mutateFact(f.uid, { label: e.target.value }),
+        onText: (e) => this.mutateFact(f.uid, { text: e.target.value }),
+        iconOptions: ['#i-grid', '#i-pen', '#i-files', '#i-print', '#i-download', '#i-play', '#i-globe', '#i-cap', '#i-blocks', '#i-calendar'].map(ic => ({
+          iconRef: ic,
+          bg: (f.iconRef || d.iconRef) === ic ? '#1e7355' : '#fff',
+          fg: (f.iconRef || d.iconRef) === ic ? '#fff' : '#5f7167',
+          border: (f.iconRef || d.iconRef) === ic ? '#1e7355' : '#dde3dc',
+          onClick: () => this.mutateFact(f.uid, { iconRef: ic })
+        })),
+        onDragStart: () => this.setState({ dragFact: f.uid }),
+        onDragOver: (e) => { e.preventDefault(); if (st.overFact !== f.uid) this.setState({ overFact: f.uid }); },
+        onDrop: (e) => { e.preventDefault(); this.reorderFacts(st.dragFact, f.uid); },
+        onDragEnd: () => this.setState({ dragFact: null, overFact: null })
+      };
+    });
+
+    const badgeMeta = {
+      promo: { label: 'خصم ' + pct + '%', iconRef: '#i-percent', chipBg: '#1e7355', chipFg: '#fff', live: savings > 0 },
+      best: { label: 'الأكثر مبيعًا', iconRef: '#i-trophy', chipBg: '#14261d', chipFg: '#fff', live: st.salesCount >= st.salesHot },
+      editable: { label: 'قابل للتعديل', iconRef: '#i-pen', chipBg: 'rgba(216,181,106,.9)', chipFg: '#14261d', live: true },
+      updated: { label: 'حُدّث حديثًا', iconRef: '#i-refresh', chipBg: '#f2f5f2', chipFg: '#3b4d43', live: st.badgeUpdated },
+      new: { label: 'جديد', iconRef: '#i-sparkle', chipBg: '#1e7355', chipFg: '#fff', live: st.badgeNew }
+    };
+    let shown = 0;
+    const badgeRows = st.badgeOrder.map((id, i) => {
+      const m = badgeMeta[id];
+      const visible = m.live && shown < st.badgeMax;
+      if (visible) shown++;
+      return {
+        num: String(i + 1), label: m.label, iconRef: m.iconRef, chipBg: m.chipBg, chipFg: m.chipFg,
+        state: !m.live ? 'لا بيانات' : visible ? 'ظاهر' : 'مؤجّل',
+        stateBg: !m.live ? '#f2f5f2' : visible ? 'rgba(37,155,111,.12)' : 'rgba(216,181,106,.18)',
+        stateFg: !m.live ? '#5f7167' : visible ? '#1e7355' : '#7a5d20',
+        bg: st.overBadge === id ? 'rgba(30,115,85,.07)' : '#fff',
+        border: st.overBadge === id ? '#1e7355' : '#eef1ec',
+        opacity: st.dragBadge === id ? '.4' : '1',
+        onDragStart: () => this.setState({ dragBadge: id }),
+        onDragOver: (e) => { e.preventDefault(); if (st.overBadge !== id) this.setState({ overBadge: id }); },
+        onDrop: (e) => { e.preventDefault(); this.reorder('badgeOrder', st.dragBadge, id, null, { dragBadge: null, overBadge: null }); },
+        onDragEnd: () => this.setState({ dragBadge: null, overBadge: null })
+      };
+    });
+
+    const chips = (key, opts) => opts.map(o => ({
+      label: o[1],
+      border: st[key] === o[0] ? '#1e7355' : '#dde3dc',
+      bg: st[key] === o[0] ? 'rgba(30,115,85,.07)' : '#fff',
+      fg: st[key] === o[0] ? '#1e7355' : '#5f7167',
+      onClick: () => this.set({ [key]: o[0] })
+    }));
+    const blank = { isChips: false, isGridPick: false, isText: false, isRange: false, isToggle: false, isPreview: false, hasHint: false, hasDevice: false, hasBadge: false, options: [], devices: [] };
+    const toggle = (key, label, hint) => ({ ...blank, label, isToggle: true, hint, switchBg: st[key] ? '#1e7355' : '#d3d8cf', knob: st[key] ? '18px' : '3px', onChange: () => this.set({ [key]: !st[key] }) });
+
+    const reviewNames = { premium: 'بطاقات فاخرة', dashboard: 'لوحة تحليل', editorial: 'تحريري أنيق' };
+    const barNames = { minimal: 'بسيط', premium: 'مرتفع', integrated: 'مدمج' };
+    const shareNames = { row: 'صف أيقونات', floating: 'دائرية', expandable: 'زر يتوسّع' };
+    const activeShare = st.shareOrder.filter(k => !st.shareHidden[k]).length;
+    const shareSlotKey = st.shareDevice === 'mobile' ? 'shareSlotMobile' : 'shareSlot';
+    const sharePick = ['desktop', 'mobile'].map(d => ({
+      name: d === 'desktop' ? 'سطح المكتب' : 'جوال',
+      iconRef: d === 'desktop' ? '#i-device-desktop' : '#i-device-mobile',
+      bg: st.shareDevice === d ? '#fff' : 'transparent', fg: st.shareDevice === d ? '#1e7355' : '#5f7167',
+      onClick: () => this.setState({ shareDevice: d })
+    }));
+    const pc = this.presetCfg();
+    const presetLocked = st.preset === 0;
+    const metaSlotKey = st.metaDevice === 'mobile' ? 'metaSlotMobile' : 'metaSlot';
+    const devicePick = ['desktop', 'mobile'].map(d => ({
+      name: d === 'desktop' ? 'سطح المكتب' : 'جوال',
+      iconRef: d === 'desktop' ? '#i-device-desktop' : '#i-device-mobile',
+      bg: st.metaDevice === d ? '#fff' : 'transparent', fg: st.metaDevice === d ? '#1e7355' : '#5f7167',
+      onClick: () => this.setState({ metaDevice: d })
+    }));
+
+    /*
+     * Mini-previews for the six meta styles: each is a signature of that style's
+     * real silhouette — pills, dot+line rows, cards, tall stat blocks, one text
+     * run, a 2×3 grid — so the picker reads without opening each one.
+     */
+    const G = '#9fc9b6', GD = '#1e7355', L = '#d3ddd6';
+
+    /*
+     * Preset 0 is the theme's current output, registered as a first-class preset
+     * rather than replaced. Adding a Style 11 later = one entry here + one
+     * <sc-if> branch in TahPdpMeta; nothing else changes.
+     */
+    const presetNames = ['الأصلي (الحالي)', 'حبّات', 'بطاقات أيقونات', 'صف مبسّط', 'شبكة فاخرة', 'إحصائيات', 'مدمج حديث', 'زجاجي ناعم', 'قائمة أيقونات', 'شريط مقسّم', 'مخصّص'];
+    const presetThumbs = [
+      [{ w: '13px', h: '4px', r: '2px', c: GD }, { w: '30px', h: '4px', r: '2px', c: L }, { w: '13px', h: '4px', r: '2px', c: GD }, { w: '24px', h: '4px', r: '2px', c: L }],
+      [{ w: '18px', h: '7px', r: '999px', c: GD }, { w: '22px', h: '7px', r: '999px', c: G }, { w: '14px', h: '7px', r: '999px', c: G }],
+      [{ w: '15px', h: '20px', r: '4px', c: G }, { w: '15px', h: '20px', r: '4px', c: G }, { w: '15px', h: '20px', r: '4px', c: G }],
+      [{ w: '48px', h: '5px', r: '3px', c: GD }, { w: '30px', h: '5px', r: '3px', c: L }],
+      [{ w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: L }, { w: '15px', h: '10px', r: '3px', c: L }, { w: '15px', h: '10px', r: '3px', c: L }],
+      [{ w: '13px', h: '20px', r: '3px', c: GD }, { w: '13px', h: '20px', r: '3px', c: G }, { w: '13px', h: '20px', r: '3px', c: G }],
+      [{ w: '16px', h: '11px', r: '3px', c: L }, { w: '16px', h: '11px', r: '3px', c: L }, { w: '16px', h: '11px', r: '3px', c: G }],
+      [{ w: '22px', h: '14px', r: '5px', c: '#e4efe9' }, { w: '22px', h: '14px', r: '5px', c: '#eef4f1' }],
+      [{ w: '5px', h: '5px', r: '50%', c: GD }, { w: '30px', h: '4px', r: '2px', c: L }, { w: '5px', h: '5px', r: '50%', c: GD }, { w: '24px', h: '4px', r: '2px', c: L }],
+      [{ w: '48px', h: '14px', r: '4px', c: G }],
+      [{ w: '10px', h: '10px', r: '2px', c: GD }, { w: '10px', h: '10px', r: '999px', c: G }, { w: '10px', h: '10px', r: '5px', c: L }]
+    ];
+    const presetPicks = presetNames.map((label, i) => ({
+      label,
+      bars: presetThumbs[i],
+      border: st.preset === i ? '#1e7355' : (i === 0 ? '#c9b489' : '#e6ebe4'),
+      bg: st.preset === i ? 'rgba(30,115,85,.06)' : (i === 0 ? 'rgba(216,181,106,.07)' : '#fff'),
+      fg: st.preset === i ? '#1e7355' : '#5f7167',
+      onClick: () => this.set({ preset: i })
+    }));
+
+    const metaThumbs = [
+      [{ w: '18px', h: '7px', r: '999px', c: GD }, { w: '22px', h: '7px', r: '999px', c: G }, { w: '14px', h: '7px', r: '999px', c: G }],
+      [{ w: '5px', h: '5px', r: '50%', c: GD }, { w: '15px', h: '4px', r: '2px', c: L }, { w: '5px', h: '5px', r: '50%', c: GD }, { w: '12px', h: '4px', r: '2px', c: L }, { w: '5px', h: '5px', r: '50%', c: GD }, { w: '16px', h: '4px', r: '2px', c: L }],
+      [{ w: '17px', h: '16px', r: '4px', c: G }, { w: '17px', h: '16px', r: '4px', c: G }, { w: '17px', h: '16px', r: '4px', c: G }],
+      [{ w: '13px', h: '20px', r: '3px', c: GD }, { w: '13px', h: '20px', r: '3px', c: G }, { w: '13px', h: '20px', r: '3px', c: G }],
+      [{ w: '48px', h: '5px', r: '3px', c: GD }, { w: '30px', h: '5px', r: '3px', c: L }],
+      [{ w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: G }, { w: '15px', h: '10px', r: '3px', c: L }, { w: '15px', h: '10px', r: '3px', c: L }, { w: '15px', h: '10px', r: '3px', c: L }]
+    ];
+
+    const groups = [
+      {
+        key: 'facts', title: 'حقائق المنتج', iconRef: '#i-list', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: st.factList.filter(f => f.on).length + ' مفعّلة من ' + st.factList.length + ' · ' + presetNames[st.preset],
+        isFacts: true, controls: [
+          { ...blank, label: 'أسلوب عرض معلومات المنتج', isGridPick: true, options: presetPicks },
+          { ...blank, label: 'الموضع', isChips: true, hasDevice: true, devices: devicePick, options: chips(metaSlotKey, [['under-title', 'تحت العنوان'], ['below-price', 'تحت السعر'], ['above-cta', 'فوق زر الشراء'], ['below-cta', 'تحت زر الشراء']]), hasHint: true, hint2: st.metaDevice === 'mobile' ? 'موضع الجوال مستقل عن سطح المكتب.' : 'لكل جهاز موضع مستقل — بدّل الأيقونة أعلاه.' },
+          presetLocked
+            ? { ...blank, label: 'إعدادات هذا النمط', hasHint: true, hint2: 'النمط الأصلي يُعرض كما هو في القالب الحالي — لا إعدادات مظهر له، وهذا مقصود: هو المرجع الذي تعود إليه.' }
+            : { ...blank, label: 'الأعمدة', isRange: true, value: pc.columns || 3, min: 1, max: 4, unit: ' عمود', onChange: e => this.setPresetCfg({ columns: Number(e.target.value) }), hasBadge: true, badge: presetNames[st.preset] },
+          presetLocked ? null : { ...blank, label: 'المسافة بين العناصر', isRange: true, value: parseInt(pc.gap || '7'), min: 2, max: 24, unit: 'px', onChange: e => this.setPresetCfg({ gap: e.target.value + 'px' }) },
+          presetLocked ? null : { ...blank, label: 'حجم النص', isRange: true, value: parseInt(pc.fontSize || '13'), min: 10, max: 18, unit: 'px', onChange: e => this.setPresetCfg({ fontSize: e.target.value + 'px' }) }
+        ].filter(Boolean)
+      },
+      {
+        key: 'promo', title: 'شارة العرض والخصم', iconRef: '#i-percent', tint: 'rgba(216,181,106,.18)', color: '#7a5d20',
+        summary: 'نمط ' + String(st.promoMode).padStart(2, '0') + ' · ' + (savings > 0 ? 'خصم ' + pct + '%' : 'لا خصم'),
+        controls: [
+          { ...blank, label: 'نمط العرض', isChips: true, options: chips('promoMode', [[1, '01 نسبة'], [2, '02 مبلغ'], [3, '03 الاثنان'], [4, '04 شارتان'], [5, '05 بطاقة'], [6, '06 داخل السعر'], [7, '07 مبسّط'], [8, '08 فاخر']]) },
+          { ...blank, label: 'المكان', isChips: true, options: chips('promoPlacement', [['price', 'مع السعر'], ['image', 'على الصورة']]) },
+          { ...blank, label: 'الناتج المحسوب', isPreview: true, previewA: 'خصم ' + pct + '%', hasPreviewB: true, previewB: 'وفّر ' + savings.toLocaleString('en-US') + ' ريال', hasHint: true, hint2: 'محسوب من السعر: (' + st.regular + ' − ' + st.sale + ') ÷ ' + st.regular + ' × 100' },
+          { ...blank, label: 'نص بديل يدوي', isText: true, value: st.promoOverride, placeholder: 'مثال: عرض العودة للمدارس', onChange: e => this.set({ promoOverride: e.target.value }), hasHint: true, hint2: 'النص اليدوي نص تسويقي — لا يدخل البيانات المنظّمة ولا يغيّر السعر.' },
+          { ...blank, label: 'تاريخ انتهاء العرض', isText: true, value: st.promoEndDate, placeholder: 'اتركه فارغًا = لا تُذكر مدة', onChange: e => this.set({ promoEndDate: e.target.value }), hasHint: true, hint2: 'عبارة «ينتهي قريبًا» لا تظهر إلا بتاريخ فعلي مضبوط.' }
+        ]
+      },
+      {
+        key: 'price', title: 'السعر والتقريب', iconRef: '#i-coins', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: 'نمط ' + String(st.pricePreset).toUpperCase() + ' · ' + st.sale + ' من ' + st.regular,
+        controls: [
+          { ...blank, label: 'تخطيط السعر', isChips: true, options: chips('pricePreset', [['a', 'A فوق/تحت'], ['b', 'B جانبي'], ['c', 'C يبدأ من'], ['d', 'D + شارة'], ['e', 'E سطر توفير']]) },
+          { ...blank, label: 'السعر الأصلي', isRange: true, value: st.regular, min: 100, max: 800, unit: ' ر.س', onChange: e => this.set({ regular: Number(e.target.value) }) },
+          { ...blank, label: 'سعر العرض', isRange: true, value: st.sale, min: 50, max: 800, unit: ' ر.س', onChange: e => this.set({ sale: Number(e.target.value) }) },
+          { ...blank, label: 'خانات عشرية للنسبة', isRange: true, value: st.pctDecimals, min: 0, max: 2, unit: '', onChange: e => this.set({ pctDecimals: Number(e.target.value) }), hasBadge: true, badge: pctRaw.toFixed(2) + '% → ' + pct + '%' },
+          toggle('savingsRounded', 'تقريب مبلغ التوفير', st.savingsRounded ? 'مقرّب لأقرب 5' : 'المبلغ الفعلي')
+        ]
+      },
+      {
+        key: 'sales', title: 'عدّاد المبيعات', iconRef: '#i-cart-bag', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: st.salesCount >= st.salesThreshold ? 'ظاهر · ' + st.salesCount.toLocaleString('en-US') + ' مبيع' : 'مخفي — تحت الحد',
+        isRules: true, controls: [
+          toggle('showSales', 'إظهار العدّاد', st.showSales ? 'مفعّل' : 'مطفأ'),
+          { ...blank, label: 'صياغة الرقم', isChips: true, options: chips('salesDisplay', [['exact', 'دقيق'], ['rounded', 'مقرّب'], ['compact', 'مضغوط'], ['abbrev', 'مختصر K'], ['marketing', 'تسويقي']]) },
+          { ...blank, label: 'الحد الأدنى للإظهار', isRange: true, value: st.salesThreshold, min: 0, max: 50, unit: ' مبيع', onChange: e => this.set({ salesThreshold: Number(e.target.value) }) },
+          { ...blank, label: 'حد وسم «الأكثر مبيعًا»', isRange: true, value: st.salesHot, min: 25, max: 500, unit: ' مبيع', onChange: e => this.set({ salesHot: Number(e.target.value) }) },
+          { ...blank, label: 'المبيعات الفعلية (محاكاة)', isRange: true, value: st.salesCount, min: 0, max: 1400, unit: '', onChange: e => this.set({ salesCount: Number(e.target.value) }), hasHint: true, hint2: 'في الإنتاج هذا الرقم للقراءة فقط من WooCommerce. هنا للاختبار.' }
+        ]
+      },
+      {
+        key: 'hero', title: 'تخطيط رأس الصفحة', iconRef: '#i-wand', tint: 'rgba(216,181,106,.18)', color: '#7a5d20',
+        summary: 'الإعداد ' + st.heroPreset.toUpperCase(),
+        controls: [
+          { ...blank, label: 'الإعداد الجاهز', isChips: true, options: chips('heroPreset', [['a', 'A بسيط فاخر'], ['b', 'B تحويل'], ['c', 'C بصري']]) },
+          toggle('showGlance', 'قسم «نظرة سريعة»', st.showGlance ? 'ظاهر' : 'مخفي'),
+          { ...blank, label: 'شكل «نظرة سريعة»', isChips: true, options: chips('glanceStyle', [['table', 'جدول'], ['cards', 'بطاقات'], ['list', 'قائمة'], ['stats', 'إحصائيات']]), hasHint: true, hint2: 'الجدول يُخرَج كـ table مع th scope — لا شبكة تتظاهر بأنها جدول.' },
+          { ...blank, label: 'الصور المصغّرة', isChips: true, options: chips('thumbStyle', [['classic', 'الأصلي'], ['refined', 'مُحسَّن']]), hasHint: true, hint2: 'المُحسَّن: أقصر، مسافات أوسع، حدّ أخضر وظلّ خفيف للنشطة، تظليل «معاينة» عند المرور، وتمرير أفقي عند زيادة العدد.' },
+          { ...blank, label: 'شريط الثقة السفلي', isChips: true, options: chips('trustVariant', [['classic', 'الأصلي'], ['minimal', 'مُصغَّر فاخر'], ['glass', 'زجاجي'], ['smart', 'مؤشّرات حالة']]), hasHint: true, hint2: 'ثلاثة تصاميم جديدة + الأصلي محفوظًا. الزجاجي والمؤشّرات يعملان على الفاتح والداكن.' },
+          { ...blank, label: 'أسطح الصفحة', isChips: true, options: chips('surfaceMode', [['flat', 'مسطّح (الأصلي)'], ['cards', 'بطاقات']]), hasHint: true, hint2: 'البطاقات تضيف عمقًا بحدّ شعري وسطح أوف-وايت وظلّ خفيف جدًا — بلا لون جديد.' },
+          toggle('showVisitors', 'مؤشّر الزوار الآن', st.showVisitors ? 'ظاهر — يحتاج مصدر بيانات حقيقي' : 'مطفأ'),
+          st.showVisitors ? { ...blank, label: 'العدد (محاكاة للمعاينة)', isRange: true, value: st.visitorCount, min: 0, max: 120, unit: ' زائر', onChange: e => this.set({ visitorCount: Number(e.target.value) }), hasHint: true, hint2: 'المكوّن لا يرسم شيئًا بلا عدد حقيقي — لا رقم افتراضي ولا عشوائي. في الإنتاج يأتي من نقطة heartbeat أو Analytics الحيّ، ويختفي تحت الحدّ الأدنى فلا تُعلن صفحة هادئة عن هدوئها.' } : null
+        ].filter(Boolean)
+      },
+      {
+        key: 'badges', title: 'أولوية الشارات', iconRef: '#i-tag', tint: 'rgba(216,181,106,.18)', color: '#7a5d20',
+        summary: 'حد أقصى ' + st.badgeMax + ' · ' + shown + ' ظاهرة',
+        isPriority: true, controls: [
+          { ...blank, label: 'أقصى عدد ظاهر', isRange: true, value: st.badgeMax, min: 0, max: 4, unit: ' شارة', onChange: e => this.set({ badgeMax: Number(e.target.value) }) },
+          { ...blank, label: 'مكان الشارات', isChips: true, options: chips('badgePlacement', [['image', 'على الصورة'], ['inline', 'مع الوسوم']]) },
+          toggle('badgeUpdated', 'شارة «حُدّث حديثًا»', 'تعتمد على post_modified الفعلي'),
+          toggle('badgeNew', 'شارة «جديد»', 'تعتمد على تاريخ النشر الفعلي')
+        ]
+      },
+      {
+        key: 'motion', title: 'الحركة', iconRef: '#i-bolt', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: st.motionOn ? 'مفعّلة · تتابع خفيف' : 'مطفأة',
+        controls: [
+          toggle('motionOn', 'تفعيل الحركة', st.motionOn ? 'ظهور متتابع خفيف' : 'بدون حركة'),
+          { ...blank, label: 'حركة شارة العرض', isChips: true, options: chips('promoAnim', [['none', 'بدون'], ['pop', 'ظهور'], ['pulse', 'نبضة ×3'], ['shimmer', 'لمعة ×2']]), hasHint: true, hint2: 'لا حركة لانهائية. كلها تحترم prefers-reduced-motion، وزر الشراء يبقى قابلًا للنقر من أول لحظة.' }
+        ]
+      },
+      {
+        key: 'purchase', title: 'واجهة الشراء', iconRef: '#i-cart-bag', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: st.purchaseMode === 'sticky' ? 'شريط ثابت · ' + barNames[st.barPreset] : st.purchaseMode === 'trio' ? 'ثلاثة خيارات في الصفحة' : 'الأصلي (الحالي)',
+        controls: [
+          { ...blank, label: 'نمط واجهة الشراء', isChips: true, options: chips('purchaseMode', [['original', 'الأصلي (الحالي)'], ['trio', 'ثلاثة خيارات في الصفحة'], ['sticky', 'شريط شراء ثابت']]), hasHint: true, hint2: st.purchaseMode === 'sticky' ? 'على الجوال فقط: يُخفى صف الأزرار الداخلي فلا يبقى إلا زر شراء واحد. سطح المكتب لا يتغيّر.' : st.purchaseMode === 'trio' ? 'يستبدل صف أزرار الصفحة بثلاثة خيارات بجانب بعضها: السلة أيقونة، اشتر الآن بأيقونة محفظة، وApple Pay. على كل الأجهزة.' : 'الوضع الحالي كما هو — لا شيء محذوف، والرجوع فوري.' },
+          st.purchaseMode === 'sticky' ? { ...blank, label: 'تصميم الشريط', isChips: true, options: chips('barPreset', [['minimal', 'بسيط'], ['premium', 'مرتفع'], ['integrated', 'مدمج']]) } : null,
+          st.purchaseMode === 'sticky' ? { ...blank, label: 'وقت الظهور', isChips: true, options: chips('barTrigger', [['always', 'دائمًا'], ['scroll', 'بعد التمرير'], ['cta', 'بعد اختفاء زر الشراء']]), hasHint: true, hint2: 'خيار «بعد اختفاء زر الشراء» يراقب الزر الداخلي بـ IntersectionObserver. إن تعذّر ذلك يظهر الشريط — زر شراء مخفي أسوأ من زر ظهر مبكرًا.' } : null,
+          st.purchaseMode === 'original' ? null : toggle('barShowCart', 'زر أضف للسلة', st.barShowCart === false ? 'مخفي' : 'ظاهر'),
+          st.purchaseMode === 'original' ? null : toggle('barShowBuy', 'زر اشتر الآن', st.barShowBuy === false ? 'مخفي' : 'ظاهر'),
+          st.purchaseMode === 'original' ? null : toggle('barShowApple', 'زر Apple Pay', st.barShowApple === false ? 'مطفأ' : 'مفعّل — يظهر عند توفّره فعليًا'),
+          st.purchaseMode === 'original' ? null : toggle('simulateApple', 'محاكاة توفّر Apple Pay', st.simulateApple ? 'مفعّلة — للمعاينة فقط' : 'مطفأة'),
+          st.purchaseMode === 'sticky' ? toggle('barCartIconOnly', 'السلة أيقونة فقط', st.barCartIconOnly === false ? 'أيقونة + نص' : 'أيقونة — يوفّر مساحة للخيارات الثلاثة') : null,
+          st.purchaseMode === 'sticky' ? toggle('barShowPrice', 'إظهار السعر في الشريط', st.barShowPrice ? 'ظاهر — قد يضيّق الأزرار' : 'مخفي (موصى به مع ثلاثة خيارات)') : null,
+          st.purchaseMode === 'sticky' ? toggle('barIconOnly', 'كل الأزرار أيقونات', st.barIconOnly ? 'أيقونة فقط' : 'أيقونة + نص') : null,
+          st.purchaseMode === 'original' ? null : { ...blank, label: 'ملاحظة Apple Pay', hasHint: true, hint2: 'الزر لا يظهر إلا إذا كان ApplePaySession متاحًا على الجهاز والمتصفح وتدعمه بوابة الدفع. شعار Apple يُترك مكانًا فارغًا مُعلَّمًا — يُستبدل بأصل Apple الرسمي عند التنفيذ، ولا يُرسم يدويًا.' }
+        ].filter(Boolean)
+      },
+      {
+        key: 'share', title: 'مشاركة المنتج', iconRef: '#i-share', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: st.shareMode === 'original' ? 'مخفي (الأصلي)' : shareNames[st.shareMode] + ' · ' + activeShare + ' منصات',
+        isShare: true,
+        controls: [
+          { ...blank, label: 'نمط المشاركة', isChips: true, options: chips('shareMode', [['original', 'الأصلي (بلا مشاركة)'], ['row', 'صف أيقونات'], ['floating', 'أيقونات دائرية'], ['expandable', 'زر يتوسّع']]), hasHint: true, hint2: 'زر «مشاركة» يستخدم Web Share API إن توفّر، وإلا ينسخ الرابط ويقول ذلك صراحة.' },
+          st.shareMode === 'original' ? null : { ...blank, label: 'الموضع', isChips: true, hasDevice: true, devices: sharePick, options: chips(shareSlotKey, [['below-title', 'تحت العنوان'], ['below-price', 'تحت السعر'], ['below-cta', 'تحت زر الشراء']]), hasHint: true, hint2: st.shareDevice === 'mobile' ? 'موضع الجوال مستقل عن سطح المكتب.' : 'لكل جهاز موضع مستقل — بدّل الأيقونة أعلاه.' },
+          st.shareMode === 'original' ? null : { ...blank, label: 'حجم الأيقونة', isRange: true, value: parseInt(st.shareIconSize || '16'), min: 12, max: 24, unit: 'px', onChange: e => this.set({ shareIconSize: e.target.value + 'px' }) },
+          st.shareMode === 'original' ? null : { ...blank, label: 'المسافة بين الأيقونات', isRange: true, value: parseInt(st.shareGap || '6'), min: 2, max: 16, unit: 'px', onChange: e => this.set({ shareGap: e.target.value + 'px' }) }
+        ].filter(Boolean)
+      },
+      {
+        key: 'reviews', title: 'آراء العملاء', iconRef: '#i-star', tint: 'rgba(216,181,106,.18)', color: '#7a5d20',
+        summary: st.showReviews === false ? 'مخفي' : reviewNames[st.reviewsStyle || 'premium'] + ' · 4.9 من 212',
+        controls: [
+          toggle('showReviews', 'إظهار قسم التقييمات', st.showReviews === false ? 'مخفي' : 'ظاهر أسفل الصفحة'),
+          { ...blank, label: 'تصميم القسم', isChips: true, options: chips('reviewsStyle', [['premium', 'بطاقات فاخرة'], ['dashboard', 'لوحة تحليل'], ['editorial', 'تحريري أنيق']]), hasHint: true, hint2: 'الأرقام المعروضة هنا هي نفسها في رأس الصفحة — متوسط واحد وتوزيع واحد لكل منتج.' }
+        ]
+      },
+      {
+        key: 'resp', title: 'الاستجابة', iconRef: '#i-device-mobile', tint: 'rgba(37,155,111,.12)', color: '#1e7355',
+        summary: mobile ? 'تعرض الجوال' : 'تعرض سطح المكتب',
+        controls: [
+          toggle('stickyBar', 'شريط شراء ثابت على الجوال', st.stickyBar ? 'مفعّل' : 'مطفأ'),
+          toggle('showBestsellerChip', 'وسم «الأكثر مبيعًا» بجانب التقييم', st.showBestsellerChip ? 'ظاهر' : 'مخفي')
+        ]
+      }
+    ].map(g => ({
+      ...g,
+      isFacts: !!g.isFacts, isRules: !!g.isRules, isPriority: !!g.isPriority, isShare: !!g.isShare,
+      headBg: st.open[g.key] ? '#fbfcfa' : '#fff',
+      bodyDisplay: st.open[g.key] ? 'block' : 'none',
+      rotate: st.open[g.key] ? 'rotate(90deg)' : 'rotate(-90deg)',
+      onToggle: () => this.toggleGroup(g.key)
+    }));
+
+    const ranges = [[0, 9, 'مخفي تمامًا'], [10, 49, '+10 مبيعات'], [50, 99, '+50 مبيعًا'], [100, 499, '+100 عملية شراء'], [500, 9999, 'الأكثر مبيعًا']];
+    const salesRules = ranges.map(r => {
+      const active = st.salesCount >= r[0] && st.salesCount <= r[1];
+      return {
+        range: r[1] > 999 ? r[0] + '+' : r[0] + '–' + r[1],
+        output: r[2], isActive: active,
+        bg: active ? 'rgba(37,155,111,.06)' : '#fff',
+        fg: active ? '#1e7355' : '#5f7167'
+      };
+    });
+
+    const facts = st.factList.map(f => {
+      const d = defs[f.id] || customDef;
+      const src = d.src;
+      return {
+        ...d,
+        ...(f.label != null ? { label: f.label } : {}),
+        ...(f.text != null ? { text: f.text } : {}),
+        ...(f.iconRef ? { iconRef: f.iconRef } : {}),
+        id: f.id, on: f.on,
+        fg: src === 'new' ? '#7a5d20' : '#1e7355',
+        tint: src === 'new' ? 'rgba(216,181,106,.14)' : 'rgba(37,155,111,.10)',
+        border: src === 'new' ? 'rgba(216,181,106,.4)' : 'rgba(37,155,111,.24)'
+      };
+    });
+
+    const newFields = st.factList.filter(f => f.on && defs[f.id] && defs[f.id].src === 'new').length;
+
+    return {
+      shareRows: st.shareOrder.map(k => {
+        const meta = {
+          general: ['مشاركة عامة', '#i-share', 'Web Share API أو نسخ الرابط'],
+          whatsapp: ['واتساب', '#i-whatsapp', 'wa.me — العنوان + الرابط'],
+          telegram: ['تيليجرام', '#i-telegram', 't.me/share — الرابط + العنوان'],
+          x: ['X', '#i-x', 'intent/tweet — بلا هاشتاقات تلقائية'],
+          instagram: ['انستقرام', '#i-instagram', 'مشاركة النظام أو نسخ الرابط'],
+          tiktok: ['تيك توك', '#i-tiktok', 'مشاركة النظام أو نسخ الرابط']
+        }[k];
+        const on = !st.shareHidden[k];
+        return {
+          label: meta[0], iconRef: meta[1], method: meta[2],
+          tint: on ? 'rgba(37,155,111,.10)' : '#f2f5f2',
+          color: on ? '#1e7355' : '#5f7167',
+          labelColor: on ? '#14261d' : '#5f7167',
+          bg: st.overShare === k ? 'rgba(30,115,85,.07)' : (on ? '#fff' : '#fbfcfa'),
+          border: st.overShare === k ? '#1e7355' : '#eef1ec',
+          opacity: st.dragShare === k ? '.4' : '1',
+          switchBg: on ? '#1e7355' : '#d3d8cf', knob: on ? '16px' : '2.5px',
+          onToggle: (e) => { e.stopPropagation(); this.setState(s => ({ shareHidden: { ...s.shareHidden, [k]: !!on }, unsaved: s.unsaved + 1 })); },
+          onDragStart: () => this.setState({ dragShare: k }),
+          onDragOver: (e) => { e.preventDefault(); if (st.overShare !== k) this.setState({ overShare: k }); },
+          onDrop: (e) => { e.preventDefault(); this.reorder('shareOrder', st.dragShare, k, null, { dragShare: null, overShare: null }); },
+          onDragEnd: () => this.setState({ dragShare: null, overShare: null })
+        };
+      }),
+      groups, factRows, badgeRows, salesRules, presetLocked,
+      presetName: presetNames[st.preset],
+      onAddFact: () => this.addFact(),
+      // Reversibility: neither action touches facts or the other presets' settings.
+      onRestoreOriginal: () => this.set({ preset: 0 }),
+      onResetPreset: () => this.setState(s => {
+        const next = { ...s.presetSettings };
+        delete next[s.preset];
+        return { presetSettings: next, unsaved: s.unsaved + 1 };
+      }),
+      savedPresetCount: Object.keys(st.presetSettings).length,
+      scopes: [['global', 'عام'], ['category', 'التصنيف'], ['product', 'هذا المنتج']].map(s => ({
+        label: s[1], onClick: () => this.setState({ scope: s[0] }),
+        bg: st.scope === s[0] ? '#fff' : 'transparent', fg: st.scope === s[0] ? '#14261d' : '#5f7167',
+        shadow: st.scope === s[0] ? '0 1px 3px rgba(20,45,33,.13)' : 'none'
+      })),
+      scopeNote: {
+        global: { text: 'تحرّر الافتراضيات العامة. كل تصنيف أو منتج لم يُخصَّص يرث هذه القيم.', bg: '#fbfcfa', fg: '#5f7167' },
+        category: { text: 'تحرّر تصنيف «الكيمياء». يورَث من العام، ويُورِّث للمنتجات — ويتجاوزه تخصيص المنتج.', bg: 'rgba(216,181,106,.08)', fg: '#7a5d20' },
+        product: { text: 'تحرّر هذا المنتج وحده. يتجاوز التصنيف والعام معًا، ولا يؤثّر على غيره.', bg: 'rgba(37,155,111,.07)', fg: '#1e7355' }
+      }[st.scope],
+      deviceBtns: ['desktop', 'mobile'].map(d => ({
+        name: d === 'desktop' ? 'سطح المكتب' : 'جوال',
+        iconRef: d === 'desktop' ? '#i-device-desktop' : '#i-device-mobile',
+        bg: st.device === d ? '#fff' : 'transparent', fg: st.device === d ? '#1e7355' : '#5f7167',
+        shadow: st.device === d ? '0 1px 3px rgba(20,45,33,.13)' : 'none',
+        onClick: () => this.setState({ device: d })
+      })),
+      auditChips: [
+        { label: 'Schema متوافق', iconRef: '#i-check', bg: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.26)', fg: '#1e7355' },
+        { label: 'نص ظاهر لكل حقيقة', iconRef: '#i-check', bg: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.26)', fg: '#1e7355' },
+        { label: st.motionOn ? 'حركة محدودة' : 'بدون حركة', iconRef: '#i-check', bg: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.26)', fg: '#1e7355' },
+        newFields > 0
+          ? { label: newFields + ' حقل يحتاج إضافة', iconRef: '#i-info', bg: 'rgba(216,181,106,.14)', border: 'rgba(216,181,106,.4)', fg: '#7a5d20' }
+          : { label: 'كل الحقول موجودة', iconRef: '#i-check', bg: 'rgba(37,155,111,.10)', border: 'rgba(37,155,111,.26)', fg: '#1e7355' }
+      ],
+      unsavedLabel: st.unsaved > 0 ? st.unsaved + ' تغييرات غير منشورة' : 'كل التغييرات منشورة',
+      onPublish: () => this.setState({ unsaved: 0 }),
+      onReplay: () => this.setState(s => ({ replay: s.replay + 1 })),
+      mathLine: '(' + st.regular + ' − ' + st.sale + ') = ' + savings + '  ·  ' + savings + ' ÷ ' + st.regular + ' × 100 = ' + pctRaw.toFixed(2) + '%  →  ' + pct + '%',
+      salePrice: st.sale + '.00 SAR',
+      scale: mobile ? 1 : 0.79,
+      innerW: mobile ? '390px' : '1180px',
+      frameW: mobile ? '390px' : '932px',
+      frameRadius: mobile ? '22px' : '10px',
+      pdpConfig: {
+        replay: st.replay,
+        mobile, heroPreset: st.heroPreset,
+        metaStyle: st.preset,
+        metaSettings: pc,
+        metaCustom: st.customSettings,
+        metaSlot: st.metaSlot, metaSlotMobile: st.metaSlotMobile,
+        pricePreset: st.pricePreset, promoMode: st.promoMode, promoPlacement: st.promoPlacement,
+        promoAnim: st.promoAnim, promoOverride: st.promoOverride, promoEndDate: st.promoEndDate,
+        pctDecimals: st.pctDecimals, savingsRounded: st.savingsRounded,
+        regular: st.regular, sale: st.sale,
+        salesCount: st.salesCount, salesThreshold: st.salesThreshold, salesHot: st.salesHot,
+        salesDisplay: st.salesDisplay, showSales: st.showSales, showBestsellerChip: st.showBestsellerChip,
+        badgeMax: st.badgeMax, badgePlacement: st.badgePlacement,
+        badgeUpdated: st.badgeUpdated, badgeNew: st.badgeNew,
+        badgePromo: st.badgeOrder.indexOf('promo') < st.badgeMax,
+        badgeBest: st.badgeOrder.indexOf('best') < st.badgeMax,
+        badgeEditable: st.badgeOrder.indexOf('editable') < st.badgeMax,
+        editable: 'yes',
+        motionOn: st.motionOn, glanceStyle: st.glanceStyle, showGlance: st.showGlance,
+        thumbStyle: st.thumbStyle, trustVariant: st.trustVariant,
+        surfaceMode: st.surfaceMode,
+        showVisitors: st.showVisitors,
+        visitorCount: st.showVisitors ? st.visitorCount : null,
+        stickyBar: st.stickyBar,
+        showReviews: st.showReviews, reviewsStyle: st.reviewsStyle,
+        purchaseMode: st.purchaseMode, barPreset: st.barPreset, barTrigger: st.barTrigger,
+        barShowCart: st.barShowCart, barShowBuy: st.barShowBuy, barShowApple: st.barShowApple,
+        barIconOnly: st.barIconOnly, simulateApple: st.simulateApple,
+        barCartIconOnly: st.barCartIconOnly, barShowPrice: st.barShowPrice,
+        shareMode: st.shareMode, shareOrder: st.shareOrder, shareHidden: st.shareHidden,
+        shareSlot: st.shareSlot, shareSlotMobile: st.shareSlotMobile,
+        shareIconSize: st.shareIconSize, shareGap: st.shareGap,
+        facts
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
